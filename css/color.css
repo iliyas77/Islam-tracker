@@ -1,0 +1,201 @@
+/* ==========================================
+   COLOR MANAGEMENT SYSTEM - SINGLE SOURCE OF TRUTH
+   All application colors are defined and managed here.
+   Imported and aligned with old project (MTF-monitor) brand tokens.
+   ========================================== */
+
+:root {
+    /* Brand Base Tokens (from MTF-monitor) */
+    --whole-bg: #f8f9fa;
+    --gr-bg: #ffffff;
+    --gr-bg-whole: #ffffff;
+    --gr-bg-soft: #f4f5f7;
+    --gr-bg-ticker: #f8f9fb;
+    --gr-input-bg: #f9fafb;
+
+    /* Text Colors */
+    --gr-text: #6b7280;
+    --gr-text1: #1f2937;
+    --gr-text2: #2d3748;
+    --gr-text-body: #4b5563;
+    --gr-text-muted: #4b5563;
+    --gr-muted: #6b7280;
+
+    /* Borders & Dividers */
+    --gray150: #f0f1f3;
+    --gr-border: #f0f1f3;
+    --gr-border-strong: #e4e6ea;
+    --gr-border-calc: #bbf7d0;
+
+    /* Theme Primary, Secondary & Accent (Green / Brand Tokens) */
+    --gr-primary: #159b5a;
+    --gr-primary-dark: #08653a;
+    --gr-secondary: #0a7d44;
+    --gr-accent: #159b5a;
+    --gr-accent-hover: #08653a;
+    --gr-accent-soft: #e6f5ec;
+    --gr-accent-gold: #ca8a04;
+    --gr-active-bg: #0a7d44;
+
+    /* State & Status Colors */
+    --gr-warning: #ca8a04;
+    --gr-warning-bg: #fff8d6;
+    --gr-danger: #ef4444;
+    --gr-danger-soft: #fce8e6;
+    --gr-pill-down-text: #ef4444;
+    --gr-success: #159b5a;
+    --gr-success-soft: #e6f5ec;
+    --gr-orange: #ea580c;
+
+    /* Info / Blue500 Tokens */
+    --blue500: #1e40af;
+    --blue500-soft: #dbeafe;
+
+    /* Interactive States & Shadows */
+    --gr-row-hover: #ededee;
+    --gr-active: #0a7d44;
+    --gr-hover: #f4f5f7;
+    --gr-shadow-color: rgba(0, 0, 0, 0.06);
+    --gr-header-shadow: rgba(0, 0, 0, 0.15);
+    --gr-btn-shadow: rgba(21, 155, 90, 0.3);
+    --gr-btn-shadow-hover: rgba(21, 155, 90, 0.45);
+}
+
+/* ==========================================
+   UTILITY CLASSES - BACKGROUNDS
+   ========================================== */
+.bg-whole {
+    background-color: var(--whole-bg) !important;
+}
+
+.bg-gr {
+    background-color: var(--gr-bg) !important;
+}
+
+.bg-gr-soft {
+    background-color: var(--gr-bg-soft) !important;
+}
+
+.bg-gr-ticker {
+    background-color: var(--gr-bg-ticker) !important;
+}
+
+.bg-gr-input {
+    background-color: var(--gr-input-bg) !important;
+}
+
+.bg-gr-accent-soft {
+    background-color: var(--gr-accent-soft) !important;
+}
+
+.bg-gr-active {
+    background-color: var(--gr-active-bg) !important;
+}
+
+.bg-gr-danger-soft {
+    background-color: var(--gr-danger-soft) !important;
+}
+
+.bg-gr-success-soft {
+    background-color: var(--gr-success-soft) !important;
+}
+
+.bg-gr-warning-bg {
+    background-color: var(--gr-warning-bg) !important;
+}
+
+.bg-blue500-soft {
+    background-color: var(--blue500-soft) !important;
+}
+
+.bg-gr-header {
+    background: linear-gradient(135deg, var(--gr-primary), var(--gr-secondary)) !important;
+}
+
+.bg-gr-primary {
+    background-color: var(--gr-primary) !important;
+}
+
+/* ==========================================
+   UTILITY CLASSES - TEXT COLORS
+   ========================================== */
+.text-gr {
+    color: var(--gr-text) !important;
+}
+
+.text-gr1 {
+    color: var(--gr-text1) !important;
+}
+
+.text-gr-muted {
+    color: var(--gr-text-muted) !important;
+}
+
+.text-gr-accent {
+    color: var(--gr-accent) !important;
+}
+
+.text-gr-accent-hover {
+    color: var(--gr-accent-hover) !important;
+}
+
+.text-gr-danger {
+    color: var(--gr-danger) !important;
+}
+
+.text-gr-success {
+    color: var(--gr-success) !important;
+}
+
+.text-gr-pill-down {
+    color: var(--gr-pill-down-text) !important;
+}
+
+.text-gr-warning {
+    color: var(--gr-warning) !important;
+}
+
+.text-gr-orange {
+    color: var(--gr-orange) !important;
+}
+
+.text-blue500 {
+    color: var(--blue500) !important;
+}
+
+.text-gr-gold {
+    color: var(--gr-accent-gold) !important;
+}
+
+/* ==========================================
+   UTILITY CLASSES - BORDER COLORS
+   ========================================== */
+.border-gr {
+    border-color: var(--gr-border) !important;
+}
+
+.border-gr-strong {
+    border-color: var(--gr-border-strong) !important;
+}
+
+.border-gr-calc {
+    border-color: var(--gr-border-calc) !important;
+}
+
+/* ==========================================
+   BUTTON DISABLED STATES & CONTRAST
+   ========================================== */
+#btnSubmitForm:disabled,
+.btn.bg-gr-primary:disabled {
+    background-color: var(--gr-border-strong) !important;
+    border: 1px solid var(--gr-border-calc) !important;
+    color: var(--gr-muted) !important;
+    opacity: 0.85;
+    cursor: not-allowed;
+    box-shadow: none !important;
+}
+
+#btnSubmitForm:disabled i,
+.btn.bg-gr-primary:disabled i {
+    color: var(--gr-muted) !important;
+}

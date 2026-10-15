@@ -1,0 +1,1094 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nur Prayer</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"><style>:root{--brand:#1b7a4b;--brand-light:#e8f4ed;--brand-soft:#f4f8f5;--bg:#e8f4ed;--bg-soft:#f5f9f6;--ink:#1a2b23;--ink-soft:#7a8b83;--ink-muted:#6b7a72;--danger:#dc3545;--danger-soft:#fde8e8;--success-soft:#d1e7dd;--warn:#cc7a00;--info:#0d6efd;--purple:#6f42c1;--border:#eef2f0;--divider:#d6dcd9}body{background:var(--bg);overflow:hidden}#app{max-width:480px;height:100vh;display:flex;flex-direction:column;overflow:hidden}.page{background:var(--bg);overflow:hidden}.app-header{padding:1rem;flex-shrink:0;background:#fff;border-bottom:1px solid var(--border)}.brand-title{font-weight:700;margin:0;font-size:1.35rem;color:var(--ink);letter-spacing:2px}.page-title{font-weight:700;margin:0;font-size:1.05rem;color:var(--ink);display:flex;align-items:center;gap:0.5rem}.page-sub{font-size:0.75rem;color:var(--ink-soft);margin-top:1px}.btn-action-round{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--brand);color:#fff;border:none}.btn-sheet-back{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--brand-soft);color:var(--brand);border:none}.app-bottom-nav{height:64px;background:#fff;border-top:1px solid var(--border)}.nav-tab{flex:1 1 0;background:transparent;border:none;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:700;color:var(--ink-soft);padding:0;transition:color 0.15s}.nav-tab span{font-size:0.65rem}.nav-tab.text-success{color:var(--brand) !important}.card{border:0}.summary-tile{padding:0.5rem;border-radius:10px;background:var(--brand-soft);text-align:center}.summary-tile .label{color:var(--ink-soft);font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.3px}.summary-tile .value{font-weight:700;font-size:1.2rem}.section-header{display:flex;align-items:center;gap:0.75rem;padding:0.75rem}.section-header .icon-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.95rem;flex-shrink:0}.section-header .title{font-weight:700;font-size:1.15rem;color:var(--ink)}.section-header .count{margin-left:auto;font-weight:700;font-size:1.3rem}.prayer-row{display:flex;align-items:center;padding:0.75rem;background:#fff;border-top:1px solid var(--border);cursor:pointer}.prayer-row .icon-circle-lg{width:52px;height:52px;border-radius:50%;background:var(--brand-soft);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}.prayer-row .name{font-weight:700;font-size:1.2rem;color:var(--ink)}.prayer-row .time{color:var(--ink-soft);font-size:0.95rem}.prayer-row .chevron{color:#c0c8c4;font-size:0.85rem;margin-left:0.75rem;flex-shrink:0}.badge-pill-custom{display:inline-flex;align-items:center;gap:0.35rem;padding:0.45rem 0.75rem;border-radius:50rem;font-weight:700;font-size:0.82rem}.badge-missed{background:var(--danger-soft);color:var(--danger)}.badge-notyet{background:#f1f3f2;color:var(--ink-muted)}.badge-done{background:var(--success-soft);color:#0f5132}.btn-brand{background:var(--brand);color:#fff;border:none;border-radius:12px;font-weight:700;padding:0 1.5rem;min-width:88px;height:52px;font-size:1rem}.btn-brand:hover{background:#166742;color:#fff}.btn-cancel-outline{background:#fff;color:var(--brand);border:1.5px solid #a3cfbb}.btn-pill-action{background:#fff;color:var(--brand);border:1px solid #a3cfbb;border-radius:50rem;font-weight:700;padding:0.5rem 0.75rem;font-size:0.82rem;display:inline-flex;align-items:center;gap:0.35rem}.btn-pill-today{background:var(--brand);color:#fff;border:none;border-radius:50rem;font-weight:700;padding:0.5rem 0.75rem;font-size:0.82rem;display:inline-flex;align-items:center;gap:0.35rem}.btn-pill-missed{background:var(--danger-soft);color:var(--danger);border:none;border-radius:50rem;font-weight:700;padding:0.5rem 0.75rem;font-size:0.82rem;display:inline-flex;align-items:center;gap:0.5rem}.field-group{display:flex;align-items:center;border:1.5px solid #e2e8e4;background:#fff;border-radius:10px;overflow:hidden}.field-group .form-control{box-shadow:none;height:52px;background:#fff;border:none}.field-icon{width:52px;height:52px;background:var(--brand-soft);color:var(--brand);border-right:1.5px solid #e2e8e4;display:flex;align-items:center;justify-content:center;flex-shrink:0}.form-label{font-weight:700;color:var(--ink);font-size:1rem}.btn-stepper{width:56px;height:56px;border-radius:14px;background:var(--brand);color:#fff;border:none;font-size:1.5rem;font-weight:700;flex-shrink:0;display:flex;align-items:center;justify-content:center}.add-value-input{font-size:1.6rem;background:#f8faf9}.modal-icon-badge{width:56px;height:56px;background:var(--brand-light);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}.sheet-title{font-weight:700;margin:0;font-size:1.05rem;color:var(--ink);display:flex;align-items:center;gap:0.5rem}.sheet-sub{font-size:0.75rem;color:var(--ink-soft);margin-top:1px}#sheet2{height:80vh;max-width:480px;margin:0 auto;z-index:1090}#sheet2Body{background:var(--bg);padding-bottom:40px !important}.progress{background:#e9ecef;border-radius:20px}.progress-bar{border-radius:20px;background:var(--brand)}.zikir-card-icon{width:52px;height:52px;border-radius:12px;background:var(--brand-light);color:var(--brand);font-size:1.4rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}.zikir-edit-btn{width:44px;height:44px;border-radius:12px;background:var(--brand-light);color:var(--brand);border:none;display:flex;align-items:center;justify-content:center;flex-shrink:0}.zikir-tile{padding:0.75rem;border-radius:10px;background:var(--brand-soft);text-align:center}.zikir-tile .label{color:var(--ink-soft);font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.4px}.zikir-tile .value{font-weight:700;font-size:1.45rem}.zikir-divider{border-top:1px dashed var(--divider);margin:0 0 12px 0}.zikir-day-pill{background:var(--brand-light);color:var(--brand);font-weight:700;font-size:0.75rem;padding:0.4rem 0.75rem;border-radius:50rem}.search-bar{display:flex;align-items:center;border:1.5px solid var(--divider);background:#fff;border-radius:50rem;overflow:hidden}.search-bar .search-icon{padding-left:0.75rem;padding-right:0.5rem;color:var(--ink-soft)}.search-bar input{box-shadow:none;background:#fff;border:none;height:48px;padding-left:0}.btn-add-zikir{width:52px;height:52px;background:var(--brand);color:#fff;border:none;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center}.filter-chip{border-radius:10px;font-size:0.82rem;padding:0.5rem 0.25rem;white-space:nowrap;font-weight:700}.hidden-date-input{position:fixed;left:0;bottom:0;width:1px;height:1px;opacity:0;pointer-events:none;border:0;padding:0;z-index:-1}.mark-highlight{background:#fff3a3;color:var(--ink);padding:0 2px;border-radius:3px}.current-card{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}.clock-big{font-size:4rem;font-weight:800;line-height:1;color:#0f3d2e;font-variant-numeric:tabular-nums;letter-spacing:-2px;text-align:center}.clock-big .small{font-size:2rem;color:var(--ink-soft)}.clock-big .ampm{font-size:1.4rem;color:var(--ink-soft);margin-left:8px;font-weight:700}.prayer-icon-circle{width:56px;height:56px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;border:2px solid var(--brand)}.prayer-label{font-size:0.72rem;color:var(--ink-soft);font-weight:700;letter-spacing:0.4px}.feature-card-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem}</style></head><body><div class="container p-0 position-relative mx-auto" id="app"><div id="dashboardPage" class="d-flex flex-column flex-grow-1 page"><header class="app-header"><h1 class="brand-title">NUR PRAYER</h1></header><div class="flex-grow-1 overflow-auto px-2 pt-3" id="dashScroll" style="padding-bottom:24px"><div id="dashBody"></div></div></div><div id="currentPage" class="d-none flex-column flex-grow-1 page"><header class="app-header d-flex align-items-center gap-2"><div class="flex-grow-1 min-w-0"><h5 class="page-title"><i class="fa-regular fa-calendar" style="color:#1b7a4b"></i><span>Current Prayer</span></h5><div id="currentSub" class="page-sub"></div></div><button type="button" class="btn-action-round" id="currentActionBtn"><i class="fa-regular fa-calendar-days fs-5"></i></button></header><div class="flex-grow-1 overflow-auto p-3" id="currentBody" style="padding-bottom:20px"></div></div><div id="zikirPage" class="d-none flex-column flex-grow-1 page"><header class="app-header d-flex align-items-center gap-2"><div class="flex-grow-1 min-w-0"><h5 class="page-title"><i class="fa-solid fa-stopwatch" style="color:#dc3545"></i><span>Zikir Tracking</span></h5><div class="page-sub">Search, filter and track your zikir</div></div></header><div class="flex-grow-1 overflow-auto p-3" id="zikirBody" style="padding-bottom:20px"></div></div><div id="oldPage" class="d-none flex-column flex-grow-1 page"><header class="app-header d-flex align-items-center gap-2"><div class="flex-grow-1 min-w-0"><h5 class="page-title"><i class="fa-solid fa-clock-rotate-left" style="color:#cc7a00"></i><span>Old Tracking</span></h5><div id="oldSub" class="page-sub">Select a period to begin</div></div><button type="button" class="btn-action-round" id="oldActionBtn"><i class="fa-solid fa-bookmark fs-5"></i></button></header><div class="flex-grow-1 overflow-auto p-3" id="oldBody" style="padding-bottom:20px"></div></div><div id="settingsPage" class="d-none flex-column flex-grow-1 page"><header class="app-header d-flex align-items-center gap-2"><div class="flex-grow-1 min-w-0"><h5 class="page-title"><i class="fa-solid fa-gear" style="color:#1b7a4b"></i><span>Settings</span></h5><div class="page-sub">App preferences</div></div></header><div class="flex-grow-1 overflow-auto p-3" id="settingsBody" style="padding-bottom:20px"></div></div><nav class="navbar app-bottom-nav flex-shrink-0"><div class="container-fluid p-0 h-100"><div class="d-flex w-100 h-100"><button class="nav-tab" id="navHome" data-act="go-home"><i class="fa-solid fa-house fs-4"></i><span>Home</span></button><button class="nav-tab" id="navCur" data-act="goto-cur"><i class="fa-regular fa-calendar fs-4"></i><span>Current</span></button><button class="nav-tab" id="navZikir" data-act="goto-zikir"><i class="fa-solid fa-stopwatch fs-4"></i><span>Zikir</span></button><button class="nav-tab" id="navOld" data-act="goto-old"><i class="fa-solid fa-clock-rotate-left fs-4"></i><span>Old</span></button><button class="nav-tab" id="navSet" data-act="goto-settings"><i class="fa-solid fa-gear fs-4"></i><span>Settings</span></button></div></div></nav><div class="offcanvas offcanvas-bottom rounded-top-4" tabindex="-1" id="sheet2" data-bs-scroll="true"
+data-bs-backdrop="true"><div class="offcanvas-header border-bottom py-3 d-flex align-items-center gap-2 px-3"><button type="button" class="btn-sheet-back" data-bs-dismiss="offcanvas"><i class="fa-solid fa-arrow-left fs-5"></i></button><div class="flex-grow-1 min-w-0"><h5 class="offcanvas-title sheet-title"><i id="sheet2Icon" class="fa-solid fa-clipboard-list" style="color:#1b7a4b"></i><span id="sheet2Title" class="text-truncate">—</span></h5><div id="sheet2Sub" class="sheet-sub text-truncate"></div></div></div><div class="offcanvas-body p-3" id="sheet2Body"></div></div><input type="date" id="dp" tabindex="-1" aria-hidden="true" class="hidden-date-input"><div class="modal fade" id="counterModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width:440px"><div class="modal-content rounded-4 border-0 shadow"><div class="modal-header border-0 pb-0 align-items-center gap-3 pt-4 px-4"><span class="modal-icon-badge"><i class="fa-solid fa-mosque fs-3 text-success"></i></span><h5 class="modal-title fw-bold fs-4 flex-grow-1 mb-0" id="counterModalTitleText">Create Zikir
+</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body pt-3 px-4"><div class="mb-3"><label class="form-label fw-bold mb-2" for="cName">Zikir Name</label><div class="field-group"><span class="field-icon"><i class="fa-regular fa-file-lines fs-5"></i></span><input type="text" class="form-control border-0 ps-3 fs-6" id="cName"
+placeholder="Enter zikir name" maxlength="30"></div></div><div class="mb-3"><label class="form-label fw-bold mb-2" for="cTarget">How many times to count</label><div class="d-flex align-items-center gap-2"><div class="field-group flex-grow-1"><span class="field-icon"><i class="fa-solid fa-rotate-left fs-5"></i></span><input type="number" class="form-control border-0 ps-3 fs-6" id="cTarget"
+placeholder="100" min="1" max="1000000"></div><button class="btn btn-brand" type="button" id="cTargetPlus">+100</button></div></div><div class="mb-3"><label class="form-label fw-bold mb-2" for="cStart">Start Date</label><div class="field-group"><span class="field-icon"><i class="fa-regular fa-calendar fs-5"></i></span><input type="date" class="form-control border-0 ps-3 fs-6" id="cStart"></div></div><div class="mb-2"><label class="form-label fw-bold mb-2" for="cCount">Current Count</label><div class="d-flex align-items-center gap-2"><div class="field-group flex-grow-1"><span class="field-icon"><i class="fa-solid fa-rotate-left fs-5"></i></span><input type="number" class="form-control border-0 ps-3 fs-6" id="cCount"
+placeholder="0" min="0" max="1000000"></div><button class="btn btn-brand" type="button" id="cCountPlus">+100</button></div></div></div><div class="modal-footer border-0 pt-2 pb-4 px-4 d-flex flex-column gap-2"><div class="d-flex gap-2 w-100"><button type="button" class="btn fw-bold flex-fill py-3 rounded-3 fs-5 btn-cancel-outline"
+data-bs-dismiss="modal">Cancel</button><button type="button" class="btn fw-bold flex-fill py-3 rounded-3 fs-5" id="cResetBtn"
+style="background:#fff5e6;color:#cc7a00;border:none;display:none">Reset</button><button type="button" class="btn btn-brand flex-fill py-3 rounded-3 fs-5"
+id="counterSave">Save</button></div><button type="button" class="btn btn-danger fw-bold w-100 py-3 rounded-3 fs-6" id="cDeleteBtn"
+style="display:none"><i class="fa-solid fa-trash me-1"></i>Delete Zikir
+</button></div></div></div></div><div class="modal fade" id="addModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content rounded-4 border-0"><div class="modal-header border-0 pb-0 align-items-center gap-3 pt-4 px-4"><span class="modal-icon-badge"><i class="fa-solid fa-mosque fs-3 text-success"></i></span><div class="flex-grow-1 min-w-0"><div class="fw-bold fs-4 text-dark text-truncate" id="addName">—</div></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body pt-3 px-4"><div class="card border-0 rounded-4 p-3 mb-3" style="background:#f8faf9"><div class="d-flex align-items-center justify-content-between gap-3"><button class="btn-stepper" type="button" data-act="add-minus">−</button><input type="number" class="form-control text-center fw-bold border-0 add-value-input"
+id="addValue" placeholder="0" min="1" max="1000000" value="10"><button class="btn-stepper" type="button" data-act="add-plus">+</button></div></div><div class="text-center fw-bold" id="addPreview" style="color:#1b7a4b;font-size:1rem">New count:
+0</div></div><div class="modal-footer border-0 pt-2 pb-4 px-4 d-flex gap-2"><button type="button" class="btn btn-light fw-bold flex-fill py-3 rounded-3 fs-5"
+data-bs-dismiss="modal" style="border:1px solid #dee2e6">Cancel</button><button type="button" class="btn btn-brand flex-fill py-3 rounded-3 fs-5"
+id="addConfirm">Add</button></div></div></div></div></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script><script>function $(id) { return document.getElementById(id); }
+function pad2(n) { return String(n).padStart(2, '0'); }
+function td() {
+var d = new Date();
+return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+}
+function fr(ds) {
+return new Date(ds + 'T00:00:00').toLocaleDateString(undefined,
+{ weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+}
+function friendly(ds) {
+var today = td();
+var d1 = new Date(today + 'T00:00:00');
+var d2 = new Date(ds + 'T00:00:00');
+var diff = Math.round((d1 - d2) / 864e5);
+if (diff === 0) return 'Today';
+if (diff === 1) return 'Yesterday';
+if (diff === 2) return 'Day Before Yesterday';
+return diff + ' Days Ago';
+}
+function dashDate() {
+return new Date().toLocaleDateString(undefined,
+{ weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
+function esc(s) {
+return String(s).replace(/[&<>"']/g, function (m) {
+return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+});
+}
+var LS = {
+get: function (k) {
+try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; }
+},
+set: function (k, v) {
+localStorage.setItem(k, JSON.stringify(v));
+}
+};
+function rd() { return LS.get(K) || {}; }
+function gr(d) { return rd()[d] || {}; }
+function sr(d, r) { var a = rd(); a[d] = r; LS.set(K, a); }
+function en(d) {
+var r = gr(d);
+var c = false;
+var u = Object.assign({}, r);
+P.forEach(function (p) { if (!(p in u)) { u[p] = false; c = true; } });
+if (c) sr(d, u);
+return u;
+}
+function rdOC() { return LS.get(OCK) || {}; }
+function grO(d) { return rdOC()[d] || {}; }
+function srO(d, r) { var a = rdOC(); a[d] = r; LS.set(OCK, a); }
+function mBD() {
+var a = rd();
+var today = td();
+return Object.keys(a).sort()
+.filter(function (d) { return d !== today; })
+.map(function (d) {
+return { date: d, prayers: P.filter(function (p) { return a[d][p] === true; }) };
+})
+.filter(function (x) { return x.prayers.length > 0; });
+}
+function tMT() {
+var a = rd();
+var today = td();
+var t = 0;
+Object.keys(a).forEach(function (d) {
+if (d === today) return;
+P.forEach(function (p) { if (a[d][p] === true) t++; });
+});
+return t;
+}
+function datesInRange(s, e) {
+var out = [];
+var d = new Date(s + 'T00:00:00');
+var end = new Date(e + 'T00:00:00');
+while (d <= end) {
+out.push(d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()));
+d.setDate(d.getDate() + 1);
+}
+return out;
+}
+function prevDate(ds) {
+var d = new Date(ds + 'T00:00:00');
+d.setDate(d.getDate() - 1);
+return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+}
+function rdOK() { return LS.get(OK) || null; }
+function wrOK(o) { LS.set(OK, o); }
+function ensureAllOldMissed() {
+var o = rdOK();
+if (!o) return;
+var dates = datesInRange(o.start, o.end);
+var a = rdOC();
+var changed = false;
+dates.forEach(function (d) {
+if (!a[d]) a[d] = {};
+P.forEach(function (p) {
+if (!(p in a[d])) { a[d][p] = true; changed = true; }
+});
+});
+if (changed) LS.set(OCK, a);
+}
+function currentOldDate() {
+var o = rdOK();
+if (!o) return null;
+var dates = datesInRange(o.start, o.end).slice().reverse();
+var a = rdOC();
+for (var i = 0; i < dates.length; i++) {
+var d = dates[i];
+var r = a[d] || {};
+if (P.filter(function (p) { return r[p] === true; }).length > 0) return d;
+}
+return null;
+}
+function shrinkOldPeriod() {
+var o = rdOK();
+if (!o) return;
+var a = rdOC();
+var cur = o.end;
+var changed = false;
+while (cur >= o.start) {
+var r = a[cur] || {};
+var mc = P.filter(function (p) { return r[p] === true; }).length;
+if (mc === 0) { delete a[cur]; cur = prevDate(cur); changed = true; }
+else break;
+}
+if (changed) {
+LS.set(OCK, a);
+if (cur < o.start) { localStorage.removeItem(OK); return; }
+wrOK({ start: o.start, end: cur, created: o.created });
+}
+}
+function rdFS() {
+var v = parseFloat(localStorage.getItem(FK));
+return v && v > 0 ? v : 1;
+}
+function apFS(v) {
+document.documentElement.style.fontSize = (16 * v) + 'px';
+document.body.style.fontSize = (16 * v) + 'px';
+localStorage.setItem(FK, String(v));
+}
+function rdSD() { return localStorage.getItem(SK) || td(); }
+function wrSD(v) { localStorage.setItem(SK, v); }
+function openCal() {
+var dp = $('dp');
+if (dp.showPicker) {
+try { dp.showPicker(); return; } catch (e) { }
+}
+dp.focus();
+dp.click();
+}
+function handleClick(e) {
+var t = e.target.closest('[data-act]');
+if (!t) return;
+var act = t.dataset.act;
+if (act === 'toggle-cur') {
+var p = t.dataset.p;
+var c1 = gr(sd);
+var wasMissed = c1[p] === true;
+if (!confirm(wasMissed
+? 'Mark ' + p + ' as Not yet for ' + fr(sd) + '?'
+: 'Mark ' + p + ' as Missed for ' + fr(sd) + '?')) return;
+c1[p] = !wasMissed;
+sr(sd, c1);
+rn();
+} else if (act === 'select-all') {
+var c2 = gr(sd);
+var missedNow = P.filter(function (x) { return c2[x] === true; }).length;
+var allMissed = missedNow === P.length;
+var action = allMissed ? 'Not yet' : 'Missed';
+if (!confirm('Mark all 5 prayers as ' + action + ' for ' + fr(sd) + '?')) return;
+P.forEach(function (x) { c2[x] = !allMissed; });
+sr(sd, c2);
+rn();
+} else if (act === 'jump-today') {
+sd = td(); rn();
+} else if (act === 'missed-open') {
+rMS();
+} else if (act === 'toggle-old') {
+var p2 = t.dataset.p, d2 = t.dataset.d;
+var c3 = grO(d2);
+var was2 = c3[p2] === true;
+if (!confirm(was2
+? 'Mark ' + p2 + ' as Done for ' + fr(d2) + '?'
+: 'Mark ' + p2 + ' as Missed for ' + fr(d2) + '?')) return;
+c3[p2] = !was2;
+srO(d2, c3);
+rOT();
+} else if (act === 'old-change-period') {
+rPeriod();
+} else if (act === 'jump') {
+sd = t.dataset.d;
+sheet2BS.hide();
+setTimeout(function () { showPage('current'); }, 350);
+} else if (act === 'open-add') {
+oAM(t.dataset.cid);
+} else if (act === 'add-plus') {
+var v0 = parseInt($('addValue').value, 10) || 0;
+$('addValue').value = v0 + 10;
+updateAddPreview();
+} else if (act === 'add-minus') {
+var v1 = parseInt($('addValue').value, 10) || 0;
+var nv = v1 - 10;
+if (nv < 1) nv = 1;
+$('addValue').value = nv;
+updateAddPreview();
+} else if (act === 'edit-counter') {
+var cc = cFind(t.dataset.cid);
+if (cc) oCM(cc);
+} else if (act === 'new-zikir') {
+oCM(null);
+} else if (act === 'c-filter') {
+cView.filter = t.dataset.f;
+rC();
+} else if (act === 'c-clear-search') {
+cView.q = '';
+var inp = $('cSearch');
+if (inp) { inp.value = ''; inp.focus(); }
+t.classList.add('d-none');
+cRenderResults();
+} else if (act === 'font') {
+apFS(parseFloat(t.dataset.fs));
+rSET();
+} else if (act === 'sd-save') {
+var v = $('sdInput').value;
+if (!v) { alert('Please pick a date.'); return; }
+if (!confirm('Save Current Start Date as ' + fr(v) + '?')) return;
+wrSD(v);
+rSET();
+} else if (act === 'old-save') {
+var s = $('oldStart').value, en2 = $('oldEnd').value;
+if (!s || !en2) { alert('Please pick both start and end dates.'); return; }
+if (en2 < s) { alert('End date must be after start date.'); return; }
+if (!confirm('Save Old Tracking Period from ' + fr(s) + ' to ' + fr(en2) + '?')) return;
+wrOK({ start: s, end: en2, created: Date.now() });
+ensureAllOldMissed();
+rOldInfo();
+} else if (act === 'old-clear') {
+if (confirm('Clear the saved Old Tracking period and all its data?')) {
+localStorage.removeItem(OK);
+localStorage.removeItem(OCK);
+sheet2BS.hide();
+rOT();
+}
+} else if (act === 'reset-db') {
+if (confirm('Delete ALL prayer records?')) {
+localStorage.removeItem(K);
+localStorage.removeItem(OCK);
+localStorage.removeItem(OK);
+sd = td();
+en(sd);
+rSET();
+}
+} else if (act === 'go-home') {
+showPage('dashboard');
+} else if (act === 'goto-cur') {
+showPage('current');
+} else if (act === 'goto-zikir') {
+showPage('zikir');
+} else if (act === 'goto-old') {
+showPage('old');
+} else if (act === 'goto-settings') {
+showPage('settings');
+}
+}
+document.addEventListener('click', handleClick);
+document.addEventListener('input', function (e) {
+if (!e.target) return;
+if (e.target.id === 'cSearch') {
+cView.q = e.target.value;
+var cb = document.querySelector('[data-act="c-clear-search"]');
+if (cb) cb.classList.toggle('d-none', cView.q.length === 0);
+cRenderResults();
+}
+});
+var P = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+var K = 'namazTrackerData';
+var OCK = 'namazOldData';
+var FK = 'namazFontSize';
+var CK = 'namazCounters';
+var SK = 'namazStartDate';
+var OK = 'namazOldPeriod';
+var T = {
+Fajr: '05:18 AM', Dhuhr: '12:24 PM', Asr: '04:37 PM',
+Maghrib: '06:15 PM', Isha: '07:28 PM'
+};
+var I = {
+Fajr: '<i class="fa-solid fa-sun" style="color:#f5b400"></i>',
+Dhuhr: '<i class="fa-solid fa-sun" style="color:#f5b400"></i>',
+Asr: '<i class="fa-solid fa-cloud-sun" style="color:#f5b400"></i>',
+Maghrib: '<i class="fa-solid fa-mountain-sun" style="color:#f5b400"></i>',
+Isha: '<i class="fa-solid fa-moon" style="color:#2563eb"></i>'
+};
+var sd = td();
+var eid = null;
+var addEid = null;
+var sheet2BS, counterBS, addBS;
+var cView = { q: '', filter: 'all' };
+var dashTimer = null;
+function cFilteredList() {
+var list = rdC();
+var q = cView.q.trim().toLowerCase();
+if (q) list = list.filter(function (c) { return String(c.name).toLowerCase().indexOf(q) !== -1; });
+if (cView.filter === 'empty') list = list.filter(function (c) { return c.count === 0; });
+list.sort(function (a, b) { return (b.created || 0) - (a.created || 0); });
+return list;
+}
+function cRenderTools() {
+var chips = [
+{ v: 'all', l: 'All' },
+{ v: 'empty', l: 'Not started' }
+].map(function (o) {
+var on = cView.filter === o.v;
+return '<button type="button" class="btn flex-fill fw-bold filter-chip ' +
+(on ? 'btn-brand' : 'btn-light border') + '" data-act="c-filter" data-f="' + o.v + '">' +
+o.l + '</button>';
+}).join('');
+return '<div class="d-flex align-items-center gap-2 mb-2">' +
+'<div class="search-bar flex-grow-1">' +
+'<span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>' +
+'<input type="text" id="cSearch" class="form-control border-0" ' +
+'placeholder="Search zikir by name" value="' + esc(cView.q) + '">' +
+'<button type="button" class="btn px-3 text-muted ' + (cView.q ? '' : 'd-none') + '" ' +
+'data-act="c-clear-search" style="height:48px;border:none;background:#fff">' +
+'<i class="fa-solid fa-xmark"></i></button>' +
+'</div>' +
+'<button type="button" class="btn btn-add-zikir" data-act="new-zikir" title="New Zikir">' +
+'<i class="fa-solid fa-plus fs-4"></i></button>' +
+'</div>' +
+'<div class="d-flex gap-2">' + chips + '</div>';
+}
+function cRenderCard(c) {
+var count = c.count;
+var days = cDaysSince(c.start);
+var avg = cAvgPerDay(c);
+var nameHtml = cHighlight(c.name, cView.q);
+var startedLabel = count === 0 ? 'Not started yet' : ('Started ' + fr(c.start));
+function tile(label, value, color) {
+return '<div class="col-4"><div class="zikir-tile">' +
+'<div class="label">' + label + '</div>' +
+'<div class="value" style="color:' + color + '">' + value + '</div>' +
+'</div></div>';
+}
+return '<div class="card shadow-sm rounded-4 p-3" role="button" data-act="open-add" data-cid="' + c.id +
+'" style="background:#fff;cursor:pointer">' +
+'<div class="d-flex align-items-center gap-3 mb-3">' +
+'<span class="zikir-card-icon"><i class="fa-solid fa-mosque"></i></span>' +
+'<div class="flex-grow-1 min-w-0">' +
+'<div class="fw-bold text-dark text-truncate" style="font-size:1.15rem">' + nameHtml + '</div>' +
+'</div>' +
+'<button class="btn zikir-edit-btn" data-act="edit-counter" data-cid="' + c.id + '" ' +
+'type="button" title="Edit"><i class="fa-solid fa-pen"></i></button>' +
+'</div>' +
+'<div class="row g-2 mb-3">' +
+tile('Completed', count, '#1b7a4b') +
+tile('Target', c.target, '#1a2b23') +
+tile('Avg / Day', avg, '#6f42c1') +
+'</div>' +
+'<div class="zikir-divider"></div>' +
+'<div class="d-flex align-items-center justify-content-between">' +
+'<span class="d-flex align-items-center gap-2 text-muted" style="font-size:.82rem">' +
+'<i class="fa-regular fa-calendar"></i>' + startedLabel + '</span>' +
+'<span class="zikir-day-pill">' + days + ' day' + (days === 1 ? '' : 's') + '</span>' +
+'</div>' +
+'</div>';
+}
+function cEmptyState() {
+if (!rdC().length) {
+return '<div class="text-center text-muted py-5">' +
+'<i class="fa-solid fa-plus display-4 text-success opacity-50"></i>' +
+'<p class="mt-3 mb-1 fw-bold">No zikir yet</p>' +
+'<p class="mb-0" style="font-size:.85rem">Tap the + button to create one.</p></div>';
+}
+return '<div class="text-center text-muted py-5">' +
+'<i class="fa-solid fa-magnifying-glass display-4 text-secondary opacity-50"></i>' +
+'<p class="mt-3 mb-1 fw-bold">No matching zikir</p>' +
+'<p class="mb-0" style="font-size:.85rem">Try a different search or filter.</p></div>';
+}
+function cRenderResults() {
+var list = cFilteredList();
+var cl = $('counterList');
+if (!cl) return;
+cl.innerHTML = list.length
+? '<div class="d-flex flex-column gap-2">' + list.map(cRenderCard).join('') + '</div>'
+: cEmptyState();
+}
+function rC() {
+var body = $('zikirBody');
+if (!body) return;
+body.innerHTML = '<div id="counterTools" class="mb-2"></div>' +
+'<div id="counterList" class="d-flex flex-column gap-2"></div>';
+var tools = $('counterTools');
+if (tools) tools.innerHTML = cRenderTools();
+cRenderResults();
+}
+function oCM(ex) {
+eid = ex ? ex.id : null;
+var resetBtn = $('cResetBtn');
+var delBtn = $('cDeleteBtn');
+if (ex) {
+$('counterModalTitleText').textContent = 'Edit Zikir';
+$('cName').value = ex.name;
+$('cTarget').value = ex.target;
+$('cStart').value = ex.start;
+$('cCount').value = ex.count;
+if (resetBtn) resetBtn.style.display = 'block';
+if (delBtn) delBtn.style.display = 'block';
+} else {
+$('counterModalTitleText').textContent = 'Create Zikir';
+$('cName').value = '';
+$('cTarget').value = '';
+$('cStart').value = td();
+$('cCount').value = '0';
+if (resetBtn) resetBtn.style.display = 'none';
+if (delBtn) delBtn.style.display = 'none';
+}
+counterBS.show();
+}
+function oAM(cid) {
+addEid = cid;
+var c = cFind(cid);
+if (!c) return;
+$('addName').textContent = c.name;
+$('addValue').value = 10;
+updateAddPreview();
+addBS.show();
+}
+function updateAddPreview() {
+var c = cFind(addEid);
+if (!c) return;
+var v = parseInt($('addValue').value, 10) || 0;
+var nv = Math.min(c.count + v, c.target);
+var willCap = (c.count + v) > c.target;
+$('addPreview').innerHTML = 'New count: ' + nv +
+(willCap ? ' <span class="text-warning">(capped at target)</span>' : '');
+$('addPreview').style.color = willCap ? '#ffc107' : '#1b7a4b';
+}
+document.addEventListener('DOMContentLoaded', function () {
+sheet2BS = new bootstrap.Offcanvas($('sheet2'));
+counterBS = new bootstrap.Modal($('counterModal'));
+addBS = new bootstrap.Modal($('addModal'));
+apFS(rdFS());
+en(td());
+sd = td();
+showPage('dashboard');
+$('dp').onchange = function (e) { if (e.target.value) go(e.target.value); };
+$('currentActionBtn').onclick = openCal;
+$('oldActionBtn').onclick = rOldInfo;
+$('addValue').oninput = updateAddPreview;
+$('addConfirm').onclick = function () {
+var arr = rdC();
+var c = arr.find(function (x) { return x.id === addEid; });
+if (!c) { addBS.hide(); return; }
+var v = parseInt($('addValue').value, 10) || 0;
+if (v < 1) { alert('Please enter a value of at least 1.'); return; }
+var before = c.count;
+var nv = c.count + v;
+if (nv > c.target) nv = c.target;
+var applied = nv - before;
+c.count = nv;
+if (applied > 0) cPushHistory(c, applied);
+wrC(arr);
+addBS.hide();
+rC();
+};
+$('cTargetPlus').onclick = function () {
+var v = parseInt($('cTarget').value, 10) || 0;
+$('cTarget').value = v + 100;
+};
+$('cCountPlus').onclick = function () {
+var v = parseInt($('cCount').value, 10) || 0;
+$('cCount').value = v + 100;
+};
+$('cResetBtn').onclick = function () {
+if (!eid) return;
+var cr = cFind(eid);
+if (!cr) return;
+if (!confirm('Reset "' + cr.name + '" count back to 0?\nHistory will be cleared too.')) return;
+cr.count = 0;
+cr.history = [];
+cSaveOne(cr);
+counterBS.hide();
+rC();
+};
+$('cDeleteBtn').onclick = function () {
+if (!eid) return;
+var cd = cFind(eid);
+if (!cd) return;
+if (!confirm('Delete zikir "' + cd.name + '"? This cannot be undone.')) return;
+wrC(rdC().filter(function (x) { return x.id !== eid; }));
+counterBS.hide();
+rC();
+};
+$('counterSave').onclick = function () {
+var n = $('cName').value.trim();
+var tt = parseInt($('cTarget').value, 10);
+var ss = $('cStart').value || td();
+var cc = parseInt($('cCount').value, 10) || 0;
+if (!n) { alert('Please enter a zikir name.'); return; }
+if (!tt || tt < 1) { alert('Please enter a valid target.'); return; }
+var a = rdC();
+if (eid) {
+var x = a.find(function (v) { return v.id === eid; });
+if (x) {
+var oldCount = x.count;
+x.name = n;
+x.target = tt;
+x.start = ss;
+x.count = Math.max(0, cc);
+if (!x.history) x.history = [];
+if (x.count !== oldCount) cPushHistory(x, x.count - oldCount);
+}
+} else {
+a.push({
+id: 'c' + Date.now() + Math.random().toString(36).slice(2, 7),
+name: n,
+target: tt,
+start: ss,
+count: Math.max(0, cc),
+history: [],
+created: Date.now()
+});
+}
+wrC(a);
+counterBS.hide();
+rC();
+};
+});
+var PAGES = ['dashboardPage', 'currentPage', 'zikirPage', 'oldPage', 'settingsPage'];
+var NAVS = { dashboard: 'navHome', current: 'navCur', zikir: 'navZikir', old: 'navOld', settings: 'navSet' };
+function setNav(id) {
+Object.values(NAVS).forEach(function (n) {
+var b = $(n);
+if (!b) return;
+b.classList.remove('text-success');
+b.classList.add('text-secondary');
+var bar = b.querySelector('.bg-success');
+if (bar) bar.remove();
+});
+var el = $(id);
+if (!el) return;
+el.classList.remove('text-secondary');
+el.classList.add('text-success');
+var bar = document.createElement('span');
+bar.className = 'bg-success rounded-pill';
+bar.style.width = '30px';
+bar.style.height = '3px';
+bar.style.marginTop = '2px';
+el.appendChild(bar);
+}
+function showPage(kind) {
+PAGES.forEach(function (id) {
+var el = $(id);
+if (el) { el.classList.add('d-none'); el.classList.remove('d-flex'); }
+});
+var target = kind === 'dashboard' ? 'dashboardPage' :
+kind === 'current' ? 'currentPage' :
+kind === 'zikir' ? 'zikirPage' :
+kind === 'old' ? 'oldPage' :
+kind === 'settings' ? 'settingsPage' : null;
+if (!target) return;
+$(target).classList.remove('d-none');
+$(target).classList.add('d-flex');
+setNav(NAVS[kind]);
+if (kind === 'dashboard') rDashboard();
+else if (kind === 'current') rn();
+else if (kind === 'zikir') rC();
+else if (kind === 'old') rOT();
+else if (kind === 'settings') rSET();
+}
+function curSectionHeader(type, title, count) {
+var isMissed = type === 'missed';
+var bg = isMissed ? '#fde8e8' : '#f1f3f2';
+var fg = isMissed ? '#dc3545' : '#6b7a72';
+var icon = isMissed ? 'fa-exclamation' : 'fa-hourglass-half';
+return '<div class="section-header" style="background:' + bg + '">' +
+'<span class="icon-circle" style="background:' + fg + '">' +
+'<i class="fa-solid ' + icon + '"></i></span>' +
+'<span class="title">' + title + '</span>' +
+'<span class="count" style="color:' + fg + '">' + count + '</span>' +
+'</div>';
+}
+function curRow(p, isMissed) {
+var badge = isMissed
+? '<span class="badge-pill-custom badge-missed"><i class="fa-solid fa-circle-exclamation"></i>Missed</span>'
+: '<span class="badge-pill-custom badge-notyet"><i class="fa-regular fa-circle"></i>Not yet</span>';
+return '<div class="prayer-row" role="button" data-act="toggle-cur" data-p="' + p + '">' +
+'<span class="icon-circle-lg">' + I[p] + '</span>' +
+'<div class="flex-grow-1 ms-3 min-w-0">' +
+'<div class="name">' + p + '</div>' +
+'<div class="time">' + T[p] + '</div>' +
+'</div>' + badge +
+'<i class="fa-solid fa-chevron-right chevron"></i>' +
+'</div>';
+}
+function rn() {
+$('dp').value = sd;
+$('dp').max = td();
+$('currentSub').textContent = fr(sd);
+var r = en(sd);
+var isToday = sd === td();
+var missTotal = tMT();
+var missedBtn = missTotal > 0
+? '<button class="btn-pill-missed" data-act="missed-open">' +
+'<i class="fa-solid fa-circle-exclamation"></i>Missed ' + missTotal + '</button>'
+: '';
+var rightBtn = isToday
+? '<button class="btn-pill-action" data-act="select-all">' +
+'<i class="fa-solid fa-check"></i>Select All</button>'
+: '<button class="btn-pill-today" data-act="jump-today">' +
+'<i class="fa-solid fa-arrow-rotate-right"></i>Today</button>';
+var actionRow = '<div class="d-flex align-items-center gap-2 mb-2" style="min-height:38px">' +
+missedBtn + '<div class="flex-grow-1"></div>' + rightBtn + '</div>';
+var missed = P.filter(function (p) { return r[p] === true; });
+var notYet = P.filter(function (p) { return r[p] !== true; });
+var html = actionRow;
+if (missed.length) {
+html += '<div class="card shadow-sm rounded-4 overflow-hidden mb-2">' +
+curSectionHeader('missed', 'Missed Prayers', missed.length) +
+missed.map(function (p) { return curRow(p, true); }).join('') +
+'</div>';
+}
+if (notYet.length) {
+html += '<div class="card shadow-sm rounded-4 overflow-hidden mb-2">' +
+curSectionHeader('notyet', 'Not Yet Prayed', notYet.length) +
+notYet.map(function (p) { return curRow(p, false); }).join('') +
+'</div>';
+}
+$('currentBody').innerHTML = html;
+}
+function go(d) {
+if (d > td()) d = td();
+sd = d;
+rn();
+}
+function missTile(date, p) {
+return '<div class="rounded-4 p-2 d-flex flex-column align-items-center justify-content-center gap-2 flex-fill" ' +
+'style="background:#fde8e8;min-width:0">' +
+'<span class="fs-3">' + I[p] + '</span>' +
+'<span class="fw-bold text-truncate w-100 text-center" style="font-size:.85rem;color:#1a2b23">' + p + '</span>' +
+'<span class="badge-pill-custom badge-missed" style="font-size:.68rem;padding:.25rem .5rem">' +
+'<i class="fa-solid fa-circle-exclamation"></i>Missed</span>' +
+'</div>';
+}
+function missCard(x) {
+var tiles = x.prayers.map(function (p) { return missTile(x.date, p); }).join('');
+return '<div class="card shadow-sm rounded-4 p-3" role="button" data-act="jump" data-d="' + x.date + '" style="background:#fff;cursor:pointer">' +
+'<div class="d-flex align-items-center gap-3 p-2 rounded-4 mb-3" style="background:#e8f4ed">' +
+'<span class="icon-circle-lg" style="background:#d3ecdc;width:52px;height:52px">' +
+'<i class="fa-regular fa-calendar-days fs-3" style="color:#1b7a4b"></i></span>' +
+'<div class="flex-grow-1 min-w-0">' +
+'<div class="fw-bold" style="font-size:1.3rem;color:#1a2b23;line-height:1.15">' + friendly(x.date) + '</div>' +
+'<div style="font-size:1rem;color:#1b7a4b;font-weight:600;margin-top:2px">' + fr(x.date) + '</div>' +
+'</div>' +
+'</div>' +
+'<div class="d-flex gap-2" style="width:100%">' + tiles + '</div>' +
+'</div>';
+}
+function rMS() {
+$('sheet2Icon').className = 'fa-solid fa-clipboard-list';
+$('sheet2Icon').style.color = '#1b7a4b';
+$('sheet2Title').textContent = 'Missed Prayers';
+$('sheet2Sub').textContent = 'From previous days (today excluded)';
+var list = mBD().reverse();
+var b = $('sheet2Body');
+if (!list.length) {
+b.innerHTML = '<div class="text-center text-muted py-5">' +
+'<i class="fa-solid fa-star display-4 text-success opacity-50"></i>' +
+'<p class="mt-3">No missed prayers from previous days.<br>All caught up!</p></div>';
+} else {
+b.innerHTML = '<div class="d-flex flex-column gap-2">' +
+list.map(missCard).join('') + '</div>';
+}
+sheet2BS.show();
+}
+function dashTick() {
+var el = $('dashTime');
+if (!el) return;
+var now = new Date();
+var h = now.getHours();
+var ap = h >= 12 ? 'PM' : 'AM';
+var hh = h % 12;
+if (hh === 0) hh = 12;
+el.innerHTML = pad2(hh) + ':' + pad2(now.getMinutes()) +
+'<span class="small">:' + pad2(now.getSeconds()) + '</span>' +
+'<span class="ampm">' + ap + '</span>';
+}
+function startDashClock() {
+if (dashTimer) clearInterval(dashTimer);
+dashTick();
+dashTimer = setInterval(dashTick, 1000);
+}
+function rDashboard() {
+var body = $('dashBody');
+if (!body) return;
+var today = td();
+var todayData = en(today);
+var missToday = P.filter(function (p) { return todayData[p] === true; }).length;
+var doneToday = P.length - missToday;
+var missPrev = tMT();
+var curPct = Math.round((doneToday / P.length) * 100);
+var o = rdOK();
+var ocA = rdOC();
+var checkDates, periodLabel;
+if (o) {
+checkDates = datesInRange(o.start, o.end);
+periodLabel = checkDates.length + '-day';
+} else {
+var endD = new Date(); endD.setDate(endD.getDate() - 1);
+var startD = new Date(); startD.setDate(startD.getDate() - 30);
+checkDates = datesInRange(
+startD.getFullYear() + '-' + pad2(startD.getMonth() + 1) + '-' + pad2(startD.getDate()),
+endD.getFullYear() + '-' + pad2(endD.getMonth() + 1) + '-' + pad2(endD.getDate())
+);
+periodLabel = checkDates.length + '-day';
+}
+var trackedDays = 0, trackedMiss = 0;
+checkDates.forEach(function (d) {
+var rr = ocA[d];
+if (!rr) return;
+trackedDays++;
+P.forEach(function (p) { if (rr[p] === true) trackedMiss++; });
+});
+var oldPct = trackedDays > 0
+? Math.round((1 - trackedMiss / (trackedDays * 5)) * 100)
+: 0;
+var list = rdC();
+var zTotal = 0, zTarget = 0;
+list.forEach(function (c) { zTotal += c.count; zTarget += c.target; });
+var zCount = list.length;
+var zPct = zTarget > 0 ? Math.min(100, Math.round((zTotal / zTarget) * 100)) : 0;
+var prayerRow = P.map(function (p) {
+var done = todayData[p] === true;
+var ring = done ? '#dc3545' : '#1b7a4b';
+return '<div class="d-flex flex-column align-items-center gap-2" style="flex:1 1 0;min-width:0">' +
+'<div class="prayer-icon-circle" style="border:2px solid ' + ring + '">' + I[p] + '</div>' +
+'<div class="prayer-label">' + p.toUpperCase() + '</div>' +
+'</div>';
+}).join('');
+function summaryTile(label, value, color) {
+return '<div class="col-4"><div class="summary-tile">' +
+'<div class="label">' + label + '</div>' +
+'<div class="value" style="color:' + color + '">' + value + '</div>' +
+'</div></div>';
+}
+body.innerHTML =
+'<div class="card shadow-sm rounded-4 p-3 mb-3" style="background:#fff">' +
+'<div class="d-flex align-items-center gap-1 mb-3">' + prayerRow + '</div>' +
+'<div class="clock-big mb-2" id="dashTime">--:--<span class="small">:--</span><span class="ampm">AM</span></div>' +
+'<div class="text-center" style="font-size:.95rem;color:#7a8b83;font-weight:600">' + dashDate() + '</div>' +
+'</div>' +
+'<div class="fw-bold mb-2 px-1" style="font-size:.75rem;color:#7a8b83;letter-spacing:1.5px">CURRENT PRAYER</div>' +
+'<div class="card shadow-sm rounded-4 p-3 mb-3" role="button" data-act="goto-cur" style="background:#fff;cursor:pointer">' +
+'<div class="row g-2 mb-2">' +
+summaryTile('Done', doneToday, '#1b7a4b') +
+summaryTile('Missed', missToday, '#dc3545') +
+summaryTile('Today', curPct + '%', '#cc7a00') +
+'</div>' +
+(missPrev > 0
+? '<div class="d-flex align-items-center gap-2 mb-2 p-2 rounded-3" style="background:#fde8e8">' +
+'<i class="fa-solid fa-circle-exclamation" style="color:#dc3545"></i>' +
+'<span class="fw-bold" style="font-size:.82rem;color:#dc3545">' + missPrev + ' missed from previous days</span>' +
+'<i class="fa-solid fa-chevron-right ms-auto" style="color:#c0c8c4;font-size:.8rem"></i>' +
+'</div>'
+: '<div class="d-flex align-items-center gap-2 mb-2 p-2 rounded-3" style="background:#d1e7dd">' +
+'<i class="fa-solid fa-circle-check" style="color:#1b7a4b"></i>' +
+'<span class="fw-bold" style="font-size:.82rem;color:#1b7a4b">No missed prayers from previous days</span>' +
+'</div>') +
+'<div class="text-muted" style="font-size:.75rem">' +
+'<i class="fa-regular fa-calendar me-1"></i>' + fr(today) +
+'</div>' +
+'</div>' +
+'<div class="fw-bold mb-2 px-1" style="font-size:.75rem;color:#7a8b83;letter-spacing:1.5px">PREVIOUS PRAYER</div>' +
+'<div class="card shadow-sm rounded-4 p-3 mb-3" role="button" data-act="goto-old" style="background:#fff;cursor:pointer">' +
+'<div class="row g-2 mb-2">' +
+summaryTile('Tracked', trackedDays, '#1b7a4b') +
+summaryTile('Missed', trackedMiss, '#dc3545') +
+summaryTile('Rate', oldPct + '%', '#cc7a00') +
+'</div>' +
+'<div class="text-muted" style="font-size:.75rem">' +
+'<i class="fa-solid fa-clock-rotate-left me-1"></i>' +
+(o ? (fr(o.start) + ' → ' + fr(o.end)) : (periodLabel + ' · last 30 days')) +
+'</div>' +
+'</div>' +
+'<div class="fw-bold mb-2 px-1" style="font-size:.75rem;color:#7a8b83;letter-spacing:1.5px">ZIKIR TRACKING</div>' +
+'<div class="card shadow-sm rounded-4 p-3" role="button" data-act="goto-zikir" style="background:#fff;cursor:pointer">' +
+'<div class="row g-2 mb-2">' +
+summaryTile('Zikirs', zCount, '#6f42c1') +
+summaryTile('Count', zTotal, '#1b7a4b') +
+summaryTile('Progress', zPct + '%', '#cc7a00') +
+'</div>' +
+'<div class="text-muted" style="font-size:.75rem">' +
+'<i class="fa-solid fa-stopwatch me-1"></i>Total target ' + zTarget +
+'</div>' +
+'</div>';
+startDashClock();
+}
+function oldSectionHeader(type, title, count) {
+var isMissed = type === 'missed';
+var bg = isMissed ? '#fde8e8' : '#d1e7dd';
+var fg = isMissed ? '#dc3545' : '#1b7a4b';
+var icon = isMissed ? 'fa-exclamation' : 'fa-check';
+return '<div class="section-header" style="background:' + bg + '">' +
+'<span class="icon-circle" style="background:' + fg + '">' +
+'<i class="fa-solid ' + icon + '"></i></span>' +
+'<span class="title">' + title + '</span>' +
+'<span class="count" style="color:' + fg + '">' + count + '</span>' +
+'</div>';
+}
+function oldRow(date, p) {
+var r = grO(date);
+var d = r[p] === true;
+var badge = d
+? '<span class="badge-pill-custom badge-missed"><i class="fa-solid fa-circle-exclamation"></i>Missed</span>'
+: '<span class="badge-pill-custom badge-done"><i class="fa-solid fa-circle-check"></i>Done</span>';
+return '<div class="prayer-row" role="button" data-act="toggle-old" data-p="' + p + '" data-d="' + date + '">' +
+'<span class="icon-circle-lg">' + I[p] + '</span>' +
+'<div class="flex-grow-1 ms-3 min-w-0">' +
+'<div class="name">' + p + '</div>' +
+'<div class="time">' + T[p] + '</div>' +
+'</div>' + badge +
+'<i class="fa-solid fa-chevron-right chevron"></i>' +
+'</div>';
+}
+function rOldInfo() {
+var o = rdOK();
+if (!o) { rPeriod(); return; }
+var dates = datesInRange(o.start, o.end);
+var a = rdOC();
+var totalDays = dates.length;
+var totalMissed = 0, daysMissed = 0;
+var perPrayer = {};
+P.forEach(function (p) { perPrayer[p] = 0; });
+dates.forEach(function (d) {
+var r = a[d] || {};
+var m = P.filter(function (p) { return r[p] === true; });
+if (m.length > 0) {
+totalMissed += m.length;
+daysMissed++;
+m.forEach(function (p) { perPrayer[p]++; });
+}
+});
+var perPrayerHtml = P.map(function (p) {
+var c = perPrayer[p];
+return '<div class="d-flex justify-content-between align-items-center py-2 px-3 rounded-3 mb-2" style="background:#f8faf9">' +
+'<div class="d-flex align-items-center gap-2"><span class="fs-4">' + I[p] + '</span>' +
+'<span class="fw-bold" style="font-size:1rem">' + p + '</span></div>' +
+'<span class="badge rounded-pill ' + (c > 0 ? 'text-bg-danger' : 'text-bg-success') +
+' px-3 py-2" style="font-size:.9rem">' + c + ' missed</span></div>';
+}).join('');
+$('sheet2Icon').className = 'fa-solid fa-circle-info';
+$('sheet2Icon').style.color = '#0d6efd';
+$('sheet2Title').textContent = 'Period Info';
+$('sheet2Sub').textContent = fr(o.start) + ' → ' + fr(o.end);
+$('sheet2Body').innerHTML =
+'<div class="d-flex flex-column gap-2">' +
+'<div class="card rounded-4 p-3" style="background:#e7f1ff">' +
+'<div class="d-flex align-items-center gap-2 mb-3">' +
+'<i class="fa-regular fa-calendar-check fs-4" style="color:#0d6efd"></i>' +
+'<strong class="fs-5" style="color:#0d6efd">Current Period</strong>' +
+'</div>' +
+'<div class="row g-2">' +
+'<div class="col-6"><div class="p-3 rounded-3 text-center bg-white">' +
+'<div class="text-muted" style="font-size:.72rem;font-weight:700;text-transform:uppercase">Start</div>' +
+'<div class="fw-bold" style="font-size:.9rem;color:#1a2b23">' + fr(o.start) + '</div></div></div>' +
+'<div class="col-6"><div class="p-3 rounded-3 text-center bg-white">' +
+'<div class="text-muted" style="font-size:.72rem;font-weight:700;text-transform:uppercase">End</div>' +
+'<div class="fw-bold" style="font-size:.9rem;color:#1a2b23">' + fr(o.end) + '</div></div></div>' +
+'</div>' +
+'</div>' +
+'<div class="card rounded-4 p-3" style="background:#fff">' +
+'<div class="d-flex align-items-center gap-2 mb-3">' +
+'<i class="fa-solid fa-chart-simple fs-5" style="color:#0d6efd"></i>' +
+'<strong style="font-size:.95rem;color:#1a2b23">Summary</strong>' +
+'</div>' +
+'<div class="row g-2 mb-3">' +
+'<div class="col-6"><div class="p-3 rounded-3 text-center" style="background:#f4f8f5">' +
+'<div class="text-muted" style="font-size:.68rem;font-weight:700;text-transform:uppercase">Total Days</div>' +
+'<div class="fw-bold" style="font-size:1.4rem;color:#cc7a00">' + totalDays + '</div></div></div>' +
+'<div class="col-6"><div class="p-3 rounded-3 text-center" style="background:#f4f8f5">' +
+'<div class="text-muted" style="font-size:.68rem;font-weight:700;text-transform:uppercase">Total Missed</div>' +
+'<div class="fw-bold" style="font-size:1.4rem;color:#dc3545">' + totalMissed + '</div></div></div>' +
+'</div>' +
+'<div class="row g-2">' +
+'<div class="col-12"><div class="p-3 rounded-3 text-center" style="background:#f4f8f5">' +
+'<div class="text-muted" style="font-size:.68rem;font-weight:700;text-transform:uppercase">Days Missed</div>' +
+'<div class="fw-bold" style="font-size:1.4rem;color:#dc3545">' + daysMissed + '</div></div></div>' +
+'</div>' +
+'</div>' +
+'<div class="card rounded-4 p-3" style="background:#fff">' +
+'<div class="d-flex align-items-center gap-2 mb-2">' +
+'<i class="fa-solid fa-list-check fs-5" style="color:#cc7a00"></i>' +
+'<strong style="font-size:.95rem;color:#1a2b23">Per Prayer Breakdown</strong>' +
+'</div>' +
+'<div class="mt-2">' + perPrayerHtml + '</div>' +
+'</div>' +
+'<button type="button" class="btn btn-brand fw-bold py-3 rounded-3 fs-6" data-act="old-change-period">' +
+'<i class="fa-regular fa-calendar-plus me-1"></i>Change Period</button>' +
+'</div>';
+sheet2BS.show();
+}
+function rPeriod() {
+$('sheet2Icon').className = 'fa-solid fa-clock-rotate-left';
+$('sheet2Icon').style.color = '#cc7a00';
+$('sheet2Title').textContent = 'Set Old Period';
+$('sheet2Sub').textContent = '';
+var o = rdOK();
+$('sheet2Body').innerHTML =
+'<div class="d-flex flex-column gap-2">' +
+'<div class="card rounded-4 p-3" style="background:#fff5e6">' +
+'<div class="mb-3">' +
+'<label class="form-label fw-bold">' +
+'<i class="fa-regular fa-calendar me-1 text-success"></i>Start date</label>' +
+'<input type="date" class="form-control form-control-lg" id="oldStart" value="' +
+(o ? o.start : '') + '" max="' + td() + '">' +
+'</div>' +
+'<div class="mb-3">' +
+'<label class="form-label fw-bold">' +
+'<i class="fa-regular fa-calendar-check me-1 text-success"></i>End date</label>' +
+'<input type="date" class="form-control form-control-lg" id="oldEnd" value="' +
+(o ? o.end : '') + '" max="' + td() + '">' +
+'</div>' +
+'<div class="d-flex gap-2">' +
+'<button class="btn btn-brand flex-fill fw-bold py-2 fs-5" data-act="old-save" type="button">' +
+'<i class="fa-solid fa-check me-1"></i>Save Period</button>' +
+(o ? '<button class="btn btn-outline-danger fw-bold px-3" data-act="old-clear" type="button">' +
+'<i class="fa-solid fa-trash"></i></button>' : '') +
+'</div>' +
+'</div>' +
+(o
+? '<div class="card rounded-4 p-3 bg-success-subtle">' +
+'<div class="d-flex align-items-center gap-2">' +
+'<i class="fa-solid fa-circle-info text-success"></i>' +
+'<div class="small">Current period: <strong>' + fr(o.start) +
+'</strong> to <strong>' + fr(o.end) + '</strong></div>' +
+'</div></div>'
+: '') +
+'</div>';
+sheet2BS.show();
+}
+function rOT() {
+ensureAllOldMissed();
+shrinkOldPeriod();
+var o = rdOK();
+var lst = $('oldBody');
+var sub = $('oldSub');
+if (!lst) return;
+if (!o) {
+sub.textContent = 'Select a period to begin';
+lst.innerHTML = '<div class="text-center text-muted py-5 px-3" style="background:#fff;border-radius:16px">' +
+'<i class="fa-regular fa-calendar-plus display-4 mb-3" style="color:#cc7a00"></i>' +
+'<p class="fw-bold mb-1" style="color:#cc7a00">No period selected</p>' +
+'<p class="text-muted small mb-0">Tap the bookmark button above to set your Old Tracking period.</p>' +
+'</div>';
+return;
+}
+sub.textContent = fr(o.start) + ' → ' + fr(o.end);
+var curDate = currentOldDate();
+if (!curDate) {
+lst.innerHTML = '<div class="text-center text-muted py-5 px-3" style="background:#fff;border-radius:16px">' +
+'<i class="fa-solid fa-circle-check display-4 mb-3 text-success"></i>' +
+'<p class="fw-bold mb-2" style="color:#1b7a4b">All days complete!</p>' +
+'<p class="text-muted small mb-0">The Old Tracking period has been fully cleared.</p>' +
+'</div>';
+return;
+}
+var r = grO(curDate);
+var missed = P.filter(function (p) { return r[p] === true; });
+var done = P.filter(function (p) { return r[p] !== true; });
+var html = '<div class="fw-bold mb-2 px-1" style="font-size:.78rem;color:#7a8b83">' +
+friendly(curDate) + ' · ' + fr(curDate) + '</div>';
+html += '<div class="card shadow-sm rounded-4 overflow-hidden mb-2">';
+html += oldSectionHeader('missed', 'Missed Prayers', missed.length);
+html += missed.length
+? missed.map(function (p) { return oldRow(curDate, p); }).join('')
+: '<div class="text-center text-muted py-4" style="background:#fff;font-size:.9rem">No missed prayers</div>';
+html += '</div>';
+html += '<div class="card shadow-sm rounded-4 overflow-hidden">';
+html += oldSectionHeader('done', 'Completed Prayers', done.length);
+html += done.length
+? done.map(function (p) { return oldRow(curDate, p); }).join('')
+: '<div class="text-center text-muted py-4" style="background:#fff;font-size:.9rem">No completed prayers yet</div>';
+html += '</div>';
+lst.innerHTML = html;
+}
+function rSET() {
+var fs = rdFS();
+var sdate = rdSD();
+var opts = [{ v: 0.9, l: 'Small' }, { v: 1, l: 'Medium' }, { v: 1.15, l: 'Large' }];
+var fsb = opts.map(function (o) {
+var a = Math.abs(fs - o.v) < 0.01;
+return '<button type="button" class="btn ' + (a ? 'btn-brand' : 'btn-light border') +
+' flex-fill py-3 fw-bold" data-act="font" data-fs="' + o.v +
+'" style="border-radius:12px;font-size:1rem">' + o.l + '</button>';
+}).join('');
+$('settingsBody').innerHTML =
+'<div class="card shadow-sm rounded-4 p-3 mb-2" style="background:#fff">' +
+'<div class="d-flex align-items-center gap-3 mb-3">' +
+'<span class="modal-icon-badge">' +
+'<i class="fa-regular fa-calendar-check fs-4 text-success"></i></span>' +
+'<div class="flex-grow-1"><div class="fw-bold" style="font-size:1.05rem">Current Start Date</div></div>' +
+'</div>' +
+'<div class="d-flex gap-2 align-items-center">' +
+'<input type="date" class="form-control form-control-lg" id="sdInput" value="' + sdate +
+'" max="' + td() + '" style="border-radius:10px">' +
+'<button class="btn btn-brand fw-bold px-4 fs-6" data-act="sd-save" type="button" ' +
+'style="white-space:nowrap">Change</button>' +
+'</div>' +
+'</div>' +
+'<div class="card shadow-sm rounded-4 p-3 mb-2" style="background:#fff">' +
+'<div class="d-flex align-items-center gap-3 mb-3">' +
+'<span class="modal-icon-badge" style="font-weight:700;color:#1b7a4b;font-size:1.3rem">Aa</span>' +
+'<div class="flex-grow-1"><div class="fw-bold" style="font-size:1.05rem">Font Size</div></div>' +
+'</div>' +
+'<div class="d-flex gap-2" id="fsBtns">' + fsb + '</div>' +
+'</div>' +
+'<div class="card shadow-sm rounded-4 p-3 mb-2" style="background:#fff">' +
+'<div class="d-flex align-items-center gap-3 mb-2">' +
+'<span class="modal-icon-badge" style="background:#fde8e8">' +
+'<i class="fa-solid fa-triangle-exclamation fs-4 text-danger"></i></span>' +
+'<div class="flex-grow-1">' +
+'<div class="fw-bold" style="font-size:1.05rem">Reset Database</div>' +
+'<div class="text-muted" style="font-size:.8rem">This will delete all prayer data, old data and old period.</div>' +
+'</div>' +
+'</div>' +
+'<button class="btn btn-danger fw-bold w-100 mt-2 py-3" data-act="reset-db" type="button" ' +
+'style="border-radius:12px;font-size:1rem">Reset</button>' +
+'</div>' +
+'<div class="card rounded-4 p-3" style="background:#e7f1ff">' +
+'<div class="d-flex align-items-center gap-3">' +
+'<span class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0" ' +
+'style="width:34px;height:34px;background:#0d6efd;color:#fff">' +
+'<i class="fa-solid fa-info" style="font-size:1rem"></i></span>' +
+'<div class="small" style="color:#1a2b23;line-height:1.4">' +
+'All changes are saved automatically in your device (localStorage).</div>' +
+'</div>' +
+'</div>';
+}
+function rdC() { return LS.get(CK) || []; }
+function wrC(a) { LS.set(CK, a); }
+function cFind(id) {
+return rdC().find(function (x) { return x.id === id; }) || null;
+}
+function cSaveOne(c) {
+var a = rdC();
+var i = -1;
+for (var k = 0; k < a.length; k++) { if (a[k].id === c.id) { i = k; break; } }
+if (i === -1) a.push(c); else a[i] = c;
+wrC(a);
+}
+function cPercent(c) {
+if (!c.target || c.target <= 0) return 0;
+return Math.min(100, Math.round((c.count / c.target) * 100));
+}
+function cDaysSince(start) {
+var a = new Date(start + 'T00:00:00');
+var b = new Date(td() + 'T00:00:00');
+var d = Math.round((b - a) / 864e5);
+return d < 0 ? 0 : d + 1;
+}
+function cAvgPerDay(c) {
+var d = cDaysSince(c.start);
+if (d <= 0) return 0;
+return Math.round((c.count / d) * 10) / 10;
+}
+function cPushHistory(c, amount) {
+if (!c.history) c.history = [];
+c.history.push({ d: td(), amount: amount, at: Date.now() });
+if (c.history.length > 200) c.history = c.history.slice(-200);
+}
+function cHighlight(name, q) {
+var safe = esc(name);
+if (!q) return safe;
+var eq = esc(q);
+var idx = safe.toLowerCase().indexOf(eq.toLowerCase());
+if (idx === -1) return safe;
+return safe.slice(0, idx) +
+'<mark class="mark-highlight">' + safe.slice(idx, idx + eq.length) + '</mark>' +
+safe.slice(idx + eq.length);
+}</script></body></html>

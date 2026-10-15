@@ -1,0 +1,12 @@
+{
+  "name": "money-monitor",
+  "version": "1.0.0",
+  "description": "Money Monitor Web Application",
+  "main": "production/production.html",
+  "scripts": {
+    "build": "node production/build-production.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
