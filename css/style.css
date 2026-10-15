@@ -513,8 +513,8 @@ body {
 }
 
 .prayer-name {
-    font-size: var(--text-prayer);
-    font-weight: 700;
+    font-size: 24px;
+    font-weight: 600;
 }
 
 .prayer-time {

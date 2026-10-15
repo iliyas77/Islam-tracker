@@ -260,7 +260,7 @@ function rDashboard() {
         nextCardIcon +
         '      </div>' +
         '      <div data-ref="page.dashboard.clock-card.next-card.details">' +
-        '        <div class="prayer-name text-gr-accent text-uppercase" style="line-height:1.2" data-ref="page.dashboard.clock-card.next-card.name">' + nextP.name + '</div>' +
+        '        <div class="prayer-name text-gr1 text-uppercase" style="line-height:1.2" data-ref="page.dashboard.clock-card.next-card.name">' + nextP.name + '</div>' +
         '        <div class="prayer-time text-gr1" style="line-height:1.2" data-ref="page.dashboard.clock-card.next-card.time">' + nextP.time + '</div>' +
         '        <div class="tomorrow-label text-gr-muted mt-1 d-flex align-items-center gap-1" data-ref="page.dashboard.clock-card.next-card.day">' +
         '          <i class="fa-regular fa-calendar"></i>' +
