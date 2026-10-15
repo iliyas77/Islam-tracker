@@ -1,10 +1,31 @@
 /* ==========================================
    COLOR MANAGEMENT SYSTEM - SINGLE SOURCE OF TRUTH
-   All application colors are defined and managed here.
-   Imported and aligned with old project (MTF-monitor) brand tokens.
+   All application colors and typography tokens are defined and managed here.
+   Imported and aligned with brand tokens.
    ========================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;700&display=swap');
+
 :root {
+    /* Typography Tokens */
+    --font-primary: 'Inter', sans-serif;
+    --font-arabic: 'Noto Sans Arabic', sans-serif;
+
+    /* Font Size Scale */
+    --text-xs: 12px;
+    --text-sm: 14px;
+    --text-base: 16px;
+    --text-lg: 18px;
+    --text-xl: 20px;
+    --text-prayer: 28px;
+    --text-countdown: 42px;
+
+    /* Semantic Text Colors */
+    --text-primary: #123D2E;
+    --text-secondary: #49665F;
+    --text-muted: #7C918A;
+    --active-green: #25845B;
+
     /* Brand Base Tokens (from MTF-monitor) */
     --whole-bg: #f8f9fa;
     --gr-bg: #ffffff;
@@ -14,12 +35,12 @@
     --gr-input-bg: #f9fafb;
 
     /* Text Colors */
-    --gr-text: #6b7280;
-    --gr-text1: #1f2937;
-    --gr-text2: #2d3748;
-    --gr-text-body: #4b5563;
-    --gr-text-muted: #4b5563;
-    --gr-muted: #6b7280;
+    --gr-text: var(--text-secondary);
+    --gr-text1: var(--text-primary);
+    --gr-text2: var(--text-primary);
+    --gr-text-body: var(--text-secondary);
+    --gr-text-muted: var(--text-muted);
+    --gr-muted: var(--text-muted);
 
     /* Borders & Dividers */
     --gray150: #f0f1f3;
@@ -28,14 +49,14 @@
     --gr-border-calc: #bbf7d0;
 
     /* Theme Primary, Secondary & Accent (Green / Brand Tokens) */
-    --gr-primary: #159b5a;
-    --gr-primary-dark: #08653a;
-    --gr-secondary: #0a7d44;
-    --gr-accent: #159b5a;
-    --gr-accent-hover: #08653a;
+    --gr-primary: #25845B;
+    --gr-primary-dark: #123D2E;
+    --gr-secondary: #1a6d49;
+    --gr-accent: #25845B;
+    --gr-accent-hover: #123D2E;
     --gr-accent-soft: #e6f5ec;
     --gr-accent-gold: #ca8a04;
-    --gr-active-bg: #0a7d44;
+    --gr-active-bg: #25845B;
 
     /* State & Status Colors */
     --gr-warning: #ca8a04;
@@ -43,7 +64,7 @@
     --gr-danger: #ef4444;
     --gr-danger-soft: #fce8e6;
     --gr-pill-down-text: #ef4444;
-    --gr-success: #159b5a;
+    --gr-success: #25845B;
     --gr-success-soft: #e6f5ec;
     --gr-orange: #ea580c;
 
@@ -53,12 +74,12 @@
 
     /* Interactive States & Shadows */
     --gr-row-hover: #ededee;
-    --gr-active: #0a7d44;
+    --gr-active: #25845B;
     --gr-hover: #f4f5f7;
     --gr-shadow-color: rgba(0, 0, 0, 0.06);
     --gr-header-shadow: rgba(0, 0, 0, 0.15);
-    --gr-btn-shadow: rgba(21, 155, 90, 0.3);
-    --gr-btn-shadow-hover: rgba(21, 155, 90, 0.45);
+    --gr-btn-shadow: rgba(37, 132, 91, 0.3);
+    --gr-btn-shadow-hover: rgba(37, 132, 91, 0.45);
 }
 
 /* ==========================================

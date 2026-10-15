@@ -133,7 +133,7 @@ function rSET() {
         '<!-- Font Size Card -->' +
         '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.font-size.card">' +
         '<div class="d-flex align-items-center gap-3 mb-3" data-ref="page.settings.font-size.header">' +
-        '<span class="modal-icon-badge" style="font-weight:700;color:#1b7a4b;font-size:1.3rem" data-ref="page.settings.font-size.icon-badge">Aa</span>' +
+        '<span class="modal-icon-badge text-gr-accent" style="font-weight:700;font-size:1.3rem" data-ref="page.settings.font-size.icon-badge">Aa</span>' +
         '<div class="flex-grow-1" data-ref="page.settings.font-size.info"><div class="fw-bold" style="font-size:1.05rem" data-ref="page.settings.font-size.title">Font Size</div></div>' +
         '</div>' +
         '<div class="d-flex gap-2" id="fsBtns" data-ref="page.settings.font-size.buttons-row">' + fsb + '</div>' +

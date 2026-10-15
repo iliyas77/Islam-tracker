@@ -2,7 +2,7 @@
 function oldSectionHeader(type, title, count) {
     var isMissed = type === 'missed';
     var bg = isMissed ? '#fde8e8' : '#d1e7dd';
-    var fg = isMissed ? '#dc3545' : '#1b7a4b';
+    var fg = isMissed ? '#dc3545' : 'var(--gr-primary)';
     var icon = isMissed ? 'fa-exclamation' : 'fa-check';
     return '<div class="section-header" style="background:' + bg + '" data-ref="page.old.section-header.' + type + '">' +
         '<span class="icon-circle" style="background:' + fg + '" data-ref="page.old.section-header.' + type + '.icon">' +
@@ -175,7 +175,7 @@ function rOT() {
     if (!curDate) {
         lst.innerHTML = '<div class="text-center text-muted py-5 px-3" style="background:#fff;border-radius:16px">' +
             '<i class="fa-solid fa-circle-check display-4 mb-3 text-success"></i>' +
-            '<p class="fw-bold mb-2" style="color:#1b7a4b">All days complete!</p>' +
+            '<p class="fw-bold mb-2 text-gr-accent">All days complete!</p>' +
             '<p class="text-muted small mb-0">The Old Tracking period has been fully cleared.</p>' +
             '</div>';
         return;

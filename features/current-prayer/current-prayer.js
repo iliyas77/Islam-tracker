@@ -95,10 +95,10 @@ function missCard(x) {
     return '<div class="card shadow-sm rounded-4 p-3 bg-gr border-0" role="button" data-act="jump" data-d="' + x.date + '" style="cursor:pointer" data-ref="page.current.missed-sheet.card.' + x.date + '">' +
         '<div class="d-flex align-items-center gap-3 p-2 rounded-4 mb-3" style="background:#e8f4ed" data-ref="page.current.missed-sheet.card.header">' +
         '<span class="icon-circle-lg" style="background:#d3ecdc;width:52px;height:52px" data-ref="page.current.missed-sheet.card.icon">' +
-        '<i class="fa-regular fa-calendar-days fs-3" style="color:#1b7a4b"></i></span>' +
+        '<i class="fa-regular fa-calendar-days fs-3 text-gr-accent"></i></span>' +
         '<div class="flex-grow-1 min-w-0" data-ref="page.current.missed-sheet.card.info">' +
-        '<div class="fw-bold" style="font-size:1.3rem;color:#1a2b23;line-height:1.15" data-ref="page.current.missed-sheet.card.title">' + friendly(x.date) + '</div>' +
-        '<div style="font-size:1rem;color:#1b7a4b;font-weight:600;margin-top:2px" data-ref="page.current.missed-sheet.card.date">' + fr(x.date) + '</div>' +
+        '<div class="fw-bold text-gr1" style="font-size:1.3rem;line-height:1.15" data-ref="page.current.missed-sheet.card.title">' + friendly(x.date) + '</div>' +
+        '<div class="text-gr-accent" style="font-size:1rem;font-weight:600;margin-top:2px" data-ref="page.current.missed-sheet.card.date">' + fr(x.date) + '</div>' +
         '</div>' +
         '</div>' +
         '<div class="d-flex gap-2" style="width:100%" data-ref="page.current.missed-sheet.card.tiles">' + tiles + '</div>' +
@@ -107,7 +107,7 @@ function missCard(x) {
 
 function rMS() {
     $('sheet2Icon').className = 'fa-solid fa-clipboard-list';
-    $('sheet2Icon').style.color = '#1b7a4b';
+    $('sheet2Icon').style.color = 'var(--gr-primary)';
     $('sheet2Title').textContent = 'Missed Prayers';
     $('sheet2Sub').textContent = 'From previous days (today excluded)';
 

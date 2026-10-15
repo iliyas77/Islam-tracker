@@ -174,10 +174,10 @@ function rDashboard() {
 
         var badgeClass = st === 'active' ? 'badge-status-active'
             : (st === 'passed' ? 'badge-status-passed'
-            : (st === 'next' ? 'badge-status-next' : 'badge-status-upcoming'));
+                : (st === 'next' ? 'badge-status-next' : 'badge-status-upcoming'));
         var badgeText = st === 'active' ? 'Active'
             : (st === 'passed' ? 'Passed'
-            : (st === 'next' ? 'Next' : 'Upcoming'));
+                : (st === 'next' ? 'Next' : 'Upcoming'));
 
         return '<div class="timeline-item" data-ref="page.dashboard.timeline.item.' + p.toLowerCase() + '">' +
             '<div class="timeline-circle ' + circleClass + ' mb-1" data-ref="page.dashboard.timeline.icon.' + p.toLowerCase() + '">' +
@@ -186,8 +186,8 @@ function rDashboard() {
             '<div class="timeline-dot-wrap" data-ref="page.dashboard.timeline.dot-wrap.' + p.toLowerCase() + '">' +
             dotHtml +
             '</div>' +
-            '<div class="fw-bold mt-1 text-gr1" style="font-size:0.92rem;line-height:1.2" data-ref="page.dashboard.timeline.name.' + p.toLowerCase() + '">' + p + '</div>' +
-            '<div class="text-gr-muted" style="font-size:0.75rem;margin-top:2px;font-weight:500" data-ref="page.dashboard.timeline.time.' + p.toLowerCase() + '">' + (T[p] || '--:--') + '</div>' +
+            '<div class="timeline-label mt-1 text-gr1" style="line-height:1.2" data-ref="page.dashboard.timeline.name.' + p.toLowerCase() + '">' + p + '</div>' +
+            '<div class="timeline-time text-gr-muted" style="margin-top:2px" data-ref="page.dashboard.timeline.time.' + p.toLowerCase() + '">' + (T[p] || '--:--') + '</div>' +
             '<span class="badge rounded-pill mt-2 ' + badgeClass + '" data-ref="page.dashboard.timeline.badge.' + p.toLowerCase() + '">' + badgeText + '</span>' +
             '</div>';
     }).join('');
@@ -195,7 +195,7 @@ function rDashboard() {
     function summaryTile(label, value, color) {
         return '<div class="col-4" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '">' +
             '<div class="summary-tile" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '.box">' +
-            '<div class="label" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '.label">' + label + '</div>' +
+            '<div class="label label-supporting text-gr-muted" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '.label">' + label + '</div>' +
             '<div class="value" style="color:' + color + '" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '.value">' + value + '</div>' +
             '</div></div>';
     }
@@ -205,41 +205,48 @@ function rDashboard() {
         '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0 position-relative overflow-hidden" data-ref="page.dashboard.clock-card">' +
         '  <!-- 1. Header Bar: Location on left, Live + Time on right -->' +
         '  <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom" style="border-color:#edf2ee !important" data-ref="page.dashboard.clock-card.header">' +
-        '    <div class="d-flex align-items-center gap-1 text-gr1 fw-semibold" style="font-size:0.95rem" data-ref="page.dashboard.clock-card.header.location">' +
-        '      <i class="fa-solid fa-location-dot text-success me-1" data-ref="page.dashboard.clock-card.header.location-icon"></i>' +
+        '    <div class="d-flex align-items-center gap-1 text-gr1 location" data-ref="page.dashboard.clock-card.header.location">' +
+        '      <i class="fa-solid fa-location-dot text-gr-accent me-1" data-ref="page.dashboard.clock-card.header.location-icon"></i>' +
         '      <span data-ref="page.dashboard.clock-card.header.location-text">' + cfg.city + ' &bull; ' + (cfg.school === 1 ? 'Hanafi' : 'Shafi') + '</span>' +
         '    </div>' +
-        '    <div class="d-flex align-items-center gap-2 text-gr1 fw-semibold" style="font-size:0.95rem" data-ref="page.dashboard.clock-card.header.status">' +
-        '      <span class="text-success d-inline-flex align-items-center gap-1" data-ref="page.dashboard.clock-card.header.live-badge">' +
+        '    <div class="d-flex align-items-center gap-2 text-gr1 live-time" data-ref="page.dashboard.clock-card.header.status">' +
+        '      <span class="text-gr-accent d-inline-flex align-items-center gap-1" data-ref="page.dashboard.clock-card.header.live-badge">' +
         '        <i class="fa-solid fa-bolt"></i> Live' +
         '      </span>' +
-        '      <span class="text-muted opacity-50">|</span>' +
+        '      <span class="text-gr-muted opacity-50">|</span>' +
         '      <span id="dashLiveTime" data-ref="page.dashboard.clock-card.header.time">' + dashLiveHeaderTime() + '</span>' +
         '    </div>' +
         '  </div>' +
 
         '  <!-- 2. Hero Section: Mosque dome silhouette icon + NEXT PRAYER IN + Countdown + Mosque skyline watermark -->' +
         '  <div class="position-relative overflow-hidden py-2 mb-3" data-ref="page.dashboard.clock-card.hero">' +
-        '    <div class="position-absolute end-0 top-0 bottom-0 d-flex align-items-end pe-1 opacity-25" style="pointer-events:none;z-index:0" data-ref="page.dashboard.clock-card.hero.watermark">' +
-        '      <svg width="140" height="95" viewBox="0 0 160 110" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-        '        <path d="M120 10V4C120 3 121 2 122 2C123 2 124 3 124 4V10C127 12 129 16 129 20V110H115V20C115 16 117 12 120 10Z" fill="#1b7a4b"/>' +
-        '        <path d="M145 25V20C145 19 146 18 147 18C148 18 149 19 149 20V25C151 27 153 30 153 34V110H141V34C141 30 143 27 145 25Z" fill="#1b7a4b"/>' +
-        '        <path d="M70 45C70 28 85 15 85 15C85 15 100 28 100 45V110H70V45Z" fill="#1b7a4b"/>' +
-        '        <path d="M40 60C40 48 52 38 52 38C52 38 64 48 64 60V110H40V60Z" fill="#1b7a4b"/>' +
-        '        <path d="M10 75C10 65 20 56 20 56C20 56 30 65 30 75V110H10V75Z" fill="#1b7a4b"/>' +
+        '    <div class="position-absolute end-0 bottom-0 d-flex align-items-end pe-1" style="pointer-events:none;z-index:0;opacity:0.25" data-ref="page.dashboard.clock-card.hero.watermark">' +
+        '      <svg viewBox="0 0 200 100" preserveAspectRatio="xMidYMax meet" width="160" height="80" fill="#25845B">' +
+        '        <path d="M160,100 L160,60 Q160,50 165,45 Q170,50 170,60 L170,100 Z"></path>' +
+        '        <path d="M150,100 L150,70 Q150,65 155,62 Q160,65 160,70 L160,100 Z"></path>' +
+        '        <path d="M175,100 L175,75 Q175,70 180,68 Q185,70 185,75 L185,100 Z"></path>' +
+        '        <circle cx="165" cy="42" r="3"></circle>' +
+        '        <circle cx="155" cy="60" r="2"></circle>' +
+        '        <circle cx="180" cy="65" r="2"></circle>' +
+        '        <path d="M100,100 L100,80 Q100,70 110,65 Q120,70 120,80 L120,100 Z"></path>' +
+        '        <circle cx="110" cy="60" r="4"></circle>' +
+        '        <rect x="108" y="55" width="4" height="10"></rect>' +
+        '        <path d="M50,100 L50,85 Q50,78 58,75 Q66,78 66,85 L66,100 Z"></path>' +
+        '        <circle cx="58" cy="72" r="3"></circle>' +
+        '        <rect x="56" y="68" width="4" height="8"></rect>' +
         '      </svg>' +
         '    </div>' +
         '    <div class="d-flex align-items-center gap-3 position-relative" style="z-index:1" data-ref="page.dashboard.clock-card.hero.content">' +
         '      <div data-ref="page.dashboard.clock-card.hero.icon">' +
         '        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-        '          <path d="M24 6C23 6 22.3 5.3 22.3 4.3C22.3 3.3 23 2.5 24 2.5C24.4 2.5 24.8 2.6 25.1 2.8C24.2 3.1 23.6 3.9 23.6 4.8C23.6 5.9 24.5 6.7 25.6 6.7C25.8 6.7 26 6.7 26.2 6.6C25.8 7.4 25 8 24 8V10.5C24 10.5 24 10.5 24 10.5C14.5 11.5 7 19.5 7 29.5V36H41V29.5C41 19.5 33.5 11.5 24 10.5V6Z" fill="#1b7a4b"/>' +
+        '          <path d="M24 6C23 6 22.3 5.3 22.3 4.3C22.3 3.3 23 2.5 24 2.5C24.4 2.5 24.8 2.6 25.1 2.8C24.2 3.1 23.6 3.9 23.6 4.8C23.6 5.9 24.5 6.7 25.6 6.7C25.8 6.7 26 6.7 26.2 6.6C25.8 7.4 25 8 24 8V10.5C24 10.5 24 10.5 24 10.5C14.5 11.5 7 19.5 7 29.5V36H41V29.5C41 19.5 33.5 11.5 24 10.5V6Z" fill="#25845B"/>' +
         '          <path d="M20 36V28C20 25.8 21.8 24 24 24C26.2 24 28 25.8 28 28V36H20Z" fill="#ffffff"/>' +
-        '          <rect x="5" y="36" width="38" height="3" rx="1.5" fill="#1b7a4b"/>' +
+        '          <rect x="5" y="36" width="38" height="3" rx="1.5" fill="#25845B"/>' +
         '        </svg>' +
         '      </div>' +
         '      <div data-ref="page.dashboard.clock-card.hero.info">' +
-        '        <div class="fw-bold text-uppercase" style="letter-spacing:1.5px;font-size:0.75rem;color:#285e42" data-ref="page.dashboard.clock-card.hero.label">NEXT PRAYER IN</div>' +
-        '        <div class="fw-bold display-6 lh-1 mt-1" style="color:#083d22;font-weight:800;letter-spacing:-0.5px" id="dashCountdown" data-ref="page.dashboard.clock-card.hero.countdown">' +
+        '        <div class="section-heading text-uppercase text-gr" data-ref="page.dashboard.clock-card.hero.label">NEXT PRAYER IN</div>' +
+        '        <div class="countdown lh-1 mt-1 text-gr1" id="dashCountdown" data-ref="page.dashboard.clock-card.hero.countdown">' +
         countdownStr +
         '        </div>' +
         '      </div>' +
@@ -253,22 +260,22 @@ function rDashboard() {
         nextCardIcon +
         '      </div>' +
         '      <div data-ref="page.dashboard.clock-card.next-card.details">' +
-        '        <div class="fw-bold text-gr1 text-uppercase" style="font-size:1.15rem;letter-spacing:0.5px;line-height:1.2" data-ref="page.dashboard.clock-card.next-card.name">' + nextP.name + '</div>' +
-        '        <div class="fw-bold text-gr1" style="font-size:1.35rem;line-height:1.2" data-ref="page.dashboard.clock-card.next-card.time">' + nextP.time + '</div>' +
-        '        <div class="text-gr-muted small mt-1 d-flex align-items-center gap-1" data-ref="page.dashboard.clock-card.next-card.day">' +
+        '        <div class="prayer-name text-gr-accent text-uppercase" style="line-height:1.2" data-ref="page.dashboard.clock-card.next-card.name">' + nextP.name + '</div>' +
+        '        <div class="prayer-time text-gr1" style="line-height:1.2" data-ref="page.dashboard.clock-card.next-card.time">' + nextP.time + '</div>' +
+        '        <div class="tomorrow-label text-gr-muted mt-1 d-flex align-items-center gap-1" data-ref="page.dashboard.clock-card.next-card.day">' +
         '          <i class="fa-regular fa-calendar"></i>' +
         '          <span>' + (nextP.isTomorrow ? 'Tomorrow' : 'Today') + '</span>' +
         '        </div>' +
         '      </div>' +
         '    </div>' +
         '    <div class="border-start mx-2 align-self-stretch" style="border-color:#d4e4db !important" data-ref="page.dashboard.clock-card.next-card.divider"></div>' +
-        '    <div class="d-flex flex-column justify-content-center gap-2" style="font-size:0.85rem" data-ref="page.dashboard.clock-card.next-card.right">' +
-        '      <div class="d-flex align-items-center gap-2 text-gr1 fw-semibold" data-ref="page.dashboard.clock-card.next-card.gregorian">' +
-        '        <i class="fa-regular fa-calendar-days text-gr-muted"></i>' +
+        '    <div class="d-flex flex-column justify-content-center gap-2 date-text" data-ref="page.dashboard.clock-card.next-card.right">' +
+        '      <div class="d-flex align-items-center gap-2 text-gr" data-ref="page.dashboard.clock-card.next-card.gregorian">' +
+        '        <i class="fa-regular fa-calendar-days text-gr"></i>' +
         '        <span>' + gregorianStr + '</span>' +
         '      </div>' +
-        '      <div class="d-flex align-items-center gap-2 text-gr1 fw-semibold" data-ref="page.dashboard.clock-card.next-card.hijri">' +
-        '        <i class="fa-regular fa-moon text-gr-muted"></i>' +
+        '      <div class="d-flex align-items-center gap-2 text-gr" data-ref="page.dashboard.clock-card.next-card.hijri">' +
+        '        <i class="fa-regular fa-moon text-gr"></i>' +
         '        <span>' + hijriStr + '</span>' +
         '      </div>' +
         '    </div>' +
@@ -276,7 +283,7 @@ function rDashboard() {
 
         '  <!-- 4. Daily Prayer Timeline Section -->' +
         '  <div class="d-flex align-items-center gap-3 my-3" data-ref="page.dashboard.timeline.header">' +
-        '    <span class="fw-bold text-uppercase" style="font-size:0.82rem;color:#1a2b23;letter-spacing:1.2px;white-space:nowrap" data-ref="page.dashboard.timeline.title">DAILY PRAYER TIMELINE</span>' +
+        '    <span class="section-title text-uppercase text-gr1" style="white-space:nowrap" data-ref="page.dashboard.timeline.title">DAILY PRAYER TIMELINE</span>' +
         '    <div class="flex-grow-1 border-bottom" style="border-color:#dbe5df !important" data-ref="page.dashboard.timeline.line"></div>' +
         '  </div>' +
 
@@ -290,43 +297,43 @@ function rDashboard() {
         '  <!-- 5. Bottom Decorative Divider -->' +
         '  <div class="d-flex align-items-center justify-content-center my-3" data-ref="page.dashboard.clock-card.bottom-divider">' +
         '    <div class="flex-grow-1 border-bottom opacity-50" style="max-width:140px;border-color:#dbe5df !important"></div>' +
-        '    <span class="px-2" style="font-size:0.85rem;color:#94a69d">✦</span>' +
+        '    <span class="px-2 text-gr-muted" style="font-size:0.85rem">✦</span>' +
         '    <div class="flex-grow-1 border-bottom opacity-50" style="max-width:140px;border-color:#dbe5df !important"></div>' +
         '  </div>' +
         '</div>' +
 
         '<!-- Current Prayer Summary Card -->' +
-        '<div class="fw-bold mb-2 px-1 text-gr-muted" style="font-size:.75rem;letter-spacing:1.5px" data-ref="page.dashboard.current-prayer.section-title">CURRENT PRAYER</div>' +
+        '<div class="fw-bold mb-2 px-1 text-gr label-supporting" style="letter-spacing:1.5px" data-ref="page.dashboard.current-prayer.section-title">CURRENT PRAYER</div>' +
         '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0" role="button" data-act="goto-cur" style="cursor:pointer" data-ref="page.dashboard.current-prayer-card">' +
         '<div class="row g-2 mb-2" data-ref="page.dashboard.current-prayer-card.stats">' +
-        summaryTile('Done', doneToday, '#1b7a4b') +
+        summaryTile('Done', doneToday, '#25845B') +
         summaryTile('Missed', missToday, '#dc3545') +
-        summaryTile('Today', curPct + '%', '#cc7a00') +
+        summaryTile('Today', curPct + '%', '#ca8a04') +
         '</div>' +
         (missPrev > 0
             ? '<div class="d-flex align-items-center gap-2 mb-2 p-2 rounded-3 bg-gr-danger-soft" data-ref="page.dashboard.current-prayer-card.missed-alert">' +
             '<i class="fa-solid fa-circle-exclamation text-gr-danger"></i>' +
             '<span class="fw-bold text-gr-danger" style="font-size:.82rem">' + missPrev + ' missed from previous days</span>' +
-            '<i class="fa-solid fa-chevron-right ms-auto text-muted" style="font-size:.8rem"></i>' +
+            '<i class="fa-solid fa-chevron-right ms-auto text-gr-muted" style="font-size:.8rem"></i>' +
             '</div>'
             : '<div class="d-flex align-items-center gap-2 mb-2 p-2 rounded-3 bg-gr-accent-soft" data-ref="page.dashboard.current-prayer-card.all-clear">' +
             '<i class="fa-solid fa-circle-check text-gr-accent"></i>' +
             '<span class="fw-bold text-gr-accent" style="font-size:.82rem">No missed prayers from previous days</span>' +
             '</div>') +
-        '<div class="text-muted" style="font-size:.75rem" data-ref="page.dashboard.current-prayer-card.footer">' +
+        '<div class="text-gr-muted label-supporting" data-ref="page.dashboard.current-prayer-card.footer">' +
         '<i class="fa-regular fa-calendar me-1"></i>' + fr(today) +
         '</div>' +
         '</div>' +
 
         '<!-- Previous Prayer Summary Card -->' +
-        '<div class="fw-bold mb-2 px-1 text-gr-muted" style="font-size:.75rem;letter-spacing:1.5px" data-ref="page.dashboard.previous-prayer.section-title">PREVIOUS PRAYER</div>' +
+        '<div class="fw-bold mb-2 px-1 text-gr label-supporting" style="letter-spacing:1.5px" data-ref="page.dashboard.previous-prayer.section-title">PREVIOUS PRAYER</div>' +
         '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0" role="button" data-act="goto-old" style="cursor:pointer" data-ref="page.dashboard.previous-prayer-card">' +
         '<div class="row g-2 mb-2" data-ref="page.dashboard.previous-prayer-card.stats">' +
-        summaryTile('Tracked', trackedDays, '#1b7a4b') +
+        summaryTile('Tracked', trackedDays, '#25845B') +
         summaryTile('Missed', trackedMiss, '#dc3545') +
-        summaryTile('Rate', oldPct + '%', '#cc7a00') +
+        summaryTile('Rate', oldPct + '%', '#ca8a04') +
         '</div>' +
-        '<div class="text-muted" style="font-size:.75rem" data-ref="page.dashboard.previous-prayer-card.footer">' +
+        '<div class="text-gr-muted label-supporting" data-ref="page.dashboard.previous-prayer-card.footer">' +
         '<i class="fa-solid fa-clock-rotate-left me-1"></i>' +
         (o ? (fr(o.start) + ' → ' + fr(o.end)) : (periodLabel + ' · last 30 days')) +
         '</div>' +
@@ -340,14 +347,14 @@ function rDashboard() {
 
     body.innerHTML +=
         '<!-- Digital Tasbeeh Summary Card -->' +
-        '<div class="fw-bold mb-2 px-1 text-gr-muted" style="font-size:.75rem;letter-spacing:1.5px" data-ref="page.dashboard.tasbeeh.section-title">DIGITAL TASBEEH</div>' +
+        '<div class="fw-bold mb-2 px-1 text-gr label-supporting" style="letter-spacing:1.5px" data-ref="page.dashboard.tasbeeh.section-title">DIGITAL TASBEEH</div>' +
         '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0" role="button" data-act="goto-tasbeeh" style="cursor:pointer" data-ref="page.dashboard.tasbeeh-card">' +
         '<div class="row g-2 mb-2" data-ref="page.dashboard.tasbeeh-card.stats">' +
-        summaryTile('Chants', tbCount, '#1b7a4b') +
+        summaryTile('Chants', tbCount, '#25845B') +
         summaryTile('Today', tbToday, '#ca8a04') +
-        summaryTile('Counter', '<i class="fa-solid fa-arrow-right"></i>', '#1b7a4b') +
+        summaryTile('Counter', '<i class="fa-solid fa-arrow-right"></i>', '#25845B') +
         '</div>' +
-        '<div class="text-muted" style="font-size:.75rem" data-ref="page.dashboard.tasbeeh-card.footer">' +
+        '<div class="text-gr-muted label-supporting" data-ref="page.dashboard.tasbeeh-card.footer">' +
         '<i class="fa-solid fa-hand-holding-heart me-1"></i>Tap to open Digital Tasbeeh' +
         '</div>' +
         '</div>';
