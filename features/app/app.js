@@ -237,11 +237,15 @@ function getNextPrayerInfo() {
             var hrs = Math.floor(diff / 60);
             var mins = diff % 60;
             var remaining = hrs > 0 ? (hrs + 'h ' + mins + 'm') : (mins + 'm');
+            var remainingPad = pad2(hrs) + 'h ' + pad2(mins) + 'm';
             return {
                 name: p,
                 time: T[p],
                 diffMin: diff,
+                hrs: hrs,
+                mins: mins,
                 remaining: remaining,
+                remainingPad: remainingPad,
                 isTomorrow: false
             };
         }
@@ -251,11 +255,16 @@ function getNextPrayerInfo() {
     var diffTomorrow = (24 * 60 - currentMin) + fajrMin;
     var fHrs = Math.floor(diffTomorrow / 60);
     var fMins = diffTomorrow % 60;
+    var remainingTomorrow = fHrs > 0 ? (fHrs + 'h ' + fMins + 'm') : (fMins + 'm');
+    var remainingTomorrowPad = pad2(fHrs) + 'h ' + pad2(fMins) + 'm';
     return {
         name: 'Fajr',
         time: T.Fajr,
         diffMin: diffTomorrow,
-        remaining: fHrs > 0 ? (fHrs + 'h ' + fMins + 'm') : (fMins + 'm'),
+        hrs: fHrs,
+        mins: fMins,
+        remaining: remainingTomorrow,
+        remainingPad: remainingTomorrowPad,
         isTomorrow: true
     };
 }
