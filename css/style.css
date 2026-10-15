@@ -485,6 +485,127 @@ body {
     letter-spacing: 0.4px;
 }
 
+/* ============================================================
+   Dashboard Clock Card & Daily Timeline Styles
+   ============================================================ */
+.dash-next-card {
+    background: #fbfdfc;
+    border: 1px solid #d4e6db;
+    border-radius: 18px;
+    padding: 14px 16px;
+}
+
+.dash-next-icon-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #e2efe6;
+    color: #1b7a4b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.timeline-item {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.timeline-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    transition: all 0.2s ease;
+}
+
+.timeline-circle-inactive {
+    background: #e2efe6;
+    color: #1b7a4b;
+}
+
+.timeline-circle-active {
+    background: #1b7a4b;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(27, 122, 75, 0.35);
+}
+
+.timeline-dot-wrap {
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #8fa89b;
+}
+
+.timeline-dot-active {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #1b7a4b;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timeline-dot-active-inner {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #1b7a4b;
+}
+
+.badge-status-passed {
+    background: #e8ece9;
+    color: #5a6d63;
+    font-weight: 600;
+    font-size: 0.68rem;
+    padding: 3px 8px;
+}
+
+.badge-status-active {
+    background: #1b7a4b;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.68rem;
+    padding: 3px 8px;
+}
+
+.badge-status-next {
+    background: #ca8a04;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.68rem;
+    padding: 3px 8px;
+}
+
+.badge-status-upcoming {
+    background: #f1f4f2;
+    color: #8a9a92;
+    font-weight: 600;
+    font-size: 0.68rem;
+    padding: 3px 8px;
+}
+
 /* ---------- Feature card (unused now, kept for safety) ---------- */
 .feature-card-icon {
     width: 56px;
