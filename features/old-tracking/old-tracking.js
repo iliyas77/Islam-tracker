@@ -4,11 +4,11 @@ function oldSectionHeader(type, title, count) {
     var bg = isMissed ? '#fde8e8' : '#d1e7dd';
     var fg = isMissed ? '#dc3545' : '#1b7a4b';
     var icon = isMissed ? 'fa-exclamation' : 'fa-check';
-    return '<div class="section-header" style="background:' + bg + '">' +
-        '<span class="icon-circle" style="background:' + fg + '">' +
+    return '<div class="section-header" style="background:' + bg + '" data-ref="page.old.section-header.' + type + '">' +
+        '<span class="icon-circle" style="background:' + fg + '" data-ref="page.old.section-header.' + type + '.icon">' +
         '<i class="fa-solid ' + icon + '"></i></span>' +
-        '<span class="title">' + title + '</span>' +
-        '<span class="count" style="color:' + fg + '">' + count + '</span>' +
+        '<span class="title" data-ref="page.old.section-header.' + type + '.title">' + title + '</span>' +
+        '<span class="count" style="color:' + fg + '" data-ref="page.old.section-header.' + type + '.count">' + count + '</span>' +
         '</div>';
 }
 
@@ -16,15 +16,15 @@ function oldRow(date, p) {
     var r = grO(date);
     var d = r[p] === true;
     var badge = d
-        ? '<span class="badge-pill-custom badge-missed"><i class="fa-solid fa-circle-exclamation"></i>Missed</span>'
-        : '<span class="badge-pill-custom badge-done"><i class="fa-solid fa-circle-check"></i>Done</span>';
-    return '<div class="prayer-row" role="button" data-act="toggle-old" data-p="' + p + '" data-d="' + date + '">' +
-        '<span class="icon-circle-lg">' + I[p] + '</span>' +
-        '<div class="flex-grow-1 ms-3 min-w-0">' +
-        '<div class="name">' + p + '</div>' +
-        '<div class="time">' + T[p] + '</div>' +
+        ? '<span class="badge-pill-custom badge-missed" data-ref="page.old.prayer-row.badge.' + p.toLowerCase() + '"><i class="fa-solid fa-circle-exclamation"></i>Missed</span>'
+        : '<span class="badge-pill-custom badge-done" data-ref="page.old.prayer-row.badge.' + p.toLowerCase() + '"><i class="fa-solid fa-circle-check"></i>Done</span>';
+    return '<div class="prayer-row" role="button" data-act="toggle-old" data-p="' + p + '" data-d="' + date + '" data-ref="page.old.prayer-row.' + p.toLowerCase() + '">' +
+        '<span class="icon-circle-lg" data-ref="page.old.prayer-row.icon.' + p.toLowerCase() + '">' + I[p] + '</span>' +
+        '<div class="flex-grow-1 ms-3 min-w-0" data-ref="page.old.prayer-row.details.' + p.toLowerCase() + '">' +
+        '<div class="name" data-ref="page.old.prayer-row.name.' + p.toLowerCase() + '">' + p + '</div>' +
+        '<div class="time" data-ref="page.old.prayer-row.time.' + p.toLowerCase() + '">' + (T[p] || '--:--') + '</div>' +
         '</div>' + badge +
-        '<i class="fa-solid fa-chevron-right chevron"></i>' +
+        '<i class="fa-solid fa-chevron-right chevron" data-ref="page.old.prayer-row.chevron.' + p.toLowerCase() + '"></i>' +
         '</div>';
 }
 
