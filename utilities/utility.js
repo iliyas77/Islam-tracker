@@ -230,32 +230,6 @@ function handleClick(e) {
         sd = t.dataset.d;
         sheet2BS.hide();
         setTimeout(function () { showPage('current'); }, 350);
-    } else if (act === 'open-add') {
-        oAM(t.dataset.cid);
-    } else if (act === 'add-plus') {
-        var v0 = parseInt($('addValue').value, 10) || 0;
-        $('addValue').value = v0 + 10;
-        updateAddPreview();
-    } else if (act === 'add-minus') {
-        var v1 = parseInt($('addValue').value, 10) || 0;
-        var nv = v1 - 10;
-        if (nv < 1) nv = 1;
-        $('addValue').value = nv;
-        updateAddPreview();
-    } else if (act === 'edit-counter') {
-        var cc = cFind(t.dataset.cid);
-        if (cc) oCM(cc);
-    } else if (act === 'new-zikir') {
-        oCM(null);
-    } else if (act === 'c-filter') {
-        cView.filter = t.dataset.f;
-        rC();
-    } else if (act === 'c-clear-search') {
-        cView.q = '';
-        var inp = $('cSearch');
-        if (inp) { inp.value = ''; inp.focus(); }
-        t.classList.add('d-none');
-        cRenderResults();
     } else if (act === 'font') {
         apFS(parseFloat(t.dataset.fs));
         rSET();
@@ -293,24 +267,15 @@ function handleClick(e) {
         showPage('dashboard');
     } else if (act === 'goto-cur') {
         showPage('current');
-    } else if (act === 'goto-zikir') {
-        showPage('zikir');
     } else if (act === 'goto-old') {
         showPage('old');
     } else if (act === 'goto-settings') {
         showPage('settings');
+    } else if (act === 'goto-tasbeeh') {
+        showPage('tasbeeh');
     }
 }
 
 /* ---------- Input handlers ---------- */
 document.addEventListener('click', handleClick);
 
-document.addEventListener('input', function (e) {
-    if (!e.target) return;
-    if (e.target.id === 'cSearch') {
-        cView.q = e.target.value;
-        var cb = document.querySelector('[data-act="c-clear-search"]');
-        if (cb) cb.classList.toggle('d-none', cView.q.length === 0);
-        cRenderResults();
-    }
-});

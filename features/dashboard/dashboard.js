@@ -58,12 +58,6 @@ function rDashboard() {
         ? Math.round((1 - trackedMiss / (trackedDays * 5)) * 100)
         : 0;
 
-    var list = rdC();
-    var zTotal = 0, zTarget = 0;
-    list.forEach(function (c) { zTotal += c.count; zTarget += c.target; });
-    var zCount = list.length;
-    var zPct = zTarget > 0 ? Math.min(100, Math.round((zTotal / zTarget) * 100)) : 0;
-
     var prayerRow = P.map(function (p) {
         var done = todayData[p] === true;
         var ring = done ? '#dc3545' : '#1b7a4b';
@@ -120,17 +114,24 @@ function rDashboard() {
         '<i class="fa-solid fa-clock-rotate-left me-1"></i>' +
         (o ? (fr(o.start) + ' → ' + fr(o.end)) : (periodLabel + ' · last 30 days')) +
         '</div>' +
-        '</div>' +
+        '</div>';
 
-        '<div class="fw-bold mb-2 px-1" style="font-size:.75rem;color:#7a8b83;letter-spacing:1.5px">ZIKIR TRACKING</div>' +
-        '<div class="card shadow-sm rounded-4 p-3" role="button" data-act="goto-zikir" style="background:#fff;cursor:pointer">' +
-        '<div class="row g-2 mb-2">' +
-        summaryTile('Zikirs', zCount, '#6f42c1') +
-        summaryTile('Count', zTotal, '#1b7a4b') +
-        summaryTile('Progress', zPct + '%', '#cc7a00') +
+    var tbRaw = localStorage.getItem('app_tasbeeh_data');
+    var tbList = [];
+    try { tbList = JSON.parse(tbRaw) || []; } catch (_) { }
+    var tbToday = tbList.reduce(function (sum, it) { return sum + (it.totalCountToday || 0); }, 0);
+    var tbCount = tbList.length;
+
+    body.innerHTML +=
+        '<div class="fw-bold mb-2 px-1" style="font-size:.75rem;color:#7a8b83;letter-spacing:1.5px" data-ref="page.dashboard.tasbeeh.section-title">DIGITAL TASBEEH</div>' +
+        '<div class="card shadow-sm rounded-4 p-3 mb-3" role="button" data-act="goto-tasbeeh" style="background:#fff;cursor:pointer" data-ref="page.dashboard.tasbeeh-card">' +
+        '<div class="row g-2 mb-2" data-ref="page.dashboard.tasbeeh-card.stats">' +
+        summaryTile('Chants', tbCount, '#1b7a4b') +
+        summaryTile('Today', tbToday, '#ca8a04') +
+        summaryTile('Counter', '<i class="fa-solid fa-arrow-right"></i>', '#1b7a4b') +
         '</div>' +
-        '<div class="text-muted" style="font-size:.75rem">' +
-        '<i class="fa-solid fa-stopwatch me-1"></i>Total target ' + zTarget +
+        '<div class="text-muted" style="font-size:.75rem" data-ref="page.dashboard.tasbeeh-card.footer">' +
+        '<i class="fa-solid fa-hand-holding-heart me-1"></i>Tap to open Digital Tasbeeh' +
         '</div>' +
         '</div>';
 
