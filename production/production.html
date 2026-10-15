@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nur Prayer</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"><style>:root{--brand:#1b7a4b;--brand-light:#e8f4ed;--brand-soft:#f4f8f5;--bg:#e8f4ed;--bg-soft:#f5f9f6;--ink:#1a2b23;--ink-soft:#7a8b83;--ink-muted:#6b7a72;--danger:#dc3545;--danger-soft:#fde8e8;--success-soft:#d1e7dd;--warn:#cc7a00;--info:#0d6efd;--purple:#6f42c1;--border:#eef2f0;--divider:#d6dcd9}body{background:var(--bg);overflow:hidden}#app{max-width:480px;height:100vh;display:flex;flex-direction:column;overflow:hidden}.page{background:var(--bg);overflow:hidden}.app-header{padding:1rem;flex-shrink:0;background:#fff;border-bottom:1px solid var(--border)}.brand-title{font-weight:700;margin:0;font-size:1.35rem;color:var(--ink);letter-spacing:2px}.page-title{font-weight:700;margin:0;font-size:1.05rem;color:var(--ink);display:flex;align-items:center;gap:0.5rem}.page-sub{font-size:0.75rem;color:var(--ink-soft);margin-top:1px}.btn-action-round{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--brand);color:#fff;border:none}.btn-sheet-back{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--brand-soft);color:var(--brand);border:none}.app-bottom-nav{height:64px;background:#fff;border-top:1px solid var(--border)}.nav-tab{flex:1 1 0;background:transparent;border:none;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:700;color:var(--ink-soft);padding:0;transition:color 0.15s}.nav-tab span{font-size:0.65rem}.nav-tab.text-success{color:var(--brand) !important}.card{border:0}.summary-tile{padding:0.5rem;border-radius:10px;background:var(--brand-soft);text-align:center}.summary-tile .label{color:var(--ink-soft);font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.3px}.summary-tile .value{font-weight:700;font-size:1.2rem}.section-header{display:flex;align-items:center;gap:0.75rem;padding:0.75rem}.section-header .icon-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.95rem;flex-shrink:0}.section-header .title{font-weight:700;font-size:1.15rem;color:var(--ink)}.section-header .count{margin-left:auto;font-weight:700;font-size:1.3rem}.prayer-row{display:flex;align-items:center;padding:0.75rem;background:#fff;border-top:1px solid var(--border);cursor:pointer}.prayer-row .icon-circle-lg{width:52px;height:52px;border-radius:50%;background:var(--brand-soft);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}.prayer-row .name{font-weight:700;font-size:1.2rem;color:var(--ink)}.prayer-row .time{color:var(--ink-soft);font-size:0.95rem}.prayer-row .chevron{color:#c0c8c4;font-size:0.85rem;margin-left:0.75rem;flex-shrink:0}.badge-pill-custom{display:inline-flex;align-items:center;gap:0.35rem;padding:0.45rem 0.75rem;border-radius:50rem;font-weight:700;font-size:0.82rem}.badge-missed{background:var(--danger-soft);color:var(--danger)}.badge-notyet{background:#f1f3f2;color:var(--ink-muted)}.badge-done{background:var(--success-soft);color:#0f5132}.btn-brand{background:var(--brand);color:#fff;border:none;border-radius:12px;font-weight:700;padding:0 1.5rem;min-width:88px;height:52px;font-size:1rem}.btn-brand:hover{background:#166742;color:#fff}.btn-cancel-outline{background:#fff;color:var(--brand);border:1.5px solid #a3cfbb}.btn-pill-action{background:#fff;color:var(--brand);border:1px solid #a3cfbb;border-radius:50rem;font-weight:700;padding:0.5rem 0.75rem;font-size:0.82rem;display:inline-flex;align-items:center;gap:0.35rem}.btn-pill-today{background:var(--brand);color:#fff;border:none;border-radius:50rem;font-weight:700;padding:0.5rem 0.75rem;font-size:0.82rem;display:inline-flex;align-items:center;gap:0.35rem}.btn-pill-missed{background:var(--danger-soft);color:var(--danger);border:none;border-radius:50rem;font-weight:700;padding:0.5rem 0.75rem;font-size:0.82rem;display:inline-flex;align-items:center;gap:0.5rem}.field-group{display:flex;align-items:center;border:1.5px solid #e2e8e4;background:#fff;border-radius:10px;overflow:hidden}.field-group .form-control{box-shadow:none;height:52px;background:#fff;border:none}.field-icon{width:52px;height:52px;background:var(--brand-soft);color:var(--brand);border-right:1.5px solid #e2e8e4;display:flex;align-items:center;justify-content:center;flex-shrink:0}.form-label{font-weight:700;color:var(--ink);font-size:1rem}.btn-stepper{width:56px;height:56px;border-radius:14px;background:var(--brand);color:#fff;border:none;font-size:1.5rem;font-weight:700;flex-shrink:0;display:flex;align-items:center;justify-content:center}.add-value-input{font-size:1.6rem;background:#f8faf9}.modal-icon-badge{width:56px;height:56px;background:var(--brand-light);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}.sheet-title{font-weight:700;margin:0;font-size:1.05rem;color:var(--ink);display:flex;align-items:center;gap:0.5rem}.sheet-sub{font-size:0.75rem;color:var(--ink-soft);margin-top:1px}#sheet2{height:80vh;max-width:480px;margin:0 auto;z-index:1090}#sheet2Body{background:var(--bg);padding-bottom:40px !important}.progress{background:#e9ecef;border-radius:20px}.progress-bar{border-radius:20px;background:var(--brand)}.hidden-date-input{position:fixed;left:0;bottom:0;width:1px;height:1px;opacity:0;pointer-events:none;border:0;padding:0;z-index:-1}.current-card{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}.clock-big{font-size:4rem;font-weight:800;line-height:1;color:#0f3d2e;font-variant-numeric:tabular-nums;letter-spacing:-2px;text-align:center}.clock-big .small{font-size:2rem;color:var(--ink-soft)}.clock-big .ampm{font-size:1.4rem;color:var(--ink-soft);margin-left:8px;font-weight:700}.prayer-icon-circle{width:56px;height:56px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;border:2px solid var(--brand)}.prayer-label{font-size:0.72rem;color:var(--ink-soft);font-weight:700;letter-spacing:0.4px}.feature-card-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem}.tb-card{background:#fff;border-radius:16px;border:1px solid var(--border);transition:transform 0.15s ease,box-shadow 0.15s ease}.tb-card:active{transform:scale(0.99)}.tb-badge{width:48px;height:48px;border-radius:14px;background:var(--brand-light);color:var(--brand);font-size:1.5rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}.tb-arabic{font-size:1.25rem;font-family:'Amiri','Scheherazade New','Traditional Arabic',serif;color:var(--brand);line-height:1.4}.tb-meta{font-size:0.78rem;color:var(--ink-soft)}.tb-counter-overlay{position:absolute;inset:0;z-index:1085;background:var(--bg)}.tb-ring-wrap{position:relative;width:260px;height:260px;margin:0 auto;display:flex;align-items:center;justify-content:center}.tb-bead-svg{position:absolute;inset:0;width:100%;height:100%}.tb-bead{fill:var(--divider);transition:fill 0.2s ease,transform 0.2s ease;transform-origin:center}.tb-bead.on{fill:var(--brand);filter:drop-shadow(0 0 3px rgba(27,122,75,0.4))}.tb-bead.next{fill:var(--warn);animation:tbBeadPulse 1.2s infinite ease-in-out}@keyframes tbBeadPulse{0%,100%{transform:scale(1);opacity:0.8}50%{transform:scale(1.3);opacity:1}}.tb-ring-center{display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}.tb-center-count{font-size:3.5rem;font-weight:800;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-1px}.tb-center-target{font-size:0.85rem;font-weight:700;color:var(--ink-soft);letter-spacing:1px;text-transform:uppercase}.tb-tap-zone{width:100%;max-width:320px;height:96px;margin:0 auto;border-radius:24px;background:var(--brand);color:#fff;border:none;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(27,122,75,0.25);transition:transform 0.08s ease,background-color 0.15s ease;user-select:none;-webkit-user-select:none}.tb-tap-zone:active{transform:scale(0.97)}.tb-tap-zone.done{background:#0f5132}.tb-ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.35);transform:scale(0);animation:tbRippleAnim 0.6s linear;pointer-events:none}@keyframes tbRippleAnim{to{transform:scale(3.5);opacity:0}}.tb-chip{border:1.5px solid var(--border);background:#fff;border-radius:10px;padding:0.5rem 0.85rem;font-weight:700;font-size:0.9rem;color:var(--ink);transition:all 0.15s ease}.tb-chip.active{background:var(--brand-light);border-color:var(--brand);color:var(--brand)}.tb-ctrl-btn{border-radius:12px;padding:0.6rem 0.75rem;font-weight:700;font-size:0.82rem;background:#fff;border:1px solid var(--border);color:var(--ink);display:inline-flex;align-items:center;gap:0.4rem;transition:background-color 0.15s}.tb-ctrl-btn:hover,.tb-ctrl-btn:active{background:var(--brand-soft)}.tb-ctrl-btn.active{background:var(--brand-light);border-color:var(--brand);color:var(--brand)}.tb-toast-wrap{position:absolute;top:72px;left:50%;transform:translateX(-50%);z-index:1099;background:var(--ink);color:#fff;font-weight:700;font-size:0.85rem;padding:0.6rem 1.25rem;border-radius:50rem;box-shadow:0 4px 12px rgba(0,0,0,0.15);pointer-events:none;opacity:0;transition:opacity 0.2s ease;white-space:nowrap}.tb-toast-wrap.show{opacity:1}</style></head><body><div class="container p-0 position-relative mx-auto" id="app"><div id="dashboardPage" class="d-flex flex-column flex-grow-1 page"><header class="app-header"><h1 class="brand-title">NUR PRAYER</h1></header><div class="flex-grow-1 overflow-auto px-2 pt-3" id="dashScroll" style="padding-bottom:24px"><div id="dashBody"></div></div></div><div id="currentPage" class="d-none flex-column flex-grow-1 page"><header class="app-header d-flex align-items-center gap-2"><div class="flex-grow-1 min-w-0"><h5 class="page-title"><i class="fa-regular fa-calendar" style="color:#1b7a4b"></i><span>Current Prayer</span></h5><div id="currentSub" class="page-sub"></div></div><button type="button" class="btn-action-round" id="currentActionBtn"><i class="fa-regular fa-calendar-days fs-5"></i></button></header><div class="flex-grow-1 overflow-auto p-3" id="currentBody" style="padding-bottom:20px"></div></div><div id="oldPage" class="d-none flex-column flex-grow-1 page"><header class="app-header d-flex align-items-center gap-2"><div class="flex-grow-1 min-w-0"><h5 class="page-title"><i class="fa-solid fa-clock-rotate-left" style="color:#cc7a00"></i><span>Old Tracking</span></h5><div id="oldSub" class="page-sub">Select a period to begin</div></div><button type="button" class="btn-action-round" id="oldActionBtn"><i class="fa-solid fa-bookmark fs-5"></i></button></header><div class="flex-grow-1 overflow-auto p-3" id="oldBody" style="padding-bottom:20px"></div></div><div id="settingsPage" class="d-none flex-column flex-grow-1 page"><header class="app-header d-flex align-items-center gap-2"><div class="flex-grow-1 min-w-0"><h5 class="page-title"><i class="fa-solid fa-gear" style="color:#1b7a4b"></i><span>Settings</span></h5><div class="page-sub">App preferences</div></div></header><div class="flex-grow-1 overflow-auto p-3" id="settingsBody" style="padding-bottom:20px"></div></div><div id="tasbeehPage" class="d-none flex-column flex-grow-1 page" data-ref="page.tasbeeh"><header class="app-header d-flex align-items-center gap-2" data-ref="page.tasbeeh.header"><div class="flex-grow-1 min-w-0" data-ref="page.tasbeeh.header.info"><h5 class="page-title" data-ref="page.tasbeeh.header.title"><i class="fa-solid fa-hand-holding-heart text-success" data-ref="page.tasbeeh.header.icon"></i><span data-ref="page.tasbeeh.header.label">Digital Tasbeeh</span></h5><div class="page-sub" data-ref="page.tasbeeh.header.sub">Dhikr counter &amp; tracker</div></div><button type="button" class="btn-action-round" id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add Dhikr"><i class="fa-solid fa-plus fs-5" data-ref="page.tasbeeh.header.add-icon"></i></button></header><div class="flex-grow-1 overflow-auto p-3" id="tasbeehBody" data-ref="page.tasbeeh.body" style="padding-bottom:24px"><div class="card p-3 mb-3 border-0 shadow-sm rounded-4 bg-white" data-ref="page.tasbeeh.summary"><div class="d-flex align-items-center justify-content-between" data-ref="page.tasbeeh.summary.row"><div class="d-flex align-items-center gap-2" data-ref="page.tasbeeh.summary.icon-title"><span class="modal-icon-badge" style="width:40px;height:40px" data-ref="page.tasbeeh.summary.icon"><i class="fa-solid fa-sparkles text-success fs-5"></i></span><div><div class="fw-bold fs-6 text-gr1" data-ref="page.tasbeeh.summary.title">Today's Recitations</div><div class="small text-muted" data-ref="page.tasbeeh.summary.subtitle">Total chants recorded today</div></div></div><div class="fw-bold fs-3 text-success" id="tbTodayTotal" data-ref="page.tasbeeh.summary.total">0</div></div></div><div id="tbList" class="d-flex flex-column gap-3" data-ref="page.tasbeeh.list"></div><div id="tbEmptyState" class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white d-none" data-ref="page.tasbeeh.empty-state"><div class="mb-3" data-ref="page.tasbeeh.empty-state.icon-wrap"><i class="fa-solid fa-hand-holding-heart fs-1 text-muted opacity-50" data-ref="page.tasbeeh.empty-state.icon"></i></div><h5 class="fw-bold text-gr1 mb-1" data-ref="page.tasbeeh.empty-state.title">No Dhikr Yet</h5><p class="text-muted small mb-0" data-ref="page.tasbeeh.empty-state.text">Tap “+” above to add your first chant and begin counting.</p></div></div></div><div id="tasbeehCounterView" class="d-none flex-column flex-grow-1 tb-counter-overlay" data-ref="page.tasbeeh.counter"><header class="app-header d-flex align-items-center gap-2" data-ref="page.tasbeeh.counter.header"><button type="button" class="btn-sheet-back" id="tbBtnBack" data-ref="page.tasbeeh.counter.back-btn" title="Back"><i class="fa-solid fa-arrow-left fs-5" data-ref="page.tasbeeh.counter.back-icon"></i></button><div class="flex-grow-1 min-w-0 text-center" data-ref="page.tasbeeh.counter.header-center"><h5 class="page-title justify-content-center text-truncate mb-0" id="tbCounterTopTitle" data-ref="page.tasbeeh.counter.header-title">Counter</h5></div><button type="button" class="btn-pill-action" id="tbBtnEditActive" data-ref="page.tasbeeh.counter.edit-btn" title="Edit active chant"><i class="fa-solid fa-pen" data-ref="page.tasbeeh.counter.edit-icon"></i><span data-ref="page.tasbeeh.counter.edit-label">Edit</span></button></header><div class="flex-grow-1 d-flex flex-column align-items-center justify-content-between p-3 overflow-auto" data-ref="page.tasbeeh.counter.body"><div class="text-center w-100 pt-2" data-ref="page.tasbeeh.counter.chant-info"><h3 class="fw-bold text-gr1 mb-2 text-truncate" id="tbCounterTitle" data-ref="page.tasbeeh.counter.chant-title">—</h3><div class="badge-pill-custom badge-done" id="tbCounterCycle" data-ref="page.tasbeeh.counter.cycle-badge">Cycle 1 / 3</div></div><div class="tb-ring-wrap my-2" data-ref="page.tasbeeh.counter.ring-wrap"><svg id="tbBeadSvg" class="tb-bead-svg" viewBox="0 0 260 260" aria-hidden="true" data-ref="page.tasbeeh.counter.ring-svg"><circle cx="130" cy="130" r="104" fill="none" stroke="rgba(27,122,75,0.1)" stroke-width="1.5" data-ref="page.tasbeeh.counter.ring-circle" /><g id="tbBeadGroup" data-ref="page.tasbeeh.counter.bead-group"></g></svg><div class="tb-ring-center" data-ref="page.tasbeeh.counter.ring-center"><span id="tbCounterCount" class="tb-center-count" data-ref="page.tasbeeh.counter.count-text">0</span><span id="tbCounterTarget" class="tb-center-target" data-ref="page.tasbeeh.counter.target-text">OF 33</span></div></div><button id="tbTapZone" class="tb-tap-zone" type="button" aria-label="Increment count" data-ref="page.tasbeeh.counter.tap-target"><i class="fa-solid fa-hand-pointer fs-3 mb-1" data-ref="page.tasbeeh.counter.tap-icon"></i><span id="tbTapLabel" class="fw-bold fs-5" data-ref="page.tasbeeh.counter.tap-label">TAP (+1)</span><small class="opacity-75" style="font-size:0.7rem" data-ref="page.tasbeeh.counter.tap-hint">Tap anywhere in box</small></button><div class="text-muted d-flex align-items-center gap-2 small fw-semibold my-2" data-ref="page.tasbeeh.counter.session-line"><span id="tbSessionTimer" data-ref="page.tasbeeh.counter.session-time"><i class="fa-regular fa-clock me-1"></i>00:00</span><span data-ref="page.tasbeeh.counter.session-divider">•</span><span id="tbSessionToday" data-ref="page.tasbeeh.counter.session-today">Today 0</span></div><div class="d-flex align-items-center justify-content-center gap-2 w-100" id="tbCounterControls" data-ref="page.tasbeeh.counter.controls"><button type="button" class="tb-ctrl-btn flex-fill justify-content-center" data-act="tb-reset" data-ref="page.tasbeeh.counter.reset-btn" title="Reset counter"><i class="fa-solid fa-rotate-right" data-ref="page.tasbeeh.counter.reset-icon"></i><span data-ref="page.tasbeeh.counter.reset-label">Reset</span></button><button type="button" class="tb-ctrl-btn flex-fill justify-content-center" data-act="tb-undo" data-ref="page.tasbeeh.counter.undo-btn" title="Undo count"><i class="fa-solid fa-rotate-left" data-ref="page.tasbeeh.counter.undo-icon"></i><span data-ref="page.tasbeeh.counter.undo-label">Undo</span></button></div></div></div><nav class="navbar app-bottom-nav flex-shrink-0"><div class="container-fluid p-0 h-100"><div class="d-flex w-100 h-100"><button class="nav-tab" id="navHome" data-act="go-home"><i class="fa-solid fa-house fs-4"></i><span>Home</span></button><button class="nav-tab" id="navCur" data-act="goto-cur"><i class="fa-regular fa-calendar fs-4"></i><span>Current</span></button><button class="nav-tab" id="navTasbeeh" data-act="goto-tasbeeh" data-ref="component.navbar.tasbeeh-tab"><i class="fa-solid fa-hand-holding-heart fs-4" data-ref="component.navbar.tasbeeh-icon"></i><span data-ref="component.navbar.tasbeeh-label">Tasbeeh</span></button><button class="nav-tab" id="navOld" data-act="goto-old"><i class="fa-solid fa-clock-rotate-left fs-4"></i><span>Old</span></button><button class="nav-tab" id="navSet" data-act="goto-settings"><i class="fa-solid fa-gear fs-4"></i><span>Settings</span></button></div></div></nav><div class="offcanvas offcanvas-bottom rounded-top-4" tabindex="-1" id="sheet2" data-bs-scroll="true"
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nur Prayer</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"><style>:root{--whole-bg:#f8f9fa;--gr-bg:#ffffff;--gr-bg-whole:#ffffff;--gr-bg-soft:#f4f5f7;--gr-bg-ticker:#f8f9fb;--gr-input-bg:#f9fafb;--gr-text:#6b7280;--gr-text1:#1f2937;--gr-text2:#2d3748;--gr-text-body:#4b5563;--gr-text-muted:#4b5563;--gr-muted:#6b7280;--gray150:#f0f1f3;--gr-border:#f0f1f3;--gr-border-strong:#e4e6ea;--gr-border-calc:#bbf7d0;--gr-primary:#159b5a;--gr-primary-dark:#08653a;--gr-secondary:#0a7d44;--gr-accent:#159b5a;--gr-accent-hover:#08653a;--gr-accent-soft:#e6f5ec;--gr-accent-gold:#ca8a04;--gr-active-bg:#0a7d44;--gr-warning:#ca8a04;--gr-warning-bg:#fff8d6;--gr-danger:#ef4444;--gr-danger-soft:#fce8e6;--gr-pill-down-text:#ef4444;--gr-success:#159b5a;--gr-success-soft:#e6f5ec;--gr-orange:#ea580c;--blue500:#1e40af;--blue500-soft:#dbeafe;--gr-row-hover:#ededee;--gr-active:#0a7d44;--gr-hover:#f4f5f7;--gr-shadow-color:rgba(0,0,0,0.06);--gr-header-shadow:rgba(0,0,0,0.15);--gr-btn-shadow:rgba(21,155,90,0.3);--gr-btn-shadow-hover:rgba(21,155,90,0.45)}.bg-whole{background-color:var(--whole-bg) !important}.bg-gr{background-color:var(--gr-bg) !important}.bg-gr-soft{background-color:var(--gr-bg-soft) !important}.bg-gr-ticker{background-color:var(--gr-bg-ticker) !important}.bg-gr-input{background-color:var(--gr-input-bg) !important}.bg-gr-accent-soft{background-color:var(--gr-accent-soft) !important}.bg-gr-active{background-color:var(--gr-active-bg) !important}.bg-gr-danger-soft{background-color:var(--gr-danger-soft) !important}.bg-gr-success-soft{background-color:var(--gr-success-soft) !important}.bg-gr-warning-bg{background-color:var(--gr-warning-bg) !important}.bg-blue500-soft{background-color:var(--blue500-soft) !important}.bg-gr-header{background:linear-gradient(135deg,var(--gr-primary),var(--gr-secondary)) !important}.bg-gr-primary{background-color:var(--gr-primary) !important}.text-gr{color:var(--gr-text) !important}.text-gr1{color:var(--gr-text1) !important}.text-gr-muted{color:var(--gr-text-muted) !important}.text-gr-accent{color:var(--gr-accent) !important}.text-gr-accent-hover{color:var(--gr-accent-hover) !important}.text-gr-danger{color:var(--gr-danger) !important}.text-gr-success{color:var(--gr-success) !important}.text-gr-pill-down{color:var(--gr-pill-down-text) !important}.text-gr-warning{color:var(--gr-warning) !important}.text-gr-orange{color:var(--gr-orange) !important}.text-blue500{color:var(--blue500) !important}.text-gr-gold{color:var(--gr-accent-gold) !important}.border-gr{border-color:var(--gr-border) !important}.border-gr-strong{border-color:var(--gr-border-strong) !important}.border-gr-calc{border-color:var(--gr-border-calc) !important}#btnSubmitForm:disabled,.btn.bg-gr-primary:disabled{background-color:var(--gr-border-strong) !important;border:1px solid var(--gr-border-calc) !important;color:var(--gr-muted) !important;opacity:0.85;cursor:not-allowed;box-shadow:none !important}#btnSubmitForm:disabled i,.btn.bg-gr-primary:disabled i{color:var(--gr-muted) !important}:root{--brand:#1b7a4b;--brand-light:#e8f4ed;--brand-soft:#f4f8f5;--bg:#e8f4ed;--bg-soft:#f5f9f6;--ink:#1a2b23;--ink-soft:#7a8b83;--ink-muted:#6b7a72;--danger:#dc3545;--danger-soft:#fde8e8;--success-soft:#d1e7dd;--warn:#cc7a00;--info:#0d6efd;--purple:#6f42c1;--border:#eef2f0;--divider:#d6dcd9}body{background:var(--bg);overflow:hidden}#app{max-width:480px;height:100vh;display:flex;flex-direction:column;overflow:hidden}.page{background:var(--bg);overflow:hidden}.app-header{padding:1rem;flex-shrink:0;background:#fff;border-bottom:1px solid var(--border)}.brand-title{font-weight:700;margin:0;font-size:1.35rem;color:var(--ink);letter-spacing:2px}.page-title{font-weight:700;margin:0;font-size:1.05rem;color:var(--ink);display:flex;align-items:center;gap:0.5rem}.page-sub{font-size:0.75rem;color:var(--ink-soft);margin-top:1px}.btn-action-round{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--brand);color:#fff;border:none}.btn-sheet-back{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--brand-soft);color:var(--brand);border:none}.app-bottom-nav{height:64px;background:#fff;border-top:1px solid var(--border)}.nav-tab{flex:1 1 0;background:transparent;border:none;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:700;color:var(--ink-soft);padding:0;transition:color 0.15s}.nav-tab span{font-size:0.65rem}.nav-tab.text-success{color:var(--brand) !important}.card{border:0}.summary-tile{padding:0.5rem;border-radius:10px;background:var(--brand-soft);text-align:center}.summary-tile .label{color:var(--ink-soft);font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.3px}.summary-tile .value{font-weight:700;font-size:1.2rem}.section-header{display:flex;align-items:center;gap:0.75rem;padding:0.75rem}.section-header .icon-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.95rem;flex-shrink:0}.section-header .title{font-weight:700;font-size:1.15rem;color:var(--ink)}.section-header .count{margin-left:auto;font-weight:700;font-size:1.3rem}.prayer-row{display:flex;align-items:center;padding:0.75rem;background:#fff;border-top:1px solid var(--border);cursor:pointer}.prayer-row .icon-circle-lg{width:52px;height:52px;border-radius:50%;background:var(--brand-soft);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}.prayer-row .name{font-weight:700;font-size:1.2rem;color:var(--ink)}.prayer-row .time{color:var(--ink-soft);font-size:0.95rem}.prayer-row .chevron{color:#c0c8c4;font-size:0.85rem;margin-left:0.75rem;flex-shrink:0}.badge-pill-custom{display:inline-flex;align-items:center;gap:0.35rem;padding:0.45rem 0.75rem;border-radius:50rem;font-weight:700;font-size:0.82rem}.badge-missed{background:var(--danger-soft);color:var(--danger)}.badge-notyet{background:#f1f3f2;color:var(--ink-muted)}.badge-done{background:var(--success-soft);color:#0f5132}.btn-brand{background:var(--brand);color:#fff;border:none;border-radius:12px;font-weight:700;padding:0 1.5rem;min-width:88px;height:52px;font-size:1rem}.btn-brand:hover{background:#166742;color:#fff}.btn-cancel-outline{background:#fff;color:var(--brand);border:1.5px solid #a3cfbb}.btn-pill-action{background:#fff;color:var(--brand);border:1px solid #a3cfbb;border-radius:50rem;font-weight:700;padding:0.5rem 0.75rem;font-size:0.82rem;display:inline-flex;align-items:center;gap:0.35rem}.btn-pill-today{background:var(--brand);color:#fff;border:none;border-radius:50rem;font-weight:700;padding:0.5rem 0.75rem;font-size:0.82rem;display:inline-flex;align-items:center;gap:0.35rem}.btn-pill-missed{background:var(--danger-soft);color:var(--danger);border:none;border-radius:50rem;font-weight:700;padding:0.5rem 0.75rem;font-size:0.82rem;display:inline-flex;align-items:center;gap:0.5rem}.field-group{display:flex;align-items:center;border:1.5px solid #e2e8e4;background:#fff;border-radius:10px;overflow:hidden}.field-group .form-control{box-shadow:none;height:52px;background:#fff;border:none}.field-icon{width:52px;height:52px;background:var(--brand-soft);color:var(--brand);border-right:1.5px solid #e2e8e4;display:flex;align-items:center;justify-content:center;flex-shrink:0}.form-label{font-weight:700;color:var(--ink);font-size:1rem}.btn-stepper{width:56px;height:56px;border-radius:14px;background:var(--brand);color:#fff;border:none;font-size:1.5rem;font-weight:700;flex-shrink:0;display:flex;align-items:center;justify-content:center}.add-value-input{font-size:1.6rem;background:#f8faf9}.modal-icon-badge{width:56px;height:56px;background:var(--brand-light);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}.sheet-title{font-weight:700;margin:0;font-size:1.05rem;color:var(--ink);display:flex;align-items:center;gap:0.5rem}.sheet-sub{font-size:0.75rem;color:var(--ink-soft);margin-top:1px}#sheet2{height:80vh;max-width:480px;margin:0 auto;z-index:1090}#sheet2Body{background:var(--bg);padding-bottom:40px !important}.progress{background:#e9ecef;border-radius:20px}.progress-bar{border-radius:20px;background:var(--brand)}.hidden-date-input{position:fixed;left:0;bottom:0;width:1px;height:1px;opacity:0;pointer-events:none;border:0;padding:0;z-index:-1}.current-card{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}.clock-big{font-size:4rem;font-weight:800;line-height:1;color:#0f3d2e;font-variant-numeric:tabular-nums;letter-spacing:-2px;text-align:center}.clock-big .small{font-size:2rem;color:var(--ink-soft)}.clock-big .ampm{font-size:1.4rem;color:var(--ink-soft);margin-left:8px;font-weight:700}.prayer-icon-circle{width:56px;height:56px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;border:2px solid var(--brand)}.prayer-label{font-size:0.72rem;color:var(--ink-soft);font-weight:700;letter-spacing:0.4px}.feature-card-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem}.tb-card{background:#fff;border-radius:16px;border:1px solid var(--border);transition:transform 0.15s ease,box-shadow 0.15s ease}.tb-card:active{transform:scale(0.99)}.tb-badge{width:48px;height:48px;border-radius:14px;background:var(--brand-light);color:var(--brand);font-size:1.5rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}.tb-arabic{font-size:1.25rem;font-family:'Amiri','Scheherazade New','Traditional Arabic',serif;color:var(--brand);line-height:1.4}.tb-meta{font-size:0.78rem;color:var(--ink-soft)}.tb-counter-overlay{position:absolute;inset:0;z-index:1085;background:var(--bg)}.tb-ring-wrap{position:relative;width:260px;height:260px;margin:0 auto;display:flex;align-items:center;justify-content:center}.tb-bead-svg{position:absolute;inset:0;width:100%;height:100%}.tb-bead{fill:var(--divider);transition:fill 0.2s ease,transform 0.2s ease;transform-origin:center}.tb-bead.on{fill:var(--brand);filter:drop-shadow(0 0 3px rgba(27,122,75,0.4))}.tb-bead.next{fill:var(--warn);animation:tbBeadPulse 1.2s infinite ease-in-out}@keyframes tbBeadPulse{0%,100%{transform:scale(1);opacity:0.8}50%{transform:scale(1.3);opacity:1}}.tb-ring-center{display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}.tb-center-count{font-size:3.5rem;font-weight:800;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-1px}.tb-center-target{font-size:0.85rem;font-weight:700;color:var(--ink-soft);letter-spacing:1px;text-transform:uppercase}.tb-tap-zone{width:100%;max-width:320px;height:96px;margin:0 auto;border-radius:24px;background:var(--brand);color:#fff;border:none;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(27,122,75,0.25);transition:transform 0.08s ease,background-color 0.15s ease;user-select:none;-webkit-user-select:none}.tb-tap-zone:active{transform:scale(0.97)}.tb-tap-zone.done{background:#0f5132}.tb-ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.35);transform:scale(0);animation:tbRippleAnim 0.6s linear;pointer-events:none}@keyframes tbRippleAnim{to{transform:scale(3.5);opacity:0}}.tb-chip{border:1.5px solid var(--border);background:#fff;border-radius:10px;padding:0.5rem 0.85rem;font-weight:700;font-size:0.9rem;color:var(--ink);transition:all 0.15s ease}.tb-chip.active{background:var(--brand-light);border-color:var(--brand);color:var(--brand)}.tb-ctrl-btn{border-radius:12px;padding:0.6rem 0.75rem;font-weight:700;font-size:0.82rem;background:#fff;border:1px solid var(--border);color:var(--ink);display:inline-flex;align-items:center;gap:0.4rem;transition:background-color 0.15s}.tb-ctrl-btn:hover,.tb-ctrl-btn:active{background:var(--brand-soft)}.tb-ctrl-btn.active{background:var(--brand-light);border-color:var(--brand);color:var(--brand)}.tb-toast-wrap{position:absolute;top:72px;left:50%;transform:translateX(-50%);z-index:1099;background:var(--ink);color:#fff;font-weight:700;font-size:0.85rem;padding:0.6rem 1.25rem;border-radius:50rem;box-shadow:0 4px 12px rgba(0,0,0,0.15);pointer-events:none;opacity:0;transition:opacity 0.2s ease;white-space:nowrap}.tb-toast-wrap.show{opacity:1}</style></head><body><div class="container p-0 position-relative mx-auto" id="app"><div id="dashboardPage" class="d-flex flex-column flex-grow-1 page"><header class="app-header"><h1 class="brand-title">NUR PRAYER</h1></header><div class="flex-grow-1 overflow-auto px-2 pt-3" id="dashScroll" style="padding-bottom:24px"><div id="dashBody"></div></div></div><div id="currentPage" class="d-none flex-column flex-grow-1 page"><header class="app-header d-flex align-items-center gap-2"><div class="flex-grow-1 min-w-0"><h5 class="page-title"><i class="fa-regular fa-calendar" style="color:#1b7a4b"></i><span>Current Prayer</span></h5><div id="currentSub" class="page-sub"></div></div><button type="button" class="btn-action-round" id="currentActionBtn"><i class="fa-regular fa-calendar-days fs-5"></i></button></header><div class="flex-grow-1 overflow-auto p-3" id="currentBody" style="padding-bottom:20px"></div></div><div id="oldPage" class="d-none flex-column flex-grow-1 page"><header class="app-header d-flex align-items-center gap-2"><div class="flex-grow-1 min-w-0"><h5 class="page-title"><i class="fa-solid fa-clock-rotate-left" style="color:#cc7a00"></i><span>Old Tracking</span></h5><div id="oldSub" class="page-sub">Select a period to begin</div></div><button type="button" class="btn-action-round" id="oldActionBtn"><i class="fa-solid fa-bookmark fs-5"></i></button></header><div class="flex-grow-1 overflow-auto p-3" id="oldBody" style="padding-bottom:20px"></div></div><div id="settingsPage" class="d-none flex-column flex-grow-1 page"><header class="app-header d-flex align-items-center gap-2"><div class="flex-grow-1 min-w-0"><h5 class="page-title"><i class="fa-solid fa-gear" style="color:#1b7a4b"></i><span>Settings</span></h5><div class="page-sub">App preferences</div></div></header><div class="flex-grow-1 overflow-auto p-3" id="settingsBody" style="padding-bottom:20px"></div></div><div id="tasbeehPage" class="d-none flex-column flex-grow-1 page" data-ref="page.tasbeeh"><header class="app-header d-flex align-items-center gap-2" data-ref="page.tasbeeh.header"><div class="flex-grow-1 min-w-0" data-ref="page.tasbeeh.header.info"><h5 class="page-title" data-ref="page.tasbeeh.header.title"><i class="fa-solid fa-hand-holding-heart text-success" data-ref="page.tasbeeh.header.icon"></i><span data-ref="page.tasbeeh.header.label">Digital Tasbeeh</span></h5><div class="page-sub" data-ref="page.tasbeeh.header.sub">Dhikr counter &amp; tracker</div></div><button type="button" class="btn-action-round" id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add Dhikr"><i class="fa-solid fa-plus fs-5" data-ref="page.tasbeeh.header.add-icon"></i></button></header><div class="flex-grow-1 overflow-auto p-3" id="tasbeehBody" data-ref="page.tasbeeh.body" style="padding-bottom:24px"><div class="card p-3 mb-3 border-0 shadow-sm rounded-4 bg-white" data-ref="page.tasbeeh.summary"><div class="d-flex align-items-center justify-content-between" data-ref="page.tasbeeh.summary.row"><div class="d-flex align-items-center gap-2" data-ref="page.tasbeeh.summary.icon-title"><span class="modal-icon-badge" style="width:40px;height:40px" data-ref="page.tasbeeh.summary.icon"><i class="fa-solid fa-sparkles text-success fs-5"></i></span><div><div class="fw-bold fs-6 text-gr1" data-ref="page.tasbeeh.summary.title">Today's Recitations</div><div class="small text-muted" data-ref="page.tasbeeh.summary.subtitle">Total chants recorded today</div></div></div><div class="fw-bold fs-3 text-success" id="tbTodayTotal" data-ref="page.tasbeeh.summary.total">0</div></div></div><div id="tbList" class="d-flex flex-column gap-3" data-ref="page.tasbeeh.list"></div><div id="tbEmptyState" class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white d-none" data-ref="page.tasbeeh.empty-state"><div class="mb-3" data-ref="page.tasbeeh.empty-state.icon-wrap"><i class="fa-solid fa-hand-holding-heart fs-1 text-muted opacity-50" data-ref="page.tasbeeh.empty-state.icon"></i></div><h5 class="fw-bold text-gr1 mb-1" data-ref="page.tasbeeh.empty-state.title">No Dhikr Yet</h5><p class="text-muted small mb-0" data-ref="page.tasbeeh.empty-state.text">Tap “+” above to add your first chant and begin counting.</p></div></div></div><div id="tasbeehCounterView" class="d-none flex-column flex-grow-1 tb-counter-overlay" data-ref="page.tasbeeh.counter"><header class="app-header d-flex align-items-center gap-2" data-ref="page.tasbeeh.counter.header"><button type="button" class="btn-sheet-back" id="tbBtnBack" data-ref="page.tasbeeh.counter.back-btn" title="Back"><i class="fa-solid fa-arrow-left fs-5" data-ref="page.tasbeeh.counter.back-icon"></i></button><div class="flex-grow-1 min-w-0 text-center" data-ref="page.tasbeeh.counter.header-center"><h5 class="page-title justify-content-center text-truncate mb-0" id="tbCounterTopTitle" data-ref="page.tasbeeh.counter.header-title">Counter</h5></div><button type="button" class="btn-pill-action" id="tbBtnEditActive" data-ref="page.tasbeeh.counter.edit-btn" title="Edit active chant"><i class="fa-solid fa-pen" data-ref="page.tasbeeh.counter.edit-icon"></i><span data-ref="page.tasbeeh.counter.edit-label">Edit</span></button></header><div class="flex-grow-1 d-flex flex-column align-items-center justify-content-between p-3 overflow-auto" data-ref="page.tasbeeh.counter.body"><div class="text-center w-100 pt-2" data-ref="page.tasbeeh.counter.chant-info"><h3 class="fw-bold text-gr1 mb-2 text-truncate" id="tbCounterTitle" data-ref="page.tasbeeh.counter.chant-title">—</h3><div class="badge-pill-custom badge-done" id="tbCounterCycle" data-ref="page.tasbeeh.counter.cycle-badge">Cycle 1 / 3</div></div><div class="tb-ring-wrap my-2" data-ref="page.tasbeeh.counter.ring-wrap"><svg id="tbBeadSvg" class="tb-bead-svg" viewBox="0 0 260 260" aria-hidden="true" data-ref="page.tasbeeh.counter.ring-svg"><circle cx="130" cy="130" r="104" fill="none" stroke="rgba(27,122,75,0.1)" stroke-width="1.5" data-ref="page.tasbeeh.counter.ring-circle" /><g id="tbBeadGroup" data-ref="page.tasbeeh.counter.bead-group"></g></svg><div class="tb-ring-center" data-ref="page.tasbeeh.counter.ring-center"><span id="tbCounterCount" class="tb-center-count" data-ref="page.tasbeeh.counter.count-text">0</span><span id="tbCounterTarget" class="tb-center-target" data-ref="page.tasbeeh.counter.target-text">OF 33</span></div></div><button id="tbTapZone" class="tb-tap-zone" type="button" aria-label="Increment count" data-ref="page.tasbeeh.counter.tap-target"><i class="fa-solid fa-hand-pointer fs-3 mb-1" data-ref="page.tasbeeh.counter.tap-icon"></i><span id="tbTapLabel" class="fw-bold fs-5" data-ref="page.tasbeeh.counter.tap-label">TAP (+1)</span><small class="opacity-75" style="font-size:0.7rem" data-ref="page.tasbeeh.counter.tap-hint">Tap anywhere in box</small></button><div class="text-muted d-flex align-items-center gap-2 small fw-semibold my-2" data-ref="page.tasbeeh.counter.session-line"><span id="tbSessionTimer" data-ref="page.tasbeeh.counter.session-time"><i class="fa-regular fa-clock me-1"></i>00:00</span><span data-ref="page.tasbeeh.counter.session-divider">•</span><span id="tbSessionToday" data-ref="page.tasbeeh.counter.session-today">Today 0</span></div><div class="d-flex align-items-center justify-content-center gap-2 w-100" id="tbCounterControls" data-ref="page.tasbeeh.counter.controls"><button type="button" class="tb-ctrl-btn flex-fill justify-content-center" data-act="tb-reset" data-ref="page.tasbeeh.counter.reset-btn" title="Reset counter"><i class="fa-solid fa-rotate-right" data-ref="page.tasbeeh.counter.reset-icon"></i><span data-ref="page.tasbeeh.counter.reset-label">Reset</span></button><button type="button" class="tb-ctrl-btn flex-fill justify-content-center" data-act="tb-undo" data-ref="page.tasbeeh.counter.undo-btn" title="Undo count"><i class="fa-solid fa-rotate-left" data-ref="page.tasbeeh.counter.undo-icon"></i><span data-ref="page.tasbeeh.counter.undo-label">Undo</span></button></div></div></div><nav class="navbar app-bottom-nav flex-shrink-0"><div class="container-fluid p-0 h-100"><div class="d-flex w-100 h-100"><button class="nav-tab" id="navHome" data-act="go-home"><i class="fa-solid fa-house fs-4"></i><span>Home</span></button><button class="nav-tab" id="navCur" data-act="goto-cur"><i class="fa-regular fa-calendar fs-4"></i><span>Current</span></button><button class="nav-tab" id="navTasbeeh" data-act="goto-tasbeeh" data-ref="component.navbar.tasbeeh-tab"><i class="fa-solid fa-hand-holding-heart fs-4" data-ref="component.navbar.tasbeeh-icon"></i><span data-ref="component.navbar.tasbeeh-label">Tasbeeh</span></button><button class="nav-tab" id="navOld" data-act="goto-old"><i class="fa-solid fa-clock-rotate-left fs-4"></i><span>Old</span></button><button class="nav-tab" id="navSet" data-act="goto-settings"><i class="fa-solid fa-gear fs-4"></i><span>Settings</span></button></div></div></nav><div class="offcanvas offcanvas-bottom rounded-top-4" tabindex="-1" id="sheet2" data-bs-scroll="true"
 data-bs-backdrop="true"><div class="offcanvas-header border-bottom py-3 d-flex align-items-center gap-2 px-3"><button type="button" class="btn-sheet-back" data-bs-dismiss="offcanvas"><i class="fa-solid fa-arrow-left fs-5"></i></button><div class="flex-grow-1 min-w-0"><h5 class="offcanvas-title sheet-title"><i id="sheet2Icon" class="fa-solid fa-clipboard-list" style="color:#1b7a4b"></i><span id="sheet2Title" class="text-truncate">—</span></h5><div id="sheet2Sub" class="sheet-sub text-truncate"></div></div></div><div class="offcanvas-body p-3" id="sheet2Body"></div></div><input type="date" id="dp" tabindex="-1" aria-hidden="true" class="hidden-date-input"><div class="modal fade" id="tasbeehModal" tabindex="-1" data-ref="component.modal.tasbeeh"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width:440px" data-ref="component.modal.tasbeeh.dialog"><div class="modal-content rounded-4 border-0 shadow" data-ref="component.modal.tasbeeh.content"><div class="modal-header border-0 pb-0 align-items-center gap-3 pt-4 px-4" data-ref="component.modal.tasbeeh.header"><span class="modal-icon-badge" data-ref="component.modal.tasbeeh.badge"><i class="fa-solid fa-hand-holding-heart fs-3 text-success" data-ref="component.modal.tasbeeh.badge-icon"></i></span><h5 class="modal-title fw-bold fs-4 flex-grow-1 mb-0" id="tbModalTitle" data-ref="component.modal.tasbeeh.title">Add New Dhikr</h5><button type="button" class="btn-close" data-bs-dismiss="modal" data-ref="component.modal.tasbeeh.close-btn"></button></div><div class="modal-body pt-3 px-4" data-ref="component.modal.tasbeeh.body"><div class="mb-3" data-ref="component.modal.tasbeeh.title-group"><label class="form-label fw-bold mb-2" for="tbFormTitle" data-ref="component.modal.tasbeeh.title-label">Chant Title</label><div class="field-group" data-ref="component.modal.tasbeeh.title-field"><span class="field-icon" data-ref="component.modal.tasbeeh.title-field-icon"><i class="fa-regular fa-file-lines fs-5"></i></span><input type="text" class="form-control border-0 ps-3 fs-6" id="tbFormTitle"
 placeholder="e.g. SubhanAllah" maxlength="40" data-ref="component.modal.tasbeeh.title-input"></div></div><div class="mb-3" data-ref="component.modal.tasbeeh.count-group"><label class="form-label fw-bold mb-2" data-ref="component.modal.tasbeeh.count-label">Target Count per Cycle</label><div class="d-flex gap-2 mb-2" id="tbCountChips" data-ref="component.modal.tasbeeh.count-chips"><button type="button" class="tb-chip flex-fill active" data-count="33" data-ref="component.modal.tasbeeh.chip-33">33</button><button type="button" class="tb-chip flex-fill" data-count="99" data-ref="component.modal.tasbeeh.chip-99">99</button><button type="button" class="tb-chip flex-fill" data-count="100" data-ref="component.modal.tasbeeh.chip-100">100</button><button type="button" class="tb-chip flex-fill" data-count="infinite" data-ref="component.modal.tasbeeh.chip-inf">∞</button></div><div class="field-group" data-ref="component.modal.tasbeeh.count-field"><span class="field-icon" data-ref="component.modal.tasbeeh.count-field-icon"><i class="fa-solid fa-hashtag fs-5"></i></span><input type="number" class="form-control border-0 ps-3 fs-6" id="tbFormCount"
 placeholder="33" min="1" max="9999" value="33" data-ref="component.modal.tasbeeh.count-input"></div></div><div class="mb-3" data-ref="component.modal.tasbeeh.cycles-group"><label class="form-label fw-bold mb-2" data-ref="component.modal.tasbeeh.cycles-label">Target Cycles / Rounds</label><div class="d-flex align-items-center gap-2" data-ref="component.modal.tasbeeh.cycles-stepper"><button class="btn-stepper" type="button" id="tbCyclesMinus" data-ref="component.modal.tasbeeh.cycles-minus">−</button><input type="number" class="form-control text-center fw-bold border-0 add-value-input"
@@ -183,7 +183,11 @@ P.forEach(function (x) { c2[x] = !allMissed; });
 sr(sd, c2);
 rn();
 } else if (act === 'jump-today') {
-sd = td(); rn();
+sd = td();
+if (typeof fetchPrayerTimings === 'function') {
+fetchPrayerTimings(sd, function () { rn(); });
+}
+rn();
 } else if (act === 'missed-open') {
 rMS();
 } else if (act === 'toggle-old') {
@@ -201,10 +205,51 @@ rPeriod();
 } else if (act === 'jump') {
 sd = t.dataset.d;
 sheet2BS.hide();
+if (typeof fetchPrayerTimings === 'function') {
+fetchPrayerTimings(sd, function () { rn(); });
+}
 setTimeout(function () { showPage('current'); }, 350);
 } else if (act === 'font') {
 apFS(parseFloat(t.dataset.fs));
 rSET();
+} else if (act === 'pt-save') {
+var sel = $('ptCitySelect');
+var city = '';
+var country = 'India';
+if (sel) {
+if (sel.value === '__custom__') {
+var customInp = $('ptCustomCityInput');
+city = customInp ? customInp.value.trim() : '';
+var countryInp = $('ptCountryInput');
+if (countryInp && countryInp.value.trim()) {
+country = countryInp.value.trim();
+}
+} else {
+city = sel.value;
+}
+} else {
+var cityEl = $('ptCityInput');
+city = cityEl ? cityEl.value.trim() : 'Guntur';
+}
+var schoolEl = $('ptSchoolSelect');
+var school = schoolEl ? parseInt(schoolEl.value, 10) : 1;
+if (!city) {
+alert('Please select or enter a city.');
+return;
+}
+if (typeof setPrayerConfig === 'function') {
+setPrayerConfig({ city: city, country: country, school: school });
+}
+if (typeof fetchPrayerTimings === 'function') {
+fetchPrayerTimings(td(), function (err) {
+if (err) {
+alert('Saved settings, but live API connection failed: ' + err.message);
+} else {
+alert('Prayer times synced successfully for ' + city + ', ' + country + '!');
+}
+rSET();
+});
+}
 } else if (act === 'sd-save') {
 var v = $('sdInput').value;
 if (!v) { alert('Please pick a date.'); return; }
@@ -227,12 +272,14 @@ sheet2BS.hide();
 rOT();
 }
 } else if (act === 'reset-db') {
-if (confirm('Delete ALL prayer records?')) {
+if (confirm('Delete ALL prayer records and cached prayer times?')) {
 localStorage.removeItem(K);
 localStorage.removeItem(OCK);
 localStorage.removeItem(OK);
+if (typeof PTK_CACHE !== 'undefined') localStorage.removeItem(PTK_CACHE);
 sd = td();
 en(sd);
+if (typeof fetchPrayerTimings === 'function') fetchPrayerTimings(td());
 rSET();
 }
 } else if (act === 'go-home') {
@@ -254,9 +301,20 @@ var OCK = 'namazOldData';
 var FK = 'namazFontSize';
 var SK = 'namazStartDate';
 var OK = 'namazOldPeriod';
+var PTK_CACHE = 'namazPrayerTimingsCache';
+var PTK_CONFIG = 'namazPrayerConfig';
+var defaultPrayerConfig = {
+city: 'Guntur',
+country: 'India',
+method: 1, // University of Islamic Sciences, Karachi
+school: 1  // 1 = Hanafi, 0 = Shafi
+};
 var T = {
-Fajr: '05:18 AM', Dhuhr: '12:24 PM', Asr: '04:37 PM',
-Maghrib: '06:15 PM', Isha: '07:28 PM'
+Fajr: '04:49 AM',
+Dhuhr: '11:54 AM',
+Asr: '04:10 PM',
+Maghrib: '05:47 PM',
+Isha: '06:59 PM'
 };
 var I = {
 Fajr: '<i class="fa-solid fa-sun" style="color:#f5b400"></i>',
@@ -268,11 +326,211 @@ Isha: '<i class="fa-solid fa-moon" style="color:#2563eb"></i>'
 var sd = td();
 var sheet2BS;
 var dashTimer = null;
+var currentHijri = null;
+var prayerTimingsStatus = 'cached'; // 'live', 'cached', 'offline'
+function getPrayerConfig() {
+var stored = LS.get(PTK_CONFIG);
+if (!stored || typeof stored !== 'object') {
+return Object.assign({}, defaultPrayerConfig);
+}
+return {
+city: stored.city || defaultPrayerConfig.city,
+country: stored.country || defaultPrayerConfig.country,
+method: typeof stored.method === 'number' ? stored.method : defaultPrayerConfig.method,
+school: typeof stored.school === 'number' ? stored.school : defaultPrayerConfig.school
+};
+}
+function setPrayerConfig(cfg) {
+var merged = Object.assign(getPrayerConfig(), cfg);
+LS.set(PTK_CONFIG, merged);
+return merged;
+}
+function getPrayerCache() {
+return LS.get(PTK_CACHE) || {};
+}
+function getPrayerCacheForDate(dateStr) {
+var cache = getPrayerCache();
+return cache[dateStr] || null;
+}
+function savePrayerCacheForDate(dateStr, data) {
+var cache = getPrayerCache();
+cache[dateStr] = data;
+LS.set(PTK_CACHE, cache);
+}
+function format12h(timeStr) {
+if (!timeStr) return '';
+if (timeStr.indexOf('AM') !== -1 || timeStr.indexOf('PM') !== -1) return timeStr;
+var clean = timeStr.trim().split(' ')[0];
+var parts = clean.split(':');
+if (parts.length < 2) return timeStr;
+var h = parseInt(parts[0], 10);
+var m = parts[1];
+var ap = h >= 12 ? 'PM' : 'AM';
+var hh = h % 12;
+if (hh === 0) hh = 12;
+return pad2(hh) + ':' + m + ' ' + ap;
+}
+function formatApiDate(dateStr) {
+if (!dateStr) return '';
+var parts = dateStr.split('-');
+if (parts.length === 3) {
+return parts[2] + '-' + parts[1] + '-' + parts[0];
+}
+return dateStr;
+}
+function applyTimings(timings, hijri, status) {
+if (!timings) return;
+P.forEach(function (p) {
+if (timings[p]) {
+T[p] = format12h(timings[p]);
+}
+});
+if (timings.Sunrise) {
+T.Sunrise = format12h(timings.Sunrise);
+}
+if (hijri) {
+currentHijri = hijri;
+}
+if (status) {
+prayerTimingsStatus = status;
+}
+}
+function refreshPrayerTimesUI(dateStr) {
+var dashPage = $('dashboardPage');
+if (dashPage && !dashPage.classList.contains('d-none')) {
+rDashboard();
+}
+var curPage = $('currentPage');
+if (curPage && !curPage.classList.contains('d-none') && sd === dateStr) {
+rn();
+}
+}
+function fetchPrayerTimings(dateStr, callback) {
+dateStr = dateStr || td();
+var cfg = getPrayerConfig();
+var cached = getPrayerCacheForDate(dateStr);
+if (cached && cached.timings) {
+applyTimings(cached.timings, cached.hijri, 'cached');
+if (typeof callback === 'function') callback(null, cached);
+}
+var apiDate = formatApiDate(dateStr);
+var url = 'https://api.aladhan.com/v1/timingsByCity/' + apiDate +
+'?city=' + encodeURIComponent(cfg.city) +
+'&country=' + encodeURIComponent(cfg.country) +
+'&method=' + encodeURIComponent(cfg.method) +
+'&school=' + encodeURIComponent(cfg.school);
+fetch(url)
+.then(function (response) {
+if (!response.ok) throw new Error('API status ' + response.status);
+return response.json();
+})
+.then(function (res) {
+if (!res || !res.data || !res.data.timings) {
+throw new Error('Invalid response structure');
+}
+var timings = res.data.timings;
+var hijriData = null;
+if (res.data.date && res.data.date.hijri) {
+var h = res.data.date.hijri;
+var monthName = (h.month && h.month.en) || '';
+hijriData = {
+date: h.date,
+day: h.day,
+month: monthName,
+year: h.year,
+text: h.day + ' ' + monthName + ' ' + h.year + ' AH'
+};
+}
+var record = {
+date: dateStr,
+timings: {
+Fajr: format12h(timings.Fajr),
+Dhuhr: format12h(timings.Dhuhr),
+Asr: format12h(timings.Asr),
+Maghrib: format12h(timings.Maghrib),
+Isha: format12h(timings.Isha),
+Sunrise: format12h(timings.Sunrise),
+Sunset: format12h(timings.Sunset)
+},
+rawTimings: timings,
+hijri: hijriData,
+city: cfg.city,
+country: cfg.country,
+school: cfg.school === 1 ? 'Hanafi' : 'Shafi',
+method: cfg.method,
+fetchedAt: Date.now()
+};
+savePrayerCacheForDate(dateStr, record);
+applyTimings(record.timings, record.hijri, 'live');
+refreshPrayerTimesUI(dateStr);
+if (typeof callback === 'function') callback(null, record);
+})
+.catch(function (err) {
+console.warn('Aladhan prayer times fetch error:', err.message);
+if (cached && cached.timings) {
+prayerTimingsStatus = 'cached';
+} else {
+prayerTimingsStatus = 'offline';
+}
+refreshPrayerTimesUI(dateStr);
+if (typeof callback === 'function') callback(err, cached);
+});
+}
+function getNextPrayerInfo() {
+var now = new Date();
+var currentMin = now.getHours() * 60 + now.getMinutes();
+function parseToMinutes(timeStr) {
+if (!timeStr) return -1;
+var parts = timeStr.trim().split(' ');
+if (!parts[0]) return -1;
+var sub = parts[0].split(':');
+var h = parseInt(sub[0], 10);
+var m = parseInt(sub[1], 10);
+if (isNaN(h) || isNaN(m)) return -1;
+var ap = parts[1] || 'AM';
+if (ap === 'PM' && h < 12) h += 12;
+if (ap === 'AM' && h === 12) h = 0;
+return h * 60 + m;
+}
+for (var i = 0; i < P.length; i++) {
+var p = P[i];
+var pMin = parseToMinutes(T[p]);
+if (pMin > currentMin) {
+var diff = pMin - currentMin;
+var hrs = Math.floor(diff / 60);
+var mins = diff % 60;
+var remaining = hrs > 0 ? (hrs + 'h ' + mins + 'm') : (mins + 'm');
+return {
+name: p,
+time: T[p],
+diffMin: diff,
+remaining: remaining,
+isTomorrow: false
+};
+}
+}
+var fajrMin = parseToMinutes(T.Fajr);
+var diffTomorrow = (24 * 60 - currentMin) + fajrMin;
+var fHrs = Math.floor(diffTomorrow / 60);
+var fMins = diffTomorrow % 60;
+return {
+name: 'Fajr',
+time: T.Fajr,
+diffMin: diffTomorrow,
+remaining: fHrs > 0 ? (fHrs + 'h ' + fMins + 'm') : (fMins + 'm'),
+isTomorrow: true
+};
+}
 document.addEventListener('DOMContentLoaded', function () {
 sheet2BS = new bootstrap.Offcanvas($('sheet2'));
 apFS(rdFS());
 en(td());
 sd = td();
+var cachedToday = getPrayerCacheForDate(td());
+if (cachedToday && cachedToday.timings) {
+applyTimings(cachedToday.timings, cachedToday.hijri, 'cached');
+}
+fetchPrayerTimings(td());
 showPage('dashboard');
 $('dp').onchange = function (e) { if (e.target.value) go(e.target.value); };
 $('currentActionBtn').onclick = openCal;
@@ -329,55 +587,59 @@ var isMissed = type === 'missed';
 var bg = isMissed ? '#fde8e8' : '#f1f3f2';
 var fg = isMissed ? '#dc3545' : '#6b7a72';
 var icon = isMissed ? 'fa-exclamation' : 'fa-hourglass-half';
-return '<div class="section-header" style="background:' + bg + '">' +
-'<span class="icon-circle" style="background:' + fg + '">' +
+return '<div class="section-header" style="background:' + bg + '" data-ref="page.current.section-header.' + type + '">' +
+'<span class="icon-circle" style="background:' + fg + '" data-ref="page.current.section-header.' + type + '.icon">' +
 '<i class="fa-solid ' + icon + '"></i></span>' +
-'<span class="title">' + title + '</span>' +
-'<span class="count" style="color:' + fg + '">' + count + '</span>' +
+'<span class="title" data-ref="page.current.section-header.' + type + '.title">' + title + '</span>' +
+'<span class="count" style="color:' + fg + '" data-ref="page.current.section-header.' + type + '.count">' + count + '</span>' +
 '</div>';
 }
 function curRow(p, isMissed) {
 var badge = isMissed
-? '<span class="badge-pill-custom badge-missed"><i class="fa-solid fa-circle-exclamation"></i>Missed</span>'
-: '<span class="badge-pill-custom badge-notyet"><i class="fa-regular fa-circle"></i>Not yet</span>';
-return '<div class="prayer-row" role="button" data-act="toggle-cur" data-p="' + p + '">' +
-'<span class="icon-circle-lg">' + I[p] + '</span>' +
-'<div class="flex-grow-1 ms-3 min-w-0">' +
-'<div class="name">' + p + '</div>' +
-'<div class="time">' + T[p] + '</div>' +
+? '<span class="badge-pill-custom badge-missed" data-ref="page.current.prayer-row.badge.' + p.toLowerCase() + '"><i class="fa-solid fa-circle-exclamation"></i>Missed</span>'
+: '<span class="badge-pill-custom badge-notyet" data-ref="page.current.prayer-row.badge.' + p.toLowerCase() + '"><i class="fa-regular fa-circle"></i>Not yet</span>';
+return '<div class="prayer-row" role="button" data-act="toggle-cur" data-p="' + p + '" data-ref="page.current.prayer-row.' + p.toLowerCase() + '">' +
+'<span class="icon-circle-lg" data-ref="page.current.prayer-row.icon.' + p.toLowerCase() + '">' + I[p] + '</span>' +
+'<div class="flex-grow-1 ms-3 min-w-0" data-ref="page.current.prayer-row.details.' + p.toLowerCase() + '">' +
+'<div class="name" data-ref="page.current.prayer-row.name.' + p.toLowerCase() + '">' + p + '</div>' +
+'<div class="time" data-ref="page.current.prayer-row.time.' + p.toLowerCase() + '">' + (T[p] || '--:--') + '</div>' +
 '</div>' + badge +
-'<i class="fa-solid fa-chevron-right chevron"></i>' +
+'<i class="fa-solid fa-chevron-right chevron" data-ref="page.current.prayer-row.chevron.' + p.toLowerCase() + '"></i>' +
 '</div>';
 }
 function rn() {
 $('dp').value = sd;
 $('dp').max = td();
-$('currentSub').textContent = fr(sd);
+var subText = fr(sd);
+if (sd === td() && currentHijri && currentHijri.text) {
+subText += ' · ' + currentHijri.text;
+}
+$('currentSub').textContent = subText;
 var r = en(sd);
 var isToday = sd === td();
 var missTotal = tMT();
 var missedBtn = missTotal > 0
-? '<button class="btn-pill-missed" data-act="missed-open">' +
+? '<button class="btn-pill-missed" data-act="missed-open" data-ref="page.current.action-row.missed-btn">' +
 '<i class="fa-solid fa-circle-exclamation"></i>Missed ' + missTotal + '</button>'
 : '';
 var rightBtn = isToday
-? '<button class="btn-pill-action" data-act="select-all">' +
+? '<button class="btn-pill-action" data-act="select-all" data-ref="page.current.action-row.select-all-btn">' +
 '<i class="fa-solid fa-check"></i>Select All</button>'
-: '<button class="btn-pill-today" data-act="jump-today">' +
+: '<button class="btn-pill-today" data-act="jump-today" data-ref="page.current.action-row.jump-today-btn">' +
 '<i class="fa-solid fa-arrow-rotate-right"></i>Today</button>';
-var actionRow = '<div class="d-flex align-items-center gap-2 mb-2" style="min-height:38px">' +
+var actionRow = '<div class="d-flex align-items-center gap-2 mb-2" style="min-height:38px" data-ref="page.current.action-row">' +
 missedBtn + '<div class="flex-grow-1"></div>' + rightBtn + '</div>';
 var missed = P.filter(function (p) { return r[p] === true; });
 var notYet = P.filter(function (p) { return r[p] !== true; });
 var html = actionRow;
 if (missed.length) {
-html += '<div class="card shadow-sm rounded-4 overflow-hidden mb-2">' +
+html += '<div class="card shadow-sm rounded-4 overflow-hidden mb-2 bg-gr border-0" data-ref="page.current.section.missed">' +
 curSectionHeader('missed', 'Missed Prayers', missed.length) +
 missed.map(function (p) { return curRow(p, true); }).join('') +
 '</div>';
 }
 if (notYet.length) {
-html += '<div class="card shadow-sm rounded-4 overflow-hidden mb-2">' +
+html += '<div class="card shadow-sm rounded-4 overflow-hidden mb-2 bg-gr border-0" data-ref="page.current.section.notyet">' +
 curSectionHeader('notyet', 'Not Yet Prayed', notYet.length) +
 notYet.map(function (p) { return curRow(p, false); }).join('') +
 '</div>';
@@ -387,11 +649,14 @@ $('currentBody').innerHTML = html;
 function go(d) {
 if (d > td()) d = td();
 sd = d;
+if (typeof fetchPrayerTimings === 'function') {
+fetchPrayerTimings(sd, function () { rn(); });
+}
 rn();
 }
 function missTile(date, p) {
 return '<div class="rounded-4 p-2 d-flex flex-column align-items-center justify-content-center gap-2 flex-fill" ' +
-'style="background:#fde8e8;min-width:0">' +
+'style="background:#fde8e8;min-width:0" data-ref="page.current.missed-sheet.tile.' + p.toLowerCase() + '">' +
 '<span class="fs-3">' + I[p] + '</span>' +
 '<span class="fw-bold text-truncate w-100 text-center" style="font-size:.85rem;color:#1a2b23">' + p + '</span>' +
 '<span class="badge-pill-custom badge-missed" style="font-size:.68rem;padding:.25rem .5rem">' +
@@ -400,16 +665,16 @@ return '<div class="rounded-4 p-2 d-flex flex-column align-items-center justify-
 }
 function missCard(x) {
 var tiles = x.prayers.map(function (p) { return missTile(x.date, p); }).join('');
-return '<div class="card shadow-sm rounded-4 p-3" role="button" data-act="jump" data-d="' + x.date + '" style="background:#fff;cursor:pointer">' +
-'<div class="d-flex align-items-center gap-3 p-2 rounded-4 mb-3" style="background:#e8f4ed">' +
-'<span class="icon-circle-lg" style="background:#d3ecdc;width:52px;height:52px">' +
+return '<div class="card shadow-sm rounded-4 p-3 bg-gr border-0" role="button" data-act="jump" data-d="' + x.date + '" style="cursor:pointer" data-ref="page.current.missed-sheet.card.' + x.date + '">' +
+'<div class="d-flex align-items-center gap-3 p-2 rounded-4 mb-3" style="background:#e8f4ed" data-ref="page.current.missed-sheet.card.header">' +
+'<span class="icon-circle-lg" style="background:#d3ecdc;width:52px;height:52px" data-ref="page.current.missed-sheet.card.icon">' +
 '<i class="fa-regular fa-calendar-days fs-3" style="color:#1b7a4b"></i></span>' +
-'<div class="flex-grow-1 min-w-0">' +
-'<div class="fw-bold" style="font-size:1.3rem;color:#1a2b23;line-height:1.15">' + friendly(x.date) + '</div>' +
-'<div style="font-size:1rem;color:#1b7a4b;font-weight:600;margin-top:2px">' + fr(x.date) + '</div>' +
+'<div class="flex-grow-1 min-w-0" data-ref="page.current.missed-sheet.card.info">' +
+'<div class="fw-bold" style="font-size:1.3rem;color:#1a2b23;line-height:1.15" data-ref="page.current.missed-sheet.card.title">' + friendly(x.date) + '</div>' +
+'<div style="font-size:1rem;color:#1b7a4b;font-weight:600;margin-top:2px" data-ref="page.current.missed-sheet.card.date">' + fr(x.date) + '</div>' +
 '</div>' +
 '</div>' +
-'<div class="d-flex gap-2" style="width:100%">' + tiles + '</div>' +
+'<div class="d-flex gap-2" style="width:100%" data-ref="page.current.missed-sheet.card.tiles">' + tiles + '</div>' +
 '</div>';
 }
 function rMS() {
@@ -420,11 +685,11 @@ $('sheet2Sub').textContent = 'From previous days (today excluded)';
 var list = mBD().reverse();
 var b = $('sheet2Body');
 if (!list.length) {
-b.innerHTML = '<div class="text-center text-muted py-5">' +
+b.innerHTML = '<div class="text-center text-muted py-5" data-ref="page.current.missed-sheet.empty">' +
 '<i class="fa-solid fa-star display-4 text-success opacity-50"></i>' +
 '<p class="mt-3">No missed prayers from previous days.<br>All caught up!</p></div>';
 } else {
-b.innerHTML = '<div class="d-flex flex-column gap-2">' +
+b.innerHTML = '<div class="d-flex flex-column gap-2" data-ref="page.current.missed-sheet.list">' +
 list.map(missCard).join('') + '</div>';
 }
 sheet2BS.show();
@@ -440,6 +705,24 @@ if (hh === 0) hh = 12;
 el.innerHTML = pad2(hh) + ':' + pad2(now.getMinutes()) +
 '<span class="small">:' + pad2(now.getSeconds()) + '</span>' +
 '<span class="ampm">' + ap + '</span>';
+if (now.getSeconds() === 0) {
+updateNextPrayerBadge();
+}
+}
+function updateNextPrayerBadge() {
+var badgeWrap = $('dashNextPrayer');
+if (!badgeWrap || typeof getNextPrayerInfo !== 'function') return;
+var nextP = getNextPrayerInfo();
+if (!nextP) {
+badgeWrap.innerHTML = '';
+return;
+}
+badgeWrap.innerHTML =
+'<span class="badge bg-gr-accent-soft text-gr-accent border border-success-subtle rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-1" style="font-size:.78rem" data-ref="page.dashboard.clock-card.next-prayer-badge">' +
+'<i class="fa-solid fa-bell"></i>' +
+'Next: ' + nextP.name + ' (' + nextP.time + ')' +
+'<span class="opacity-75 ms-1">&bull; in ' + nextP.remaining + '</span>' +
+'</span>';
 }
 function startDashClock() {
 if (dashTimer) clearInterval(dashTimer);
@@ -480,55 +763,86 @@ P.forEach(function (p) { if (rr[p] === true) trackedMiss++; });
 var oldPct = trackedDays > 0
 ? Math.round((1 - trackedMiss / (trackedDays * 5)) * 100)
 : 0;
+var nextP = typeof getNextPrayerInfo === 'function' ? getNextPrayerInfo() : null;
 var prayerRow = P.map(function (p) {
 var done = todayData[p] === true;
-var ring = done ? '#dc3545' : '#1b7a4b';
-return '<div class="d-flex flex-column align-items-center gap-2" style="flex:1 1 0;min-width:0">' +
-'<div class="prayer-icon-circle" style="border:2px solid ' + ring + '">' + I[p] + '</div>' +
-'<div class="prayer-label">' + p.toUpperCase() + '</div>' +
+var isNext = nextP && nextP.name === p && !nextP.isTomorrow;
+var ring = done ? '#dc3545' : (isNext ? '#ca8a04' : '#1b7a4b');
+return '<div class="d-flex flex-column align-items-center gap-1" style="flex:1 1 0;min-width:0" data-ref="page.dashboard.prayer-item.' + p.toLowerCase() + '">' +
+'<div class="prayer-icon-circle" style="border:2px solid ' + ring + '" data-ref="page.dashboard.prayer-icon.' + p.toLowerCase() + '">' + I[p] + '</div>' +
+'<div class="prayer-label text-truncate" data-ref="page.dashboard.prayer-label.' + p.toLowerCase() + '">' + p.toUpperCase() + '</div>' +
+'<div class="text-muted text-center text-truncate" style="font-size:.65rem;line-height:1" data-ref="page.dashboard.prayer-time.' + p.toLowerCase() + '">' + (T[p] || '--:--') + '</div>' +
 '</div>';
 }).join('');
 function summaryTile(label, value, color) {
-return '<div class="col-4"><div class="summary-tile">' +
-'<div class="label">' + label + '</div>' +
-'<div class="value" style="color:' + color + '">' + value + '</div>' +
+return '<div class="col-4" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '">' +
+'<div class="summary-tile" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '.box">' +
+'<div class="label" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '.label">' + label + '</div>' +
+'<div class="value" style="color:' + color + '" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '.value">' + value + '</div>' +
 '</div></div>';
 }
+var hijriHtml = currentHijri && currentHijri.text
+? '<div class="text-center mt-1 text-gr-accent fw-bold" style="font-size:.85rem" data-ref="page.dashboard.clock-card.hijri-date"><i class="fa-solid fa-moon me-1"></i>' + currentHijri.text + '</div>'
+: '';
+var cfg = typeof getPrayerConfig === 'function' ? getPrayerConfig() : { city: 'Delhi', school: 1 };
+var statusIcon = prayerTimingsStatus === 'live' ? 'fa-bolt text-success' : (prayerTimingsStatus === 'cached' ? 'fa-check text-muted' : 'fa-circle-notch text-muted');
+var statusPill =
+'<div class="d-flex align-items-center justify-content-center gap-2 mt-2" data-ref="page.dashboard.clock-card.meta-row">' +
+'<span class="badge bg-light text-secondary border rounded-pill px-2 py-1" style="font-size:.7rem" data-ref="page.dashboard.clock-card.location-pill">' +
+'<i class="fa-solid fa-location-dot text-success me-1"></i>' + cfg.city + ' &bull; ' + (cfg.school === 1 ? 'Hanafi' : 'Shafi') +
+'</span>' +
+'<span class="badge bg-light text-secondary border rounded-pill px-2 py-1" style="font-size:.7rem" data-ref="page.dashboard.clock-card.status-pill">' +
+'<i class="fa-solid ' + statusIcon + ' me-1"></i>' + (prayerTimingsStatus === 'live' ? 'Live' : 'Cached') +
+'</span>' +
+'</div>';
+var nextPrayerHtml =
+'<div class="d-flex align-items-center justify-content-center mt-2" id="dashNextPrayer" data-ref="page.dashboard.clock-card.next-prayer">' +
+(nextP
+? '<span class="badge bg-gr-accent-soft text-gr-accent border border-success-subtle rounded-pill px-3 py-1 fw-bold d-inline-flex align-items-center gap-1" style="font-size:.78rem" data-ref="page.dashboard.clock-card.next-prayer-badge">' +
+'<i class="fa-solid fa-bell"></i>' +
+'Next: ' + nextP.name + ' (' + nextP.time + ')' +
+'<span class="opacity-75 ms-1">&bull; in ' + nextP.remaining + '</span>' +
+'</span>'
+: '') +
+'</div>';
 body.innerHTML =
-'<div class="card shadow-sm rounded-4 p-3 mb-3" style="background:#fff">' +
-'<div class="d-flex align-items-center gap-1 mb-3">' + prayerRow + '</div>' +
-'<div class="clock-big mb-2" id="dashTime">--:--<span class="small">:--</span><span class="ampm">AM</span></div>' +
-'<div class="text-center" style="font-size:.95rem;color:#7a8b83;font-weight:600">' + dashDate() + '</div>' +
+'<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr" style="border:0" data-ref="page.dashboard.clock-card">' +
+'<div class="d-flex align-items-center gap-1 mb-3" data-ref="page.dashboard.clock-card.prayers-row">' + prayerRow + '</div>' +
+'<div class="clock-big mb-2" id="dashTime" data-ref="page.dashboard.clock-card.time">--:--<span class="small">:--</span><span class="ampm">AM</span></div>' +
+'<div class="text-center" style="font-size:.95rem;color:#7a8b83;font-weight:600" data-ref="page.dashboard.clock-card.gregorian-date">' + dashDate() + '</div>' +
+hijriHtml +
+nextPrayerHtml +
+statusPill +
 '</div>' +
-'<div class="fw-bold mb-2 px-1" style="font-size:.75rem;color:#7a8b83;letter-spacing:1.5px">CURRENT PRAYER</div>' +
-'<div class="card shadow-sm rounded-4 p-3 mb-3" role="button" data-act="goto-cur" style="background:#fff;cursor:pointer">' +
-'<div class="row g-2 mb-2">' +
+'<div class="fw-bold mb-2 px-1 text-gr-muted" style="font-size:.75rem;letter-spacing:1.5px" data-ref="page.dashboard.current-prayer.section-title">CURRENT PRAYER</div>' +
+'<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0" role="button" data-act="goto-cur" style="cursor:pointer" data-ref="page.dashboard.current-prayer-card">' +
+'<div class="row g-2 mb-2" data-ref="page.dashboard.current-prayer-card.stats">' +
 summaryTile('Done', doneToday, '#1b7a4b') +
 summaryTile('Missed', missToday, '#dc3545') +
 summaryTile('Today', curPct + '%', '#cc7a00') +
 '</div>' +
 (missPrev > 0
-? '<div class="d-flex align-items-center gap-2 mb-2 p-2 rounded-3" style="background:#fde8e8">' +
-'<i class="fa-solid fa-circle-exclamation" style="color:#dc3545"></i>' +
-'<span class="fw-bold" style="font-size:.82rem;color:#dc3545">' + missPrev + ' missed from previous days</span>' +
-'<i class="fa-solid fa-chevron-right ms-auto" style="color:#c0c8c4;font-size:.8rem"></i>' +
+? '<div class="d-flex align-items-center gap-2 mb-2 p-2 rounded-3 bg-gr-danger-soft" data-ref="page.dashboard.current-prayer-card.missed-alert">' +
+'<i class="fa-solid fa-circle-exclamation text-gr-danger"></i>' +
+'<span class="fw-bold text-gr-danger" style="font-size:.82rem">' + missPrev + ' missed from previous days</span>' +
+'<i class="fa-solid fa-chevron-right ms-auto text-muted" style="font-size:.8rem"></i>' +
 '</div>'
-: '<div class="d-flex align-items-center gap-2 mb-2 p-2 rounded-3" style="background:#d1e7dd">' +
-'<i class="fa-solid fa-circle-check" style="color:#1b7a4b"></i>' +
-'<span class="fw-bold" style="font-size:.82rem;color:#1b7a4b">No missed prayers from previous days</span>' +
+: '<div class="d-flex align-items-center gap-2 mb-2 p-2 rounded-3 bg-gr-accent-soft" data-ref="page.dashboard.current-prayer-card.all-clear">' +
+'<i class="fa-solid fa-circle-check text-gr-accent"></i>' +
+'<span class="fw-bold text-gr-accent" style="font-size:.82rem">No missed prayers from previous days</span>' +
 '</div>') +
-'<div class="text-muted" style="font-size:.75rem">' +
+'<div class="text-muted" style="font-size:.75rem" data-ref="page.dashboard.current-prayer-card.footer">' +
 '<i class="fa-regular fa-calendar me-1"></i>' + fr(today) +
 '</div>' +
 '</div>' +
-'<div class="fw-bold mb-2 px-1" style="font-size:.75rem;color:#7a8b83;letter-spacing:1.5px">PREVIOUS PRAYER</div>' +
-'<div class="card shadow-sm rounded-4 p-3 mb-3" role="button" data-act="goto-old" style="background:#fff;cursor:pointer">' +
-'<div class="row g-2 mb-2">' +
+'<div class="fw-bold mb-2 px-1 text-gr-muted" style="font-size:.75rem;letter-spacing:1.5px" data-ref="page.dashboard.previous-prayer.section-title">PREVIOUS PRAYER</div>' +
+'<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0" role="button" data-act="goto-old" style="cursor:pointer" data-ref="page.dashboard.previous-prayer-card">' +
+'<div class="row g-2 mb-2" data-ref="page.dashboard.previous-prayer-card.stats">' +
 summaryTile('Tracked', trackedDays, '#1b7a4b') +
 summaryTile('Missed', trackedMiss, '#dc3545') +
 summaryTile('Rate', oldPct + '%', '#cc7a00') +
 '</div>' +
-'<div class="text-muted" style="font-size:.75rem">' +
+'<div class="text-muted" style="font-size:.75rem" data-ref="page.dashboard.previous-prayer-card.footer">' +
 '<i class="fa-solid fa-clock-rotate-left me-1"></i>' +
 (o ? (fr(o.start) + ' → ' + fr(o.end)) : (periodLabel + ' · last 30 days')) +
 '</div>' +
@@ -539,8 +853,8 @@ try { tbList = JSON.parse(tbRaw) || []; } catch (_) { }
 var tbToday = tbList.reduce(function (sum, it) { return sum + (it.totalCountToday || 0); }, 0);
 var tbCount = tbList.length;
 body.innerHTML +=
-'<div class="fw-bold mb-2 px-1" style="font-size:.75rem;color:#7a8b83;letter-spacing:1.5px" data-ref="page.dashboard.tasbeeh.section-title">DIGITAL TASBEEH</div>' +
-'<div class="card shadow-sm rounded-4 p-3 mb-3" role="button" data-act="goto-tasbeeh" style="background:#fff;cursor:pointer" data-ref="page.dashboard.tasbeeh-card">' +
+'<div class="fw-bold mb-2 px-1 text-gr-muted" style="font-size:.75rem;letter-spacing:1.5px" data-ref="page.dashboard.tasbeeh.section-title">DIGITAL TASBEEH</div>' +
+'<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0" role="button" data-act="goto-tasbeeh" style="cursor:pointer" data-ref="page.dashboard.tasbeeh-card">' +
 '<div class="row g-2 mb-2" data-ref="page.dashboard.tasbeeh-card.stats">' +
 summaryTile('Chants', tbCount, '#1b7a4b') +
 summaryTile('Today', tbToday, '#ca8a04') +
@@ -557,26 +871,26 @@ var isMissed = type === 'missed';
 var bg = isMissed ? '#fde8e8' : '#d1e7dd';
 var fg = isMissed ? '#dc3545' : '#1b7a4b';
 var icon = isMissed ? 'fa-exclamation' : 'fa-check';
-return '<div class="section-header" style="background:' + bg + '">' +
-'<span class="icon-circle" style="background:' + fg + '">' +
+return '<div class="section-header" style="background:' + bg + '" data-ref="page.old.section-header.' + type + '">' +
+'<span class="icon-circle" style="background:' + fg + '" data-ref="page.old.section-header.' + type + '.icon">' +
 '<i class="fa-solid ' + icon + '"></i></span>' +
-'<span class="title">' + title + '</span>' +
-'<span class="count" style="color:' + fg + '">' + count + '</span>' +
+'<span class="title" data-ref="page.old.section-header.' + type + '.title">' + title + '</span>' +
+'<span class="count" style="color:' + fg + '" data-ref="page.old.section-header.' + type + '.count">' + count + '</span>' +
 '</div>';
 }
 function oldRow(date, p) {
 var r = grO(date);
 var d = r[p] === true;
 var badge = d
-? '<span class="badge-pill-custom badge-missed"><i class="fa-solid fa-circle-exclamation"></i>Missed</span>'
-: '<span class="badge-pill-custom badge-done"><i class="fa-solid fa-circle-check"></i>Done</span>';
-return '<div class="prayer-row" role="button" data-act="toggle-old" data-p="' + p + '" data-d="' + date + '">' +
-'<span class="icon-circle-lg">' + I[p] + '</span>' +
-'<div class="flex-grow-1 ms-3 min-w-0">' +
-'<div class="name">' + p + '</div>' +
-'<div class="time">' + T[p] + '</div>' +
+? '<span class="badge-pill-custom badge-missed" data-ref="page.old.prayer-row.badge.' + p.toLowerCase() + '"><i class="fa-solid fa-circle-exclamation"></i>Missed</span>'
+: '<span class="badge-pill-custom badge-done" data-ref="page.old.prayer-row.badge.' + p.toLowerCase() + '"><i class="fa-solid fa-circle-check"></i>Done</span>';
+return '<div class="prayer-row" role="button" data-act="toggle-old" data-p="' + p + '" data-d="' + date + '" data-ref="page.old.prayer-row.' + p.toLowerCase() + '">' +
+'<span class="icon-circle-lg" data-ref="page.old.prayer-row.icon.' + p.toLowerCase() + '">' + I[p] + '</span>' +
+'<div class="flex-grow-1 ms-3 min-w-0" data-ref="page.old.prayer-row.details.' + p.toLowerCase() + '">' +
+'<div class="name" data-ref="page.old.prayer-row.name.' + p.toLowerCase() + '">' + p + '</div>' +
+'<div class="time" data-ref="page.old.prayer-row.time.' + p.toLowerCase() + '">' + (T[p] || '--:--') + '</div>' +
 '</div>' + badge +
-'<i class="fa-solid fa-chevron-right chevron"></i>' +
+'<i class="fa-solid fa-chevron-right chevron" data-ref="page.old.prayer-row.chevron.' + p.toLowerCase() + '"></i>' +
 '</div>';
 }
 function rOldInfo() {
@@ -740,58 +1054,171 @@ html += done.length
 html += '</div>';
 lst.innerHTML = html;
 }
+var INDIAN_CITIES = [
+{ name: 'Guntur', state: 'Andhra Pradesh', group: 'Popular Andhra Pradesh Cities' },
+{ name: 'Vijayawada', state: 'Andhra Pradesh', group: 'Popular Andhra Pradesh Cities' },
+{ name: 'Visakhapatnam', state: 'Andhra Pradesh', group: 'Popular Andhra Pradesh Cities' },
+{ name: 'Tirupati', state: 'Andhra Pradesh', group: 'Popular Andhra Pradesh Cities' },
+{ name: 'Kurnool', state: 'Andhra Pradesh', group: 'Popular Andhra Pradesh Cities' },
+{ name: 'Nellore', state: 'Andhra Pradesh', group: 'Popular Andhra Pradesh Cities' },
+{ name: 'Delhi', state: 'National Capital Region', group: 'Major Indian Metros' },
+{ name: 'Hyderabad', state: 'Telangana', group: 'Major Indian Metros' },
+{ name: 'Bengaluru', state: 'Karnataka', group: 'Major Indian Metros' },
+{ name: 'Mumbai', state: 'Maharashtra', group: 'Major Indian Metros' },
+{ name: 'Chennai', state: 'Tamil Nadu', group: 'Major Indian Metros' },
+{ name: 'Kolkata', state: 'West Bengal', group: 'Major Indian Metros' },
+{ name: 'Ahmedabad', state: 'Gujarat', group: 'Other Prominent Cities' },
+{ name: 'Lucknow', state: 'Uttar Pradesh', group: 'Other Prominent Cities' },
+{ name: 'Pune', state: 'Maharashtra', group: 'Other Prominent Cities' },
+{ name: 'Jaipur', state: 'Rajasthan', group: 'Other Prominent Cities' },
+{ name: 'Bhopal', state: 'Madhya Pradesh', group: 'Other Prominent Cities' },
+{ name: 'Patna', state: 'Bihar', group: 'Other Prominent Cities' },
+{ name: 'Srinagar', state: 'Jammu & Kashmir', group: 'Other Prominent Cities' },
+{ name: 'Kozhikode', state: 'Kerala', group: 'Other Prominent Cities' },
+{ name: 'Kochi', state: 'Kerala', group: 'Other Prominent Cities' },
+{ name: 'Indore', state: 'Madhya Pradesh', group: 'Other Prominent Cities' },
+{ name: 'Nagpur', state: 'Maharashtra', group: 'Other Prominent Cities' },
+{ name: 'Kanpur', state: 'Uttar Pradesh', group: 'Other Prominent Cities' },
+{ name: 'Surat', state: 'Gujarat', group: 'Other Prominent Cities' },
+{ name: 'Aurangabad', state: 'Maharashtra', group: 'Other Prominent Cities' },
+{ name: 'Chandigarh', state: 'Punjab/Haryana', group: 'Other Prominent Cities' }
+];
 function rSET() {
 var fs = rdFS();
 var sdate = rdSD();
+var cfg = typeof getPrayerConfig === 'function' ? getPrayerConfig() : { city: 'Guntur', country: 'India', school: 1 };
 var opts = [{ v: 0.9, l: 'Small' }, { v: 1, l: 'Medium' }, { v: 1.15, l: 'Large' }];
 var fsb = opts.map(function (o) {
 var a = Math.abs(fs - o.v) < 0.01;
 return '<button type="button" class="btn ' + (a ? 'btn-brand' : 'btn-light border') +
 ' flex-fill py-3 fw-bold" data-act="font" data-fs="' + o.v +
-'" style="border-radius:12px;font-size:1rem">' + o.l + '</button>';
+'" style="border-radius:12px;font-size:1rem" data-ref="page.settings.font-size.' + o.l.toLowerCase() + '">' + o.l + '</button>';
 }).join('');
+var statusText = prayerTimingsStatus === 'live' ? 'Live' : (prayerTimingsStatus === 'cached' ? 'Cached' : 'Offline');
+var groups = {};
+INDIAN_CITIES.forEach(function (c) {
+if (!groups[c.group]) groups[c.group] = [];
+groups[c.group].push(c);
+});
+var isPredefined = INDIAN_CITIES.some(function (c) {
+return c.name.toLowerCase() === (cfg.city || '').toLowerCase();
+});
+var cityOptionsHtml = Object.keys(groups).map(function (gName) {
+var optsHtml = groups[gName].map(function (c) {
+var selected = (cfg.city || '').toLowerCase() === c.name.toLowerCase();
+return '<option value="' + c.name + '"' + (selected ? ' selected' : '') +
+' data-ref="page.settings.prayer-times.city-option.' + c.name.toLowerCase() + '">' +
+c.name + ' (' + c.state + ')' +
+'</option>';
+}).join('');
+return '<optgroup label="' + gName + '" data-ref="page.settings.prayer-times.group.' + gName.toLowerCase().replace(/[^a-z0-9]/g, '-') + '">' + optsHtml + '</optgroup>';
+}).join('');
+cityOptionsHtml +=
+'<optgroup label="Custom" data-ref="page.settings.prayer-times.group.custom">' +
+'<option value="__custom__"' + (!isPredefined ? ' selected' : '') + ' data-ref="page.settings.prayer-times.city-option.custom">Other / Custom City...</option>' +
+'</optgroup>';
+var customDisplay = !isPredefined ? '' : ' d-none';
+var customVal = !isPredefined ? esc(cfg.city) : '';
 $('settingsBody').innerHTML =
-'<div class="card shadow-sm rounded-4 p-3 mb-2" style="background:#fff">' +
-'<div class="d-flex align-items-center gap-3 mb-3">' +
-'<span class="modal-icon-badge">' +
-'<i class="fa-regular fa-calendar-check fs-4 text-success"></i></span>' +
-'<div class="flex-grow-1"><div class="fw-bold" style="font-size:1.05rem">Current Start Date</div></div>' +
+'' +
+'<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.prayer-times.card">' +
+'<div class="d-flex align-items-center gap-3 mb-3" data-ref="page.settings.prayer-times.header">' +
+'<span class="modal-icon-badge" style="background:#e8f4ed" data-ref="page.settings.prayer-times.icon-badge">' +
+'<i class="fa-solid fa-mosque fs-4 text-success" data-ref="page.settings.prayer-times.icon"></i></span>' +
+'<div class="flex-grow-1" data-ref="page.settings.prayer-times.info">' +
+'<div class="fw-bold fs-6 text-gr1" data-ref="page.settings.prayer-times.title">Prayer Times Location</div>' +
+'<div class="text-muted small" data-ref="page.settings.prayer-times.subtitle">Selected City: ' + esc(cfg.city) + ', India</div>' +
 '</div>' +
-'<div class="d-flex gap-2 align-items-center">' +
+'<span class="badge rounded-pill bg-gr-accent-soft text-gr-accent px-2 py-1" style="font-size:0.72rem" data-ref="page.settings.prayer-times.status-badge">' +
+'<i class="fa-solid fa-circle-dot me-1"></i>' + statusText +
+'</span>' +
+'</div>' +
+'<div class="row g-2 mb-3" data-ref="page.settings.prayer-times.form-row">' +
+'<div class="col-12" data-ref="page.settings.prayer-times.city-col">' +
+'<label class="form-label text-muted small fw-bold mb-1" data-ref="page.settings.prayer-times.city-label">City (India)</label>' +
+'<select class="form-select form-select-lg" id="ptCitySelect" data-ref="page.settings.prayer-times.city-select">' +
+cityOptionsHtml +
+'</select>' +
+'</div>' +
+'<div class="col-12' + customDisplay + '" id="ptCustomCityWrap" data-ref="page.settings.prayer-times.custom-city-wrap">' +
+'<label class="form-label text-muted small fw-bold mb-1" data-ref="page.settings.prayer-times.custom-city-label">Custom City Name &amp; Country</label>' +
+'<div class="d-flex gap-2" data-ref="page.settings.prayer-times.custom-city-row">' +
+'<input type="text" class="form-control" id="ptCustomCityInput" value="' + customVal + '" placeholder="e.g. Guntur" data-ref="page.settings.prayer-times.custom-city-input">' +
+'<input type="text" class="form-control" id="ptCountryInput" value="' + esc(cfg.country || 'India') + '" placeholder="Country" style="max-width:130px" data-ref="page.settings.prayer-times.country-input">' +
+'</div>' +
+'</div>' +
+'<div class="col-12" data-ref="page.settings.prayer-times.school-col">' +
+'<label class="form-label text-muted small fw-bold mb-1" data-ref="page.settings.prayer-times.school-label">Juristic Method (Asr calculation)</label>' +
+'<select class="form-select" id="ptSchoolSelect" data-ref="page.settings.prayer-times.school-select">' +
+'<option value="1"' + (cfg.school === 1 ? ' selected' : '') + '>Hanafi (Standard in South Asia)</option>' +
+'<option value="0"' + (cfg.school === 0 ? ' selected' : '') + '>Shafi / Maliki / Hanbali</option>' +
+'</select>' +
+'</div>' +
+'</div>' +
+'<button class="btn btn-brand fw-bold w-100 py-3 fs-6 rounded-3" data-act="pt-save" type="button" data-ref="page.settings.prayer-times.save-btn">' +
+'<i class="fa-solid fa-arrows-rotate me-1" data-ref="page.settings.prayer-times.save-icon"></i>Sync &amp; Save Prayer Times' +
+'</button>' +
+'</div>' +
+'' +
+'<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.start-date.card">' +
+'<div class="d-flex align-items-center gap-3 mb-3" data-ref="page.settings.start-date.header">' +
+'<span class="modal-icon-badge" data-ref="page.settings.start-date.icon-badge">' +
+'<i class="fa-regular fa-calendar-check fs-4 text-success" data-ref="page.settings.start-date.icon"></i></span>' +
+'<div class="flex-grow-1" data-ref="page.settings.start-date.info"><div class="fw-bold" style="font-size:1.05rem" data-ref="page.settings.start-date.title">Current Start Date</div></div>' +
+'</div>' +
+'<div class="d-flex gap-2 align-items-center" data-ref="page.settings.start-date.input-row">' +
 '<input type="date" class="form-control form-control-lg" id="sdInput" value="' + sdate +
-'" max="' + td() + '" style="border-radius:10px">' +
+'" max="' + td() + '" style="border-radius:10px" data-ref="page.settings.start-date.input">' +
 '<button class="btn btn-brand fw-bold px-4 fs-6" data-act="sd-save" type="button" ' +
-'style="white-space:nowrap">Change</button>' +
+'style="white-space:nowrap" data-ref="page.settings.start-date.save-btn">Change</button>' +
 '</div>' +
 '</div>' +
-'<div class="card shadow-sm rounded-4 p-3 mb-2" style="background:#fff">' +
-'<div class="d-flex align-items-center gap-3 mb-3">' +
-'<span class="modal-icon-badge" style="font-weight:700;color:#1b7a4b;font-size:1.3rem">Aa</span>' +
-'<div class="flex-grow-1"><div class="fw-bold" style="font-size:1.05rem">Font Size</div></div>' +
+'' +
+'<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.font-size.card">' +
+'<div class="d-flex align-items-center gap-3 mb-3" data-ref="page.settings.font-size.header">' +
+'<span class="modal-icon-badge" style="font-weight:700;color:#1b7a4b;font-size:1.3rem" data-ref="page.settings.font-size.icon-badge">Aa</span>' +
+'<div class="flex-grow-1" data-ref="page.settings.font-size.info"><div class="fw-bold" style="font-size:1.05rem" data-ref="page.settings.font-size.title">Font Size</div></div>' +
 '</div>' +
-'<div class="d-flex gap-2" id="fsBtns">' + fsb + '</div>' +
+'<div class="d-flex gap-2" id="fsBtns" data-ref="page.settings.font-size.buttons-row">' + fsb + '</div>' +
 '</div>' +
-'<div class="card shadow-sm rounded-4 p-3 mb-2" style="background:#fff">' +
-'<div class="d-flex align-items-center gap-3 mb-2">' +
-'<span class="modal-icon-badge" style="background:#fde8e8">' +
-'<i class="fa-solid fa-triangle-exclamation fs-4 text-danger"></i></span>' +
-'<div class="flex-grow-1">' +
-'<div class="fw-bold" style="font-size:1.05rem">Reset Database</div>' +
-'<div class="text-muted" style="font-size:.8rem">This will delete all prayer data, old data and old period.</div>' +
+'' +
+'<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.reset.card">' +
+'<div class="d-flex align-items-center gap-3 mb-2" data-ref="page.settings.reset.header">' +
+'<span class="modal-icon-badge" style="background:#fde8e8" data-ref="page.settings.reset.icon-badge">' +
+'<i class="fa-solid fa-triangle-exclamation fs-4 text-danger" data-ref="page.settings.reset.icon"></i></span>' +
+'<div class="flex-grow-1" data-ref="page.settings.reset.info">' +
+'<div class="fw-bold" style="font-size:1.05rem" data-ref="page.settings.reset.title">Reset Database</div>' +
+'<div class="text-muted" style="font-size:.8rem" data-ref="page.settings.reset.subtitle">This will delete all prayer data, old data and cache.</div>' +
 '</div>' +
 '</div>' +
 '<button class="btn btn-danger fw-bold w-100 mt-2 py-3" data-act="reset-db" type="button" ' +
-'style="border-radius:12px;font-size:1rem">Reset</button>' +
+'style="border-radius:12px;font-size:1rem" data-ref="page.settings.reset.btn">Reset</button>' +
 '</div>' +
-'<div class="card rounded-4 p-3" style="background:#e7f1ff">' +
-'<div class="d-flex align-items-center gap-3">' +
+'' +
+'<div class="card rounded-4 p-3 border-0" style="background:#e7f1ff" data-ref="page.settings.info.card">' +
+'<div class="d-flex align-items-center gap-3" data-ref="page.settings.info.content">' +
 '<span class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0" ' +
-'style="width:34px;height:34px;background:#0d6efd;color:#fff">' +
+'style="width:34px;height:34px;background:#0d6efd;color:#fff" data-ref="page.settings.info.icon">' +
 '<i class="fa-solid fa-info" style="font-size:1rem"></i></span>' +
-'<div class="small" style="color:#1a2b23;line-height:1.4">' +
+'<div class="small text-gr1" style="line-height:1.4" data-ref="page.settings.info.text">' +
 'All changes are saved automatically in your device (localStorage).</div>' +
 '</div>' +
 '</div>';
+var sel = $('ptCitySelect');
+if (sel) {
+sel.onchange = function () {
+var wrap = $('ptCustomCityWrap');
+if (wrap) {
+if (this.value === '__custom__') {
+wrap.classList.remove('d-none');
+var inp = $('ptCustomCityInput');
+if (inp) inp.focus();
+} else {
+wrap.classList.add('d-none');
+}
+}
+};
+}
 }
 'use strict';
 window.TasbeehApp = (function () {

@@ -14,6 +14,7 @@ const ROOT = path.join(BUILD_DIR, '..');
 const OUT_FILE = path.join(BUILD_DIR, 'production.html');
 
 const htmlPath = path.join(ROOT, 'main.html');
+const colorCssPath = path.join(ROOT, 'css', 'color.css');
 const styleCssPath = path.join(ROOT, 'css', 'style.css');
 const utilityJsPath = path.join(ROOT, 'utilities', 'utility.js');
 const appJsPath = path.join(ROOT, 'features', 'app', 'app.js');
@@ -72,11 +73,13 @@ function buildProduction() {
 
         let html = fs.readFileSync(htmlPath, 'utf8');
 
-        // 1. Minify and inline CSS (css/style.css)
+        // 1. Minify and inline CSS (css/color.css + css/style.css)
+        const colorCss = fs.existsSync(colorCssPath) ? fs.readFileSync(colorCssPath, 'utf8') : '';
         const styleCss = fs.existsSync(styleCssPath) ? fs.readFileSync(styleCssPath, 'utf8') : '';
-        const minifiedCss = minifyCss(styleCss);
+        const minifiedCss = minifyCss(colorCss + '\n' + styleCss);
 
-        // Replace link CSS tag with minified inlined style block
+        // Replace link CSS tags with minified inlined style block
+        html = html.replace(/<link[^>]*href="css\/color\.css"[^>]*\/?>/g, '');
         html = html.replace(/<link[^>]*href="css\/style\.css"[^>]*\/?>/g, () => `<style>${minifiedCss}</style>`);
 
         // 2. Combine and Minify JS

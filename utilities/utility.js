@@ -211,7 +211,11 @@ function handleClick(e) {
         sr(sd, c2);
         rn();
     } else if (act === 'jump-today') {
-        sd = td(); rn();
+        sd = td();
+        if (typeof fetchPrayerTimings === 'function') {
+            fetchPrayerTimings(sd, function () { rn(); });
+        }
+        rn();
     } else if (act === 'missed-open') {
         rMS();
     } else if (act === 'toggle-old') {
@@ -229,10 +233,51 @@ function handleClick(e) {
     } else if (act === 'jump') {
         sd = t.dataset.d;
         sheet2BS.hide();
+        if (typeof fetchPrayerTimings === 'function') {
+            fetchPrayerTimings(sd, function () { rn(); });
+        }
         setTimeout(function () { showPage('current'); }, 350);
     } else if (act === 'font') {
         apFS(parseFloat(t.dataset.fs));
         rSET();
+    } else if (act === 'pt-save') {
+        var sel = $('ptCitySelect');
+        var city = '';
+        var country = 'India';
+        if (sel) {
+            if (sel.value === '__custom__') {
+                var customInp = $('ptCustomCityInput');
+                city = customInp ? customInp.value.trim() : '';
+                var countryInp = $('ptCountryInput');
+                if (countryInp && countryInp.value.trim()) {
+                    country = countryInp.value.trim();
+                }
+            } else {
+                city = sel.value;
+            }
+        } else {
+            var cityEl = $('ptCityInput');
+            city = cityEl ? cityEl.value.trim() : 'Guntur';
+        }
+        var schoolEl = $('ptSchoolSelect');
+        var school = schoolEl ? parseInt(schoolEl.value, 10) : 1;
+        if (!city) {
+            alert('Please select or enter a city.');
+            return;
+        }
+        if (typeof setPrayerConfig === 'function') {
+            setPrayerConfig({ city: city, country: country, school: school });
+        }
+        if (typeof fetchPrayerTimings === 'function') {
+            fetchPrayerTimings(td(), function (err) {
+                if (err) {
+                    alert('Saved settings, but live API connection failed: ' + err.message);
+                } else {
+                    alert('Prayer times synced successfully for ' + city + ', ' + country + '!');
+                }
+                rSET();
+            });
+        }
     } else if (act === 'sd-save') {
         var v = $('sdInput').value;
         if (!v) { alert('Please pick a date.'); return; }
@@ -255,12 +300,14 @@ function handleClick(e) {
             rOT();
         }
     } else if (act === 'reset-db') {
-        if (confirm('Delete ALL prayer records?')) {
+        if (confirm('Delete ALL prayer records and cached prayer times?')) {
             localStorage.removeItem(K);
             localStorage.removeItem(OCK);
             localStorage.removeItem(OK);
+            if (typeof PTK_CACHE !== 'undefined') localStorage.removeItem(PTK_CACHE);
             sd = td();
             en(sd);
+            if (typeof fetchPrayerTimings === 'function') fetchPrayerTimings(td());
             rSET();
         }
     } else if (act === 'go-home') {
