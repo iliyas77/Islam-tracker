@@ -186,7 +186,7 @@ body {
     font-size: 1.3rem;
 }
 
-/* ---------- Prayer / Zikir row ---------- */
+/* ---------- Prayer row ---------- */
 .prayer-row {
     display: flex;
     align-items: center;
@@ -423,113 +423,6 @@ body {
     background: var(--brand);
 }
 
-/* ---------- Zikir card ---------- */
-.zikir-card-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    background: var(--brand-light);
-    color: var(--brand);
-    font-size: 1.4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.zikir-edit-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: var(--brand-light);
-    color: var(--brand);
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.zikir-tile {
-    padding: 0.75rem;
-    border-radius: 10px;
-    background: var(--brand-soft);
-    text-align: center;
-}
-
-.zikir-tile .label {
-    color: var(--ink-soft);
-    font-size: 0.62rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-}
-
-.zikir-tile .value {
-    font-weight: 700;
-    font-size: 1.45rem;
-}
-
-.zikir-divider {
-    border-top: 1px dashed var(--divider);
-    margin: 0 0 12px 0;
-}
-
-.zikir-day-pill {
-    background: var(--brand-light);
-    color: var(--brand);
-    font-weight: 700;
-    font-size: 0.75rem;
-    padding: 0.4rem 0.75rem;
-    border-radius: 50rem;
-}
-
-/* ---------- Search bar ---------- */
-.search-bar {
-    display: flex;
-    align-items: center;
-    border: 1.5px solid var(--divider);
-    background: #fff;
-    border-radius: 50rem;
-    overflow: hidden;
-}
-
-.search-bar .search-icon {
-    padding-left: 0.75rem;
-    padding-right: 0.5rem;
-    color: var(--ink-soft);
-}
-
-.search-bar input {
-    box-shadow: none;
-    background: #fff;
-    border: none;
-    height: 48px;
-    padding-left: 0;
-}
-
-.btn-add-zikir {
-    width: 52px;
-    height: 52px;
-    background: var(--brand);
-    color: #fff;
-    border: none;
-    border-radius: 14px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* ---------- Filter chips ---------- */
-.filter-chip {
-    border-radius: 10px;
-    font-size: 0.82rem;
-    padding: 0.5rem 0.25rem;
-    white-space: nowrap;
-    font-weight: 700;
-}
-
 /* ---------- Misc ---------- */
 .hidden-date-input {
     position: fixed;
@@ -542,13 +435,6 @@ body {
     border: 0;
     padding: 0;
     z-index: -1;
-}
-
-.mark-highlight {
-    background: #fff3a3;
-    color: var(--ink);
-    padding: 0 2px;
-    border-radius: 3px;
 }
 
 /* ---------- Current prayer card ---------- */
@@ -608,4 +494,222 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 1.6rem;
+}
+
+/* ============================================================
+   Digital Tasbeeh Styles
+   ============================================================ */
+.tb-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tb-card:active {
+    transform: scale(0.99);
+}
+
+.tb-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--brand-light);
+    color: var(--brand);
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.tb-arabic {
+    font-size: 1.25rem;
+    font-family: 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
+    color: var(--brand);
+    line-height: 1.4;
+}
+
+.tb-meta {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+}
+
+.tb-counter-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1085;
+    background: var(--bg);
+}
+
+.tb-ring-wrap {
+    position: relative;
+    width: 260px;
+    height: 260px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tb-bead-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.tb-bead {
+    fill: var(--divider);
+    transition: fill 0.2s ease, transform 0.2s ease;
+    transform-origin: center;
+}
+
+.tb-bead.on {
+    fill: var(--brand);
+    filter: drop-shadow(0 0 3px rgba(27, 122, 75, 0.4));
+}
+
+.tb-bead.next {
+    fill: var(--warn);
+    animation: tbBeadPulse 1.2s infinite ease-in-out;
+}
+
+@keyframes tbBeadPulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; }
+}
+
+.tb-ring-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.tb-center-count {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -1px;
+}
+
+.tb-center-target {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.tb-tap-zone {
+    width: 100%;
+    max-width: 320px;
+    height: 96px;
+    margin: 0 auto;
+    border-radius: 24px;
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(27, 122, 75, 0.25);
+    transition: transform 0.08s ease, background-color 0.15s ease;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.tb-tap-zone:active {
+    transform: scale(0.97);
+}
+
+.tb-tap-zone.done {
+    background: #0f5132;
+}
+
+.tb-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(0);
+    animation: tbRippleAnim 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes tbRippleAnim {
+    to {
+        transform: scale(3.5);
+        opacity: 0;
+    }
+}
+
+.tb-chip {
+    border: 1.5px solid var(--border);
+    background: #fff;
+    border-radius: 10px;
+    padding: 0.5rem 0.85rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--ink);
+    transition: all 0.15s ease;
+}
+
+.tb-chip.active {
+    background: var(--brand-light);
+    border-color: var(--brand);
+    color: var(--brand);
+}
+
+.tb-ctrl-btn {
+    border-radius: 12px;
+    padding: 0.6rem 0.75rem;
+    font-weight: 700;
+    font-size: 0.82rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background-color 0.15s;
+}
+
+.tb-ctrl-btn:hover, .tb-ctrl-btn:active {
+    background: var(--brand-soft);
+}
+
+.tb-ctrl-btn.active {
+    background: var(--brand-light);
+    border-color: var(--brand);
+    color: var(--brand);
+}
+
+.tb-toast-wrap {
+    position: absolute;
+    top: 72px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1099;
+    background: var(--ink);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.6rem 1.25rem;
+    border-radius: 50rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+}
+
+.tb-toast-wrap.show {
+    opacity: 1;
 }

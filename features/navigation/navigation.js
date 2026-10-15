@@ -1,6 +1,6 @@
 /* ---------- Navigation ---------- */
-var PAGES = ['dashboardPage', 'currentPage', 'zikirPage', 'oldPage', 'settingsPage'];
-var NAVS = { dashboard: 'navHome', current: 'navCur', zikir: 'navZikir', old: 'navOld', settings: 'navSet' };
+var PAGES = ['dashboardPage', 'currentPage', 'oldPage', 'settingsPage', 'tasbeehPage'];
+var NAVS = { dashboard: 'navHome', current: 'navCur', old: 'navOld', settings: 'navSet', tasbeeh: 'navTasbeeh' };
 
 function setNav(id) {
     Object.values(NAVS).forEach(function (n) {
@@ -31,9 +31,9 @@ function showPage(kind) {
 
     var target = kind === 'dashboard' ? 'dashboardPage' :
         kind === 'current' ? 'currentPage' :
-            kind === 'zikir' ? 'zikirPage' :
-                kind === 'old' ? 'oldPage' :
-                    kind === 'settings' ? 'settingsPage' : null;
+            kind === 'old' ? 'oldPage' :
+                kind === 'settings' ? 'settingsPage' :
+                    kind === 'tasbeeh' ? 'tasbeehPage' : null;
 
     if (!target) return;
 
@@ -44,7 +44,11 @@ function showPage(kind) {
 
     if (kind === 'dashboard') rDashboard();
     else if (kind === 'current') rn();
-    else if (kind === 'zikir') rC();
     else if (kind === 'old') rOT();
     else if (kind === 'settings') rSET();
+    else if (kind === 'tasbeeh') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.render === 'function') {
+            window.TasbeehApp.render();
+        }
+    }
 }
