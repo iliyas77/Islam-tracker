@@ -269,6 +269,55 @@ function getNextPrayerInfo() {
     };
 }
 
+function getActivePrayerInfo() {
+    var now = new Date();
+    var currentMin = now.getHours() * 60 + now.getMinutes();
+
+    function parseToMinutes(timeStr) {
+        if (!timeStr) return -1;
+        var parts = timeStr.trim().split(' ');
+        if (!parts[0]) return -1;
+        var sub = parts[0].split(':');
+        var h = parseInt(sub[0], 10);
+        var m = parseInt(sub[1], 10);
+        if (isNaN(h) || isNaN(m)) return -1;
+        var ap = parts[1] || 'AM';
+        if (ap === 'PM' && h < 12) h += 12;
+        if (ap === 'AM' && h === 12) h = 0;
+        return h * 60 + m;
+    }
+
+    var fajrMin = parseToMinutes(T.Fajr);
+    var dhuhrMin = parseToMinutes(T.Dhuhr);
+    var asrMin = parseToMinutes(T.Asr);
+    var maghribMin = parseToMinutes(T.Maghrib);
+    var ishaMin = parseToMinutes(T.Isha);
+
+    var activeName = 'Fajr';
+    var isYesterday = false;
+
+    if (currentMin >= ishaMin || currentMin < fajrMin) {
+        activeName = 'Isha';
+        if (currentMin < fajrMin) {
+            isYesterday = true;
+        }
+    } else if (currentMin >= maghribMin && currentMin < ishaMin) {
+        activeName = 'Maghrib';
+    } else if (currentMin >= asrMin && currentMin < maghribMin) {
+        activeName = 'Asr';
+    } else if (currentMin >= dhuhrMin && currentMin < asrMin) {
+        activeName = 'Dhuhr';
+    } else {
+        activeName = 'Fajr';
+    }
+
+    return {
+        name: activeName,
+        time: T[activeName] || '--:--',
+        isYesterday: isYesterday
+    };
+}
+
 /* ---------- Init ---------- */
 document.addEventListener('DOMContentLoaded', function () {
     sheet2BS = new bootstrap.Offcanvas($('sheet2'));

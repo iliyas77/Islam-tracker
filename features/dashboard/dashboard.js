@@ -26,11 +26,21 @@ function parseTimeToMin(timeStr) {
     return h * 60 + m;
 }
 
+var dashCurrentActivePrayer = null;
+
 /* ---------- Dashboard Clock ---------- */
 function dashTick() {
     var liveTimeEl = $('dashLiveTime');
     if (liveTimeEl) {
         liveTimeEl.textContent = dashLiveHeaderTime();
+    }
+
+    if (typeof getActivePrayerInfo === 'function') {
+        var curActive = getActivePrayerInfo();
+        if (dashCurrentActivePrayer && curActive && curActive.name !== dashCurrentActivePrayer) {
+            rDashboard();
+            return;
+        }
     }
 
     var countdownEl = $('dashCountdown');
@@ -96,6 +106,25 @@ function getTimelinePrayerStatuses() {
     return statuses;
 }
 
+function getActivePrayerInfo() {
+    var now = new Date();
+    var nowMin = now.getHours() * 60 + now.getMinutes();
+    var fajrMin = parseTimeToMin(T.Fajr);
+    var statuses = getTimelinePrayerStatuses();
+    var activeName = 'Fajr';
+    for (var i = 0; i < P.length; i++) {
+        if (statuses[P[i]] === 'active') {
+            activeName = P[i];
+            break;
+        }
+    }
+    return {
+        name: activeName,
+        time: T[activeName] || '--:--',
+        isYesterday: (activeName === 'Isha' && nowMin < fajrMin)
+    };
+}
+
 var TIMELINE_ICONS = {
     Fajr: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1zm6.36 2.05a1 1 0 0 1 0 1.41l-1.41 1.42a1 1 0 1 1-1.42-1.42l1.42-1.41a1 1 0 0 1 1.41 0zM21 11a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2h2zM7.05 6.05a1 1 0 0 1 1.41 1.41L7.05 8.88A1 1 0 0 1 5.64 7.46l1.41-1.41zM5 11a1 1 0 1 1 0 2H3a1 1 0 1 1 0-2h2zm7 3a4 4 0 0 0-3.87 3H3a1 1 0 1 0 0 2h18a1 1 0 1 0 0-2h-5.13A4 4 0 0 0 12 14z"/></svg>',
     Dhuhr: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4.5"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3m-3.8-8.2l-2.1 2.1m-8.2 8.2l-2.1 2.1m0-12.4l2.1 2.1m8.2 8.2l2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
@@ -143,12 +172,12 @@ function rDashboard() {
         ? Math.round((1 - trackedMiss / (trackedDays * 5)) * 100)
         : 0;
 
-    var nextP = typeof getNextPrayerInfo === 'function' ? getNextPrayerInfo() : {
+    var activeP = typeof getActivePrayerInfo === 'function' ? getActivePrayerInfo() : {
         name: 'Fajr',
         time: T.Fajr,
-        remainingPad: '09h 46m',
-        isTomorrow: true
+        isYesterday: false
     };
+    dashCurrentActivePrayer = activeP.name;
 
     var cfg = typeof getPrayerConfig === 'function' ? getPrayerConfig() : { city: 'Guntur', school: 1 };
 
@@ -160,8 +189,7 @@ function rDashboard() {
         ? (currentHijri.day + ' ' + currentHijri.month + ' ' + currentHijri.year)
         : (currentHijri && currentHijri.text ? currentHijri.text.replace(' AH', '') : '4 Jumādá al-ūlá 1448');
 
-    var countdownStr = nextP && nextP.remainingPad ? nextP.remainingPad : '09h 46m';
-    var nextCardIcon = TIMELINE_ICONS[nextP.name] || TIMELINE_ICONS.Fajr;
+    var activeCardIcon = TIMELINE_ICONS[activeP.name] || TIMELINE_ICONS.Fajr;
 
     var statuses = getTimelinePrayerStatuses();
     var timelineNodesHtml = P.map(function (p) {
@@ -219,18 +247,18 @@ function rDashboard() {
         '  </div>' +
 
 
-        '  <!-- 3. Next Prayer Card: Left = Icon + Name + Time + Tomorrow, Divider, Right = Dates -->' +
+        '  <!-- 3. Active Prayer Card: Left = Icon + Name + Time + Day, Divider, Right = Dates -->' +
         '  <div class="dash-next-card d-flex align-items-center justify-content-between mb-4" data-ref="page.dashboard.clock-card.next-card">' +
         '    <div class="d-flex align-items-center gap-3" data-ref="page.dashboard.clock-card.next-card.left">' +
         '      <div class="dash-next-icon-circle" data-ref="page.dashboard.clock-card.next-card.icon-circle">' +
-        nextCardIcon +
+        activeCardIcon +
         '      </div>' +
-        '      <div class="d-flex flex-column justify-content-center gap-1" data-ref="page.dashboard.clock-card.next-card.details">' +
-        '        <div class="prayer-name text-gr1 text-uppercase lh-1" data-ref="page.dashboard.clock-card.next-card.name">' + nextP.name + '</div>' +
-        '        <div class="prayer-time text-gr1 lh-1" data-ref="page.dashboard.clock-card.next-card.time">' + nextP.time + '</div>' +
+        '      <div class="d-flex flex-column justify-content-center gap-2" data-ref="page.dashboard.clock-card.next-card.details">' +
+        '        <div class="prayer-name text-gr1 text-uppercase lh-1" data-ref="page.dashboard.clock-card.next-card.name">' + activeP.name + '</div>' +
+        '        <div class="prayer-time text-gr1 lh-1" data-ref="page.dashboard.clock-card.next-card.time">' + activeP.time + '</div>' +
         '        <div class="tomorrow-label text-gr-muted d-flex align-items-center gap-1 lh-1" data-ref="page.dashboard.clock-card.next-card.day">' +
         '          <i class="fa-regular fa-calendar"></i>' +
-        '          <span>' + (nextP.isTomorrow ? 'Tomorrow' : 'Today') + '</span>' +
+        '          <span>' + (activeP.isYesterday ? 'Yesterday' : 'Today') + '</span>' +
         '        </div>' +
         '      </div>' +
         '    </div>' +
