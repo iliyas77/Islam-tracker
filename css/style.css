@@ -540,12 +540,12 @@ body {
 }
 
 .timeline-label {
-    font-size: var(--text-lg);
+    font-size: var(--text-base);
     font-weight: 600;
 }
 
 .timeline-time {
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
     font-weight: 500;
 }
 
