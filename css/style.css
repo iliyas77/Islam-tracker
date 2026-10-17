@@ -513,28 +513,28 @@ body {
 }
 
 .prayer-name {
-    font-size: var(--text-xl);
+    font-size: var(--text-base);
     font-weight: 600;
 }
 
 .prayer-time {
-    font-size: var(--text-xl);
+    font-size: var(--text-base);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
 }
 
 .date-text {
-    font-size: var(--text-base);
+    font-size: var(--text-xs);
     font-weight: 500;
 }
 
 .tomorrow-label {
-    font-size: 15px;
+    font-size: var(--text-xs);
     font-weight: 400;
 }
 
 .section-title {
-    font-size: var(--text-xl);
+    font-size: var(--text-base);
     font-weight: 700;
     letter-spacing: 1px;
 }
@@ -653,32 +653,32 @@ body {
     background: #e8ece9;
     color: var(--gr-muted);
     font-weight: 500;
-    font-size: var(--text-sm);
-    padding: 3px 10px;
+    font-size: 11px;
+    padding: 2px 8px;
 }
 
 .badge-status-active {
     background: var(--gr-primary);
     color: #ffffff;
     font-weight: 500;
-    font-size: var(--text-sm);
-    padding: 3px 10px;
+    font-size: 11px;
+    padding: 2px 8px;
 }
 
 .badge-status-next {
     background: #ca8a04;
     color: #ffffff;
     font-weight: 500;
-    font-size: var(--text-sm);
-    padding: 3px 10px;
+    font-size: 11px;
+    padding: 2px 8px;
 }
 
 .badge-status-upcoming {
     background: #f1f4f2;
     color: var(--gr-muted);
     font-weight: 500;
-    font-size: var(--text-sm);
-    padding: 3px 10px;
+    font-size: 11px;
+    padding: 2px 8px;
 }
 
 /* ---------- Feature card (unused now, kept for safety) ---------- */
