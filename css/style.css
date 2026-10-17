@@ -447,25 +447,26 @@ body {
 }
 
 .clock-big {
-    font-size: 4rem;
-    font-weight: 800;
+    font-size: 3.25rem;
+    font-weight: 400;
     line-height: 1;
-    color: #0f3d2e;
+    color: var(--text-primary);
     font-variant-numeric: tabular-nums;
-    letter-spacing: -2px;
+    letter-spacing: -1.5px;
     text-align: center;
 }
 
 .clock-big .small {
-    font-size: 2rem;
-    color: var(--ink-soft);
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: var(--text-muted);
 }
 
 .clock-big .ampm {
-    font-size: 1.4rem;
-    color: var(--ink-soft);
-    margin-left: 8px;
-    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-left: 6px;
+    font-weight: 400;
 }
 
 .prayer-icon-circle {
