@@ -247,9 +247,12 @@ function rDashboard() {
         '    </div>' +
         '  </div>' +
 
-        '  <!-- 2. Big Live Current Time -->' +
-        '  <div class="clock-big my-3 text-center" id="dashTime" data-ref="page.dashboard.clock-card.time">' +
+        '  <!-- 2. Big Live Current Time with Masjid Icon -->' +
+        '  <div class="d-flex align-items-center justify-content-center gap-2 gap-sm-3 my-3" data-ref="page.dashboard.clock-card.time-wrap">' +
+        '    <i class="fa-solid fa-mosque text-gr-accent" style="font-size:2.2rem;line-height:1" data-ref="page.dashboard.clock-card.time-icon"></i>' +
+        '    <div class="clock-big" id="dashTime" data-ref="page.dashboard.clock-card.time">' +
         dashBigTimeHtml() +
+        '    </div>' +
         '  </div>' +
 
 

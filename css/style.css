@@ -447,24 +447,24 @@ body {
 }
 
 .clock-big {
-    font-size: 3.5rem;
+    font-size: 3.25rem;
     font-weight: 800;
     line-height: 1;
     color: var(--text-primary);
     font-variant-numeric: tabular-nums;
-    letter-spacing: -2px;
+    letter-spacing: -1.5px;
     text-align: center;
 }
 
 .clock-big .small {
-    font-size: 1.85rem;
+    font-size: 1.75rem;
     color: var(--text-muted);
 }
 
 .clock-big .ampm {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     color: var(--text-muted);
-    margin-left: 8px;
+    margin-left: 6px;
     font-weight: 700;
 }
 
