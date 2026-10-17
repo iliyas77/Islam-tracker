@@ -238,26 +238,25 @@ function rDashboard() {
 
     body.innerHTML =
         '<!-- Main Clock / Prayer Timeline Card matching reference UI -->' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0 position-relative overflow-hidden" data-ref="page.dashboard.clock-card">' +
+        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0 position-relative overflow-hidden d-flex flex-column gap-3" data-ref="page.dashboard.clock-card">' +
         '  <!-- 1. Header Bar: Location -->' +
-        '  <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom" style="border-color:#edf2ee !important" data-ref="page.dashboard.clock-card.header">' +
+        '  <div class="d-flex align-items-center justify-content-between pb-2 border-bottom" style="border-color:#edf2ee !important" data-ref="page.dashboard.clock-card.header">' +
         '    <div class="d-flex align-items-center gap-1 text-gr1 location" data-ref="page.dashboard.clock-card.header.location">' +
-        '      <i class="fa-solid fa-location-dot text-gr-accent me-1" data-ref="page.dashboard.clock-card.header.location-icon"></i>' +
+        '      <i class="fa-solid fa-location-dot text-gr-accent" data-ref="page.dashboard.clock-card.header.location-icon"></i>' +
         '      <span data-ref="page.dashboard.clock-card.header.location-text">' + cfg.city + ' &bull; ' + (cfg.school === 1 ? 'Hanafi' : 'Shafi') + '</span>' +
         '    </div>' +
         '  </div>' +
 
         '  <!-- 2. Big Live Current Time with Masjid Icon -->' +
-        '  <div class="d-flex align-items-center justify-content-start gap-2 gap-sm-3 my-3" data-ref="page.dashboard.clock-card.time-wrap">' +
+        '  <div class="d-flex align-items-center justify-content-start gap-2 gap-sm-3" data-ref="page.dashboard.clock-card.time-wrap">' +
         '    <i class="fa-solid fa-mosque text-gr1" style="font-size:2.2rem;line-height:1" data-ref="page.dashboard.clock-card.time-icon"></i>' +
         '    <div class="clock-big text-gr1 d-inline-flex align-items-baseline fw-normal" id="dashTime" data-ref="page.dashboard.clock-card.time">' +
         dashBigTimeHtml() +
         '    </div>' +
         '  </div>' +
 
-
         '  <!-- 3. Active Prayer Card: Left = Icon + Name + Time + Day, Divider, Right = Dates -->' +
-        '  <div class="dash-next-card d-flex align-items-center justify-content-between mb-4" data-ref="page.dashboard.clock-card.next-card">' +
+        '  <div class="dash-next-card d-flex align-items-center justify-content-between" data-ref="page.dashboard.clock-card.next-card">' +
         '    <div class="d-flex align-items-center gap-3" data-ref="page.dashboard.clock-card.next-card.left">' +
         '      <div class="dash-next-icon-circle" data-ref="page.dashboard.clock-card.next-card.icon-circle">' +
         activeCardIcon +
@@ -285,20 +284,20 @@ function rDashboard() {
         '  </div>' +
 
         '  <!-- 4. Daily Prayer Timeline Section -->' +
-        '  <div class="d-flex align-items-center gap-3 my-3" data-ref="page.dashboard.timeline.header">' +
+        '  <div class="d-flex align-items-center gap-3" data-ref="page.dashboard.timeline.header">' +
         '    <span class="section-title text-uppercase text-gr1" style="white-space:nowrap" data-ref="page.dashboard.timeline.title">DAILY PRAYER TIMELINE</span>' +
         '    <div class="flex-grow-1 border-bottom" style="border-color:#dbe5df !important" data-ref="page.dashboard.timeline.line"></div>' +
         '  </div>' +
 
-        '  <div class="position-relative w-100 my-2" data-ref="page.dashboard.timeline.track">' +
-        '    <div class="position-absolute start-0 end-0" style="height:2px;background:#d8e6de;top:54px;margin-left:10%;margin-right:10%;z-index:1;" data-ref="page.dashboard.timeline.track-line"></div>' +
+        '  <div class="position-relative w-100" data-ref="page.dashboard.timeline.track">' +
+        '    <div class="position-absolute" style="height:2px;background:#d8e6de;top:54px;left:10%;right:10%;z-index:1;" data-ref="page.dashboard.timeline.track-line"></div>' +
         '    <div class="d-flex align-items-start justify-content-between position-relative" style="z-index:2;" data-ref="page.dashboard.timeline.nodes">' +
         timelineNodesHtml +
         '    </div>' +
         '  </div>' +
 
         '  <!-- 5. Bottom Decorative Divider -->' +
-        '  <div class="d-flex align-items-center justify-content-center my-3" data-ref="page.dashboard.clock-card.bottom-divider">' +
+        '  <div class="d-flex align-items-center justify-content-center" data-ref="page.dashboard.clock-card.bottom-divider">' +
         '    <div class="flex-grow-1 border-bottom opacity-50" style="max-width:140px;border-color:#dbe5df !important"></div>' +
         '    <span class="px-2 text-gr-muted" style="font-size:0.85rem">✦</span>' +
         '    <div class="flex-grow-1 border-bottom opacity-50" style="max-width:140px;border-color:#dbe5df !important"></div>' +
