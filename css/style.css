@@ -493,7 +493,7 @@ body {
    ============================================================ */
 .location {
     font-size: var(--text-xl);
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .live-time {
@@ -515,12 +515,12 @@ body {
 
 .prayer-name {
     font-size: var(--text-base);
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .prayer-time {
     font-size: var(--text-base);
-    font-weight: 600;
+    font-weight: 500;
     font-variant-numeric: tabular-nums;
 }
 
@@ -536,13 +536,13 @@ body {
 
 .section-title {
     font-size: var(--text-base);
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: 1px;
 }
 
 .timeline-label {
     font-size: var(--text-base);
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .timeline-time {
