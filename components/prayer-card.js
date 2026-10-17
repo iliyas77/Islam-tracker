@@ -101,6 +101,7 @@ function renderPrayerTrackerRow(opts) {
     var isCurrent = opts.isCurrent;
     var isDone = opts.isDone;
     var isUpcoming = opts.isUpcoming;
+    var isMissed = opts.isMissed;
     var act = opts.actionAct || 'toggle-cur';
     var dateAttr = opts.date ? ' data-d="' + opts.date + '"' : '';
     var prefix = opts.pagePrefix || 'page.current';
@@ -138,6 +139,22 @@ function renderPrayerTrackerRow(opts) {
             '    </div>' +
             '  </div>' +
             '  <button type="button" class="btn-action btn-upcoming" disabled aria-disabled="true" data-ref="' + prefix + '.row.' + pLower + '.action-btn">Upcoming</button>' +
+            '</li>';
+    } else if (isMissed) {
+        return '<li class="prayer-row prayer-row-missed" data-ref="' + prefix + '.row.' + pLower + '">' +
+            '  <div class="prayer-meta" data-ref="' + prefix + '.row.' + pLower + '.meta">' +
+            '    <div class="icon-avatar icon-missed" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
+            (PRAYER_CARD_ICONS[p] || PRAYER_CARD_ICONS.Dhuhr) +
+            '    </div>' +
+            '    <div class="prayer-details" data-ref="' + prefix + '.row.' + pLower + '.details">' +
+            '      <div class="title-wrap" data-ref="' + prefix + '.row.' + pLower + '.title-wrap">' +
+            '        <span class="prayer-name" data-ref="' + prefix + '.row.' + pLower + '.name">' + p + '</span>' +
+            '        <span class="status-pill status-pill-missed" data-ref="' + prefix + '.row.' + pLower + '.status-pill">Missed</span>' +
+            '      </div>' +
+            '      <time class="prayer-time" data-ref="' + prefix + '.row.' + pLower + '.time">' + time + '</time>' +
+            '    </div>' +
+            '  </div>' +
+            '  <button type="button" class="btn-action btn-action-missed" data-act="' + act + '" data-p="' + p + '"' + dateAttr + ' data-ref="' + prefix + '.row.' + pLower + '.action-btn">Mark Done</button>' +
             '</li>';
     } else {
         var rowClass = isCurrent ? 'prayer-row prayer-row-current' : 'prayer-row';
@@ -194,6 +211,9 @@ function renderPrayerTrackerCard(cfg) {
     var timings = cfg.timings || {};
     var act = cfg.toggleAct || 'toggle-cur';
     var date = cfg.date || '';
+    var highlightMissed = cfg.highlightMissed !== undefined
+        ? cfg.highlightMissed
+        : true;
 
     var badgeActAttr = cfg.badgeAct ? ' data-act="' + cfg.badgeAct + '" role="button" style="cursor:pointer"' : '';
     var dateChipActAttr = cfg.dateChipAct ? ' data-act="' + cfg.dateChipAct + '"' : '';
@@ -202,12 +222,15 @@ function renderPrayerTrackerCard(cfg) {
     var missedRowsHtml = missed.length
         ? missed.map(function (p) {
             var isUp = upcoming.indexOf(p) !== -1;
+            var isCur = (p === curP && !isUp);
+            var isMsd = highlightMissed && (!isUp && !isCur);
             return renderPrayerTrackerRow({
                 prayer: p,
                 time: timings[p],
-                isCurrent: (p === curP && !isUp),
+                isCurrent: isCur,
                 isDone: false,
                 isUpcoming: isUp,
+                isMissed: isMsd,
                 actionAct: act,
                 date: date,
                 pagePrefix: prefix + '.missed'

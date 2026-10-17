@@ -1060,6 +1060,16 @@ body {
     border-color: var(--border-subtle) !important;
 }
 
+.prayer-row-missed {
+    border-color: var(--gr-danger);
+    background: linear-gradient(90deg, var(--gr-danger-soft) 0%, var(--card-bg) 60%);
+    position: relative;
+}
+
+.prayer-row-missed:hover {
+    border-color: var(--gr-danger);
+}
+
 .prayer-meta {
     display: flex;
     align-items: center;
@@ -1086,6 +1096,11 @@ body {
 .icon-done {
     background-color: var(--icon-done-bg);
     color: var(--active-green);
+}
+
+.icon-missed {
+    background-color: var(--gr-danger);
+    color: var(--whole-bg);
 }
 
 .prayer-details {
@@ -1136,6 +1151,17 @@ body {
     letter-spacing: 0.4px;
 }
 
+.status-pill-missed {
+    background-color: var(--gr-danger);
+    color: var(--card-bg);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
 .prayer-time {
     font-size: var(--text-sm);
     color: var(--text-secondary);
@@ -1172,6 +1198,18 @@ body {
 .btn-action-primary:hover {
     background-color: var(--btn-primary-hover);
     border-color: var(--btn-primary-hover);
+    color: var(--card-bg);
+}
+
+.btn-action-missed {
+    background-color: var(--card-bg);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: var(--gr-danger);
+}
+
+.btn-action-missed:hover {
+    background-color: var(--gr-danger);
+    border-color: var(--gr-danger);
     color: var(--card-bg);
 }
 
