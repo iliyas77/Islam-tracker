@@ -339,6 +339,6 @@ document.addEventListener('DOMContentLoaded', function () {
     $('dp').onchange = function (e) { if (e.target.value) go(e.target.value); };
 
     /* Action buttons */
-    $('currentActionBtn').onclick = openCal;
+    if ($('currentActionBtn')) $('currentActionBtn').onclick = openCal;
     $('oldActionBtn').onclick = rOldInfo;
 });

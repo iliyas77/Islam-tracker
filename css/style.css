@@ -910,3 +910,312 @@ body {
 .tb-toast-wrap.show {
     opacity: 1;
 }
+
+/* ============================================================
+   Prayer Tracker Card Component
+   ============================================================ */
+.prayer-tracker-card {
+    width: 100%;
+    max-width: 480px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.tracker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.header-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: var(--radius-sm);
+    transition: color 0.15s ease, background 0.15s ease;
+}
+
+.btn-text:hover {
+    color: var(--active-green);
+    background-color: var(--active-light);
+}
+
+.date-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--surface-bg);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.date-chip:hover {
+    border-color: var(--active-green);
+    background: var(--card-bg);
+}
+
+.prayer-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.group-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--text-secondary);
+    user-select: none;
+}
+
+.toggle-icon {
+    font-size: 10px;
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+.group-toggle.collapsed .toggle-icon,
+.group-toggle[aria-expanded="false"] .toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.section-title {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+}
+
+.prayer-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+}
+
+.prayer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.prayer-row:hover {
+    border-color: var(--border-hover);
+}
+
+.prayer-row-current {
+    border-color: var(--active-green);
+    background: linear-gradient(90deg, var(--active-light) 0%, var(--card-bg) 60%);
+    position: relative;
+}
+
+.prayer-row-done {
+    opacity: 0.65;
+    background-color: var(--surface-bg);
+    border-color: transparent;
+}
+
+.prayer-row-upcoming {
+    background-color: var(--surface-bg);
+    border-color: var(--border-subtle);
+    cursor: default !important;
+}
+
+.prayer-row-upcoming:hover {
+    border-color: var(--border-subtle) !important;
+}
+
+.prayer-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.icon-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background-color: var(--surface-bg);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.icon-current {
+    background-color: var(--active-green);
+    color: var(--card-bg);
+}
+
+.icon-done {
+    background-color: var(--icon-done-bg);
+    color: var(--active-green);
+}
+
+.prayer-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.title-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.prayer-name {
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.arabic-text {
+    font-family: var(--font-arabic);
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 500;
+    direction: rtl;
+}
+
+.status-pill {
+    font-size: 10px;
+    font-weight: 700;
+    background-color: var(--active-green);
+    color: var(--card-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.status-pill-upcoming {
+    background-color: var(--border-subtle);
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.prayer-time {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+
+.btn-action {
+    background-color: transparent;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-action:hover {
+    border-color: var(--active-green);
+    color: var(--active-green);
+    background-color: var(--active-light);
+}
+
+.btn-action-primary {
+    background-color: var(--active-green);
+    border-color: var(--active-green);
+    color: var(--card-bg);
+}
+
+.btn-action-primary:hover {
+    background-color: var(--btn-primary-hover);
+    border-color: var(--btn-primary-hover);
+    color: var(--card-bg);
+}
+
+.btn-completed {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.btn-completed:hover {
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--text-muted);
+}
+
+.btn-upcoming {
+    background-color: var(--surface-bg) !important;
+    border: 1px solid var(--border-subtle) !important;
+    color: var(--text-muted) !important;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    cursor: not-allowed !important;
+    opacity: 0.85;
+    pointer-events: none;
+    box-shadow: none !important;
+}
+
+.btn-upcoming:hover {
+    background-color: var(--surface-bg) !important;
+    color: var(--text-muted) !important;
+}
+
+.icon-sm {
+    width: 14px;
+    height: 14px;
+}
+
+.icon-md {
+    width: 20px;
+    height: 20px;
+}

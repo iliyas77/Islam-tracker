@@ -1,32 +1,5 @@
 /* ---------- Old Tracking ---------- */
-function oldSectionHeader(type, title, count) {
-    var isMissed = type === 'missed';
-    var bg = isMissed ? '#fde8e8' : '#d1e7dd';
-    var fg = isMissed ? '#dc3545' : 'var(--gr-primary)';
-    var icon = isMissed ? 'fa-exclamation' : 'fa-check';
-    return '<div class="section-header" style="background:' + bg + '" data-ref="page.old.section-header.' + type + '">' +
-        '<span class="icon-circle" style="background:' + fg + '" data-ref="page.old.section-header.' + type + '.icon">' +
-        '<i class="fa-solid ' + icon + '"></i></span>' +
-        '<span class="title" data-ref="page.old.section-header.' + type + '.title">' + title + '</span>' +
-        '<span class="count" style="color:' + fg + '" data-ref="page.old.section-header.' + type + '.count">' + count + '</span>' +
-        '</div>';
-}
 
-function oldRow(date, p) {
-    var r = grO(date);
-    var d = r[p] === true;
-    var badge = d
-        ? '<span class="badge-pill-custom badge-missed" data-ref="page.old.prayer-row.badge.' + p.toLowerCase() + '"><i class="fa-solid fa-circle-exclamation"></i>Missed</span>'
-        : '<span class="badge-pill-custom badge-done" data-ref="page.old.prayer-row.badge.' + p.toLowerCase() + '"><i class="fa-solid fa-circle-check"></i>Done</span>';
-    return '<div class="prayer-row" role="button" data-act="toggle-old" data-p="' + p + '" data-d="' + date + '" data-ref="page.old.prayer-row.' + p.toLowerCase() + '">' +
-        '<span class="icon-circle-lg" data-ref="page.old.prayer-row.icon.' + p.toLowerCase() + '">' + I[p] + '</span>' +
-        '<div class="flex-grow-1 ms-3 min-w-0" data-ref="page.old.prayer-row.details.' + p.toLowerCase() + '">' +
-        '<div class="name" data-ref="page.old.prayer-row.name.' + p.toLowerCase() + '">' + p + '</div>' +
-        '<div class="time" data-ref="page.old.prayer-row.time.' + p.toLowerCase() + '">' + (T[p] || '--:--') + '</div>' +
-        '</div>' + badge +
-        '<i class="fa-solid fa-chevron-right chevron" data-ref="page.old.prayer-row.chevron.' + p.toLowerCase() + '"></i>' +
-        '</div>';
-}
 
 function rOldInfo() {
     var o = rdOK();
@@ -162,9 +135,9 @@ function rOT() {
 
     if (!o) {
         sub.textContent = 'Select a period to begin';
-        lst.innerHTML = '<div class="text-center text-muted py-5 px-3" style="background:#fff;border-radius:16px">' +
-            '<i class="fa-regular fa-calendar-plus display-4 mb-3" style="color:#cc7a00"></i>' +
-            '<p class="fw-bold mb-1" style="color:#cc7a00">No period selected</p>' +
+        lst.innerHTML = '<div class="text-center text-muted py-5 px-3 bg-white rounded-4 shadow-sm" data-ref="page.old.empty-period">' +
+            '<i class="fa-regular fa-calendar-plus display-4 mb-3 text-warning"></i>' +
+            '<p class="fw-bold mb-1 text-warning">No period selected</p>' +
             '<p class="text-muted small mb-0">Tap the bookmark button above to set your Old Tracking period.</p>' +
             '</div>';
         return;
@@ -173,7 +146,7 @@ function rOT() {
 
     var curDate = currentOldDate();
     if (!curDate) {
-        lst.innerHTML = '<div class="text-center text-muted py-5 px-3" style="background:#fff;border-radius:16px">' +
+        lst.innerHTML = '<div class="text-center text-muted py-5 px-3 bg-white rounded-4 shadow-sm" data-ref="page.old.all-completed">' +
             '<i class="fa-solid fa-circle-check display-4 mb-3 text-success"></i>' +
             '<p class="fw-bold mb-2 text-gr-accent">All days complete!</p>' +
             '<p class="text-muted small mb-0">The Old Tracking period has been fully cleared.</p>' +
@@ -185,22 +158,24 @@ function rOT() {
     var missed = P.filter(function (p) { return r[p] === true; });
     var done = P.filter(function (p) { return r[p] !== true; });
 
-    var html = '<div class="fw-bold mb-2 px-1" style="font-size:.78rem;color:#7a8b83">' +
-        friendly(curDate) + ' · ' + fr(curDate) + '</div>';
+    var dateChipText = friendly(curDate) + ' · ' + formatChipDate(curDate);
 
-    html += '<div class="card shadow-sm rounded-4 overflow-hidden mb-2">';
-    html += oldSectionHeader('missed', 'Missed Prayers', missed.length);
-    html += missed.length
-        ? missed.map(function (p) { return oldRow(curDate, p); }).join('')
-        : '<div class="text-center text-muted py-4" style="background:#fff;font-size:.9rem">No missed prayers</div>';
-    html += '</div>';
-
-    html += '<div class="card shadow-sm rounded-4 overflow-hidden">';
-    html += oldSectionHeader('done', 'Completed Prayers', done.length);
-    html += done.length
-        ? done.map(function (p) { return oldRow(curDate, p); }).join('')
-        : '<div class="text-center text-muted py-4" style="background:#fff;font-size:.9rem">No completed prayers yet</div>';
-    html += '</div>';
+    var html = renderPrayerTrackerCard({
+        pagePrefix: 'page.old',
+        collapsePrefix: 'old',
+        badgeText: 'Missed (' + missed.length + ')',
+        badgeAct: '',
+        actionBtnText: 'Mark All Done',
+        actionBtnAct: 'old-mark-all-done',
+        dateChipText: dateChipText,
+        dateChipAct: 'old-info',
+        missedPrayers: missed,
+        donePrayers: done,
+        timings: T,
+        currentPrayerName: null,
+        toggleAct: 'toggle-old',
+        date: curDate
+    });
 
     lst.innerHTML = html;
 }

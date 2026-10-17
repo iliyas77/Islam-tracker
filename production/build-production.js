@@ -17,6 +17,7 @@ const htmlPath = path.join(ROOT, 'main.html');
 const colorCssPath = path.join(ROOT, 'css', 'color.css');
 const styleCssPath = path.join(ROOT, 'css', 'style.css');
 const utilityJsPath = path.join(ROOT, 'utilities', 'utility.js');
+const prayerCardJsPath = path.join(ROOT, 'components', 'prayer-card.js');
 const appJsPath = path.join(ROOT, 'features', 'app', 'app.js');
 const navigationJsPath = path.join(ROOT, 'features', 'navigation', 'navigation.js');
 const currentPrayerJsPath = path.join(ROOT, 'features', 'current-prayer', 'current-prayer.js');
@@ -84,6 +85,7 @@ function buildProduction() {
 
         // 2. Combine and Minify JS
         const utilityJs = fs.existsSync(utilityJsPath) ? fs.readFileSync(utilityJsPath, 'utf8') : '';
+        const prayerCardJs = fs.existsSync(prayerCardJsPath) ? fs.readFileSync(prayerCardJsPath, 'utf8') : '';
         const appJs = fs.existsSync(appJsPath) ? fs.readFileSync(appJsPath, 'utf8') : '';
         const navigationJs = fs.existsSync(navigationJsPath) ? fs.readFileSync(navigationJsPath, 'utf8') : '';
         const currentPrayerJs = fs.existsSync(currentPrayerJsPath) ? fs.readFileSync(currentPrayerJsPath, 'utf8') : '';
@@ -91,11 +93,12 @@ function buildProduction() {
         const oldTrackingJs = fs.existsSync(oldTrackingJsPath) ? fs.readFileSync(oldTrackingJsPath, 'utf8') : '';
         const settingsJs = fs.existsSync(settingsJsPath) ? fs.readFileSync(settingsJsPath, 'utf8') : '';
         const tasbeehJs = fs.existsSync(tasbeehJsPath) ? fs.readFileSync(tasbeehJsPath, 'utf8') : '';
-        const combinedJs = utilityJs + '\n' + appJs + '\n' + navigationJs + '\n' + currentPrayerJs + '\n' + dashboardJs + '\n' + oldTrackingJs + '\n' + settingsJs + '\n' + tasbeehJs;
+        const combinedJs = utilityJs + '\n' + prayerCardJs + '\n' + appJs + '\n' + navigationJs + '\n' + currentPrayerJs + '\n' + dashboardJs + '\n' + oldTrackingJs + '\n' + settingsJs + '\n' + tasbeehJs;
         const minifiedJs = minifyJs(combinedJs);
 
         // Replace script src tags with minified inlined script block
         html = html.replace(/<script[^>]*src="utilities\/utility\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="components\/prayer-card\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/navigation\/navigation\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/current-prayer\/current-prayer\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/dashboard\/dashboard\.js"[^>]*><\/script>/g, '');

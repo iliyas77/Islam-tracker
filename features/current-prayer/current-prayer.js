@@ -1,72 +1,55 @@
-/* ---------- Current Prayer Render ---------- */
-function curSectionHeader(type, title, count) {
-    var isMissed = type === 'missed';
-    var bg = isMissed ? '#fde8e8' : '#f1f3f2';
-    var fg = isMissed ? '#dc3545' : '#6b7a72';
-    var icon = isMissed ? 'fa-exclamation' : 'fa-hourglass-half';
-    return '<div class="section-header" style="background:' + bg + '" data-ref="page.current.section-header.' + type + '">' +
-        '<span class="icon-circle" style="background:' + fg + '" data-ref="page.current.section-header.' + type + '.icon">' +
-        '<i class="fa-solid ' + icon + '"></i></span>' +
-        '<span class="title" data-ref="page.current.section-header.' + type + '.title">' + title + '</span>' +
-        '<span class="count" style="color:' + fg + '" data-ref="page.current.section-header.' + type + '.count">' + count + '</span>' +
-        '</div>';
-}
-
-function curRow(p, isMissed) {
-    var badge = isMissed
-        ? '<span class="badge-pill-custom badge-missed" data-ref="page.current.prayer-row.badge.' + p.toLowerCase() + '"><i class="fa-solid fa-circle-exclamation"></i>Missed</span>'
-        : '<span class="badge-pill-custom badge-notyet" data-ref="page.current.prayer-row.badge.' + p.toLowerCase() + '"><i class="fa-regular fa-circle"></i>Not yet</span>';
-    return '<div class="prayer-row" role="button" data-act="toggle-cur" data-p="' + p + '" data-ref="page.current.prayer-row.' + p.toLowerCase() + '">' +
-        '<span class="icon-circle-lg" data-ref="page.current.prayer-row.icon.' + p.toLowerCase() + '">' + I[p] + '</span>' +
-        '<div class="flex-grow-1 ms-3 min-w-0" data-ref="page.current.prayer-row.details.' + p.toLowerCase() + '">' +
-        '<div class="name" data-ref="page.current.prayer-row.name.' + p.toLowerCase() + '">' + p + '</div>' +
-        '<div class="time" data-ref="page.current.prayer-row.time.' + p.toLowerCase() + '">' + (T[p] || '--:--') + '</div>' +
-        '</div>' + badge +
-        '<i class="fa-solid fa-chevron-right chevron" data-ref="page.current.prayer-row.chevron.' + p.toLowerCase() + '"></i>' +
-        '</div>';
-}
-
 function rn() {
     $('dp').value = sd;
     $('dp').max = td();
-    var subText = fr(sd);
-    if (sd === td() && currentHijri && currentHijri.text) {
-        subText += ' · ' + currentHijri.text;
-    }
-    $('currentSub').textContent = subText;
 
     var r = en(sd);
     var isToday = sd === td();
     var missTotal = tMT();
-    var missedBtn = missTotal > 0
-        ? '<button class="btn-pill-missed" data-act="missed-open" data-ref="page.current.action-row.missed-btn">' +
-        '<i class="fa-solid fa-circle-exclamation"></i>Missed ' + missTotal + '</button>'
-        : '';
-    var rightBtn = isToday
-        ? '<button class="btn-pill-action" data-act="select-all" data-ref="page.current.action-row.select-all-btn">' +
-        '<i class="fa-solid fa-check"></i>Select All</button>'
-        : '<button class="btn-pill-today" data-act="jump-today" data-ref="page.current.action-row.jump-today-btn">' +
-        '<i class="fa-solid fa-arrow-rotate-right"></i>Today</button>';
 
-    var actionRow = '<div class="d-flex align-items-center gap-2 mb-2" style="min-height:38px" data-ref="page.current.action-row">' +
-        missedBtn + '<div class="flex-grow-1"></div>' + rightBtn + '</div>';
+    var done = [];
+    var missed = [];
+    var upcoming = [];
 
-    var missed = P.filter(function (p) { return r[p] === true; });
-    var notYet = P.filter(function (p) { return r[p] !== true; });
+    P.forEach(function (p) {
+        if (isDonePrayer(p, sd, r)) {
+            done.push(p);
+        } else {
+            if (isToday && isPrayerUpcoming(p, sd)) {
+                upcoming.push(p);
+            }
+            missed.push(p);
+        }
+    });
 
-    var html = actionRow;
-    if (missed.length) {
-        html += '<div class="card shadow-sm rounded-4 overflow-hidden mb-2 bg-gr border-0" data-ref="page.current.section.missed">' +
-            curSectionHeader('missed', 'Missed Prayers', missed.length) +
-            missed.map(function (p) { return curRow(p, true); }).join('') +
-            '</div>';
-    }
-    if (notYet.length) {
-        html += '<div class="card shadow-sm rounded-4 overflow-hidden mb-2 bg-gr border-0" data-ref="page.current.section.notyet">' +
-            curSectionHeader('notyet', 'Not Yet Prayed', notYet.length) +
-            notYet.map(function (p) { return curRow(p, false); }).join('') +
-            '</div>';
-    }
+    var curActive = isToday && typeof getActivePrayerInfo === 'function' ? getActivePrayerInfo() : null;
+    var curPrayerName = curActive ? curActive.name : null;
+
+    var actualMissedCount = missed.filter(function (p) {
+        return upcoming.indexOf(p) === -1 && p !== curPrayerName;
+    }).length;
+    var badgeText = actualMissedCount > 0 ? ('Missed (' + actualMissedCount + ')') : 'Missed';
+    var actionBtnText = isToday ? 'Select All' : 'Today';
+    var actionBtnAct = isToday ? 'select-all' : 'jump-today';
+    var dateChipText = formatChipDate(sd);
+
+    var html = renderPrayerTrackerCard({
+        pagePrefix: 'page.current',
+        collapsePrefix: 'cur',
+        badgeText: badgeText,
+        badgeAct: missTotal > 0 ? 'missed-open' : '',
+        actionBtnText: actionBtnText,
+        actionBtnAct: actionBtnAct,
+        dateChipText: dateChipText,
+        dateChipAct: 'open-cal',
+        missedPrayers: missed,
+        upcomingPrayers: upcoming,
+        donePrayers: done,
+        timings: T,
+        currentPrayerName: curPrayerName,
+        toggleAct: 'toggle-cur',
+        date: sd
+    });
+
     $('currentBody').innerHTML = html;
 }
 

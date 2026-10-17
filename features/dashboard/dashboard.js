@@ -146,10 +146,24 @@ function rDashboard() {
     var body = $('dashBody');
     if (!body) return;
 
+    var activeP = typeof getActivePrayerInfo === 'function' ? getActivePrayerInfo() : {
+        name: 'Fajr',
+        time: T.Fajr,
+        isYesterday: false
+    };
+    dashCurrentActivePrayer = activeP.name;
+
     var today = td();
     var todayData = en(today);
-    var missToday = P.filter(function (p) { return todayData[p] === true; }).length;
-    var doneToday = P.length - missToday;
+    var doneToday = P.filter(function (p) {
+        return typeof isDonePrayer === 'function' ? isDonePrayer(p, today, todayData) : (todayData[p] === 'done');
+    }).length;
+    var missToday = P.filter(function (p) {
+        if (typeof isDonePrayer === 'function' && isDonePrayer(p, today, todayData)) return false;
+        if (typeof isPrayerUpcoming === 'function' && isPrayerUpcoming(p, today)) return false;
+        if (activeP && activeP.name === p) return false;
+        return true;
+    }).length;
     var missPrev = tMT();
     var curPct = Math.round((doneToday / P.length) * 100);
 
@@ -179,13 +193,6 @@ function rDashboard() {
     var oldPct = trackedDays > 0
         ? Math.round((1 - trackedMiss / (trackedDays * 5)) * 100)
         : 0;
-
-    var activeP = typeof getActivePrayerInfo === 'function' ? getActivePrayerInfo() : {
-        name: 'Fajr',
-        time: T.Fajr,
-        isYesterday: false
-    };
-    dashCurrentActivePrayer = activeP.name;
 
     var cfg = typeof getPrayerConfig === 'function' ? getPrayerConfig() : { city: 'Guntur', school: 1 };
 
