@@ -39,6 +39,42 @@ function esc(s) {
     });
 }
 
+function parseTimeToMin(timeStr) {
+    if (!timeStr) return -1;
+    var clean = timeStr.trim().split(' ');
+    if (!clean[0]) return -1;
+    var parts = clean[0].split(':');
+    var h = parseInt(parts[0], 10);
+    var m = parseInt(parts[1], 10);
+    if (isNaN(h) || isNaN(m)) return -1;
+    var ap = clean[1] || 'AM';
+    if (ap === 'PM' && h < 12) h += 12;
+    if (ap === 'AM' && h === 12) h = 0;
+    return h * 60 + m;
+}
+
+function isPrayerUpcoming(prayerName, dateStr) {
+    var today = td();
+    if (dateStr && dateStr !== today) return false;
+    var now = new Date();
+    var nowMin = now.getHours() * 60 + now.getMinutes();
+    var pTime = T[prayerName];
+    if (!pTime) return false;
+    var pMin = parseTimeToMin(pTime);
+    if (pMin === -1) return false;
+    return nowMin < pMin;
+}
+
+function isDonePrayer(p, dateStr, r) {
+    if (!r) return false;
+    if (r[p] === 'done') return true;
+    var today = td();
+    if (dateStr && dateStr < today) {
+        return r[p] !== true && r[p] !== 'missed' && r[p] !== undefined;
+    }
+    return false;
+}
+
 /* ---------- Local Storage Wrapper ---------- */
 var LS = {
     get: function (k) {
@@ -193,21 +229,32 @@ function handleClick(e) {
 
     if (act === 'toggle-cur') {
         var p = t.dataset.p;
+        if (sd === td() && typeof isPrayerUpcoming === 'function' && isPrayerUpcoming(p, sd)) {
+            return;
+        }
         var c1 = gr(sd);
-        var wasMissed = c1[p] === true;
-        if (!confirm(wasMissed
-            ? 'Mark ' + p + ' as Not yet for ' + fr(sd) + '?'
-            : 'Mark ' + p + ' as Missed for ' + fr(sd) + '?')) return;
-        c1[p] = !wasMissed;
+        var wasDone = typeof isDonePrayer === 'function' ? isDonePrayer(p, sd, c1) : (c1[p] === 'done');
+        if (!confirm(wasDone
+            ? 'Mark ' + p + ' as Missed for ' + fr(sd) + '?'
+            : 'Mark ' + p + ' as Done for ' + fr(sd) + '?')) return;
+        c1[p] = wasDone ? (sd < td() ? true : 'missed') : 'done';
         sr(sd, c1);
         rn();
     } else if (act === 'select-all') {
         var c2 = gr(sd);
-        var missedNow = P.filter(function (x) { return c2[x] === true; }).length;
-        var allMissed = missedNow === P.length;
-        var action = allMissed ? 'Not yet' : 'Missed';
-        if (!confirm('Mark all 5 prayers as ' + action + ' for ' + fr(sd) + '?')) return;
-        P.forEach(function (x) { c2[x] = !allMissed; });
+        var isToday = sd === td();
+        var actionable = P.filter(function (x) {
+            return !isToday || (typeof isPrayerUpcoming === 'function' && !isPrayerUpcoming(x, sd));
+        });
+        var doneCount = actionable.filter(function (x) {
+            return typeof isDonePrayer === 'function' ? isDonePrayer(x, sd, c2) : (c2[x] === 'done');
+        }).length;
+        var willMarkDone = doneCount < actionable.length;
+        var action = willMarkDone ? 'Done' : 'Missed';
+        if (!confirm('Mark available prayers as ' + action + ' for ' + fr(sd) + '?')) return;
+        actionable.forEach(function (x) {
+            c2[x] = willMarkDone ? 'done' : (sd < td() ? true : 'missed');
+        });
         sr(sd, c2);
         rn();
     } else if (act === 'jump-today') {
@@ -218,6 +265,19 @@ function handleClick(e) {
         rn();
     } else if (act === 'missed-open') {
         rMS();
+    } else if (act === 'open-cal') {
+        openCal();
+    } else if (act === 'old-info') {
+        rOldInfo();
+    } else if (act === 'old-mark-all-done') {
+        var curD = currentOldDate();
+        if (!curD) return;
+        if (!confirm('Mark all prayers as Done for ' + fr(curD) + '?')) return;
+        var cOld = grO(curD);
+        P.forEach(function (x) { cOld[x] = false; });
+        srO(curD, cOld);
+        shrinkOldPeriod();
+        rOT();
     } else if (act === 'toggle-old') {
         var p2 = t.dataset.p, d2 = t.dataset.d;
         var c3 = grO(d2);
@@ -227,6 +287,7 @@ function handleClick(e) {
             : 'Mark ' + p2 + ' as Missed for ' + fr(d2) + '?')) return;
         c3[p2] = !was2;
         srO(d2, c3);
+        shrinkOldPeriod();
         rOT();
     } else if (act === 'old-change-period') {
         rPeriod();

@@ -26,6 +26,24 @@
     --text-muted: #7C918A;
     --active-green: #25845B;
 
+    /* Surface & Accents */
+    --surface-bg: #F5F8F6;
+    --card-bg: #FFFFFF;
+    --border-subtle: #E3ECE8;
+    --warning-bg: #FFF7ED;
+    --warning-text: #C2410C;
+    --warning-border: #FFEDD5;
+    --active-light: #EBF6F1;
+    --icon-done-bg: #D1E5DC;
+    --border-hover: #CCDCD5;
+    --btn-primary-hover: #1c6847;
+
+    /* Radius & Shadows */
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --shadow-card: 0 8px 24px -4px rgba(18, 61, 46, 0.06);
+
     /* Brand Base Tokens (from MTF-monitor) */
     --whole-bg: #f8f9fa;
     --gr-bg: #ffffff;
@@ -220,3 +238,22 @@
 .btn.bg-gr-primary:disabled i {
     color: var(--gr-muted) !important;
 }
+
+/* ==========================================
+   STATUS BADGES
+   ========================================== */
+.badge-warning {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--warning-bg) !important;
+    color: var(--warning-text) !important;
+    border: 1px solid var(--warning-border) !important;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
