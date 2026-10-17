@@ -225,10 +225,10 @@ function rDashboard() {
         '      <div class="dash-next-icon-circle" data-ref="page.dashboard.clock-card.next-card.icon-circle">' +
         nextCardIcon +
         '      </div>' +
-        '      <div data-ref="page.dashboard.clock-card.next-card.details">' +
-        '        <div class="prayer-name text-gr1 text-uppercase" style="line-height:1.2" data-ref="page.dashboard.clock-card.next-card.name">' + nextP.name + '</div>' +
-        '        <div class="prayer-time text-gr1" style="line-height:1.2" data-ref="page.dashboard.clock-card.next-card.time">' + nextP.time + '</div>' +
-        '        <div class="tomorrow-label text-gr-muted mt-1 d-flex align-items-center gap-1" data-ref="page.dashboard.clock-card.next-card.day">' +
+        '      <div class="d-flex flex-column justify-content-center gap-1" data-ref="page.dashboard.clock-card.next-card.details">' +
+        '        <div class="prayer-name text-gr1 text-uppercase lh-1" data-ref="page.dashboard.clock-card.next-card.name">' + nextP.name + '</div>' +
+        '        <div class="prayer-time text-gr1 lh-1" data-ref="page.dashboard.clock-card.next-card.time">' + nextP.time + '</div>' +
+        '        <div class="tomorrow-label text-gr-muted d-flex align-items-center gap-1 lh-1" data-ref="page.dashboard.clock-card.next-card.day">' +
         '          <i class="fa-regular fa-calendar"></i>' +
         '          <span>' + (nextP.isTomorrow ? 'Tomorrow' : 'Today') + '</span>' +
         '        </div>' +
@@ -254,7 +254,7 @@ function rDashboard() {
         '  </div>' +
 
         '  <div class="position-relative w-100 my-2" data-ref="page.dashboard.timeline.track">' +
-        '    <div class="position-absolute start-0 end-0" style="height:2px;background:#d8e6de;top:51px;margin-left:10%;margin-right:10%;z-index:1;" data-ref="page.dashboard.timeline.track-line"></div>' +
+        '    <div class="position-absolute start-0 end-0" style="height:2px;background:#d8e6de;top:54px;margin-left:10%;margin-right:10%;z-index:1;" data-ref="page.dashboard.timeline.track-line"></div>' +
         '    <div class="d-flex align-items-start justify-content-between position-relative" style="z-index:2;" data-ref="page.dashboard.timeline.nodes">' +
         timelineNodesHtml +
         '    </div>' +
