@@ -246,16 +246,11 @@ function rDashboard() {
     body.innerHTML =
         '<!-- Main Clock / Prayer Timeline Card matching reference UI -->' +
         '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0 position-relative overflow-hidden d-flex flex-column gap-3" data-ref="page.dashboard.clock-card">' +
-        '  <!-- 1. Header Bar: Location & Market Option -->' +
+        '  <!-- 1. Header Bar: Location -->' +
         '  <div class="d-flex align-items-center justify-content-between pb-2 border-bottom" style="border-color:#edf2ee !important" data-ref="page.dashboard.clock-card.header">' +
         '    <div class="d-flex align-items-center gap-1 text-gr1 location" data-ref="page.dashboard.clock-card.header.location">' +
         '      <i class="fa-solid fa-location-dot text-gr-accent" data-ref="page.dashboard.clock-card.header.location-icon"></i>' +
         '      <span data-ref="page.dashboard.clock-card.header.location-text">' + cfg.city + ' &bull; ' + (cfg.school === 1 ? 'Hanafi' : 'Shafi') + '</span>' +
-        '    </div>' +
-        '    <div class="d-flex align-items-center gap-1 text-blue500" role="button" data-act="goto-market" style="cursor:pointer;font-size:0.85rem;font-weight:600;" data-ref="page.dashboard.clock-card.header.market-link">' +
-        '      <i class="fa-solid fa-chart-line text-blue500" data-ref="page.dashboard.clock-card.header.market-icon"></i>' +
-        '      <span data-ref="page.dashboard.clock-card.header.market-text">Market</span>' +
-        '      <i class="fa-solid fa-chevron-right text-gr-muted" style="font-size:0.7rem" data-ref="page.dashboard.clock-card.header.market-chevron"></i>' +
         '    </div>' +
         '  </div>' +
 
@@ -313,20 +308,6 @@ function rDashboard() {
         '    <div class="flex-grow-1 border-bottom opacity-50" style="max-width:140px;border-color:#dbe5df !important"></div>' +
         '    <span class="px-2 text-gr-muted" style="font-size:0.85rem">✦</span>' +
         '    <div class="flex-grow-1 border-bottom opacity-50" style="max-width:140px;border-color:#dbe5df !important"></div>' +
-        '  </div>' +
-        '</div>' +
-
-        '<!-- Market Option Card -->' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-3 border-0 bg-gr" role="button" data-act="goto-market" style="cursor:pointer" data-ref="page.dashboard.market-card">' +
-        '  <div class="d-flex align-items-center gap-3" data-ref="page.dashboard.market-card.row">' +
-        '    <span class="modal-icon-badge" style="width:48px;height:48px;background:var(--blue500-soft)" data-ref="page.dashboard.market-card.icon-badge">' +
-        '      <i class="fa-solid fa-chart-line text-blue500 fs-4" data-ref="page.dashboard.market-card.icon"></i>' +
-        '    </span>' +
-        '    <div class="flex-grow-1 min-w-0" data-ref="page.dashboard.market-card.info">' +
-        '      <div class="fw-bold fs-6 text-gr1" data-ref="page.dashboard.market-card.title">Market</div>' +
-        '      <div class="small text-gr-muted" data-ref="page.dashboard.market-card.subtitle">NSE &bull; BSE live quotes</div>' +
-        '    </div>' +
-        '    <i class="fa-solid fa-chevron-right text-gr-muted" data-ref="page.dashboard.market-card.chevron"></i>' +
         '  </div>' +
         '</div>' +
 

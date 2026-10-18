@@ -4,9 +4,7 @@
   "description": "Money Monitor Web Application",
   "main": "production/production.html",
   "scripts": {
-    "build": "node production/build-production.js",
-    "clean-stock": "node utilities/clean-stock.js",
-    "add-industry": "node utilities/add-industry.js"
+    "build": "node production/build-production.js"
   },
   "keywords": [],
   "author": "",
