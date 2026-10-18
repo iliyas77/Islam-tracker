@@ -381,6 +381,12 @@ function handleClick(e) {
         showPage('settings');
     } else if (act === 'goto-tasbeeh') {
         showPage('tasbeeh');
+    } else if (act === 'goto-market') {
+        showPage('market');
+    } else if (act && act.indexOf('mkt-') === 0) {
+        if (window.MarketApp && typeof window.MarketApp.handleAction === 'function') {
+            window.MarketApp.handleAction(act, e, t);
+        }
     }
 }
 

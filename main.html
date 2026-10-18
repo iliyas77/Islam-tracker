@@ -115,6 +115,39 @@
             </div>
         </div>
 
+        <!-- Market Page -->
+        <div id="marketPage" class="d-none flex-column flex-grow-1 page" data-ref="page.market">
+            <header class="app-header d-flex align-items-center gap-2" data-ref="page.market.header">
+                <button type="button" class="btn-sheet-back" data-act="go-home" data-ref="page.market.header.back-btn">
+                    <i class="fa-solid fa-arrow-left fs-5" data-ref="page.market.header.back-icon"></i>
+                </button>
+                <div class="flex-grow-1 min-w-0" data-ref="page.market.header.info">
+                    <h5 class="page-title" data-ref="page.market.header.title">
+                        <i class="fa-solid fa-chart-line text-blue500" data-ref="page.market.header.icon"></i>
+                        <span data-ref="page.market.header.label">Market</span>
+                    </h5>
+                    <div class="page-sub" data-ref="page.market.header.sub">Indian stock quotes</div>
+                </div>
+            </header>
+            <div class="flex-grow-1 overflow-auto p-3" id="marketBody" data-ref="page.market.body" style="padding-bottom:16px"></div>
+            <!-- Dedicated Marketplace Bottom Navigation Bar -->
+            <nav class="navbar border-top border-gr bg-white flex-shrink-0" id="marketBottomNav" data-ref="page.market.bottom-nav" style="height:62px">
+                <div class="container-fluid p-0 h-100">
+                    <div class="d-flex w-100 h-100">
+                        <button type="button" class="nav-tab flex-fill d-flex flex-column align-items-center justify-content-center text-decoration-none border-0 bg-transparent text-success" id="mktNavFeed" data-act="mkt-tab-feed" data-ref="page.market.bottom-nav.feed-btn">
+                            <i class="fa-solid fa-bolt fs-5"></i><span class="small fw-semibold mt-1">Feed</span>
+                        </button>
+                        <button type="button" class="nav-tab flex-fill d-flex flex-column align-items-center justify-content-center text-decoration-none border-0 bg-transparent text-secondary" id="mktNavWatchlist" data-act="mkt-tab-watchlist" data-ref="page.market.bottom-nav.watchlist-btn">
+                            <i class="fa-solid fa-bookmark fs-5"></i><span class="small fw-semibold mt-1">Watchlist</span>
+                        </button>
+                        <button type="button" class="nav-tab flex-fill d-flex flex-column align-items-center justify-content-center text-decoration-none border-0 bg-transparent text-secondary" id="mktNavIndustries" data-act="mkt-tab-industries" data-ref="page.market.bottom-nav.industries-btn">
+                            <i class="fa-solid fa-industry fs-5"></i><span class="small fw-semibold mt-1">Industries</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
         <!-- Full-screen Tasbeeh Counter View Overlay -->
         <div id="tasbeehCounterView" class="d-none flex-column flex-grow-1 tb-counter-overlay" data-ref="page.tasbeeh.counter">
             <header class="app-header d-flex align-items-center gap-2" data-ref="page.tasbeeh.counter.header">
@@ -324,10 +357,14 @@
     <script src="features/old-tracking/old-tracking.js"></script>
     <script src="features/settings/settings.js"></script>
     <script src="features/tasbeeh/tasbeeh.js"></script>
+    <script src="features/market/market.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             if (window.TasbeehApp && typeof window.TasbeehApp.init === 'function') {
                 window.TasbeehApp.init();
+            }
+            if (window.MarketApp && typeof window.MarketApp.init === 'function') {
+                window.MarketApp.init();
             }
         });
     </script>

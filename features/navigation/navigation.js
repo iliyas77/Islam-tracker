@@ -1,5 +1,5 @@
 /* ---------- Navigation ---------- */
-var PAGES = ['dashboardPage', 'currentPage', 'oldPage', 'settingsPage', 'tasbeehPage'];
+var PAGES = ['dashboardPage', 'currentPage', 'oldPage', 'settingsPage', 'tasbeehPage', 'marketPage'];
 var NAVS = { dashboard: 'navHome', current: 'navCur', old: 'navOld', settings: 'navSet', tasbeeh: 'navTasbeeh' };
 
 function setNav(id) {
@@ -33,12 +33,22 @@ function showPage(kind) {
         kind === 'current' ? 'currentPage' :
             kind === 'old' ? 'oldPage' :
                 kind === 'settings' ? 'settingsPage' :
-                    kind === 'tasbeeh' ? 'tasbeehPage' : null;
+                    kind === 'tasbeeh' ? 'tasbeehPage' :
+                        kind === 'market' ? 'marketPage' : null;
 
     if (!target) return;
 
     $(target).classList.remove('d-none');
     $(target).classList.add('d-flex');
+
+    var bottomNav = document.querySelector('.app-bottom-nav');
+    if (bottomNav) {
+        if (kind === 'market') {
+            bottomNav.classList.add('d-none');
+        } else {
+            bottomNav.classList.remove('d-none');
+        }
+    }
 
     setNav(NAVS[kind]);
 
@@ -49,6 +59,10 @@ function showPage(kind) {
     else if (kind === 'tasbeeh') {
         if (window.TasbeehApp && typeof window.TasbeehApp.render === 'function') {
             window.TasbeehApp.render();
+        }
+    } else if (kind === 'market') {
+        if (window.MarketApp && typeof window.MarketApp.render === 'function') {
+            window.MarketApp.render();
         }
     }
 }
