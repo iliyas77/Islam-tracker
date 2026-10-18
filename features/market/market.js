@@ -243,12 +243,6 @@ var MarketApp = (function () {
             build: function (url) { return "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(url); }
         });
 
-        proxies.push({
-            name: "thingproxy",
-            type: "raw",
-            build: function (url) { return "https://thingproxy.freeboard.io/fetch/" + url; }
-        });
-
         return proxies;
     }
 
