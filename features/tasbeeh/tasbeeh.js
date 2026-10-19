@@ -181,20 +181,20 @@ window.TasbeehApp = (function () {
                     '<div class="flex-grow-1 min-w-0" data-ref="page.tasbeeh.card.info">' +
                     '<div class="d-flex align-items-center justify-content-between">' +
                     '<h6 class="fw-bold mb-0 text-truncate text-gr1" data-ref="page.tasbeeh.card.title">' + escHtml(item.title) + '</h6>' +
-                    (isComplete ? '<span class="badge-pill-custom badge-done py-1 px-2" style="font-size:0.7rem"><i class="fa-solid fa-check"></i>Done</span>' : '') +
+                    (isComplete ? '<span class="badge-pill-custom badge-done py-1 px-2 fs-xs"><i class="fa-solid fa-check"></i>Done</span>' : '') +
                     '</div>' +
                     '<div class="tb-meta mt-1" data-ref="page.tasbeeh.card.meta">' + metaLine + '</div>' +
                     '</div>' +
                     '</div>' +
-                    '<div class="progress mb-3" style="height:6px" data-ref="page.tasbeeh.card.progress">' +
+                    '<div class="progress progress-thin mb-3" data-ref="page.tasbeeh.card.progress">' +
                     '<div class="progress-bar" style="width:' + prog.pct.toFixed(1) + '%" data-ref="page.tasbeeh.card.progress-bar"></div>' +
                     '</div>' +
                     '<div class="d-flex align-items-center gap-2 pt-1 border-top" data-ref="page.tasbeeh.card.actions">' +
-                    '<button type="button" class="btn btn-brand flex-grow-1 py-2 rounded-3 fw-bold" style="min-height:42px;height:42px" data-act="tb-open" data-ref="page.tasbeeh.card.open-btn">' +
+                    '<button type="button" class="btn btn-brand flex-grow-1 py-2 rounded-3 fw-bold btn-h-42" data-act="tb-open" data-ref="page.tasbeeh.card.open-btn">' +
                     '<i class="fa-solid fa-play me-2"></i>Open Counter</button>' +
-                    '<button type="button" class="btn btn-light rounded-3 px-3 py-2 border" style="min-height:42px;height:42px" data-act="tb-edit" title="Edit" data-ref="page.tasbeeh.card.edit-btn">' +
+                    '<button type="button" class="btn btn-light rounded-3 px-3 py-2 border btn-h-42" data-act="tb-edit" title="Edit" data-ref="page.tasbeeh.card.edit-btn">' +
                     '<i class="fa-solid fa-pen text-secondary"></i></button>' +
-                    '<button type="button" class="btn btn-light rounded-3 px-3 py-2 border" style="min-height:42px;height:42px" data-act="tb-del" title="Delete" data-ref="page.tasbeeh.card.del-btn">' +
+                    '<button type="button" class="btn btn-light rounded-3 px-3 py-2 border btn-h-42" data-act="tb-del" title="Delete" data-ref="page.tasbeeh.card.del-btn">' +
                     '<i class="fa-solid fa-trash text-danger"></i></button>' +
                     '</div>' +
                     '</div>';
@@ -253,8 +253,8 @@ window.TasbeehApp = (function () {
         var lapTarget = isInfinite ? INFINITE_LAP : item.targetCount;
         var isComplete = !isInfinite && item.currentCycle > item.targetCycles;
 
-        var displayCount = flashFull ? lapTarget : item.currentCount;
-        var displayCycle = flashFull ? Math.max(1, item.currentCycle - 1) : item.currentCycle;
+        var displayCount = (flashFull || isComplete) ? lapTarget : item.currentCount;
+        var displayCycle = (flashFull || isComplete) ? Math.min(item.targetCycles, Math.max(1, item.currentCycle - 1)) : item.currentCycle;
 
         getEl('tbCounterTopTitle').textContent = item.title;
         getEl('tbCounterTitle').textContent = item.title;
@@ -280,7 +280,7 @@ window.TasbeehApp = (function () {
             var lapCount = displayCount === 0 ? 0 : ((displayCount - 1) % INFINITE_LAP) + 1;
             filled = Math.round((lapCount / INFINITE_LAP) * ringN);
         } else {
-            filled = Math.round((displayCount / item.targetCount) * ringN);
+            filled = isComplete ? ringN : Math.round((displayCount / item.targetCount) * ringN);
         }
         filled = clamp(filled, 0, ringN);
 
@@ -289,7 +289,10 @@ window.TasbeehApp = (function () {
             bead.classList.toggle('next', i === filled && !isComplete);
         });
 
-        /* Tap Zone */
+        /* Ring Wrap & Tap Zone */
+        var ringWrap = getEl('tbRingWrap') || document.querySelector('[data-ref="page.tasbeeh.counter.ring-wrap"]');
+        if (ringWrap) ringWrap.classList.toggle('done', isComplete);
+
         var tapZone = getEl('tbTapZone');
         var tapLabel = getEl('tbTapLabel');
         if (tapZone) tapZone.classList.toggle('done', isComplete);
@@ -383,6 +386,16 @@ window.TasbeehApp = (function () {
         if (isComplete) {
             showToast('All cycles complete — reset counter to recount');
             return;
+        }
+
+        if (navigator.vibrate) {
+            try { navigator.vibrate(20); } catch (_) {}
+        }
+        var countEl = getEl('tbCounterCount');
+        if (countEl) {
+            countEl.classList.remove('pop');
+            void countEl.offsetWidth;
+            countEl.classList.add('pop');
         }
 
         item.currentCount += 1;
@@ -668,14 +681,17 @@ window.TasbeehApp = (function () {
         if (listEl) {
             listEl.onclick = function (e) {
                 var btn = e.target.closest('button[data-act]');
-                if (!btn) return;
-                var card = btn.closest('[data-id]');
+                var card = e.target.closest('[data-id]');
                 if (!card) return;
                 var id = card.dataset.id;
-                var act = btn.dataset.act;
-                if (act === 'tb-open') openCounter(id);
-                else if (act === 'tb-edit') openModal(id);
-                else if (act === 'tb-del') deleteItem(id);
+                if (btn) {
+                    var act = btn.dataset.act;
+                    if (act === 'tb-open') openCounter(id);
+                    else if (act === 'tb-edit') openModal(id);
+                    else if (act === 'tb-del') deleteItem(id);
+                } else {
+                    openCounter(id);
+                }
             };
         }
 
@@ -690,20 +706,40 @@ window.TasbeehApp = (function () {
             };
         }
 
+        /* Ripple effect helper */
+        function createRipple(e, container) {
+            var rect = container.getBoundingClientRect();
+            var size = Math.max(rect.width, rect.height);
+            var ripple = document.createElement('span');
+            ripple.className = 'tb-ripple';
+            ripple.style.width = size + 'px';
+            ripple.style.height = size + 'px';
+            ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+            ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+            container.appendChild(ripple);
+            setTimeout(function () { ripple.remove(); }, 620);
+        }
+
+        /* Ring Wrap Tap Target */
+        var ringWrap = getEl('tbRingWrap') || document.querySelector('[data-ref="page.tasbeeh.counter.ring-wrap"]');
+        if (ringWrap) {
+            ringWrap.addEventListener('pointerdown', function (e) {
+                createRipple(e, ringWrap);
+            });
+            ringWrap.onclick = increment;
+            ringWrap.addEventListener('keydown', function (e) {
+                if (e.code === 'Space' || e.code === 'Enter') {
+                    e.preventDefault();
+                    increment();
+                }
+            });
+        }
+
         /* Oversized Tap Target */
         var tapZone = getEl('tbTapZone');
         if (tapZone) {
             tapZone.addEventListener('pointerdown', function (e) {
-                var rect = tapZone.getBoundingClientRect();
-                var size = Math.max(rect.width, rect.height);
-                var ripple = document.createElement('span');
-                ripple.className = 'tb-ripple';
-                ripple.style.width = size + 'px';
-                ripple.style.height = size + 'px';
-                ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-                ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-                tapZone.appendChild(ripple);
-                setTimeout(function () { ripple.remove(); }, 620);
+                createRipple(e, tapZone);
             });
             tapZone.onclick = increment;
         }

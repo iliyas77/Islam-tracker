@@ -29,8 +29,7 @@ function switchTrackerSubTab(subTab) {
         if (oldSub) oldSub.classList.remove('d-none');
         if (oldActionBtn) oldActionBtn.classList.remove('d-none');
         if (headerIcon) {
-            headerIcon.className = 'fa-solid fa-clock-rotate-left';
-            headerIcon.style.color = '#cc7a00';
+            headerIcon.className = 'fa-solid fa-clock-rotate-left text-warning';
         }
         if (headerLabel) headerLabel.textContent = 'Old Tracking';
         rOT();
@@ -49,7 +48,6 @@ function switchTrackerSubTab(subTab) {
         if (oldActionBtn) oldActionBtn.classList.add('d-none');
         if (headerIcon) {
             headerIcon.className = 'fa-regular fa-calendar text-gr-accent';
-            headerIcon.style.color = '';
         }
         if (headerLabel) headerLabel.textContent = 'Current Prayer';
         rn();
@@ -70,10 +68,7 @@ function setNav(id) {
     el.classList.remove('text-secondary');
     el.classList.add('text-success');
     var bar = document.createElement('span');
-    bar.className = 'bg-success rounded-pill';
-    bar.style.width = '30px';
-    bar.style.height = '3px';
-    bar.style.marginTop = '2px';
+    bar.className = 'bg-success rounded-pill nav-active-bar';
     el.appendChild(bar);
 }
 

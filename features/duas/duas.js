@@ -1001,7 +1001,7 @@ window.DuasApp = (function () {
             return '<button class="btn btn-outline-secondary w-100 text-start mb-2 d-flex align-items-center gap-2 justify-content-start" ' +
                 'type="button" data-act="dua-replace-pin" data-old-idx="' + p + '">' +
                 '<span>📌</span>' +
-                '<span class="flex-grow-1 text-truncate" style="font-family:var(--font-telugu)">' +
+                '<span class="flex-grow-1 text-truncate font-telugu">' +
                 '#' + String(dua.number).padStart(2, '0') + ' — ' + escapeHtml(surahLabel) +
                 '</span>' +
                 '<span class="text-danger fw-bold ms-auto">Unpin</span>' +
@@ -1104,7 +1104,7 @@ window.DuasApp = (function () {
         var icon = document.getElementById('duaDetailFavIcon');
         if (!btn || !icon) return;
         var isFav = favourites.indexOf(currentIndex) !== -1;
-        btn.style.borderColor = isFav ? 'var(--heart-red)' : 'var(--border)';
+        btn.classList.toggle('is-fav', isFav);
         icon.textContent = isFav ? '❤️' : '♡';
     }
 
@@ -1276,7 +1276,7 @@ window.DuasApp = (function () {
         adminDuaList.innerHTML = duasData.map(function (dua, idx) {
             var surahLabel = getSurah(dua);
             return '<div class="dua-admin-item">' +
-                '<span class="fw-bold text-success" style="min-width:34px;">#' + String(dua.number).padStart(2, '0') + '</span>' +
+                '<span class="dua-item-number">#' + String(dua.number).padStart(2, '0') + '</span>' +
                 '<span class="admin-item-name">' + escapeHtml(surahLabel) + '</span>' +
                 '<button type="button" class="dua-admin-del-btn" data-act="dua-del" data-idx="' + idx + '" title="Delete">🗑️</button>' +
                 '</div>';

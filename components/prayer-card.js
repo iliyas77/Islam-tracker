@@ -209,7 +209,7 @@ function renderPrayerTrackerCard(cfg) {
         ? cfg.highlightMissed
         : true;
 
-    var badgeActAttr = cfg.badgeAct ? ' data-act="' + cfg.badgeAct + '" role="button" style="cursor:pointer"' : '';
+    var badgeActAttr = cfg.badgeAct ? ' data-act="' + cfg.badgeAct + '" role="button" class="cursor-pointer"' : '';
     var dateChipActAttr = cfg.dateChipAct ? ' data-act="' + cfg.dateChipAct + '"' : '';
     var actionBtnActAttr = cfg.actionBtnAct ? ' data-act="' + cfg.actionBtnAct + '"' : '';
 
