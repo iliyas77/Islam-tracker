@@ -25,6 +25,7 @@ const dashboardJsPath = path.join(ROOT, 'features', 'dashboard', 'dashboard.js')
 const oldTrackingJsPath = path.join(ROOT, 'features', 'old-tracking', 'old-tracking.js');
 const settingsJsPath = path.join(ROOT, 'features', 'settings', 'settings.js');
 const tasbeehJsPath = path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh.js');
+const duasJsPath = path.join(ROOT, 'features', 'duas', 'duas.js');
 
 /**
  * Minify CSS content by removing comments and unnecessary whitespace
@@ -93,7 +94,8 @@ function buildProduction() {
         const oldTrackingJs = fs.existsSync(oldTrackingJsPath) ? fs.readFileSync(oldTrackingJsPath, 'utf8') : '';
         const settingsJs = fs.existsSync(settingsJsPath) ? fs.readFileSync(settingsJsPath, 'utf8') : '';
         const tasbeehJs = fs.existsSync(tasbeehJsPath) ? fs.readFileSync(tasbeehJsPath, 'utf8') : '';
-        const combinedJs = utilityJs + '\n' + prayerCardJs + '\n' + appJs + '\n' + navigationJs + '\n' + currentPrayerJs + '\n' + dashboardJs + '\n' + oldTrackingJs + '\n' + settingsJs + '\n' + tasbeehJs;
+        const duasJs = fs.existsSync(duasJsPath) ? fs.readFileSync(duasJsPath, 'utf8') : '';
+        const combinedJs = utilityJs + '\n' + prayerCardJs + '\n' + appJs + '\n' + navigationJs + '\n' + currentPrayerJs + '\n' + dashboardJs + '\n' + oldTrackingJs + '\n' + settingsJs + '\n' + tasbeehJs + '\n' + duasJs;
         const minifiedJs = minifyJs(combinedJs);
 
         // Replace script src tags with minified inlined script block
@@ -105,6 +107,7 @@ function buildProduction() {
         html = html.replace(/<script[^>]*src="features\/old-tracking\/old-tracking\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/settings\/settings\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/tasbeeh\/tasbeeh\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="features\/duas\/duas\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/app\/app\.js"[^>]*><\/script>/g, () => `<script>${minifiedJs}<\/script>`);
 
         // 3. Minify HTML wrapper

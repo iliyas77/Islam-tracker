@@ -375,12 +375,76 @@ function handleClick(e) {
         showPage('dashboard');
     } else if (act === 'goto-cur') {
         showPage('current');
+    } else if (act === 'goto-tracker') {
+        showPage('tracker');
     } else if (act === 'goto-old') {
         showPage('old');
+    } else if (act === 'switch-track-current') {
+        switchTrackerSubTab('current');
+    } else if (act === 'switch-track-old') {
+        switchTrackerSubTab('old');
     } else if (act === 'goto-settings') {
         showPage('settings');
     } else if (act === 'goto-tasbeeh') {
         showPage('tasbeeh');
+    } else if (act === 'goto-duas') {
+        showPage('duas');
+    } else if (act === 'dua-switch-pinned') {
+        if (window.DuasApp) window.DuasApp.switchTab('home');
+    } else if (act === 'dua-switch-all') {
+        if (window.DuasApp) window.DuasApp.switchTab('duas');
+    } else if (act === 'dua-switch-favs') {
+        if (window.DuasApp) window.DuasApp.switchTab('favourites');
+    } else if (act === 'dua-open-detail') {
+        if (window.DuasApp) {
+            var idx = parseInt(t.dataset.idx, 10);
+            var src = t.dataset.source || 'home';
+            window.DuasApp.openDetail(idx, src);
+        }
+    } else if (act === 'dua-detail-back') {
+        if (window.DuasApp) window.DuasApp.goBack();
+    } else if (act === 'dua-prev') {
+        if (window.DuasApp) window.DuasApp.changeDua(-1);
+    } else if (act === 'dua-next') {
+        if (window.DuasApp) window.DuasApp.changeDua(1);
+    } else if (act === 'dua-detail-toggle-fav') {
+        if (window.DuasApp) window.DuasApp.toggleFavouriteCurrent();
+    } else if (act === 'dua-detail-toggle-pin') {
+        if (window.DuasApp) window.DuasApp.togglePinCurrent();
+    } else if (act === 'dua-item-pin') {
+        if (window.DuasApp) {
+            var idx = parseInt(t.dataset.idx, 10);
+            window.DuasApp.requestPin(idx);
+        }
+    } else if (act === 'dua-item-fav') {
+        if (window.DuasApp) {
+            var idx = parseInt(t.dataset.idx, 10);
+            window.DuasApp.toggleFavourite(idx);
+        }
+    } else if (act === 'dua-open-add') {
+        if (window.DuasApp) window.DuasApp.openAddModal();
+    } else if (act === 'dua-close-add') {
+        if (window.DuasApp) window.DuasApp.closeAddModal();
+    } else if (act === 'dua-save-new') {
+        if (window.DuasApp) window.DuasApp.saveNewDua();
+    } else if (act === 'dua-open-admin') {
+        if (window.DuasApp) window.DuasApp.openAdminModal();
+    } else if (act === 'dua-close-admin') {
+        if (window.DuasApp) window.DuasApp.closeAdminModal();
+    } else if (act === 'dua-reset-all') {
+        if (window.DuasApp) window.DuasApp.resetAllData();
+    } else if (act === 'dua-close-pin-confirm') {
+        if (window.DuasApp) window.DuasApp.closePinConfirm();
+    } else if (act === 'dua-replace-pin') {
+        if (window.DuasApp) {
+            var oldIdx = parseInt(t.dataset.oldIdx, 10);
+            window.DuasApp.replacePin(oldIdx);
+        }
+    } else if (act === 'dua-del') {
+        if (window.DuasApp) {
+            var delIdx = parseInt(t.dataset.idx, 10);
+            window.DuasApp.deleteDua(delIdx);
+        }
     }
 }
 

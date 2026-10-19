@@ -368,5 +368,32 @@ function rDashboard() {
         '</div>' +
         '</div>';
 
+    var duasRaw = localStorage.getItem('quranDuas_data');
+    var duasList = [];
+    try { duasList = JSON.parse(duasRaw) || []; } catch (_) { }
+    var duasCount = duasList.length || 100;
+    var favsRaw = localStorage.getItem('quranDuas_favourites');
+    var favsList = [];
+    try { favsList = JSON.parse(favsRaw) || []; } catch (_) { }
+    var favsCount = favsList.length;
+    var pinsRaw = localStorage.getItem('quranDuas_pins');
+    var pinsList = [];
+    try { pinsList = JSON.parse(pinsRaw) || []; } catch (_) { }
+    var pinsCount = pinsList.length;
+
+    body.innerHTML +=
+        '<!-- Quran Duas Summary Card -->' +
+        '<div class="fw-bold mb-2 px-1 text-gr label-supporting" style="letter-spacing:1.5px" data-ref="page.dashboard.duas.section-title">QURAN DUAS</div>' +
+        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0" role="button" data-act="goto-duas" style="cursor:pointer" data-ref="page.dashboard.duas-card">' +
+        '<div class="row g-2 mb-2" data-ref="page.dashboard.duas-card.stats">' +
+        summaryTile('Total', duasCount, '#25845B') +
+        summaryTile('Pinned', pinsCount + ' / 2', '#ca8a04') +
+        summaryTile('Favorites', favsCount, '#E5484D') +
+        '</div>' +
+        '<div class="text-gr-muted label-supporting" data-ref="page.dashboard.duas-card.footer">' +
+        '<i class="fa-solid fa-book-quran me-1"></i>Tap to explore Quran Duas &amp; meanings' +
+        '</div>' +
+        '</div>';
+
     startDashClock();
 }
