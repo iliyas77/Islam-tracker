@@ -1,6 +1,60 @@
 /* ---------- Navigation ---------- */
-var PAGES = ['dashboardPage', 'currentPage', 'oldPage', 'settingsPage', 'tasbeehPage'];
-var NAVS = { dashboard: 'navHome', current: 'navCur', old: 'navOld', settings: 'navSet', tasbeeh: 'navTasbeeh' };
+var PAGES = ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage'];
+var NAVS = { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh' };
+
+var trackerSubTab = 'current';
+
+function switchTrackerSubTab(subTab) {
+    trackerSubTab = subTab || 'current';
+    var btnCur = $('tabTrackCurrent');
+    var btnOld = $('tabTrackOld');
+    var bodyCur = $('currentBody');
+    var bodyOld = $('oldBody');
+    var oldSub = $('oldSub');
+    var oldActionBtn = $('oldActionBtn');
+    var headerIcon = $('trackerHeaderIcon');
+    var headerLabel = $('trackerHeaderLabel');
+
+    if (trackerSubTab === 'old') {
+        if (btnCur) {
+            btnCur.classList.remove('active');
+            btnCur.setAttribute('aria-selected', 'false');
+        }
+        if (btnOld) {
+            btnOld.classList.add('active');
+            btnOld.setAttribute('aria-selected', 'true');
+        }
+        if (bodyCur) bodyCur.classList.add('d-none');
+        if (bodyOld) bodyOld.classList.remove('d-none');
+        if (oldSub) oldSub.classList.remove('d-none');
+        if (oldActionBtn) oldActionBtn.classList.remove('d-none');
+        if (headerIcon) {
+            headerIcon.className = 'fa-solid fa-clock-rotate-left';
+            headerIcon.style.color = '#cc7a00';
+        }
+        if (headerLabel) headerLabel.textContent = 'Old Tracking';
+        rOT();
+    } else {
+        if (btnCur) {
+            btnCur.classList.add('active');
+            btnCur.setAttribute('aria-selected', 'true');
+        }
+        if (btnOld) {
+            btnOld.classList.remove('active');
+            btnOld.setAttribute('aria-selected', 'false');
+        }
+        if (bodyCur) bodyCur.classList.remove('d-none');
+        if (bodyOld) bodyOld.classList.add('d-none');
+        if (oldSub) oldSub.classList.add('d-none');
+        if (oldActionBtn) oldActionBtn.classList.add('d-none');
+        if (headerIcon) {
+            headerIcon.className = 'fa-regular fa-calendar text-gr-accent';
+            headerIcon.style.color = '';
+        }
+        if (headerLabel) headerLabel.textContent = 'Current Prayer';
+        rn();
+    }
+}
 
 function setNav(id) {
     Object.values(NAVS).forEach(function (n) {
@@ -30,23 +84,31 @@ function showPage(kind) {
     });
 
     var target = kind === 'dashboard' ? 'dashboardPage' :
-        kind === 'current' ? 'currentPage' :
-            kind === 'old' ? 'oldPage' :
-                kind === 'settings' ? 'settingsPage' :
-                    kind === 'tasbeeh' ? 'tasbeehPage' : null;
+        (kind === 'tracker' || kind === 'current' || kind === 'old') ? 'trackerPage' :
+            kind === 'settings' ? 'settingsPage' :
+                kind === 'tasbeeh' ? 'tasbeehPage' : null;
 
     if (!target) return;
 
-    $(target).classList.remove('d-none');
-    $(target).classList.add('d-flex');
+    var el = $(target);
+    if (el) {
+        el.classList.remove('d-none');
+        el.classList.add('d-flex');
+    }
 
-    setNav(NAVS[kind]);
+    setNav(NAVS[kind] || 'navCur');
 
-    if (kind === 'dashboard') rDashboard();
-    else if (kind === 'current') rn();
-    else if (kind === 'old') rOT();
-    else if (kind === 'settings') rSET();
-    else if (kind === 'tasbeeh') {
+    if (kind === 'dashboard') {
+        rDashboard();
+    } else if (kind === 'current') {
+        switchTrackerSubTab('current');
+    } else if (kind === 'old') {
+        switchTrackerSubTab('old');
+    } else if (kind === 'tracker') {
+        switchTrackerSubTab(trackerSubTab || 'current');
+    } else if (kind === 'settings') {
+        rSET();
+    } else if (kind === 'tasbeeh') {
         if (window.TasbeehApp && typeof window.TasbeehApp.render === 'function') {
             window.TasbeehApp.render();
         }

@@ -28,35 +28,34 @@
             </div>
         </div>
 
-        <!-- Current Prayer Page -->
-        <div id="currentPage" class="d-none flex-column flex-grow-1 page" data-ref="page.current">
-            <header class="app-header d-flex align-items-center" data-ref="page.current.header">
-                <div class="flex-grow-1 min-w-0" data-ref="page.current.header.title-wrap">
-                    <h5 class="page-title mb-0" data-ref="page.current.header.title">
-                        <i class="fa-regular fa-calendar text-gr-accent" data-ref="page.current.header.icon"></i>
-                        <span data-ref="page.current.header.label">Current Prayer</span>
-                    </h5>
+        <!-- Prayer Tracker Page (Combined Current & Old) -->
+        <div id="trackerPage" class="d-none flex-column flex-grow-1 page" data-ref="page.tracker">
+            <header class="app-header d-flex flex-column gap-2" data-ref="page.tracker.header">
+                <div class="d-flex align-items-center justify-content-between min-w-0" style="min-height:44px">
+                    <div class="min-w-0 flex-grow-1">
+                        <h5 class="page-title mb-0" id="trackerHeaderTitle">
+                            <i class="fa-regular fa-calendar text-gr-accent" id="trackerHeaderIcon"></i>
+                            <span id="trackerHeaderLabel">Current Prayer</span>
+                        </h5>
+                        <div id="oldSub" class="page-sub d-none">Select a period to begin</div>
+                    </div>
+                    <button type="button" class="btn-action-round d-none" id="oldActionBtn" title="Set period">
+                        <i class="fa-solid fa-bookmark fs-5"></i>
+                    </button>
+                </div>
+
+                <!-- Segmented Sub-Tabs at the top -->
+                <div class="tracker-segment-bar" role="tablist" aria-label="Tracker view">
+                    <button type="button" class="tracker-subtab active" id="tabTrackCurrent" data-act="switch-track-current" role="tab" aria-selected="true">
+                        <i class="fa-regular fa-calendar"></i><span>Current</span>
+                    </button>
+                    <button type="button" class="tracker-subtab" id="tabTrackOld" data-act="switch-track-old" role="tab" aria-selected="false">
+                        <i class="fa-solid fa-clock-rotate-left"></i><span>Old</span>
+                    </button>
                 </div>
             </header>
             <div class="flex-grow-1 overflow-auto p-3" id="currentBody" data-ref="page.current.body" style="padding-bottom:20px"></div>
-        </div>
-
-
-        <!-- Old Tracking Page -->
-        <div id="oldPage" class="d-none flex-column flex-grow-1 page">
-            <header class="app-header d-flex align-items-center gap-2">
-                <div class="flex-grow-1 min-w-0">
-                    <h5 class="page-title">
-                        <i class="fa-solid fa-clock-rotate-left" style="color:#cc7a00"></i>
-                        <span>Old Tracking</span>
-                    </h5>
-                    <div id="oldSub" class="page-sub">Select a period to begin</div>
-                </div>
-                <button type="button" class="btn-action-round" id="oldActionBtn">
-                    <i class="fa-solid fa-bookmark fs-5"></i>
-                </button>
-            </header>
-            <div class="flex-grow-1 overflow-auto p-3" id="oldBody" style="padding-bottom:20px"></div>
+            <div class="flex-grow-1 overflow-auto p-3 d-none" id="oldBody" data-ref="page.old.body" style="padding-bottom:20px"></div>
         </div>
 
         <!-- Settings Page -->
@@ -183,14 +182,11 @@
                     <button class="nav-tab" id="navHome" data-act="go-home">
                         <i class="fa-solid fa-house fs-4"></i><span>Home</span>
                     </button>
-                    <button class="nav-tab" id="navCur" data-act="goto-cur">
-                        <i class="fa-regular fa-calendar fs-4"></i><span>Current</span>
+                    <button class="nav-tab" id="navCur" data-act="goto-tracker">
+                        <i class="fa-regular fa-calendar-check fs-4"></i><span>Tracker</span>
                     </button>
                     <button class="nav-tab" id="navTasbeeh" data-act="goto-tasbeeh" data-ref="component.navbar.tasbeeh-tab">
                         <i class="fa-solid fa-hand-holding-heart fs-4" data-ref="component.navbar.tasbeeh-icon"></i><span data-ref="component.navbar.tasbeeh-label">Tasbeeh</span>
-                    </button>
-                    <button class="nav-tab" id="navOld" data-act="goto-old">
-                        <i class="fa-solid fa-clock-rotate-left fs-4"></i><span>Old</span>
                     </button>
                     <button class="nav-tab" id="navSet" data-act="goto-settings">
                         <i class="fa-solid fa-gear fs-4"></i><span>Settings</span>

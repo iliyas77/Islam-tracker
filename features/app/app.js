@@ -125,9 +125,11 @@ function refreshPrayerTimesUI(dateStr) {
     if (dashPage && !dashPage.classList.contains('d-none')) {
         rDashboard();
     }
-    var curPage = $('currentPage');
-    if (curPage && !curPage.classList.contains('d-none') && sd === dateStr) {
-        rn();
+    var trkPage = $('trackerPage') || $('currentPage');
+    if (trkPage && !trkPage.classList.contains('d-none') && sd === dateStr) {
+        if (typeof trackerSubTab === 'undefined' || trackerSubTab === 'current') {
+            rn();
+        }
     }
 }
 

@@ -375,8 +375,14 @@ function handleClick(e) {
         showPage('dashboard');
     } else if (act === 'goto-cur') {
         showPage('current');
+    } else if (act === 'goto-tracker') {
+        showPage('tracker');
     } else if (act === 'goto-old') {
         showPage('old');
+    } else if (act === 'switch-track-current') {
+        switchTrackerSubTab('current');
+    } else if (act === 'switch-track-old') {
+        switchTrackerSubTab('old');
     } else if (act === 'goto-settings') {
         showPage('settings');
     } else if (act === 'goto-tasbeeh') {

@@ -131,6 +131,46 @@ body {
     color: var(--brand) !important;
 }
 
+/* ---------- Tracker Segmented Sub-Tabs ---------- */
+.tracker-segment-bar {
+    display: flex;
+    background: #eef3f0;
+    padding: 3px;
+    border-radius: 12px;
+    gap: 4px;
+    border: 1px solid var(--border);
+}
+
+.tracker-subtab {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 9px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.tracker-subtab:hover {
+    color: var(--ink);
+}
+
+.tracker-subtab.active {
+    background: #ffffff;
+    color: var(--brand);
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(18, 61, 46, 0.08);
+}
+
 /* ---------- Cards ---------- */
 .card {
     border: 0;
