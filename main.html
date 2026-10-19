@@ -7,7 +7,7 @@
     <title>Nur Prayer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;700&family=Noto+Sans+Telugu:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link href="css/color.css" rel="stylesheet">
@@ -54,8 +54,8 @@
                     </button>
                 </div>
             </header>
-            <div class="flex-grow-1 overflow-auto p-3" id="currentBody" data-ref="page.current.body" style="padding-bottom:20px"></div>
-            <div class="flex-grow-1 overflow-auto p-3 d-none" id="oldBody" data-ref="page.old.body" style="padding-bottom:20px"></div>
+            <div class="flex-grow-1 overflow-auto px-2 pt-2 pb-3" id="currentBody" data-ref="page.current.body"></div>
+            <div class="flex-grow-1 overflow-auto px-2 pt-2 pb-3 d-none" id="oldBody" data-ref="page.old.body"></div>
         </div>
 
         <!-- Settings Page -->
@@ -69,7 +69,7 @@
                     <div class="page-sub">App preferences</div>
                 </div>
             </header>
-            <div class="flex-grow-1 overflow-auto p-3" id="settingsBody" style="padding-bottom:20px"></div>
+            <div class="flex-grow-1 overflow-auto" id="settingsBody" style="padding: 8px;"></div>
         </div>
 
         <!-- Digital Tasbeeh Page -->
@@ -86,7 +86,7 @@
                     <i class="fa-solid fa-plus fs-5" data-ref="page.tasbeeh.header.add-icon"></i>
                 </button>
             </header>
-            <div class="flex-grow-1 overflow-auto p-3" id="tasbeehBody" data-ref="page.tasbeeh.body" style="padding-bottom:24px">
+            <div class="flex-grow-1 overflow-auto" id="tasbeehBody" data-ref="page.tasbeeh.body" style="padding: 8px;">
                 <div class="card p-3 mb-3 border-0 shadow-sm rounded-4 bg-white" data-ref="page.tasbeeh.summary">
                     <div class="d-flex align-items-center justify-content-between" data-ref="page.tasbeeh.summary.row">
                         <div class="d-flex align-items-center gap-2" data-ref="page.tasbeeh.summary.icon-title">
@@ -175,6 +175,100 @@
             </div>
         </div>
 
+        <!-- Quran Duas Page -->
+        <div id="duasPage" class="d-none flex-column flex-grow-1 page" data-ref="page.duas">
+            <header class="app-header d-flex flex-column gap-2" data-ref="page.duas.header">
+                <div class="d-flex align-items-center justify-content-between min-w-0" style="min-height:44px">
+                    <div class="min-w-0 flex-grow-1">
+                        <h5 class="page-title mb-0" id="duasHeaderTitle">
+                            <i class="fa-solid fa-book-quran text-success"></i>
+                            <span>Quran Duas</span>
+                        </h5>
+                        <div class="page-sub" id="duaProgressIndicator">0 pinned</div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="btn-action-round" data-act="dua-open-admin" title="Admin Settings">
+                            <i class="fa-solid fa-gear fs-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Segmented Sub-Tabs at the top -->
+                <div class="tracker-segment-bar" id="duaSegmentBar" role="tablist" aria-label="Duas view">
+                    <button type="button" class="tracker-subtab active" id="duaTabPinned" data-act="dua-switch-pinned" role="tab" aria-selected="true">
+                        <span>📌</span><span>Pinned</span>
+                    </button>
+                    <button type="button" class="tracker-subtab" id="duaTabAll" data-act="dua-switch-all" role="tab" aria-selected="false">
+                        <span>📖</span><span>All Duas</span>
+                    </button>
+                    <button type="button" class="tracker-subtab" id="duaTabFavs" data-act="dua-switch-favs" role="tab" aria-selected="false">
+                        <span>❤️</span><span>Favourites</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="flex-grow-1 overflow-auto p-3 position-relative" id="duasBody" style="padding-bottom:80px">
+                <!-- Subview: Pinned (Home) -->
+                <div id="duaSubHome">
+                    <div class="home-view" id="duaHomeView"></div>
+                </div>
+
+                <!-- Subview: All Duas (List + Search) -->
+                <div id="duaSubAll" class="d-none">
+                    <div class="position-relative mb-3">
+                        <input type="text" id="duaSearchInput" class="form-control rounded-3 border ps-3 pe-5 py-2 shadow-none" placeholder="Search by number, Surah, or keywords...">
+                        <button type="button" id="duaSearchClear" class="btn border-0 text-muted position-absolute end-0 top-50 translate-middle-y me-2 d-none p-1" style="line-height:1">✕</button>
+                    </div>
+                    <div class="list-view" id="duaListView"></div>
+                </div>
+
+                <!-- Subview: Favourites -->
+                <div id="duaSubFavs" class="d-none">
+                    <div class="list-view" id="duaFavouritesList"></div>
+                </div>
+
+                <!-- Subview: Detail Page -->
+                <div id="duaSubDetail" class="detail-page d-none">
+                    <button type="button" class="dua-back-btn mb-2" data-act="dua-detail-back">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Back to list
+                    </button>
+
+                    <div class="dua-card">
+                        <div class="dua-header-info">
+                            <div class="dua-countdown" id="duaDetailNumber">#01</div>
+                            <div class="dua-prayer-name" id="duaDetailSurah"></div>
+                        </div>
+
+                        <div>
+                            <div class="dua-section-title">Telugu Pronunciation</div>
+                            <div class="dua-timeline-label mt-1" id="duaDetailUchcharana"></div>
+                        </div>
+
+                        <div>
+                            <div class="dua-section-title">Telugu Meaning</div>
+                            <div class="dua-prayer-time mt-1" id="duaDetailArdham"></div>
+                        </div>
+                    </div>
+
+                    <div class="dua-nav-controls">
+                        <button type="button" class="btn btn-brand" id="duaPrevBtn" data-act="dua-prev">Previous</button>
+                        <button type="button" class="dua-detail-icon-btn" id="duaDetailFavBtn" data-act="dua-detail-toggle-fav" title="Toggle Favourite">
+                            <span id="duaDetailFavIcon">♡</span>
+                        </button>
+                        <button type="button" class="dua-detail-icon-btn" id="duaDetailPinBtn" data-act="dua-detail-toggle-pin" title="Toggle Pin">
+                            <span id="duaDetailPinIcon">📌</span>
+                        </button>
+                        <button type="button" class="btn btn-brand" id="duaNextBtn" data-act="dua-next">Next</button>
+                    </div>
+                </div>
+
+                <!-- Floating Action Button for Add Dua -->
+                <button type="button" class="dua-fab" id="duaFabBtn" data-act="dua-open-add" title="Add New Dua">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+        </div>
+
         <!-- Bottom Navigation -->
         <nav class="navbar app-bottom-nav flex-shrink-0">
             <div class="container-fluid p-0 h-100">
@@ -187,6 +281,9 @@
                     </button>
                     <button class="nav-tab" id="navTasbeeh" data-act="goto-tasbeeh" data-ref="component.navbar.tasbeeh-tab">
                         <i class="fa-solid fa-hand-holding-heart fs-4" data-ref="component.navbar.tasbeeh-icon"></i><span data-ref="component.navbar.tasbeeh-label">Tasbeeh</span>
+                    </button>
+                    <button class="nav-tab" id="navDuas" data-act="goto-duas" data-ref="component.navbar.duas-tab">
+                        <i class="fa-solid fa-book-quran fs-4" data-ref="component.navbar.duas-icon"></i><span data-ref="component.navbar.duas-label">Duas</span>
                     </button>
                     <button class="nav-tab" id="navSet" data-act="goto-settings">
                         <i class="fa-solid fa-gear fs-4"></i><span>Settings</span>
@@ -308,6 +405,78 @@
         <!-- Tasbeeh Floating Toast -->
         <div id="tbToast" class="tb-toast-wrap d-none" role="status" aria-live="polite" data-ref="component.toast.tasbeeh"></div>
 
+        <!-- Add Dua Modal -->
+        <div class="dua-modal-overlay" id="duaAddModal">
+            <div class="dua-modal">
+                <div class="dua-modal-header">
+                    <div class="dua-modal-title">➕ Add New Dua</div>
+                    <button type="button" class="dua-modal-close" data-act="dua-close-add">✕</button>
+                </div>
+
+                <div class="dua-form-group">
+                    <label>Dua Number</label>
+                    <input type="number" id="duaAddNumber" class="form-control" placeholder="e.g. 11">
+                </div>
+                <div class="dua-form-group">
+                    <label>Surah Name (Telugu)</label>
+                    <input type="text" id="duaAddSurah" class="form-control" placeholder="e.g. అల్-బఖరా (2:201)">
+                </div>
+                <div class="dua-form-group">
+                    <label>Telugu Pronunciation</label>
+                    <textarea id="duaAddUchcharana" class="form-control" rows="2" placeholder="రబ్బనా ఆతినా..."></textarea>
+                </div>
+                <div class="dua-form-group">
+                    <label>Telugu Meaning</label>
+                    <textarea id="duaAddArdham" class="form-control" rows="3" placeholder="మా ప్రభువా! మాకు..."></textarea>
+                </div>
+
+                <div class="d-flex gap-2 justify-content-end mt-4 pt-3 border-top">
+                    <button type="button" class="btn btn-light border px-4" data-act="dua-close-add">Cancel</button>
+                    <button type="button" class="btn btn-brand px-4" data-act="dua-save-new">Save Dua</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pin Confirmation Modal -->
+        <div class="dua-modal-overlay" id="duaPinConfirmModal">
+            <div class="dua-modal">
+                <div class="dua-modal-header">
+                    <div class="dua-modal-title">📌 Pin Limit Reached</div>
+                    <button type="button" class="dua-modal-close" data-act="dua-close-pin-confirm">✕</button>
+                </div>
+
+                <p class="text-secondary small mb-2">
+                    You can only pin <strong>2 duas</strong> at a time. You already have these duas pinned:
+                </p>
+                <div id="duaPinConfirmList" class="my-3"></div>
+                <p class="text-secondary small mb-3">
+                    Do you want to <strong>replace one</strong>? Choose which pinned dua to unpin:
+                </p>
+
+                <div class="d-flex justify-content-end pt-2 border-top">
+                    <button type="button" class="btn btn-light border px-4" data-act="dua-close-pin-confirm">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Modal -->
+        <div class="dua-modal-overlay" id="duaAdminModal">
+            <div class="dua-modal">
+                <div class="dua-modal-header">
+                    <div class="dua-modal-title">⚙️ Admin Panel</div>
+                    <button type="button" class="dua-modal-close" data-act="dua-close-admin">✕</button>
+                </div>
+
+                <div id="duaAdminListSection">
+                    <div class="fw-bold mb-2 text-primary">Existing Duas</div>
+                    <div class="dua-admin-list mb-3" id="duaAdminDuaList"></div>
+                    <button type="button" class="btn btn-outline-danger w-100 py-2 rounded-3 fw-semibold" data-act="dua-reset-all">
+                        <i class="fa-solid fa-arrows-rotate me-1"></i> Reset to Default Data
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -320,6 +489,7 @@
     <script src="features/old-tracking/old-tracking.js"></script>
     <script src="features/settings/settings.js"></script>
     <script src="features/tasbeeh/tasbeeh.js"></script>
+    <script src="features/duas/duas.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             if (window.TasbeehApp && typeof window.TasbeehApp.init === 'function') {

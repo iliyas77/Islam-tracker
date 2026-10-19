@@ -1,6 +1,6 @@
 /* ---------- Navigation ---------- */
-var PAGES = ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage'];
-var NAVS = { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh' };
+var PAGES = ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage'];
+var NAVS = { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas' };
 
 var trackerSubTab = 'current';
 
@@ -86,7 +86,8 @@ function showPage(kind) {
     var target = kind === 'dashboard' ? 'dashboardPage' :
         (kind === 'tracker' || kind === 'current' || kind === 'old') ? 'trackerPage' :
             kind === 'settings' ? 'settingsPage' :
-                kind === 'tasbeeh' ? 'tasbeehPage' : null;
+                kind === 'tasbeeh' ? 'tasbeehPage' :
+                    kind === 'duas' ? 'duasPage' : null;
 
     if (!target) return;
 
@@ -111,6 +112,10 @@ function showPage(kind) {
     } else if (kind === 'tasbeeh') {
         if (window.TasbeehApp && typeof window.TasbeehApp.render === 'function') {
             window.TasbeehApp.render();
+        }
+    } else if (kind === 'duas') {
+        if (window.DuasApp && typeof window.DuasApp.render === 'function') {
+            window.DuasApp.render();
         }
     }
 }

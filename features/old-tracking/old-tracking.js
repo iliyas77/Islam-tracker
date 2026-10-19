@@ -163,7 +163,7 @@ function rOT() {
     var html = renderPrayerTrackerCard({
         pagePrefix: 'page.old',
         collapsePrefix: 'old',
-        badgeText: 'Missed (' + missed.length + ')',
+        badgeText: '',
         badgeAct: '',
         actionBtnText: 'Mark All Done',
         actionBtnAct: 'old-mark-all-done',
@@ -174,7 +174,9 @@ function rOT() {
         timings: T,
         currentPrayerName: null,
         toggleAct: 'toggle-old',
-        date: curDate
+        date: curDate,
+        missedTitle: 'MISSED',
+        highlightMissed: true
     });
 
     lst.innerHTML = html;
