@@ -229,17 +229,17 @@ function rDashboard() {
             '<div class="timeline-dot-wrap" data-ref="page.dashboard.timeline.dot-wrap.' + p.toLowerCase() + '">' +
             dotHtml +
             '</div>' +
-            '<div class="timeline-label mt-1 text-gr1" style="line-height:1.2" data-ref="page.dashboard.timeline.name.' + p.toLowerCase() + '">' + p + '</div>' +
-            '<div class="timeline-time text-gr-muted" style="margin-top:2px" data-ref="page.dashboard.timeline.time.' + p.toLowerCase() + '">' + (T[p] || '--:--') + '</div>' +
+            '<div class="timeline-label mt-1 text-gr1 lh-sm" data-ref="page.dashboard.timeline.name.' + p.toLowerCase() + '">' + p + '</div>' +
+            '<div class="timeline-time text-gr-muted mt-1" data-ref="page.dashboard.timeline.time.' + p.toLowerCase() + '">' + (T[p] || '--:--') + '</div>' +
             '<span class="badge rounded-pill mt-2 ' + badgeClass + '" data-ref="page.dashboard.timeline.badge.' + p.toLowerCase() + '">' + badgeText + '</span>' +
             '</div>';
     }).join('');
 
-    function summaryTile(label, value, color) {
+    function summaryTile(label, value, colorClass) {
         return '<div class="col-4" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '">' +
             '<div class="summary-tile" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '.box">' +
             '<div class="label label-supporting text-gr-muted" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '.label">' + label + '</div>' +
-            '<div class="value" style="color:' + color + '" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '.value">' + value + '</div>' +
+            '<div class="value ' + (colorClass || '') + '" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '.value">' + value + '</div>' +
             '</div></div>';
     }
 
@@ -247,7 +247,7 @@ function rDashboard() {
         '<!-- Main Clock / Prayer Timeline Card matching reference UI -->' +
         '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0 position-relative overflow-hidden d-flex flex-column gap-3" data-ref="page.dashboard.clock-card">' +
         '  <!-- 1. Header Bar: Location -->' +
-        '  <div class="d-flex align-items-center justify-content-between pb-2 border-bottom" style="border-color:#edf2ee !important" data-ref="page.dashboard.clock-card.header">' +
+        '  <div class="d-flex align-items-center justify-content-between pb-2 border-bottom border-secondary-subtle" data-ref="page.dashboard.clock-card.header">' +
         '    <div class="d-flex align-items-center gap-1 text-gr1 location" data-ref="page.dashboard.clock-card.header.location">' +
         '      <i class="fa-solid fa-location-dot text-gr-accent" data-ref="page.dashboard.clock-card.header.location-icon"></i>' +
         '      <span data-ref="page.dashboard.clock-card.header.location-text">' + cfg.city + ' &bull; ' + (cfg.school === 1 ? 'Hanafi' : 'Shafi') + '</span>' +
@@ -256,7 +256,7 @@ function rDashboard() {
 
         '  <!-- 2. Big Live Current Time with Masjid Icon -->' +
         '  <div class="d-flex align-items-center justify-content-start gap-2 gap-sm-3" data-ref="page.dashboard.clock-card.time-wrap">' +
-        '    <i class="fa-solid fa-mosque text-gr1" style="font-size:2.2rem;line-height:1" data-ref="page.dashboard.clock-card.time-icon"></i>' +
+        '    <i class="fa-solid fa-mosque text-gr1 display-6 lh-1" data-ref="page.dashboard.clock-card.time-icon"></i>' +
         '    <div class="clock-big text-gr1 d-inline-flex align-items-baseline fw-normal" id="dashTime" data-ref="page.dashboard.clock-card.time">' +
         dashBigTimeHtml() +
         '    </div>' +
@@ -277,7 +277,7 @@ function rDashboard() {
         '        </div>' +
         '      </div>' +
         '    </div>' +
-        '    <div class="border-start mx-2 align-self-stretch" style="border-color:#d4e4db !important" data-ref="page.dashboard.clock-card.next-card.divider"></div>' +
+        '    <div class="border-start mx-2 align-self-stretch border-secondary-subtle" data-ref="page.dashboard.clock-card.next-card.divider"></div>' +
         '    <div class="d-flex flex-column justify-content-center gap-2 date-text" data-ref="page.dashboard.clock-card.next-card.right">' +
         '      <div class="d-flex align-items-center gap-2 text-gr" data-ref="page.dashboard.clock-card.next-card.gregorian">' +
         '        <i class="fa-regular fa-calendar-days text-gr"></i>' +
@@ -292,42 +292,42 @@ function rDashboard() {
 
         '  <!-- 4. Daily Prayer Timeline Section -->' +
         '  <div class="d-flex align-items-center gap-3" data-ref="page.dashboard.timeline.header">' +
-        '    <span class="section-title text-uppercase text-gr1" style="white-space:nowrap" data-ref="page.dashboard.timeline.title">DAILY PRAYER TIMELINE</span>' +
-        '    <div class="flex-grow-1 border-bottom" style="border-color:#dbe5df !important" data-ref="page.dashboard.timeline.line"></div>' +
+        '    <span class="section-title text-uppercase text-gr1 text-nowrap" data-ref="page.dashboard.timeline.title">DAILY PRAYER TIMELINE</span>' +
+        '    <div class="flex-grow-1 border-bottom border-secondary-subtle" data-ref="page.dashboard.timeline.line"></div>' +
         '  </div>' +
 
         '  <div class="position-relative w-100" data-ref="page.dashboard.timeline.track">' +
-        '    <div class="position-absolute" style="height:2px;background:#d8e6de;top:54px;left:10%;right:10%;z-index:1;" data-ref="page.dashboard.timeline.track-line"></div>' +
-        '    <div class="d-flex align-items-start justify-content-between position-relative" style="z-index:2;" data-ref="page.dashboard.timeline.nodes">' +
+        '    <div class="timeline-track-line" data-ref="page.dashboard.timeline.track-line"></div>' +
+        '    <div class="d-flex align-items-start justify-content-between position-relative timeline-track-nodes" data-ref="page.dashboard.timeline.nodes">' +
         timelineNodesHtml +
         '    </div>' +
         '  </div>' +
 
         '  <!-- 5. Bottom Decorative Divider -->' +
         '  <div class="d-flex align-items-center justify-content-center" data-ref="page.dashboard.clock-card.bottom-divider">' +
-        '    <div class="flex-grow-1 border-bottom opacity-50" style="max-width:140px;border-color:#dbe5df !important"></div>' +
-        '    <span class="px-2 text-gr-muted" style="font-size:0.85rem">✦</span>' +
-        '    <div class="flex-grow-1 border-bottom opacity-50" style="max-width:140px;border-color:#dbe5df !important"></div>' +
+        '    <div class="flex-grow-1 border-bottom opacity-50 border-secondary-subtle divider-line-sm"></div>' +
+        '    <span class="px-2 text-gr-muted small">✦</span>' +
+        '    <div class="flex-grow-1 border-bottom opacity-50 border-secondary-subtle divider-line-sm"></div>' +
         '  </div>' +
         '</div>' +
 
         '<!-- Current Prayer Summary Card -->' +
-        '<div class="fw-bold mb-2 px-1 text-gr label-supporting" style="letter-spacing:1.5px" data-ref="page.dashboard.current-prayer.section-title">CURRENT PRAYER</div>' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0" role="button" data-act="goto-cur" style="cursor:pointer" data-ref="page.dashboard.current-prayer-card">' +
+        '<div class="fw-bold mb-2 px-1 text-gr label-supporting letter-spacing-lg" data-ref="page.dashboard.current-prayer.section-title">CURRENT PRAYER</div>' +
+        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0 cursor-pointer" role="button" data-act="goto-cur" data-ref="page.dashboard.current-prayer-card">' +
         '<div class="row g-2 mb-2" data-ref="page.dashboard.current-prayer-card.stats">' +
-        summaryTile('Done', doneToday, '#25845B') +
-        summaryTile('Missed', missToday, '#dc3545') +
-        summaryTile('Today', curPct + '%', '#ca8a04') +
+        summaryTile('Done', doneToday, 'text-success') +
+        summaryTile('Missed', missToday, 'text-danger') +
+        summaryTile('Today', curPct + '%', 'text-warning') +
         '</div>' +
         (missPrev > 0
             ? '<div class="d-flex align-items-center gap-2 mb-2 p-2 rounded-3 bg-gr-danger-soft" data-ref="page.dashboard.current-prayer-card.missed-alert">' +
             '<i class="fa-solid fa-circle-exclamation text-gr-danger"></i>' +
-            '<span class="fw-bold text-gr-danger" style="font-size:.82rem">' + missPrev + ' missed from previous days</span>' +
-            '<i class="fa-solid fa-chevron-right ms-auto text-gr-muted" style="font-size:.8rem"></i>' +
+            '<span class="fw-bold text-gr-danger small">' + missPrev + ' missed from previous days</span>' +
+            '<i class="fa-solid fa-chevron-right ms-auto text-gr-muted small"></i>' +
             '</div>'
             : '<div class="d-flex align-items-center gap-2 mb-2 p-2 rounded-3 bg-gr-accent-soft" data-ref="page.dashboard.current-prayer-card.all-clear">' +
             '<i class="fa-solid fa-circle-check text-gr-accent"></i>' +
-            '<span class="fw-bold text-gr-accent" style="font-size:.82rem">No missed prayers from previous days</span>' +
+            '<span class="fw-bold text-gr-accent small">No missed prayers from previous days</span>' +
             '</div>') +
         '<div class="text-gr-muted label-supporting" data-ref="page.dashboard.current-prayer-card.footer">' +
         '<i class="fa-regular fa-calendar me-1"></i>' + fr(today) +
@@ -335,12 +335,12 @@ function rDashboard() {
         '</div>' +
 
         '<!-- Previous Prayer Summary Card -->' +
-        '<div class="fw-bold mb-2 px-1 text-gr label-supporting" style="letter-spacing:1.5px" data-ref="page.dashboard.previous-prayer.section-title">PREVIOUS PRAYER</div>' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0" role="button" data-act="goto-old" style="cursor:pointer" data-ref="page.dashboard.previous-prayer-card">' +
+        '<div class="fw-bold mb-2 px-1 text-gr label-supporting letter-spacing-lg" data-ref="page.dashboard.previous-prayer.section-title">PREVIOUS PRAYER</div>' +
+        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0 cursor-pointer" role="button" data-act="goto-old" data-ref="page.dashboard.previous-prayer-card">' +
         '<div class="row g-2 mb-2" data-ref="page.dashboard.previous-prayer-card.stats">' +
-        summaryTile('Tracked', trackedDays, '#25845B') +
-        summaryTile('Missed', trackedMiss, '#dc3545') +
-        summaryTile('Rate', oldPct + '%', '#ca8a04') +
+        summaryTile('Tracked', trackedDays, 'text-success') +
+        summaryTile('Missed', trackedMiss, 'text-danger') +
+        summaryTile('Rate', oldPct + '%', 'text-warning') +
         '</div>' +
         '<div class="text-gr-muted label-supporting" data-ref="page.dashboard.previous-prayer-card.footer">' +
         '<i class="fa-solid fa-clock-rotate-left me-1"></i>' +
@@ -356,12 +356,12 @@ function rDashboard() {
 
     body.innerHTML +=
         '<!-- Digital Tasbeeh Summary Card -->' +
-        '<div class="fw-bold mb-2 px-1 text-gr label-supporting" style="letter-spacing:1.5px" data-ref="page.dashboard.tasbeeh.section-title">DIGITAL TASBEEH</div>' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0" role="button" data-act="goto-tasbeeh" style="cursor:pointer" data-ref="page.dashboard.tasbeeh-card">' +
+        '<div class="fw-bold mb-2 px-1 text-gr label-supporting letter-spacing-lg" data-ref="page.dashboard.tasbeeh.section-title">DIGITAL TASBEEH</div>' +
+        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0 cursor-pointer" role="button" data-act="goto-tasbeeh" data-ref="page.dashboard.tasbeeh-card">' +
         '<div class="row g-2 mb-2" data-ref="page.dashboard.tasbeeh-card.stats">' +
-        summaryTile('Chants', tbCount, '#25845B') +
-        summaryTile('Today', tbToday, '#ca8a04') +
-        summaryTile('Counter', '<i class="fa-solid fa-arrow-right"></i>', '#25845B') +
+        summaryTile('Chants', tbCount, 'text-success') +
+        summaryTile('Today', tbToday, 'text-warning') +
+        summaryTile('Counter', '<i class="fa-solid fa-arrow-right"></i>', 'text-success') +
         '</div>' +
         '<div class="text-gr-muted label-supporting" data-ref="page.dashboard.tasbeeh-card.footer">' +
         '<i class="fa-solid fa-hand-holding-heart me-1"></i>Tap to open Digital Tasbeeh' +
@@ -383,12 +383,12 @@ function rDashboard() {
 
     body.innerHTML +=
         '<!-- Quran Duas Summary Card -->' +
-        '<div class="fw-bold mb-2 px-1 text-gr label-supporting" style="letter-spacing:1.5px" data-ref="page.dashboard.duas.section-title">QURAN DUAS</div>' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0" role="button" data-act="goto-duas" style="cursor:pointer" data-ref="page.dashboard.duas-card">' +
+        '<div class="fw-bold mb-2 px-1 text-gr label-supporting letter-spacing-lg" data-ref="page.dashboard.duas.section-title">QURAN DUAS</div>' +
+        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0 cursor-pointer" role="button" data-act="goto-duas" data-ref="page.dashboard.duas-card">' +
         '<div class="row g-2 mb-2" data-ref="page.dashboard.duas-card.stats">' +
-        summaryTile('Total', duasCount, '#25845B') +
-        summaryTile('Pinned', pinsCount + ' / 2', '#ca8a04') +
-        summaryTile('Favorites', favsCount, '#E5484D') +
+        summaryTile('Total', duasCount, 'text-success') +
+        summaryTile('Pinned', pinsCount + ' / 2', 'text-warning') +
+        summaryTile('Favorites', favsCount, 'text-danger') +
         '</div>' +
         '<div class="text-gr-muted label-supporting" data-ref="page.dashboard.duas-card.footer">' +
         '<i class="fa-solid fa-book-quran me-1"></i>Tap to explore Quran Duas &amp; meanings' +

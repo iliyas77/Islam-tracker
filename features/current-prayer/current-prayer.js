@@ -64,33 +64,32 @@ function go(d) {
 
 /* ---------- Missed Prayers Sheet ---------- */
 function missTile(date, p) {
-    return '<div class="rounded-4 p-2 d-flex flex-column align-items-center justify-content-center gap-2 flex-fill" ' +
-        'style="background:#fde8e8;min-width:0" data-ref="page.current.missed-sheet.tile.' + p.toLowerCase() + '">' +
+    return '<div class="rounded-4 p-2 d-flex flex-column align-items-center justify-content-center gap-2 flex-fill bg-danger-subtle min-w-0" ' +
+        'data-ref="page.current.missed-sheet.tile.' + p.toLowerCase() + '">' +
         '<span class="fs-3">' + I[p] + '</span>' +
-        '<span class="fw-bold text-truncate w-100 text-center" style="font-size:.85rem;color:#1a2b23">' + p + '</span>' +
-        '<span class="badge-pill-custom badge-missed" style="font-size:.68rem;padding:.25rem .5rem">' +
+        '<span class="fw-bold text-truncate w-100 text-center small text-dark">' + p + '</span>' +
+        '<span class="badge-pill-custom badge-missed fs-xs py-1 px-2">' +
         '<i class="fa-solid fa-circle-exclamation"></i>Missed</span>' +
         '</div>';
 }
 
 function missCard(x) {
     var tiles = x.prayers.map(function (p) { return missTile(x.date, p); }).join('');
-    return '<div class="card shadow-sm rounded-4 p-3 bg-gr border-0" role="button" data-act="jump" data-d="' + x.date + '" style="cursor:pointer" data-ref="page.current.missed-sheet.card.' + x.date + '">' +
-        '<div class="d-flex align-items-center gap-3 p-2 rounded-4 mb-3" style="background:#e8f4ed" data-ref="page.current.missed-sheet.card.header">' +
-        '<span class="icon-circle-lg" style="background:#d3ecdc;width:52px;height:52px" data-ref="page.current.missed-sheet.card.icon">' +
+    return '<div class="card shadow-sm rounded-4 p-3 bg-gr border-0 cursor-pointer" role="button" data-act="jump" data-d="' + x.date + '" data-ref="page.current.missed-sheet.card.' + x.date + '">' +
+        '<div class="d-flex align-items-center gap-3 p-2 rounded-4 mb-3 bg-success-subtle" data-ref="page.current.missed-sheet.card.header">' +
+        '<span class="icon-circle-lg" data-ref="page.current.missed-sheet.card.icon">' +
         '<i class="fa-regular fa-calendar-days fs-3 text-gr-accent"></i></span>' +
         '<div class="flex-grow-1 min-w-0" data-ref="page.current.missed-sheet.card.info">' +
-        '<div class="fw-bold text-gr1" style="font-size:1.3rem;line-height:1.15" data-ref="page.current.missed-sheet.card.title">' + friendly(x.date) + '</div>' +
-        '<div class="text-gr-accent" style="font-size:1rem;font-weight:600;margin-top:2px" data-ref="page.current.missed-sheet.card.date">' + fr(x.date) + '</div>' +
+        '<div class="fw-bold text-gr1 fs-5 lh-1" data-ref="page.current.missed-sheet.card.title">' + friendly(x.date) + '</div>' +
+        '<div class="text-gr-accent fw-semibold mt-1" data-ref="page.current.missed-sheet.card.date">' + fr(x.date) + '</div>' +
         '</div>' +
         '</div>' +
-        '<div class="d-flex gap-2" style="width:100%" data-ref="page.current.missed-sheet.card.tiles">' + tiles + '</div>' +
+        '<div class="d-flex gap-2 w-100" data-ref="page.current.missed-sheet.card.tiles">' + tiles + '</div>' +
         '</div>';
 }
 
 function rMS() {
-    $('sheet2Icon').className = 'fa-solid fa-clipboard-list';
-    $('sheet2Icon').style.color = 'var(--gr-primary)';
+    $('sheet2Icon').className = 'fa-solid fa-clipboard-list text-gr-accent';
     $('sheet2Title').textContent = 'Missed Prayers';
     $('sheet2Sub').textContent = 'From previous days (today excluded)';
 

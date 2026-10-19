@@ -30,11 +30,11 @@ var T = {
 };
 
 var I = {
-    Fajr: '<i class="fa-solid fa-sun" style="color:#f5b400"></i>',
-    Dhuhr: '<i class="fa-solid fa-sun" style="color:#f5b400"></i>',
-    Asr: '<i class="fa-solid fa-cloud-sun" style="color:#f5b400"></i>',
-    Maghrib: '<i class="fa-solid fa-mountain-sun" style="color:#f5b400"></i>',
-    Isha: '<i class="fa-solid fa-moon" style="color:#2563eb"></i>'
+    Fajr: '<i class="fa-solid fa-sun text-warning"></i>',
+    Dhuhr: '<i class="fa-solid fa-sun text-warning"></i>',
+    Asr: '<i class="fa-solid fa-cloud-sun text-warning"></i>',
+    Maghrib: '<i class="fa-solid fa-mountain-sun text-warning"></i>',
+    Isha: '<i class="fa-solid fa-moon text-primary"></i>'
 };
 
 /* ---------- State ---------- */

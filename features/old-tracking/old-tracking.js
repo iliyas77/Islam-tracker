@@ -24,57 +24,56 @@ function rOldInfo() {
 
     var perPrayerHtml = P.map(function (p) {
         var c = perPrayer[p];
-        return '<div class="d-flex justify-content-between align-items-center py-2 px-3 rounded-3 mb-2" style="background:#f8faf9">' +
+        return '<div class="d-flex justify-content-between align-items-center py-2 px-3 rounded-3 mb-2 bg-body-tertiary">' +
             '<div class="d-flex align-items-center gap-2"><span class="fs-4">' + I[p] + '</span>' +
-            '<span class="fw-bold" style="font-size:1rem">' + p + '</span></div>' +
+            '<span class="fw-bold fs-6">' + p + '</span></div>' +
             '<span class="badge rounded-pill ' + (c > 0 ? 'text-bg-danger' : 'text-bg-success') +
-            ' px-3 py-2" style="font-size:.9rem">' + c + ' missed</span></div>';
+            ' px-3 py-2 small">' + c + ' missed</span></div>';
     }).join('');
 
-    $('sheet2Icon').className = 'fa-solid fa-circle-info';
-    $('sheet2Icon').style.color = '#0d6efd';
+    $('sheet2Icon').className = 'fa-solid fa-circle-info text-primary';
     $('sheet2Title').textContent = 'Period Info';
     $('sheet2Sub').textContent = fr(o.start) + ' → ' + fr(o.end);
 
     $('sheet2Body').innerHTML =
         '<div class="d-flex flex-column gap-2">' +
-        '<div class="card rounded-4 p-3" style="background:#e7f1ff">' +
+        '<div class="card rounded-4 p-3 bg-primary-subtle">' +
         '<div class="d-flex align-items-center gap-2 mb-3">' +
-        '<i class="fa-regular fa-calendar-check fs-4" style="color:#0d6efd"></i>' +
-        '<strong class="fs-5" style="color:#0d6efd">Current Period</strong>' +
+        '<i class="fa-regular fa-calendar-check fs-4 text-primary"></i>' +
+        '<strong class="fs-5 text-primary">Current Period</strong>' +
         '</div>' +
         '<div class="row g-2">' +
         '<div class="col-6"><div class="p-3 rounded-3 text-center bg-white">' +
-        '<div class="text-muted" style="font-size:.72rem;font-weight:700;text-transform:uppercase">Start</div>' +
-        '<div class="fw-bold" style="font-size:.9rem;color:#1a2b23">' + fr(o.start) + '</div></div></div>' +
+        '<div class="text-muted small fw-bold text-uppercase">Start</div>' +
+        '<div class="fw-bold small text-dark">' + fr(o.start) + '</div></div></div>' +
         '<div class="col-6"><div class="p-3 rounded-3 text-center bg-white">' +
-        '<div class="text-muted" style="font-size:.72rem;font-weight:700;text-transform:uppercase">End</div>' +
-        '<div class="fw-bold" style="font-size:.9rem;color:#1a2b23">' + fr(o.end) + '</div></div></div>' +
+        '<div class="text-muted small fw-bold text-uppercase">End</div>' +
+        '<div class="fw-bold small text-dark">' + fr(o.end) + '</div></div></div>' +
         '</div>' +
         '</div>' +
-        '<div class="card rounded-4 p-3" style="background:#fff">' +
+        '<div class="card rounded-4 p-3 bg-white">' +
         '<div class="d-flex align-items-center gap-2 mb-3">' +
-        '<i class="fa-solid fa-chart-simple fs-5" style="color:#0d6efd"></i>' +
-        '<strong style="font-size:.95rem;color:#1a2b23">Summary</strong>' +
+        '<i class="fa-solid fa-chart-simple fs-5 text-primary"></i>' +
+        '<strong class="text-dark">Summary</strong>' +
         '</div>' +
         '<div class="row g-2 mb-3">' +
-        '<div class="col-6"><div class="p-3 rounded-3 text-center" style="background:#f4f8f5">' +
-        '<div class="text-muted" style="font-size:.68rem;font-weight:700;text-transform:uppercase">Total Days</div>' +
-        '<div class="fw-bold" style="font-size:1.4rem;color:#cc7a00">' + totalDays + '</div></div></div>' +
-        '<div class="col-6"><div class="p-3 rounded-3 text-center" style="background:#f4f8f5">' +
-        '<div class="text-muted" style="font-size:.68rem;font-weight:700;text-transform:uppercase">Total Missed</div>' +
-        '<div class="fw-bold" style="font-size:1.4rem;color:#dc3545">' + totalMissed + '</div></div></div>' +
+        '<div class="col-6"><div class="p-3 rounded-3 text-center bg-body-tertiary">' +
+        '<div class="text-muted small fw-bold text-uppercase">Total Days</div>' +
+        '<div class="fw-bold fs-4 text-warning">' + totalDays + '</div></div></div>' +
+        '<div class="col-6"><div class="p-3 rounded-3 text-center bg-body-tertiary">' +
+        '<div class="text-muted small fw-bold text-uppercase">Total Missed</div>' +
+        '<div class="fw-bold fs-4 text-danger">' + totalMissed + '</div></div></div>' +
         '</div>' +
         '<div class="row g-2">' +
-        '<div class="col-12"><div class="p-3 rounded-3 text-center" style="background:#f4f8f5">' +
-        '<div class="text-muted" style="font-size:.68rem;font-weight:700;text-transform:uppercase">Days Missed</div>' +
-        '<div class="fw-bold" style="font-size:1.4rem;color:#dc3545">' + daysMissed + '</div></div></div>' +
+        '<div class="col-12"><div class="p-3 rounded-3 text-center bg-body-tertiary">' +
+        '<div class="text-muted small fw-bold text-uppercase">Days Missed</div>' +
+        '<div class="fw-bold fs-4 text-danger">' + daysMissed + '</div></div></div>' +
         '</div>' +
         '</div>' +
-        '<div class="card rounded-4 p-3" style="background:#fff">' +
+        '<div class="card rounded-4 p-3 bg-white">' +
         '<div class="d-flex align-items-center gap-2 mb-2">' +
-        '<i class="fa-solid fa-list-check fs-5" style="color:#cc7a00"></i>' +
-        '<strong style="font-size:.95rem;color:#1a2b23">Per Prayer Breakdown</strong>' +
+        '<i class="fa-solid fa-list-check fs-5 text-warning"></i>' +
+        '<strong class="text-dark">Per Prayer Breakdown</strong>' +
         '</div>' +
         '<div class="mt-2">' + perPrayerHtml + '</div>' +
         '</div>' +
@@ -85,14 +84,13 @@ function rOldInfo() {
 }
 
 function rPeriod() {
-    $('sheet2Icon').className = 'fa-solid fa-clock-rotate-left';
-    $('sheet2Icon').style.color = '#cc7a00';
+    $('sheet2Icon').className = 'fa-solid fa-clock-rotate-left text-warning';
     $('sheet2Title').textContent = 'Set Old Period';
     $('sheet2Sub').textContent = '';
     var o = rdOK();
     $('sheet2Body').innerHTML =
         '<div class="d-flex flex-column gap-2">' +
-        '<div class="card rounded-4 p-3" style="background:#fff5e6">' +
+        '<div class="card rounded-4 p-3 bg-warning-subtle">' +
         '<div class="mb-3">' +
         '<label class="form-label fw-bold">' +
         '<i class="fa-regular fa-calendar me-1 text-success"></i>Start date</label>' +
