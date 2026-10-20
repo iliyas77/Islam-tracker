@@ -74,34 +74,38 @@
 
         <!-- Digital Tasbeeh Page -->
         <div id="tasbeehPage" class="d-none flex-column flex-grow-1 page" data-ref="page.tasbeeh">
-            <header class="app-header d-flex align-items-center gap-2" data-ref="page.tasbeeh.header">
-                <div class="flex-grow-1 min-w-0" data-ref="page.tasbeeh.header.info">
-                    <h5 class="page-title" data-ref="page.tasbeeh.header.title">
-                        <i class="fa-solid fa-hand-holding-heart text-success" data-ref="page.tasbeeh.header.icon"></i>
-                        <span data-ref="page.tasbeeh.header.label">Digital Tasbeeh</span>
-                    </h5>
-                    <div class="page-sub" data-ref="page.tasbeeh.header.sub">Dhikr counter &amp; tracker</div>
-                </div>
-                <button type="button" class="btn-action-round" id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add Dhikr">
-                    <i class="fa-solid fa-plus fs-5" data-ref="page.tasbeeh.header.add-icon"></i>
-                </button>
-            </header>
-            <div class="flex-grow-1 overflow-auto p-2" id="tasbeehBody" data-ref="page.tasbeeh.body">
-                <div class="card p-3 mb-3 border-0 shadow-sm rounded-4 bg-white" data-ref="page.tasbeeh.summary">
-                    <div class="d-flex align-items-center justify-content-between" data-ref="page.tasbeeh.summary.row">
-                        <div class="d-flex align-items-center gap-2" data-ref="page.tasbeeh.summary.icon-title">
-                            <span class="modal-icon-badge badge-icon-sm" data-ref="page.tasbeeh.summary.icon">
-                                <i class="fa-solid fa-sparkles text-success fs-5"></i>
-                            </span>
-                            <div>
-                                <div class="fw-bold fs-6 text-gr1" data-ref="page.tasbeeh.summary.title">Today's Recitations</div>
-                                <div class="small text-muted" data-ref="page.tasbeeh.summary.subtitle">Total chants recorded today</div>
-                            </div>
-                        </div>
-                        <div class="fw-bold fs-3 text-success" id="tbTodayTotal" data-ref="page.tasbeeh.summary.total">0</div>
+            <header class="app-header d-flex flex-column gap-2" data-ref="page.tasbeeh.header">
+                <div class="d-flex align-items-center justify-content-between min-w-0 min-h-44">
+                    <div class="min-w-0 flex-grow-1" data-ref="page.tasbeeh.header.info">
+                        <h5 class="page-title mb-0" data-ref="page.tasbeeh.header.title">
+                            <i class="fa-solid fa-hand-holding-heart text-success" id="tbHeaderIcon" data-ref="page.tasbeeh.header.icon"></i>
+                            <span id="tbHeaderLabel" data-ref="page.tasbeeh.header.label">Digital Tasbeeh</span>
+                        </h5>
+                        <div class="page-sub" id="tbHeaderSub" data-ref="page.tasbeeh.header.sub">Current Month</div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="btn-action-round" id="tbSettingsBtn" data-act="tb-open-settings" title="Tasbeeh Period Settings" data-ref="page.tasbeeh.header.settings-btn">
+                            <i class="fa-solid fa-gear fs-5"></i>
+                        </button>
+                        <button type="button" class="btn-action-round" id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add Dhikr">
+                            <i class="fa-solid fa-plus fs-5" data-ref="page.tasbeeh.header.add-icon"></i>
+                        </button>
                     </div>
                 </div>
 
+                <!-- Segmented Sub-Tabs at the top: Current, Old -->
+                <div class="tracker-segment-bar" role="tablist" aria-label="Tasbeeh view">
+                    <button type="button" class="tracker-subtab active" id="tabTbCurrent" data-act="switch-tb-current" role="tab" aria-selected="true">
+                        <i class="fa-regular fa-calendar"></i><span>Current</span>
+                    </button>
+                    <button type="button" class="tracker-subtab" id="tabTbOld" data-act="switch-tb-old" role="tab" aria-selected="false">
+                        <i class="fa-solid fa-clock-rotate-left"></i><span>Old</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Current Month Body Container -->
+            <div class="flex-grow-1 overflow-auto p-2" id="tbCurrentBody" data-ref="page.tasbeeh.body.current">
                 <div id="tbList" class="d-flex flex-column gap-3" data-ref="page.tasbeeh.list"></div>
 
                 <div id="tbEmptyState" class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white d-none" data-ref="page.tasbeeh.empty-state">
@@ -112,6 +116,9 @@
                     <p class="text-muted small mb-0" data-ref="page.tasbeeh.empty-state.text">Tap “+” above to add your first chant and begin counting.</p>
                 </div>
             </div>
+
+            <!-- Old Tracking (Previous Months) Body Container -->
+            <div class="flex-grow-1 overflow-auto p-2 d-none" id="tbOldBody" data-ref="page.tasbeeh.body.old"></div>
         </div>
 
         <!-- Full-screen Tasbeeh Counter View Overlay -->
@@ -402,6 +409,88 @@
             </div>
         </div>
 
+        <!-- Tasbeeh Period Settings Modal -->
+        <div class="modal fade" id="tasbeehPeriodModal" tabindex="-1" data-ref="component.modal.tasbeeh-period" aria-labelledby="tbPeriodModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-tasbeeh" data-ref="component.modal.tasbeeh-period.dialog">
+                <div class="modal-content rounded-4 border-0 shadow">
+                    <div class="modal-header border-0 pb-0 align-items-center gap-3 pt-4 px-4">
+                        <span class="modal-icon-badge">
+                            <i class="fa-solid fa-gear fs-3 text-success"></i>
+                        </span>
+                        <div class="flex-grow-1 min-w-0">
+                            <h5 class="modal-title fw-bold fs-4 mb-0" id="tbPeriodModalTitle">Tasbeeh Period Settings</h5>
+                            <div class="text-muted small">Configure tracking timeline</div>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body pt-3 px-4">
+                        <div class="card p-3 rounded-4 bg-success-subtle border-0 mb-3">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <i class="fa-solid fa-circle-info text-success fs-5"></i>
+                                <strong class="text-success small">How Tracking Periods Work</strong>
+                            </div>
+                            <p class="text-muted small mb-0">
+                                <strong>Current Tab:</strong> Shows recitations for the current month.<br>
+                                <strong>Old Tab:</strong> Shows all past months from your <strong>Start Date</strong> up to the previous month.
+                            </p>
+                        </div>
+
+                        <!-- Start Date -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold mb-2" for="tbPeriodStart">
+                                <i class="fa-regular fa-calendar text-success me-1"></i>Start Date
+                            </label>
+                            <div class="field-group">
+                                <span class="field-icon"><i class="fa-regular fa-calendar-days fs-5"></i></span>
+                                <input type="date" class="form-control border-0 ps-3 fs-6" id="tbPeriodStart">
+                            </div>
+                            <div class="form-text small text-muted">Beginning of your Old Tasbeeh history range.</div>
+                        </div>
+
+                        <!-- End Date -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold mb-2" for="tbPeriodEnd">
+                                <i class="fa-regular fa-calendar-check text-success me-1"></i>End Date
+                            </label>
+                            <div class="field-group">
+                                <span class="field-icon"><i class="fa-solid fa-calendar-check fs-5"></i></span>
+                                <input type="date" class="form-control border-0 ps-3 fs-6" id="tbPeriodEnd">
+                            </div>
+                            <div class="form-text small text-muted">End of your tracking range (defaults to current date).</div>
+                        </div>
+
+                        <!-- Quick Presets -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted text-uppercase mb-2">Quick Presets</label>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" id="tbPresetThisYear">This Year</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" id="tbPreset6Months">Last 6 Months</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" id="tbPreset1Year">Last 1 Year</button>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Preview Card -->
+                        <div class="card p-3 rounded-4 bg-body-tertiary border-0" id="tbPeriodPreviewBox">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fa-solid fa-calendar-week text-primary"></i>
+                                <span class="fw-bold small text-dark">Period Summary</span>
+                            </div>
+                            <div class="small text-muted" id="tbPeriodPreviewText">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pt-2 pb-4 px-4 d-flex gap-2">
+                        <button type="button" class="btn btn-light border fw-bold flex-fill py-3 rounded-3 fs-6"
+                            id="tbBtnResetPeriod">Reset Default</button>
+                        <button type="button" class="btn btn-brand flex-fill py-3 rounded-3 fs-6"
+                            id="tbBtnSavePeriod">Save Period</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <!-- Tasbeeh Floating Toast -->
         <div id="tbToast" class="tb-toast-wrap d-none" role="status" aria-live="polite" data-ref="component.toast.tasbeeh"></div>
 
@@ -488,12 +577,16 @@
     <script src="features/dashboard/dashboard.js"></script>
     <script src="features/old-tracking/old-tracking.js"></script>
     <script src="features/settings/settings.js"></script>
-    <script src="features/tasbeeh/tasbeeh.js"></script>
+    <script src="features/tasbeeh/tasbeeh-current.js"></script>
+    <script src="features/tasbeeh/tasbeeh-old.js"></script>
     <script src="features/duas/duas.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             if (window.TasbeehApp && typeof window.TasbeehApp.init === 'function') {
                 window.TasbeehApp.init();
+            }
+            if (window.TasbeehOldApp && typeof window.TasbeehOldApp.init === 'function') {
+                window.TasbeehOldApp.init();
             }
         });
     </script>

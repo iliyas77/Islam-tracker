@@ -744,6 +744,12 @@ body {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
+.tb-card.tb-card-done {
+    background: #ffffff;
+    border-color: #d1e7dd;
+    box-shadow: 0 2px 8px rgba(37, 132, 91, 0.06);
+}
+
 .tb-card:active {
     transform: scale(0.99);
 }
@@ -975,6 +981,45 @@ body {
 
 .tb-toast-wrap.show {
     opacity: 1;
+}
+
+/* ---------- Tasbeeh Old Tracking & Period Styles ---------- */
+.tb-month-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tb-month-card:active {
+    transform: scale(0.99);
+}
+
+.tb-chant-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: var(--gr-bg-soft);
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
+}
+
+.tb-chant-chip.has-count {
+    background: rgba(37, 132, 91, 0.08);
+    color: var(--brand);
+    border-color: rgba(37, 132, 91, 0.22);
+}
+
+.tb-stat-box {
+    background: var(--gr-bg-soft);
+    border-radius: 12px;
+    padding: 10px 12px;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 /* ============================================================
