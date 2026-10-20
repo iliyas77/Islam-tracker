@@ -544,18 +544,6 @@ function handleClick(e) {
         if (window.TasbeehApp && typeof window.TasbeehApp.openPeriodModal === 'function') {
             window.TasbeehApp.openPeriodModal();
         }
-    } else if (act === 'tb-complete-month') {
-        if (window.TasbeehApp && typeof window.TasbeehApp.markCurrentMonthCompleted === 'function') {
-            window.TasbeehApp.markCurrentMonthCompleted(t.dataset.month);
-        }
-    } else if (act === 'tb-prev-month') {
-        if (window.TasbeehApp && typeof window.TasbeehApp.prevOldMonth === 'function') {
-            window.TasbeehApp.prevOldMonth();
-        }
-    } else if (act === 'tb-next-month') {
-        if (window.TasbeehApp && typeof window.TasbeehApp.nextOldMonth === 'function') {
-            window.TasbeehApp.nextOldMonth();
-        }
     } else if (act === 'tb-old-reopen') {
         if (window.TasbeehApp && typeof window.TasbeehApp.reopenLastMonth === 'function') {
             window.TasbeehApp.reopenLastMonth();

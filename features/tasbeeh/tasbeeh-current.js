@@ -506,6 +506,7 @@ window.TasbeehCurrentApp = (function () {
     function closeCounter() {
         stopSession();
         activeId = null;
+        var prevCM = counterMonthKey;
         counterMonthKey = null;
         flashFull = false;
         counterLocked = false;
@@ -514,6 +515,10 @@ window.TasbeehCurrentApp = (function () {
         if (counterView) {
             counterView.classList.add('d-none');
             counterView.classList.remove('d-flex');
+        }
+
+        if (prevCM && window.TasbeehOldApp && typeof window.TasbeehOldApp.checkAndAdvanceMonth === 'function') {
+            window.TasbeehOldApp.checkAndAdvanceMonth(prevCM);
         }
 
         render();
@@ -564,6 +569,9 @@ window.TasbeehCurrentApp = (function () {
                     updateCounterUI();
                     if (nextMCount >= totalTarget) {
                         showToast('🎉 All ' + item.targetCycles + ' cycles complete for ' + formatMonthLabel(counterMonthKey) + '!', 3000);
+                        if (window.TasbeehOldApp && typeof window.TasbeehOldApp.checkAndAdvanceMonth === 'function') {
+                            window.TasbeehOldApp.checkAndAdvanceMonth(counterMonthKey);
+                        }
                     } else {
                         showToast('Cycle ' + finishedCycle + ' complete · Starting Cycle ' + (finishedCycle + 1) + ' of ' + item.targetCycles);
                     }

@@ -99,12 +99,32 @@ window.TasbeehOldApp = (function () {
         return null; // All months completed
     }
 
-    function prevOldMonth() {
-        // Disabled: month progression is strictly sequential
-    }
-
-    function nextOldMonth() {
-        // Disabled: month progression is strictly sequential
+    function checkAndAdvanceMonth(mKey) {
+        if (!mKey) return;
+        var items = getItems();
+        var finiteItems = items.filter(function (it) { return it.targetCount !== 'infinite'; });
+        if (finiteItems.length === 0) return;
+        var allDone = finiteItems.every(function (it) {
+            var target = it.targetCount * it.targetCycles;
+            var cur = (it.monthlyHistory && it.monthlyHistory[mKey]) || 0;
+            return cur >= target;
+        });
+        if (allDone) {
+            var period = loadPeriod();
+            var completed = period.completedMonths || [];
+            if (completed.indexOf(mKey) === -1) {
+                completed.push(mKey);
+                savePeriod(period.startDate, period.endDate, completed);
+                currentOldMonthKey = null;
+                var monthName = formatMonthLabel(mKey);
+                var nextM = getCurrentOldMonth();
+                if (nextM) {
+                    showToast('🎉 ' + monthName + ' completed! Advanced to ' + formatMonthLabel(nextM), 3000);
+                } else {
+                    showToast('🎉 ' + monthName + ' completed! All months cleared!', 3500);
+                }
+            }
+        }
     }
 
     function markMonthCompleted(mKey) {
@@ -112,10 +132,6 @@ window.TasbeehOldApp = (function () {
         var curM = mKey || getCurrentOldMonth();
         if (!curM) return;
         var monthName = formatMonthLabel(curM);
-
-        if (!confirm('Mark ' + monthName + ' as Completed and jump to the previous month?')) {
-            return;
-        }
 
         var completed = period.completedMonths || [];
         if (completed.indexOf(curM) === -1) {
@@ -143,9 +159,9 @@ window.TasbeehOldApp = (function () {
         var nextM = getCurrentOldMonth();
 
         if (nextM) {
-            showToast('🎉 ' + monthName + ' completed! Jumped to ' + formatMonthLabel(nextM), 3000);
+            showToast('🎉 ' + monthName + ' completed! Advanced to ' + formatMonthLabel(nextM), 3000);
         } else {
-            showToast('🎉 ' + monthName + ' completed! All months till start date cleared!', 3500);
+            showToast('🎉 ' + monthName + ' completed! All months cleared!', 3500);
         }
 
         renderOldTab();
@@ -189,6 +205,7 @@ window.TasbeehOldApp = (function () {
         item.monthlyHistory[monthKey] = num;
         item.updatedAt = Date.now();
         persistItems();
+        checkAndAdvanceMonth(monthKey);
         renderOldTab();
         showToast('Updated ' + item.title + ' to ' + num.toLocaleString());
     }
@@ -214,6 +231,7 @@ window.TasbeehOldApp = (function () {
         }
         item.updatedAt = Date.now();
         persistItems();
+        checkAndAdvanceMonth(monthKey);
         renderOldTab();
     }
 
@@ -314,17 +332,7 @@ window.TasbeehOldApp = (function () {
             return;
         }
 
-        var monthIndex = allOldMonths.indexOf(curOldMonth);
-        var totalMonths = allOldMonths.length;
         var monthName = formatMonthLabel(curOldMonth);
-
-        var completedList = period.completedMonths || [];
-        var isMonthDone = completedList.indexOf(curOldMonth) !== -1;
-
-        // Month total chants
-        var monthTotalChants = items.reduce(function (sum, it) {
-            return sum + ((it.monthlyHistory && it.monthlyHistory[curOldMonth]) || 0);
-        }, 0);
 
         // Header subtitle update: shows present active month under Old
         var sub = getEl('tbHeaderSub');
@@ -353,7 +361,6 @@ window.TasbeehOldApp = (function () {
             : '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
               '<i class="fa-solid fa-circle-check text-success fs-3 mb-2"></i>' +
               '<div class="fw-bold text-gr1">All Dhikrs for ' + monthName + ' Completed!</div>' +
-              '<div class="text-muted small mt-1">Tap “Mark Month Complete” above to advance to the previous month.</div>' +
               '</div>';
 
         var doneOldCardsHtml = doneOldItems.length > 0
@@ -363,27 +370,6 @@ window.TasbeehOldApp = (function () {
               '</div>';
 
         oldBody.innerHTML =
-            '<!-- Active Old Month Header -->' +
-            '<div class="card p-3 rounded-4 mb-3 bg-white shadow-sm border-0">' +
-            '<div class="d-flex align-items-center justify-content-between gap-2">' +
-            '<div class="d-flex align-items-center gap-2 min-w-0">' +
-            '<span class="modal-icon-badge badge-icon-sm bg-warning-subtle text-warning">' +
-            '<i class="fa-solid fa-clock-rotate-left fs-5"></i>' +
-            '</span>' +
-            '<div class="min-w-0">' +
-            '<div class="d-flex align-items-center gap-2">' +
-            '<h5 class="fw-bold mb-0 text-gr1 text-truncate">' + monthName + '</h5>' +
-            (isMonthDone ? '<span class="badge rounded-pill bg-success text-white small px-2 py-1"><i class="fa-solid fa-check me-1"></i>Completed</span>' : '') +
-            '</div>' +
-            '<div class="text-muted small">' + monthTotalChants.toLocaleString() + ' chants recited</div>' +
-            '</div>' +
-            '</div>' +
-            '<button type="button" class="btn btn-brand btn-sm px-3 py-2 fw-bold rounded-3 text-nowrap" data-act="tb-complete-month" data-month="' + curOldMonth + '">' +
-            '<i class="fa-solid fa-check me-1"></i>Mark Month Complete' +
-            '</button>' +
-            '</div>' +
-            '</div>' +
-
             '<!-- TO DO GROUP (OLD) -->' +
             '<section class="prayer-group mb-3">' +
             '<button type="button" class="group-toggle py-1 d-flex align-items-center gap-2" data-bs-toggle="collapse" data-bs-target="#tbOldTodoList" aria-expanded="true">' +
@@ -597,14 +583,7 @@ window.TasbeehOldApp = (function () {
                 if (!btn) return;
                 e.stopPropagation();
                 var act = btn.dataset.act;
-                if (act === 'tb-complete-month') {
-                    var m = btn.dataset.month;
-                    markMonthCompleted(m);
-                } else if (act === 'tb-prev-month') {
-                    prevOldMonth();
-                } else if (act === 'tb-next-month') {
-                    nextOldMonth();
-                } else if (act === 'tb-old-reopen') {
+                if (act === 'tb-old-reopen') {
                     reopenLastMonth();
                 } else if (act === 'tb-reset-all-completed') {
                     resetAllCompleted();
@@ -637,10 +616,9 @@ window.TasbeehOldApp = (function () {
         init: init,
         renderOldTab: renderOldTab,
         getCurrentOldMonth: getCurrentOldMonth,
+        checkAndAdvanceMonth: checkAndAdvanceMonth,
         markMonthCompleted: markMonthCompleted,
         markCurrentMonthCompleted: markMonthCompleted,
-        prevOldMonth: prevOldMonth,
-        nextOldMonth: nextOldMonth,
         reopenLastMonth: reopenLastMonth,
         resetAllCompleted: resetAllCompleted,
         editOldItemCount: editOldItemCount,
@@ -655,11 +633,10 @@ window.TasbeehOldApp = (function () {
     // Bridge Old methods onto window.TasbeehApp for full backwards compatibility
     if (window.TasbeehApp) {
         window.TasbeehApp.openPeriodModal = openPeriodModal;
+        window.TasbeehApp.checkAndAdvanceMonth = checkAndAdvanceMonth;
         window.TasbeehApp.markCurrentMonthCompleted = markMonthCompleted;
         window.TasbeehApp.reopenLastMonth = reopenLastMonth;
         window.TasbeehApp.resetAllCompleted = resetAllCompleted;
-        window.TasbeehApp.prevOldMonth = prevOldMonth;
-        window.TasbeehApp.nextOldMonth = nextOldMonth;
         window.TasbeehApp.editOldItemCount = editOldItemCount;
         window.TasbeehApp.toggleOldItemDone = toggleOldItemDone;
         window.TasbeehApp.getCurrentOldMonth = getCurrentOldMonth;
