@@ -18,81 +18,7 @@ window.TasbeehOldApp = (function () {
     var currentOldMonthKey = null; // Currently active / displayed old month
     var periodModalInstance = null;
 
-    /* ---------- Helper Utilities ---------- */
-    function getEl(id) {
-        return document.getElementById(id);
-    }
-
-    function clamp(val, min, max) {
-        return Math.min(max, Math.max(min, val));
-    }
-
-    function pad2(n) {
-        return String(n).padStart(2, '0');
-    }
-
-    function td() {
-        if (typeof window !== 'undefined' && typeof window.td === 'function') {
-            return window.td();
-        }
-        var d = new Date();
-        return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
-    }
-
-    function formatDate(ds) {
-        if (typeof fr === 'function') return fr(ds);
-        if (typeof window !== 'undefined' && typeof window.fr === 'function') return window.fr(ds);
-        if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.formatDate === 'function') {
-            return window.TasbeehCurrentApp.formatDate(ds);
-        }
-        if (!ds) return '';
-        var p = ds.split('-');
-        if (p.length < 3) return ds;
-        return p[2] + '-' + p[1] + '-' + p[0];
-    }
-
-    function getCurrentMonthKey() {
-        if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getCurrentMonthKey === 'function') {
-            return window.TasbeehCurrentApp.getCurrentMonthKey();
-        }
-        var d = new Date();
-        return d.getFullYear() + '-' + pad2(d.getMonth() + 1);
-    }
-
-    function formatMonthLabel(mKey) {
-        if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.formatMonthLabel === 'function') {
-            return window.TasbeehCurrentApp.formatMonthLabel(mKey);
-        }
-        if (!mKey) return '';
-        var parts = mKey.split('-');
-        if (parts.length < 2) return mKey;
-        var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, 1);
-        return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
-    }
-
-    function escHtml(str) {
-        if (!str) return '';
-        return String(str).replace(/[&<>"']/g, function (m) {
-            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
-        });
-    }
-
-    function showToast(message, duration) {
-        if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.showToast === 'function') {
-            window.TasbeehCurrentApp.showToast(message, duration);
-            return;
-        }
-        var el = getEl('tbToast');
-        if (!el) return;
-        el.textContent = message;
-        el.classList.remove('d-none');
-        el.classList.add('show');
-        setTimeout(function () {
-            el.classList.remove('show');
-            setTimeout(function () { el.classList.add('d-none'); }, 200);
-        }, duration || 2200);
-    }
-
+    /* ---------- Data Access Bridges ---------- */
     function getItems() {
         if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getItems === 'function') {
             return window.TasbeehCurrentApp.getItems();
@@ -104,56 +30,6 @@ window.TasbeehOldApp = (function () {
         if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.persist === 'function') {
             window.TasbeehCurrentApp.persist();
         }
-    }
-
-    /* ---------- Date & Period Helpers ---------- */
-    function getPreviousMonthEnd() {
-        var now = new Date();
-        var lastDayPrev = new Date(now.getFullYear(), now.getMonth(), 0);
-        return lastDayPrev.getFullYear() + '-' + pad2(lastDayPrev.getMonth() + 1) + '-' + pad2(lastDayPrev.getDate());
-    }
-
-    function getPreviousMonthsList(startDate, endDate) {
-        if (!startDate) return [];
-        var sParts = startDate.split('-');
-        var sY = parseInt(sParts[0], 10);
-        var sM = parseInt(sParts[1], 10);
-
-        var now = new Date();
-        var curY = now.getFullYear();
-        var curM = now.getMonth() + 1; // 1-12
-
-        // Upper bound for old tab: previous month
-        var endLimitY = curY;
-        var endLimitM = curM - 1;
-        if (endLimitM === 0) {
-            endLimitM = 12;
-            endLimitY -= 1;
-        }
-
-        if (endDate) {
-            var eParts = endDate.split('-');
-            var eY = parseInt(eParts[0], 10);
-            var eM = parseInt(eParts[1], 10);
-            if (eY < endLimitY || (eY === endLimitY && eM < endLimitM)) {
-                endLimitY = eY;
-                endLimitM = eM;
-            }
-        }
-
-        var list = [];
-        var y = endLimitY;
-        var m = endLimitM;
-
-        while (y > sY || (y === sY && m >= sM)) {
-            list.push(y + '-' + pad2(m));
-            m--;
-            if (m === 0) {
-                m = 12;
-                y--;
-            }
-        }
-        return list; // Most recent month first (e.g. ['2026-09', '2026-08', ...])
     }
 
     /* ---------- Period Storage Layer ---------- */

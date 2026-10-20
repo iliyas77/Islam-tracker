@@ -5,16 +5,92 @@
 
 /* ---------- Helpers ---------- */
 function $(id) { return document.getElementById(id); }
+function getEl(id) { return document.getElementById(id); }
 function pad2(n) { return String(n).padStart(2, '0'); }
+
+function clamp(val, min, max) {
+    return Math.min(max, Math.max(min, val));
+}
 
 function td() {
     var d = new Date();
     return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
 }
 
+function todayKey() {
+    return new Date().toDateString();
+}
+
 function fr(ds) {
+    if (!ds) return '';
     return new Date(ds + 'T00:00:00').toLocaleDateString(undefined,
         { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function formatDate(ds) {
+    return fr(ds);
+}
+
+function getCurrentMonthKey() {
+    var d = new Date();
+    return d.getFullYear() + '-' + pad2(d.getMonth() + 1);
+}
+
+function formatMonthLabel(mKey) {
+    if (!mKey) return '';
+    var parts = mKey.split('-');
+    if (parts.length < 2) return mKey;
+    var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, 1);
+    return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+}
+
+function getPreviousMonthEnd() {
+    var now = new Date();
+    var lastDayPrev = new Date(now.getFullYear(), now.getMonth(), 0);
+    return lastDayPrev.getFullYear() + '-' + pad2(lastDayPrev.getMonth() + 1) + '-' + pad2(lastDayPrev.getDate());
+}
+
+function getPreviousMonthsList(startDate, endDate) {
+    if (!startDate) return [];
+    var sParts = startDate.split('-');
+    var sY = parseInt(sParts[0], 10);
+    var sM = parseInt(sParts[1], 10);
+
+    var now = new Date();
+    var curY = now.getFullYear();
+    var curM = now.getMonth() + 1; // 1-12
+
+    // Upper bound for old tab: previous month
+    var endLimitY = curY;
+    var endLimitM = curM - 1;
+    if (endLimitM === 0) {
+        endLimitM = 12;
+        endLimitY -= 1;
+    }
+
+    if (endDate) {
+        var eParts = endDate.split('-');
+        var eY = parseInt(eParts[0], 10);
+        var eM = parseInt(eParts[1], 10);
+        if (eY < endLimitY || (eY === endLimitY && eM < endLimitM)) {
+            endLimitY = eY;
+            endLimitM = eM;
+        }
+    }
+
+    var list = [];
+    var y = endLimitY;
+    var m = endLimitM;
+
+    while (y > sY || (y === sY && m >= sM)) {
+        list.push(y + '-' + pad2(m));
+        m--;
+        if (m === 0) {
+            m = 12;
+            y--;
+        }
+    }
+    return list; // Most recent month first (e.g. ['2026-09', '2026-08', ...])
 }
 
 function friendly(ds) {
@@ -37,6 +113,75 @@ function esc(s) {
     return String(s).replace(/[&<>"']/g, function (m) {
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
     });
+}
+
+function escHtml(str) {
+    return esc(str);
+}
+
+function uid(prefix) {
+    prefix = prefix || 'tb_';
+    return prefix + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+
+function vibrate(pattern) {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        try { navigator.vibrate(pattern); } catch (_) {}
+    }
+}
+
+function createRipple(e, container) {
+    if (!container || !e) return;
+    var rect = container.getBoundingClientRect();
+    var size = Math.max(rect.width, rect.height);
+    var ripple = document.createElement('span');
+    ripple.className = 'tb-ripple';
+    ripple.style.width = size + 'px';
+    ripple.style.height = size + 'px';
+    var clientX = (e.clientX !== undefined) ? e.clientX : ((e.touches && e.touches[0] && e.touches[0].clientX) || (rect.left + size / 2));
+    var clientY = (e.clientY !== undefined) ? e.clientY : ((e.touches && e.touches[0] && e.touches[0].clientY) || (rect.top + size / 2));
+    ripple.style.left = (clientX - rect.left - size / 2) + 'px';
+    ripple.style.top = (clientY - rect.top - size / 2) + 'px';
+    container.appendChild(ripple);
+    setTimeout(function () { ripple.remove(); }, 620);
+}
+
+var _globalToastTimer = null;
+function showToast(message, duration, toastId) {
+    var el = document.getElementById(toastId || 'tbToast');
+    if (!el) return;
+    duration = duration || 2200;
+    el.textContent = message;
+    el.classList.remove('d-none');
+    el.classList.add('show');
+    if (_globalToastTimer) clearTimeout(_globalToastTimer);
+    _globalToastTimer = setTimeout(function () {
+        el.classList.remove('show');
+        setTimeout(function () { el.classList.add('d-none'); }, 200);
+    }, duration);
+}
+
+if (typeof window !== 'undefined') {
+    window.$ = $;
+    window.getEl = getEl;
+    window.pad2 = pad2;
+    window.clamp = clamp;
+    window.td = td;
+    window.todayKey = todayKey;
+    window.fr = fr;
+    window.formatDate = formatDate;
+    window.getCurrentMonthKey = getCurrentMonthKey;
+    window.formatMonthLabel = formatMonthLabel;
+    window.getPreviousMonthEnd = getPreviousMonthEnd;
+    window.getPreviousMonthsList = getPreviousMonthsList;
+    window.friendly = friendly;
+    window.dashDate = dashDate;
+    window.esc = esc;
+    window.escHtml = escHtml;
+    window.uid = uid;
+    window.vibrate = vibrate;
+    window.createRipple = createRipple;
+    window.showToast = showToast;
 }
 
 function parseTimeToMin(timeStr) {

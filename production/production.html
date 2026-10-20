@@ -20,14 +20,77 @@ You can only pin <strong>2 duas</strong> at a time. You already have these duas 
 Do you want to <strong>replace one</strong>? Choose which pinned dua to unpin:
 </p><div class="d-flex justify-content-end pt-2 border-top"><button type="button" class="btn btn-light border px-4" data-act="dua-close-pin-confirm">Cancel</button></div></div></div><div class="dua-modal-overlay" id="duaAdminModal"><div class="dua-modal"><div class="dua-modal-header"><div class="dua-modal-title">⚙️ Admin Panel</div><button type="button" class="dua-modal-close" data-act="dua-close-admin">✕</button></div><div id="duaAdminListSection"><div class="fw-bold mb-2 text-primary">Existing Duas</div><div class="dua-admin-list mb-3" id="duaAdminDuaList"></div><button type="button" class="btn btn-outline-danger w-100 py-2 rounded-3 fw-semibold" data-act="dua-reset-all"><i class="fa-solid fa-arrows-rotate me-1"></i> Reset to Default Data
 </button></div></div></div></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script><script>function $(id) { return document.getElementById(id); }
+function getEl(id) { return document.getElementById(id); }
 function pad2(n) { return String(n).padStart(2, '0'); }
+function clamp(val, min, max) {
+return Math.min(max, Math.max(min, val));
+}
 function td() {
 var d = new Date();
 return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
 }
+function todayKey() {
+return new Date().toDateString();
+}
 function fr(ds) {
+if (!ds) return '';
 return new Date(ds + 'T00:00:00').toLocaleDateString(undefined,
 { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+}
+function formatDate(ds) {
+return fr(ds);
+}
+function getCurrentMonthKey() {
+var d = new Date();
+return d.getFullYear() + '-' + pad2(d.getMonth() + 1);
+}
+function formatMonthLabel(mKey) {
+if (!mKey) return '';
+var parts = mKey.split('-');
+if (parts.length < 2) return mKey;
+var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, 1);
+return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+}
+function getPreviousMonthEnd() {
+var now = new Date();
+var lastDayPrev = new Date(now.getFullYear(), now.getMonth(), 0);
+return lastDayPrev.getFullYear() + '-' + pad2(lastDayPrev.getMonth() + 1) + '-' + pad2(lastDayPrev.getDate());
+}
+function getPreviousMonthsList(startDate, endDate) {
+if (!startDate) return [];
+var sParts = startDate.split('-');
+var sY = parseInt(sParts[0], 10);
+var sM = parseInt(sParts[1], 10);
+var now = new Date();
+var curY = now.getFullYear();
+var curM = now.getMonth() + 1; // 1-12
+var endLimitY = curY;
+var endLimitM = curM - 1;
+if (endLimitM === 0) {
+endLimitM = 12;
+endLimitY -= 1;
+}
+if (endDate) {
+var eParts = endDate.split('-');
+var eY = parseInt(eParts[0], 10);
+var eM = parseInt(eParts[1], 10);
+if (eY < endLimitY || (eY === endLimitY && eM < endLimitM)) {
+endLimitY = eY;
+endLimitM = eM;
+}
+}
+var list = [];
+var y = endLimitY;
+var m = endLimitM;
+while (y > sY || (y === sY && m >= sM)) {
+list.push(y + '-' + pad2(m));
+m--;
+if (m === 0) {
+m = 12;
+y--;
+}
+}
+return list; // Most recent month first (e.g. ['2026-09', '2026-08', ...])
 }
 function friendly(ds) {
 var today = td();
@@ -47,6 +110,69 @@ function esc(s) {
 return String(s).replace(/[&<>"']/g, function (m) {
 return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
 });
+}
+function escHtml(str) {
+return esc(str);
+}
+function uid(prefix) {
+prefix = prefix || 'tb_';
+return prefix + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+function vibrate(pattern) {
+if (typeof navigator !== 'undefined' && navigator.vibrate) {
+try { navigator.vibrate(pattern); } catch (_) {}
+}
+}
+function createRipple(e, container) {
+if (!container || !e) return;
+var rect = container.getBoundingClientRect();
+var size = Math.max(rect.width, rect.height);
+var ripple = document.createElement('span');
+ripple.className = 'tb-ripple';
+ripple.style.width = size + 'px';
+ripple.style.height = size + 'px';
+var clientX = (e.clientX !== undefined) ? e.clientX : ((e.touches && e.touches[0] && e.touches[0].clientX) || (rect.left + size / 2));
+var clientY = (e.clientY !== undefined) ? e.clientY : ((e.touches && e.touches[0] && e.touches[0].clientY) || (rect.top + size / 2));
+ripple.style.left = (clientX - rect.left - size / 2) + 'px';
+ripple.style.top = (clientY - rect.top - size / 2) + 'px';
+container.appendChild(ripple);
+setTimeout(function () { ripple.remove(); }, 620);
+}
+var _globalToastTimer = null;
+function showToast(message, duration, toastId) {
+var el = document.getElementById(toastId || 'tbToast');
+if (!el) return;
+duration = duration || 2200;
+el.textContent = message;
+el.classList.remove('d-none');
+el.classList.add('show');
+if (_globalToastTimer) clearTimeout(_globalToastTimer);
+_globalToastTimer = setTimeout(function () {
+el.classList.remove('show');
+setTimeout(function () { el.classList.add('d-none'); }, 200);
+}, duration);
+}
+if (typeof window !== 'undefined') {
+window.$ = $;
+window.getEl = getEl;
+window.pad2 = pad2;
+window.clamp = clamp;
+window.td = td;
+window.todayKey = todayKey;
+window.fr = fr;
+window.formatDate = formatDate;
+window.getCurrentMonthKey = getCurrentMonthKey;
+window.formatMonthLabel = formatMonthLabel;
+window.getPreviousMonthEnd = getPreviousMonthEnd;
+window.getPreviousMonthsList = getPreviousMonthsList;
+window.friendly = friendly;
+window.dashDate = dashDate;
+window.esc = esc;
+window.escHtml = escHtml;
+window.uid = uid;
+window.vibrate = vibrate;
+window.createRipple = createRipple;
+window.showToast = showToast;
 }
 function parseTimeToMin(timeStr) {
 if (!timeStr) return -1;
@@ -1919,89 +2045,8 @@ var ringN = 33;
 var ringTarget = 33;
 var sessionStart = null;
 var sessionTimer = null;
-var toastTimer = null;
 var editModalInstance = null;
 var resetModalInstance = null;
-function getEl(id) {
-return document.getElementById(id);
-}
-function clamp(val, min, max) {
-return Math.min(max, Math.max(min, val));
-}
-function createRipple(e, container) {
-if (!container || !e) return;
-var rect = container.getBoundingClientRect();
-var size = Math.max(rect.width, rect.height);
-var ripple = document.createElement('span');
-ripple.className = 'tb-ripple';
-ripple.style.width = size + 'px';
-ripple.style.height = size + 'px';
-var clientX = (e.clientX !== undefined) ? e.clientX : ((e.touches && e.touches[0] && e.touches[0].clientX) || (rect.left + size / 2));
-var clientY = (e.clientY !== undefined) ? e.clientY : ((e.touches && e.touches[0] && e.touches[0].clientY) || (rect.top + size / 2));
-ripple.style.left = (clientX - rect.left - size / 2) + 'px';
-ripple.style.top = (clientY - rect.top - size / 2) + 'px';
-container.appendChild(ripple);
-setTimeout(function () { ripple.remove(); }, 620);
-}
-function uid() {
-return 'tb_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-}
-function vibrate(pattern) {
-if (typeof navigator !== 'undefined' && navigator.vibrate) {
-try { navigator.vibrate(pattern); } catch (_) {}
-}
-}
-function pad2(n) {
-return String(n).padStart(2, '0');
-}
-function td() {
-if (typeof window !== 'undefined' && typeof window.td === 'function') {
-return window.td();
-}
-var d = new Date();
-return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
-}
-function formatDate(ds) {
-if (typeof fr === 'function') return fr(ds);
-if (typeof window !== 'undefined' && typeof window.fr === 'function') return window.fr(ds);
-if (!ds) return '';
-var p = ds.split('-');
-if (p.length < 3) return ds;
-return p[2] + '-' + p[1] + '-' + p[0];
-}
-function todayKey() {
-return new Date().toDateString();
-}
-function getCurrentMonthKey() {
-var d = new Date();
-return d.getFullYear() + '-' + pad2(d.getMonth() + 1);
-}
-function formatMonthLabel(mKey) {
-if (!mKey) return '';
-var parts = mKey.split('-');
-if (parts.length < 2) return mKey;
-var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, 1);
-return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
-}
-function escHtml(str) {
-if (!str) return '';
-return String(str).replace(/[&<>"']/g, function (m) {
-return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
-});
-}
-function showToast(message, duration) {
-var el = getEl('tbToast');
-if (!el) return;
-duration = duration || 2200;
-el.textContent = message;
-el.classList.remove('d-none');
-el.classList.add('show');
-clearTimeout(toastTimer);
-toastTimer = setTimeout(function () {
-el.classList.remove('show');
-setTimeout(function () { el.classList.add('d-none'); }, 200);
-}, duration);
-}
 function normalizeItem(raw) {
 var norm = {
 id: raw.id || uid(),
@@ -2865,71 +2910,6 @@ window.TasbeehOldApp = (function () {
 var PERIOD_KEY = 'app_tasbeeh_period';
 var currentOldMonthKey = null; // Currently active / displayed old month
 var periodModalInstance = null;
-function getEl(id) {
-return document.getElementById(id);
-}
-function clamp(val, min, max) {
-return Math.min(max, Math.max(min, val));
-}
-function pad2(n) {
-return String(n).padStart(2, '0');
-}
-function td() {
-if (typeof window !== 'undefined' && typeof window.td === 'function') {
-return window.td();
-}
-var d = new Date();
-return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
-}
-function formatDate(ds) {
-if (typeof fr === 'function') return fr(ds);
-if (typeof window !== 'undefined' && typeof window.fr === 'function') return window.fr(ds);
-if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.formatDate === 'function') {
-return window.TasbeehCurrentApp.formatDate(ds);
-}
-if (!ds) return '';
-var p = ds.split('-');
-if (p.length < 3) return ds;
-return p[2] + '-' + p[1] + '-' + p[0];
-}
-function getCurrentMonthKey() {
-if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getCurrentMonthKey === 'function') {
-return window.TasbeehCurrentApp.getCurrentMonthKey();
-}
-var d = new Date();
-return d.getFullYear() + '-' + pad2(d.getMonth() + 1);
-}
-function formatMonthLabel(mKey) {
-if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.formatMonthLabel === 'function') {
-return window.TasbeehCurrentApp.formatMonthLabel(mKey);
-}
-if (!mKey) return '';
-var parts = mKey.split('-');
-if (parts.length < 2) return mKey;
-var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, 1);
-return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
-}
-function escHtml(str) {
-if (!str) return '';
-return String(str).replace(/[&<>"']/g, function (m) {
-return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
-});
-}
-function showToast(message, duration) {
-if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.showToast === 'function') {
-window.TasbeehCurrentApp.showToast(message, duration);
-return;
-}
-var el = getEl('tbToast');
-if (!el) return;
-el.textContent = message;
-el.classList.remove('d-none');
-el.classList.add('show');
-setTimeout(function () {
-el.classList.remove('show');
-setTimeout(function () { el.classList.add('d-none'); }, 200);
-}, duration || 2200);
-}
 function getItems() {
 if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getItems === 'function') {
 return window.TasbeehCurrentApp.getItems();
@@ -2940,47 +2920,6 @@ function persistItems() {
 if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.persist === 'function') {
 window.TasbeehCurrentApp.persist();
 }
-}
-function getPreviousMonthEnd() {
-var now = new Date();
-var lastDayPrev = new Date(now.getFullYear(), now.getMonth(), 0);
-return lastDayPrev.getFullYear() + '-' + pad2(lastDayPrev.getMonth() + 1) + '-' + pad2(lastDayPrev.getDate());
-}
-function getPreviousMonthsList(startDate, endDate) {
-if (!startDate) return [];
-var sParts = startDate.split('-');
-var sY = parseInt(sParts[0], 10);
-var sM = parseInt(sParts[1], 10);
-var now = new Date();
-var curY = now.getFullYear();
-var curM = now.getMonth() + 1; // 1-12
-var endLimitY = curY;
-var endLimitM = curM - 1;
-if (endLimitM === 0) {
-endLimitM = 12;
-endLimitY -= 1;
-}
-if (endDate) {
-var eParts = endDate.split('-');
-var eY = parseInt(eParts[0], 10);
-var eM = parseInt(eParts[1], 10);
-if (eY < endLimitY || (eY === endLimitY && eM < endLimitM)) {
-endLimitY = eY;
-endLimitM = eM;
-}
-}
-var list = [];
-var y = endLimitY;
-var m = endLimitM;
-while (y > sY || (y === sY && m >= sM)) {
-list.push(y + '-' + pad2(m));
-m--;
-if (m === 0) {
-m = 12;
-y--;
-}
-}
-return list; // Most recent month first (e.g. ['2026-09', '2026-08', ...])
 }
 function loadPeriod() {
 var raw = localStorage.getItem(PERIOD_KEY);

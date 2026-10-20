@@ -46,106 +46,10 @@ window.TasbeehCurrentApp = (function () {
     /* Session timer */
     var sessionStart = null;
     var sessionTimer = null;
-    var toastTimer = null;
 
     /* Modal instances */
     var editModalInstance = null;
     var resetModalInstance = null;
-
-    /* ---------- Helper Utilities ---------- */
-    function getEl(id) {
-        return document.getElementById(id);
-    }
-
-    function clamp(val, min, max) {
-        return Math.min(max, Math.max(min, val));
-    }
-
-    function createRipple(e, container) {
-        if (!container || !e) return;
-        var rect = container.getBoundingClientRect();
-        var size = Math.max(rect.width, rect.height);
-        var ripple = document.createElement('span');
-        ripple.className = 'tb-ripple';
-        ripple.style.width = size + 'px';
-        ripple.style.height = size + 'px';
-        var clientX = (e.clientX !== undefined) ? e.clientX : ((e.touches && e.touches[0] && e.touches[0].clientX) || (rect.left + size / 2));
-        var clientY = (e.clientY !== undefined) ? e.clientY : ((e.touches && e.touches[0] && e.touches[0].clientY) || (rect.top + size / 2));
-        ripple.style.left = (clientX - rect.left - size / 2) + 'px';
-        ripple.style.top = (clientY - rect.top - size / 2) + 'px';
-        container.appendChild(ripple);
-        setTimeout(function () { ripple.remove(); }, 620);
-    }
-
-    function uid() {
-        return 'tb_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-    }
-
-    function vibrate(pattern) {
-        if (typeof navigator !== 'undefined' && navigator.vibrate) {
-            try { navigator.vibrate(pattern); } catch (_) {}
-        }
-    }
-
-    function pad2(n) {
-        return String(n).padStart(2, '0');
-    }
-
-    function td() {
-        if (typeof window !== 'undefined' && typeof window.td === 'function') {
-            return window.td();
-        }
-        var d = new Date();
-        return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
-    }
-
-    function formatDate(ds) {
-        if (typeof fr === 'function') return fr(ds);
-        if (typeof window !== 'undefined' && typeof window.fr === 'function') return window.fr(ds);
-        if (!ds) return '';
-        var p = ds.split('-');
-        if (p.length < 3) return ds;
-        return p[2] + '-' + p[1] + '-' + p[0];
-    }
-
-    function todayKey() {
-        return new Date().toDateString();
-    }
-
-    function getCurrentMonthKey() {
-        var d = new Date();
-        return d.getFullYear() + '-' + pad2(d.getMonth() + 1);
-    }
-
-    function formatMonthLabel(mKey) {
-        if (!mKey) return '';
-        var parts = mKey.split('-');
-        if (parts.length < 2) return mKey;
-        var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, 1);
-        return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
-    }
-
-    function escHtml(str) {
-        if (!str) return '';
-        return String(str).replace(/[&<>"']/g, function (m) {
-            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
-        });
-    }
-
-    /* ---------- Toast ---------- */
-    function showToast(message, duration) {
-        var el = getEl('tbToast');
-        if (!el) return;
-        duration = duration || 2200;
-        el.textContent = message;
-        el.classList.remove('d-none');
-        el.classList.add('show');
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(function () {
-            el.classList.remove('show');
-            setTimeout(function () { el.classList.add('d-none'); }, 200);
-        }, duration);
-    }
 
     /* ---------- Storage Layer ---------- */
     function normalizeItem(raw) {
