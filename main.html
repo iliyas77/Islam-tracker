@@ -577,12 +577,16 @@
     <script src="features/dashboard/dashboard.js"></script>
     <script src="features/old-tracking/old-tracking.js"></script>
     <script src="features/settings/settings.js"></script>
-    <script src="features/tasbeeh/tasbeeh.js"></script>
+    <script src="features/tasbeeh/tasbeeh-current.js"></script>
+    <script src="features/tasbeeh/tasbeeh-old.js"></script>
     <script src="features/duas/duas.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             if (window.TasbeehApp && typeof window.TasbeehApp.init === 'function') {
                 window.TasbeehApp.init();
+            }
+            if (window.TasbeehOldApp && typeof window.TasbeehOldApp.init === 'function') {
+                window.TasbeehOldApp.init();
             }
         });
     </script>
