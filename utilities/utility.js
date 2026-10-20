@@ -387,6 +387,50 @@ function handleClick(e) {
         showPage('settings');
     } else if (act === 'goto-tasbeeh') {
         showPage('tasbeeh');
+    } else if (act === 'switch-tb-current') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
+            window.TasbeehApp.switchTab('current');
+        }
+    } else if (act === 'switch-tb-old') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
+            window.TasbeehApp.switchTab('old');
+        }
+    } else if (act === 'tb-open-settings' || act === 'tb-change-period') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.openPeriodModal === 'function') {
+            window.TasbeehApp.openPeriodModal();
+        }
+    } else if (act === 'tb-complete-month') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.markCurrentMonthCompleted === 'function') {
+            window.TasbeehApp.markCurrentMonthCompleted(t.dataset.month);
+        }
+    } else if (act === 'tb-prev-month') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.prevOldMonth === 'function') {
+            window.TasbeehApp.prevOldMonth();
+        }
+    } else if (act === 'tb-next-month') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.nextOldMonth === 'function') {
+            window.TasbeehApp.nextOldMonth();
+        }
+    } else if (act === 'tb-old-reopen') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.reopenLastMonth === 'function') {
+            window.TasbeehApp.reopenLastMonth();
+        }
+    } else if (act === 'tb-reset-all-completed') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.resetAllCompleted === 'function') {
+            window.TasbeehApp.resetAllCompleted();
+        }
+    } else if (act === 'tb-open-old') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.openCounterOld === 'function') {
+            window.TasbeehApp.openCounterOld(t.dataset.id, t.dataset.month);
+        }
+    } else if (act === 'tb-edit-old-item') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.editOldItemCount === 'function') {
+            window.TasbeehApp.editOldItemCount(t.dataset.id, t.dataset.month);
+        }
+    } else if (act === 'tb-toggle-old-done') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.toggleOldItemDone === 'function') {
+            window.TasbeehApp.toggleOldItemDone(t.dataset.id, t.dataset.month);
+        }
     } else if (act === 'goto-duas') {
         showPage('duas');
     } else if (act === 'dua-switch-pinned') {
