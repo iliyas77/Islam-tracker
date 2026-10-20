@@ -298,7 +298,7 @@ window.TasbeehCurrentApp = (function () {
                 : null;
 
             if (sub) {
-                sub.textContent = curOldM ? (formatMonthLabel(curOldM) + ' · Old Tracking') : 'Old Tracking Completed';
+                sub.textContent = curOldM ? formatMonthLabel(curOldM) : 'All Completed';
             }
 
             if (window.TasbeehOldApp && typeof window.TasbeehOldApp.renderOldTab === 'function') {
@@ -311,7 +311,7 @@ window.TasbeehCurrentApp = (function () {
             if (bodyOld) bodyOld.classList.add('d-none');
             if (icon) icon.className = 'fa-regular fa-calendar text-primary';
             if (label) label.textContent = 'Digital Tasbeeh';
-            if (sub) sub.textContent = 'Current Month · ' + formatMonthLabel(getCurrentMonthKey());
+            if (sub) sub.textContent = formatMonthLabel(getCurrentMonthKey());
             renderCurrentTab();
         }
     }

@@ -88,44 +88,23 @@ window.TasbeehOldApp = (function () {
         if (allOldMonths.length === 0) return null;
 
         var uncompleted = getUncompletedOldMonths();
-        var completed = period.completedMonths || [];
 
-        if (currentOldMonthKey && allOldMonths.indexOf(currentOldMonthKey) !== -1 && completed.indexOf(currentOldMonthKey) === -1) {
-            return currentOldMonthKey;
-        }
-
+        // Strictly sequential: locks to the active month until completed, then automatically jumps to the previous month
         if (uncompleted.length > 0) {
             currentOldMonthKey = uncompleted[0];
             return currentOldMonthKey;
         }
 
+        currentOldMonthKey = null;
         return null; // All months completed
     }
 
     function prevOldMonth() {
-        var period = loadPeriod();
-        var all = getPreviousMonthsList(period.startDate, period.endDate);
-        var cur = getCurrentOldMonth();
-        if (!cur) return;
-        var idx = all.indexOf(cur);
-        // Move to month further back in the past
-        if (idx !== -1 && idx < all.length - 1) {
-            currentOldMonthKey = all[idx + 1];
-            renderOldTab();
-        }
+        // Disabled: month progression is strictly sequential
     }
 
     function nextOldMonth() {
-        var period = loadPeriod();
-        var all = getPreviousMonthsList(period.startDate, period.endDate);
-        var cur = getCurrentOldMonth();
-        if (!cur) return;
-        var idx = all.indexOf(cur);
-        // Move to month closer to current month
-        if (idx > 0) {
-            currentOldMonthKey = all[idx - 1];
-            renderOldTab();
-        }
+        // Disabled: month progression is strictly sequential
     }
 
     function markMonthCompleted(mKey) {
@@ -312,6 +291,8 @@ window.TasbeehOldApp = (function () {
 
         // If all previous months in period are completed!
         if (!curOldMonth) {
+            var subAll = getEl('tbHeaderSub');
+            if (subAll) subAll.textContent = 'All Completed';
             oldBody.innerHTML =
                 '<div class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white">' +
                 '<div class="mb-3">' +
@@ -319,7 +300,7 @@ window.TasbeehOldApp = (function () {
                 '</div>' +
                 '<h5 class="fw-bold text-gr1 mb-2">All Previous Months Completed!</h5>' +
                 '<p class="text-muted small mb-3">' +
-                'All ' + allOldMonths.length + ' previous months from <strong>' + formatDate(period.startDate) + '</strong> up to the current month have been completed.' +
+                'All previous months up to the current month have been completed.' +
                 '</p>' +
                 '<div class="d-flex justify-content-center gap-2">' +
                 '<button type="button" class="btn btn-outline-brand rounded-pill px-4 py-2 fw-bold" data-act="tb-old-reopen">' +
@@ -340,19 +321,15 @@ window.TasbeehOldApp = (function () {
         var completedList = period.completedMonths || [];
         var isMonthDone = completedList.indexOf(curOldMonth) !== -1;
 
-        // Navigation limits
-        var hasEarlier = monthIndex < allOldMonths.length - 1;
-        var hasLater = monthIndex > 0;
-
         // Month total chants
         var monthTotalChants = items.reduce(function (sum, it) {
             return sum + ((it.monthlyHistory && it.monthlyHistory[curOldMonth]) || 0);
         }, 0);
 
-        // Header subtitle update
+        // Header subtitle update: shows present active month under Old
         var sub = getEl('tbHeaderSub');
         if (sub) {
-            sub.textContent = monthName + ' · Month ' + (monthIndex + 1) + ' of ' + totalMonths;
+            sub.textContent = monthName;
         }
 
         // Partition items into To Do and Completed for this active old month
@@ -388,7 +365,7 @@ window.TasbeehOldApp = (function () {
         oldBody.innerHTML =
             '<!-- Active Old Month Header -->' +
             '<div class="card p-3 rounded-4 mb-3 bg-white shadow-sm border-0">' +
-            '<div class="d-flex align-items-center justify-content-between mb-2">' +
+            '<div class="d-flex align-items-center justify-content-between gap-2">' +
             '<div class="d-flex align-items-center gap-2 min-w-0">' +
             '<span class="modal-icon-badge badge-icon-sm bg-warning-subtle text-warning">' +
             '<i class="fa-solid fa-clock-rotate-left fs-5"></i>' +
@@ -398,17 +375,10 @@ window.TasbeehOldApp = (function () {
             '<h5 class="fw-bold mb-0 text-gr1 text-truncate">' + monthName + '</h5>' +
             (isMonthDone ? '<span class="badge rounded-pill bg-success text-white small px-2 py-1"><i class="fa-solid fa-check me-1"></i>Completed</span>' : '') +
             '</div>' +
-            '<div class="text-muted small">Month ' + (monthIndex + 1) + ' of ' + totalMonths + ' in Old Period · ' + monthTotalChants.toLocaleString() + ' chants</div>' +
+            '<div class="text-muted small">' + monthTotalChants.toLocaleString() + ' chants recited</div>' +
             '</div>' +
             '</div>' +
-            '<div class="d-flex align-items-center gap-1">' +
-            (hasEarlier ? '<button type="button" class="btn btn-sm btn-light border rounded-circle" data-act="tb-prev-month" title="Previous Month (' + formatMonthLabel(allOldMonths[monthIndex + 1]) + ')"><i class="fa-solid fa-chevron-left"></i></button>' : '') +
-            (hasLater ? '<button type="button" class="btn btn-sm btn-light border rounded-circle" data-act="tb-next-month" title="Next Month (' + formatMonthLabel(allOldMonths[monthIndex - 1]) + ')"><i class="fa-solid fa-chevron-right"></i></button>' : '') +
-            '</div>' +
-            '</div>' +
-            '<div class="d-flex align-items-center justify-content-between pt-2 border-top mt-1">' +
-            '<span class="small text-muted"><i class="fa-regular fa-calendar-days me-1 text-success"></i>Start Date: <strong>' + formatDate(period.startDate) + '</strong></span>' +
-            '<button type="button" class="btn btn-brand btn-sm px-3 py-2 fw-bold rounded-3" data-act="tb-complete-month" data-month="' + curOldMonth + '">' +
+            '<button type="button" class="btn btn-brand btn-sm px-3 py-2 fw-bold rounded-3 text-nowrap" data-act="tb-complete-month" data-month="' + curOldMonth + '">' +
             '<i class="fa-solid fa-check me-1"></i>Mark Month Complete' +
             '</button>' +
             '</div>' +
