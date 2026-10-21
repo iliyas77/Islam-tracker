@@ -87,9 +87,6 @@
                         <button type="button" class="btn-action-round" id="tbSettingsBtn" data-act="tb-open-settings" title="Tasbeeh Period Settings" data-ref="page.tasbeeh.header.settings-btn">
                             <i class="fa-solid fa-gear fs-5"></i>
                         </button>
-                        <button type="button" class="btn-action-round" id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add Dhikr">
-                            <i class="fa-solid fa-plus fs-5" data-ref="page.tasbeeh.header.add-icon"></i>
-                        </button>
                     </div>
                 </div>
 
@@ -105,7 +102,7 @@
             </header>
 
             <!-- Current Month Body Container -->
-            <div class="flex-grow-1 overflow-auto p-2" id="tbCurrentBody" data-ref="page.tasbeeh.body.current">
+            <div class="flex-grow-1 overflow-auto p-2 pb-5 position-relative" id="tbCurrentBody" data-ref="page.tasbeeh.body.current">
                 <div id="tbList" class="d-flex flex-column gap-3" data-ref="page.tasbeeh.list"></div>
 
                 <div id="tbEmptyState" class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white d-none" data-ref="page.tasbeeh.empty-state">
@@ -113,12 +110,17 @@
                         <i class="fa-solid fa-hand-holding-heart fs-1 text-muted opacity-50" data-ref="page.tasbeeh.empty-state.icon"></i>
                     </div>
                     <h5 class="fw-bold text-gr1 mb-1" data-ref="page.tasbeeh.empty-state.title">No Dhikr Yet</h5>
-                    <p class="text-muted small mb-0" data-ref="page.tasbeeh.empty-state.text">Tap “+” above to add your first chant and begin counting.</p>
+                    <p class="text-muted small mb-0" data-ref="page.tasbeeh.empty-state.text">Tap “+” below to add your first chant and begin counting.</p>
                 </div>
             </div>
 
             <!-- Old Tracking (Previous Months) Body Container -->
-            <div class="flex-grow-1 overflow-auto p-2 d-none" id="tbOldBody" data-ref="page.tasbeeh.body.old"></div>
+            <div class="flex-grow-1 overflow-auto p-2 pb-5 position-relative d-none" id="tbOldBody" data-ref="page.tasbeeh.body.old"></div>
+
+            <!-- Shared Floating Action Button for Add Dhikr (Current & Old tabs) -->
+            <button type="button" class="tb-fab" id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr">
+                <i class="fa-solid fa-plus fs-4" data-ref="page.tasbeeh.header.add-icon"></i>
+            </button>
         </div>
 
         <!-- Full-screen Tasbeeh Counter View Overlay -->
@@ -371,6 +373,10 @@
                         </div>
                     </div>
                     <div class="modal-footer border-0 pt-2 pb-4 px-4 d-flex gap-2" data-ref="component.modal.tasbeeh.footer">
+                        <button type="button" class="btn btn-light text-danger border rounded-3 py-3 px-3 d-none flex-shrink-0"
+                            id="tbModalDelBtn" title="Delete Dhikr" aria-label="Delete Dhikr" data-ref="component.modal.tasbeeh.del-btn">
+                            <i class="fa-solid fa-trash fs-5"></i>
+                        </button>
                         <button type="button" class="btn btn-light border fw-bold flex-fill py-3 rounded-3 fs-5"
                             data-bs-dismiss="modal" data-ref="component.modal.tasbeeh.cancel-btn">Cancel</button>
                         <button type="button" class="btn btn-brand flex-fill py-3 rounded-3 fs-5"

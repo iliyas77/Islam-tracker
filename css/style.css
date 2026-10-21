@@ -741,7 +741,13 @@ body {
     background: #fff;
     border-radius: 16px;
     border: 1px solid var(--border);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    cursor: pointer;
+}
+
+.tb-card:hover {
+    border-color: var(--border-hover, #CCDCD5);
+    box-shadow: 0 4px 12px rgba(18, 61, 46, 0.06);
 }
 
 .tb-card.tb-card-done {
@@ -1422,7 +1428,7 @@ body {
 }
 
 .pinned-dua-surah {
-    font-size: 1.05rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--ink);
     font-family: var(--font-telugu);
@@ -1430,16 +1436,16 @@ body {
 }
 
 .pinned-dua-text {
-    font-size: 0.95rem;
+    font-size: 1.15rem;
     color: var(--ink-soft);
-    line-height: 1.7;
+    line-height: 1.8;
     font-family: var(--font-telugu);
 }
 
 .pinned-dua-meaning {
-    font-size: 0.88rem;
+    font-size: 1.05rem;
     color: var(--ink-muted);
-    line-height: 1.7;
+    line-height: 1.8;
     font-family: var(--font-telugu);
     border-top: 1px dashed var(--border);
     padding-top: 10px;
@@ -1654,8 +1660,9 @@ body {
     line-height: 1.6;
 }
 
-/* Floating Action Button */
-.dua-fab {
+/* Floating Action Buttons */
+.dua-fab,
+.tb-fab {
     position: fixed;
     right: 24px;
     bottom: 84px;
@@ -1675,13 +1682,24 @@ body {
     transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 
-.dua-fab:hover {
+.dua-fab:hover,
+.tb-fab:hover {
     background: #1a6343;
+    color: #fff;
     transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(37, 132, 91, 0.55);
 }
 
-.dua-fab:active {
+.dua-fab:active,
+.tb-fab:active {
     transform: scale(0.95);
+}
+
+@media (min-width: 500px) {
+    .dua-fab,
+    .tb-fab {
+        right: calc(50% - 240px + 24px);
+    }
 }
 
 /* Modals */

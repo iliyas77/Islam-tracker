@@ -188,53 +188,6 @@ window.TasbeehOldApp = (function () {
         renderOldTab();
     }
 
-    function editOldItemCount(id, monthKey) {
-        var items = getItems();
-        var item = null;
-        for (var i = 0; i < items.length; i++) {
-            if (items[i].id === id) { item = items[i]; break; }
-        }
-        if (!item) return;
-
-        var cur = (item.monthlyHistory && item.monthlyHistory[monthKey]) || 0;
-        var val = prompt('Enter chants for “' + item.title + '” in ' + formatMonthLabel(monthKey) + ':', cur);
-        if (val === null) return;
-
-        var num = Math.max(0, parseInt(val, 10) || 0);
-        item.monthlyHistory = item.monthlyHistory || {};
-        item.monthlyHistory[monthKey] = num;
-        item.updatedAt = Date.now();
-        persistItems();
-        checkAndAdvanceMonth(monthKey);
-        renderOldTab();
-        showToast('Updated ' + item.title + ' to ' + num.toLocaleString());
-    }
-
-    function toggleOldItemDone(id, monthKey) {
-        var items = getItems();
-        var item = null;
-        for (var i = 0; i < items.length; i++) {
-            if (items[i].id === id) { item = items[i]; break; }
-        }
-        if (!item || item.targetCount === 'infinite') return;
-
-        var target = item.targetCount * item.targetCycles;
-        var cur = (item.monthlyHistory && item.monthlyHistory[monthKey]) || 0;
-        item.monthlyHistory = item.monthlyHistory || {};
-
-        if (cur >= target) {
-            item.monthlyHistory[monthKey] = 0;
-            showToast(item.title + ' marked incomplete for ' + formatMonthLabel(monthKey));
-        } else {
-            item.monthlyHistory[monthKey] = target;
-            showToast(item.title + ' marked complete for ' + formatMonthLabel(monthKey));
-        }
-        item.updatedAt = Date.now();
-        persistItems();
-        checkAndAdvanceMonth(monthKey);
-        renderOldTab();
-    }
-
     function openCounterOld(id, monthKey) {
         if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.openCounterOld === 'function') {
             window.TasbeehCurrentApp.openCounterOld(id, monthKey);
@@ -246,33 +199,23 @@ window.TasbeehOldApp = (function () {
         var isInfinite = item.targetCount === 'infinite';
         var countInMonth = (item.monthlyHistory && item.monthlyHistory[curOldMonth]) || 0;
         var targetTotal = isInfinite ? '∞' : (item.targetCount * item.targetCycles);
-        var pct = isInfinite ? 0 : clamp((countInMonth / targetTotal) * 100, 0, 100);
 
         var metaLine = isInfinite
             ? 'Target: ∞ · Recited in ' + monthName + ': <strong>' + countInMonth.toLocaleString() + '</strong>'
             : 'Target: ' + item.targetCount + ' · Cycles: ' + item.targetCycles + ' · Done: <strong>' + countInMonth.toLocaleString() + '</strong>/' + targetTotal;
 
-        return '<div class="tb-card p-3 shadow-sm ' + (isDhikrDone ? 'tb-card-done' : '') + '" data-id="' + item.id + '">' +
-            '<div class="d-flex align-items-center gap-3 mb-2">' +
-            '<div class="tb-badge ' + (isDhikrDone ? 'bg-success-subtle text-success' : '') + '">' + (item.icon || '🌿') + '</div>' +
+        return '<div class="tb-card p-3 shadow-sm ' + (isDhikrDone ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-month="' + curOldMonth + '" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
+            '<div class="d-flex align-items-center gap-3">' +
+            '<div class="tb-badge ' + (isDhikrDone ? 'bg-success-subtle text-success' : '') + '">' +
+            '<i class="fa-solid fa-ring"></i>' +
+            '</div>' +
             '<div class="flex-grow-1 min-w-0">' +
-            '<div class="d-flex align-items-center justify-content-between">' +
+            '<div class="d-flex align-items-center justify-content-between gap-2">' +
             '<h6 class="fw-bold mb-0 text-truncate text-gr1">' + escHtml(item.title) + '</h6>' +
-            (isDhikrDone ? '<span class="badge-pill-custom badge-done py-1 px-2 fs-xs"><i class="fa-solid fa-check me-1"></i>Completed</span>' : '') +
+            (isDhikrDone ? '<span class="badge-pill-custom badge-done py-1 px-2 fs-xs flex-shrink-0"><i class="fa-solid fa-check me-1"></i>Completed</span>' : '') +
             '</div>' +
             '<div class="tb-meta mt-1">' + metaLine + '</div>' +
             '</div>' +
-            '</div>' +
-            '<div class="progress progress-thin mb-3">' +
-            '<div class="progress-bar ' + (isDhikrDone ? 'bg-success' : '') + '" style="width:' + pct.toFixed(1) + '%"></div>' +
-            '</div>' +
-            '<div class="d-flex align-items-center gap-2 pt-1 border-top">' +
-            '<button type="button" class="btn ' + (isDhikrDone ? 'btn-outline-brand' : 'btn-brand') + ' flex-grow-1 py-2 rounded-3 fw-bold btn-h-42" data-act="tb-open-old" data-id="' + item.id + '" data-month="' + curOldMonth + '">' +
-            '<i class="fa-solid fa-play me-2"></i>' + (isDhikrDone ? 'Recount / Add' : 'Open Counter') + '</button>' +
-            '<button type="button" class="btn btn-light rounded-3 px-3 py-2 border btn-h-42" data-act="tb-edit-old-item" data-id="' + item.id + '" data-month="' + curOldMonth + '" title="Edit Count">' +
-            '<i class="fa-solid fa-pen text-secondary"></i></button>' +
-            '<button type="button" class="btn btn-light rounded-3 px-3 py-2 border btn-h-42" data-act="tb-toggle-old-done" data-id="' + item.id + '" data-month="' + curOldMonth + '" title="' + (isDhikrDone ? 'Reset to 0' : 'Mark Completed') + '">' +
-            '<i class="fa-solid ' + (isDhikrDone ? 'fa-rotate-left text-warning' : 'fa-check text-success') + '"></i></button>' +
             '</div>' +
             '</div>';
     }
@@ -580,27 +523,37 @@ window.TasbeehOldApp = (function () {
         if (oldBody) {
             oldBody.onclick = function (e) {
                 var btn = e.target.closest('button[data-act]');
-                if (!btn) return;
-                e.stopPropagation();
-                var act = btn.dataset.act;
-                if (act === 'tb-old-reopen') {
-                    reopenLastMonth();
-                } else if (act === 'tb-reset-all-completed') {
-                    resetAllCompleted();
-                } else if (act === 'tb-open-old') {
-                    var id = btn.dataset.id;
-                    var mKey = btn.dataset.month;
+                if (btn) {
+                    var act = btn.dataset.act;
+                    if (act === 'tb-old-reopen') {
+                        reopenLastMonth();
+                    } else if (act === 'tb-reset-all-completed') {
+                        resetAllCompleted();
+                    } else if (act === 'tb-open-settings' || act === 'tb-change-period') {
+                        openPeriodModal();
+                    }
+                    return;
+                }
+
+                var card = e.target.closest('.tb-card[data-id]');
+                if (card) {
+                    var id = card.dataset.id;
+                    var mKey = card.dataset.month;
                     openCounterOld(id, mKey);
-                } else if (act === 'tb-edit-old-item') {
-                    var id2 = btn.dataset.id;
-                    var mKey2 = btn.dataset.month;
-                    editOldItemCount(id2, mKey2);
-                } else if (act === 'tb-toggle-old-done') {
-                    var id3 = btn.dataset.id;
-                    var mKey3 = btn.dataset.month;
-                    toggleOldItemDone(id3, mKey3);
-                } else if (act === 'tb-open-settings' || act === 'tb-change-period') {
-                    openPeriodModal();
+                }
+            };
+
+            oldBody.onkeydown = function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    var btn = e.target.closest('button[data-act]');
+                    if (btn) return;
+                    var card = e.target.closest('.tb-card[data-id]');
+                    if (card) {
+                        e.preventDefault();
+                        var id = card.dataset.id;
+                        var mKey = card.dataset.month;
+                        openCounterOld(id, mKey);
+                    }
                 }
             };
         }
@@ -621,8 +574,6 @@ window.TasbeehOldApp = (function () {
         markCurrentMonthCompleted: markMonthCompleted,
         reopenLastMonth: reopenLastMonth,
         resetAllCompleted: resetAllCompleted,
-        editOldItemCount: editOldItemCount,
-        toggleOldItemDone: toggleOldItemDone,
         openPeriodModal: openPeriodModal,
         savePeriodModal: savePeriodModal,
         resetPeriodModal: resetPeriodModal,
@@ -637,8 +588,6 @@ window.TasbeehOldApp = (function () {
         window.TasbeehApp.markCurrentMonthCompleted = markMonthCompleted;
         window.TasbeehApp.reopenLastMonth = reopenLastMonth;
         window.TasbeehApp.resetAllCompleted = resetAllCompleted;
-        window.TasbeehApp.editOldItemCount = editOldItemCount;
-        window.TasbeehApp.toggleOldItemDone = toggleOldItemDone;
         window.TasbeehApp.getCurrentOldMonth = getCurrentOldMonth;
         window.TasbeehApp.loadPeriod = loadPeriod;
         window.TasbeehApp.savePeriod = savePeriod;
