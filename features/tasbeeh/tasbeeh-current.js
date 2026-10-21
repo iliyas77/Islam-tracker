@@ -20,13 +20,11 @@ window.TasbeehCurrentApp = (function () {
     var SVG_NS = 'http://www.w3.org/2000/svg';
 
     var DEFAULT_PRESETS = [
-        { title: 'SubhanAllah', targetCount: 33, targetCycles: 3, icon: '🌿' },
-        { title: 'Alhamdulillah', targetCount: 33, targetCycles: 3, icon: '🕌' },
-        { title: 'Allahu Akbar', targetCount: 34, targetCycles: 3, icon: '🌙' },
-        { title: 'Astaghfirullah', targetCount: 100, targetCycles: 1, icon: '✨' }
+        { title: 'SubhanAllah', targetCount: 33, targetCycles: 3 },
+        { title: 'Alhamdulillah', targetCount: 33, targetCycles: 3 },
+        { title: 'Allahu Akbar', targetCount: 34, targetCycles: 3 },
+        { title: 'Astaghfirullah', targetCount: 100, targetCycles: 1 }
     ];
-
-    var ICON_POOL = ['🌿', '🕌', '🌙', '✨', '📿', '🌟', '🕊️', '🕋'];
 
     /* ---------- State ---------- */
     var items = [];
@@ -61,7 +59,7 @@ window.TasbeehCurrentApp = (function () {
             currentCount: clamp(parseInt(raw.currentCount, 10) || 0, 0, 99999),
             currentCycle: clamp(parseInt(raw.currentCycle, 10) || 1, 1, 999),
             totalCountToday: clamp(parseInt(raw.totalCountToday, 10) || 0, 0, 9999999),
-            icon: raw.icon || ICON_POOL[Math.floor(Math.random() * ICON_POOL.length)],
+            icon: 'fa-solid fa-ring',
             updatedAt: raw.updatedAt || Date.now(),
             dailyHistory: (raw.dailyHistory && typeof raw.dailyHistory === 'object') ? Object.assign({}, raw.dailyHistory) : {},
             monthlyHistory: (raw.monthlyHistory && typeof raw.monthlyHistory === 'object') ? Object.assign({}, raw.monthlyHistory) : {},
@@ -153,39 +151,27 @@ window.TasbeehCurrentApp = (function () {
     }
 
     /* ---------- Current Card HTML Generator ---------- */
-    function renderCurrentCardHtml(item, isComplete, curMonthKey) {
+    function renderCurrentCardHtml(item, isComplete) {
         var isInfinite = item.targetCount === 'infinite';
         var prog = computeProgress(item);
-        var thisMonthCount = (item.monthlyHistory && item.monthlyHistory[curMonthKey]) || 0;
         var metaLine = isInfinite
             ? 'Target: ∞ · Cycles: ∞ · Recited: <strong>' + item.currentCount + '</strong>'
             : 'Target: ' + item.targetCount + ' · Cycles: ' + item.targetCycles + ' · Done: <strong>' + prog.done + '</strong>/' + prog.total;
 
-        return '<div class="tb-card p-3 shadow-sm ' + (isComplete ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-ref="page.tasbeeh.card">' +
-            '<div class="d-flex align-items-center gap-3 mb-2" data-ref="page.tasbeeh.card.header">' +
-            '<div class="tb-badge ' + (isComplete ? 'bg-success-subtle text-success' : '') + '" data-ref="page.tasbeeh.card.icon">' + (item.icon || '🌿') + '</div>' +
+        return '<div class="tb-card p-3 shadow-sm ' + (isComplete ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-ref="page.tasbeeh.card" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
+            '<div class="d-flex align-items-center gap-3" data-ref="page.tasbeeh.card.header">' +
+            '<div class="tb-badge ' + (isComplete ? 'bg-success-subtle text-success' : '') + '" data-ref="page.tasbeeh.card.icon">' +
+            '<i class="fa-solid fa-ring"></i>' +
+            '</div>' +
             '<div class="flex-grow-1 min-w-0" data-ref="page.tasbeeh.card.info">' +
-            '<div class="d-flex align-items-center justify-content-between">' +
+            '<div class="d-flex align-items-center justify-content-between gap-2">' +
             '<h6 class="fw-bold mb-0 text-truncate text-gr1" data-ref="page.tasbeeh.card.title">' + escHtml(item.title) + '</h6>' +
-            (isComplete ? '<span class="badge-pill-custom badge-done py-1 px-2 fs-xs"><i class="fa-solid fa-check me-1"></i>Completed</span>' : '') +
+            (isComplete ? '<span class="badge-pill-custom badge-done py-1 px-2 fs-xs flex-shrink-0"><i class="fa-solid fa-check me-1"></i>Completed</span>' : '') +
             '</div>' +
             '<div class="tb-meta mt-1" data-ref="page.tasbeeh.card.meta">' + metaLine + '</div>' +
             '</div>' +
-            '</div>' +
-            '<div class="progress progress-thin mb-2" data-ref="page.tasbeeh.card.progress">' +
-            '<div class="progress-bar ' + (isComplete ? 'bg-success' : '') + '" style="width:' + prog.pct.toFixed(1) + '%" data-ref="page.tasbeeh.card.progress-bar"></div>' +
-            '</div>' +
-            '<div class="d-flex align-items-center justify-content-between mb-3 px-1">' +
-            '<span class="tb-chant-chip ' + (thisMonthCount > 0 ? 'has-count' : '') + '"><i class="fa-regular fa-calendar-check me-1"></i>This Month: <strong>' + thisMonthCount.toLocaleString() + '</strong></span>' +
-            '<span class="tb-chant-chip ' + (item.totalCountToday > 0 ? 'has-count' : '') + '"><i class="fa-solid fa-sparkles me-1"></i>Today: <strong>' + (item.totalCountToday || 0) + '</strong></span>' +
-            '</div>' +
-            '<div class="d-flex align-items-center gap-2 pt-1 border-top" data-ref="page.tasbeeh.card.actions">' +
-            '<button type="button" class="btn ' + (isComplete ? 'btn-outline-brand' : 'btn-brand') + ' flex-grow-1 py-2 rounded-3 fw-bold btn-h-42" data-act="tb-open" data-ref="page.tasbeeh.card.open-btn">' +
-            '<i class="fa-solid ' + (isComplete ? 'fa-rotate-right' : 'fa-play') + ' me-2"></i>' + (isComplete ? 'Recount / Add' : 'Open Counter') + '</button>' +
-            '<button type="button" class="btn btn-light rounded-3 px-3 py-2 border btn-h-42" data-act="tb-edit" title="Edit" data-ref="page.tasbeeh.card.edit-btn">' +
+            '<button type="button" class="btn btn-light rounded-3 px-3 py-2 border flex-shrink-0 btn-h-42" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr" data-ref="page.tasbeeh.card.edit-btn">' +
             '<i class="fa-solid fa-pen text-secondary"></i></button>' +
-            '<button type="button" class="btn btn-light rounded-3 px-3 py-2 border btn-h-42" data-act="tb-del" title="Delete" data-ref="page.tasbeeh.card.del-btn">' +
-            '<i class="fa-solid fa-trash text-danger"></i></button>' +
             '</div>' +
             '</div>';
     }
@@ -778,10 +764,24 @@ window.TasbeehCurrentApp = (function () {
 
         syncChips();
 
+        var delBtn = getEl('tbModalDelBtn');
+        if (delBtn) {
+            if (item) {
+                delBtn.classList.remove('d-none');
+            } else {
+                delBtn.classList.add('d-none');
+            }
+        }
+
         var modalEl = getEl('tasbeehModal');
         if (modalEl) {
             if (!editModalInstance) {
                 editModalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+                modalEl.addEventListener('hidden.bs.modal', function () {
+                    editingId = null;
+                    var b = getEl('tbModalDelBtn');
+                    if (b) b.classList.add('d-none');
+                });
             }
             editModalInstance.show();
         }
@@ -827,7 +827,7 @@ window.TasbeehCurrentApp = (function () {
                 currentCount: 0,
                 currentCycle: 1,
                 totalCountToday: 0,
-                icon: ICON_POOL[Math.floor(Math.random() * ICON_POOL.length)],
+                icon: 'fa-solid fa-ring',
                 updatedAt: Date.now()
             }));
             showToast('Dhikr added');
@@ -855,10 +855,10 @@ window.TasbeehCurrentApp = (function () {
         for (var i = 0; i < items.length; i++) {
             if (items[i].id === id) { item = items[i]; break; }
         }
-        if (!item) return;
+        if (!item) return false;
 
         if (!confirm('Delete “' + item.title + '”? This will remove its recorded progress.')) {
-            return;
+            return false;
         }
 
         items = items.filter(function (it) { return it.id !== id; });
@@ -870,6 +870,7 @@ window.TasbeehCurrentApp = (function () {
         persist();
         render();
         showToast('Dhikr deleted');
+        return true;
     }
 
     /* ---------- Event Bindings ---------- */
@@ -883,6 +884,19 @@ window.TasbeehCurrentApp = (function () {
         var saveBtn = getEl('tbModalSaveBtn');
         if (saveBtn) {
             saveBtn.onclick = saveModal;
+        }
+
+        var modalDelBtn = getEl('tbModalDelBtn');
+        if (modalDelBtn) {
+            modalDelBtn.onclick = function () {
+                if (editingId) {
+                    var targetId = editingId;
+                    if (deleteItem(targetId)) {
+                        if (editModalInstance) editModalInstance.hide();
+                        editingId = null;
+                    }
+                }
+            };
         }
 
         /* Subtab Switching */
@@ -959,6 +973,18 @@ window.TasbeehCurrentApp = (function () {
                     else if (act === 'tb-del') deleteItem(id);
                 } else {
                     openCounter(id);
+                }
+            };
+
+            listEl.onkeydown = function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    var btn = e.target.closest('button[data-act]');
+                    if (btn) return;
+                    var card = e.target.closest('[data-id]');
+                    if (card) {
+                        e.preventDefault();
+                        openCounter(card.dataset.id);
+                    }
                 }
             };
         }

@@ -552,18 +552,6 @@ function handleClick(e) {
         if (window.TasbeehApp && typeof window.TasbeehApp.resetAllCompleted === 'function') {
             window.TasbeehApp.resetAllCompleted();
         }
-    } else if (act === 'tb-open-old') {
-        if (window.TasbeehApp && typeof window.TasbeehApp.openCounterOld === 'function') {
-            window.TasbeehApp.openCounterOld(t.dataset.id, t.dataset.month);
-        }
-    } else if (act === 'tb-edit-old-item') {
-        if (window.TasbeehApp && typeof window.TasbeehApp.editOldItemCount === 'function') {
-            window.TasbeehApp.editOldItemCount(t.dataset.id, t.dataset.month);
-        }
-    } else if (act === 'tb-toggle-old-done') {
-        if (window.TasbeehApp && typeof window.TasbeehApp.toggleOldItemDone === 'function') {
-            window.TasbeehApp.toggleOldItemDone(t.dataset.id, t.dataset.month);
-        }
     } else if (act === 'goto-duas') {
         showPage('duas');
     } else if (act === 'dua-switch-pinned') {
