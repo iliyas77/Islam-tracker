@@ -2,25 +2,6 @@
    Nur Prayer — Global Styles
    ============================================================ */
 
-:root {
-    --brand: #25845B;
-    --brand-light: #e8f4ed;
-    --brand-soft: #f4f8f5;
-    --bg: #e8f4ed;
-    --bg-soft: #f5f9f6;
-    --ink: #123D2E;
-    --ink-soft: #49665F;
-    --ink-muted: #7C918A;
-    --danger: #dc3545;
-    --danger-soft: #fde8e8;
-    --success-soft: #d1e7dd;
-    --warn: #cc7a00;
-    --info: #0d6efd;
-    --purple: #6f42c1;
-    --border: #eef2f0;
-    --divider: #d6dcd9;
-}
-
 body {
     font-family: var(--font-primary);
     color: var(--text-primary);
@@ -45,7 +26,7 @@ body {
 .app-header {
     padding: 1rem;
     flex-shrink: 0;
-    background: #fff;
+    background: var(--card-bg);
     border-bottom: 1px solid var(--border);
 }
 
@@ -83,8 +64,40 @@ body {
     justify-content: center;
     flex-shrink: 0;
     background: var(--brand);
-    color: #fff;
+    color: var(--card-bg);
     border: none;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.btn-action-round:hover {
+    background: var(--btn-primary-hover);
+    color: var(--card-bg);
+}
+
+.btn-action-round:active {
+    transform: scale(0.96);
+}
+
+.btn-action-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--gr-danger);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--card-bg);
+    line-height: 1;
+    z-index: 2;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
 }
 
 .btn-sheet-back {
@@ -103,7 +116,7 @@ body {
 /* ---------- Bottom Nav ---------- */
 .app-bottom-nav {
     height: 64px;
-    background: #fff;
+    background: var(--card-bg);
     border-top: 1px solid var(--border);
 }
 
@@ -134,11 +147,12 @@ body {
 /* ---------- Tracker Segmented Sub-Tabs ---------- */
 .tracker-segment-bar {
     display: flex;
-    background: #eef3f0;
-    padding: 3px;
+    background: var(--gr-bg);
+    padding: 4px;
     border-radius: 12px;
     gap: 4px;
     border: 1px solid var(--border);
+    flex-shrink: 0;
 }
 
 .tracker-subtab {
@@ -165,7 +179,7 @@ body {
 }
 
 .tracker-subtab.active {
-    background: #ffffff;
+    background: var(--active-light);
     color: var(--brand);
     font-weight: 700;
     box-shadow: 0 2px 8px rgba(18, 61, 46, 0.08);
@@ -196,49 +210,6 @@ body {
     font-size: 1.2rem;
 }
 
-/* ---------- Section header (missed / not yet / completed) ---------- */
-.section-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem;
-}
-
-.section-header .icon-circle {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 0.95rem;
-    flex-shrink: 0;
-}
-
-.section-header .title {
-    font-weight: 700;
-    font-size: 1.15rem;
-    color: var(--ink);
-}
-
-.section-header .count {
-    margin-left: auto;
-    font-weight: 700;
-    font-size: 1.3rem;
-}
-
-/* ---------- Prayer row ---------- */
-.prayer-row {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem;
-    background: #fff;
-    border-top: 1px solid var(--border);
-    cursor: pointer;
-}
-
-.prayer-row .icon-circle-lg,
 .icon-circle-lg {
     width: 52px;
     height: 52px;
@@ -248,24 +219,6 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-    flex-shrink: 0;
-}
-
-.prayer-row .name {
-    font-weight: 700;
-    font-size: 1.2rem;
-    color: var(--ink);
-}
-
-.prayer-row .time {
-    color: var(--ink-soft);
-    font-size: 0.95rem;
-}
-
-.prayer-row .chevron {
-    color: #c0c8c4;
-    font-size: 0.85rem;
-    margin-left: 0.75rem;
     flex-shrink: 0;
 }
 
@@ -286,19 +239,19 @@ body {
 }
 
 .badge-notyet {
-    background: #f1f3f2;
+    background: var(--gr-bg-soft);
     color: var(--ink-muted);
 }
 
 .badge-done {
     background: var(--success-soft);
-    color: #0f5132;
+    color: var(--gr-primary-dark);
 }
 
 /* ---------- Buttons ---------- */
 .btn-brand {
     background: var(--brand);
-    color: #fff;
+    color: var(--card-bg);
     border: none;
     border-radius: 12px;
     font-weight: 700;
@@ -309,20 +262,14 @@ body {
 }
 
 .btn-brand:hover {
-    background: #166742;
-    color: #fff;
-}
-
-.btn-cancel-outline {
-    background: #fff;
-    color: var(--brand);
-    border: 1.5px solid #a3cfbb;
+    background: var(--btn-primary-hover);
+    color: var(--card-bg);
 }
 
 .btn-pill-action {
-    background: #fff;
+    background: var(--card-bg);
     color: var(--brand);
-    border: 1px solid #a3cfbb;
+    border: 1px solid var(--gr-border-calc);
     border-radius: 50rem;
     font-weight: 700;
     padding: 0.5rem 0.75rem;
@@ -330,40 +277,14 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-}
-
-.btn-pill-today {
-    background: var(--brand);
-    color: #fff;
-    border: none;
-    border-radius: 50rem;
-    font-weight: 700;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.82rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-}
-
-.btn-pill-missed {
-    background: var(--danger-soft);
-    color: var(--danger);
-    border: none;
-    border-radius: 50rem;
-    font-weight: 700;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.82rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
 }
 
 /* ---------- Form fields ---------- */
 .field-group {
     display: flex;
     align-items: center;
-    border: 1.5px solid #e2e8e4;
-    background: #fff;
+    border: 1.5px solid var(--border-subtle);
+    background: var(--card-bg);
     border-radius: 10px;
     overflow: hidden;
 }
@@ -371,7 +292,7 @@ body {
 .field-group .form-control {
     box-shadow: none;
     height: 52px;
-    background: #fff;
+    background: var(--card-bg);
     border: none;
 }
 
@@ -380,7 +301,7 @@ body {
     height: 52px;
     background: var(--brand-soft);
     color: var(--brand);
-    border-right: 1.5px solid #e2e8e4;
+    border-right: 1.5px solid var(--border-subtle);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -399,7 +320,7 @@ body {
     height: 56px;
     border-radius: 14px;
     background: var(--brand);
-    color: #fff;
+    color: var(--card-bg);
     border: none;
     font-size: 1.5rem;
     font-weight: 700;
@@ -411,7 +332,7 @@ body {
 
 .add-value-input {
     font-size: 1.6rem;
-    background: #f8faf9;
+    background: var(--gr-input-bg);
 }
 
 /* ---------- Modal icon badge ---------- */
@@ -443,8 +364,12 @@ body {
     margin-top: 1px;
 }
 
+.offcanvas.offcanvas-bottom,
+.offcanvas-bottom,
 #sheet2 {
-    height: 80vh;
+    --bs-offcanvas-height: 90vh;
+    height: 90vh !important;
+    max-height: 90vh !important;
     max-width: 480px;
     margin: 0 auto;
     z-index: 1090;
@@ -457,7 +382,7 @@ body {
 
 /* ---------- Progress bar ---------- */
 .progress {
-    background: #e9ecef;
+    background: var(--gray150);
     border-radius: 20px;
 }
 
@@ -478,13 +403,6 @@ body {
     border: 0;
     padding: 0;
     z-index: -1;
-}
-
-/* ---------- Current prayer card ---------- */
-.current-card {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .clock-big {
@@ -510,42 +428,12 @@ body {
     font-weight: 400;
 }
 
-.prayer-icon-circle {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    border: 2px solid var(--brand);
-}
-
-.prayer-label {
-    font-size: 0.72rem;
-    color: var(--ink-soft);
-    font-weight: 700;
-    letter-spacing: 0.4px;
-}
-
 /* ============================================================
    Typography System & Design Hierarchy
    ============================================================ */
 .location {
     font-size: var(--text-xl);
     font-weight: 500;
-}
-
-.live-time {
-    font-size: var(--text-base);
-    font-weight: 500;
-}
-
-.section-heading {
-    font-size: var(--text-sm);
-    font-weight: 600;
-    letter-spacing: 1px;
 }
 
 .countdown {
@@ -596,18 +484,12 @@ body {
     font-weight: 400;
 }
 
-.arabic-text {
-    font-family: var(--font-arabic);
-    font-size: 22px;
-    line-height: 1.8;
-}
-
 /* ============================================================
    Dashboard Clock Card & Daily Timeline Styles
    ============================================================ */
 .dash-next-card {
-    background: #fbfdfc;
-    border: 1px solid #d4e6db;
+    background: var(--surface-bg);
+    border: 1px solid var(--border-subtle);
     border-radius: 18px;
     padding: 14px 16px;
 }
@@ -616,7 +498,7 @@ body {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: #e2efe6;
+    background: var(--gr-accent-soft);
     color: var(--gr-primary);
     display: flex;
     align-items: center;
@@ -646,13 +528,13 @@ body {
 }
 
 .timeline-circle-inactive {
-    background: #e2efe6;
+    background: var(--gr-accent-soft);
     color: var(--gr-primary);
 }
 
 .timeline-circle-active {
     background: var(--gr-primary);
-    color: #ffffff;
+    color: var(--card-bg);
     box-shadow: 0 4px 10px rgba(37, 132, 91, 0.35);
 }
 
@@ -678,7 +560,7 @@ body {
     height: 16px;
     border-radius: 50%;
     border: 2px solid var(--gr-primary);
-    background: #ffffff;
+    background: var(--card-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -692,7 +574,7 @@ body {
 }
 
 .badge-status-passed {
-    background: #e8ece9;
+    background: var(--gr-bg-soft);
     color: var(--gr-muted);
     font-weight: 500;
     font-size: 11px;
@@ -701,44 +583,33 @@ body {
 
 .badge-status-active {
     background: var(--gr-primary);
-    color: #ffffff;
+    color: var(--card-bg);
     font-weight: 500;
     font-size: 11px;
     padding: 2px 8px;
 }
 
 .badge-status-next {
-    background: #ca8a04;
-    color: #ffffff;
+    background: var(--gr-accent-gold);
+    color: var(--card-bg);
     font-weight: 500;
     font-size: 11px;
     padding: 2px 8px;
 }
 
 .badge-status-upcoming {
-    background: #f1f4f2;
+    background: var(--gr-bg-soft);
     color: var(--gr-muted);
     font-weight: 500;
     font-size: 11px;
     padding: 2px 8px;
 }
 
-/* ---------- Feature card (unused now, kept for safety) ---------- */
-.feature-card-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
-}
-
 /* ============================================================
    Digital Tasbeeh Styles
    ============================================================ */
 .tb-card {
-    background: #fff;
+    background: var(--card-bg);
     border-radius: 16px;
     border: 1px solid var(--border);
     transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
@@ -746,13 +617,13 @@ body {
 }
 
 .tb-card:hover {
-    border-color: var(--border-hover, #CCDCD5);
+    border-color: var(--border-hover);
     box-shadow: 0 4px 12px rgba(18, 61, 46, 0.06);
 }
 
 .tb-card.tb-card-done {
-    background: #ffffff;
-    border-color: #d1e7dd;
+    background: var(--card-bg);
+    border-color: var(--success-soft);
     box-shadow: 0 2px 8px rgba(37, 132, 91, 0.06);
 }
 
@@ -771,13 +642,6 @@ body {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-}
-
-.tb-arabic {
-    font-size: 22px;
-    font-family: var(--font-arabic);
-    color: var(--brand);
-    line-height: 1.8;
 }
 
 .tb-meta {
@@ -887,7 +751,7 @@ body {
     margin: 0 auto;
     border-radius: 24px;
     background: var(--brand);
-    color: #fff;
+    color: var(--card-bg);
     border: none;
     position: relative;
     overflow: hidden;
@@ -906,7 +770,7 @@ body {
 }
 
 .tb-tap-zone.done {
-    background: #0f5132;
+    background: var(--gr-primary-dark);
 }
 
 .tb-ripple {
@@ -927,7 +791,7 @@ body {
 
 .tb-chip {
     border: 1.5px solid var(--border);
-    background: #fff;
+    background: var(--card-bg);
     border-radius: 10px;
     padding: 0.5rem 0.85rem;
     font-weight: 700;
@@ -947,7 +811,7 @@ body {
     padding: 0.6rem 0.75rem;
     font-weight: 700;
     font-size: 0.82rem;
-    background: #fff;
+    background: var(--card-bg);
     border: 1px solid var(--border);
     color: var(--ink);
     display: inline-flex;
@@ -973,7 +837,7 @@ body {
     transform: translateX(-50%);
     z-index: 1099;
     background: var(--ink);
-    color: #fff;
+    color: var(--card-bg);
     font-weight: 700;
     font-size: 0.85rem;
     padding: 0.6rem 1.25rem;
@@ -991,7 +855,7 @@ body {
 
 /* ---------- Tasbeeh Old Tracking & Period Styles ---------- */
 .tb-month-card {
-    background: #ffffff;
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 16px;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -1395,7 +1259,7 @@ body {
 }
 
 .pinned-dua-card {
-    background-color: #ffffff;
+    background-color: var(--card-bg);
     border-radius: 16px;
     padding: 18px 20px;
     display: flex;
@@ -1409,7 +1273,7 @@ body {
 }
 
 .pinned-dua-card:hover {
-    background: #fbfdfc;
+    background: var(--surface-bg);
     box-shadow: 0 8px 22px rgba(37, 132, 91, 0.12);
     transform: translateY(-1px);
 }
@@ -1471,7 +1335,7 @@ body {
     gap: 12px;
     padding: 14px 16px;
     border-radius: 14px;
-    background: #ffffff;
+    background: var(--card-bg);
     border: 1px solid var(--border);
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(18, 61, 46, 0.04);
@@ -1479,8 +1343,8 @@ body {
 }
 
 .dua-list-item:hover {
-    background: #fbfdfc;
-    border-color: #cde2d7;
+    background: var(--surface-bg);
+    border-color: var(--border-hover);
     transform: translateY(-1px);
 }
 
@@ -1549,7 +1413,7 @@ body {
 /* Detail View */
 .dua-back-btn {
     align-self: flex-start;
-    background: #ffffff;
+    background: var(--card-bg);
     border: 1px solid var(--border);
     padding: 8px 16px;
     border-radius: 10px;
@@ -1561,11 +1425,11 @@ body {
 }
 
 .dua-back-btn:hover {
-    background: #f0f7f3;
+    background: var(--brand-light);
 }
 
 .dua-card {
-    background-color: #ffffff;
+    background-color: var(--card-bg);
     border-radius: 18px;
     padding: 22px;
     display: flex;
@@ -1629,7 +1493,7 @@ body {
 }
 
 .dua-detail-icon-btn {
-    background: #ffffff;
+    background: var(--card-bg);
     border: 1px solid var(--border);
     padding: 10px 14px;
     border-radius: 12px;
@@ -1640,7 +1504,7 @@ body {
 }
 
 .dua-detail-icon-btn:hover {
-    background: #f0f7f3;
+    background: var(--brand-light);
 }
 
 .dua-detail-icon-btn.is-pinned {
@@ -1670,7 +1534,7 @@ body {
     height: 54px;
     border-radius: 50%;
     background: var(--brand);
-    color: #fff;
+    color: var(--card-bg);
     border: none;
     font-size: 20px;
     cursor: pointer;
@@ -1684,8 +1548,8 @@ body {
 
 .dua-fab:hover,
 .tb-fab:hover {
-    background: #1a6343;
-    color: #fff;
+    background: var(--btn-primary-hover);
+    color: var(--card-bg);
     transform: scale(1.05);
     box-shadow: 0 8px 24px rgba(37, 132, 91, 0.55);
 }
@@ -1720,7 +1584,7 @@ body {
 }
 
 .dua-modal {
-    background: #fff;
+    background: var(--card-bg);
     border-radius: 20px;
     width: 100%;
     max-width: 500px;
@@ -1757,7 +1621,7 @@ body {
 }
 
 .dua-modal-close:hover {
-    background: #eef3f0;
+    background: var(--brand-light);
 }
 
 .dua-form-group {
@@ -1791,7 +1655,7 @@ body {
     align-items: center;
     gap: 10px;
     padding: 10px 14px;
-    background: #f7faf8;
+    background: var(--surface-bg);
     border-radius: 10px;
     font-size: 0.9rem;
     border: 1px solid var(--border);
@@ -1844,11 +1708,6 @@ body {
     max-width: 380px;
 }
 
-.badge-icon-sm {
-    width: 40px !important;
-    height: 40px !important;
-}
-
 .info-icon-badge {
     width: 34px !important;
     height: 34px !important;
@@ -1861,7 +1720,7 @@ body {
 .timeline-track-line {
     position: absolute;
     height: 2px;
-    background: #d8e6de;
+    background: var(--divider);
     top: 54px;
     left: 10%;
     right: 10%;
@@ -1880,10 +1739,6 @@ body {
     width: 30px;
     height: 3px;
     margin-top: 2px;
-}
-
-.progress-thin {
-    height: 6px !important;
 }
 
 .btn-h-42 {

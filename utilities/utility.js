@@ -182,6 +182,10 @@ if (typeof window !== 'undefined') {
     window.vibrate = vibrate;
     window.createRipple = createRipple;
     window.showToast = showToast;
+    window.tMT = tMT;
+    window.mBD = mBD;
+    window.getTodayMissedCount = getTodayMissedCount;
+    window.getConsolidatedMissedCount = getConsolidatedMissedCount;
 }
 
 function parseTimeToMin(timeStr) {
@@ -254,9 +258,14 @@ function mBD() {
     var a = rd();
     var today = td();
     return Object.keys(a).sort()
-        .filter(function (d) { return d !== today; })
+        .filter(function (d) { return d < today; })
         .map(function (d) {
-            return { date: d, prayers: P.filter(function (p) { return a[d][p] === true; }) };
+            return {
+                date: d,
+                prayers: P.filter(function (p) {
+                    return a[d][p] === true || a[d][p] === 'missed';
+                })
+            };
         })
         .filter(function (x) { return x.prayers.length > 0; });
 }
@@ -266,10 +275,29 @@ function tMT() {
     var today = td();
     var t = 0;
     Object.keys(a).forEach(function (d) {
-        if (d === today) return;
-        P.forEach(function (p) { if (a[d][p] === true) t++; });
+        if (d >= today) return;
+        P.forEach(function (p) {
+            if (a[d][p] === true || a[d][p] === 'missed') t++;
+        });
     });
     return t;
+}
+
+function getTodayMissedCount() {
+    var today = td();
+    var r = gr(today);
+    var curActive = typeof getActivePrayerInfo === 'function' ? getActivePrayerInfo() : null;
+    var curPrayerName = curActive ? curActive.name : null;
+    return P.filter(function (p) {
+        if (typeof isDonePrayer === 'function' ? isDonePrayer(p, today, r) : (r && r[p] === 'done')) return false;
+        if (typeof isPrayerUpcoming === 'function' && isPrayerUpcoming(p, today)) return false;
+        if (curPrayerName && curPrayerName === p && (!r || r[p] !== 'missed')) return false;
+        return true;
+    }).length;
+}
+
+function getConsolidatedMissedCount() {
+    return tMT() + getTodayMissedCount();
 }
 
 function datesInRange(s, e) {
@@ -322,22 +350,8 @@ function currentOldDate() {
 }
 
 function shrinkOldPeriod() {
-    var o = rdOK();
-    if (!o) return;
-    var a = rdOC();
-    var cur = o.end;
-    var changed = false;
-    while (cur >= o.start) {
-        var r = a[cur] || {};
-        var mc = P.filter(function (p) { return r[p] === true; }).length;
-        if (mc === 0) { delete a[cur]; cur = prevDate(cur); changed = true; }
-        else break;
-    }
-    if (changed) {
-        LS.set(OCK, a);
-        if (cur < o.start) { localStorage.removeItem(OK); return; }
-        wrOK({ start: o.start, end: cur, created: o.created });
-    }
+    // Deprecated: automatic shrinking removed to preserve date integrity
+    return;
 }
 
 /* ---------- Font size ---------- */
@@ -410,19 +424,16 @@ function handleClick(e) {
         rn();
     } else if (act === 'missed-open') {
         rMS();
+    } else if (act === 'old-open-cal') {
+        if (typeof openOldCal === 'function') openOldCal();
     } else if (act === 'open-cal') {
-        openCal();
+        if (typeof trackerSubTab !== 'undefined' && trackerSubTab === 'old') {
+            if (typeof openOldCal === 'function') openOldCal();
+        } else {
+            openCal();
+        }
     } else if (act === 'old-info') {
         rOldInfo();
-    } else if (act === 'old-mark-all-done') {
-        var curD = currentOldDate();
-        if (!curD) return;
-        if (!confirm('Mark all prayers as Done for ' + fr(curD) + '?')) return;
-        var cOld = grO(curD);
-        P.forEach(function (x) { cOld[x] = false; });
-        srO(curD, cOld);
-        shrinkOldPeriod();
-        rOT();
     } else if (act === 'toggle-old') {
         var p2 = t.dataset.p, d2 = t.dataset.d;
         var c3 = grO(d2);
@@ -432,7 +443,11 @@ function handleClick(e) {
             : 'Mark ' + p2 + ' as Missed for ' + fr(d2) + '?')) return;
         c3[p2] = !was2;
         srO(d2, c3);
-        shrinkOldPeriod();
+        if (typeof setOldSd === 'function') {
+            setOldSd(d2);
+        } else if (typeof oldSd !== 'undefined') {
+            oldSd = d2;
+        }
         rOT();
     } else if (act === 'old-change-period') {
         rPeriod();
@@ -497,11 +512,13 @@ function handleClick(e) {
         if (!confirm('Save Old Tracking Period from ' + fr(s) + ' to ' + fr(en2) + '?')) return;
         wrOK({ start: s, end: en2, created: Date.now() });
         ensureAllOldMissed();
+        if (typeof setOldSd === 'function') setOldSd(en2);
         rOldInfo();
     } else if (act === 'old-clear') {
         if (confirm('Clear the saved Old Tracking period and all its data?')) {
             localStorage.removeItem(OK);
             localStorage.removeItem(OCK);
+            if (typeof setOldSd === 'function') setOldSd(null);
             sheet2BS.hide();
             rOT();
         }

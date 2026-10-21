@@ -79,7 +79,9 @@ function formatChipDate(dateStr) {
     var d = new Date(dateStr + 'T00:00:00');
     var day = d.getDate();
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    return day + ' ' + months[d.getMonth()];
+    var currentYear = new Date().getFullYear();
+    var yearStr = d.getFullYear() !== currentYear ? (' ' + d.getFullYear()) : '';
+    return day + ' ' + months[d.getMonth()] + yearStr;
 }
 
 /**
@@ -255,17 +257,23 @@ function renderPrayerTrackerCard(cfg) {
         : '';
     var missedTitle = cfg.missedTitle || 'MISSED';
 
+    var rightSideHtml = '';
+    if (cfg.rightActionHtml) {
+        rightSideHtml = cfg.rightActionHtml;
+    } else if (cfg.actionBtnText) {
+        rightSideHtml = '<button type="button" class="btn-text"' + actionBtnActAttr + ' data-ref="' + prefix + '.card.header.action-btn">' + cfg.actionBtnText + '</button>';
+    }
+
     return '<div class="prayer-tracker-card mx-auto" data-ref="' + prefix + '.card">' +
         '  <!-- Header: Date & Global Actions -->' +
         '  <header class="tracker-header" data-ref="' + prefix + '.card.header">' +
-        '    <div class="header-status" data-ref="' + prefix + '.card.header.status">' +
-        badgeHtml +
-        '      <button type="button" class="btn-text"' + actionBtnActAttr + ' data-ref="' + prefix + '.card.header.action-btn">' + (cfg.actionBtnText || 'Select All') + '</button>' +
-        '    </div>' +
         '    <button type="button" class="date-chip"' + dateChipActAttr + ' aria-label="Select date" data-ref="' + prefix + '.card.header.date-chip">' +
         PRAYER_CARD_ICONS.Calendar +
         '      <span data-ref="' + prefix + '.card.header.date-text">' + (cfg.dateChipText || '') + '</span>' +
         '    </button>' +
+        '    <div class="header-status" data-ref="' + prefix + '.card.header.status">' +
+        rightSideHtml +
+        '    </div>' +
         '  </header>' +
 
         '  <!-- Section 1: Missed / Pending Prayers -->' +

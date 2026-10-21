@@ -1,5 +1,6 @@
 /* ---------- Old Tracking ---------- */
 
+var oldSd = null;
 
 function rOldInfo() {
     var o = rdOK();
@@ -122,9 +123,37 @@ function rPeriod() {
     sheet2BS.show();
 }
 
+function openOldCal() {
+    var oldDp = $('oldDp');
+    if (!oldDp) return;
+    var o = rdOK();
+    if (o) {
+        oldDp.min = o.start;
+        oldDp.max = o.end;
+        if (oldSd) oldDp.value = oldSd;
+    }
+    if (oldDp.showPicker) {
+        try { oldDp.showPicker(); return; } catch (e) { }
+    }
+    oldDp.focus();
+    oldDp.click();
+}
+
+function goOld(d) {
+    var o = rdOK();
+    if (!o || !d) return;
+    if (d < o.start) d = o.start;
+    if (d > o.end) d = o.end;
+    oldSd = d;
+    rOT();
+}
+
+function setOldSd(d) {
+    oldSd = d;
+}
+
 function rOT() {
     ensureAllOldMissed();
-    shrinkOldPeriod();
 
     var o = rdOK();
     var lst = $('oldBody');
@@ -137,36 +166,40 @@ function rOT() {
             '<i class="fa-regular fa-calendar-plus display-4 mb-3 text-warning"></i>' +
             '<p class="fw-bold mb-1 text-warning">No period selected</p>' +
             '<p class="text-muted small mb-0">Tap the bookmark button above to set your Old Tracking period.</p>' +
+            '<button type="button" class="btn btn-brand btn-sm mt-3 fw-bold" data-act="old-change-period"><i class="fa-solid fa-plus me-1"></i>Set Period</button>' +
             '</div>';
         return;
     }
     sub.textContent = fr(o.start) + ' → ' + fr(o.end);
 
-    var curDate = currentOldDate();
-    if (!curDate) {
-        lst.innerHTML = '<div class="text-center text-muted py-5 px-3 bg-white rounded-4 shadow-sm" data-ref="page.old.all-completed">' +
-            '<i class="fa-solid fa-circle-check display-4 mb-3 text-success"></i>' +
-            '<p class="fw-bold mb-2 text-gr-accent">All days complete!</p>' +
-            '<p class="text-muted small mb-0">The Old Tracking period has been fully cleared.</p>' +
-            '</div>';
-        return;
+    if (!oldSd || oldSd < o.start || oldSd > o.end) {
+        oldSd = currentOldDate() || o.end;
+    }
+    var curDate = oldSd;
+
+    var oldDp = $('oldDp');
+    if (oldDp) {
+        oldDp.min = o.start;
+        oldDp.max = o.end;
+        oldDp.value = curDate;
     }
 
     var r = grO(curDate);
     var missed = P.filter(function (p) { return r[p] === true; });
     var done = P.filter(function (p) { return r[p] !== true; });
 
-    var dateChipText = friendly(curDate) + ' · ' + formatChipDate(curDate);
+    var dateChipText = formatChipDate(curDate);
 
     var html = renderPrayerTrackerCard({
         pagePrefix: 'page.old',
         collapsePrefix: 'old',
         badgeText: '',
         badgeAct: '',
-        actionBtnText: 'Mark All Done',
-        actionBtnAct: 'old-mark-all-done',
         dateChipText: dateChipText,
-        dateChipAct: 'old-info',
+        dateChipAct: 'old-open-cal',
+        rightActionHtml: '<button type="button" class="btn-text btn-icon-only" data-act="old-info" title="Period Summary" aria-label="Period Summary" data-ref="page.old.card.header.summary-btn page.old.card.header.action-btn">' +
+            '<i class="fa-solid fa-chart-simple fs-5 text-gr-accent" data-ref="page.old.card.header.summary-icon"></i>' +
+            '</button>',
         missedPrayers: missed,
         donePrayers: done,
         timings: T,
@@ -178,4 +211,14 @@ function rOT() {
     });
 
     lst.innerHTML = html;
+}
+
+if (typeof window !== 'undefined') {
+    window.rOT = rOT;
+    window.rOldInfo = rOldInfo;
+    window.rPeriod = rPeriod;
+    window.openOldCal = openOldCal;
+    window.goOld = goOld;
+    window.setOldSd = setOldSd;
+    window.oldSd = oldSd;
 }
