@@ -103,6 +103,24 @@
     --gr-header-shadow: rgba(0, 0, 0, 0.15);
     --gr-btn-shadow: rgba(37, 132, 91, 0.3);
     --gr-btn-shadow-hover: rgba(37, 132, 91, 0.45);
+
+    /* Nur Prayer Design Tokens & Global Aliases */
+    --brand: var(--gr-primary);
+    --brand-light: #e8f4ed;
+    --brand-soft: #f4f8f5;
+    --bg: #e8f4ed;
+    --bg-soft: var(--surface-bg);
+    --ink: var(--text-primary);
+    --ink-soft: var(--text-secondary);
+    --ink-muted: var(--text-muted);
+    --danger: var(--gr-danger);
+    --danger-soft: var(--gr-danger-soft);
+    --success-soft: var(--gr-success-soft);
+    --warn: var(--gr-warning);
+    --info: var(--blue500);
+    --purple: #6f42c1;
+    --border: #eef2f0;
+    --divider: #d6dcd9;
 }
 
 /* ==========================================

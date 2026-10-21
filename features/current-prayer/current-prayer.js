@@ -25,7 +25,7 @@ function rn() {
     var curPrayerName = curActive ? curActive.name : null;
 
     var actualMissedCount = missed.filter(function (p) {
-        return upcoming.indexOf(p) === -1 && p !== curPrayerName;
+        return upcoming.indexOf(p) === -1 && (p !== curPrayerName || r[p] === 'missed');
     }).length;
     var badgeText = actualMissedCount > 0 ? ('Missed (' + actualMissedCount + ')') : 'Missed';
     var actionBtnText = isToday ? 'Select All' : 'Today';
@@ -51,6 +51,28 @@ function rn() {
     });
 
     $('currentBody').innerHTML = html;
+
+    updateCurrentMissedBadge();
+}
+
+function updateCurrentMissedBadge() {
+    var totalMissed = typeof getConsolidatedMissedCount === 'function'
+        ? getConsolidatedMissedCount()
+        : 0;
+    var missedBtn = $('currentMissedBtn');
+    var missedBadge = $('currentMissedBadge');
+    if (missedBadge) {
+        if (totalMissed > 0) {
+            missedBadge.textContent = totalMissed;
+            missedBadge.classList.remove('d-none');
+        } else {
+            missedBadge.textContent = '';
+            missedBadge.classList.add('d-none');
+        }
+    }
+    if (missedBtn) {
+        missedBtn.title = totalMissed > 0 ? ('Missed Prayers (' + totalMissed + ')') : 'Missed Prayers';
+    }
 }
 
 function go(d) {
@@ -104,4 +126,11 @@ function rMS() {
             list.map(missCard).join('') + '</div>';
     }
     sheet2BS.show();
+}
+
+if (typeof window !== 'undefined') {
+    window.rn = rn;
+    window.go = go;
+    window.rMS = rMS;
+    window.updateCurrentMissedBadge = updateCurrentMissedBadge;
 }

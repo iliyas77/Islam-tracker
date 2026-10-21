@@ -339,8 +339,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* Date picker */
     $('dp').onchange = function (e) { if (e.target.value) go(e.target.value); };
+    if ($('oldDp')) {
+        $('oldDp').onchange = function (e) { if (e.target.value && typeof goOld === 'function') goOld(e.target.value); };
+    }
 
     /* Action buttons */
     if ($('currentActionBtn')) $('currentActionBtn').onclick = openCal;
+    if ($('currentMissedBtn')) $('currentMissedBtn').onclick = rMS;
     $('oldActionBtn').onclick = rOldInfo;
+
+    if (typeof updateCurrentMissedBadge === 'function') {
+        updateCurrentMissedBadge();
+    }
 });

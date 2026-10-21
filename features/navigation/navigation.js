@@ -12,6 +12,7 @@ function switchTrackerSubTab(subTab) {
     var bodyOld = $('oldBody');
     var oldSub = $('oldSub');
     var oldActionBtn = $('oldActionBtn');
+    var currentMissedBtn = $('currentMissedBtn');
     var headerIcon = $('trackerHeaderIcon');
     var headerLabel = $('trackerHeaderLabel');
 
@@ -28,6 +29,7 @@ function switchTrackerSubTab(subTab) {
         if (bodyOld) bodyOld.classList.remove('d-none');
         if (oldSub) oldSub.classList.remove('d-none');
         if (oldActionBtn) oldActionBtn.classList.remove('d-none');
+        if (currentMissedBtn) currentMissedBtn.classList.add('d-none');
         if (headerIcon) {
             headerIcon.className = 'fa-solid fa-clock-rotate-left text-warning';
         }
@@ -46,6 +48,7 @@ function switchTrackerSubTab(subTab) {
         if (bodyOld) bodyOld.classList.add('d-none');
         if (oldSub) oldSub.classList.add('d-none');
         if (oldActionBtn) oldActionBtn.classList.add('d-none');
+        if (currentMissedBtn) currentMissedBtn.classList.remove('d-none');
         if (headerIcon) {
             headerIcon.className = 'fa-regular fa-calendar text-gr-accent';
         }
