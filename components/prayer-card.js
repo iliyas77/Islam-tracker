@@ -5,38 +5,8 @@
    ============================================================ */
 
 
-var PRAYER_CARD_ICONS = {
-    Fajr: '<svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">' +
-        '<path d="M12 2v6M4.93 10.93l1.41 1.41M19.07 10.93l-1.41 1.41M2 18h20M4 22h16M8 18a4 4 0 018 0"/>' +
-        '<circle cx="12" cy="11" r="3"/>' +
-        '</svg>',
-    Dhuhr: '<svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">' +
-        '<circle cx="12" cy="12" r="4" />' +
-        '<path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />' +
-        '</svg>',
-    Asr: '<svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">' +
-        '<path d="M17.5 19H9a7 7 0 116.71-9h1.79a4.5 4.5 0 110 9z" />' +
-        '</svg>',
-    Maghrib: '<svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">' +
-        '<path d="M12 10V2M4.93 10.93l1.41-1.41M19.07 10.93l-1.41-1.41M2 18h20M4 22h16M8 18a4 4 0 018 0" />' +
-        '</svg>',
-    Isha: '<svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">' +
-        '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />' +
-        '</svg>',
-    DoneCheck: '<svg class="icon-md" viewBox="0 0 20 20" fill="currentColor">' +
-        '<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />' +
-        '</svg>',
-    DoneCheckSm: '<svg class="icon-sm" viewBox="0 0 20 20" fill="currentColor">' +
-        '<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />' +
-        '</svg>',
-    Warning: '<svg class="icon-sm" viewBox="0 0 20 20" fill="currentColor">' +
-        '<path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />' +
-        '</svg>',
-    Calendar: '<svg class="icon-sm" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75">' +
-        '<rect x="3" y="4" width="14" height="13" rx="2" />' +
-        '<path d="M16 2v4M4 2v4M3 8h14" />' +
-        '</svg>'
-};
+var PRAYER_CARD_ICONS = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.CARD_ICONS) || window.PRAYER_CARD_ICONS || {};
+
 
 function parseTimeToMin(timeStr) {
     if (!timeStr) return -1;

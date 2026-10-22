@@ -2,40 +2,29 @@
    Nur Prayer — Application Logic
    ============================================================ */
 
-/* ---------- Constants ---------- */
-var P = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-var K = 'namazTrackerData';
-var OCK = 'namazOldData';
-var FK = 'namazFontSize';
-var SK = 'namazStartDate';
-var OK = 'namazOldPeriod';
+/* ---------- Constants (Referenced from utilities/constant.js) ---------- */
+var P = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.NAMES) || window.P || ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+var K = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS.TRACKER_DATA) || window.K || 'namazTrackerData';
+var OCK = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS.OLD_DATA) || window.OCK || 'namazOldData';
+var FK = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS.FONT_SIZE) || window.FK || 'namazFontSize';
+var SK = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS.START_DATE) || window.SK || 'namazStartDate';
+var OK = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS.OLD_PERIOD) || window.OK || 'namazOldPeriod';
 
 /* Prayer Timings Storage Keys */
-var PTK_CACHE = 'namazPrayerTimingsCache';
-var PTK_CONFIG = 'namazPrayerConfig';
+var PTK_CACHE = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS.TIMINGS_CACHE) || window.PTK_CACHE || 'namazPrayerTimingsCache';
+var PTK_CONFIG = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS.CONFIG) || window.PTK_CONFIG || 'namazPrayerConfig';
 
-var defaultPrayerConfig = {
+var defaultPrayerConfig = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.DEFAULT_CONFIG) || window.defaultPrayerConfig || {
     city: 'Guntur',
     country: 'India',
-    method: 1, // University of Islamic Sciences, Karachi
-    school: 1  // 1 = Hanafi, 0 = Shafi
+    method: 1,
+    school: 1
 };
 
-var T = {
-    Fajr: '04:49 AM',
-    Dhuhr: '11:54 AM',
-    Asr: '04:10 PM',
-    Maghrib: '05:47 PM',
-    Isha: '06:59 PM'
-};
+var T = window.T || Object.assign({}, (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.DEFAULT_TIMINGS) || {});
+window.T = T;
 
-var I = {
-    Fajr: '<i class="fa-solid fa-sun text-warning"></i>',
-    Dhuhr: '<i class="fa-solid fa-sun text-warning"></i>',
-    Asr: '<i class="fa-solid fa-cloud-sun text-warning"></i>',
-    Maghrib: '<i class="fa-solid fa-mountain-sun text-warning"></i>',
-    Isha: '<i class="fa-solid fa-moon text-primary"></i>'
-};
+var I = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.FA_ICONS) || window.I || {};
 
 /* ---------- State ---------- */
 var sd = td();

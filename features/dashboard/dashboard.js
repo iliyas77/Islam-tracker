@@ -133,13 +133,8 @@ function getActivePrayerInfo() {
     };
 }
 
-var TIMELINE_ICONS = {
-    Fajr: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1zm6.36 2.05a1 1 0 0 1 0 1.41l-1.41 1.42a1 1 0 1 1-1.42-1.42l1.42-1.41a1 1 0 0 1 1.41 0zM21 11a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2h2zM7.05 6.05a1 1 0 0 1 1.41 1.41L7.05 8.88A1 1 0 0 1 5.64 7.46l1.41-1.41zM5 11a1 1 0 1 1 0 2H3a1 1 0 1 1 0-2h2zm7 3a4 4 0 0 0-3.87 3H3a1 1 0 1 0 0 2h18a1 1 0 1 0 0-2h-5.13A4 4 0 0 0 12 14z"/></svg>',
-    Dhuhr: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4.5"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3m-3.8-8.2l-2.1 2.1m-8.2 8.2l-2.1 2.1m0-12.4l2.1 2.1m8.2 8.2l2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
-    Asr: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4.5"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3m-3.8-8.2l-2.1 2.1m-8.2 8.2l-2.1 2.1m0-12.4l2.1 2.1m8.2 8.2l2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
-    Maghrib: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1zm6.36 2.05a1 1 0 0 1 0 1.41l-1.41 1.42a1 1 0 1 1-1.42-1.42l1.42-1.41a1 1 0 0 1 1.41 0zM21 11a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2h2zM7.05 6.05a1 1 0 0 1 1.41 1.41L7.05 8.88A1 1 0 0 1 5.64 7.46l1.41-1.41zM5 11a1 1 0 1 1 0 2H3a1 1 0 1 1 0-2h2zm7 3a4 4 0 0 0-3.87 3H3a1 1 0 1 0 0 2h18a1 1 0 1 0 0-2h-5.13A4 4 0 0 0 12 14z"/></svg>',
-    Isha: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12.3 2a10 10 0 0 0-1.9 19.8 10 10 0 0 0 11.4-11.4 1 1 0 0 0-1.1-.9 1 1 0 0 0-.9.6 8 8 0 0 1-9.9-9.9 1 1 0 0 0-.6-.9 1 1 0 0 0-.9-.3z"/><circle cx="16" cy="7" r="1.5"/></svg>'
-};
+var TIMELINE_ICONS = (window.CONSTANTS && window.CONSTANTS.DASHBOARD && window.CONSTANTS.DASHBOARD.TIMELINE_ICONS) || window.TIMELINE_ICONS || {};
+
 
 /* ---------- Dashboard Render ---------- */
 function rDashboard() {
