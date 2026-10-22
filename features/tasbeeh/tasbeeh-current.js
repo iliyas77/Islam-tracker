@@ -12,14 +12,14 @@
 'use strict';
 
 window.TasbeehCurrentApp = (function () {
-    /* ---------- Constants & Presets ---------- */
-    var STORAGE_KEY = 'app_tasbeeh_data';
-    var DAY_KEY = 'app_tasbeeh_day';
-    var INFINITE_LAP = 33;
-    var MAX_BEADS = 60;
-    var SVG_NS = 'http://www.w3.org/2000/svg';
-
-    var DEFAULT_PRESETS = [
+    /* ---------- Constants & Presets (Referenced from utilities/constant.js) ---------- */
+    var TASBEEH_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.TASBEEH) || {};
+    var STORAGE_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.DATA) || 'app_tasbeeh_data';
+    var DAY_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.DAY) || 'app_tasbeeh_day';
+    var INFINITE_LAP = typeof TASBEEH_CONSTANTS.INFINITE_LAP === 'number' ? TASBEEH_CONSTANTS.INFINITE_LAP : 33;
+    var MAX_BEADS = typeof TASBEEH_CONSTANTS.MAX_BEADS === 'number' ? TASBEEH_CONSTANTS.MAX_BEADS : 60;
+    var SVG_NS = TASBEEH_CONSTANTS.SVG_NS || 'http://www.w3.org/2000/svg';
+    var DEFAULT_PRESETS = TASBEEH_CONSTANTS.DEFAULT_PRESETS || [
         { title: 'SubhanAllah', targetCount: 33, targetCycles: 3 },
         { title: 'Alhamdulillah', targetCount: 33, targetCycles: 3 },
         { title: 'Allahu Akbar', targetCount: 34, targetCycles: 3 },
@@ -154,24 +154,34 @@ window.TasbeehCurrentApp = (function () {
     function renderCurrentCardHtml(item, isComplete) {
         var isInfinite = item.targetCount === 'infinite';
         var prog = computeProgress(item);
-        var metaLine = isInfinite
-            ? 'Target: ∞ · Cycles: ∞ · Recited: <strong>' + item.currentCount + '</strong>'
-            : 'Target: ' + item.targetCount + ' · Cycles: ' + item.targetCycles + ' · Done: <strong>' + prog.done + '</strong>/' + prog.total;
+        var icons = (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.ICONS) || {};
 
-        return '<div class="tb-card p-3 shadow-sm ' + (isComplete ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-ref="page.tasbeeh.card" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
-            '<div class="d-flex align-items-center gap-3" data-ref="page.tasbeeh.card.header">' +
-            '<div class="tb-badge ' + (isComplete ? 'bg-success-subtle text-success' : '') + '" data-ref="page.tasbeeh.card.icon">' +
-            '<i class="fa-solid fa-ring"></i>' +
+        var targetDisplay = isInfinite ? '∞' : item.targetCount;
+        var cyclesDisplay = isInfinite ? '∞' : item.targetCycles;
+        var totalDisplay = isInfinite ? '' : ('/' + prog.total);
+
+        return '<div class="tb-card ' + (isComplete ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-ref="page.tasbeeh.card" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
+            '<div class="tb-card-icon-box" data-ref="page.tasbeeh.card.icon">' +
+            (icons.MISBAHA || '') +
             '</div>' +
-            '<div class="flex-grow-1 min-w-0" data-ref="page.tasbeeh.card.info">' +
-            '<div class="d-flex align-items-center justify-content-between gap-2">' +
-            '<h6 class="fw-bold mb-0 text-truncate text-gr1" data-ref="page.tasbeeh.card.title">' + escHtml(item.title) + '</h6>' +
-            (isComplete ? '<span class="badge-pill-custom badge-done py-1 px-2 fs-xs flex-shrink-0"><i class="fa-solid fa-check me-1"></i>Completed</span>' : '') +
+            '<div class="tb-card-content" data-ref="page.tasbeeh.card.info">' +
+            '<h6 class="tb-card-title" data-ref="page.tasbeeh.card.title">' + escHtml(item.title) + '</h6>' +
+            '<div class="tb-card-meta" data-ref="page.tasbeeh.card.meta">' +
+            '<div class="tb-meta-row">' +
+            (icons.TARGET || '') +
+            '<span class="tb-meta-text">Target: <span class="tb-val-num">' + targetDisplay + '</span><span class="tb-meta-dot">·</span>Cycles: <span class="tb-val-num">' + cyclesDisplay + '</span></span>' +
             '</div>' +
-            '<div class="tb-meta mt-1" data-ref="page.tasbeeh.card.meta">' + metaLine + '</div>' +
+            '<div class="tb-meta-row">' +
+            (icons.CHECK_CIRCLE || '') +
+            '<span class="tb-meta-text">Done: <strong class="tb-val-done">' + prog.done + '</strong><span class="tb-val-total">' + totalDisplay + '</span></span>' +
             '</div>' +
-            '<button type="button" class="btn btn-light rounded-3 px-3 py-2 border flex-shrink-0 btn-h-42" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr" data-ref="page.tasbeeh.card.edit-btn">' +
-            '<i class="fa-solid fa-pen text-secondary"></i></button>' +
+            '</div>' +
+            '</div>' +
+            '<div class="tb-card-actions">' +
+            '<button type="button" class="tb-btn-edit" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr" data-ref="page.tasbeeh.card.edit-btn">' +
+            (icons.PENCIL || '') +
+            '</button>' +
+            (icons.CHEVRON || '') +
             '</div>' +
             '</div>';
     }

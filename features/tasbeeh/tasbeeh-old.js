@@ -11,8 +11,8 @@
 'use strict';
 
 window.TasbeehOldApp = (function () {
-    /* ---------- Constants ---------- */
-    var PERIOD_KEY = 'app_tasbeeh_period';
+    /* ---------- Constants (Referenced from utilities/constant.js) ---------- */
+    var PERIOD_KEY = (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.STORAGE_KEYS && window.CONSTANTS.TASBEEH.STORAGE_KEYS.PERIOD) || 'app_tasbeeh_period';
 
     /* ---------- State ---------- */
     var currentOldMonthKey = null; // Currently active / displayed old month
@@ -198,24 +198,35 @@ window.TasbeehOldApp = (function () {
     function renderOldCardHtml(item, isDhikrDone, curOldMonth, monthName) {
         var isInfinite = item.targetCount === 'infinite';
         var countInMonth = (item.monthlyHistory && item.monthlyHistory[curOldMonth]) || 0;
-        var targetTotal = isInfinite ? '∞' : (item.targetCount * item.targetCycles);
+        var targetTotal = isInfinite ? null : (item.targetCount * item.targetCycles);
+        var icons = (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.ICONS) || {};
 
-        var metaLine = isInfinite
-            ? 'Target: ∞ · Recited in ' + monthName + ': <strong>' + countInMonth.toLocaleString() + '</strong>'
-            : 'Target: ' + item.targetCount + ' · Cycles: ' + item.targetCycles + ' · Done: <strong>' + countInMonth.toLocaleString() + '</strong>/' + targetTotal;
+        var targetDisplay = isInfinite ? '∞' : item.targetCount;
+        var cyclesDisplay = isInfinite ? '∞' : item.targetCycles;
+        var totalDisplay = isInfinite ? '' : ('/' + targetTotal);
 
-        return '<div class="tb-card p-3 shadow-sm ' + (isDhikrDone ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-month="' + curOldMonth + '" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
-            '<div class="d-flex align-items-center gap-3">' +
-            '<div class="tb-badge ' + (isDhikrDone ? 'bg-success-subtle text-success' : '') + '">' +
-            '<i class="fa-solid fa-ring"></i>' +
+        return '<div class="tb-card ' + (isDhikrDone ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-month="' + curOldMonth + '" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
+            '<div class="tb-card-icon-box">' +
+            (icons.MISBAHA || '') +
             '</div>' +
-            '<div class="flex-grow-1 min-w-0">' +
-            '<div class="d-flex align-items-center justify-content-between gap-2">' +
-            '<h6 class="fw-bold mb-0 text-truncate text-gr1">' + escHtml(item.title) + '</h6>' +
-            (isDhikrDone ? '<span class="badge-pill-custom badge-done py-1 px-2 fs-xs flex-shrink-0"><i class="fa-solid fa-check me-1"></i>Completed</span>' : '') +
+            '<div class="tb-card-content">' +
+            '<h6 class="tb-card-title">' + escHtml(item.title) + '</h6>' +
+            '<div class="tb-card-meta">' +
+            '<div class="tb-meta-row">' +
+            (icons.TARGET || '') +
+            '<span class="tb-meta-text">Target: <span class="tb-val-num">' + targetDisplay + '</span><span class="tb-meta-dot">·</span>Cycles: <span class="tb-val-num">' + cyclesDisplay + '</span></span>' +
             '</div>' +
-            '<div class="tb-meta mt-1">' + metaLine + '</div>' +
+            '<div class="tb-meta-row">' +
+            (icons.CHECK_CIRCLE || '') +
+            '<span class="tb-meta-text">Done: <strong class="tb-val-done">' + countInMonth.toLocaleString() + '</strong><span class="tb-val-total">' + totalDisplay + '</span></span>' +
             '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="tb-card-actions">' +
+            '<button type="button" class="tb-btn-edit" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr">' +
+            (icons.PENCIL || '') +
+            '</button>' +
+            (icons.CHEVRON || '') +
             '</div>' +
             '</div>';
     }
@@ -531,6 +542,18 @@ window.TasbeehOldApp = (function () {
                         resetAllCompleted();
                     } else if (act === 'tb-open-settings' || act === 'tb-change-period') {
                         openPeriodModal();
+                    }
+                    return;
+                }
+
+                var editBtn = e.target.closest('button[data-act="tb-edit"]');
+                if (editBtn) {
+                    var cardForEdit = editBtn.closest('.tb-card[data-id]');
+                    if (cardForEdit) {
+                        e.stopPropagation();
+                        if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.openModal === 'function') {
+                            window.TasbeehCurrentApp.openModal(cardForEdit.dataset.id);
+                        }
                     }
                     return;
                 }

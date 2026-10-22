@@ -1,41 +1,11 @@
-/* ---------- Settings ---------- */
-var INDIAN_CITIES = [
-    { name: 'Guntur', state: 'Andhra Pradesh', group: 'Popular Andhra Pradesh Cities' },
-    { name: 'Vijayawada', state: 'Andhra Pradesh', group: 'Popular Andhra Pradesh Cities' },
-    { name: 'Visakhapatnam', state: 'Andhra Pradesh', group: 'Popular Andhra Pradesh Cities' },
-    { name: 'Tirupati', state: 'Andhra Pradesh', group: 'Popular Andhra Pradesh Cities' },
-    { name: 'Kurnool', state: 'Andhra Pradesh', group: 'Popular Andhra Pradesh Cities' },
-    { name: 'Nellore', state: 'Andhra Pradesh', group: 'Popular Andhra Pradesh Cities' },
-
-    { name: 'Delhi', state: 'National Capital Region', group: 'Major Indian Metros' },
-    { name: 'Hyderabad', state: 'Telangana', group: 'Major Indian Metros' },
-    { name: 'Bengaluru', state: 'Karnataka', group: 'Major Indian Metros' },
-    { name: 'Mumbai', state: 'Maharashtra', group: 'Major Indian Metros' },
-    { name: 'Chennai', state: 'Tamil Nadu', group: 'Major Indian Metros' },
-    { name: 'Kolkata', state: 'West Bengal', group: 'Major Indian Metros' },
-
-    { name: 'Ahmedabad', state: 'Gujarat', group: 'Other Prominent Cities' },
-    { name: 'Lucknow', state: 'Uttar Pradesh', group: 'Other Prominent Cities' },
-    { name: 'Pune', state: 'Maharashtra', group: 'Other Prominent Cities' },
-    { name: 'Jaipur', state: 'Rajasthan', group: 'Other Prominent Cities' },
-    { name: 'Bhopal', state: 'Madhya Pradesh', group: 'Other Prominent Cities' },
-    { name: 'Patna', state: 'Bihar', group: 'Other Prominent Cities' },
-    { name: 'Srinagar', state: 'Jammu & Kashmir', group: 'Other Prominent Cities' },
-    { name: 'Kozhikode', state: 'Kerala', group: 'Other Prominent Cities' },
-    { name: 'Kochi', state: 'Kerala', group: 'Other Prominent Cities' },
-    { name: 'Indore', state: 'Madhya Pradesh', group: 'Other Prominent Cities' },
-    { name: 'Nagpur', state: 'Maharashtra', group: 'Other Prominent Cities' },
-    { name: 'Kanpur', state: 'Uttar Pradesh', group: 'Other Prominent Cities' },
-    { name: 'Surat', state: 'Gujarat', group: 'Other Prominent Cities' },
-    { name: 'Aurangabad', state: 'Maharashtra', group: 'Other Prominent Cities' },
-    { name: 'Chandigarh', state: 'Punjab/Haryana', group: 'Other Prominent Cities' }
-];
+/* ---------- Settings (Constants referenced from utilities/constant.js) ---------- */
+var INDIAN_CITIES = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window.CONSTANTS.SETTINGS.INDIAN_CITIES) || window.INDIAN_CITIES || [];
 
 function rSET() {
     var fs = rdFS();
     var sdate = rdSD();
     var cfg = typeof getPrayerConfig === 'function' ? getPrayerConfig() : { city: 'Guntur', country: 'India', school: 1 };
-    var opts = [{ v: 0.9, l: 'Small' }, { v: 1, l: 'Medium' }, { v: 1.15, l: 'Large' }];
+    var opts = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window.CONSTANTS.SETTINGS.FONT_SIZE_OPTIONS) || [{ v: 0.9, l: 'Small' }, { v: 1, l: 'Medium' }, { v: 1.15, l: 'Large' }];
     var fsb = opts.map(function (o) {
         var a = Math.abs(fs - o.v) < 0.01;
         return '<button type="button" class="btn ' + (a ? 'btn-brand' : 'btn-light border') +

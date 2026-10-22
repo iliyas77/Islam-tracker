@@ -1,6 +1,6 @@
-/* ---------- Navigation ---------- */
-var PAGES = ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage'];
-var NAVS = { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas' };
+/* ---------- Navigation (Constants referenced from utilities/constant.js) ---------- */
+var PAGES = (window.CONSTANTS && window.CONSTANTS.NAVIGATION && window.CONSTANTS.NAVIGATION.PAGES) || window.PAGES || ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage'];
+var NAVS = (window.CONSTANTS && window.CONSTANTS.NAVIGATION && window.CONSTANTS.NAVIGATION.NAVS) || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas' };
 
 var trackerSubTab = 'current';
 
