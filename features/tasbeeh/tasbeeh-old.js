@@ -207,7 +207,34 @@ window.TasbeehOldApp = (function () {
         return '<div class="tb-card p-3 shadow-sm ' + (isDhikrDone ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-month="' + curOldMonth + '" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
             '<div class="d-flex align-items-center gap-3">' +
             '<div class="tb-badge ' + (isDhikrDone ? 'bg-success-subtle text-success' : '') + '">' +
-            '<i class="fa-solid fa-ring"></i>' +
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">' +
+            '  <rect width="200" height="200" fill="#E6F3EA" rx="24"/>' +
+            '  <g transform="translate(100, 85)">' +
+            '    <defs>' +
+            '      <circle id="bead" cx="0" cy="-55" r="12" stroke="#178B51" stroke-width="9" fill="none"/>' +
+            '    </defs>' +
+            '    <circle cx="0" cy="-55" r="16" fill="#178B51"/>' +
+            '    <use href="#bead" transform="rotate(30)"/>' +
+            '    <use href="#bead" transform="rotate(60)"/>' +
+            '    <use href="#bead" transform="rotate(90)"/>' +
+            '    <use href="#bead" transform="rotate(120)"/>' +
+            '    <use href="#bead" transform="rotate(150)"/>' +
+            '    <use href="#bead" transform="rotate(180)"/>' +
+            '    <use href="#bead" transform="rotate(210)"/>' +
+            '    <use href="#bead" transform="rotate(240)"/>' +
+            '    <use href="#bead" transform="rotate(270)"/>' +
+            '    <use href="#bead" transform="rotate(300)"/>' +
+            '    <use href="#bead" transform="rotate(330)"/>' +
+            '  </g>' +
+            '  <g>' +
+            '    <path d="M 94 154 L 106 154 L 103 162 L 97 162 Z" fill="#178B51"/>' +
+            '    <g stroke="#178B51" stroke-linecap="round" fill="none">' +
+            '      <path d="M 97 161 Q 93 172 91 185" stroke-width="4.5"/>' +
+            '      <path d="M 100 162 L 100 188" stroke-width="4.5"/>' +
+            '      <path d="M 103 161 Q 107 172 109 185" stroke-width="4.5"/>' +
+            '    </g>' +
+            '  </g>' +
+            '</svg>' +
             '</div>' +
             '<div class="flex-grow-1 min-w-0">' +
             '<div class="d-flex align-items-center justify-content-between gap-2">' +
