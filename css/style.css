@@ -115,13 +115,16 @@ body {
 
 /* ---------- Bottom Nav ---------- */
 .app-bottom-nav {
-    height: 64px;
+    height: 60px;
     background: var(--card-bg);
     border-top: 1px solid var(--border);
+    flex-shrink: 0;
+    z-index: 100;
 }
 
 .nav-tab {
     flex: 1 1 0;
+    height: 100%;
     background: transparent;
     border: none;
     text-decoration: none;
@@ -129,19 +132,75 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    font-weight: 700;
-    color: var(--ink-soft);
-    padding: 0;
-    transition: color 0.15s;
+    gap: 3px;
+    font-weight: 500;
+    color: var(--text-muted);
+    padding: 6px 0 4px 0;
+    position: relative;
+    cursor: pointer;
+    transition: color 0.15s ease;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
-.nav-tab span {
-    font-size: 0.65rem;
+.nav-tab i,
+.nav-tab .nav-tab-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease, color 0.15s ease;
 }
 
+.nav-tab span:not(.nav-tab-icon) {
+    font-size: 0.72rem;
+    line-height: 1.1;
+    letter-spacing: 0.2px;
+    transition: color 0.15s ease, font-weight 0.15s ease;
+}
+
+.nav-tab:hover {
+    color: var(--ink);
+}
+
+.nav-tab:hover i,
+.nav-tab:hover .nav-tab-icon {
+    transform: translateY(-1px);
+}
+
+.nav-tab.active,
 .nav-tab.text-success {
     color: var(--brand) !important;
+}
+
+.nav-tab.active i,
+.nav-tab.active .nav-tab-icon {
+    color: var(--brand);
+    transform: scale(1.08);
+}
+
+.nav-tab.active span:not(.nav-tab-icon) {
+    font-weight: 700;
+    color: var(--brand);
+}
+
+/* Active indicator bar at top of active tab */
+.nav-tab.active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: var(--brand);
+}
+
+#settingsBottomNav .nav-tab {
+    max-width: 140px;
+    margin: 0 auto;
 }
 
 /* ---------- Tracker Segmented Sub-Tabs ---------- */
@@ -487,25 +546,7 @@ body {
 /* ============================================================
    Dashboard Clock Card & Daily Timeline Styles
    ============================================================ */
-.dash-next-card {
-    background: var(--surface-bg);
-    border: 1px solid var(--border-subtle);
-    border-radius: 18px;
-    padding: 14px 16px;
-}
 
-.dash-next-icon-circle {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--gr-accent-soft);
-    color: var(--gr-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.4rem;
-    flex-shrink: 0;
-}
 
 .timeline-item {
     flex: 1 1 0;
@@ -1675,7 +1716,7 @@ body {
 .tb-fab {
     position: fixed;
     right: 24px;
-    bottom: 84px;
+    bottom: 80px;
     width: 54px;
     height: 54px;
     border-radius: 50%;
@@ -1903,4 +1944,33 @@ body {
 
 .divider-line-sm {
     max-width: 140px;
+}
+
+/* ---------- Dashboard 2x2 Square Cards ---------- */
+.dash-card {
+    aspect-ratio: 1 / 1;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.dash-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(18, 61, 46, 0.08) !important;
+}
+
+.dash-card:active {
+    transform: scale(0.97);
+}
+
+.dash-icon-box {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    min-height: 58px;
+    transition: transform 0.15s ease;
+}
+
+.dash-card:hover .dash-icon-box {
+    transform: scale(1.06);
 }
