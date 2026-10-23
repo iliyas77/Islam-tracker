@@ -115,13 +115,16 @@ body {
 
 /* ---------- Bottom Nav ---------- */
 .app-bottom-nav {
-    height: 64px;
+    height: 60px;
     background: var(--card-bg);
     border-top: 1px solid var(--border);
+    flex-shrink: 0;
+    z-index: 100;
 }
 
 .nav-tab {
     flex: 1 1 0;
+    height: 100%;
     background: transparent;
     border: none;
     text-decoration: none;
@@ -129,19 +132,75 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    font-weight: 700;
-    color: var(--ink-soft);
-    padding: 0;
-    transition: color 0.15s;
+    gap: 3px;
+    font-weight: 500;
+    color: var(--text-muted);
+    padding: 6px 0 4px 0;
+    position: relative;
+    cursor: pointer;
+    transition: color 0.15s ease;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
-.nav-tab span {
-    font-size: 0.65rem;
+.nav-tab i,
+.nav-tab .nav-tab-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease, color 0.15s ease;
 }
 
+.nav-tab span:not(.nav-tab-icon) {
+    font-size: 0.72rem;
+    line-height: 1.1;
+    letter-spacing: 0.2px;
+    transition: color 0.15s ease, font-weight 0.15s ease;
+}
+
+.nav-tab:hover {
+    color: var(--ink);
+}
+
+.nav-tab:hover i,
+.nav-tab:hover .nav-tab-icon {
+    transform: translateY(-1px);
+}
+
+.nav-tab.active,
 .nav-tab.text-success {
     color: var(--brand) !important;
+}
+
+.nav-tab.active i,
+.nav-tab.active .nav-tab-icon {
+    color: var(--brand);
+    transform: scale(1.08);
+}
+
+.nav-tab.active span:not(.nav-tab-icon) {
+    font-weight: 700;
+    color: var(--brand);
+}
+
+/* Active indicator bar at top of active tab */
+.nav-tab.active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: var(--brand);
+}
+
+#settingsBottomNav .nav-tab {
+    max-width: 140px;
+    margin: 0 auto;
 }
 
 /* ---------- Tracker Segmented Sub-Tabs ---------- */
@@ -485,28 +544,175 @@ body {
 }
 
 /* ============================================================
-   Dashboard Clock Card & Daily Timeline Styles
+   Nur Prayer — Dashboard Feature Styles (Matched to Reference UI)
    ============================================================ */
-.dash-next-card {
-    background: var(--surface-bg);
-    border: 1px solid var(--border-subtle);
-    border-radius: 18px;
-    padding: 14px 16px;
+
+.dash-container {
+    padding: 16px 16px 20px 16px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
 }
 
-.dash-next-icon-circle {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--gr-accent-soft);
-    color: var(--gr-primary);
+/* Islamic Geometric Background Watermark */
+.dash-bg-pattern-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 140px;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.dash-corner-pattern {
+    position: absolute;
+    top: 0;
+    width: 150px;
+    height: 120px;
+    opacity: 0.14;
+}
+
+.dash-corner-tl {
+    left: 0;
+}
+
+.dash-corner-tr {
+    right: 0;
+    transform: scaleX(-1);
+}
+
+/* Header Bar */
+.dash-top-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #dbe6de;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 2px;
+}
+
+.dash-location-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--dash-dark-green, #123D2E);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: -0.2px;
+}
+
+.dash-location-icon {
+    font-size: 1.15rem;
+    color: var(--dash-dark-green, #123D2E);
+}
+
+.dash-header-mosque {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
-    flex-shrink: 0;
 }
 
+/* 1. Digital Clock Card */
+.dash-clock-card {
+    background: #ffffff;
+    border: 1px solid var(--dash-card-border, #e1ece5);
+    border-radius: 18px;
+    padding: 16px 20px;
+    box-shadow: var(--dash-card-shadow, 0 1px 4px rgba(20, 66, 52, 0.03));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+}
+
+.dash-clock-wrap {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+}
+
+.dash-clock-digits {
+    font-size: 2.45rem;
+    color: var(--dash-dark-green, #123D2E);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -1px;
+    line-height: 1;
+}
+
+.dash-clock-ampm {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--dash-dark-green, #123D2E);
+    line-height: 1;
+}
+
+/* 2. Daily Prayer Timeline Card */
+.dash-timeline-card {
+    background: #ffffff;
+    border: 1px solid var(--dash-card-border, #e1ece5);
+    border-radius: 18px;
+    padding: 18px 14px 20px 14px;
+    box-shadow: var(--dash-card-shadow, 0 1px 4px rgba(20, 66, 52, 0.03));
+    position: relative;
+    z-index: 2;
+}
+
+.dash-timeline-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.dash-timeline-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: var(--dash-dark-green, #123D2E);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.dash-timeline-header-line {
+    flex: 1;
+    height: 1px;
+    background: #dbe6de;
+    margin-left: 12px;
+}
+
+.dash-timeline-track {
+    position: relative;
+    width: 100%;
+}
+
+.dash-timeline-track-line {
+    position: absolute;
+    height: 1.5px;
+    background: var(--dash-timeline-line, #cdded4);
+    top: 55px;
+    left: 8%;
+    right: 8%;
+    z-index: 1;
+}
+
+.dash-timeline-nodes {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    position: relative;
+    z-index: 2;
+}
+
+.dash-timeline-col,
 .timeline-item {
     flex: 1 1 0;
     min-width: 0;
@@ -516,93 +722,230 @@ body {
     text-align: center;
 }
 
+.dash-timeline-circle,
 .timeline-circle {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
+    background: var(--dash-mint-bg, #e1eee5);
+    color: var(--dash-dark-green, #123D2E);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
     transition: all 0.2s ease;
 }
 
-.timeline-circle-inactive {
-    background: var(--gr-accent-soft);
-    color: var(--gr-primary);
-}
-
+.dash-timeline-circle.active,
 .timeline-circle-active {
-    background: var(--gr-primary);
-    color: var(--card-bg);
-    box-shadow: 0 4px 10px rgba(37, 132, 91, 0.35);
+    background: var(--dash-dark-green, #123D2E);
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(20, 66, 52, 0.25);
 }
 
+.timeline-circle-inactive {
+    background: var(--dash-mint-bg, #e1eee5);
+    color: var(--dash-dark-green, #123D2E);
+}
+
+.dash-timeline-dot-wrap,
 .timeline-dot-wrap {
-    height: 18px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    margin-top: 8px;
     width: 100%;
+}
+
+.dash-timeline-dot,
+.timeline-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #557d6e;
+}
+
+.dash-timeline-dot-active,
+.timeline-dot-active {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    border: 2.2px solid var(--dash-dark-green, #123D2E);
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dash-timeline-dot-active-inner,
+.timeline-dot-active-inner {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--dash-dark-green, #123D2E);
+}
+
+.dash-timeline-name,
+.timeline-label {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--dash-dark-green, #123D2E);
+    margin-top: 8px;
+    line-height: 1.2;
+}
+
+.dash-timeline-time,
+.timeline-time {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--dash-text-muted, #69887c);
+    margin-top: 3px;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+
+.dash-timeline-badge {
+    margin-top: 8px;
+    display: inline-block;
+    padding: 2.5px 8px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.badge-passed,
+.badge-status-passed {
+    background: #dfeae2;
+    color: #4e7364;
+}
+
+.badge-active,
+.badge-status-active {
+    background: var(--dash-dark-green, #123D2E);
+    color: #ffffff;
+}
+
+.badge-next,
+.badge-status-next {
+    background: var(--dash-next-gold, #c49a5b);
+    color: #ffffff;
+}
+
+.badge-upcoming,
+.badge-status-upcoming {
+    background: #dfeae2;
+    color: #4e7364;
+}
+
+/* 3. 2x2 Quick Navigation Cards */
+.dash-grid-2x2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
     position: relative;
     z-index: 2;
 }
 
-.timeline-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--gr-muted);
+.dash-nav-card {
+    background: #ffffff;
+    border: 1px solid var(--dash-card-border, #e1ece5);
+    border-radius: 18px;
+    padding: 18px 14px 16px 14px;
+    box-shadow: var(--dash-card-shadow, 0 1px 4px rgba(20, 66, 52, 0.03));
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    aspect-ratio: 1.1 / 1;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
-.timeline-dot-active {
-    width: 16px;
-    height: 16px;
+.dash-nav-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(20, 66, 52, 0.07);
+}
+
+.dash-nav-card:active {
+    transform: scale(0.98);
+}
+
+.dash-nav-icon-circle {
+    width: 58px;
+    height: 58px;
     border-radius: 50%;
-    border: 2px solid var(--gr-primary);
-    background: var(--card-bg);
+    background: var(--dash-mint-bg, #e1eee5);
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 auto;
+    transition: transform 0.15s ease;
 }
 
-.timeline-dot-active-inner {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--gr-primary);
+.dash-nav-icon-circle svg {
+    display: block;
+    max-width: 32px;
+    max-height: 32px;
+    width: auto;
+    height: auto;
 }
 
-.badge-status-passed {
-    background: var(--gr-bg-soft);
-    color: var(--gr-muted);
-    font-weight: 500;
-    font-size: 11px;
-    padding: 2px 8px;
+.dash-nav-card:hover .dash-nav-icon-circle {
+    transform: scale(1.05);
 }
 
-.badge-status-active {
-    background: var(--gr-primary);
-    color: var(--card-bg);
-    font-weight: 500;
-    font-size: 11px;
-    padding: 2px 8px;
+.dash-nav-footer {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
 }
 
-.badge-status-next {
-    background: var(--gr-accent-gold);
-    color: var(--card-bg);
-    font-weight: 500;
-    font-size: 11px;
-    padding: 2px 8px;
+.dash-nav-title {
+    font-size: 15.5px;
+    font-weight: 700;
+    color: var(--dash-dark-green, #123D2E);
+    text-align: center;
 }
 
-.badge-status-upcoming {
-    background: var(--gr-bg-soft);
-    color: var(--gr-muted);
-    font-weight: 500;
-    font-size: 11px;
-    padding: 2px 8px;
+.dash-nav-chevron {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9bb8a9;
+    stroke: #9bb8a9;
+}
+
+/* 4. Bottom Decorative Divider */
+.dash-bottom-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    margin-bottom: 4px;
+    position: relative;
+    z-index: 2;
+}
+
+.dash-bottom-line {
+    flex: 1;
+    max-width: 130px;
+    height: 1px;
+    background: #dbe6de;
+}
+
+.dash-bottom-star {
+    margin: 0 14px;
 }
 
 /* ============================================================
@@ -1675,7 +2018,7 @@ body {
 .tb-fab {
     position: fixed;
     right: 24px;
-    bottom: 84px;
+    bottom: 80px;
     width: 54px;
     height: 54px;
     border-radius: 50%;
@@ -1903,4 +2246,33 @@ body {
 
 .divider-line-sm {
     max-width: 140px;
+}
+
+/* ---------- Dashboard 2x2 Square Cards ---------- */
+.dash-card {
+    aspect-ratio: 1 / 1;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.dash-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(18, 61, 46, 0.08) !important;
+}
+
+.dash-card:active {
+    transform: scale(0.97);
+}
+
+.dash-icon-box {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    min-height: 58px;
+    transition: transform 0.15s ease;
+}
+
+.dash-card:hover .dash-icon-box {
+    transform: scale(1.06);
 }

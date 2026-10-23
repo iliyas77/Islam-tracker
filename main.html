@@ -23,7 +23,7 @@
             <header class="app-header d-none" data-ref="page.dashboard.header">
                 <h1 class="brand-title" data-ref="page.dashboard.header.title">NUR PRAYER</h1>
             </header>
-            <div class="flex-grow-1 overflow-auto px-2 pt-2 pb-4" id="dashScroll">
+            <div class="flex-grow-1 overflow-auto p-0 position-relative" id="dashScroll">
                 <div id="dashBody"></div>
             </div>
         </div>
@@ -32,12 +32,17 @@
         <div id="trackerPage" class="d-none flex-column flex-grow-1 page" data-ref="page.tracker">
             <header class="app-header" data-ref="page.tracker.header">
                 <div class="d-flex align-items-center justify-content-between min-w-0 min-h-44">
-                    <div class="min-w-0 flex-grow-1">
-                        <h5 class="page-title mb-0" id="trackerHeaderTitle">
-                            <i class="fa-regular fa-calendar text-gr-accent" id="trackerHeaderIcon"></i>
-                            <span id="trackerHeaderLabel">Current Prayer</span>
-                        </h5>
-                        <div id="oldSub" class="page-sub d-none">Select a period to begin</div>
+                    <div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1">
+                        <button type="button" class="btn-sheet-back" data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.tracker.back-btn">
+                            <i class="fa-solid fa-arrow-left fs-5"></i>
+                        </button>
+                        <div class="min-w-0 flex-grow-1">
+                            <h5 class="page-title mb-0" id="trackerHeaderTitle">
+                                <i class="fa-regular fa-calendar text-gr-accent" id="trackerHeaderIcon"></i>
+                                <span id="trackerHeaderLabel">Current Prayer</span>
+                            </h5>
+                            <div id="oldSub" class="page-sub d-none">Select a period to begin</div>
+                        </div>
                     </div>
                     <div class="d-flex align-items-center gap-2">
                         <button type="button" class="btn-action-round position-relative" id="currentMissedBtn" data-act="missed-open" title="Missed Prayers" aria-label="Missed Prayers" data-ref="page.current.card.header.badge">
@@ -51,22 +56,28 @@
                 </div>
             </header>
 
-            <!-- Segmented Sub-Tabs directly above the card, below the header -->
-            <div class="tracker-segment-bar mx-2 mt-2" role="tablist" aria-label="Tracker view">
-                <button type="button" class="tracker-subtab active" id="tabTrackCurrent" data-act="switch-track-current" role="tab" aria-selected="true">
-                    <i class="fa-regular fa-calendar"></i><span>Current</span>
-                </button>
-                <button type="button" class="tracker-subtab" id="tabTrackOld" data-act="switch-track-old" role="tab" aria-selected="false">
-                    <i class="fa-solid fa-clock-rotate-left"></i><span>Old</span>
-                </button>
-            </div>
             <div class="flex-grow-1 overflow-auto px-2 pt-2 pb-3" id="currentBody" data-ref="page.current.body"></div>
             <div class="flex-grow-1 overflow-auto px-2 pt-2 pb-3 d-none" id="oldBody" data-ref="page.old.body"></div>
+
+            <!-- Bottom Navigation -->
+            <nav class="app-bottom-nav flex-shrink-0 d-flex align-items-center justify-content-around px-2 border-top" id="trackerBottomNav" data-ref="page.tracker.bottom-nav">
+                <button type="button" class="nav-tab active" id="tabTrackCurrent" data-act="switch-track-current" role="tab" aria-selected="true" data-ref="page.tracker.tab-current">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span>Current</span>
+                </button>
+                <button type="button" class="nav-tab" id="tabTrackOld" data-act="switch-track-old" role="tab" aria-selected="false" data-ref="page.tracker.tab-old">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Old</span>
+                </button>
+            </nav>
         </div>
 
         <!-- Settings Page -->
-        <div id="settingsPage" class="d-none flex-column flex-grow-1 page">
-            <header class="app-header d-flex align-items-center gap-2">
+        <div id="settingsPage" class="d-none flex-column flex-grow-1 page" data-ref="page.settings">
+            <header class="app-header d-flex align-items-center gap-2" data-ref="page.settings.header">
+                <button type="button" class="btn-sheet-back" data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.settings.back-btn">
+                    <i class="fa-solid fa-arrow-left fs-5"></i>
+                </button>
                 <div class="flex-grow-1 min-w-0">
                     <h5 class="page-title">
                         <i class="fa-solid fa-gear text-gr-accent"></i>
@@ -75,19 +86,32 @@
                     <div class="page-sub">App preferences</div>
                 </div>
             </header>
-            <div class="flex-grow-1 overflow-auto p-2" id="settingsBody"></div>
+            <div class="flex-grow-1 overflow-auto p-2 pb-3" id="settingsBody" data-ref="page.settings.body"></div>
+
+            <!-- Bottom Navigation -->
+            <nav class="app-bottom-nav flex-shrink-0 d-flex align-items-center justify-content-around px-2 border-top" id="settingsBottomNav" data-ref="page.settings.bottom-nav">
+                <button type="button" class="nav-tab active" id="tabSettings" data-act="goto-settings" role="tab" aria-selected="true" data-ref="page.settings.tab">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </button>
+            </nav>
         </div>
 
         <!-- Digital Tasbeeh Page -->
         <div id="tasbeehPage" class="d-none flex-column flex-grow-1 page" data-ref="page.tasbeeh">
             <header class="app-header" data-ref="page.tasbeeh.header">
                 <div class="d-flex align-items-center justify-content-between min-w-0 min-h-44">
-                    <div class="min-w-0 flex-grow-1" data-ref="page.tasbeeh.header.info">
-                        <h5 class="page-title mb-0" data-ref="page.tasbeeh.header.title">
-                            <i class="fa-solid fa-hand-holding-heart text-success" id="tbHeaderIcon" data-ref="page.tasbeeh.header.icon"></i>
-                            <span id="tbHeaderLabel" data-ref="page.tasbeeh.header.label">Digital Tasbeeh</span>
-                        </h5>
-                        <div class="page-sub" id="tbHeaderSub" data-ref="page.tasbeeh.header.sub">Current Month</div>
+                    <div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1" data-ref="page.tasbeeh.header.info">
+                        <button type="button" class="btn-sheet-back" data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.tasbeeh.back-btn">
+                            <i class="fa-solid fa-arrow-left fs-5"></i>
+                        </button>
+                        <div class="min-w-0 flex-grow-1">
+                            <h5 class="page-title mb-0" data-ref="page.tasbeeh.header.title">
+                                <i class="fa-solid fa-hand-holding-heart text-success" id="tbHeaderIcon" data-ref="page.tasbeeh.header.icon"></i>
+                                <span id="tbHeaderLabel" data-ref="page.tasbeeh.header.label">Digital Tasbeeh</span>
+                            </h5>
+                            <div class="page-sub" id="tbHeaderSub" data-ref="page.tasbeeh.header.sub">Current Month</div>
+                        </div>
                     </div>
                     <div class="d-flex align-items-center gap-2">
                         <button type="button" class="btn-action-round" id="tbSettingsBtn" data-act="tb-open-settings" title="Tasbeeh Period Settings" data-ref="page.tasbeeh.header.settings-btn">
@@ -96,16 +120,6 @@
                     </div>
                 </div>
             </header>
-
-            <!-- Segmented Sub-Tabs directly above cards, below the header -->
-            <div class="tracker-segment-bar mx-2 mt-2" role="tablist" aria-label="Tasbeeh view">
-                <button type="button" class="tracker-subtab active" id="tabTbCurrent" data-act="switch-tb-current" role="tab" aria-selected="true">
-                    <i class="fa-regular fa-calendar"></i><span>Current</span>
-                </button>
-                <button type="button" class="tracker-subtab" id="tabTbOld" data-act="switch-tb-old" role="tab" aria-selected="false">
-                    <i class="fa-solid fa-clock-rotate-left"></i><span>Old</span>
-                </button>
-            </div>
 
             <!-- Current Month Body Container -->
             <div class="flex-grow-1 overflow-auto p-2 pb-5 position-relative" id="tbCurrentBody" data-ref="page.tasbeeh.body.current">
@@ -127,6 +141,18 @@
             <button type="button" class="tb-fab" id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr">
                 <i class="fa-solid fa-plus fs-4" data-ref="page.tasbeeh.header.add-icon"></i>
             </button>
+
+            <!-- Bottom Navigation -->
+            <nav class="app-bottom-nav flex-shrink-0 d-flex align-items-center justify-content-around px-2 border-top" id="tasbeehBottomNav" data-ref="page.tasbeeh.bottom-nav">
+                <button type="button" class="nav-tab active" id="tabTbCurrent" data-act="switch-tb-current" role="tab" aria-selected="true" data-ref="page.tasbeeh.tab-current">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span>Current</span>
+                </button>
+                <button type="button" class="nav-tab" id="tabTbOld" data-act="switch-tb-old" role="tab" aria-selected="false" data-ref="page.tasbeeh.tab-old">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Old</span>
+                </button>
+            </nav>
         </div>
 
         <!-- Full-screen Tasbeeh Counter View Overlay -->
@@ -194,12 +220,17 @@
         <div id="duasPage" class="d-none flex-column flex-grow-1 page" data-ref="page.duas">
             <header class="app-header" data-ref="page.duas.header">
                 <div class="d-flex align-items-center justify-content-between min-w-0 min-h-44">
-                    <div class="min-w-0 flex-grow-1">
-                        <h5 class="page-title mb-0" id="duasHeaderTitle">
-                            <i class="fa-solid fa-book-quran text-success"></i>
-                            <span>Quran Duas</span>
-                        </h5>
-                        <div class="page-sub" id="duaProgressIndicator">0 pinned</div>
+                    <div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1">
+                        <button type="button" class="btn-sheet-back" data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.duas.back-btn">
+                            <i class="fa-solid fa-arrow-left fs-5"></i>
+                        </button>
+                        <div class="min-w-0 flex-grow-1">
+                            <h5 class="page-title mb-0" id="duasHeaderTitle">
+                                <i class="fa-solid fa-book-quran text-success"></i>
+                                <span>Quran Duas</span>
+                            </h5>
+                            <div class="page-sub" id="duaProgressIndicator">0 pinned</div>
+                        </div>
                     </div>
                     <div class="d-flex align-items-center gap-2">
                         <button type="button" class="btn-action-round" data-act="dua-open-admin" title="Admin Settings">
@@ -208,19 +239,6 @@
                     </div>
                 </div>
             </header>
-
-            <!-- Segmented Sub-Tabs directly above cards, below the header -->
-            <div class="tracker-segment-bar mx-3 mt-3" id="duaSegmentBar" role="tablist" aria-label="Duas view">
-                <button type="button" class="tracker-subtab active" id="duaTabPinned" data-act="dua-switch-pinned" role="tab" aria-selected="true">
-                    <span>📌</span><span>Pinned</span>
-                </button>
-                <button type="button" class="tracker-subtab" id="duaTabAll" data-act="dua-switch-all" role="tab" aria-selected="false">
-                    <span>📖</span><span>All Duas</span>
-                </button>
-                <button type="button" class="tracker-subtab" id="duaTabFavs" data-act="dua-switch-favs" role="tab" aria-selected="false">
-                    <span>❤️</span><span>Favourites</span>
-                </button>
-            </div>
 
             <div class="flex-grow-1 overflow-auto p-3 position-relative pb-5" id="duasBody">
                 <!-- Subview: Pinned (Home) -->
@@ -282,30 +300,26 @@
                     <i class="fa-solid fa-plus"></i>
                 </button>
             </div>
-        </div>
 
-        <!-- Bottom Navigation -->
-        <nav class="navbar app-bottom-nav flex-shrink-0">
-            <div class="container-fluid p-0 h-100">
-                <div class="d-flex w-100 h-100">
-                    <button class="nav-tab" id="navHome" data-act="go-home">
-                        <i class="fa-solid fa-house fs-4"></i><span>Home</span>
+            <!-- Bottom Navigation -->
+            <nav class="app-bottom-nav flex-shrink-0 d-flex align-items-center justify-content-around px-2 border-top" id="duaBottomNav" data-ref="page.duas.bottom-nav">
+                <div class="d-flex w-100 h-100 align-items-center justify-content-around" id="duaSegmentBar" role="tablist" aria-label="Duas view">
+                    <button type="button" class="nav-tab active" id="duaTabPinned" data-act="dua-switch-pinned" role="tab" aria-selected="true" data-ref="page.duas.tab-pinned">
+                        <span class="nav-tab-icon">📌</span>
+                        <span>Pinned</span>
                     </button>
-                    <button class="nav-tab" id="navCur" data-act="goto-tracker">
-                        <i class="fa-regular fa-calendar-check fs-4"></i><span>Tracker</span>
+                    <button type="button" class="nav-tab" id="duaTabAll" data-act="dua-switch-all" role="tab" aria-selected="false" data-ref="page.duas.tab-all">
+                        <span class="nav-tab-icon">📖</span>
+                        <span>All Duas</span>
                     </button>
-                    <button class="nav-tab" id="navTasbeeh" data-act="goto-tasbeeh" data-ref="component.navbar.tasbeeh-tab">
-                        <i class="fa-solid fa-hand-holding-heart fs-4" data-ref="component.navbar.tasbeeh-icon"></i><span data-ref="component.navbar.tasbeeh-label">Tasbeeh</span>
-                    </button>
-                    <button class="nav-tab" id="navDuas" data-act="goto-duas" data-ref="component.navbar.duas-tab">
-                        <i class="fa-solid fa-book-quran fs-4" data-ref="component.navbar.duas-icon"></i><span data-ref="component.navbar.duas-label">Duas</span>
-                    </button>
-                    <button class="nav-tab" id="navSet" data-act="goto-settings">
-                        <i class="fa-solid fa-gear fs-4"></i><span>Settings</span>
+                    <button type="button" class="nav-tab" id="duaTabFavs" data-act="dua-switch-favs" role="tab" aria-selected="false" data-ref="page.duas.tab-favs">
+                        <span class="nav-tab-icon">❤️</span>
+                        <span>Favourites</span>
                     </button>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </div>
+
 
         <!-- Layered Bottom Sheet (Missed Prayers / Period Info / Set Period) -->
         <div class="offcanvas offcanvas-bottom rounded-top-4" tabindex="-1" id="sheet2" data-bs-scroll="true"
