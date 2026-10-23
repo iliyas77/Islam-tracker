@@ -346,6 +346,7 @@ window.DuasApp = (function () {
         var subFavs = document.getElementById('duaSubFavs');
         var subDetail = document.getElementById('duaSubDetail');
         var segBar = document.getElementById('duaSegmentBar');
+        var btmNav = document.getElementById('duaBottomNav');
         var fab = document.getElementById('duaFabBtn');
 
         if (subHome) subHome.classList.add('d-none');
@@ -353,6 +354,7 @@ window.DuasApp = (function () {
         if (subFavs) subFavs.classList.add('d-none');
         if (subDetail) subDetail.classList.remove('d-none');
         if (segBar) segBar.classList.add('d-none');
+        if (btmNav) btmNav.classList.add('d-none');
         if (fab) fab.classList.add('d-none');
 
         updateDetailUI();
@@ -361,10 +363,12 @@ window.DuasApp = (function () {
     function goBack() {
         var subDetail = document.getElementById('duaSubDetail');
         var segBar = document.getElementById('duaSegmentBar');
+        var btmNav = document.getElementById('duaBottomNav');
         var fab = document.getElementById('duaFabBtn');
 
         if (subDetail) subDetail.classList.add('d-none');
         if (segBar) segBar.classList.remove('d-none');
+        if (btmNav) btmNav.classList.remove('d-none');
         if (fab) fab.classList.remove('d-none');
 
         switchTab(detailOpenedFrom);
@@ -429,7 +433,9 @@ window.DuasApp = (function () {
         if (subDetail) subDetail.classList.add('d-none');
 
         var segBar = document.getElementById('duaSegmentBar');
+        var btmNav = document.getElementById('duaBottomNav');
         if (segBar) segBar.classList.remove('d-none');
+        if (btmNav) btmNav.classList.remove('d-none');
 
         var fab = document.getElementById('duaFabBtn');
         if (fab) fab.classList.remove('d-none');
