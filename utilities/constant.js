@@ -21,30 +21,18 @@
                 Isha: '06:59 PM'
             },
             FA_ICONS: {
-                Fajr: '<i class="fa-solid fa-sun text-warning"></i>',
-                Dhuhr: '<i class="fa-solid fa-sun text-warning"></i>',
-                Asr: '<i class="fa-solid fa-cloud-sun text-warning"></i>',
-                Maghrib: '<i class="fa-solid fa-mountain-sun text-warning"></i>',
-                Isha: '<i class="fa-solid fa-moon text-primary"></i>'
+                Fajr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M4.93 6.93l2.12 2.12M19.07 6.93l-2.12 2.12M2 17h20M17 17a5 5 0 0 0-10 0"/></svg>',
+                Dhuhr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>',
+                Asr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>',
+                Maghrib: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M4.93 6.93l2.12 2.12M19.07 6.93l-2.12 2.12M2 17h20M17 17a5 5 0 0 0-10 0"/></svg>',
+                Isha: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5a9.5 9.5 0 0 0 8.5 13.7 9.5 9.5 0 1 1-8.5-13.7z"/><polygon points="18.8 4 19.5 5.5 21 5.6 19.9 6.7 20.2 8.2 18.8 7.4 17.4 8.2 17.7 6.7 16.6 5.6 18.1 5.5"/></svg>'
             },
             CARD_ICONS: {
-                Fajr: '<svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">' +
-                    '<path d="M12 2v6M4.93 10.93l1.41 1.41M19.07 10.93l-1.41 1.41M2 18h20M4 22h16M8 18a4 4 0 018 0"/>' +
-                    '<circle cx="12" cy="11" r="3"/>' +
-                    '</svg>',
-                Dhuhr: '<svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">' +
-                    '<circle cx="12" cy="12" r="4" />' +
-                    '<path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />' +
-                    '</svg>',
-                Asr: '<svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">' +
-                    '<path d="M17.5 19H9a7 7 0 116.71-9h1.79a4.5 4.5 0 110 9z" />' +
-                    '</svg>',
-                Maghrib: '<svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">' +
-                    '<path d="M12 10V2M4.93 10.93l1.41-1.41M19.07 10.93l-1.41-1.41M2 18h20M4 22h16M8 18a4 4 0 018 0" />' +
-                    '</svg>',
-                Isha: '<svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">' +
-                    '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />' +
-                    '</svg>',
+                Fajr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M4.93 6.93l2.12 2.12M19.07 6.93l-2.12 2.12M2 17h20M17 17a5 5 0 0 0-10 0"/></svg>',
+                Dhuhr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>',
+                Asr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>',
+                Maghrib: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M4.93 6.93l2.12 2.12M19.07 6.93l-2.12 2.12M2 17h20M17 17a5 5 0 0 0-10 0"/></svg>',
+                Isha: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5a9.5 9.5 0 0 0 8.5 13.7 9.5 9.5 0 1 1-8.5-13.7z"/><polygon points="18.8 4 19.5 5.5 21 5.6 19.9 6.7 20.2 8.2 18.8 7.4 17.4 8.2 17.7 6.7 16.6 5.6 18.1 5.5"/></svg>',
                 DoneCheck: '<svg class="icon-md" viewBox="0 0 20 20" fill="currentColor">' +
                     '<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />' +
                     '</svg>',
@@ -81,11 +69,11 @@
         // ==========================================
         DASHBOARD: {
             TIMELINE_ICONS: {
-                Fajr: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1zm6.36 2.05a1 1 0 0 1 0 1.41l-1.41 1.42a1 1 0 1 1-1.42-1.42l1.42-1.41a1 1 0 0 1 1.41 0zM21 11a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2h2zM7.05 6.05a1 1 0 0 1 1.41 1.41L7.05 8.88A1 1 0 0 1 5.64 7.46l1.41-1.41zM5 11a1 1 0 1 1 0 2H3a1 1 0 1 1 0-2h2zm7 3a4 4 0 0 0-3.87 3H3a1 1 0 1 0 0 2h18a1 1 0 1 0 0-2h-5.13A4 4 0 0 0 12 14z"/></svg>',
-                Dhuhr: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4.5"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3m-3.8-8.2l-2.1 2.1m-8.2 8.2l-2.1 2.1m0-12.4l2.1 2.1m8.2 8.2l2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
-                Asr: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4.5"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3m-3.8-8.2l-2.1 2.1m-8.2 8.2l-2.1 2.1m0-12.4l2.1 2.1m8.2 8.2l2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
-                Maghrib: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1zm6.36 2.05a1 1 0 0 1 0 1.41l-1.41 1.42a1 1 0 1 1-1.42-1.42l1.42-1.41a1 1 0 0 1 1.41 0zM21 11a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2h2zM7.05 6.05a1 1 0 0 1 1.41 1.41L7.05 8.88A1 1 0 0 1 5.64 7.46l1.41-1.41zM5 11a1 1 0 1 1 0 2H3a1 1 0 1 1 0-2h2zm7 3a4 4 0 0 0-3.87 3H3a1 1 0 1 0 0 2h18a1 1 0 1 0 0-2h-5.13A4 4 0 0 0 12 14z"/></svg>',
-                Isha: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12.3 2a10 10 0 0 0-1.9 19.8 10 10 0 0 0 11.4-11.4 1 1 0 0 0-1.1-.9 1 1 0 0 0-.9.6 8 8 0 0 1-9.9-9.9 1 1 0 0 0-.6-.9 1 1 0 0 0-.9-.3z"/><circle cx="16" cy="7" r="1.5"/></svg>'
+                Fajr: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M4.93 6.93l2.12 2.12M19.07 6.93l-2.12 2.12M2 17h20M17 17a5 5 0 0 0-10 0"/></svg>',
+                Dhuhr: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>',
+                Asr: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>',
+                Maghrib: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M4.93 6.93l2.12 2.12M19.07 6.93l-2.12 2.12M2 17h20M17 17a5 5 0 0 0-10 0"/></svg>',
+                Isha: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5a9.5 9.5 0 0 0 8.5 13.7 9.5 9.5 0 1 1-8.5-13.7z"/><polygon points="18.8 4 19.5 5.5 21 5.6 19.9 6.7 20.2 8.2 18.8 7.4 17.4 8.2 17.7 6.7 16.6 5.6 18.1 5.5"/></svg>'
             }
         },
 
@@ -108,30 +96,28 @@
             MAX_BEADS: 60,
             SVG_NS: 'http://www.w3.org/2000/svg',
             ICONS: {
-                MISBAHA: '<svg viewBox="0 0 200 200" width="38" height="38" fill="none">' +
-                    '<g transform="translate(100, 82)">' +
-                    '<defs><circle id="tb_bead" cx="0" cy="-55" r="12" stroke="#168a54" stroke-width="8.5" fill="#ffffff"/></defs>' +
-                    '<circle cx="0" cy="-55" r="15" fill="#168a54"/>' +
-                    '<use href="#tb_bead" transform="rotate(30)"/>' +
-                    '<use href="#tb_bead" transform="rotate(60)"/>' +
-                    '<use href="#tb_bead" transform="rotate(90)"/>' +
-                    '<use href="#tb_bead" transform="rotate(120)"/>' +
-                    '<use href="#tb_bead" transform="rotate(150)"/>' +
-                    '<use href="#tb_bead" transform="rotate(180)"/>' +
-                    '<use href="#tb_bead" transform="rotate(210)"/>' +
-                    '<use href="#tb_bead" transform="rotate(240)"/>' +
-                    '<use href="#tb_bead" transform="rotate(270)"/>' +
-                    '<use href="#tb_bead" transform="rotate(300)"/>' +
-                    '<use href="#tb_bead" transform="rotate(330)"/>' +
-                    '</g>' +
-                    '<g>' +
-                    '<path d="M 94 150 L 106 150 L 103 158 L 97 158 Z" fill="#168a54"/>' +
-                    '<g stroke="#168a54" stroke-linecap="round" fill="none">' +
-                    '<path d="M 97 157 Q 93 169 91 183" stroke-width="4.5"/>' +
-                    '<path d="M 100 158 L 100 186" stroke-width="4.5"/>' +
-                    '<path d="M 103 157 Q 107 169 109 183" stroke-width="4.5"/>' +
-                    '</g>' +
-                    '</g>' +
+                MISBAHA: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">' +
+                    '<title>prayer-beads</title>' +
+                    '<path fill="#123D2E" d="M26.797 28.781c.484 1.109-.268 2.391.739 4.323c1.088 2.087 3.653 2.801 5.292 2.817c1.078.011 1.189-.447.759-.667c-.681-.349-.598-.871-.598-.871s.464.429 1.308.663c.621.173 1.307.216 1.518-.379c.182-.51-1.647-.142-2.491-1.954c1.092.494 1.692.224 2.146-.151c.257-.213.453-.625.109-.5s-2.703.391-3.047-2.062c1.088 1.231 2.402 1.122 3.019.708c.403-.271.503-.803.11-.621c-1.422.656-2.051-.606-2.975-1.856c-1.113-1.507-2.936-.996-3.686-1.324c-.276-.122-2.203 1.874-2.203 1.874"/>' +
+                    '<path fill="#123D2E" d="M10.087 6.851a2.29 2.29 0 1 1-3.24 3.242a2.29 2.29 0 0 1 3.24-3.242"/>' +
+                    '<path fill="#123D2E" d="M7.227 10.218a2.29 2.29 0 1 1-3.238 3.24a2.29 2.29 0 0 1 3.238-3.24"/>' +
+                    '<path fill="#123D2E" d="M5.051 14.064a2.29 2.29 0 0 1 0 3.24a2.29 2.29 0 0 1-3.24 0a2.29 2.29 0 0 1 0-3.24a2.29 2.29 0 0 1 3.24 0"/>' +
+                    '<path fill="#123D2E" d="M4.039 18.317a2.292 2.292 0 1 1-3.244 3.24a2.292 2.292 0 0 1 3.244-3.24"/>' +
+                    '<path fill="#123D2E" d="M4.494 22.67a2.29 2.29 0 1 1-3.239 3.239a2.29 2.29 0 0 1 0-3.239a2.29 2.29 0 0 1 3.239 0"/>' +
+                    '<path fill="#123D2E" d="M6.848 26.289a2.29 2.29 0 1 1-3.238 3.24a2.29 2.29 0 0 1 3.238-3.24"/>' +
+                    '<path fill="#123D2E" d="M10.923 27.681a2.29 2.29 0 0 1 0 3.24a2.29 2.29 0 0 1-3.24 0a2.29 2.29 0 0 1 0-3.24a2.29 2.29 0 0 1 3.24 0"/>' +
+                    '<path fill="#123D2E" d="M15.327 28.288a2.292 2.292 0 1 1-3.24 3.241a2.292 2.292 0 0 1 3.24-3.241"/>' +
+                    '<path fill="#123D2E" d="M19.604 27.807a2.29 2.29 0 1 1-3.239 3.241a2.292 2.292 0 0 1 3.239-3.241"/>' +
+                    '<path fill="#123D2E" d="M23.806 26.34a2.291 2.291 0 1 1-3.241 3.239a2.291 2.291 0 0 1 3.241-3.239M10.214 7.231a2.29 2.29 0 1 0 3.24-3.238a2.29 2.29 0 0 0-3.24 3.238"/>' +
+                    '<path fill="#123D2E" d="M14.061 5.055a2.29 2.29 0 0 0 3.24 0a2.29 2.29 0 0 0 0-3.24a2.29 2.29 0 1 0-3.24 3.24"/>' +
+                    '<path fill="#123D2E" d="M18.313 4.042a2.29 2.29 0 1 0 3.242-3.24a2.29 2.29 0 0 0-3.242 3.24"/>' +
+                    '<path fill="#123D2E" d="M22.666 4.498a2.29 2.29 0 1 0 3.24-3.238a2.29 2.29 0 0 0-3.24 3.238"/>' +
+                    '<path fill="#123D2E" d="M26.286 6.851a2.29 2.29 0 0 0 3.238 0a2.29 2.29 0 1 0-3.238 0"/>' +
+                    '<path fill="#123D2E" d="M27.677 10.926a2.294 2.294 0 0 0 3.241 0a2.296 2.296 0 0 0 0-3.24a2.292 2.292 0 0 0-3.241 3.24"/>' +
+                    '<path fill="#123D2E" d="M28.285 15.33a2.29 2.29 0 0 0 3.24 0a2.29 2.29 0 1 0-3.24 0"/>' +
+                    '<path fill="#123D2E" d="M27.804 19.607a2.29 2.29 0 1 0 3.24-3.238a2.29 2.29 0 0 0-3.24 3.238"/>' +
+                    '<path fill="#123D2E" d="M26.336 23.81a2.291 2.291 0 1 0 3.239-3.241a2.291 2.291 0 0 0-3.239 3.241"/>' +
+                    '<path fill="#123D2E" d="M28.153 24.583a2.546 2.546 0 0 0-3.599 0a2.543 2.543 0 0 0 0 3.599l2.398 1.2l2.4-2.4z"/>' +
                     '</svg>',
                 TARGET: '<svg class="tb-meta-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#168a54" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' +
                     '<circle cx="12" cy="12" r="9"/>' +
