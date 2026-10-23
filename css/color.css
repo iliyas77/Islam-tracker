@@ -108,7 +108,7 @@
     --brand: var(--gr-primary);
     --brand-light: #e8f4ed;
     --brand-soft: #f4f8f5;
-    --bg: #e8f4ed;
+    --bg: #f5f7f4;
     --bg-soft: var(--surface-bg);
     --ink: var(--text-primary);
     --ink-soft: var(--text-secondary);
@@ -121,6 +121,15 @@
     --purple: #6f42c1;
     --border: #eef2f0;
     --divider: #d6dcd9;
+
+    /* Dashboard UI Tokens */
+    --dash-dark-green: #123D2E;
+    --dash-mint-bg: #e1eee5;
+    --dash-card-border: #e1ece5;
+    --dash-next-gold: #c49a5b;
+    --dash-text-muted: #69887c;
+    --dash-timeline-line: #cdded4;
+    --dash-card-shadow: 0 1px 4px rgba(20, 66, 52, 0.03);
 }
 
 /* ==========================================
@@ -279,4 +288,3 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-

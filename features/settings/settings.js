@@ -49,7 +49,7 @@ function rSET() {
         '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.prayer-times.card">' +
         '<div class="d-flex align-items-center gap-3 mb-3" data-ref="page.settings.prayer-times.header">' +
         '<span class="modal-icon-badge bg-success-subtle" data-ref="page.settings.prayer-times.icon-badge">' +
-        '<i class="fa-solid fa-mosque fs-4 text-success" data-ref="page.settings.prayer-times.icon"></i></span>' +
+        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" data-ref="page.settings.prayer-times.icon"><g fill="none" stroke="#123D2E" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M3 22v-2.5c0-2.068.345-2.5 2-2.5h12c1.655 0 2 .432 2 2.5V22zm-1 0h20M17.513 6C15.97 4 18.339 3 19 2c.661 1 3.03 2 1.488 4z"/><path d="M17.5 6L17 17m0 5h4l-.5-16M11 8c1.984 2.25 6 3 6 9H5c0-6 4.015-6.75 5.999-9"/></g></svg></span>' +
         '<div class="flex-grow-1" data-ref="page.settings.prayer-times.info">' +
         '<div class="fw-bold fs-6 text-gr1" data-ref="page.settings.prayer-times.title">Prayer Times Location</div>' +
         '<div class="text-muted small" data-ref="page.settings.prayer-times.subtitle">Selected City: ' + esc(cfg.city) + ', India</div>' +

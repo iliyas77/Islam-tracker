@@ -1,6 +1,7 @@
 /* ============================================================
    Nur Prayer — Dashboard Feature Module
    Path: features/dashboard/dashboard.js
+   Matches the Reference UI Layout & Styling Pixel-Perfect
    ============================================================ */
 
 function dashLiveHeaderTime() {
@@ -18,9 +19,8 @@ function dashBigTimeHtml() {
     var ap = h >= 12 ? 'PM' : 'AM';
     var hh = h % 12;
     if (hh === 0) hh = 12;
-    return pad2(hh) + ':' + pad2(now.getMinutes()) +
-        '<span class="small">:' + pad2(now.getSeconds()) + '</span>' +
-        '<span class="ampm">' + ap + '</span>';
+    return '<span class="dash-clock-digits">' + pad2(hh) + ':' + pad2(now.getMinutes()) + ':' + pad2(now.getSeconds()) + '</span>' +
+        '<span class="dash-clock-ampm">' + ap + '</span>';
 }
 
 function parseTimeToMin(timeStr) {
@@ -133,8 +133,74 @@ function getActivePrayerInfo() {
     };
 }
 
-var TIMELINE_ICONS = (window.CONSTANTS && window.CONSTANTS.DASHBOARD && window.CONSTANTS.DASHBOARD.TIMELINE_ICONS) || window.TIMELINE_ICONS || {};
+/* ---------- Dedicated SVG Graphics matching Reference UI ---------- */
+var DASH_SVG_MOSQUE_CLOCK =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">' +
+    '  <title>the-prophets-mosque</title>' +
+    '  <g fill="none" stroke="#123D2E" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">' +
+    '    <path d="M3 22v-2.5c0-2.068.345-2.5 2-2.5h12c1.655 0 2 .432 2 2.5V22zm-1 0h20M17.513 6C15.97 4 18.339 3 19 2c.661 1 3.03 2 1.488 4z"/>' +
+    '    <path d="M17.5 6L17 17m0 5h4l-.5-16M11 8c1.984 2.25 6 3 6 9H5c0-6 4.015-6.75 5.999-9"/>' +
+    '  </g>' +
+    '</svg>';
 
+var DASH_SVG_MOSQUE_HEADER = DASH_SVG_MOSQUE_CLOCK;
+
+var DASH_SVG_RUB_EL_HIZB =
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9bb8a9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<rect x="4.2" y="4.2" width="15.6" height="15.6" rx="1.5"/>' +
+    '<rect x="4.2" y="4.2" width="15.6" height="15.6" rx="1.5" transform="rotate(45 12 12)"/>' +
+    '<circle cx="12" cy="12" r="3.2"/>' +
+    '</svg>';
+
+var DASH_SVG_TRACKER =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true">' +
+    '  <title>prayer-times</title>' +
+    '  <path fill="none" stroke="#123D2E" stroke-linecap="round" stroke-linejoin="round" d="M38.5 5.5h-29c-2.2 0-4 1.8-4 4v29c0 2.2 1.8 4 4 4h29c2.2 0 4-1.8 4-4v-29c0-2.2-1.8-4-4-4"/>' +
+    '  <path fill="none" stroke="#123D2E" stroke-linecap="round" stroke-linejoin="round" d="M15.333 37C12.95 37 11 36.056 11 33.673V14c0-1.65 1.35-3 3-3h20c1.65 0 3 1.35 3 3v18.667A4.346 4.346 0 0 1 32.667 37v-1.526c-1.214-1.005-1.693-1.21-1.693-1.21s1.524-1.23 1.898-1.756c.816-1.15 2.863-6.045-1.469-9.095c-1.552-1.093-6.31-3.317-6.31-3.317c-1.036-2.482-1.128-3.545-1.093-6.172c.035 2.627-.057 3.69-1.094 6.172c0 0-4.756 2.224-6.309 3.317c-4.332 3.05-2.285 7.945-1.469 9.095c.374.527 1.898 1.756 1.898 1.756s-.479.205-1.692 1.21z"/>' +
+    '</svg>';
+
+var DASH_SVG_TASBEEH =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">' +
+    '  <title>prayer-beads</title>' +
+    '  <path fill="#123D2E" d="M26.797 28.781c.484 1.109-.268 2.391.739 4.323c1.088 2.087 3.653 2.801 5.292 2.817c1.078.011 1.189-.447.759-.667c-.681-.349-.598-.871-.598-.871s.464.429 1.308.663c.621.173 1.307.216 1.518-.379c.182-.51-1.647-.142-2.491-1.954c1.092.494 1.692.224 2.146-.151c.257-.213.453-.625.109-.5s-2.703.391-3.047-2.062c1.088 1.231 2.402 1.122 3.019.708c.403-.271.503-.803.11-.621c-1.422.656-2.051-.606-2.975-1.856c-1.113-1.507-2.936-.996-3.686-1.324c-.276-.122-2.203 1.874-2.203 1.874"/>' +
+    '  <path fill="#123D2E" d="M10.087 6.851a2.29 2.29 0 1 1-3.24 3.242a2.29 2.29 0 0 1 3.24-3.242"/>' +
+    '  <path fill="#123D2E" d="M7.227 10.218a2.29 2.29 0 1 1-3.238 3.24a2.29 2.29 0 0 1 3.238-3.24"/>' +
+    '  <path fill="#123D2E" d="M5.051 14.064a2.29 2.29 0 0 1 0 3.24a2.29 2.29 0 0 1-3.24 0a2.29 2.29 0 0 1 0-3.24a2.29 2.29 0 0 1 3.24 0"/>' +
+    '  <path fill="#123D2E" d="M4.039 18.317a2.292 2.292 0 1 1-3.244 3.24a2.292 2.292 0 0 1 3.244-3.24"/>' +
+    '  <path fill="#123D2E" d="M4.494 22.67a2.29 2.29 0 1 1-3.239 3.239a2.29 2.29 0 0 1 0-3.239a2.29 2.29 0 0 1 3.239 0"/>' +
+    '  <path fill="#123D2E" d="M6.848 26.289a2.29 2.29 0 1 1-3.238 3.24a2.29 2.29 0 0 1 3.238-3.24"/>' +
+    '  <path fill="#123D2E" d="M10.923 27.681a2.29 2.29 0 0 1 0 3.24a2.29 2.29 0 0 1-3.24 0a2.29 2.29 0 0 1 0-3.24a2.29 2.29 0 0 1 3.24 0"/>' +
+    '  <path fill="#123D2E" d="M15.327 28.288a2.292 2.292 0 1 1-3.24 3.241a2.292 2.292 0 0 1 3.24-3.241"/>' +
+    '  <path fill="#123D2E" d="M19.604 27.807a2.29 2.29 0 1 1-3.239 3.241a2.292 2.292 0 0 1 3.239-3.241"/>' +
+    '  <path fill="#123D2E" d="M23.806 26.34a2.291 2.291 0 1 1-3.241 3.239a2.291 2.291 0 0 1 3.241-3.239M10.214 7.231a2.29 2.29 0 1 0 3.24-3.238a2.29 2.29 0 0 0-3.24 3.238"/>' +
+    '  <path fill="#123D2E" d="M14.061 5.055a2.29 2.29 0 0 0 3.24 0a2.29 2.29 0 0 0 0-3.24a2.29 2.29 0 1 0-3.24 3.24"/>' +
+    '  <path fill="#123D2E" d="M18.313 4.042a2.29 2.29 0 1 0 3.242-3.24a2.29 2.29 0 0 0-3.242 3.24"/>' +
+    '  <path fill="#123D2E" d="M22.666 4.498a2.29 2.29 0 1 0 3.24-3.238a2.29 2.29 0 0 0-3.24 3.238"/>' +
+    '  <path fill="#123D2E" d="M26.286 6.851a2.29 2.29 0 0 0 3.238 0a2.29 2.29 0 1 0-3.238 0"/>' +
+    '  <path fill="#123D2E" d="M27.677 10.926a2.294 2.294 0 0 0 3.241 0a2.296 2.296 0 0 0 0-3.24a2.292 2.292 0 0 0-3.241 3.24"/>' +
+    '  <path fill="#123D2E" d="M28.285 15.33a2.29 2.29 0 0 0 3.24 0a2.29 2.29 0 1 0-3.24 0"/>' +
+    '  <path fill="#123D2E" d="M27.804 19.607a2.29 2.29 0 1 0 3.24-3.238a2.29 2.29 0 0 0-3.24 3.238"/>' +
+    '  <path fill="#123D2E" d="M26.336 23.81a2.291 2.291 0 1 0 3.239-3.241a2.291 2.291 0 0 0-3.239 3.241"/>' +
+    '  <path fill="#123D2E" d="M28.153 24.583a2.546 2.546 0 0 0-3.599 0a2.543 2.543 0 0 0 0 3.599l2.398 1.2l2.4-2.4z"/>' +
+    '</svg>';
+
+var DASH_SVG_DUAS =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">' +
+    '  <title>places-praying-room</title>' +
+    '  <path fill="none" stroke="#123D2E" d="m17 9l-4.25 4.5h-.25l-1.5-6h-.5a3 3 0 0 0-3 3V17c5.5 0 9 2.5 9 3.5H7m6-10.882L15 7.5m-15 16h24m-12.445-18s1.81-.557 2.135-1.776a1.77 1.77 0 0 0-1.242-2.163a1.75 1.75 0 0 0-2.145 1.25c-.325 1.219.961 2.61.961 2.61z"/>' +
+    '</svg>';
+
+var DASH_SVG_SETTINGS =
+    '<svg width="26" height="26" viewBox="0 0 24 24" fill="#123D2E" aria-hidden="true">' +
+    '<path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54A.48.48 0 0 0 14 2.3h-4a.48.48 0 0 0-.48.41l-.38 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.62 8.77c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.63-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h4c.24 0 .44-.17.48-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>' +
+    '</svg>';
+
+var DASH_SVG_CHEVRON =
+    '<svg class="dash-nav-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9bb8a9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="m9 18 6-6-6-6"/>' +
+    '</svg>';
+
+var TIMELINE_ICONS = (window.CONSTANTS && window.CONSTANTS.DASHBOARD && window.CONSTANTS.DASHBOARD.TIMELINE_ICONS) || window.TIMELINE_ICONS || {};
 
 /* ---------- Dashboard Render ---------- */
 function rDashboard() {
@@ -148,246 +214,163 @@ function rDashboard() {
     };
     dashCurrentActivePrayer = activeP.name;
 
-    var today = td();
-    var todayData = en(today);
-    var doneToday = P.filter(function (p) {
-        return typeof isDonePrayer === 'function' ? isDonePrayer(p, today, todayData) : (todayData[p] === 'done');
-    }).length;
-    var missToday = P.filter(function (p) {
-        if (typeof isDonePrayer === 'function' && isDonePrayer(p, today, todayData)) return false;
-        if (typeof isPrayerUpcoming === 'function' && isPrayerUpcoming(p, today)) return false;
-        if (activeP && activeP.name === p) return false;
-        return true;
-    }).length;
-    var missPrev = tMT();
-    var curPct = Math.round((doneToday / P.length) * 100);
-
-    var o = rdOK();
-    var ocA = rdOC();
-    var checkDates, periodLabel;
-    if (o) {
-        checkDates = datesInRange(o.start, o.end);
-        periodLabel = checkDates.length + '-day';
-    } else {
-        var endD = new Date(); endD.setDate(endD.getDate() - 1);
-        var startD = new Date(); startD.setDate(startD.getDate() - 30);
-        checkDates = datesInRange(
-            startD.getFullYear() + '-' + pad2(startD.getMonth() + 1) + '-' + pad2(startD.getDate()),
-            endD.getFullYear() + '-' + pad2(endD.getMonth() + 1) + '-' + pad2(endD.getDate())
-        );
-        periodLabel = checkDates.length + '-day';
-    }
-
-    var trackedDays = 0, trackedMiss = 0;
-    checkDates.forEach(function (d) {
-        var rr = ocA[d];
-        if (!rr) return;
-        trackedDays++;
-        P.forEach(function (p) { if (rr[p] === true) trackedMiss++; });
-    });
-    var oldPct = trackedDays > 0
-        ? Math.round((1 - trackedMiss / (trackedDays * 5)) * 100)
-        : 0;
-
     var cfg = typeof getPrayerConfig === 'function' ? getPrayerConfig() : { city: 'Guntur', school: 1 };
-
-    var now = new Date();
-    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var gregorianStr = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
-    var hijriStr = currentHijri && currentHijri.day && currentHijri.month && currentHijri.year
-        ? (currentHijri.day + ' ' + currentHijri.month + ' ' + currentHijri.year)
-        : (currentHijri && currentHijri.text ? currentHijri.text.replace(' AH', '') : '4 Jumādá al-ūlá 1448');
-
-    var activeCardIcon = TIMELINE_ICONS[activeP.name] || TIMELINE_ICONS.Fajr;
 
     var statuses = getTimelinePrayerStatuses();
     var timelineNodesHtml = P.map(function (p) {
         var st = statuses[p] || 'upcoming';
         var isActive = st === 'active';
-        var circleClass = isActive ? 'timeline-circle-active' : 'timeline-circle-inactive';
+        var circleClass = isActive ? 'dash-timeline-circle active' : 'dash-timeline-circle';
         var dotHtml = isActive
-            ? '<div class="timeline-dot-active" data-ref="page.dashboard.timeline.dot.' + p.toLowerCase() + '"><div class="timeline-dot-active-inner"></div></div>'
-            : '<div class="timeline-dot" data-ref="page.dashboard.timeline.dot.' + p.toLowerCase() + '"></div>';
+            ? '<div class="dash-timeline-dot-active" data-ref="page.dashboard.timeline.dot.' + p.toLowerCase() + '"><div class="dash-timeline-dot-active-inner"></div></div>'
+            : '<div class="dash-timeline-dot" data-ref="page.dashboard.timeline.dot.' + p.toLowerCase() + '"></div>';
 
-        var badgeClass = st === 'active' ? 'badge-status-active'
-            : (st === 'passed' ? 'badge-status-passed'
-                : (st === 'next' ? 'badge-status-next' : 'badge-status-upcoming'));
+        var badgeClass = st === 'active' ? 'badge-active'
+            : (st === 'passed' ? 'badge-passed'
+                : (st === 'next' ? 'badge-next' : 'badge-upcoming'));
         var badgeText = st === 'active' ? 'Active'
             : (st === 'passed' ? 'Passed'
                 : (st === 'next' ? 'Next' : 'Upcoming'));
 
-        return '<div class="timeline-item" data-ref="page.dashboard.timeline.item.' + p.toLowerCase() + '">' +
-            '<div class="timeline-circle ' + circleClass + ' mb-1" data-ref="page.dashboard.timeline.icon.' + p.toLowerCase() + '">' +
-            TIMELINE_ICONS[p] +
-            '</div>' +
-            '<div class="timeline-dot-wrap" data-ref="page.dashboard.timeline.dot-wrap.' + p.toLowerCase() + '">' +
+        var prayerIcon = TIMELINE_ICONS[p] || '';
+
+        return '<div class="dash-timeline-col" data-ref="page.dashboard.timeline.item.' + p.toLowerCase() + '">' +
+            '  <div class="' + circleClass + '" data-ref="page.dashboard.timeline.icon.' + p.toLowerCase() + '">' +
+            prayerIcon +
+            '  </div>' +
+            '  <div class="dash-timeline-dot-wrap" data-ref="page.dashboard.timeline.dot-wrap.' + p.toLowerCase() + '">' +
             dotHtml +
-            '</div>' +
-            '<div class="timeline-label mt-1 text-gr1 lh-sm" data-ref="page.dashboard.timeline.name.' + p.toLowerCase() + '">' + p + '</div>' +
-            '<div class="timeline-time text-gr-muted mt-1" data-ref="page.dashboard.timeline.time.' + p.toLowerCase() + '">' + (T[p] || '--:--') + '</div>' +
-            '<span class="badge rounded-pill mt-2 ' + badgeClass + '" data-ref="page.dashboard.timeline.badge.' + p.toLowerCase() + '">' + badgeText + '</span>' +
+            '  </div>' +
+            '  <div class="dash-timeline-name" data-ref="page.dashboard.timeline.name.' + p.toLowerCase() + '">' + p + '</div>' +
+            '  <div class="dash-timeline-time" data-ref="page.dashboard.timeline.time.' + p.toLowerCase() + '">' + (T[p] || '--:--') + '</div>' +
+            '  <span class="dash-timeline-badge ' + badgeClass + '" data-ref="page.dashboard.timeline.badge.' + p.toLowerCase() + '">' + badgeText + '</span>' +
             '</div>';
     }).join('');
 
-    function summaryTile(label, value, colorClass) {
-        return '<div class="col-4" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '">' +
-            '<div class="summary-tile" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '.box">' +
-            '<div class="label label-supporting text-gr-muted" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '.label">' + label + '</div>' +
-            '<div class="value ' + (colorClass || '') + '" data-ref="page.dashboard.summary-tile.' + label.toLowerCase() + '.value">' + value + '</div>' +
-            '</div></div>';
-    }
-
     body.innerHTML =
-        '<!-- Main Clock / Prayer Timeline Card matching reference UI -->' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0 position-relative overflow-hidden d-flex flex-column gap-3" data-ref="page.dashboard.clock-card">' +
-        '  <!-- 1. Header Bar: Location -->' +
-        '  <div class="d-flex align-items-center justify-content-between pb-2 border-bottom border-secondary-subtle" data-ref="page.dashboard.clock-card.header">' +
-        '    <div class="d-flex align-items-center gap-1 text-gr1 location" data-ref="page.dashboard.clock-card.header.location">' +
-        '      <i class="fa-solid fa-location-dot text-gr-accent" data-ref="page.dashboard.clock-card.header.location-icon"></i>' +
-        '      <span data-ref="page.dashboard.clock-card.header.location-text">' + cfg.city + ' &bull; ' + (cfg.school === 1 ? 'Hanafi' : 'Shafi') + '</span>' +
+        '<div class="dash-container" data-ref="page.dashboard.container">' +
+        '  <!-- Background Islamic Geometric Watermark -->' +
+        '  <div class="dash-bg-pattern-top" aria-hidden="true">' +
+        '    <svg class="dash-corner-pattern dash-corner-tl" viewBox="0 0 160 120" fill="none" stroke="#123D2E" stroke-width="1.2">' +
+        '      <path d="M 0,0 L 40,0 L 60,20 L 60,60 L 40,80 L 0,80 Z"/>' +
+        '      <path d="M 20,0 L 40,20 L 20,40 L 0,20 Z"/>' +
+        '      <path d="M 60,20 L 80,0 L 100,20 L 80,40 Z"/>' +
+        '      <path d="M 40,40 L 60,60 L 40,80 L 20,60 Z"/>' +
+        '      <polygon points="60,35 66,49 80,46 72,58 80,70 66,67 60,81 54,67 40,70 48,58 40,46 54,49"/>' +
+        '      <polygon points="120,35 126,49 140,46 132,58 140,70 126,67 120,81 114,67 100,70 108,58 100,46 114,49"/>' +
+        '      <circle cx="60" cy="58" r="8"/>' +
+        '      <circle cx="120" cy="58" r="8"/>' +
+        '      <line x1="0" y1="20" x2="160" y2="20"/>' +
+        '      <line x1="0" y1="58" x2="160" y2="58"/>' +
+        '      <line x1="0" y1="96" x2="160" y2="96"/>' +
+        '      <line x1="60" y1="0" x2="60" y2="120"/>' +
+        '      <line x1="120" y1="0" x2="120" y2="120"/>' +
+        '    </svg>' +
+        '    <svg class="dash-corner-pattern dash-corner-tr" viewBox="0 0 160 120" fill="none" stroke="#123D2E" stroke-width="1.2">' +
+        '      <path d="M 0,0 L 40,0 L 60,20 L 60,60 L 40,80 L 0,80 Z"/>' +
+        '      <path d="M 20,0 L 40,20 L 20,40 L 0,20 Z"/>' +
+        '      <path d="M 60,20 L 80,0 L 100,20 L 80,40 Z"/>' +
+        '      <path d="M 40,40 L 60,60 L 40,80 L 20,60 Z"/>' +
+        '      <polygon points="60,35 66,49 80,46 72,58 80,70 66,67 60,81 54,67 40,70 48,58 40,46 54,49"/>' +
+        '      <polygon points="120,35 126,49 140,46 132,58 140,70 126,67 120,81 114,67 100,70 108,58 100,46 114,49"/>' +
+        '      <circle cx="60" cy="58" r="8"/>' +
+        '      <circle cx="120" cy="58" r="8"/>' +
+        '      <line x1="0" y1="20" x2="160" y2="20"/>' +
+        '      <line x1="0" y1="58" x2="160" y2="58"/>' +
+        '      <line x1="0" y1="96" x2="160" y2="96"/>' +
+        '      <line x1="60" y1="0" x2="60" y2="120"/>' +
+        '      <line x1="120" y1="0" x2="120" y2="120"/>' +
+        '    </svg>' +
+        '  </div>' +
+        '' +
+        '  <!-- Top Header Bar: Location & Mosque Silhouette -->' +
+        '  <header class="dash-top-header" data-ref="page.dashboard.header">' +
+        '    <div class="dash-location-text" data-ref="page.dashboard.header.location">' +
+        '      <i class="fa-solid fa-location-dot dash-location-icon" data-ref="page.dashboard.header.location-icon"></i>' +
+        '      <span data-ref="page.dashboard.header.location-text">' + cfg.city + ' &bull; ' + (cfg.school === 1 ? 'Hanafi' : 'Shafi') + '</span>' +
+        '    </div>' +
+        '    <div class="dash-header-mosque" data-ref="page.dashboard.header.mosque-icon">' +
+        '      ' + DASH_SVG_MOSQUE_HEADER +
+        '    </div>' +
+        '  </header>' +
+        '' +
+        '  <!-- 1. Digital Clock Card -->' +
+        '  <div class="dash-clock-card" data-ref="page.dashboard.clock-card">' +
+        '    <div class="dash-clock-left" data-ref="page.dashboard.clock-card.left-icon">' +
+        '      ' + DASH_SVG_MOSQUE_CLOCK +
+        '    </div>' +
+        '    <div class="dash-clock-wrap" id="dashTime" data-ref="page.dashboard.clock-card.time">' +
+        '      ' + dashBigTimeHtml() +
+        '    </div>' +
+        '    <div class="dash-clock-right" data-ref="page.dashboard.clock-card.right-icon">' +
+        '      ' + DASH_SVG_RUB_EL_HIZB +
         '    </div>' +
         '  </div>' +
-
-        '  <!-- 2. Big Live Current Time with Masjid Icon -->' +
-        '  <div class="d-flex align-items-center justify-content-start gap-2 gap-sm-3" data-ref="page.dashboard.clock-card.time-wrap">' +
-        '    <i class="fa-solid fa-mosque text-gr1 display-6 lh-1" data-ref="page.dashboard.clock-card.time-icon"></i>' +
-        '    <div class="clock-big text-gr1 d-inline-flex align-items-baseline fw-normal" id="dashTime" data-ref="page.dashboard.clock-card.time">' +
-        dashBigTimeHtml() +
+        '' +
+        '  <!-- 2. Daily Prayer Timeline Card -->' +
+        '  <div class="dash-timeline-card" data-ref="page.dashboard.timeline-card">' +
+        '    <div class="dash-timeline-header" data-ref="page.dashboard.timeline.header">' +
+        '      <span class="dash-timeline-title" data-ref="page.dashboard.timeline.title">DAILY PRAYER TIMELINE</span>' +
+        '      <div class="dash-timeline-header-line" data-ref="page.dashboard.timeline.line"></div>' +
         '    </div>' +
-        '  </div>' +
-
-        '  <!-- 3. Active Prayer Card: Left = Icon + Name + Time + Day, Divider, Right = Dates -->' +
-        '  <div class="dash-next-card d-flex align-items-center justify-content-between" data-ref="page.dashboard.clock-card.next-card">' +
-        '    <div class="d-flex align-items-center gap-3" data-ref="page.dashboard.clock-card.next-card.left">' +
-        '      <div class="dash-next-icon-circle" data-ref="page.dashboard.clock-card.next-card.icon-circle">' +
-        activeCardIcon +
+        '    <div class="dash-timeline-track" data-ref="page.dashboard.timeline.track">' +
+        '      <div class="dash-timeline-track-line" data-ref="page.dashboard.timeline.track-line"></div>' +
+        '      <div class="dash-timeline-nodes" data-ref="page.dashboard.timeline.nodes">' +
+        '        ' + timelineNodesHtml +
         '      </div>' +
-        '      <div class="d-flex flex-column justify-content-center gap-2" data-ref="page.dashboard.clock-card.next-card.details">' +
-        '        <div class="prayer-name text-gr1 text-uppercase lh-1" data-ref="page.dashboard.clock-card.next-card.name">' + activeP.name + '</div>' +
-        '        <div class="prayer-time text-gr1 lh-1" data-ref="page.dashboard.clock-card.next-card.time">' + activeP.time + '</div>' +
-        '        <div class="tomorrow-label text-gr-muted d-flex align-items-center gap-1 lh-1" data-ref="page.dashboard.clock-card.next-card.day">' +
-        '          <i class="fa-regular fa-calendar"></i>' +
-        '          <span>' + (activeP.isYesterday ? 'Yesterday' : 'Today') + '</span>' +
-        '        </div>' +
-        '      </div>' +
-        '    </div>' +
-        '    <div class="border-start mx-2 align-self-stretch border-secondary-subtle" data-ref="page.dashboard.clock-card.next-card.divider"></div>' +
-        '    <div class="d-flex flex-column justify-content-center gap-2 date-text" data-ref="page.dashboard.clock-card.next-card.right">' +
-        '      <div class="d-flex align-items-center gap-2 text-gr" data-ref="page.dashboard.clock-card.next-card.gregorian">' +
-        '        <i class="fa-regular fa-calendar-days text-gr"></i>' +
-        '        <span>' + gregorianStr + '</span>' +
-        '      </div>' +
-        '      <div class="d-flex align-items-center gap-2 text-gr" data-ref="page.dashboard.clock-card.next-card.hijri">' +
-        '        <i class="fa-regular fa-moon text-gr"></i>' +
-        '        <span>' + hijriStr + '</span>' +
-        '      </div>' +
         '    </div>' +
         '  </div>' +
-
-        '  <!-- 4. Daily Prayer Timeline Section -->' +
-        '  <div class="d-flex align-items-center gap-3" data-ref="page.dashboard.timeline.header">' +
-        '    <span class="section-title text-uppercase text-gr1 text-nowrap" data-ref="page.dashboard.timeline.title">DAILY PRAYER TIMELINE</span>' +
-        '    <div class="flex-grow-1 border-bottom border-secondary-subtle" data-ref="page.dashboard.timeline.line"></div>' +
-        '  </div>' +
-
-        '  <div class="position-relative w-100" data-ref="page.dashboard.timeline.track">' +
-        '    <div class="timeline-track-line" data-ref="page.dashboard.timeline.track-line"></div>' +
-        '    <div class="d-flex align-items-start justify-content-between position-relative timeline-track-nodes" data-ref="page.dashboard.timeline.nodes">' +
-        timelineNodesHtml +
+        '' +
+        '  <!-- 3. 2x2 Quick Navigation Cards Grid -->' +
+        '  <div class="dash-grid-2x2" data-ref="page.dashboard.nav-grid">' +
+        '    <!-- Tracker -->' +
+        '    <div class="dash-nav-card" role="button" tabindex="0" data-act="goto-tracker" data-ref="page.dashboard.card.tracker">' +
+        '      <div class="dash-nav-icon-circle" data-ref="page.dashboard.card.tracker-icon">' +
+        '        ' + DASH_SVG_TRACKER +
+        '      </div>' +
+        '      <div class="dash-nav-footer">' +
+        '        <span class="dash-nav-title" data-ref="page.dashboard.card.tracker-label">Tracker</span>' +
+        '        ' + DASH_SVG_CHEVRON +
+        '      </div>' +
+        '    </div>' +
+        '    <!-- Tasbeeh -->' +
+        '    <div class="dash-nav-card" role="button" tabindex="0" data-act="goto-tasbeeh" data-ref="page.dashboard.card.tasbeeh">' +
+        '      <div class="dash-nav-icon-circle" data-ref="page.dashboard.card.tasbeeh-icon">' +
+        '        ' + DASH_SVG_TASBEEH +
+        '      </div>' +
+        '      <div class="dash-nav-footer">' +
+        '        <span class="dash-nav-title" data-ref="page.dashboard.card.tasbeeh-label">Tasbeeh</span>' +
+        '        ' + DASH_SVG_CHEVRON +
+        '      </div>' +
+        '    </div>' +
+        '    <!-- Duas -->' +
+        '    <div class="dash-nav-card" role="button" tabindex="0" data-act="goto-duas" data-ref="page.dashboard.card.duas">' +
+        '      <div class="dash-nav-icon-circle" data-ref="page.dashboard.card.duas-icon">' +
+        '        ' + DASH_SVG_DUAS +
+        '      </div>' +
+        '      <div class="dash-nav-footer">' +
+        '        <span class="dash-nav-title" data-ref="page.dashboard.card.duas-label">Duas</span>' +
+        '        ' + DASH_SVG_CHEVRON +
+        '      </div>' +
+        '    </div>' +
+        '    <!-- Settings -->' +
+        '    <div class="dash-nav-card" role="button" tabindex="0" data-act="goto-settings" data-ref="page.dashboard.card.settings">' +
+        '      <div class="dash-nav-icon-circle" data-ref="page.dashboard.card.settings-icon">' +
+        '        ' + DASH_SVG_SETTINGS +
+        '      </div>' +
+        '      <div class="dash-nav-footer">' +
+        '        <span class="dash-nav-title" data-ref="page.dashboard.card.settings-label">Settings</span>' +
+        '        ' + DASH_SVG_CHEVRON +
+        '      </div>' +
         '    </div>' +
         '  </div>' +
-
-        '  <!-- 5. Bottom Decorative Divider -->' +
-        '  <div class="d-flex align-items-center justify-content-center" data-ref="page.dashboard.clock-card.bottom-divider">' +
-        '    <div class="flex-grow-1 border-bottom opacity-50 border-secondary-subtle divider-line-sm"></div>' +
-        '    <span class="px-2 text-gr-muted small">✦</span>' +
-        '    <div class="flex-grow-1 border-bottom opacity-50 border-secondary-subtle divider-line-sm"></div>' +
+        '' +
+        '  <!-- 4. Bottom Decorative Divider -->' +
+        '  <div class="dash-bottom-divider" data-ref="page.dashboard.bottom-divider">' +
+        '    <div class="dash-bottom-line"></div>' +
+        '    <div class="dash-bottom-star">' + DASH_SVG_RUB_EL_HIZB + '</div>' +
+        '    <div class="dash-bottom-line"></div>' +
         '  </div>' +
-        '</div>' +
-
-        '<!-- Current Prayer Summary Card -->' +
-        '<div class="fw-bold mb-2 px-1 text-gr label-supporting letter-spacing-lg" data-ref="page.dashboard.current-prayer.section-title">CURRENT PRAYER</div>' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0 cursor-pointer" role="button" data-act="goto-cur" data-ref="page.dashboard.current-prayer-card">' +
-        '<div class="row g-2 mb-2" data-ref="page.dashboard.current-prayer-card.stats">' +
-        summaryTile('Done', doneToday, 'text-success') +
-        summaryTile('Missed', missToday, 'text-danger') +
-        summaryTile('Today', curPct + '%', 'text-warning') +
-        '</div>' +
-        (missPrev > 0
-            ? '<div class="d-flex align-items-center gap-2 mb-2 p-2 rounded-3 bg-gr-danger-soft" data-ref="page.dashboard.current-prayer-card.missed-alert">' +
-            '<i class="fa-solid fa-circle-exclamation text-gr-danger"></i>' +
-            '<span class="fw-bold text-gr-danger small">' + missPrev + ' missed from previous days</span>' +
-            '<i class="fa-solid fa-chevron-right ms-auto text-gr-muted small"></i>' +
-            '</div>'
-            : '<div class="d-flex align-items-center gap-2 mb-2 p-2 rounded-3 bg-gr-accent-soft" data-ref="page.dashboard.current-prayer-card.all-clear">' +
-            '<i class="fa-solid fa-circle-check text-gr-accent"></i>' +
-            '<span class="fw-bold text-gr-accent small">No missed prayers from previous days</span>' +
-            '</div>') +
-        '<div class="text-gr-muted label-supporting" data-ref="page.dashboard.current-prayer-card.footer">' +
-        '<i class="fa-regular fa-calendar me-1"></i>' + fr(today) +
-        '</div>' +
-        '</div>' +
-
-        '<!-- Previous Prayer Summary Card -->' +
-        '<div class="fw-bold mb-2 px-1 text-gr label-supporting letter-spacing-lg" data-ref="page.dashboard.previous-prayer.section-title">PREVIOUS PRAYER</div>' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0 cursor-pointer" role="button" data-act="goto-old" data-ref="page.dashboard.previous-prayer-card">' +
-        '<div class="row g-2 mb-2" data-ref="page.dashboard.previous-prayer-card.stats">' +
-        summaryTile('Tracked', trackedDays, 'text-success') +
-        summaryTile('Missed', trackedMiss, 'text-danger') +
-        summaryTile('Rate', oldPct + '%', 'text-warning') +
-        '</div>' +
-        '<div class="text-gr-muted label-supporting" data-ref="page.dashboard.previous-prayer-card.footer">' +
-        '<i class="fa-solid fa-clock-rotate-left me-1"></i>' +
-        (o ? (fr(o.start) + ' → ' + fr(o.end)) : (periodLabel + ' · last 30 days')) +
-        '</div>' +
-        '</div>';
-
-    var tbRaw = localStorage.getItem('app_tasbeeh_data');
-    var tbList = [];
-    try { tbList = JSON.parse(tbRaw) || []; } catch (_) { }
-    var tbToday = tbList.reduce(function (sum, it) { return sum + (it.totalCountToday || 0); }, 0);
-    var tbCount = tbList.length;
-
-    body.innerHTML +=
-        '<!-- Digital Tasbeeh Summary Card -->' +
-        '<div class="fw-bold mb-2 px-1 text-gr label-supporting letter-spacing-lg" data-ref="page.dashboard.tasbeeh.section-title">DIGITAL TASBEEH</div>' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0 cursor-pointer" role="button" data-act="goto-tasbeeh" data-ref="page.dashboard.tasbeeh-card">' +
-        '<div class="row g-2 mb-2" data-ref="page.dashboard.tasbeeh-card.stats">' +
-        summaryTile('Chants', tbCount, 'text-success') +
-        summaryTile('Today', tbToday, 'text-warning') +
-        summaryTile('Counter', '<i class="fa-solid fa-arrow-right"></i>', 'text-success') +
-        '</div>' +
-        '<div class="text-gr-muted label-supporting" data-ref="page.dashboard.tasbeeh-card.footer">' +
-        '<i class="fa-solid fa-hand-holding-heart me-1"></i>Tap to open Digital Tasbeeh' +
-        '</div>' +
-        '</div>';
-
-    var duasRaw = localStorage.getItem('quranDuas_data');
-    var duasList = [];
-    try { duasList = JSON.parse(duasRaw) || []; } catch (_) { }
-    var duasCount = duasList.length || 100;
-    var favsRaw = localStorage.getItem('quranDuas_favourites');
-    var favsList = [];
-    try { favsList = JSON.parse(favsRaw) || []; } catch (_) { }
-    var favsCount = favsList.length;
-    var pinsRaw = localStorage.getItem('quranDuas_pins');
-    var pinsList = [];
-    try { pinsList = JSON.parse(pinsRaw) || []; } catch (_) { }
-    var pinsCount = pinsList.length;
-
-    body.innerHTML +=
-        '<!-- Quran Duas Summary Card -->' +
-        '<div class="fw-bold mb-2 px-1 text-gr label-supporting letter-spacing-lg" data-ref="page.dashboard.duas.section-title">QURAN DUAS</div>' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-3 bg-gr border-0 cursor-pointer" role="button" data-act="goto-duas" data-ref="page.dashboard.duas-card">' +
-        '<div class="row g-2 mb-2" data-ref="page.dashboard.duas-card.stats">' +
-        summaryTile('Total', duasCount, 'text-success') +
-        summaryTile('Pinned', pinsCount + ' / 2', 'text-warning') +
-        summaryTile('Favorites', favsCount, 'text-danger') +
-        '</div>' +
-        '<div class="text-gr-muted label-supporting" data-ref="page.dashboard.duas-card.footer">' +
-        '<i class="fa-solid fa-book-quran me-1"></i>Tap to explore Quran Duas &amp; meanings' +
-        '</div>' +
         '</div>';
 
     startDashClock();
