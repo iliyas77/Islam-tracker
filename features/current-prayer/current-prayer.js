@@ -25,7 +25,7 @@ function rn() {
     var curPrayerName = curActive ? curActive.name : null;
 
     var actualMissedCount = missed.filter(function (p) {
-        return upcoming.indexOf(p) === -1 && (p !== curPrayerName || r[p] === 'missed');
+        return upcoming.indexOf(p) === -1 && p !== curPrayerName;
     }).length;
     var badgeText = actualMissedCount > 0 ? ('Missed (' + actualMissedCount + ')') : 'Missed';
     var actionBtnText = isToday ? 'Select All' : 'Today';

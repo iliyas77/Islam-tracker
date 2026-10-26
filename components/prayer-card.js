@@ -35,11 +35,16 @@ function isPrayerUpcoming(prayerName, dateStr) {
 }
 
 function isDonePrayer(p, dateStr, r) {
+    if (!r) {
+        var d = dateStr || (typeof sd !== 'undefined' ? sd : td());
+        r = typeof gr === 'function' ? gr(d) : {};
+    }
     if (!r) return false;
-    if (r[p] === 'done') return true;
-    var today = td();
-    if (dateStr && dateStr < today) {
-        return r[p] !== true && r[p] !== 'missed' && r[p] !== undefined;
+    // Unified boolean format: false = completed, true = missed (with legacy 'done' fallback)
+    if (r[p] === false || r[p] === 'done') return true;
+    if (r[p] === true || r[p] === 'missed') return false;
+    if (dateStr && typeof rd === 'function' && !rd()[dateStr]) {
+        return true;
     }
     return false;
 }

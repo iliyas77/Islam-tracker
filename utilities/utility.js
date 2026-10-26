@@ -186,6 +186,24 @@ if (typeof window !== 'undefined') {
     window.mBD = mBD;
     window.getTodayMissedCount = getTodayMissedCount;
     window.getConsolidatedMissedCount = getConsolidatedMissedCount;
+    window.rd = rd;
+    window.gr = gr;
+    window.sr = sr;
+    window.en = en;
+    window.rdOC = rdOC;
+    window.grO = grO;
+    window.srO = srO;
+    window.isDonePrayer = isDonePrayer;
+    window.isPrayerUpcoming = isPrayerUpcoming;
+    window.ensureCurrentDateInitialized = ensureCurrentDateInitialized;
+    window.migratePrayerData = migratePrayerData;
+    window.rdOK = rdOK;
+    window.wrOK = wrOK;
+    window.ensureAllOldMissed = ensureAllOldMissed;
+    window.shrinkOldPeriod = shrinkOldPeriod;
+    window.currentOldDate = currentOldDate;
+    window.datesInRange = datesInRange;
+    window.prevDate = prevDate;
 }
 
 function parseTimeToMin(timeStr) {
@@ -215,11 +233,17 @@ function isPrayerUpcoming(prayerName, dateStr) {
 }
 
 function isDonePrayer(p, dateStr, r) {
+    if (!r) {
+        var d = dateStr || (typeof sd !== 'undefined' ? sd : td());
+        r = gr(d);
+    }
     if (!r) return false;
-    if (r[p] === 'done') return true;
-    var today = td();
-    if (dateStr && dateStr < today) {
-        return r[p] !== true && r[p] !== 'missed' && r[p] !== undefined;
+    // Unified boolean format: false = completed, true = missed (with legacy 'done' fallback)
+    if (r[p] === false || r[p] === 'done') return true;
+    if (r[p] === true || r[p] === 'missed') return false;
+    // If not in record, check if entry was removed (meaning all completed)
+    if (dateStr && !rd()[dateStr]) {
+        return true;
     }
     return false;
 }
@@ -234,24 +258,170 @@ var LS = {
     }
 };
 
+/* ---------- Legacy Data Migration & Current Date Initialization ---------- */
+function migratePrayerData() {
+    try {
+        var curData = LS.get(K);
+        if (curData && typeof curData === 'object') {
+            var curChanged = false;
+            Object.keys(curData).forEach(function (d) {
+                var rec = curData[d];
+                if (rec && typeof rec === 'object') {
+                    var cleaned = {};
+                    var hasMissed = false;
+                    P.forEach(function (p) {
+                        var val = (rec[p] === true || rec[p] === 'missed');
+                        cleaned[p] = val;
+                        if (val) hasMissed = true;
+                    });
+                    if (!hasMissed) {
+                        delete curData[d];
+                        curChanged = true;
+                    } else {
+                        curData[d] = cleaned;
+                        curChanged = true;
+                    }
+                }
+            });
+            if (curChanged) {
+                LS.set(K, curData);
+            }
+        }
+
+        var oldData = LS.get(OCK);
+        if (oldData && typeof oldData === 'object') {
+            var oldChanged = false;
+            Object.keys(oldData).forEach(function (d) {
+                var rec = oldData[d];
+                if (rec && typeof rec === 'object') {
+                    var cleaned = {};
+                    var hasMissed = false;
+                    P.forEach(function (p) {
+                        var val = (rec[p] === true || rec[p] === 'missed');
+                        cleaned[p] = val;
+                        if (val) hasMissed = true;
+                    });
+                    if (!hasMissed) {
+                        delete oldData[d];
+                        oldChanged = true;
+                    } else {
+                        oldData[d] = cleaned;
+                        oldChanged = true;
+                    }
+                }
+            });
+            if (oldChanged) {
+                LS.set(OCK, oldData);
+            }
+        }
+    } catch (e) {
+        console.error('Migration error:', e);
+    }
+}
+
+function ensureCurrentDateInitialized() {
+    var today = td();
+    var lastInit = localStorage.getItem('namazLastInitDate');
+    var a = rd();
+
+    if (lastInit !== today) {
+        // When a new date starts, initialize all prayers to true so they are initially marked as missed
+        if (!a[today]) {
+            var initialPrayers = {};
+            P.forEach(function (p) {
+                initialPrayers[p] = true;
+            });
+            a[today] = initialPrayers;
+            LS.set(K, a);
+        }
+        localStorage.setItem('namazLastInitDate', today);
+    }
+}
+
 /* ---------- Prayer data ---------- */
 function rd() { return LS.get(K) || {}; }
-function gr(d) { return rd()[d] || {}; }
-function sr(d, r) { var a = rd(); a[d] = r; LS.set(K, a); }
+
+function gr(d) {
+    if (d === td() && localStorage.getItem('namazLastInitDate') !== td()) {
+        ensureCurrentDateInitialized();
+    }
+    var a = rd();
+    var r = a[d];
+    var out = {};
+    if (r) {
+        P.forEach(function (p) {
+            out[p] = (r[p] === true || r[p] === 'missed');
+        });
+    } else {
+        // If entry is not in database, all prayers were completed (false)
+        P.forEach(function (p) {
+            out[p] = false;
+        });
+    }
+    return out;
+}
+
+function sr(d, r) {
+    var a = rd();
+    var cleaned = {};
+    var hasMissed = false;
+    P.forEach(function (p) {
+        var val = (r && (r[p] === true || r[p] === 'missed'));
+        cleaned[p] = val;
+        if (val) hasMissed = true;
+    });
+
+    if (!hasMissed) {
+        // Remove completed entries: once all prayers for a date are completed (false), remove date entry from DB
+        delete a[d];
+    } else {
+        a[d] = cleaned;
+    }
+    LS.set(K, a);
+}
 
 function en(d) {
-    var r = gr(d);
-    var c = false;
-    var u = Object.assign({}, r);
-    P.forEach(function (p) { if (!(p in u)) { u[p] = false; c = true; } });
-    if (c) sr(d, u);
-    return u;
+    // Preserve historical data: reading or navigating to a date must not overwrite or mutate database records
+    return gr(d);
 }
 
 /* ---------- Old tracking data ---------- */
 function rdOC() { return LS.get(OCK) || {}; }
-function grO(d) { return rdOC()[d] || {}; }
-function srO(d, r) { var a = rdOC(); a[d] = r; LS.set(OCK, a); }
+
+function grO(d) {
+    var a = rdOC();
+    var r = a[d];
+    var out = {};
+    if (r) {
+        P.forEach(function (p) {
+            out[p] = (r[p] === true || r[p] === 'missed');
+        });
+    } else {
+        // Completed entries are removed from database; revisiting defaults all prayers to false (completed)
+        P.forEach(function (p) {
+            out[p] = false;
+        });
+    }
+    return out;
+}
+
+function srO(d, r) {
+    var a = rdOC();
+    var cleaned = {};
+    var hasMissed = false;
+    P.forEach(function (p) {
+        var val = (r && (r[p] === true || r[p] === 'missed'));
+        cleaned[p] = val;
+        if (val) hasMissed = true;
+    });
+
+    if (!hasMissed) {
+        delete a[d];
+    } else {
+        a[d] = cleaned;
+    }
+    LS.set(OCK, a);
+}
 
 /* ---------- Misc data queries ---------- */
 function mBD() {
@@ -289,9 +459,9 @@ function getTodayMissedCount() {
     var curActive = typeof getActivePrayerInfo === 'function' ? getActivePrayerInfo() : null;
     var curPrayerName = curActive ? curActive.name : null;
     return P.filter(function (p) {
-        if (typeof isDonePrayer === 'function' ? isDonePrayer(p, today, r) : (r && r[p] === 'done')) return false;
+        if (typeof isDonePrayer === 'function' ? isDonePrayer(p, today, r) : (r && r[p] === false)) return false;
         if (typeof isPrayerUpcoming === 'function' && isPrayerUpcoming(p, today)) return false;
-        if (curPrayerName && curPrayerName === p && (!r || r[p] !== 'missed')) return false;
+        if (curPrayerName && curPrayerName === p) return false;
         return true;
     }).length;
 }
@@ -323,35 +493,91 @@ function wrOK(o) { LS.set(OK, o); }
 
 function ensureAllOldMissed() {
     var o = rdOK();
-    if (!o) return;
-    var dates = datesInRange(o.start, o.end);
+    if (!o || o.end < o.start) return;
+    if (!o.created) {
+        o.created = Date.now();
+        o.initialEnd = o.end;
+        wrOK(o);
+    }
+    var initKey = localStorage.getItem('namazOldPeriodInitialized');
+    var expectedKey = String(o.created);
     var a = rdOC();
-    var changed = false;
-    dates.forEach(function (d) {
-        if (!a[d]) a[d] = {};
-        P.forEach(function (p) {
-            if (!(p in a[d])) { a[d][p] = true; changed = true; }
+    var isDbEmpty = Object.keys(a).length === 0;
+    if (initKey !== expectedKey || isDbEmpty) {
+        var rangeEnd = o.initialEnd || o.end;
+        var dates = datesInRange(o.start, rangeEnd);
+        var changed = false;
+        dates.forEach(function (d) {
+            if (!a[d]) {
+                a[d] = {};
+                P.forEach(function (p) {
+                    a[d][p] = true;
+                });
+                changed = true;
+            } else {
+                P.forEach(function (p) {
+                    if (!(p in a[d])) {
+                        a[d][p] = true;
+                        changed = true;
+                    }
+                });
+            }
         });
-    });
-    if (changed) LS.set(OCK, a);
+        localStorage.setItem('namazOldPeriodInitialized', expectedKey);
+        if (changed) LS.set(OCK, a);
+    }
 }
 
 function currentOldDate() {
     var o = rdOK();
-    if (!o) return null;
+    if (!o || o.end < o.start) return null;
     var dates = datesInRange(o.start, o.end).slice().reverse();
     var a = rdOC();
     for (var i = 0; i < dates.length; i++) {
         var d = dates[i];
         var r = a[d] || {};
-        if (P.filter(function (p) { return r[p] === true; }).length > 0) return d;
+        if (P.filter(function (p) { return r[p] === true || r[p] === 'missed'; }).length > 0) return d;
     }
     return null;
 }
 
-function shrinkOldPeriod() {
-    // Deprecated: automatic shrinking removed to preserve date integrity
-    return;
+function shrinkOldPeriod(completedDate) {
+    var o = rdOK();
+    if (!o) return;
+    var curEnd = o.end;
+    var changed = false;
+
+    // Keep start date unchanged and automatically set end date to the previous day
+    // Continue moving backward one day at a time as previous dates are completed
+    while (curEnd >= o.start) {
+        var rEnd = grO(curEnd);
+        var anyMissed = P.some(function (p) {
+            return rEnd[p] === true || rEnd[p] === 'missed';
+        });
+        if (!anyMissed) {
+            curEnd = prevDate(curEnd);
+            changed = true;
+        } else {
+            break;
+        }
+    }
+
+    if (changed) {
+        o.end = curEnd;
+        wrOK(o);
+    }
+
+    // After completing the current date, automatically navigate to the previous date in Old Tracking
+    var nextTarget = completedDate ? prevDate(completedDate) : curEnd;
+    if (curEnd >= o.start && nextTarget > curEnd) {
+        nextTarget = curEnd;
+    }
+
+    if (typeof setOldSd === 'function') {
+        setOldSd(nextTarget);
+    } else if (typeof oldSd !== 'undefined') {
+        oldSd = nextTarget;
+    }
 }
 
 /* ---------- Font size ---------- */
@@ -392,11 +618,11 @@ function handleClick(e) {
             return;
         }
         var c1 = gr(sd);
-        var wasDone = typeof isDonePrayer === 'function' ? isDonePrayer(p, sd, c1) : (c1[p] === 'done');
+        var wasDone = typeof isDonePrayer === 'function' ? isDonePrayer(p, sd, c1) : (c1[p] === false);
         if (!confirm(wasDone
             ? 'Mark ' + p + ' as Missed for ' + fr(sd) + '?'
             : 'Mark ' + p + ' as Done for ' + fr(sd) + '?')) return;
-        c1[p] = wasDone ? (sd < td() ? true : 'missed') : 'done';
+        c1[p] = wasDone ? true : false;
         sr(sd, c1);
         rn();
     } else if (act === 'select-all') {
@@ -406,13 +632,13 @@ function handleClick(e) {
             return !isToday || (typeof isPrayerUpcoming === 'function' && !isPrayerUpcoming(x, sd));
         });
         var doneCount = actionable.filter(function (x) {
-            return typeof isDonePrayer === 'function' ? isDonePrayer(x, sd, c2) : (c2[x] === 'done');
+            return typeof isDonePrayer === 'function' ? isDonePrayer(x, sd, c2) : (c2[x] === false);
         }).length;
         var willMarkDone = doneCount < actionable.length;
         var action = willMarkDone ? 'Done' : 'Missed';
         if (!confirm('Mark available prayers as ' + action + ' for ' + fr(sd) + '?')) return;
         actionable.forEach(function (x) {
-            c2[x] = willMarkDone ? 'done' : (sd < td() ? true : 'missed');
+            c2[x] = willMarkDone ? false : true;
         });
         sr(sd, c2);
         rn();
@@ -437,18 +663,35 @@ function handleClick(e) {
     } else if (act === 'toggle-old') {
         var p2 = t.dataset.p, d2 = t.dataset.d;
         var c3 = grO(d2);
-        var was2 = c3[p2] === true;
+        var was2 = c3[p2] === true || c3[p2] === 'missed';
         if (!confirm(was2
             ? 'Mark ' + p2 + ' as Done for ' + fr(d2) + '?'
             : 'Mark ' + p2 + ' as Missed for ' + fr(d2) + '?')) return;
         c3[p2] = !was2;
         srO(d2, c3);
-        if (typeof setOldSd === 'function') {
-            setOldSd(d2);
-        } else if (typeof oldSd !== 'undefined') {
-            oldSd = d2;
+
+        var o = rdOK();
+        var isDateComplete = !P.some(function (p) {
+            return c3[p] === true || c3[p] === 'missed';
+        });
+
+        if (isDateComplete) {
+            shrinkOldPeriod(d2);
+        } else {
+            if (o && d2 > o.end) {
+                o.end = d2;
+                wrOK(o);
+            }
+            if (typeof setOldSd === 'function') {
+                setOldSd(d2);
+            } else if (typeof oldSd !== 'undefined') {
+                oldSd = d2;
+            }
         }
         rOT();
+        if ($('sheet2') && $('sheet2').classList.contains('show') && typeof rOldInfo === 'function') {
+            rOldInfo();
+        }
     } else if (act === 'old-change-period') {
         rPeriod();
     } else if (act === 'jump') {
@@ -510,14 +753,20 @@ function handleClick(e) {
         if (!s || !en2) { alert('Please pick both start and end dates.'); return; }
         if (en2 < s) { alert('End date must be after start date.'); return; }
         if (!confirm('Save Old Tracking Period from ' + fr(s) + ' to ' + fr(en2) + '?')) return;
-        wrOK({ start: s, end: en2, created: Date.now() });
+        wrOK({ start: s, end: en2, initialEnd: en2, created: Date.now() });
+        localStorage.removeItem('namazOldPeriodInitialized');
         ensureAllOldMissed();
         if (typeof setOldSd === 'function') setOldSd(en2);
-        rOldInfo();
+        sheet2BS.hide();
+        rOT();
+        if ($('sheet2') && $('sheet2').classList.contains('show') && typeof rOldInfo === 'function') {
+            rOldInfo();
+        }
     } else if (act === 'old-clear') {
         if (confirm('Clear the saved Old Tracking period and all its data?')) {
             localStorage.removeItem(OK);
             localStorage.removeItem(OCK);
+            localStorage.removeItem('namazOldPeriodInitialized');
             if (typeof setOldSd === 'function') setOldSd(null);
             sheet2BS.hide();
             rOT();
@@ -527,9 +776,11 @@ function handleClick(e) {
             localStorage.removeItem(K);
             localStorage.removeItem(OCK);
             localStorage.removeItem(OK);
+            localStorage.removeItem('namazLastInitDate');
+            localStorage.removeItem('namazOldPeriodInitialized');
             if (typeof PTK_CACHE !== 'undefined') localStorage.removeItem(PTK_CACHE);
             sd = td();
-            en(sd);
+            ensureCurrentDateInitialized();
             if (typeof fetchPrayerTimings === 'function') fetchPrayerTimings(td());
             rSET();
         }
