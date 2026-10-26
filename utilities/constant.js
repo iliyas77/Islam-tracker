@@ -86,7 +86,9 @@
                         STORAGE_KEYS: {
                                 DATA: 'app_tasbeeh_data',
                                 DAY: 'app_tasbeeh_day',
-                                PERIOD: 'app_tasbeeh_period'
+                                PERIOD: 'app_tasbeeh_period',
+                                BOOKMARK_CURRENT: 'app_tasbeeh_bookmark_current',
+                                BOOKMARK_OLD: 'app_tasbeeh_bookmark_old'
                         },
                         DEFAULT_PRESETS: [
                                 { title: 'SubhanAllah', targetCount: 33, targetCycles: 3 },

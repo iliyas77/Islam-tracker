@@ -97,6 +97,15 @@ function showPage(kind) {
 
     setNav(NAVS[kind] || 'navCur');
 
+    if (kind !== 'tasbeeh') {
+        var cv = $('tasbeehCounterView');
+        if (cv && !cv.classList.contains('d-none')) {
+            if (window.TasbeehApp && typeof window.TasbeehApp.closeCounter === 'function') {
+                window.TasbeehApp.closeCounter();
+            }
+        }
+    }
+
     if (kind === 'dashboard') {
         rDashboard();
     } else if (kind === 'current') {

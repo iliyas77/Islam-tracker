@@ -800,6 +800,17 @@ function handleClick(e) {
         showPage('settings');
     } else if (act === 'goto-tasbeeh') {
         showPage('tasbeeh');
+    } else if (act === 'tb-open-bookmark') {
+        var bmId = t.dataset.id;
+        var bmMonth = t.dataset.month || null;
+        var bmType = t.dataset.type || (bmMonth ? 'old' : 'current');
+        if (window.TasbeehApp && typeof window.TasbeehApp.openCounterFromHome === 'function') {
+            window.TasbeehApp.openCounterFromHome(bmId, bmMonth, bmType);
+        }
+    } else if (act === 'switch-tb-home') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
+            window.TasbeehApp.switchTab('home');
+        }
     } else if (act === 'switch-tb-current') {
         if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
             window.TasbeehApp.switchTab('current');
@@ -808,17 +819,42 @@ function handleClick(e) {
         if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
             window.TasbeehApp.switchTab('old');
         }
+    } else if (act === 'switch-tb-history') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
+            window.TasbeehApp.switchTab('history');
+        }
+    } else if (act === 'tb-hist-save') {
+        if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.saveHistoryPeriod === 'function') {
+            window.TasbeehHistoryApp.saveHistoryPeriod();
+        }
+    } else if (act === 'tb-hist-reset') {
+        if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.resetHistoryPeriod === 'function') {
+            window.TasbeehHistoryApp.resetHistoryPeriod();
+        }
+    } else if (act === 'tb-hist-preset') {
+        var presetType = t.dataset.preset;
+        if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.applyPreset === 'function') {
+            window.TasbeehHistoryApp.applyPreset(presetType);
+        }
     } else if (act === 'tb-open-settings' || act === 'tb-change-period') {
-        if (window.TasbeehApp && typeof window.TasbeehApp.openPeriodModal === 'function') {
+        if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
+            window.TasbeehApp.switchTab('history');
+        } else if (window.TasbeehApp && typeof window.TasbeehApp.openPeriodModal === 'function') {
             window.TasbeehApp.openPeriodModal();
         }
     } else if (act === 'tb-old-reopen') {
         if (window.TasbeehApp && typeof window.TasbeehApp.reopenLastMonth === 'function') {
             window.TasbeehApp.reopenLastMonth();
         }
+        if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
+            window.TasbeehHistoryApp.renderHistoryTab();
+        }
     } else if (act === 'tb-reset-all-completed') {
         if (window.TasbeehApp && typeof window.TasbeehApp.resetAllCompleted === 'function') {
             window.TasbeehApp.resetAllCompleted();
+        }
+        if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
+            window.TasbeehHistoryApp.renderHistoryTab();
         }
     } else if (act === 'goto-duas') {
         showPage('duas');

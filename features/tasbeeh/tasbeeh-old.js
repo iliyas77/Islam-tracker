@@ -189,8 +189,8 @@ window.TasbeehOldApp = (function () {
     }
 
     function openCounterOld(id, monthKey) {
-        if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.openCounterOld === 'function') {
-            window.TasbeehCurrentApp.openCounterOld(id, monthKey);
+        if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.openCounter === 'function') {
+            window.TasbeehCurrentApp.openCounter(id, monthKey);
         }
     }
 
@@ -612,7 +612,8 @@ window.TasbeehOldApp = (function () {
         savePeriodModal: savePeriodModal,
         resetPeriodModal: resetPeriodModal,
         loadPeriod: loadPeriod,
-        savePeriod: savePeriod
+        savePeriod: savePeriod,
+        openCounterOld: openCounterOld
     };
 
     // Bridge Old methods onto window.TasbeehApp for full backwards compatibility

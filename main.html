@@ -107,22 +107,20 @@
                         </button>
                         <div class="min-w-0 flex-grow-1">
                             <h5 class="page-title mb-0" data-ref="page.tasbeeh.header.title">
-                                <i class="fa-solid fa-hand-holding-heart text-success" id="tbHeaderIcon" data-ref="page.tasbeeh.header.icon"></i>
+                                <i class="fa-solid fa-house text-success" id="tbHeaderIcon" data-ref="page.tasbeeh.header.icon"></i>
                                 <span id="tbHeaderLabel" data-ref="page.tasbeeh.header.label">Digital Tasbeeh</span>
                             </h5>
-                            <div class="page-sub" id="tbHeaderSub" data-ref="page.tasbeeh.header.sub">Current Month</div>
+                            <div class="page-sub" id="tbHeaderSub" data-ref="page.tasbeeh.header.sub">Home · Bookmarks</div>
                         </div>
-                    </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <button type="button" class="btn-action-round" id="tbSettingsBtn" data-act="tb-open-settings" title="Tasbeeh Period Settings" data-ref="page.tasbeeh.header.settings-btn">
-                            <i class="fa-solid fa-gear fs-5"></i>
-                        </button>
                     </div>
                 </div>
             </header>
 
+            <!-- Home Tab Body Container (Bookmarked Counters) -->
+            <div class="flex-grow-1 overflow-auto p-2 pb-5 position-relative" id="tbHomeBody" data-ref="page.tasbeeh.body.home"></div>
+
             <!-- Current Month Body Container -->
-            <div class="flex-grow-1 overflow-auto p-2 pb-5 position-relative" id="tbCurrentBody" data-ref="page.tasbeeh.body.current">
+            <div class="flex-grow-1 overflow-auto p-2 pb-5 position-relative d-none" id="tbCurrentBody" data-ref="page.tasbeeh.body.current">
                 <div id="tbList" class="d-flex flex-column gap-3" data-ref="page.tasbeeh.list"></div>
 
                 <div id="tbEmptyState" class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white d-none" data-ref="page.tasbeeh.empty-state">
@@ -137,20 +135,31 @@
             <!-- Old Tracking (Previous Months) Body Container -->
             <div class="flex-grow-1 overflow-auto p-2 pb-5 position-relative d-none" id="tbOldBody" data-ref="page.tasbeeh.body.old"></div>
 
+            <!-- History & Settings Body Container -->
+            <div class="flex-grow-1 overflow-auto p-2 pb-5 position-relative d-none" id="tbHistoryBody" data-ref="page.tasbeeh.body.history"></div>
+
             <!-- Shared Floating Action Button for Add Dhikr (Current & Old tabs) -->
-            <button type="button" class="tb-fab" id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr">
+            <button type="button" class="tb-fab d-none" id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr">
                 <i class="fa-solid fa-plus fs-4" data-ref="page.tasbeeh.header.add-icon"></i>
             </button>
 
-            <!-- Bottom Navigation -->
+            <!-- Bottom Navigation: Home, Current, Old, History -->
             <nav class="app-bottom-nav flex-shrink-0 d-flex align-items-center justify-content-around px-2 border-top" id="tasbeehBottomNav" data-ref="page.tasbeeh.bottom-nav">
-                <button type="button" class="nav-tab active" id="tabTbCurrent" data-act="switch-tb-current" role="tab" aria-selected="true" data-ref="page.tasbeeh.tab-current">
+                <button type="button" class="nav-tab active" id="tabTbHome" data-act="switch-tb-home" role="tab" aria-selected="true" data-ref="page.tasbeeh.tab-home">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Home</span>
+                </button>
+                <button type="button" class="nav-tab" id="tabTbCurrent" data-act="switch-tb-current" role="tab" aria-selected="false" data-ref="page.tasbeeh.tab-current">
                     <i class="fa-regular fa-calendar"></i>
                     <span>Current</span>
                 </button>
                 <button type="button" class="nav-tab" id="tabTbOld" data-act="switch-tb-old" role="tab" aria-selected="false" data-ref="page.tasbeeh.tab-old">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <span>Old</span>
+                </button>
+                <button type="button" class="nav-tab" id="tabTbHistory" data-act="switch-tb-history" role="tab" aria-selected="false" data-ref="page.tasbeeh.tab-history">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>History</span>
                 </button>
             </nav>
         </div>
@@ -605,8 +614,10 @@
     <script src="features/dashboard/dashboard.js"></script>
     <script src="features/old-tracking/old-tracking.js"></script>
     <script src="features/settings/settings.js"></script>
+    <script src="features/tasbeeh/tasbeeh-home.js"></script>
     <script src="features/tasbeeh/tasbeeh-current.js"></script>
     <script src="features/tasbeeh/tasbeeh-old.js"></script>
+    <script src="features/tasbeeh/tasbeeh-history.js"></script>
     <script src="features/duas/duas.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -615,6 +626,12 @@
             }
             if (window.TasbeehOldApp && typeof window.TasbeehOldApp.init === 'function') {
                 window.TasbeehOldApp.init();
+            }
+            if (window.TasbeehHomeApp && typeof window.TasbeehHomeApp.init === 'function') {
+                window.TasbeehHomeApp.init();
+            }
+            if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.init === 'function') {
+                window.TasbeehHistoryApp.init();
             }
         });
     </script>

@@ -16,6 +16,9 @@ window.TasbeehCurrentApp = (function () {
     var TASBEEH_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.TASBEEH) || {};
     var STORAGE_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.DATA) || 'app_tasbeeh_data';
     var DAY_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.DAY) || 'app_tasbeeh_day';
+    var BM_CUR_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.BOOKMARK_CURRENT) || 'app_tasbeeh_bookmark_current';
+    var BM_OLD_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.BOOKMARK_OLD) || 'app_tasbeeh_bookmark_old';
+    var counterOpenedFrom = null;
     var INFINITE_LAP = typeof TASBEEH_CONSTANTS.INFINITE_LAP === 'number' ? TASBEEH_CONSTANTS.INFINITE_LAP : 33;
     var MAX_BEADS = typeof TASBEEH_CONSTANTS.MAX_BEADS === 'number' ? TASBEEH_CONSTANTS.MAX_BEADS : 60;
     var SVG_NS = TASBEEH_CONSTANTS.SVG_NS || 'http://www.w3.org/2000/svg';
@@ -150,6 +153,122 @@ window.TasbeehCurrentApp = (function () {
         return { pct: pct, done: done, total: total };
     }
 
+    /* ---------- Bookmark Storage & Retrieval ---------- */
+    function getBookmark(type) {
+        var key = type === 'old' ? BM_OLD_KEY : BM_CUR_KEY;
+        try {
+            var raw = localStorage.getItem(key);
+            if (!raw) return null;
+            if (raw.charAt(0) === '{') {
+                return JSON.parse(raw);
+            }
+            return { id: raw };
+        } catch (_) {
+            return null;
+        }
+    }
+
+    function setBookmark(type, id, monthKey) {
+        if (!id) return;
+        var key = type === 'old' ? BM_OLD_KEY : BM_CUR_KEY;
+        try {
+            if (type === 'old') {
+                localStorage.setItem(key, JSON.stringify({ id: id, month: monthKey || null }));
+            } else {
+                localStorage.setItem(key, JSON.stringify({ id: id }));
+            }
+        } catch (_) { }
+    }
+
+    function getBookmarkedChants() {
+        if (!items || items.length === 0) {
+            items = loadItems();
+        }
+
+        // 1. Current Tracking Bookmark
+        var curBm = getBookmark('current');
+        var curItem = null;
+        if (curBm && curBm.id) {
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].id === curBm.id) { curItem = items[i]; break; }
+            }
+        }
+        if (!curItem && items.length > 0) {
+            curItem = items[0];
+            setBookmark('current', curItem.id);
+        }
+
+        // 2. Old Tracking Bookmark
+        var oldBm = getBookmark('old');
+        var oldItem = null;
+        var oldMonthKey = oldBm ? oldBm.month : null;
+        if (oldBm && oldBm.id) {
+            for (var j = 0; j < items.length; j++) {
+                if (items[j].id === oldBm.id) { oldItem = items[j]; break; }
+            }
+        }
+        if (!oldItem && items.length > 0) {
+            oldItem = items.length > 1 ? items[1] : items[0];
+        }
+
+        if (!oldMonthKey && window.TasbeehOldApp && typeof window.TasbeehOldApp.getCurrentOldMonth === 'function') {
+            oldMonthKey = window.TasbeehOldApp.getCurrentOldMonth();
+        }
+        if (!oldMonthKey) {
+            var allPrev = typeof getPreviousMonthsList === 'function' ? getPreviousMonthsList(td(), td()) : [];
+            oldMonthKey = (allPrev && allPrev.length > 0) ? allPrev[0] : null;
+        }
+
+        var curProg = curItem ? computeProgress(curItem) : null;
+        var curIsInfinite = curItem ? curItem.targetCount === 'infinite' : false;
+        var curTargetDisplay = curItem ? (curIsInfinite ? '∞' : curItem.targetCount) : '—';
+        var curTotalDisplay = curItem ? (curIsInfinite ? '' : ('/' + (curProg ? curProg.total : 0))) : '';
+
+        var oldTargetTotal = null;
+        var oldCountInMonth = 0;
+        var oldIsInfinite = false;
+        if (oldItem) {
+            oldIsInfinite = oldItem.targetCount === 'infinite';
+            oldTargetTotal = oldIsInfinite ? null : (oldItem.targetCount * oldItem.targetCycles);
+            oldCountInMonth = (oldMonthKey && oldItem.monthlyHistory && oldItem.monthlyHistory[oldMonthKey]) || 0;
+        }
+        var oldTargetDisplay = oldItem ? (oldIsInfinite ? '∞' : oldItem.targetCount) : '—';
+        var oldTotalDisplay = oldItem ? (oldIsInfinite ? '' : ('/' + oldTargetTotal)) : '';
+        var oldMonthName = oldMonthKey ? formatMonthLabel(oldMonthKey) : 'Previous Month';
+
+        return {
+            current: curItem ? {
+                item: curItem,
+                progress: curProg,
+                targetDisplay: curTargetDisplay,
+                totalDisplay: curTotalDisplay
+            } : null,
+            old: oldItem ? {
+                item: oldItem,
+                monthKey: oldMonthKey,
+                monthName: oldMonthName,
+                countInMonth: oldCountInMonth,
+                targetTotal: oldTargetTotal,
+                targetDisplay: oldTargetDisplay,
+                totalDisplay: oldTotalDisplay
+            } : null
+        };
+    }
+
+    function openCounterFromHome(id, monthKey, type) {
+        counterOpenedFrom = 'home';
+        if (typeof showPage === 'function') {
+            showPage('tasbeeh');
+        }
+        if (type === 'old') {
+            switchTab('old');
+            openCounterOld(id, monthKey);
+        } else {
+            switchTab('current');
+            openCounter(id);
+        }
+    }
+
     /* ---------- Current Card HTML Generator ---------- */
     function renderCurrentCardHtml(item, isComplete) {
         var isInfinite = item.targetCount === 'infinite';
@@ -273,9 +392,17 @@ window.TasbeehCurrentApp = (function () {
 
     /* ---------- Tab Navigation & Rendering ---------- */
     function render() {
-        if (activeTab === 'old') {
+        if (activeTab === 'home') {
+            if (window.TasbeehHomeApp && typeof window.TasbeehHomeApp.renderHomeTab === 'function') {
+                window.TasbeehHomeApp.renderHomeTab();
+            }
+        } else if (activeTab === 'old') {
             if (window.TasbeehOldApp && typeof window.TasbeehOldApp.renderOldTab === 'function') {
                 window.TasbeehOldApp.renderOldTab();
+            }
+        } else if (activeTab === 'history') {
+            if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
+                window.TasbeehHistoryApp.renderHistoryTab();
             }
         } else {
             renderCurrentTab();
@@ -283,20 +410,54 @@ window.TasbeehCurrentApp = (function () {
     }
 
     function switchTab(tab) {
-        activeTab = tab === 'old' ? 'old' : 'current';
+        activeTab = (tab === 'old' || tab === 'history' || tab === 'home') ? tab : 'current';
+        var btnHome = getEl('tabTbHome');
         var btnCur = getEl('tabTbCurrent');
         var btnOld = getEl('tabTbOld');
+        var btnHist = getEl('tabTbHistory');
+
+        var bodyHome = getEl('tbHomeBody');
         var bodyCur = getEl('tbCurrentBody');
         var bodyOld = getEl('tbOldBody');
+        var bodyHist = getEl('tbHistoryBody');
+
+        var addBtn = getEl('tbAddBtn');
         var icon = getEl('tbHeaderIcon');
         var label = getEl('tbHeaderLabel');
         var sub = getEl('tbHeaderSub');
 
-        if (activeTab === 'old') {
-            if (btnCur) { btnCur.classList.remove('active'); btnCur.setAttribute('aria-selected', 'false'); }
+        // Reset all tabs
+        var allBtns = [btnHome, btnCur, btnOld, btnHist];
+        for (var i = 0; i < allBtns.length; i++) {
+            if (allBtns[i]) {
+                allBtns[i].classList.remove('active');
+                allBtns[i].setAttribute('aria-selected', 'false');
+            }
+        }
+
+        // Hide all body containers
+        var allBodies = [bodyHome, bodyCur, bodyOld, bodyHist];
+        for (var j = 0; j < allBodies.length; j++) {
+            if (allBodies[j]) {
+                allBodies[j].classList.add('d-none');
+            }
+        }
+
+        if (activeTab === 'home') {
+            if (btnHome) { btnHome.classList.add('active'); btnHome.setAttribute('aria-selected', 'true'); }
+            if (bodyHome) bodyHome.classList.remove('d-none');
+            if (addBtn) addBtn.classList.add('d-none');
+            if (icon) icon.className = 'fa-solid fa-house text-success';
+            if (label) label.textContent = 'Digital Tasbeeh';
+            if (sub) sub.textContent = 'Home · Bookmarks';
+
+            if (window.TasbeehHomeApp && typeof window.TasbeehHomeApp.renderHomeTab === 'function') {
+                window.TasbeehHomeApp.renderHomeTab();
+            }
+        } else if (activeTab === 'old') {
             if (btnOld) { btnOld.classList.add('active'); btnOld.setAttribute('aria-selected', 'true'); }
-            if (bodyCur) bodyCur.classList.add('d-none');
             if (bodyOld) bodyOld.classList.remove('d-none');
+            if (addBtn) addBtn.classList.remove('d-none');
             if (icon) icon.className = 'fa-solid fa-clock-rotate-left text-warning';
             if (label) label.textContent = 'Old Tasbeeh';
 
@@ -311,14 +472,25 @@ window.TasbeehCurrentApp = (function () {
             if (window.TasbeehOldApp && typeof window.TasbeehOldApp.renderOldTab === 'function') {
                 window.TasbeehOldApp.renderOldTab();
             }
+        } else if (activeTab === 'history') {
+            if (btnHist) { btnHist.classList.add('active'); btnHist.setAttribute('aria-selected', 'true'); }
+            if (bodyHist) bodyHist.classList.remove('d-none');
+            if (addBtn) addBtn.classList.add('d-none');
+            if (icon) icon.className = 'fa-solid fa-gear text-gr-accent';
+            if (label) label.textContent = 'Tasbeeh History';
+            if (sub) sub.textContent = 'Period & Settings';
+
+            if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
+                window.TasbeehHistoryApp.renderHistoryTab();
+            }
         } else {
             if (btnCur) { btnCur.classList.add('active'); btnCur.setAttribute('aria-selected', 'true'); }
-            if (btnOld) { btnOld.classList.remove('active'); btnOld.setAttribute('aria-selected', 'false'); }
             if (bodyCur) bodyCur.classList.remove('d-none');
-            if (bodyOld) bodyOld.classList.add('d-none');
+            if (addBtn) addBtn.classList.remove('d-none');
             if (icon) icon.className = 'fa-regular fa-calendar text-primary';
             if (label) label.textContent = 'Digital Tasbeeh';
             if (sub) sub.textContent = formatMonthLabel(getCurrentMonthKey());
+
             renderCurrentTab();
         }
     }
@@ -484,6 +656,13 @@ window.TasbeehCurrentApp = (function () {
         }
         if (!item) return;
 
+        // Automatically update bookmark
+        if (oldMonthKey) {
+            setBookmark('old', id, oldMonthKey);
+        } else {
+            setBookmark('current', id);
+        }
+
         activeId = id;
         counterMonthKey = oldMonthKey || null;
         flashFull = false;
@@ -529,6 +708,11 @@ window.TasbeehCurrentApp = (function () {
         }
 
         render();
+
+        if (counterOpenedFrom === 'home') {
+            counterOpenedFrom = null;
+            switchTab('home');
+        }
     }
 
     function increment() {
@@ -1096,7 +1280,7 @@ window.TasbeehCurrentApp = (function () {
         checkDailyReset();
         persist();
         bindEvents();
-        switchTab('current');
+        switchTab('home');
     }
 
     return {
@@ -1116,7 +1300,11 @@ window.TasbeehCurrentApp = (function () {
         formatDate: formatDate,
         formatMonthLabel: formatMonthLabel,
         getCurrentMonthKey: getCurrentMonthKey,
-        showToast: showToast
+        showToast: showToast,
+        getBookmark: getBookmark,
+        setBookmark: setBookmark,
+        getBookmarkedChants: getBookmarkedChants,
+        openCounterFromHome: openCounterFromHome
     };
 })();
 

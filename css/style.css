@@ -1150,6 +1150,74 @@ body {
     font-weight: 500;
 }
 
+.tb-bookmark-pill {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    line-height: 1.2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tb-pill-current {
+    background: #E8F5EE;
+    color: #123D2E;
+    border: 1px solid rgba(18, 61, 46, 0.18);
+}
+
+.tb-pill-old {
+    background: #FFF7ED;
+    color: #C2410C;
+    border: 1px solid rgba(194, 65, 12, 0.22);
+}
+
+.tb-card-bookmark {
+    background: #ffffff;
+    border: 1px solid var(--dash-card-border, #e1ece5);
+    border-radius: 18px;
+    box-shadow: var(--dash-card-shadow, 0 1px 4px rgba(20, 66, 52, 0.03));
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 13px 12px 13px 12px;
+    user-select: none;
+    -webkit-user-select: none;
+    box-sizing: border-box;
+    min-height: 152px;
+}
+
+.tb-card-bookmark:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 14px rgba(18, 61, 46, 0.08);
+    transform: translateY(-2px);
+}
+
+.tb-card-bookmark:active {
+    transform: scale(0.98);
+}
+
+.tb-meta-sub-row {
+    font-size: 0.72rem !important;
+    color: #64748b !important;
+    margin-top: 2px;
+}
+
+.tb-history-list {
+    max-height: 280px;
+    overflow-y: auto;
+    padding-right: 2px;
+}
+
+.shadow-xs {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
 .tb-group-toggle {
     background: none;
     border: none;
