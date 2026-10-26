@@ -314,7 +314,15 @@ document.addEventListener('DOMContentLoaded', function () {
     sheet2BS = new bootstrap.Offcanvas($('sheet2'));
 
     apFS(rdFS());
-    en(td());
+    if (typeof migratePrayerData === 'function') {
+        migratePrayerData();
+    }
+    if (typeof ensureCurrentDateInitialized === 'function') {
+        ensureCurrentDateInitialized();
+    }
+    if (typeof ensureAllOldMissed === 'function') {
+        ensureAllOldMissed();
+    }
     sd = td();
 
     // Check cached prayer timings and fetch live timings

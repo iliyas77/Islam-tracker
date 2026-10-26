@@ -157,31 +157,32 @@ window.TasbeehCurrentApp = (function () {
         var icons = (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.ICONS) || {};
 
         var targetDisplay = isInfinite ? '∞' : item.targetCount;
-        var cyclesDisplay = isInfinite ? '∞' : item.targetCycles;
         var totalDisplay = isInfinite ? '' : ('/' + prog.total);
 
         return '<div class="tb-card ' + (isComplete ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-ref="page.tasbeeh.card" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
+            '<div class="tb-card-top">' +
             '<div class="tb-card-icon-box" data-ref="page.tasbeeh.card.icon">' +
             (icons.MISBAHA || '') +
-            '</div>' +
-            '<div class="tb-card-content" data-ref="page.tasbeeh.card.info">' +
-            '<h6 class="tb-card-title" data-ref="page.tasbeeh.card.title">' + escHtml(item.title) + '</h6>' +
-            '<div class="tb-card-meta" data-ref="page.tasbeeh.card.meta">' +
-            '<div class="tb-meta-row">' +
-            (icons.TARGET || '') +
-            '<span class="tb-meta-text">Target: <span class="tb-val-num">' + targetDisplay + '</span><span class="tb-meta-dot">·</span>Cycles: <span class="tb-val-num">' + cyclesDisplay + '</span></span>' +
-            '</div>' +
-            '<div class="tb-meta-row">' +
-            (icons.CHECK_CIRCLE || '') +
-            '<span class="tb-meta-text">Done: <strong class="tb-val-done">' + prog.done + '</strong><span class="tb-val-total">' + totalDisplay + '</span></span>' +
-            '</div>' +
-            '</div>' +
             '</div>' +
             '<div class="tb-card-actions">' +
             '<button type="button" class="tb-btn-edit" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr" data-ref="page.tasbeeh.card.edit-btn">' +
             (icons.PENCIL || '') +
             '</button>' +
             (icons.CHEVRON || '') +
+            '</div>' +
+            '</div>' +
+            '<div class="tb-card-body" data-ref="page.tasbeeh.card.info">' +
+            '<h6 class="tb-card-title" data-ref="page.tasbeeh.card.title">' + escHtml(item.title) + '</h6>' +
+            '<div class="tb-card-meta" data-ref="page.tasbeeh.card.meta">' +
+            '<div class="tb-meta-row">' +
+            (icons.TARGET || '') +
+            '<span class="tb-meta-text">Target: <span class="tb-val-num">' + targetDisplay + '</span><span class="tb-meta-dot">·</span>Cycle</span>' +
+            '</div>' +
+            '<div class="tb-meta-row">' +
+            (icons.CHECK_CIRCLE || '') +
+            '<span class="tb-meta-text">Done: <strong class="tb-val-done">' + prog.done + '</strong><span class="tb-val-total">' + totalDisplay + '</span></span>' +
+            '</div>' +
+            '</div>' +
             '</div>' +
             '</div>';
     }
@@ -228,16 +229,22 @@ window.TasbeehCurrentApp = (function () {
               '<div class="text-muted small">No completed Dhikrs yet. Completed chants will appear here.</div>' +
               '</div>';
 
+        var isDoneExpanded = doneItems.length > 0;
+
         var html =
             '<!-- TO DO GROUP -->' +
             '<section class="prayer-group mb-3" data-ref="page.tasbeeh.group.todo">' +
-            '<button type="button" class="group-toggle py-1 d-flex align-items-center gap-2" data-bs-toggle="collapse" data-bs-target="#tbCurrentTodoList" aria-expanded="true">' +
-            '<span class="toggle-icon">▼</span>' +
-            '<span class="section-title text-gr1 fw-bold">TO DO</span>' +
-            '<span class="badge rounded-pill bg-light text-muted border small px-2 py-1">' + todoItems.length + '</span>' +
+            '<button type="button" class="group-toggle tb-group-toggle py-1 d-flex align-items-center gap-2" data-bs-toggle="collapse" data-bs-target="#tbCurrentTodoList" aria-expanded="true">' +
+            '<span class="tb-toggle-icon">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0b3829" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' +
+            '<path d="m6 9 6 6 6-6"/>' +
+            '</svg>' +
+            '</span>' +
+            '<span class="tb-group-title">To Do</span>' +
+            '<span class="tb-group-badge">' + todoItems.length + '</span>' +
             '</button>' +
             '<div class="collapse show" id="tbCurrentTodoList">' +
-            '<div class="d-flex flex-column gap-3 mt-2">' +
+            '<div class="tb-grid mt-2">' +
             todoCardsHtml +
             '</div>' +
             '</div>' +
@@ -245,13 +252,17 @@ window.TasbeehCurrentApp = (function () {
 
             '<!-- COMPLETED GROUP -->' +
             '<section class="prayer-group mb-3" data-ref="page.tasbeeh.group.done">' +
-            '<button type="button" class="group-toggle py-1 d-flex align-items-center gap-2" data-bs-toggle="collapse" data-bs-target="#tbCurrentDoneList" aria-expanded="true">' +
-            '<span class="toggle-icon">▼</span>' +
-            '<span class="section-title text-success fw-bold">COMPLETED</span>' +
-            '<span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle small px-2 py-1">' + doneItems.length + '</span>' +
+            '<button type="button" class="group-toggle tb-group-toggle py-1 d-flex align-items-center gap-2 ' + (isDoneExpanded ? '' : 'collapsed') + '" data-bs-toggle="collapse" data-bs-target="#tbCurrentDoneList" aria-expanded="' + (isDoneExpanded ? 'true' : 'false') + '">' +
+            '<span class="tb-toggle-icon">' +
+            '<svg width="11" height="11" viewBox="0 0 24 24" fill="#0b3829">' +
+            '<path d="m5 8 7 8 7-8z"/>' +
+            '</svg>' +
+            '</span>' +
+            '<span class="tb-group-title-completed">COMPLETED</span>' +
+            '<span class="tb-group-badge">' + doneItems.length + '</span>' +
             '</button>' +
-            '<div class="collapse show" id="tbCurrentDoneList">' +
-            '<div class="d-flex flex-column gap-3 mt-2">' +
+            '<div class="collapse ' + (isDoneExpanded ? 'show' : '') + '" id="tbCurrentDoneList">' +
+            '<div class="tb-grid mt-2">' +
             doneCardsHtml +
             '</div>' +
             '</div>' +
