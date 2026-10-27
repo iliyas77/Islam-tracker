@@ -36,6 +36,39 @@ function getCurrentMonthKey() {
     return d.getFullYear() + '-' + pad2(d.getMonth() + 1);
 }
 
+function normalizeMonthKey(val) {
+    if (!val) return '';
+    var m = String(val).match(/^(\d{4})-(\d{1,2})/);
+    if (!m) return '';
+    return m[1] + '-' + pad2(parseInt(m[2], 10));
+}
+
+function getPrevMonthKey(mKey) {
+    if (!mKey) return '';
+    var parts = mKey.split('-');
+    var yr = parseInt(parts[0], 10);
+    var mo = parseInt(parts[1], 10);
+    mo -= 1;
+    if (mo === 0) {
+        mo = 12;
+        yr -= 1;
+    }
+    return yr + '-' + pad2(mo);
+}
+
+function getNextMonthKey(mKey) {
+    if (!mKey) return '';
+    var parts = mKey.split('-');
+    var yr = parseInt(parts[0], 10);
+    var mo = parseInt(parts[1], 10);
+    mo += 1;
+    if (mo > 12) {
+        mo = 1;
+        yr += 1;
+    }
+    return yr + '-' + pad2(mo);
+}
+
 function formatMonthLabel(mKey) {
     if (!mKey) return '';
     var parts = mKey.split('-');
@@ -171,6 +204,9 @@ if (typeof window !== 'undefined') {
     window.fr = fr;
     window.formatDate = formatDate;
     window.getCurrentMonthKey = getCurrentMonthKey;
+    window.normalizeMonthKey = normalizeMonthKey;
+    window.getPrevMonthKey = getPrevMonthKey;
+    window.getNextMonthKey = getNextMonthKey;
     window.formatMonthLabel = formatMonthLabel;
     window.getPreviousMonthEnd = getPreviousMonthEnd;
     window.getPreviousMonthsList = getPreviousMonthsList;

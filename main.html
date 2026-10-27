@@ -164,14 +164,14 @@
             </nav>
         </div>
 
-        <!-- Full-screen Tasbeeh Counter View Overlay -->
+        <!-- Full-screen Tasbeeh Calendar Tracker View Overlay -->
         <div id="tasbeehCounterView" class="d-none flex-column flex-grow-1 tb-counter-overlay" data-ref="page.tasbeeh.counter">
             <header class="app-header d-flex align-items-center gap-2" data-ref="page.tasbeeh.counter.header">
                 <button type="button" class="btn-sheet-back" id="tbBtnBack" data-ref="page.tasbeeh.counter.back-btn" title="Back">
                     <i class="fa-solid fa-arrow-left fs-5" data-ref="page.tasbeeh.counter.back-icon"></i>
                 </button>
                 <div class="flex-grow-1 min-w-0 text-center" data-ref="page.tasbeeh.counter.header-center">
-                    <h5 class="page-title justify-content-center text-truncate mb-0" id="tbCounterTopTitle" data-ref="page.tasbeeh.counter.header-title">Counter</h5>
+                    <h5 class="page-title justify-content-center text-truncate mb-0" id="tbCounterTopTitle" data-ref="page.tasbeeh.counter.header-title">Calendar Tracker</h5>
                 </div>
                 <button type="button" class="btn-pill-action" id="tbBtnEditActive" data-ref="page.tasbeeh.counter.edit-btn" title="Edit active chant">
                     <i class="fa-solid fa-pen" data-ref="page.tasbeeh.counter.edit-icon"></i>
@@ -179,48 +179,59 @@
                 </button>
             </header>
 
-            <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-between p-3 overflow-auto" data-ref="page.tasbeeh.counter.body">
-                <div class="text-center w-100 pt-2" data-ref="page.tasbeeh.counter.chant-info">
-                    <h3 class="fw-bold text-gr1 mb-2 text-truncate" id="tbCounterTitle" data-ref="page.tasbeeh.counter.chant-title">—</h3>
-                    <div class="badge-pill-custom badge-done" id="tbCounterCycle" data-ref="page.tasbeeh.counter.cycle-badge">Cycle 1 / 3</div>
-                </div>
-
-                <!-- SVG Bead Ring -->
-                <div class="tb-ring-wrap my-2" id="tbRingWrap" role="button" tabindex="0" aria-label="Increment count" data-ref="page.tasbeeh.counter.ring-wrap">
-                    <svg id="tbBeadSvg" class="tb-bead-svg" viewBox="0 0 260 260" aria-hidden="true" data-ref="page.tasbeeh.counter.ring-svg">
-                        <circle cx="130" cy="130" r="104" fill="none" stroke="rgba(27,122,75,0.1)" stroke-width="1.5" data-ref="page.tasbeeh.counter.ring-circle" />
-                        <g id="tbBeadGroup" data-ref="page.tasbeeh.counter.bead-group"></g>
-                    </svg>
-                    <div class="tb-ring-center" data-ref="page.tasbeeh.counter.ring-center">
-                        <span id="tbCounterCount" class="tb-center-count" data-ref="page.tasbeeh.counter.count-text">0</span>
-                        <span id="tbCounterTarget" class="tb-center-target" data-ref="page.tasbeeh.counter.target-text">OF 33</span>
+            <div class="flex-grow-1 d-flex flex-column overflow-auto" data-ref="page.tasbeeh.counter.body">
+                <!-- Dhikr Title & Target Info -->
+                <div class="text-center w-100 pt-3 pb-2 px-3" data-ref="page.tasbeeh.counter.chant-info">
+                    <h4 class="fw-bold text-gr1 mb-1 text-truncate" id="tbCounterTitle" data-ref="page.tasbeeh.counter.chant-title">—</h4>
+                    <div class="tb-cal-target-pill" id="tbCalTargetPill">
+                        <i class="fa-solid fa-bullseye"></i>
+                        <span id="tbCalTargetLabel">Target: 100 / day</span>
                     </div>
                 </div>
 
-                <!-- Oversized Tap Target -->
-                <button id="tbTapZone" class="tb-tap-zone" type="button" aria-label="Increment count" data-ref="page.tasbeeh.counter.tap-target">
-                    <i class="fa-solid fa-hand-pointer fs-3 mb-1" data-ref="page.tasbeeh.counter.tap-icon"></i>
-                    <span id="tbTapLabel" class="fw-bold fs-5" data-ref="page.tasbeeh.counter.tap-label">TAP (+1)</span>
-                    <small class="opacity-75 fs-xs" data-ref="page.tasbeeh.counter.tap-hint">Tap anywhere in box</small>
-                </button>
-
-                <!-- Session & Today Counter -->
-                <div class="text-muted d-flex align-items-center gap-2 small fw-semibold my-2" data-ref="page.tasbeeh.counter.session-line">
-                    <span id="tbSessionTimer" data-ref="page.tasbeeh.counter.session-time"><i class="fa-regular fa-clock me-1"></i>00:00</span>
-                    <span data-ref="page.tasbeeh.counter.session-divider">•</span>
-                    <span id="tbSessionToday" data-ref="page.tasbeeh.counter.session-today">Today 0</span>
+                <!-- Month Navigation -->
+                <div class="tb-cal-month-nav" id="tbCalMonthNav">
+                    <button type="button" class="tb-cal-nav-btn" id="tbCalPrevMonth" title="Previous month">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <div class="tb-cal-month-label" id="tbCalMonthLabel">October 2026</div>
+                    <button type="button" class="tb-cal-nav-btn" id="tbCalNextMonth" title="Next month">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
                 </div>
 
-                <!-- Footer Control Buttons -->
-                <div class="d-flex align-items-center justify-content-center gap-2 w-100" id="tbCounterControls" data-ref="page.tasbeeh.counter.controls">
-                    <button type="button" class="tb-ctrl-btn flex-fill justify-content-center" data-act="tb-reset" data-ref="page.tasbeeh.counter.reset-btn" title="Reset counter">
-                        <i class="fa-solid fa-rotate-right" data-ref="page.tasbeeh.counter.reset-icon"></i>
-                        <span data-ref="page.tasbeeh.counter.reset-label">Reset</span>
-                    </button>
-                    <button type="button" class="tb-ctrl-btn flex-fill justify-content-center" data-act="tb-undo" data-ref="page.tasbeeh.counter.undo-btn" title="Undo count">
-                        <i class="fa-solid fa-rotate-left" data-ref="page.tasbeeh.counter.undo-icon"></i>
-                        <span data-ref="page.tasbeeh.counter.undo-label">Undo</span>
-                    </button>
+                <!-- Calendar Grid -->
+                <div class="tb-cal-container px-3 pb-3">
+                    <!-- Day Headers -->
+                    <div class="tb-cal-header">
+                        <div class="tb-cal-day-label">Sun</div>
+                        <div class="tb-cal-day-label">Mon</div>
+                        <div class="tb-cal-day-label">Tue</div>
+                        <div class="tb-cal-day-label">Wed</div>
+                        <div class="tb-cal-day-label">Thu</div>
+                        <div class="tb-cal-day-label">Fri</div>
+                        <div class="tb-cal-day-label">Sat</div>
+                    </div>
+                    <!-- Calendar Days (populated by JS) -->
+                    <div class="tb-cal-grid" id="tbCalGrid"></div>
+                </div>
+
+                <!-- Progress Summary -->
+                <div class="tb-cal-summary mx-3 mb-3" id="tbCalSummary">
+                    <div class="tb-cal-stat">
+                        <span class="tb-cal-stat-num" id="tbCalCompletedCount">0</span>
+                        <span class="tb-cal-stat-label">Completed</span>
+                    </div>
+                    <div class="tb-cal-stat-divider"></div>
+                    <div class="tb-cal-stat">
+                        <span class="tb-cal-stat-num" id="tbCalRemainingCount">0</span>
+                        <span class="tb-cal-stat-label">Remaining</span>
+                    </div>
+                    <div class="tb-cal-stat-divider"></div>
+                    <div class="tb-cal-stat">
+                        <span class="tb-cal-stat-num tb-cal-stat-pct" id="tbCalProgressPct">0%</span>
+                        <span class="tb-cal-stat-label">Progress</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -353,7 +364,88 @@
         <input type="date" id="oldDp" tabindex="-1" aria-hidden="true" class="hidden-date-input">
 
 
-        <!-- Add / Edit Dhikr Modal -->
+        <!-- Tasbeeh Floating Toast -->
+        <div id="tbToast" class="tb-toast-wrap d-none" role="status" aria-live="polite" data-ref="component.toast.tasbeeh"></div>
+
+        <!-- Add Dua Modal -->
+        <div class="dua-modal-overlay" id="duaAddModal">
+            <div class="dua-modal">
+                <div class="dua-modal-header">
+                    <div class="dua-modal-title">➕ Add New Dua</div>
+                    <button type="button" class="dua-modal-close" data-act="dua-close-add">✕</button>
+                </div>
+
+                <div class="dua-form-group">
+                    <label>Dua Number</label>
+                    <input type="number" id="duaAddNumber" class="form-control" placeholder="e.g. 11">
+                </div>
+                <div class="dua-form-group">
+                    <label>Surah Name (Telugu)</label>
+                    <input type="text" id="duaAddSurah" class="form-control" placeholder="e.g. అల్-బఖరా (2:201)">
+                </div>
+                <div class="dua-form-group">
+                    <label>Telugu Pronunciation</label>
+                    <textarea id="duaAddUchcharana" class="form-control" rows="2" placeholder="రబ్బనా ఆతినా..."></textarea>
+                </div>
+                <div class="dua-form-group">
+                    <label>Telugu Meaning</label>
+                    <textarea id="duaAddArdham" class="form-control" rows="3" placeholder="మా ప్రభువా! మాకు..."></textarea>
+                </div>
+
+                <div class="d-flex gap-2 justify-content-end mt-4 pt-3 border-top">
+                    <button type="button" class="btn btn-light border px-4" data-act="dua-close-add">Cancel</button>
+                    <button type="button" class="btn btn-brand px-4" data-act="dua-save-new">Save Dua</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pin Confirmation Modal -->
+        <div class="dua-modal-overlay" id="duaPinConfirmModal">
+            <div class="dua-modal">
+                <div class="dua-modal-header">
+                    <div class="dua-modal-title">📌 Pin Limit Reached</div>
+                    <button type="button" class="dua-modal-close" data-act="dua-close-pin-confirm">✕</button>
+                </div>
+
+                <p class="text-secondary small mb-2">
+                    You can only pin <strong>2 duas</strong> at a time. You already have these duas pinned:
+                </p>
+                <div id="duaPinConfirmList" class="my-3"></div>
+                <p class="text-secondary small mb-3">
+                    Do you want to <strong>replace one</strong>? Choose which pinned dua to unpin:
+                </p>
+
+                <div class="d-flex justify-content-end pt-2 border-top">
+                    <button type="button" class="btn btn-light border px-4" data-act="dua-close-pin-confirm">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Modal -->
+        <div class="dua-modal-overlay" id="duaAdminModal">
+            <div class="dua-modal">
+                <div class="dua-modal-header">
+                    <div class="dua-modal-title">⚙️ Admin Panel</div>
+                    <button type="button" class="dua-modal-close" data-act="dua-close-admin">✕</button>
+                </div>
+
+                <div id="duaAdminListSection">
+                    <div class="fw-bold mb-2 text-primary">Existing Duas</div>
+                    <div class="dua-admin-list mb-3" id="duaAdminDuaList"></div>
+                    <button type="button" class="btn btn-outline-danger w-100 py-2 rounded-3 fw-semibold" data-act="dua-reset-all">
+                        <i class="fa-solid fa-arrows-rotate me-1"></i> Reset to Default Data
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+         Bootstrap Modal Dialogs (Top-level body children to prevent
+         stacking context trapping behind overlays and backdrops)
+         ============================================================ -->
+<!-- Add / Edit Dhikr Modal -->
         <div class="modal fade" id="tasbeehModal" tabindex="-1" data-ref="component.modal.tasbeeh">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-tasbeeh" data-ref="component.modal.tasbeeh.dialog">
                 <div class="modal-content rounded-4 border-0 shadow" data-ref="component.modal.tasbeeh.content">
@@ -377,7 +469,7 @@
 
                         <!-- Target Count with Chips -->
                         <div class="mb-3" data-ref="component.modal.tasbeeh.count-group">
-                            <label class="form-label fw-bold mb-2" data-ref="component.modal.tasbeeh.count-label">Target Count per Cycle</label>
+                            <label class="form-label fw-bold mb-2" data-ref="component.modal.tasbeeh.count-label">Daily Target Count</label>
                             <div class="d-flex gap-2 mb-2" id="tbCountChips" data-ref="component.modal.tasbeeh.count-chips">
                                 <button type="button" class="tb-chip flex-fill active" data-count="33" data-ref="component.modal.tasbeeh.chip-33">33</button>
                                 <button type="button" class="tb-chip flex-fill" data-count="99" data-ref="component.modal.tasbeeh.chip-99">99</button>
@@ -388,17 +480,6 @@
                                 <span class="field-icon" data-ref="component.modal.tasbeeh.count-field-icon"><i class="fa-solid fa-hashtag fs-5"></i></span>
                                 <input type="number" class="form-control border-0 ps-3 fs-6" id="tbFormCount"
                                     placeholder="33" min="1" max="9999" value="33" data-ref="component.modal.tasbeeh.count-input">
-                            </div>
-                        </div>
-
-                        <!-- Target Cycles Stepper -->
-                        <div class="mb-3" data-ref="component.modal.tasbeeh.cycles-group">
-                            <label class="form-label fw-bold mb-2" data-ref="component.modal.tasbeeh.cycles-label">Target Cycles / Rounds</label>
-                            <div class="d-flex align-items-center gap-2" data-ref="component.modal.tasbeeh.cycles-stepper">
-                                <button class="btn-stepper" type="button" id="tbCyclesMinus" data-ref="component.modal.tasbeeh.cycles-minus">−</button>
-                                <input type="number" class="form-control text-center fw-bold border-0 add-value-input"
-                                    id="tbFormCycles" placeholder="3" min="1" max="99" value="3" data-ref="component.modal.tasbeeh.cycles-input">
-                                <button class="btn-stepper" type="button" id="tbCyclesPlus" data-ref="component.modal.tasbeeh.cycles-plus">+</button>
                             </div>
                         </div>
                     </div>
@@ -416,27 +497,26 @@
             </div>
         </div>
 
-        <!-- Tasbeeh Reset Modal -->
-        <div class="modal fade" id="tasbeehResetModal" tabindex="-1" data-ref="component.modal.tasbeeh-reset">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-confirm" data-ref="component.modal.tasbeeh-reset.dialog">
-                <div class="modal-content rounded-4 border-0 shadow p-2" data-ref="component.modal.tasbeeh-reset.content">
-                    <div class="modal-header border-0 pb-0 align-items-center gap-3 pt-3 px-3" data-ref="component.modal.tasbeeh-reset.header">
-                        <span class="modal-icon-badge bg-warning-subtle" data-ref="component.modal.tasbeeh-reset.icon-badge">
-                            <i class="fa-solid fa-rotate-right fs-3 text-warning" data-ref="component.modal.tasbeeh-reset.icon"></i>
+        <!-- Tasbeeh Day Status Change Confirmation Modal -->
+        <div class="modal fade" id="tasbeehConfirmModal" tabindex="-1" aria-hidden="true" data-ref="component.modal.tasbeeh-confirm">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-confirm" data-ref="component.modal.tasbeeh-confirm.dialog">
+                <div class="modal-content rounded-4 border-0 shadow p-2" data-ref="component.modal.tasbeeh-confirm.content">
+                    <div class="modal-header border-0 pb-0 align-items-center gap-3 pt-3 px-3" data-ref="component.modal.tasbeeh-confirm.header">
+                        <span class="modal-icon-badge bg-warning-subtle" id="tbConfirmModalBadge" data-ref="component.modal.tasbeeh-confirm.icon-badge">
+                            <i class="fa-solid fa-triangle-exclamation fs-3 text-warning" id="tbConfirmModalIcon" data-ref="component.modal.tasbeeh-confirm.icon"></i>
                         </span>
-                        <h5 class="modal-title fw-bold fs-5 flex-grow-1 mb-0" data-ref="component.modal.tasbeeh-reset.title">Reset Counter</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" data-ref="component.modal.tasbeeh-reset.close-btn"></button>
+                        <h5 class="modal-title fw-bold fs-5 flex-grow-1 mb-0" id="tbConfirmModalTitle" data-ref="component.modal.tasbeeh-confirm.title">Change Day Status</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" data-ref="component.modal.tasbeeh-confirm.close-btn"></button>
                     </div>
-                    <div class="modal-body px-3 pt-2" data-ref="component.modal.tasbeeh-reset.body">
-                        <p class="text-muted small mb-3" data-ref="component.modal.tasbeeh-reset.message">Choose what to reset for <strong id="tbResetModalName" class="text-gr1" data-ref="component.modal.tasbeeh-reset.chant-name"></strong>:</p>
-                        <div class="d-flex flex-column gap-2" data-ref="component.modal.tasbeeh-reset.actions">
-                            <button type="button" class="btn btn-brand py-3 rounded-3 fw-bold" id="tbBtnResetRound" data-ref="component.modal.tasbeeh-reset.round-btn">
-                                <i class="fa-solid fa-rotate me-2"></i>Reset Current Round
+                    <div class="modal-body px-3 pt-2 text-center" data-ref="component.modal.tasbeeh-confirm.body">
+                        <p class="text-muted small mb-3" id="tbConfirmModalMsg">
+                            Mark this day's target as incomplete?
+                        </p>
+                        <div class="d-flex flex-column gap-2" data-ref="component.modal.tasbeeh-confirm.actions">
+                            <button type="button" class="btn btn-brand py-2 rounded-3 fw-bold" id="tbBtnConfirmChange">
+                                Yes, Mark Incomplete
                             </button>
-                            <button type="button" class="btn btn-light text-danger py-3 rounded-3 fw-bold border" id="tbBtnResetAll" data-ref="component.modal.tasbeeh-reset.all-btn">
-                                <i class="fa-solid fa-arrows-rotate me-2"></i>Reset Counter to Beginning
-                            </button>
-                            <button type="button" class="btn btn-light py-2 rounded-3 text-muted" data-bs-dismiss="modal" data-ref="component.modal.tasbeeh-reset.cancel-btn">
+                            <button type="button" class="btn btn-light py-2 rounded-3 text-muted" data-bs-dismiss="modal">
                                 Cancel
                             </button>
                         </div>
@@ -525,84 +605,6 @@
                 </div>
             </div>
         </div>
-
-
-        <!-- Tasbeeh Floating Toast -->
-        <div id="tbToast" class="tb-toast-wrap d-none" role="status" aria-live="polite" data-ref="component.toast.tasbeeh"></div>
-
-        <!-- Add Dua Modal -->
-        <div class="dua-modal-overlay" id="duaAddModal">
-            <div class="dua-modal">
-                <div class="dua-modal-header">
-                    <div class="dua-modal-title">➕ Add New Dua</div>
-                    <button type="button" class="dua-modal-close" data-act="dua-close-add">✕</button>
-                </div>
-
-                <div class="dua-form-group">
-                    <label>Dua Number</label>
-                    <input type="number" id="duaAddNumber" class="form-control" placeholder="e.g. 11">
-                </div>
-                <div class="dua-form-group">
-                    <label>Surah Name (Telugu)</label>
-                    <input type="text" id="duaAddSurah" class="form-control" placeholder="e.g. అల్-బఖరా (2:201)">
-                </div>
-                <div class="dua-form-group">
-                    <label>Telugu Pronunciation</label>
-                    <textarea id="duaAddUchcharana" class="form-control" rows="2" placeholder="రబ్బనా ఆతినా..."></textarea>
-                </div>
-                <div class="dua-form-group">
-                    <label>Telugu Meaning</label>
-                    <textarea id="duaAddArdham" class="form-control" rows="3" placeholder="మా ప్రభువా! మాకు..."></textarea>
-                </div>
-
-                <div class="d-flex gap-2 justify-content-end mt-4 pt-3 border-top">
-                    <button type="button" class="btn btn-light border px-4" data-act="dua-close-add">Cancel</button>
-                    <button type="button" class="btn btn-brand px-4" data-act="dua-save-new">Save Dua</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pin Confirmation Modal -->
-        <div class="dua-modal-overlay" id="duaPinConfirmModal">
-            <div class="dua-modal">
-                <div class="dua-modal-header">
-                    <div class="dua-modal-title">📌 Pin Limit Reached</div>
-                    <button type="button" class="dua-modal-close" data-act="dua-close-pin-confirm">✕</button>
-                </div>
-
-                <p class="text-secondary small mb-2">
-                    You can only pin <strong>2 duas</strong> at a time. You already have these duas pinned:
-                </p>
-                <div id="duaPinConfirmList" class="my-3"></div>
-                <p class="text-secondary small mb-3">
-                    Do you want to <strong>replace one</strong>? Choose which pinned dua to unpin:
-                </p>
-
-                <div class="d-flex justify-content-end pt-2 border-top">
-                    <button type="button" class="btn btn-light border px-4" data-act="dua-close-pin-confirm">Cancel</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Admin Modal -->
-        <div class="dua-modal-overlay" id="duaAdminModal">
-            <div class="dua-modal">
-                <div class="dua-modal-header">
-                    <div class="dua-modal-title">⚙️ Admin Panel</div>
-                    <button type="button" class="dua-modal-close" data-act="dua-close-admin">✕</button>
-                </div>
-
-                <div id="duaAdminListSection">
-                    <div class="fw-bold mb-2 text-primary">Existing Duas</div>
-                    <div class="dua-admin-list mb-3" id="duaAdminDuaList"></div>
-                    <button type="button" class="btn btn-outline-danger w-100 py-2 rounded-3 fw-semibold" data-act="dua-reset-all">
-                        <i class="fa-solid fa-arrows-rotate me-1"></i> Reset to Default Data
-                    </button>
-                </div>
-            </div>
-        </div>
-
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="utilities/constant.js"></script>

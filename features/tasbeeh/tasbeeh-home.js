@@ -80,15 +80,15 @@ window.TasbeehHomeApp = (function () {
                 '    <div class="tb-card-meta">' +
                 '      <div class="tb-meta-row">' +
                 targetIcon +
-                '        <span class="tb-meta-text">Target: <span class="tb-val-num">' + c.targetDisplay + '</span><span class="tb-meta-dot">·</span>Cycle</span>' +
+                '        <span class="tb-meta-text">Target: <span class="tb-val-num">' + c.targetDisplay + '</span> / day</span>' +
                 '      </div>' +
                 '      <div class="tb-meta-row">' +
                 checkIcon +
-                '        <span class="tb-meta-text">Done: <strong class="tb-val-done">' + (c.progress ? c.progress.done : 0) + '</strong><span class="tb-val-total">' + c.totalDisplay + '</span></span>' +
+                '        <span class="tb-meta-text">Completed: <strong class="tb-val-done">' + (c.completedDays || 0) + '</strong><span class="tb-val-total"> / ' + (c.totalDays || 0) + ' days</span></span>' +
                 '      </div>' +
                 '      <div class="tb-meta-row tb-meta-sub-row">' +
                 '        <i class="fa-regular fa-calendar-days text-muted" style="font-size: 11px;"></i>' +
-                '        <span class="tb-meta-text">Current Month</span>' +
+                '        <span class="tb-meta-text">' + escHtml(c.monthName || 'Current Month') + (c.isTodayDone ? ' · <span class="text-success fw-bold">Today ✓</span>' : '') + '</span>' +
                 '      </div>' +
                 '    </div>' +
                 '  </div>' +
@@ -117,11 +117,11 @@ window.TasbeehHomeApp = (function () {
                 '    <div class="tb-card-meta">' +
                 '      <div class="tb-meta-row">' +
                 targetIcon +
-                '        <span class="tb-meta-text">Target: <span class="tb-val-num">' + o.targetDisplay + '</span><span class="tb-meta-dot">·</span>Cycle</span>' +
+                '        <span class="tb-meta-text">Target: <span class="tb-val-num">' + o.targetDisplay + '</span> / day</span>' +
                 '      </div>' +
                 '      <div class="tb-meta-row">' +
                 checkIcon +
-                '        <span class="tb-meta-text">Done: <strong class="tb-val-done">' + (o.countInMonth || 0).toLocaleString() + '</strong><span class="tb-val-total">' + o.totalDisplay + '</span></span>' +
+                '        <span class="tb-meta-text">Completed: <strong class="tb-val-done">' + (o.completedDays || 0) + '</strong><span class="tb-val-total"> / ' + (o.totalDays || 0) + ' days</span></span>' +
                 '      </div>' +
                 '      <div class="tb-meta-row tb-meta-sub-row">' +
                 '        <i class="fa-regular fa-calendar-days text-muted" style="font-size: 11px;"></i>' +
@@ -137,7 +137,14 @@ window.TasbeehHomeApp = (function () {
             ? window.TasbeehHistoryApp.loadPeriod()
             : ((window.TasbeehOldApp && typeof window.TasbeehOldApp.loadPeriod === 'function') ? window.TasbeehOldApp.loadPeriod() : null);
 
-        var completedCount = (period && Array.isArray(period.completedMonths)) ? period.completedMonths.length : 0;
+        var completedCount = 0;
+        if (period && period.startDate && (period.initialEnd || period.endDate)) {
+            var maxEnd = period.initialEnd || period.endDate;
+            var allOld = typeof getPreviousMonthsList === 'function' ? getPreviousMonthsList(period.startDate, maxEnd) : [];
+            allOld.forEach(function (m) {
+                if (m > period.endDate || period.endDate < period.startDate) completedCount++;
+            });
+        }
         var curOldMonth = (window.TasbeehOldApp && typeof window.TasbeehOldApp.getCurrentOldMonth === 'function')
             ? window.TasbeehOldApp.getCurrentOldMonth()
             : null;

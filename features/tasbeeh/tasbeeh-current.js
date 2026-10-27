@@ -3,11 +3,11 @@
    Path: features/tasbeeh/tasbeeh-current.js
    Handles:
      - Dhikr items data layer & local storage persistence
-     - Current month calculations & daily count resets
-     - Current tab rendering (TO DO & COMPLETED groups, progress bars)
-     - Interactive SVG Bead Ring & full-screen counter overlay
-     - Add / Edit Dhikr modal
-     - Tab navigation coordinator (Current / Old)
+     - Calendar Tracker overlay (monthly calendar with day-by-day target completion)
+     - Calendar completions data layer & daily tracking
+     - Current tab rendering (TO DO & COMPLETED groups, daily progress)
+     - Add / Edit Dhikr modal (Title & Daily Target Count)
+     - Tab navigation coordinator (Home / Current / Old / History)
    ============================================================ */
 'use strict';
 
@@ -18,39 +18,362 @@ window.TasbeehCurrentApp = (function () {
     var DAY_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.DAY) || 'app_tasbeeh_day';
     var BM_CUR_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.BOOKMARK_CURRENT) || 'app_tasbeeh_bookmark_current';
     var BM_OLD_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.BOOKMARK_OLD) || 'app_tasbeeh_bookmark_old';
+    var CURRENT_PERIOD_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.CURRENT_PERIOD) || 'app_tasbeeh_current_period';
+    var CAL_COMPLETION_KEY = 'app_tasbeeh_cal_completions';
     var counterOpenedFrom = null;
-    var INFINITE_LAP = typeof TASBEEH_CONSTANTS.INFINITE_LAP === 'number' ? TASBEEH_CONSTANTS.INFINITE_LAP : 33;
-    var MAX_BEADS = typeof TASBEEH_CONSTANTS.MAX_BEADS === 'number' ? TASBEEH_CONSTANTS.MAX_BEADS : 60;
-    var SVG_NS = TASBEEH_CONSTANTS.SVG_NS || 'http://www.w3.org/2000/svg';
-    var DEFAULT_PRESETS = TASBEEH_CONSTANTS.DEFAULT_PRESETS || [
-        { title: 'SubhanAllah', targetCount: 33, targetCycles: 3 },
-        { title: 'Alhamdulillah', targetCount: 33, targetCycles: 3 },
-        { title: 'Allahu Akbar', targetCount: 34, targetCycles: 3 },
-        { title: 'Astaghfirullah', targetCount: 100, targetCycles: 1 }
+
+    var DEFAULT_PRESETS = [
+        { title: 'SubhanAllah', targetCount: 33 },
+        { title: 'Alhamdulillah', targetCount: 33 },
+        { title: 'Allahu Akbar', targetCount: 34 },
+        { title: 'Astaghfirullah', targetCount: 100 }
     ];
 
     /* ---------- State ---------- */
     var items = [];
     var activeId = null;
     var editingId = null;
-    var activeTab = 'current'; // 'current' or 'old'
-    var counterMonthKey = null; // When counting for a specific old month
+    var activeTab = 'current'; // 'home', 'current', 'old', 'history'
+    var counterMonthKey = null; // When tracking for a specific old month, e.g. "2026-09"
     var countMode = 'finite';
-    var flashFull = false;
-    var counterLocked = false;
 
-    /* Ring SVG state */
-    var beadEls = [];
-    var ringN = 33;
-    var ringTarget = 33;
+    /* Calendar State */
+    var calViewYear = null;
+    var calViewMonth = null; // 0-indexed: 0 = Jan, 11 = Dec
+    var pendingToggleDate = null; // Stored date when confirmation modal is shown
+    var pendingConfirmCallback = null; // Callback for month completion confirmation
 
-    /* Session timer */
-    var sessionStart = null;
-    var sessionTimer = null;
-
-    /* Modal instances */
+    /* Modal Instances */
     var editModalInstance = null;
-    var resetModalInstance = null;
+    var confirmModalInstance = null;
+
+    /* Calendar completions map: { [itemId]: { "2026-10-15": true, ... } } */
+    var calCompletions = {};
+
+    /* ---------- Calendar Completions Storage & Helpers ---------- */
+    function loadCalCompletions() {
+        try {
+            var raw = localStorage.getItem(CAL_COMPLETION_KEY);
+            if (raw) {
+                calCompletions = JSON.parse(raw);
+                if (typeof calCompletions !== 'object' || calCompletions === null) {
+                    calCompletions = {};
+                }
+            }
+        } catch (_) {
+            calCompletions = {};
+        }
+    }
+
+    function persistCalCompletions() {
+        try {
+            localStorage.setItem(CAL_COMPLETION_KEY, JSON.stringify(calCompletions));
+        } catch (_) { }
+    }
+
+    function isDayCompleted(itemId, dateStr) {
+        return !!(calCompletions[itemId] && calCompletions[itemId][dateStr] === true);
+    }
+
+    function setDayCompleted(itemId, dateStr, completed) {
+        if (!itemId || !dateStr) return;
+        if (!calCompletions[itemId]) {
+            calCompletions[itemId] = {};
+        }
+        if (completed) {
+            calCompletions[itemId][dateStr] = true;
+        } else {
+            delete calCompletions[itemId][dateStr];
+        }
+        persistCalCompletions();
+
+        // Synchronize item history for stats and backwards compatibility
+        var item = null;
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].id === itemId) { item = items[i]; break; }
+        }
+        if (item) {
+            var monthKey = dateStr.slice(0, 7);
+            var parts = monthKey.split('-');
+            var yr = parseInt(parts[0], 10);
+            var mo = parseInt(parts[1], 10) - 1;
+            var completedDays = getCompletedDaysInMonth(itemId, yr, mo);
+            var targetNum = item.targetCount === 'infinite' ? 100 : item.targetCount;
+
+            item.dailyHistory = item.dailyHistory || {};
+            if (completed) {
+                item.dailyHistory[dateStr] = targetNum;
+            } else {
+                delete item.dailyHistory[dateStr];
+            }
+
+            item.monthlyHistory = item.monthlyHistory || {};
+            item.monthlyHistory[monthKey] = completedDays * targetNum;
+            item.updatedAt = Date.now();
+            persist();
+        }
+    }
+
+    function getDaysInMonth(year, month) {
+        // month is 0-indexed (0=Jan, 11=Dec)
+        return new Date(year, month + 1, 0).getDate();
+    }
+
+    function getFirstDayOfMonth(year, month) {
+        return new Date(year, month, 1).getDay(); // 0=Sun, 6=Sat
+    }
+
+    function makeDateStr(year, month, day) {
+        return year + '-' + pad2(month + 1) + '-' + pad2(day);
+    }
+
+    function getCompletedDaysInMonth(itemId, year, month) {
+        if (!calCompletions[itemId]) return 0;
+        var prefix = year + '-' + pad2(month + 1) + '-';
+        var count = 0;
+        var daysInM = getDaysInMonth(year, month);
+        for (var d = 1; d <= daysInM; d++) {
+            var ds = prefix + pad2(d);
+            if (calCompletions[itemId][ds] === true) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /* ---------- Current Period Storage Layer (Month-by-Month) ---------- */
+    function loadCurrentPeriod() {
+        var defaultStartMonth = typeof getCurrentMonthKey === 'function' ? getCurrentMonthKey() : (new Date().getFullYear() + '-' + pad2(new Date().getMonth() + 1));
+        try {
+            var raw = localStorage.getItem(CURRENT_PERIOD_KEY);
+            if (!raw) {
+                var initial = { startDate: defaultStartMonth, updatedAt: Date.now() };
+                localStorage.setItem(CURRENT_PERIOD_KEY, JSON.stringify(initial));
+                return initial;
+            }
+            var p = JSON.parse(raw);
+            if (!p || !p.startDate) {
+                return { startDate: defaultStartMonth, updatedAt: Date.now() };
+            }
+            var norm = (typeof normalizeMonthKey === 'function' ? normalizeMonthKey(p.startDate) : String(p.startDate).slice(0, 7)) || defaultStartMonth;
+            return {
+                startDate: norm,
+                updatedAt: p.updatedAt || Date.now()
+            };
+        } catch (_) {
+            return { startDate: defaultStartMonth, updatedAt: Date.now() };
+        }
+    }
+
+    function saveCurrentPeriod(startMonth) {
+        var defaultStartMonth = typeof getCurrentMonthKey === 'function' ? getCurrentMonthKey() : (new Date().getFullYear() + '-' + pad2(new Date().getMonth() + 1));
+        var norm = (typeof normalizeMonthKey === 'function' ? normalizeMonthKey(startMonth) : String(startMonth).slice(0, 7)) || defaultStartMonth;
+        var p = {
+            startDate: norm,
+            updatedAt: Date.now()
+        };
+        try {
+            localStorage.setItem(CURRENT_PERIOD_KEY, JSON.stringify(p));
+        } catch (_) { }
+        return p;
+    }
+
+    function getCurrentTrackingMonth() {
+        return loadCurrentPeriod().startDate;
+    }
+
+    /* ---------- Month Data Removal & Completion Check ---------- */
+    function removeMonthTrackingData(mKey) {
+        if (!mKey) return;
+        var prefix = mKey + '-';
+        // 1. Remove calendar completions for this month
+        for (var itemId in calCompletions) {
+            if (Object.prototype.hasOwnProperty.call(calCompletions, itemId)) {
+                var dayMap = calCompletions[itemId];
+                if (dayMap && typeof dayMap === 'object') {
+                    for (var d in dayMap) {
+                        if (d.indexOf(prefix) === 0) {
+                            delete dayMap[d];
+                        }
+                    }
+                }
+            }
+        }
+        persistCalCompletions();
+
+        // 2. Remove daily and monthly history for this month
+        items.forEach(function (it) {
+            if (it.dailyHistory && typeof it.dailyHistory === 'object') {
+                for (var d2 in it.dailyHistory) {
+                    if (d2.indexOf(prefix) === 0) {
+                        delete it.dailyHistory[d2];
+                    }
+                }
+            }
+            if (it.monthlyHistory && typeof it.monthlyHistory === 'object') {
+                delete it.monthlyHistory[mKey];
+            }
+            it.updatedAt = Date.now();
+        });
+        persist();
+    }
+
+    function isMonthFullyCompleted(mKey) {
+        if (!mKey) return false;
+        var finiteItems = items.filter(function (it) { return it.targetCount !== 'infinite'; });
+        if (finiteItems.length === 0) return false;
+        var parts = mKey.split('-');
+        var yr = parseInt(parts[0], 10);
+        var mo = parseInt(parts[1], 10) - 1;
+        var totalDays = getDaysInMonth(yr, mo);
+        if (totalDays <= 0) return false;
+
+        return finiteItems.every(function (it) {
+            var completedDays = getCompletedDaysInMonth(it.id, yr, mo);
+            return completedDays >= totalDays;
+        });
+    }
+
+    /* ---------- Confirmation Action Dialog (Bootstrap Modal + Fallback) ---------- */
+    function confirmAction(options, onConfirm) {
+        pendingConfirmCallback = onConfirm || null;
+        pendingToggleDate = null;
+
+        var confirmModalEl = getEl('tasbeehConfirmModal');
+        var titleEl = getEl('tbConfirmModalTitle');
+        var msgEl = getEl('tbConfirmModalMsg');
+        var btnEl = getEl('tbBtnConfirmChange');
+        var iconEl = getEl('tbConfirmModalIcon');
+        var badgeEl = getEl('tbConfirmModalBadge');
+
+        if (titleEl) titleEl.textContent = options.title || 'Confirm';
+        if (msgEl) msgEl.innerHTML = options.message || '';
+        if (btnEl) btnEl.textContent = options.btnText || 'Confirm';
+
+        if (iconEl && badgeEl) {
+            if (options.isSuccess) {
+                badgeEl.className = 'modal-icon-badge bg-success-subtle';
+                iconEl.className = 'fa-solid fa-circle-check fs-3 text-success';
+            } else {
+                badgeEl.className = 'modal-icon-badge bg-warning-subtle';
+                iconEl.className = 'fa-solid fa-triangle-exclamation fs-3 text-warning';
+            }
+        }
+
+        if (confirmModalEl && window.bootstrap && typeof window.bootstrap.Modal === 'function') {
+            if (!confirmModalInstance) {
+                confirmModalInstance = bootstrap.Modal.getOrCreateInstance(confirmModalEl);
+                confirmModalEl.addEventListener('hidden.bs.modal', function () {
+                    pendingToggleDate = null;
+                    pendingConfirmCallback = null;
+                });
+            }
+            confirmModalInstance.show();
+        } else {
+            var plain = (options.message || '').replace(/<br\s*[\/]?>/gi, '\n').replace(/<[^>]+>/g, '');
+            if (window.confirm((options.title || 'Confirm') + '\n\n' + plain)) {
+                if (typeof pendingConfirmCallback === 'function') {
+                    var cb = pendingConfirmCallback;
+                    pendingConfirmCallback = null;
+                    cb();
+                }
+            } else {
+                pendingConfirmCallback = null;
+            }
+        }
+    }
+
+    function advanceCurrentMonth() {
+        var curMonthKey = getCurrentTrackingMonth();
+        if (!isMonthFullyCompleted(curMonthKey)) {
+            showToast('Please complete all targets for ' + formatMonthLabel(curMonthKey) + ' before moving to next month.');
+            return;
+        }
+        var nextMonthKey = typeof getNextMonthKey === 'function' ? getNextMonthKey(curMonthKey) : (function (m) {
+            var p = m.split('-'); var y = parseInt(p[0], 10); var mo = parseInt(p[1], 10) + 1;
+            if (mo > 12) { mo = 1; y++; } return y + '-' + pad2(mo);
+        })(curMonthKey);
+
+        var curLabel = formatMonthLabel(curMonthKey);
+        var nextLabel = formatMonthLabel(nextMonthKey);
+
+        confirmAction({
+            title: '🎉 Month Completed!',
+            message: 'All dhikr targets for <strong>' + curLabel + '</strong> are completed!<br><br>' +
+                     'Do you want to finalize this month, remove its tracking data, and advance to <strong>' + nextLabel + '</strong>?',
+            btnText: 'Finalize & Advance',
+            isSuccess: true
+        }, function () {
+            removeMonthTrackingData(curMonthKey);
+            saveCurrentPeriod(nextMonthKey);
+
+            if (counterMonthKey === null && activeId) {
+                var parts = nextMonthKey.split('-');
+                calViewYear = parseInt(parts[0], 10);
+                calViewMonth = parseInt(parts[1], 10) - 1;
+                renderCalendar();
+            }
+            renderCurrentTab();
+            showToast('🎉 ' + curLabel + ' completed! Advanced to ' + nextLabel, 3500);
+        });
+    }
+
+    function advanceOldMonth() {
+        if (!window.TasbeehOldApp || typeof window.TasbeehOldApp.getCurrentOldMonth !== 'function') return;
+        var curOldMonth = window.TasbeehOldApp.getCurrentOldMonth();
+        if (!curOldMonth) return;
+
+        if (!isMonthFullyCompleted(curOldMonth)) {
+            showToast('Please complete all targets for ' + formatMonthLabel(curOldMonth) + ' before moving to previous month.');
+            return;
+        }
+
+        var prevMonthKey = typeof getPrevMonthKey === 'function' ? getPrevMonthKey(curOldMonth) : (function (m) {
+            var p = m.split('-'); var y = parseInt(p[0], 10); var mo = parseInt(p[1], 10) - 1;
+            if (mo === 0) { mo = 12; y--; } return y + '-' + pad2(mo);
+        })(curOldMonth);
+
+        var curLabel = formatMonthLabel(curOldMonth);
+        var prevLabel = formatMonthLabel(prevMonthKey);
+        var period = window.TasbeehOldApp.loadPeriod();
+        var isAllCleared = (prevMonthKey < period.startDate);
+
+        confirmAction({
+            title: '🎉 Month Completed!',
+            message: 'All dhikr targets for <strong>' + curLabel + '</strong> are completed!<br><br>' +
+                     'Do you want to finalize this month, remove its tracking data, and ' +
+                     (isAllCleared ? 'complete all Old Tracking months?' : ('move to <strong>' + prevLabel + '</strong>?')),
+            btnText: 'Finalize & Move Backward',
+            isSuccess: true
+        }, function () {
+            removeMonthTrackingData(curOldMonth);
+            window.TasbeehOldApp.savePeriod(period.startDate, prevMonthKey, period.initialEnd);
+
+            if (counterMonthKey !== null && activeId) {
+                if (isAllCleared) {
+                    closeCounter();
+                } else {
+                    counterMonthKey = prevMonthKey;
+                    var parts = prevMonthKey.split('-');
+                    calViewYear = parseInt(parts[0], 10);
+                    calViewMonth = parseInt(parts[1], 10) - 1;
+                    renderCalendar();
+                    var act = getActiveItem();
+                    var topTitle = (act ? act.title : 'Chant') + ' (' + formatMonthLabel(prevMonthKey) + ')';
+                    var topTitleEl = getEl('tbCounterTopTitle');
+                    if (topTitleEl) topTitleEl.textContent = topTitle;
+                }
+            }
+            if (window.TasbeehOldApp && typeof window.TasbeehOldApp.renderOldTab === 'function') {
+                window.TasbeehOldApp.renderOldTab();
+            }
+            if (isAllCleared) {
+                showToast('🎉 ' + curLabel + ' completed! All old tracking months cleared!', 3500);
+            } else {
+                showToast('🎉 ' + curLabel + ' completed! Moved to ' + prevLabel, 3500);
+            }
+        });
+    }
 
     /* ---------- Storage Layer ---------- */
     function normalizeItem(raw) {
@@ -58,25 +381,18 @@ window.TasbeehCurrentApp = (function () {
             id: raw.id || uid(),
             title: raw.title || 'Dhikr',
             targetCount: raw.targetCount === 'infinite' ? 'infinite' : clamp(parseInt(raw.targetCount, 10) || 33, 1, 9999),
-            targetCycles: clamp(parseInt(raw.targetCycles, 10) || 1, 1, 99),
-            currentCount: clamp(parseInt(raw.currentCount, 10) || 0, 0, 99999),
-            currentCycle: clamp(parseInt(raw.currentCycle, 10) || 1, 1, 999),
-            totalCountToday: clamp(parseInt(raw.totalCountToday, 10) || 0, 0, 9999999),
-            icon: 'fa-solid fa-ring',
+            icon: raw.icon || 'fa-solid fa-ring',
             updatedAt: raw.updatedAt || Date.now(),
             dailyHistory: (raw.dailyHistory && typeof raw.dailyHistory === 'object') ? Object.assign({}, raw.dailyHistory) : {},
-            monthlyHistory: (raw.monthlyHistory && typeof raw.monthlyHistory === 'object') ? Object.assign({}, raw.monthlyHistory) : {},
-            oldTotalCount: clamp(parseInt(raw.oldTotalCount, 10) || 0, 0, 99999999)
+            monthlyHistory: (raw.monthlyHistory && typeof raw.monthlyHistory === 'object') ? Object.assign({}, raw.monthlyHistory) : {}
         };
 
-        var today = td();
-        if (norm.totalCountToday > 0 && !norm.dailyHistory[today]) {
-            norm.dailyHistory[today] = norm.totalCountToday;
-        }
-        var curMonth = getCurrentMonthKey();
-        if (norm.totalCountToday > 0 && !norm.monthlyHistory[curMonth]) {
-            norm.monthlyHistory[curMonth] = norm.totalCountToday;
-        }
+        // Preserve legacy fields if present so no data is lost
+        if (raw.targetCycles !== undefined) norm.targetCycles = raw.targetCycles;
+        if (raw.currentCycle !== undefined) norm.currentCycle = raw.currentCycle;
+        if (raw.currentCount !== undefined) norm.currentCount = raw.currentCount;
+        if (raw.totalCountToday !== undefined) norm.totalCountToday = raw.totalCountToday;
+        if (raw.oldTotalCount !== undefined) norm.oldTotalCount = raw.oldTotalCount;
 
         return norm;
     }
@@ -87,12 +403,7 @@ window.TasbeehCurrentApp = (function () {
             return DEFAULT_PRESETS.map(function (p) {
                 return normalizeItem({
                     title: p.title,
-                    targetCount: p.targetCount,
-                    targetCycles: p.targetCycles,
-                    icon: p.icon,
-                    currentCount: 0,
-                    currentCycle: 1,
-                    totalCountToday: 0
+                    targetCount: p.targetCount
                 });
             });
         }
@@ -117,9 +428,7 @@ window.TasbeehCurrentApp = (function () {
         var today = todayKey();
         var last = localStorage.getItem(DAY_KEY);
         if (last !== today) {
-            items.forEach(function (it) { it.totalCountToday = 0; });
             localStorage.setItem(DAY_KEY, today);
-            persist();
         }
     }
 
@@ -138,19 +447,6 @@ window.TasbeehCurrentApp = (function () {
     function setItems(newItems) {
         items = newItems || [];
         persist();
-    }
-
-    /* ---------- Progress Computation ---------- */
-    function computeProgress(item) {
-        if (item.targetCount === 'infinite') {
-            return { pct: 0, done: item.currentCount, total: null };
-        }
-        var perCycle = item.targetCount;
-        var total = perCycle * item.targetCycles;
-        var doneCycles = Math.min(item.currentCycle - 1, item.targetCycles);
-        var done = doneCycles * perCycle + item.currentCount;
-        var pct = total > 0 ? clamp((done / total) * 100, 0, 100) : 0;
-        return { pct: pct, done: done, total: total };
     }
 
     /* ---------- Bookmark Storage & Retrieval ---------- */
@@ -185,6 +481,12 @@ window.TasbeehCurrentApp = (function () {
             items = loadItems();
         }
 
+        var curMonthKey = getCurrentTrackingMonth();
+        var curParts = curMonthKey.split('-');
+        var curYear = parseInt(curParts[0], 10);
+        var curMonth = parseInt(curParts[1], 10) - 1;
+        var curTotalDays = getDaysInMonth(curYear, curMonth);
+
         // 1. Current Tracking Bookmark
         var curBm = getBookmark('current');
         var curItem = null;
@@ -198,10 +500,19 @@ window.TasbeehCurrentApp = (function () {
             setBookmark('current', curItem.id);
         }
 
+        var curCompletedDays = curItem ? getCompletedDaysInMonth(curItem.id, curYear, curMonth) : 0;
+        var curTargetDisplay = curItem ? (curItem.targetCount === 'infinite' ? '∞' : curItem.targetCount) : '—';
+        var isTodayInCurMonth = (td().slice(0, 7) === curMonthKey);
+        var curIsTodayDone = (curItem && isTodayInCurMonth) ? isDayCompleted(curItem.id, td()) : false;
+        var curMonthName = formatMonthLabel(curMonthKey);
+
         // 2. Old Tracking Bookmark
         var oldBm = getBookmark('old');
         var oldItem = null;
-        var oldMonthKey = oldBm ? oldBm.month : null;
+        var oldMonthKey = (window.TasbeehOldApp && typeof window.TasbeehOldApp.getCurrentOldMonth === 'function')
+            ? window.TasbeehOldApp.getCurrentOldMonth()
+            : (oldBm ? oldBm.month : null);
+
         if (oldBm && oldBm.id) {
             for (var j = 0; j < items.length; j++) {
                 if (items[j].id === oldBm.id) { oldItem = items[j]; break; }
@@ -211,46 +522,35 @@ window.TasbeehCurrentApp = (function () {
             oldItem = items.length > 1 ? items[1] : items[0];
         }
 
-        if (!oldMonthKey && window.TasbeehOldApp && typeof window.TasbeehOldApp.getCurrentOldMonth === 'function') {
-            oldMonthKey = window.TasbeehOldApp.getCurrentOldMonth();
+        var oldYear = curYear;
+        var oldMonth = curMonth - 1;
+        if (oldMonthKey) {
+            var p = oldMonthKey.split('-');
+            oldYear = parseInt(p[0], 10);
+            oldMonth = parseInt(p[1], 10) - 1;
         }
-        if (!oldMonthKey) {
-            var allPrev = typeof getPreviousMonthsList === 'function' ? getPreviousMonthsList(td(), td()) : [];
-            oldMonthKey = (allPrev && allPrev.length > 0) ? allPrev[0] : null;
-        }
-
-        var curProg = curItem ? computeProgress(curItem) : null;
-        var curIsInfinite = curItem ? curItem.targetCount === 'infinite' : false;
-        var curTargetDisplay = curItem ? (curIsInfinite ? '∞' : curItem.targetCount) : '—';
-        var curTotalDisplay = curItem ? (curIsInfinite ? '' : ('/' + (curProg ? curProg.total : 0))) : '';
-
-        var oldTargetTotal = null;
-        var oldCountInMonth = 0;
-        var oldIsInfinite = false;
-        if (oldItem) {
-            oldIsInfinite = oldItem.targetCount === 'infinite';
-            oldTargetTotal = oldIsInfinite ? null : (oldItem.targetCount * oldItem.targetCycles);
-            oldCountInMonth = (oldMonthKey && oldItem.monthlyHistory && oldItem.monthlyHistory[oldMonthKey]) || 0;
-        }
-        var oldTargetDisplay = oldItem ? (oldIsInfinite ? '∞' : oldItem.targetCount) : '—';
-        var oldTotalDisplay = oldItem ? (oldIsInfinite ? '' : ('/' + oldTargetTotal)) : '';
-        var oldMonthName = oldMonthKey ? formatMonthLabel(oldMonthKey) : 'Previous Month';
+        var oldTotalDays = getDaysInMonth(oldYear, oldMonth);
+        var oldCompletedDays = (oldItem && oldMonthKey) ? getCompletedDaysInMonth(oldItem.id, oldYear, oldMonth) : 0;
+        var oldTargetDisplay = oldItem ? (oldItem.targetCount === 'infinite' ? '∞' : oldItem.targetCount) : '—';
+        var oldMonthName = oldMonthKey ? formatMonthLabel(oldMonthKey) : 'All Completed';
 
         return {
             current: curItem ? {
                 item: curItem,
-                progress: curProg,
+                monthKey: curMonthKey,
+                monthName: curMonthName,
+                completedDays: curCompletedDays,
+                totalDays: curTotalDays,
                 targetDisplay: curTargetDisplay,
-                totalDisplay: curTotalDisplay
+                isTodayDone: curIsTodayDone
             } : null,
             old: oldItem ? {
                 item: oldItem,
                 monthKey: oldMonthKey,
                 monthName: oldMonthName,
-                countInMonth: oldCountInMonth,
-                targetTotal: oldTargetTotal,
-                targetDisplay: oldTargetDisplay,
-                totalDisplay: oldTotalDisplay
+                completedDays: oldCompletedDays,
+                totalDays: oldTotalDays,
+                targetDisplay: oldTargetDisplay
             } : null
         };
     }
@@ -271,44 +571,51 @@ window.TasbeehCurrentApp = (function () {
 
     /* ---------- Current Card HTML Generator ---------- */
     function renderCurrentCardHtml(item, isComplete) {
+        var curMonthKey = getCurrentTrackingMonth();
+        var parts = curMonthKey.split('-');
+        var yr = parseInt(parts[0], 10);
+        var mo = parseInt(parts[1], 10) - 1;
+        var totalDays = getDaysInMonth(yr, mo);
+        var completedDays = getCompletedDaysInMonth(item.id, yr, mo);
+        var isTodayInCurMonth = (td().slice(0, 7) === curMonthKey);
+        var isTodayDone = isTodayInCurMonth ? isDayCompleted(item.id, td()) : false;
         var isInfinite = item.targetCount === 'infinite';
-        var prog = computeProgress(item);
-        var icons = (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.ICONS) || {};
-
         var targetDisplay = isInfinite ? '∞' : item.targetCount;
-        var totalDisplay = isInfinite ? '' : ('/' + prog.total);
+        var icons = (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.ICONS) || {};
 
         return '<div class="tb-card ' + (isComplete ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-ref="page.tasbeeh.card" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
             '<div class="tb-card-top">' +
             '<div class="tb-card-icon-box" data-ref="page.tasbeeh.card.icon">' +
-            (icons.MISBAHA || '') +
+            (icons.MISBAHA || '<i class="fa-solid fa-hand-holding-heart"></i>') +
             '</div>' +
             '<div class="tb-card-actions">' +
             '<button type="button" class="tb-btn-edit" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr" data-ref="page.tasbeeh.card.edit-btn">' +
-            (icons.PENCIL || '') +
+            (icons.PENCIL || '<i class="fa-solid fa-pen"></i>') +
             '</button>' +
-            (icons.CHEVRON || '') +
+            (icons.CHEVRON || '<svg class="tb-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>') +
             '</div>' +
             '</div>' +
             '<div class="tb-card-body" data-ref="page.tasbeeh.card.info">' +
             '<h6 class="tb-card-title" data-ref="page.tasbeeh.card.title">' + escHtml(item.title) + '</h6>' +
             '<div class="tb-card-meta" data-ref="page.tasbeeh.card.meta">' +
             '<div class="tb-meta-row">' +
-            (icons.TARGET || '') +
-            '<span class="tb-meta-text">Target: <span class="tb-val-num">' + targetDisplay + '</span><span class="tb-meta-dot">·</span>Cycle</span>' +
+            (icons.TARGET || '<i class="fa-solid fa-bullseye"></i>') +
+            '<span class="tb-meta-text">Target: <span class="tb-val-num">' + targetDisplay + '</span> / day</span>' +
             '</div>' +
             '<div class="tb-meta-row">' +
-            (icons.CHECK_CIRCLE || '') +
-            '<span class="tb-meta-text">Done: <strong class="tb-val-done">' + prog.done + '</strong><span class="tb-val-total">' + totalDisplay + '</span></span>' +
+            (icons.CHECK_CIRCLE || '<i class="fa-solid fa-circle-check"></i>') +
+            '<span class="tb-meta-text">Completed: <strong class="tb-val-done">' + completedDays + '</strong><span class="tb-val-total"> / ' + totalDays + ' days</span></span>' +
             '</div>' +
+            (isTodayDone
+                ? '<div class="tb-meta-row tb-meta-sub-row"><span class="text-success fw-bold" style="font-size: 11px;"><i class="fa-solid fa-circle-check me-1"></i>Today Completed</span></div>'
+                : '') +
             '</div>' +
             '</div>' +
             '</div>';
     }
 
-    /* ---------- Rendering: Current Tab (Current Month) ---------- */
+    /* ---------- Rendering: Current Tab (Month-by-Month) ---------- */
     function renderCurrentTab() {
-        var curMonthKey = getCurrentMonthKey();
         var listEl = getEl('tbList');
         var emptyEl = getEl('tbEmptyState');
 
@@ -322,30 +629,57 @@ window.TasbeehCurrentApp = (function () {
 
         if (emptyEl) emptyEl.classList.add('d-none');
 
+        var curMonthKey = getCurrentTrackingMonth();
+        var parts = curMonthKey.split('-');
+        var yr = parseInt(parts[0], 10);
+        var mo = parseInt(parts[1], 10) - 1;
+        var totalDays = getDaysInMonth(yr, mo);
+        var curMonthName = formatMonthLabel(curMonthKey);
+
+        var sub = getEl('tbHeaderSub');
+        if (sub && activeTab === 'current') {
+            sub.textContent = curMonthName;
+        }
+
         var todoItems = [];
         var doneItems = [];
+        var isTodayInCurMonth = (td().slice(0, 7) === curMonthKey);
 
         items.forEach(function (item) {
-            var isComplete = item.targetCount !== 'infinite' && item.currentCycle > item.targetCycles;
-            if (isComplete) {
+            var completedDays = getCompletedDaysInMonth(item.id, yr, mo);
+            var isTodayDone = isTodayInCurMonth ? isDayCompleted(item.id, td()) : false;
+            var isAllMonthDone = totalDays > 0 && completedDays >= totalDays;
+
+            // Dhikr is in COMPLETED group if all month is complete or today's target is complete
+            if (isAllMonthDone || (isTodayInCurMonth && isTodayDone)) {
                 doneItems.push(item);
             } else {
                 todoItems.push(item);
             }
         });
 
+        var isMonthComplete = isMonthFullyCompleted(curMonthKey);
         var todoCardsHtml = todoItems.length > 0
-            ? todoItems.map(function (it) { return renderCurrentCardHtml(it, false, curMonthKey); }).join('')
-            : '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
-              '<i class="fa-solid fa-circle-check text-success fs-3 mb-2"></i>' +
-              '<div class="fw-bold text-gr1">All Dhikrs Completed!</div>' +
-              '<div class="text-muted small">All your target cycles for this month are complete.</div>' +
-              '</div>';
+            ? todoItems.map(function (it) { return renderCurrentCardHtml(it, false); }).join('')
+            : (isMonthComplete
+                ? '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
+                  '<i class="fa-solid fa-circle-check text-success fs-3 mb-2"></i>' +
+                  '<div class="fw-bold text-gr1">All Dhikrs for ' + curMonthName + ' Completed!</div>' +
+                  '<div class="text-muted small mb-3">All daily targets for this month have been achieved.</div>' +
+                  '<button type="button" class="btn btn-brand btn-sm fw-bold rounded-pill px-4 py-2 mx-auto" data-act="tb-current-advance">' +
+                  '<i class="fa-solid fa-arrow-right me-1"></i> Finalize & Advance to Next Month' +
+                  '</button>' +
+                  '</div>'
+                : '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
+                  '<i class="fa-solid fa-circle-check text-success fs-3 mb-2"></i>' +
+                  '<div class="fw-bold text-gr1">All Dhikrs Completed Today!</div>' +
+                  '<div class="text-muted small">You have met today’s targets for all your chants.</div>' +
+                  '</div>');
 
         var doneCardsHtml = doneItems.length > 0
-            ? doneItems.map(function (it) { return renderCurrentCardHtml(it, true, curMonthKey); }).join('')
+            ? doneItems.map(function (it) { return renderCurrentCardHtml(it, true); }).join('')
             : '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
-              '<div class="text-muted small">No completed Dhikrs yet. Completed chants will appear here.</div>' +
+              '<div class="text-muted small">No completed Dhikrs for ' + curMonthName + ' yet. Mark your daily targets to see them here.</div>' +
               '</div>';
 
         var isDoneExpanded = doneItems.length > 0;
@@ -489,166 +823,215 @@ window.TasbeehCurrentApp = (function () {
             if (addBtn) addBtn.classList.remove('d-none');
             if (icon) icon.className = 'fa-regular fa-calendar text-primary';
             if (label) label.textContent = 'Digital Tasbeeh';
-            if (sub) sub.textContent = formatMonthLabel(getCurrentMonthKey());
+            if (sub) sub.textContent = formatMonthLabel(getCurrentTrackingMonth());
 
             renderCurrentTab();
         }
     }
 
-    /* ---------- SVG Bead Ring ---------- */
-    function buildRing(item) {
-        var isInfinite = item.targetCount === 'infinite';
-        ringTarget = isInfinite ? INFINITE_LAP : item.targetCount;
-        ringN = isInfinite ? INFINITE_LAP : Math.min(item.targetCount, MAX_BEADS);
-
-        var group = getEl('tbBeadGroup');
-        if (!group) return;
-        group.innerHTML = '';
-        beadEls = [];
-
-        var cx = 130, cy = 130, radius = 104;
-        var spacing = (2 * Math.PI * radius) / ringN;
-        var beadR = clamp(spacing * 0.33, 2.6, 7.5);
-
-        for (var i = 0; i < ringN; i++) {
-            var angle = (-90 + (360 / ringN) * i) * (Math.PI / 180);
-            var circle = document.createElementNS(SVG_NS, 'circle');
-
-            circle.setAttribute('cx', (cx + radius * Math.cos(angle)).toFixed(2));
-            circle.setAttribute('cy', (cy + radius * Math.sin(angle)).toFixed(2));
-            circle.setAttribute('r', beadR.toFixed(2));
-            circle.setAttribute('class', 'tb-bead');
-
-            group.appendChild(circle);
-            beadEls.push(circle);
-        }
-    }
-
-    /* ---------- Counter View UI Update ---------- */
-    function updateCounterUI() {
+    /* ---------- Monthly Calendar Tracker ---------- */
+    function renderCalendar() {
         var item = getActiveItem();
         if (!item) return;
 
-        var isInfinite = item.targetCount === 'infinite';
-        var lapTarget = isInfinite ? INFINITE_LAP : item.targetCount;
-        var isComplete, displayCount, displayCycle;
+        var grid = getEl('tbCalGrid');
+        if (!grid) return;
 
-        if (counterMonthKey) {
-            var mCount = (item.monthlyHistory && item.monthlyHistory[counterMonthKey]) || 0;
-            if (isInfinite) {
-                isComplete = false;
-                displayCount = mCount;
-                displayCycle = Math.floor(mCount / INFINITE_LAP) + 1;
-            } else {
-                var totalTarget = item.targetCount * item.targetCycles;
-                isComplete = mCount >= totalTarget;
-                if (flashFull || isComplete) {
-                    displayCount = lapTarget;
-                    displayCycle = item.targetCycles;
+        var year = calViewYear;
+        var month = calViewMonth;
+        var daysInMonth = getDaysInMonth(year, month);
+        var firstDay = getFirstDayOfMonth(year, month);
+
+        var isInfinite = item.targetCount === 'infinite';
+        var targetDisplay = isInfinite ? '∞' : item.targetCount;
+
+        var todayStr = td();
+
+        var html = '';
+        var completedCount = 0;
+        var totalDays = daysInMonth;
+
+        // Empty offset cells for days before the 1st
+        for (var e = 0; e < firstDay; e++) {
+            html += '<div class="tb-cal-cell tb-cal-empty" aria-hidden="true"></div>';
+        }
+
+        // Calendar day cells
+        for (var d = 1; d <= daysInMonth; d++) {
+            var dateStr = makeDateStr(year, month, d);
+            var isToday = (dateStr === todayStr);
+            var isCompleted = isDayCompleted(item.id, dateStr);
+
+            if (isCompleted) completedCount++;
+
+            var classes = 'tb-cal-cell';
+            if (isCompleted) classes += ' tb-cal-done';
+            if (isToday) classes += ' tb-cal-today';
+
+            html += '<div class="' + classes + '" data-date="' + dateStr + '" role="button" tabindex="0" ' +
+                'aria-label="' + d + ' ' + (isCompleted ? 'Completed' : 'Pending') + '">' +
+                '<span class="tb-cal-date">' + d + '</span>' +
+                '</div>';
+        }
+
+        grid.innerHTML = html;
+
+        // Month & Year header label
+        var monthLabel = getEl('tbCalMonthLabel');
+        if (monthLabel) {
+            var dateObj = new Date(year, month, 1);
+            monthLabel.textContent = dateObj.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+        }
+
+        // Target pill label
+        var targetLabel = getEl('tbCalTargetLabel');
+        if (targetLabel) {
+            targetLabel.textContent = isInfinite ? 'Target: ∞ / day' : ('Target: ' + item.targetCount + ' / day');
+        }
+
+        // Update progress summary bar
+        var remaining = Math.max(0, totalDays - completedCount);
+        var pct = totalDays > 0 ? Math.round((completedCount / totalDays) * 100) : 0;
+
+        var completedEl = getEl('tbCalCompletedCount');
+        var remainingEl = getEl('tbCalRemainingCount');
+        var pctEl = getEl('tbCalProgressPct');
+
+        if (completedEl) completedEl.textContent = completedCount;
+        if (remainingEl) remainingEl.textContent = remaining;
+        if (pctEl) pctEl.textContent = pct + '%';
+
+        // Setup Month Navigation Controls (Current vs Old)
+        var activeMKey = counterMonthKey || getCurrentTrackingMonth();
+        var isOldTracking = !!counterMonthKey;
+        var isFullyDone = isMonthFullyCompleted(activeMKey);
+
+        var prevBtn = getEl('tbCalPrevMonth');
+        var nextBtn = getEl('tbCalNextMonth');
+
+        if (isOldTracking) {
+            // Old Tracking: navigates backward into the past
+            if (nextBtn) {
+                nextBtn.style.opacity = '0.2';
+                nextBtn.style.pointerEvents = 'none';
+                nextBtn.title = 'Next month unavailable in Old Tracking';
+            }
+            if (prevBtn) {
+                prevBtn.style.pointerEvents = 'auto';
+                if (isFullyDone) {
+                    prevBtn.style.opacity = '1';
+                    prevBtn.className = 'tb-cal-nav-btn text-success border-success';
+                    prevBtn.title = 'All targets complete: tap to move to previous month';
                 } else {
-                    displayCycle = Math.min(item.targetCycles, Math.floor(mCount / item.targetCount) + 1);
-                    displayCount = mCount % item.targetCount;
+                    prevBtn.style.opacity = '0.5';
+                    prevBtn.className = 'tb-cal-nav-btn';
+                    prevBtn.title = 'Complete all targets to move backward';
                 }
             }
         } else {
-            isComplete = !isInfinite && item.currentCycle > item.targetCycles;
-            displayCount = (flashFull || isComplete) ? lapTarget : item.currentCount;
-            displayCycle = (flashFull || isComplete) ? Math.min(item.targetCycles, Math.max(1, item.currentCycle - 1)) : item.currentCycle;
-        }
-
-        var topTitle = item.title;
-        if (counterMonthKey) {
-            topTitle += ' (' + formatMonthLabel(counterMonthKey) + ')';
-        }
-
-        var topTitleEl = getEl('tbCounterTopTitle');
-        if (topTitleEl) topTitleEl.textContent = topTitle;
-        var titleEl = getEl('tbCounterTitle');
-        if (titleEl) titleEl.textContent = item.title;
-
-        var cycleBadge = getEl('tbCounterCycle');
-        if (cycleBadge) {
-            if (isInfinite) {
-                cycleBadge.textContent = 'Cycle ' + displayCycle + ' / ∞';
-                cycleBadge.className = 'badge-pill-custom badge-notyet';
-            } else if (isComplete) {
-                cycleBadge.textContent = 'All ' + item.targetCycles + ' Cycles Completed ✓';
-                cycleBadge.className = 'badge-pill-custom badge-done';
-            } else {
-                cycleBadge.textContent = 'Cycle ' + displayCycle + ' of ' + item.targetCycles;
-                cycleBadge.className = 'badge-pill-custom badge-done';
+            // Current Tracking: navigates forward into the future
+            if (prevBtn) {
+                prevBtn.style.opacity = '0.2';
+                prevBtn.style.pointerEvents = 'none';
+                prevBtn.title = 'Previous month unavailable in Current Tracking';
+            }
+            if (nextBtn) {
+                nextBtn.style.pointerEvents = 'auto';
+                if (isFullyDone) {
+                    nextBtn.style.opacity = '1';
+                    nextBtn.className = 'tb-cal-nav-btn text-success border-success';
+                    nextBtn.title = 'All targets complete: tap to advance to next month';
+                } else {
+                    nextBtn.style.opacity = '0.5';
+                    nextBtn.className = 'tb-cal-nav-btn';
+                    nextBtn.title = 'Complete all targets to advance forward';
+                }
             }
         }
-
-        var countEl = getEl('tbCounterCount');
-        if (countEl) countEl.textContent = displayCount;
-        var targetEl = getEl('tbCounterTarget');
-        if (targetEl) targetEl.textContent = isInfinite ? 'OF ∞' : 'OF ' + item.targetCount;
-
-        /* Beads */
-        var filled;
-        if (isInfinite) {
-            var lapCount = displayCount === 0 ? 0 : ((displayCount - 1) % INFINITE_LAP) + 1;
-            filled = Math.round((lapCount / INFINITE_LAP) * ringN);
-        } else {
-            filled = isComplete ? ringN : Math.round((displayCount / item.targetCount) * ringN);
-        }
-        filled = clamp(filled, 0, ringN);
-
-        beadEls.forEach(function (bead, i) {
-            bead.classList.toggle('on', i < filled);
-            bead.classList.toggle('next', i === filled && !isComplete);
-        });
-
-        /* Ring Wrap & Tap Zone */
-        var ringWrap = getEl('tbRingWrap') || document.querySelector('[data-ref="page.tasbeeh.counter.ring-wrap"]');
-        if (ringWrap) ringWrap.classList.toggle('done', isComplete);
-
-        var tapZone = getEl('tbTapZone');
-        var tapLabel = getEl('tbTapLabel');
-        if (tapZone) tapZone.classList.toggle('done', isComplete);
-        if (tapLabel) tapLabel.textContent = isComplete ? 'COMPLETED ✓' : 'TAP (+1)';
-
-        updateSessionLine();
     }
 
-    /* ---------- Session Timer ---------- */
-    function startSession() {
-        sessionStart = Date.now();
-        clearInterval(sessionTimer);
-        sessionTimer = setInterval(updateSessionLine, 1000);
-    }
-
-    function stopSession() {
-        clearInterval(sessionTimer);
-        sessionTimer = null;
-        sessionStart = null;
-    }
-
-    function updateSessionLine() {
+    function handleCalendarDayClick(dateStr) {
         var item = getActiveItem();
-        if (!item) return;
+        if (!item || !dateStr) return;
 
-        var timerEl = getEl('tbSessionTimer');
-        if (timerEl && sessionStart) {
-            var secs = Math.floor((Date.now() - sessionStart) / 1000);
-            var mm = String(Math.floor(secs / 60)).padStart(2, '0');
-            var ss = String(secs % 60).padStart(2, '0');
-            timerEl.innerHTML = '<i class="fa-regular fa-clock me-1"></i>' + mm + ':' + ss;
-        }
+        var isCompleted = isDayCompleted(item.id, dateStr);
 
-        var todayEl = getEl('tbSessionToday');
-        if (todayEl) {
-            if (counterMonthKey) {
-                var mCount = (item.monthlyHistory && item.monthlyHistory[counterMonthKey]) || 0;
-                todayEl.textContent = formatMonthLabel(counterMonthKey) + ' ' + mCount;
-            } else {
-                todayEl.textContent = 'Today ' + (item.totalCountToday || 0);
+        if (isCompleted) {
+            // Already completed: clicking again shows confirmation before changing status
+            confirmAction({
+                title: 'Change Day Status',
+                message: 'Mark <strong>' + formatDate(dateStr) + '</strong> for “' + escHtml(item.title) + '” as incomplete?',
+                btnText: 'Yes, Mark Incomplete',
+                isSuccess: false
+            }, function () {
+                setDayCompleted(item.id, dateStr, false);
+                animateCell(dateStr);
+                renderCalendar();
+            });
+        } else {
+            // Mark target as completed immediately
+            setDayCompleted(item.id, dateStr, true);
+            animateCell(dateStr);
+            renderCalendar();
+
+            // Check if this action completed the entire month's targets
+            var activeMKey = counterMonthKey || getCurrentTrackingMonth();
+            if (isMonthFullyCompleted(activeMKey)) {
+                setTimeout(function () {
+                    if (counterMonthKey) {
+                        advanceOldMonth();
+                    } else {
+                        advanceCurrentMonth();
+                    }
+                }, 300);
             }
         }
     }
 
-    /* ---------- Counter Actions ---------- */
+    function confirmDayStatusChange() {
+        if (!pendingToggleDate) return;
+        var item = getActiveItem();
+        if (item) {
+            setDayCompleted(item.id, pendingToggleDate, false);
+            animateCell(pendingToggleDate);
+            renderCalendar();
+        }
+        if (confirmModalInstance) {
+            confirmModalInstance.hide();
+        }
+        pendingToggleDate = null;
+    }
+
+    function animateCell(dateStr) {
+        setTimeout(function () {
+            var grid = getEl('tbCalGrid');
+            if (!grid) return;
+            var cell = grid.querySelector('[data-date="' + dateStr + '"]');
+            if (cell) {
+                cell.classList.remove('tb-cal-pop');
+                void cell.offsetWidth;
+                cell.classList.add('tb-cal-pop');
+            }
+        }, 10);
+    }
+
+    function navigateMonth(delta) {
+        if (counterMonthKey) {
+            if (delta < 0) {
+                advanceOldMonth();
+            } else {
+                showToast('Next month is not available in Old tracking.');
+            }
+        } else {
+            if (delta > 0) {
+                advanceCurrentMonth();
+            } else {
+                showToast('Previous month is not available in Current tracking.');
+            }
+        }
+    }
+
+    /* ---------- Counter Overlay Opening & Closing ---------- */
     function openCounter(id, oldMonthKey) {
         var item = null;
         for (var i = 0; i < items.length; i++) {
@@ -665,18 +1048,34 @@ window.TasbeehCurrentApp = (function () {
 
         activeId = id;
         counterMonthKey = oldMonthKey || null;
-        flashFull = false;
-        counterLocked = false;
 
-        if (!counterMonthKey && item.targetCount !== 'infinite' && item.currentCount >= item.targetCount) {
-            item.currentCount = 0;
-            item.currentCycle += 1;
-            persist();
+        // Determine which month to show in the calendar
+        if (counterMonthKey) {
+            // Old month: parse the month key (e.g., "2026-09")
+            var parts = counterMonthKey.split('-');
+            calViewYear = parseInt(parts[0], 10);
+            calViewMonth = parseInt(parts[1], 10) - 1; // 0-indexed
+        } else {
+            // Current month: display current tracking month
+            var curMonthKey = getCurrentTrackingMonth();
+            var curParts = curMonthKey.split('-');
+            calViewYear = parseInt(curParts[0], 10);
+            calViewMonth = parseInt(curParts[1], 10) - 1;
         }
 
-        buildRing(item);
-        updateCounterUI();
-        startSession();
+        // Header titles
+        var topTitle = item.title;
+        if (counterMonthKey) {
+            topTitle += ' (' + formatMonthLabel(counterMonthKey) + ')';
+        }
+
+        var topTitleEl = getEl('tbCounterTopTitle');
+        if (topTitleEl) topTitleEl.textContent = topTitle;
+
+        var titleEl = getEl('tbCounterTitle');
+        if (titleEl) titleEl.textContent = item.title;
+
+        renderCalendar();
 
         var counterView = getEl('tasbeehCounterView');
         if (counterView) {
@@ -690,12 +1089,9 @@ window.TasbeehCurrentApp = (function () {
     }
 
     function closeCounter() {
-        stopSession();
         activeId = null;
         var prevCM = counterMonthKey;
         counterMonthKey = null;
-        flashFull = false;
-        counterLocked = false;
 
         var counterView = getEl('tasbeehCounterView');
         if (counterView) {
@@ -715,230 +1111,17 @@ window.TasbeehCurrentApp = (function () {
         }
     }
 
-    function increment() {
-        var item = getActiveItem();
-        if (!item || counterLocked || flashFull) return;
-
-        var isInfinite = item.targetCount === 'infinite';
-        var isComplete;
-
-        if (counterMonthKey) {
-            var mCount = (item.monthlyHistory && item.monthlyHistory[counterMonthKey]) || 0;
-            isComplete = !isInfinite && mCount >= (item.targetCount * item.targetCycles);
-        } else {
-            isComplete = !isInfinite && item.currentCycle > item.targetCycles;
-        }
-
-        if (isComplete) {
-            showToast('All cycles complete — reset counter to recount');
-            return;
-        }
-
-        vibrate(20);
-        var countEl = getEl('tbCounterCount');
-        if (countEl) {
-            countEl.classList.remove('pop');
-            void countEl.offsetWidth;
-            countEl.classList.add('pop');
-        }
-
-        if (counterMonthKey) {
-            item.monthlyHistory = item.monthlyHistory || {};
-            var prevMCount = item.monthlyHistory[counterMonthKey] || 0;
-            var nextMCount = prevMCount + 1;
-            item.monthlyHistory[counterMonthKey] = nextMCount;
-            item.oldTotalCount = (item.oldTotalCount || 0) + 1;
-            item.updatedAt = Date.now();
-
-            if (!isInfinite) {
-                var cycleDone = (nextMCount % item.targetCount) === 0;
-                var totalTarget = item.targetCount * item.targetCycles;
-                if (cycleDone) {
-                    var finishedCycle = Math.floor(nextMCount / item.targetCount);
-                    flashFull = true;
-                    counterLocked = true;
-                    updateCounterUI();
-                    if (nextMCount >= totalTarget) {
-                        showToast('🎉 All ' + item.targetCycles + ' cycles complete for ' + formatMonthLabel(counterMonthKey) + '!', 3000);
-                        if (window.TasbeehOldApp && typeof window.TasbeehOldApp.checkAndAdvanceMonth === 'function') {
-                            window.TasbeehOldApp.checkAndAdvanceMonth(counterMonthKey);
-                        }
-                    } else {
-                        showToast('Cycle ' + finishedCycle + ' complete · Starting Cycle ' + (finishedCycle + 1) + ' of ' + item.targetCycles);
-                    }
-                    setTimeout(function () {
-                        flashFull = false;
-                        counterLocked = false;
-                        updateCounterUI();
-                    }, 520);
-                    persist();
-                    return;
-                }
-            }
-            persist();
-            updateCounterUI();
-            return;
-        }
-
-        // Increment existing properties for Current Month
-        item.currentCount += 1;
-        item.totalCountToday += 1;
-        item.updatedAt = Date.now();
-
-        var today = td();
-        item.dailyHistory = item.dailyHistory || {};
-        item.dailyHistory[today] = (item.dailyHistory[today] || 0) + 1;
-
-        var curMonth = getCurrentMonthKey();
-        item.monthlyHistory = item.monthlyHistory || {};
-        item.monthlyHistory[curMonth] = (item.monthlyHistory[curMonth] || 0) + 1;
-
-        /* Cycle completion for Current Month */
-        if (!isInfinite && item.currentCount >= item.targetCount) {
-            var finishedCycle = item.currentCycle;
-
-            item.currentCount = 0;
-            item.currentCycle += 1;
-            persist();
-
-            flashFull = true;
-            counterLocked = true;
-            updateCounterUI();
-
-            if (item.currentCycle > item.targetCycles) {
-                showToast('🎉 All ' + item.targetCycles + ' cycles complete!', 3000);
-            } else {
-                showToast('Cycle ' + finishedCycle + ' complete · Starting Cycle ' + item.currentCycle + ' of ' + item.targetCycles);
-            }
-
-            setTimeout(function () {
-                flashFull = false;
-                counterLocked = false;
-                updateCounterUI();
-            }, 520);
-
-            return;
-        }
-
-        persist();
-        updateCounterUI();
-    }
-
-    function undo() {
-        var item = getActiveItem();
-        if (!item || counterLocked || flashFull) return;
-
-        var isInfinite = item.targetCount === 'infinite';
-
-        if (counterMonthKey) {
-            item.monthlyHistory = item.monthlyHistory || {};
-            var curMCount = item.monthlyHistory[counterMonthKey] || 0;
-            if (curMCount > 0) {
-                item.monthlyHistory[counterMonthKey] = curMCount - 1;
-                item.oldTotalCount = Math.max(0, (item.oldTotalCount || 0) - 1);
-                item.updatedAt = Date.now();
-                persist();
-                updateCounterUI();
-            } else {
-                showToast('Nothing to undo');
-            }
-            return;
-        }
-
-        if (item.currentCount > 0) {
-            item.currentCount = Math.max(0, item.currentCount - 1);
-        } else if (item.currentCycle > 1) {
-            item.currentCycle -= 1;
-            item.currentCount = isInfinite ? 0 : Math.max(0, item.targetCount - 1);
-        } else {
-            showToast('Nothing to undo');
-            return;
-        }
-
-        if (item.totalCountToday > 0) item.totalCountToday -= 1;
-        var today = td();
-        if (item.dailyHistory && item.dailyHistory[today] > 0) {
-            item.dailyHistory[today] -= 1;
-        }
-        var curMonth = getCurrentMonthKey();
-        if (item.monthlyHistory && item.monthlyHistory[curMonth] > 0) {
-            item.monthlyHistory[curMonth] -= 1;
-        }
-
-        item.updatedAt = Date.now();
-        persist();
-        updateCounterUI();
-    }
-
-    function promptReset() {
-        var item = getActiveItem();
-        if (!item) return;
-
-        var modalEl = getEl('tasbeehResetModal');
-        if (modalEl) {
-            var nameEl = getEl('tbResetModalName');
-            if (nameEl) nameEl.textContent = '“' + item.title + '”';
-            if (!resetModalInstance) {
-                resetModalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
-            }
-            resetModalInstance.show();
-        } else {
-            if (confirm('Reset counter for “' + item.title + '”?')) {
-                doReset('all');
-            }
-        }
-    }
-
-    function doReset(type) {
-        var item = getActiveItem();
-        if (!item) return;
-
-        if (counterMonthKey) {
-            item.monthlyHistory = item.monthlyHistory || {};
-            var prevVal = item.monthlyHistory[counterMonthKey] || 0;
-            if (type === 'round' && item.targetCount !== 'infinite') {
-                var inCycle = prevVal % item.targetCount;
-                item.monthlyHistory[counterMonthKey] = Math.max(0, prevVal - inCycle);
-                item.oldTotalCount = Math.max(0, (item.oldTotalCount || 0) - inCycle);
-            } else {
-                item.monthlyHistory[counterMonthKey] = 0;
-                item.oldTotalCount = Math.max(0, (item.oldTotalCount || 0) - prevVal);
-            }
-            item.updatedAt = Date.now();
-            flashFull = false;
-            counterLocked = false;
-            persist();
-            updateCounterUI();
-            if (resetModalInstance) resetModalInstance.hide();
-            showToast(type === 'round' ? 'Current round reset' : 'Month count reset to 0');
-            return;
-        }
-
-        if (type === 'round') {
-            item.currentCount = 0;
-        } else {
-            item.currentCount = 0;
-            item.currentCycle = 1;
-        }
-
-        item.updatedAt = Date.now();
-        flashFull = false;
-        counterLocked = false;
-
-        persist();
-        updateCounterUI();
-        if (resetModalInstance) resetModalInstance.hide();
-        showToast(type === 'round' ? 'Current round reset' : 'Counter fully reset');
-    }
-
-    /* ---------- Add / Edit Modal ---------- */
+    /* ---------- Add / Edit Dhikr Modal ---------- */
     function syncChips() {
         var chips = document.querySelectorAll('#tbCountChips button');
+        var formCount = getEl('tbFormCount');
+        var curVal = formCount ? Number(formCount.value) : 33;
+
         chips.forEach(function (btn) {
             var v = btn.dataset.count;
-            var isOn = v === 'infinite'
+            var isOn = (v === 'infinite')
                 ? countMode === 'infinite'
-                : countMode === 'finite' && Number(v) === Number(getEl('tbFormCount').value);
+                : (countMode === 'finite' && Number(v) === curVal);
             btn.classList.toggle('active', isOn);
         });
     }
@@ -954,18 +1137,16 @@ window.TasbeehCurrentApp = (function () {
 
         var modalTitle = getEl('tbModalTitle');
         if (modalTitle) modalTitle.textContent = item ? 'Edit Dhikr' : 'Add New Dhikr';
+
         var formTitle = getEl('tbFormTitle');
         if (formTitle) formTitle.value = item ? item.title : '';
 
-        countMode = item && item.targetCount === 'infinite' ? 'infinite' : 'finite';
+        countMode = (item && item.targetCount === 'infinite') ? 'infinite' : 'finite';
         var formCount = getEl('tbFormCount');
         if (formCount) {
-            formCount.value = item && item.targetCount !== 'infinite' ? item.targetCount : 33;
-            formCount.disabled = countMode === 'infinite';
+            formCount.value = (item && item.targetCount !== 'infinite') ? item.targetCount : 33;
+            formCount.disabled = (countMode === 'infinite');
         }
-
-        var formCycles = getEl('tbFormCycles');
-        if (formCycles) formCycles.value = item ? item.targetCycles : 3;
 
         syncChips();
 
@@ -1001,11 +1182,9 @@ window.TasbeehCurrentApp = (function () {
             return;
         }
 
-        var targetCount = countMode === 'infinite'
+        var targetCount = (countMode === 'infinite')
             ? 'infinite'
             : clamp(parseInt(getEl('tbFormCount').value, 10) || 33, 1, 9999);
-
-        var targetCycles = clamp(parseInt(getEl('tbFormCycles').value, 10) || 1, 1, 99);
 
         if (editingId) {
             var item = null;
@@ -1015,12 +1194,7 @@ window.TasbeehCurrentApp = (function () {
             if (item) {
                 item.title = title;
                 item.targetCount = targetCount;
-                item.targetCycles = targetCycles;
                 item.updatedAt = Date.now();
-
-                if (item.currentCycle > targetCycles) item.currentCycle = targetCycles;
-                if (targetCount !== 'infinite' && item.currentCount > targetCount) item.currentCount = 0;
-
                 showToast('Dhikr updated');
             }
         } else {
@@ -1028,11 +1202,6 @@ window.TasbeehCurrentApp = (function () {
                 id: uid(),
                 title: title,
                 targetCount: targetCount,
-                targetCycles: targetCycles,
-                currentCount: 0,
-                currentCycle: 1,
-                totalCountToday: 0,
-                icon: 'fa-solid fa-ring',
                 updatedAt: Date.now()
             }));
             showToast('Dhikr added');
@@ -1042,12 +1211,13 @@ window.TasbeehCurrentApp = (function () {
         render();
 
         if (activeId && activeId === editingId) {
-            var active = getActiveItem();
-            if (active) {
-                buildRing(active);
-                flashFull = false;
-                counterLocked = false;
-                updateCounterUI();
+            var act = getActiveItem();
+            if (act) {
+                var topTitleEl = getEl('tbCounterTopTitle');
+                if (topTitleEl) topTitleEl.textContent = act.title;
+                var titleEl = getEl('tbCounterTitle');
+                if (titleEl) titleEl.textContent = act.title;
+                renderCalendar();
             }
         }
 
@@ -1072,6 +1242,12 @@ window.TasbeehCurrentApp = (function () {
             closeCounter();
         }
 
+        // Clean up calendar completions for this item
+        if (calCompletions[id]) {
+            delete calCompletions[id];
+            persistCalCompletions();
+        }
+
         persist();
         render();
         showToast('Dhikr deleted');
@@ -1080,7 +1256,7 @@ window.TasbeehCurrentApp = (function () {
 
     /* ---------- Event Bindings ---------- */
     function bindEvents() {
-        /* Open Dhikr Add modal */
+        /* Open Dhikr Add Modal */
         var addBtn = getEl('tbAddBtn');
         if (addBtn) {
             addBtn.onclick = function () { openModal(null); };
@@ -1105,6 +1281,11 @@ window.TasbeehCurrentApp = (function () {
         }
 
         /* Subtab Switching */
+        var tabHome = getEl('tabTbHome');
+        if (tabHome) {
+            tabHome.onclick = function () { switchTab('home'); };
+        }
+
         var tabCurrent = getEl('tabTbCurrent');
         if (tabCurrent) {
             tabCurrent.onclick = function () { switchTab('current'); };
@@ -1115,7 +1296,12 @@ window.TasbeehCurrentApp = (function () {
             tabOld.onclick = function () { switchTab('old'); };
         }
 
-        /* Chips */
+        var tabHistory = getEl('tabTbHistory');
+        if (tabHistory) {
+            tabHistory.onclick = function () { switchTab('history'); };
+        }
+
+        /* Target Count Chips */
         var chipsBox = getEl('tbCountChips');
         if (chipsBox) {
             chipsBox.onclick = function (e) {
@@ -1145,28 +1331,16 @@ window.TasbeehCurrentApp = (function () {
             };
         }
 
-        /* Steppers */
-        var cycMinus = getEl('tbCyclesMinus');
-        var cycPlus = getEl('tbCyclesPlus');
-        var cycInput = getEl('tbFormCycles');
-        if (cycMinus && cycInput) {
-            cycMinus.onclick = function () {
-                var v = parseInt(cycInput.value, 10) || 1;
-                cycInput.value = clamp(v - 1, 1, 99);
-            };
-        }
-        if (cycPlus && cycInput) {
-            cycPlus.onclick = function () {
-                var v = parseInt(cycInput.value, 10) || 1;
-                cycInput.value = clamp(v + 1, 1, 99);
-            };
-        }
-
-        /* Current List card delegations */
+        /* Current List Card Delegations */
         var listEl = getEl('tbList');
         if (listEl) {
             listEl.onclick = function (e) {
                 var btn = e.target.closest('button[data-act]');
+                if (btn && btn.dataset.act === 'tb-current-advance') {
+                    e.stopPropagation();
+                    advanceCurrentMonth();
+                    return;
+                }
                 var card = e.target.closest('[data-id]');
                 if (!card) return;
                 e.stopPropagation();
@@ -1194,7 +1368,7 @@ window.TasbeehCurrentApp = (function () {
             };
         }
 
-        /* Counter View Controls */
+        /* Counter View Navigation & Controls */
         var btnBack = getEl('tbBtnBack');
         if (btnBack) btnBack.onclick = closeCounter;
 
@@ -1205,70 +1379,69 @@ window.TasbeehCurrentApp = (function () {
             };
         }
 
-        /* Ring Wrap Tap Target */
-        var ringWrap = getEl('tbRingWrap') || document.querySelector('[data-ref="page.tasbeeh.counter.ring-wrap"]');
-        if (ringWrap) {
-            ringWrap.addEventListener('pointerdown', function (e) {
-                createRipple(e, ringWrap);
-            });
-            ringWrap.onclick = increment;
-            ringWrap.addEventListener('keydown', function (e) {
-                if (e.code === 'Space' || e.code === 'Enter') {
+        /* Calendar Grid: Day Click Delegation */
+        var calGrid = getEl('tbCalGrid');
+        if (calGrid) {
+            calGrid.onclick = function (e) {
+                var cell = e.target.closest('.tb-cal-cell[data-date]');
+                if (!cell) return;
+                if (cell.classList.contains('tb-cal-empty')) return;
+                handleCalendarDayClick(cell.dataset.date);
+            };
+
+            calGrid.onkeydown = function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    var cell = e.target.closest('.tb-cal-cell[data-date]');
+                    if (!cell || cell.classList.contains('tb-cal-empty')) return;
                     e.preventDefault();
-                    increment();
-                }
-            });
-        }
-
-        /* Oversized Tap Target */
-        var tapZone = getEl('tbTapZone');
-        if (tapZone) {
-            tapZone.addEventListener('pointerdown', function (e) {
-                createRipple(e, tapZone);
-            });
-            tapZone.onclick = increment;
-        }
-
-        /* Counter Footer Action Buttons */
-        var counterControls = getEl('tbCounterControls');
-        if (counterControls) {
-            counterControls.onclick = function (e) {
-                var btn = e.target.closest('button[data-act]');
-                if (!btn) return;
-                var act = btn.dataset.act;
-                if (act === 'tb-reset') {
-                    promptReset();
-                } else if (act === 'tb-undo') {
-                    undo();
+                    handleCalendarDayClick(cell.dataset.date);
                 }
             };
         }
 
-        /* Reset Dialog Buttons */
-        var btnResetRound = getEl('tbBtnResetRound');
-        if (btnResetRound) {
-            btnResetRound.onclick = function () { doReset('round'); };
-        }
-        var btnResetAll = getEl('tbBtnResetAll');
-        if (btnResetAll) {
-            btnResetAll.onclick = function () { doReset('all'); };
+        /* Calendar Month Navigation Buttons */
+        var prevMonth = getEl('tbCalPrevMonth');
+        if (prevMonth) {
+            prevMonth.onclick = function () { navigateMonth(-1); };
         }
 
-        /* Keyboard shortcuts */
+        var nextMonth = getEl('tbCalNextMonth');
+        if (nextMonth) {
+            nextMonth.onclick = function () { navigateMonth(1); };
+        }
+
+        /* Confirmation Modal Button */
+        var btnConfirmChange = getEl('tbBtnConfirmChange');
+        if (btnConfirmChange) {
+            btnConfirmChange.onclick = function () {
+                if (typeof pendingConfirmCallback === 'function') {
+                    var cb = pendingConfirmCallback;
+                    pendingConfirmCallback = null;
+                    if (confirmModalInstance) confirmModalInstance.hide();
+                    cb();
+                    return;
+                }
+                if (pendingToggleDate) {
+                    confirmDayStatusChange();
+                }
+            };
+        }
+
+        /* Keyboard Shortcuts */
         document.addEventListener('keydown', function (e) {
             var counterView = getEl('tasbeehCounterView');
             var isOverlayOpen = counterView && !counterView.classList.contains('d-none');
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
             if (isOverlayOpen) {
-                if (e.code === 'Space' || e.code === 'Enter') {
-                    e.preventDefault();
-                    increment();
-                } else if (e.code === 'Backspace') {
-                    e.preventDefault();
-                    undo();
-                } else if (e.code === 'Escape') {
+                if (e.code === 'Escape') {
                     closeCounter();
+                } else if (e.code === 'ArrowLeft') {
+                    e.preventDefault();
+                    navigateMonth(-1);
+                } else if (e.code === 'ArrowRight') {
+                    e.preventDefault();
+                    navigateMonth(1);
                 }
             }
         });
@@ -1277,6 +1450,8 @@ window.TasbeehCurrentApp = (function () {
     /* ---------- Public API ---------- */
     function init() {
         items = loadItems();
+        loadCalCompletions();
+        loadCurrentPeriod();
         checkDailyReset();
         persist();
         bindEvents();
@@ -1297,14 +1472,29 @@ window.TasbeehCurrentApp = (function () {
         getItems: getItems,
         setItems: setItems,
         persist: persist,
-        formatDate: formatDate,
-        formatMonthLabel: formatMonthLabel,
-        getCurrentMonthKey: getCurrentMonthKey,
-        showToast: showToast,
+        formatDate: typeof formatDate === 'function' ? formatDate : (window.formatDate || function (d) { return d; }),
+        formatMonthLabel: typeof formatMonthLabel === 'function' ? formatMonthLabel : (window.formatMonthLabel || function (m) { return m; }),
+        getCurrentMonthKey: typeof getCurrentMonthKey === 'function' ? getCurrentMonthKey : (window.getCurrentMonthKey || function () { return ''; }),
+        showToast: typeof showToast === 'function' ? showToast : (window.showToast || function () { }),
         getBookmark: getBookmark,
         setBookmark: setBookmark,
         getBookmarkedChants: getBookmarkedChants,
-        openCounterFromHome: openCounterFromHome
+        openCounterFromHome: openCounterFromHome,
+        // Current Period Management
+        loadCurrentPeriod: loadCurrentPeriod,
+        saveCurrentPeriod: saveCurrentPeriod,
+        getCurrentTrackingMonth: getCurrentTrackingMonth,
+        removeMonthTrackingData: removeMonthTrackingData,
+        isMonthFullyCompleted: isMonthFullyCompleted,
+        advanceCurrentMonth: advanceCurrentMonth,
+        advanceOldMonth: advanceOldMonth,
+        confirmAction: confirmAction,
+        // Calendar & Completion Helpers
+        isDayCompleted: isDayCompleted,
+        setDayCompleted: setDayCompleted,
+        getDaysInMonth: getDaysInMonth,
+        getCompletedDaysInMonth: getCompletedDaysInMonth,
+        renderCalendar: renderCalendar
     };
 })();
 
