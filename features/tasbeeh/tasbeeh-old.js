@@ -32,40 +32,50 @@ window.TasbeehOldApp = (function () {
         }
     }
 
-    /* ---------- Period Storage Layer ---------- */
+    /* ---------- Period Storage Layer (YYYY-MM) ---------- */
     function loadPeriod() {
         var raw = localStorage.getItem(PERIOD_KEY);
         var now = new Date();
-        var defaultStart = now.getFullYear() + '-01-01';
-        var defaultEnd = td();
+        var curMonth = typeof getCurrentMonthKey === 'function' ? getCurrentMonthKey() : (now.getFullYear() + '-' + pad2(now.getMonth() + 1));
+        var defaultStart = now.getFullYear() + '-01';
+        var defaultEnd = typeof getPrevMonthKey === 'function' ? getPrevMonthKey(curMonth) : (now.getFullYear() + '-09');
 
         if (!raw) {
-            var initial = { startDate: defaultStart, endDate: defaultEnd, completedMonths: [], updatedAt: Date.now() };
+            var initial = { startDate: defaultStart, endDate: defaultEnd, initialEnd: defaultEnd, updatedAt: Date.now() };
             try { localStorage.setItem(PERIOD_KEY, JSON.stringify(initial)); } catch (_) {}
             return initial;
         }
         try {
             var p = JSON.parse(raw);
             if (!p || !p.startDate) {
-                return { startDate: defaultStart, endDate: defaultEnd, completedMonths: [], updatedAt: Date.now() };
+                return { startDate: defaultStart, endDate: defaultEnd, initialEnd: defaultEnd, updatedAt: Date.now() };
+            }
+            var s = (typeof normalizeMonthKey === 'function' ? normalizeMonthKey(p.startDate) : String(p.startDate).slice(0, 7)) || defaultStart;
+            var e = (typeof normalizeMonthKey === 'function' ? normalizeMonthKey(p.endDate) : String(p.endDate).slice(0, 7)) || defaultEnd;
+            var initE = (typeof normalizeMonthKey === 'function' ? normalizeMonthKey(p.initialEnd) : String(p.initialEnd || '').slice(0, 7)) || e;
+            if (e >= curMonth) {
+                e = typeof getPrevMonthKey === 'function' ? getPrevMonthKey(curMonth) : e;
             }
             return {
-                startDate: p.startDate || defaultStart,
-                endDate: p.endDate || defaultEnd,
-                completedMonths: Array.isArray(p.completedMonths) ? p.completedMonths : [],
+                startDate: s,
+                endDate: e,
+                initialEnd: initE,
                 updatedAt: p.updatedAt || Date.now()
             };
         } catch (_) {
-            return { startDate: defaultStart, endDate: defaultEnd, completedMonths: [], updatedAt: Date.now() };
+            return { startDate: defaultStart, endDate: defaultEnd, initialEnd: defaultEnd, updatedAt: Date.now() };
         }
     }
 
-    function savePeriod(start, end, completedMonths) {
+    function savePeriod(start, end, initialEnd) {
         var cur = loadPeriod();
+        var s = (typeof normalizeMonthKey === 'function' ? normalizeMonthKey(start) : String(start).slice(0, 7));
+        var e = (typeof normalizeMonthKey === 'function' ? normalizeMonthKey(end) : String(end).slice(0, 7));
+        var initE = (typeof normalizeMonthKey === 'function' ? normalizeMonthKey(initialEnd) : String(initialEnd || '').slice(0, 7)) || cur.initialEnd || e;
         var p = {
-            startDate: start,
-            endDate: end,
-            completedMonths: Array.isArray(completedMonths) ? completedMonths : (cur.completedMonths || []),
+            startDate: s,
+            endDate: e,
+            initialEnd: initE,
             updatedAt: Date.now()
         };
         try { localStorage.setItem(PERIOD_KEY, JSON.stringify(p)); } catch (_) {}
@@ -73,118 +83,123 @@ window.TasbeehOldApp = (function () {
     }
 
     /* ---------- Old Tracking Month Selection Logic ---------- */
-    function getUncompletedOldMonths() {
-        var period = loadPeriod();
-        var allOldMonths = getPreviousMonthsList(period.startDate, period.endDate);
-        var completed = period.completedMonths || [];
-        return allOldMonths.filter(function (mKey) {
-            return completed.indexOf(mKey) === -1;
-        });
-    }
-
     function getCurrentOldMonth() {
         var period = loadPeriod();
-        var allOldMonths = getPreviousMonthsList(period.startDate, period.endDate);
-        if (allOldMonths.length === 0) return null;
-
-        var uncompleted = getUncompletedOldMonths();
-
-        // Strictly sequential: locks to the active month until completed, then automatically jumps to the previous month
-        if (uncompleted.length > 0) {
-            currentOldMonthKey = uncompleted[0];
-            return currentOldMonthKey;
+        if (!period || !period.startDate || !period.endDate) return null;
+        if (period.endDate < period.startDate) {
+            return null; // All old months completed
         }
-
-        currentOldMonthKey = null;
-        return null; // All months completed
+        return period.endDate;
     }
 
     function checkAndAdvanceMonth(mKey) {
-        if (!mKey) return;
-        var items = getItems();
-        var finiteItems = items.filter(function (it) { return it.targetCount !== 'infinite'; });
-        if (finiteItems.length === 0) return;
-        var allDone = finiteItems.every(function (it) {
-            var target = it.targetCount * it.targetCycles;
-            var cur = (it.monthlyHistory && it.monthlyHistory[mKey]) || 0;
-            return cur >= target;
-        });
-        if (allDone) {
-            var period = loadPeriod();
-            var completed = period.completedMonths || [];
-            if (completed.indexOf(mKey) === -1) {
-                completed.push(mKey);
-                savePeriod(period.startDate, period.endDate, completed);
-                currentOldMonthKey = null;
-                var monthName = formatMonthLabel(mKey);
-                var nextM = getCurrentOldMonth();
-                if (nextM) {
-                    showToast('🎉 ' + monthName + ' completed! Advanced to ' + formatMonthLabel(nextM), 3000);
-                } else {
-                    showToast('🎉 ' + monthName + ' completed! All months cleared!', 3500);
-                }
+        var curM = mKey || getCurrentOldMonth();
+        if (!curM) return;
+        var period = loadPeriod();
+        if (curM < period.startDate) return;
+
+        // Verify if all targets for curM are completed
+        var isAllDone = false;
+        if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.isMonthFullyCompleted === 'function') {
+            isAllDone = window.TasbeehCurrentApp.isMonthFullyCompleted(curM);
+        } else {
+            var items = getItems();
+            var finiteItems = items.filter(function (it) { return it.targetCount !== 'infinite'; });
+            if (finiteItems.length === 0) return;
+            var parts = curM.split('-');
+            var yr = parseInt(parts[0], 10);
+            var mo = parseInt(parts[1], 10) - 1;
+            var totalDays = (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getDaysInMonth === 'function')
+                ? window.TasbeehCurrentApp.getDaysInMonth(yr, mo)
+                : new Date(yr, mo + 1, 0).getDate();
+            isAllDone = finiteItems.every(function (it) {
+                var completedDays = (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getCompletedDaysInMonth === 'function')
+                    ? window.TasbeehCurrentApp.getCompletedDaysInMonth(it.id, yr, mo)
+                    : 0;
+                return completedDays >= totalDays;
+            });
+        }
+
+        if (!isAllDone) {
+            showToast('Please complete all targets for ' + formatMonthLabel(curM) + ' before moving to previous month.');
+            return;
+        }
+
+        var prevMonthKey = typeof getPrevMonthKey === 'function' ? getPrevMonthKey(curM) : (function (m) {
+            var p = m.split('-'); var y = parseInt(p[0], 10); var mo = parseInt(p[1], 10) - 1;
+            if (mo === 0) { mo = 12; y--; } return y + '-' + pad2(mo);
+        })(curM);
+
+        var curLabel = formatMonthLabel(curM);
+        var prevLabel = formatMonthLabel(prevMonthKey);
+        var isAllCleared = (prevMonthKey < period.startDate);
+
+        var confirmFn = (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.confirmAction === 'function')
+            ? window.TasbeehCurrentApp.confirmAction
+            : function (opt, cb) { if (confirm(opt.title + '\n\n' + opt.message.replace(/<[^>]+>/g, ''))) cb(); };
+
+        confirmFn({
+            title: '🎉 Month Completed!',
+            message: 'All dhikr targets for <strong>' + curLabel + '</strong> are completed!<br><br>' +
+                     'Do you want to finalize this month, remove its tracking data, and ' +
+                     (isAllCleared ? 'complete all Old Tracking months?' : ('move to <strong>' + prevLabel + '</strong>?')),
+            btnText: 'Finalize & Move Backward',
+            isSuccess: true
+        }, function () {
+            // 1. Remove that month's tracking data
+            if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.removeMonthTrackingData === 'function') {
+                window.TasbeehCurrentApp.removeMonthTrackingData(curM);
             }
+
+            // 2. Update end date in app_tasbeeh_period to previous month
+            savePeriod(period.startDate, prevMonthKey, period.initialEnd);
+            currentOldMonthKey = null;
+
+            // 3. Move to that month
+            renderOldTab();
+            if (isAllCleared) {
+                showToast('🎉 ' + curLabel + ' completed! All old tracking months cleared!', 3500);
+            } else {
+                showToast('🎉 ' + curLabel + ' completed! Moved to ' + prevLabel, 3500);
+            }
+        });
+    }
+
+    function advanceOldMonth() {
+        if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.advanceOldMonth === 'function') {
+            window.TasbeehCurrentApp.advanceOldMonth();
+        } else {
+            checkAndAdvanceMonth(getCurrentOldMonth());
         }
     }
 
     function markMonthCompleted(mKey) {
-        var period = loadPeriod();
-        var curM = mKey || getCurrentOldMonth();
-        if (!curM) return;
-        var monthName = formatMonthLabel(curM);
-
-        var completed = period.completedMonths || [];
-        if (completed.indexOf(curM) === -1) {
-            completed.push(curM);
-        }
-
-        var items = getItems();
-        // Fill counts to target for finite dhikrs in this month
-        items.forEach(function (it) {
-            if (it.targetCount !== 'infinite') {
-                var target = it.targetCount * it.targetCycles;
-                var cur = (it.monthlyHistory && it.monthlyHistory[curM]) || 0;
-                if (cur < target) {
-                    it.monthlyHistory = it.monthlyHistory || {};
-                    it.monthlyHistory[curM] = target;
-                }
-            }
-        });
-
-        savePeriod(period.startDate, period.endDate, completed);
-        persistItems();
-
-        // Advance to next uncompleted month
-        currentOldMonthKey = null;
-        var nextM = getCurrentOldMonth();
-
-        if (nextM) {
-            showToast('🎉 ' + monthName + ' completed! Advanced to ' + formatMonthLabel(nextM), 3000);
-        } else {
-            showToast('🎉 ' + monthName + ' completed! All months cleared!', 3500);
-        }
-
-        renderOldTab();
+        checkAndAdvanceMonth(mKey);
     }
 
     function reopenLastMonth() {
         var period = loadPeriod();
-        var completed = period.completedMonths || [];
-        if (completed.length === 0) return;
+        var maxEnd = period.initialEnd || period.endDate;
+        if (period.endDate >= maxEnd) {
+            showToast('Cannot reopen: already at latest month (' + formatMonthLabel(maxEnd) + ')');
+            return;
+        }
+        var nextM = typeof getNextMonthKey === 'function' ? getNextMonthKey(period.endDate) : (function (m) {
+            var p = m.split('-'); var y = parseInt(p[0], 10); var mo = parseInt(p[1], 10) + 1;
+            if (mo > 12) { mo = 1; y++; } return y + '-' + pad2(mo);
+        })(period.endDate);
 
-        var last = completed.pop();
-        savePeriod(period.startDate, period.endDate, completed);
-        currentOldMonthKey = last;
-        showToast('Reopened ' + formatMonthLabel(last));
+        savePeriod(period.startDate, nextM, maxEnd);
+        showToast('Reopened ' + formatMonthLabel(nextM));
         renderOldTab();
     }
 
     function resetAllCompleted() {
-        if (!confirm('Reset all completed months for Old Tasbeeh tracking?')) return;
+        if (!confirm('Reset Old Tasbeeh tracking back to initial period end?')) return;
         var period = loadPeriod();
-        savePeriod(period.startDate, period.endDate, []);
-        currentOldMonthKey = null;
-        showToast('Reset completed months');
+        var maxEnd = period.initialEnd || period.endDate;
+        savePeriod(period.startDate, maxEnd, maxEnd);
+        showToast('Reset old tracking period to ' + formatMonthLabel(maxEnd));
         renderOldTab();
     }
 
@@ -197,36 +212,45 @@ window.TasbeehOldApp = (function () {
     /* ---------- Old Card HTML Generator ---------- */
     function renderOldCardHtml(item, isDhikrDone, curOldMonth, monthName) {
         var isInfinite = item.targetCount === 'infinite';
-        var countInMonth = (item.monthlyHistory && item.monthlyHistory[curOldMonth]) || 0;
-        var targetTotal = isInfinite ? null : (item.targetCount * item.targetCycles);
-        var icons = (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.ICONS) || {};
+        var parts = curOldMonth.split('-');
+        var yr = parseInt(parts[0], 10);
+        var mo = parseInt(parts[1], 10) - 1;
+        var totalDays = (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getDaysInMonth === 'function')
+            ? window.TasbeehCurrentApp.getDaysInMonth(yr, mo)
+            : new Date(yr, mo + 1, 0).getDate();
+        var completedDays = (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getCompletedDaysInMonth === 'function')
+            ? window.TasbeehCurrentApp.getCompletedDaysInMonth(item.id, yr, mo)
+            : 0;
 
+        var icons = (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.ICONS) || {};
         var targetDisplay = isInfinite ? '∞' : item.targetCount;
-        var totalDisplay = isInfinite ? '' : ('/' + targetTotal);
 
         return '<div class="tb-card ' + (isDhikrDone ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-month="' + curOldMonth + '" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
             '<div class="tb-card-top">' +
             '<div class="tb-card-icon-box">' +
-            (icons.MISBAHA || '') +
+            (icons.MISBAHA || '<i class="fa-solid fa-hand-holding-heart"></i>') +
             '</div>' +
             '<div class="tb-card-actions">' +
             '<button type="button" class="tb-btn-edit" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr">' +
-            (icons.PENCIL || '') +
+            (icons.PENCIL || '<i class="fa-solid fa-pen"></i>') +
             '</button>' +
-            (icons.CHEVRON || '') +
+            (icons.CHEVRON || '<svg class="tb-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>') +
             '</div>' +
             '</div>' +
             '<div class="tb-card-body">' +
             '<h6 class="tb-card-title">' + escHtml(item.title) + '</h6>' +
             '<div class="tb-card-meta">' +
             '<div class="tb-meta-row">' +
-            (icons.TARGET || '') +
-            '<span class="tb-meta-text">Target: <span class="tb-val-num">' + targetDisplay + '</span><span class="tb-meta-dot">·</span>Cycle</span>' +
+            (icons.TARGET || '<i class="fa-solid fa-bullseye"></i>') +
+            '<span class="tb-meta-text">Target: <span class="tb-val-num">' + targetDisplay + '</span> / day</span>' +
             '</div>' +
             '<div class="tb-meta-row">' +
-            (icons.CHECK_CIRCLE || '') +
-            '<span class="tb-meta-text">Done: <strong class="tb-val-done">' + countInMonth.toLocaleString() + '</strong><span class="tb-val-total">' + totalDisplay + '</span></span>' +
+            (icons.CHECK_CIRCLE || '<i class="fa-solid fa-circle-check"></i>') +
+            '<span class="tb-meta-text">Completed: <strong class="tb-val-done">' + completedDays + '</strong><span class="tb-val-total"> / ' + totalDays + ' days</span></span>' +
             '</div>' +
+            (isDhikrDone
+                ? '<div class="tb-meta-row tb-meta-sub-row"><span class="text-success fw-bold" style="font-size: 11px;"><i class="fa-solid fa-circle-check me-1"></i>Month Completed</span></div>'
+                : '') +
             '</div>' +
             '</div>' +
             '</div>';
@@ -238,11 +262,14 @@ window.TasbeehOldApp = (function () {
         if (!oldBody) return;
 
         var period = loadPeriod();
-        var allOldMonths = getPreviousMonthsList(period.startDate, period.endDate);
-        var items = getItems();
+        var curOldMonth = getCurrentOldMonth();
+        var curMonthName = formatMonthLabel(getCurrentMonthKey());
+        var initialMaxEnd = period.initialEnd || period.endDate;
 
-        if (allOldMonths.length === 0) {
-            var curMonthName = formatMonthLabel(getCurrentMonthKey());
+        // Check if no previous months exist in configured period
+        if (initialMaxEnd < period.startDate) {
+            var subNone = getEl('tbHeaderSub');
+            if (subNone) subNone.textContent = 'None';
             oldBody.innerHTML =
                 '<div class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white">' +
                 '<div class="mb-3">' +
@@ -250,7 +277,7 @@ window.TasbeehOldApp = (function () {
                 '</div>' +
                 '<h5 class="fw-bold text-gr1 mb-2">No Previous Months in Period</h5>' +
                 '<p class="text-muted small mb-3">' +
-                'Your tracking start date is <strong>' + formatDate(period.startDate) + '</strong>, which falls in the current month (' + curMonthName + ').<br>' +
+                'Your tracking start date is <strong>' + formatMonthLabel(period.startDate) + '</strong>, which falls in or after the current period.<br>' +
                 'The Old tab displays previous completed months prior to <strong>' + curMonthName + '</strong>.' +
                 '</p>' +
                 '<button type="button" class="btn btn-brand px-4 py-2 rounded-3 fw-bold mx-auto" data-act="tb-open-settings">' +
@@ -259,8 +286,6 @@ window.TasbeehOldApp = (function () {
                 '</div>';
             return;
         }
-
-        var curOldMonth = getCurrentOldMonth();
 
         // If all previous months in period are completed!
         if (!curOldMonth) {
@@ -273,7 +298,7 @@ window.TasbeehOldApp = (function () {
                 '</div>' +
                 '<h5 class="fw-bold text-gr1 mb-2">All Previous Months Completed!</h5>' +
                 '<p class="text-muted small mb-3">' +
-                'All previous months up to the current month have been completed.' +
+                'All previous months back to ' + formatMonthLabel(period.startDate) + ' have been completed.' +
                 '</p>' +
                 '<div class="d-flex justify-content-center gap-2">' +
                 '<button type="button" class="btn btn-outline-brand rounded-pill px-4 py-2 fw-bold" data-act="tb-old-reopen">' +
@@ -295,21 +320,42 @@ window.TasbeehOldApp = (function () {
             sub.textContent = monthName;
         }
 
+        var items = getItems();
+        var parts = curOldMonth.split('-');
+        var yr = parseInt(parts[0], 10);
+        var mo = parseInt(parts[1], 10) - 1;
+        var totalDays = (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getDaysInMonth === 'function')
+            ? window.TasbeehCurrentApp.getDaysInMonth(yr, mo)
+            : new Date(yr, mo + 1, 0).getDate();
+
         // Partition items into To Do and Completed for this active old month
         var todoOldItems = [];
         var doneOldItems = [];
 
         items.forEach(function (item) {
             var isInfinite = item.targetCount === 'infinite';
-            var countInMonth = (item.monthlyHistory && item.monthlyHistory[curOldMonth]) || 0;
-            var targetTotal = isInfinite ? null : (item.targetCount * item.targetCycles);
-            var isDhikrDone = targetTotal !== null && countInMonth >= targetTotal;
+            var completedDays = (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getCompletedDaysInMonth === 'function')
+                ? window.TasbeehCurrentApp.getCompletedDaysInMonth(item.id, yr, mo)
+                : 0;
+            var isDhikrDone = !isInfinite && completedDays >= totalDays;
             if (isDhikrDone) {
                 doneOldItems.push(item);
             } else {
                 todoOldItems.push(item);
             }
         });
+
+        var isAllDone = todoOldItems.length === 0 && items.length > 0;
+        var advanceMonthHtml = isAllDone
+            ? '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm mb-3">' +
+              '<div class="text-success fw-bold mb-2">' +
+              '<i class="fa-solid fa-circle-check me-1"></i>All targets for ' + monthName + ' are completed!' +
+              '</div>' +
+              '<button type="button" class="btn btn-brand btn-sm fw-bold rounded-pill px-4 py-2 mx-auto" data-act="tb-old-advance">' +
+              '<i class="fa-solid fa-arrow-left me-1"></i>Finalize & Move to Previous Month' +
+              '</button>' +
+              '</div>'
+            : '';
 
         var todoOldCardsHtml = todoOldItems.length > 0
             ? todoOldItems.map(function (it) { return renderOldCardHtml(it, false, curOldMonth, monthName); }).join('')
@@ -327,6 +373,7 @@ window.TasbeehOldApp = (function () {
         var isOldDoneExpanded = doneOldItems.length > 0;
 
         oldBody.innerHTML =
+            advanceMonthHtml +
             '<!-- TO DO GROUP (OLD) -->' +
             '<section class="prayer-group mb-3">' +
             '<button type="button" class="group-toggle tb-group-toggle py-1 d-flex align-items-center gap-2" data-bs-toggle="collapse" data-bs-target="#tbOldTodoList" aria-expanded="true">' +
@@ -379,20 +426,21 @@ window.TasbeehOldApp = (function () {
             return;
         }
 
-        var prevEnd = getPreviousMonthEnd();
+        var startMonth = typeof normalizeMonthKey === 'function' ? normalizeMonthKey(startVal) : startVal.slice(0, 7);
+        var endMonth = typeof normalizeMonthKey === 'function' ? normalizeMonthKey(endVal) : endVal.slice(0, 7);
         var curMonthName = formatMonthLabel(getCurrentMonthKey());
-        var oldMonths = getPreviousMonthsList(startVal, endVal);
+        var oldMonths = getPreviousMonthsList(startMonth, endMonth);
 
         if (oldMonths.length === 0) {
             previewText.innerHTML =
                 '<div><strong>Current Month:</strong> ' + curMonthName + '</div>' +
-                '<div class="text-warning mt-1"><i class="fa-solid fa-triangle-exclamation me-1"></i>Start Date is in current month. No previous months will show in Old tab.</div>';
+                '<div class="text-warning mt-1"><i class="fa-solid fa-triangle-exclamation me-1"></i>Start Date is in or after current month. No previous months will show in Old tab.</div>';
         } else {
             var newestOldMonth = formatMonthLabel(oldMonths[0]);
             var oldestMonth = formatMonthLabel(oldMonths[oldMonths.length - 1]);
             previewText.innerHTML =
-                '<div class="mb-1"><strong>Old Tab Timeline:</strong> ' + formatDate(startVal) + ' → ' + formatDate(prevEnd) + '</div>' +
-                '<div class="mb-1"><strong>Step-by-Step:</strong> Starts at <strong>' + newestOldMonth + '</strong>, then jumps back month by month till <strong>' + oldestMonth + '</strong> (' + oldMonths.length + ' total months).</div>' +
+                '<div class="mb-1"><strong>Old Tab Timeline:</strong> ' + formatMonthLabel(startMonth) + ' → ' + formatMonthLabel(endMonth) + '</div>' +
+                '<div class="mb-1"><strong>Step-by-Step:</strong> Starts at <strong>' + newestOldMonth + '</strong>, then navigates backward month by month till <strong>' + oldestMonth + '</strong> (' + oldMonths.length + ' total months).</div>' +
                 '<div><strong>Current Tab:</strong> ' + curMonthName + '</div>';
         }
     }
@@ -401,8 +449,14 @@ window.TasbeehOldApp = (function () {
         var p = loadPeriod();
         var startInp = getEl('tbPeriodStart');
         var endInp = getEl('tbPeriodEnd');
-        if (startInp) startInp.value = p.startDate || '';
-        if (endInp) endInp.value = p.endDate || td();
+        if (startInp) {
+            var sVal = p.startDate || (new Date().getFullYear() + '-01');
+            startInp.value = sVal.length === 7 ? (sVal + '-01') : sVal;
+        }
+        if (endInp) {
+            var eVal = p.initialEnd || p.endDate || td();
+            endInp.value = eVal.length === 7 ? (eVal + '-01') : eVal;
+        }
 
         updatePeriodPreview();
 
@@ -420,23 +474,25 @@ window.TasbeehOldApp = (function () {
         var endInp = getEl('tbPeriodEnd');
         if (!startInp) return;
 
-        var startVal = startInp.value;
-        var endVal = (endInp && endInp.value) ? endInp.value : td();
+        var startRaw = startInp.value;
+        var endRaw = (endInp && endInp.value) ? endInp.value : td();
 
-        if (!startVal) {
+        if (!startRaw) {
             alert('Please select a Start Date.');
             startInp.focus();
             return;
         }
 
-        if (endVal && endVal < startVal) {
+        var startMonth = typeof normalizeMonthKey === 'function' ? normalizeMonthKey(startRaw) : startRaw.slice(0, 7);
+        var endMonth = typeof normalizeMonthKey === 'function' ? normalizeMonthKey(endRaw) : endRaw.slice(0, 7);
+
+        if (endMonth < startMonth) {
             alert('End Date must be on or after Start Date.');
             if (endInp) endInp.focus();
             return;
         }
 
-        var cur = loadPeriod();
-        savePeriod(startVal, endVal, cur.completedMonths || []);
+        savePeriod(startMonth, endMonth, endMonth);
 
         if (periodModalInstance) {
             periodModalInstance.hide();
@@ -453,15 +509,16 @@ window.TasbeehOldApp = (function () {
 
     function resetPeriodModal() {
         var now = new Date();
-        var defaultStart = now.getFullYear() + '-01-01';
-        var defaultEnd = td();
+        var curMonth = typeof getCurrentMonthKey === 'function' ? getCurrentMonthKey() : (now.getFullYear() + '-' + pad2(now.getMonth() + 1));
+        var defaultStart = now.getFullYear() + '-01';
+        var defaultEnd = typeof getPrevMonthKey === 'function' ? getPrevMonthKey(curMonth) : (now.getFullYear() + '-09');
 
         var startInp = getEl('tbPeriodStart');
         var endInp = getEl('tbPeriodEnd');
-        if (startInp) startInp.value = defaultStart;
-        if (endInp) endInp.value = defaultEnd;
+        if (startInp) startInp.value = defaultStart + '-01';
+        if (endInp) endInp.value = defaultEnd + '-01';
 
-        savePeriod(defaultStart, defaultEnd, []);
+        savePeriod(defaultStart, defaultEnd, defaultEnd);
         updatePeriodPreview();
 
         if (periodModalInstance) {
@@ -479,12 +536,14 @@ window.TasbeehOldApp = (function () {
 
     function setPeriodPreset(type) {
         var now = new Date();
+        var curMonth = typeof getCurrentMonthKey === 'function' ? getCurrentMonthKey() : (now.getFullYear() + '-' + pad2(now.getMonth() + 1));
+        var prevMonth = typeof getPrevMonthKey === 'function' ? getPrevMonthKey(curMonth) : (now.getFullYear() + '-09');
         var startInp = getEl('tbPeriodStart');
         var endInp = getEl('tbPeriodEnd');
         if (!startInp || !endInp) return;
 
         var startStr = '';
-        var endStr = td();
+        var endStr = prevMonth + '-01';
 
         if (type === 'this-year') {
             startStr = now.getFullYear() + '-01-01';
@@ -547,7 +606,9 @@ window.TasbeehOldApp = (function () {
                 var btn = e.target.closest('button[data-act]');
                 if (btn) {
                     var act = btn.dataset.act;
-                    if (act === 'tb-old-reopen') {
+                    if (act === 'tb-old-advance') {
+                        advanceOldMonth();
+                    } else if (act === 'tb-old-reopen') {
                         reopenLastMonth();
                     } else if (act === 'tb-reset-all-completed') {
                         resetAllCompleted();
@@ -604,6 +665,7 @@ window.TasbeehOldApp = (function () {
         renderOldTab: renderOldTab,
         getCurrentOldMonth: getCurrentOldMonth,
         checkAndAdvanceMonth: checkAndAdvanceMonth,
+        advanceOldMonth: advanceOldMonth,
         markMonthCompleted: markMonthCompleted,
         markCurrentMonthCompleted: markMonthCompleted,
         reopenLastMonth: reopenLastMonth,
@@ -620,6 +682,7 @@ window.TasbeehOldApp = (function () {
     if (window.TasbeehApp) {
         window.TasbeehApp.openPeriodModal = openPeriodModal;
         window.TasbeehApp.checkAndAdvanceMonth = checkAndAdvanceMonth;
+        window.TasbeehApp.advanceOldMonth = advanceOldMonth;
         window.TasbeehApp.markCurrentMonthCompleted = markMonthCompleted;
         window.TasbeehApp.reopenLastMonth = reopenLastMonth;
         window.TasbeehApp.resetAllCompleted = resetAllCompleted;

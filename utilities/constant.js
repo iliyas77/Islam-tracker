@@ -87,6 +87,7 @@
                                 DATA: 'app_tasbeeh_data',
                                 DAY: 'app_tasbeeh_day',
                                 PERIOD: 'app_tasbeeh_period',
+                                CURRENT_PERIOD: 'app_tasbeeh_current_period',
                                 BOOKMARK_CURRENT: 'app_tasbeeh_bookmark_current',
                                 BOOKMARK_OLD: 'app_tasbeeh_bookmark_old'
                         },
