@@ -1,11 +1,37 @@
 /* ---------- Navigation (Constants referenced from utilities/constant.js) ---------- */
-var PAGES = (window.CONSTANTS && window.CONSTANTS.NAVIGATION && window.CONSTANTS.NAVIGATION.PAGES) || window.PAGES || ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage'];
-var NAVS = (window.CONSTANTS && window.CONSTANTS.NAVIGATION && window.CONSTANTS.NAVIGATION.NAVS) || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas' };
+var NAV_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.NAVIGATION) || {};
+var PAGES = NAV_CONSTANTS.PAGES || window.PAGES || ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage'];
+var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas' };
+var SUB_TABS = NAV_CONSTANTS.SUB_TABS || { CURRENT: 'current', OLD: 'old' };
+var PAGE_MAP = NAV_CONSTANTS.PAGE_MAP || {
+    dashboard: 'dashboardPage',
+    tracker: 'trackerPage',
+    current: 'trackerPage',
+    old: 'trackerPage',
+    settings: 'settingsPage',
+    tasbeeh: 'tasbeehPage',
+    duas: 'duasPage'
+};
+var TRACKER_HEADER = NAV_CONSTANTS.TRACKER_HEADER || {
+    current: {
+        iconClass: 'fa-regular fa-calendar text-gr-accent',
+        label: 'Current Prayer'
+    },
+    old: {
+        iconClass: 'fa-solid fa-clock-rotate-left text-warning',
+        label: 'Old Tracking'
+    }
+};
+var NAV_CLASSES = NAV_CONSTANTS.NAV_CLASSES || {
+    ACTIVE: 'text-brand',
+    INACTIVE: 'text-secondary',
+    BAR: 'bg-brand rounded-pill nav-active-bar'
+};
 
-var trackerSubTab = 'current';
+var trackerSubTab = SUB_TABS.CURRENT;
 
 function switchTrackerSubTab(subTab) {
-    trackerSubTab = subTab || 'current';
+    trackerSubTab = subTab || SUB_TABS.CURRENT;
     var btnCur = $('tabTrackCurrent');
     var btnOld = $('tabTrackOld');
     var bodyCur = $('currentBody');
@@ -16,7 +42,7 @@ function switchTrackerSubTab(subTab) {
     var headerIcon = $('trackerHeaderIcon');
     var headerLabel = $('trackerHeaderLabel');
 
-    if (trackerSubTab === 'old') {
+    if (trackerSubTab === SUB_TABS.OLD) {
         if (btnCur) {
             btnCur.classList.remove('active');
             btnCur.setAttribute('aria-selected', 'false');
@@ -31,9 +57,9 @@ function switchTrackerSubTab(subTab) {
         if (oldActionBtn) oldActionBtn.classList.remove('d-none');
         if (currentMissedBtn) currentMissedBtn.classList.add('d-none');
         if (headerIcon) {
-            headerIcon.className = 'fa-solid fa-clock-rotate-left text-warning';
+            headerIcon.className = TRACKER_HEADER.old.iconClass;
         }
-        if (headerLabel) headerLabel.textContent = 'Old Tracking';
+        if (headerLabel) headerLabel.textContent = TRACKER_HEADER.old.label;
         rOT();
     } else {
         if (btnCur) {
@@ -50,9 +76,9 @@ function switchTrackerSubTab(subTab) {
         if (oldActionBtn) oldActionBtn.classList.add('d-none');
         if (currentMissedBtn) currentMissedBtn.classList.remove('d-none');
         if (headerIcon) {
-            headerIcon.className = 'fa-regular fa-calendar text-gr-accent';
+            headerIcon.className = TRACKER_HEADER.current.iconClass;
         }
-        if (headerLabel) headerLabel.textContent = 'Current Prayer';
+        if (headerLabel) headerLabel.textContent = TRACKER_HEADER.current.label;
         rn();
     }
 }
@@ -61,38 +87,34 @@ function setNav(id) {
     Object.values(NAVS).forEach(function (n) {
         var b = $(n);
         if (!b) return;
-        b.classList.remove('text-success');
-        b.classList.add('text-secondary');
-        var bar = b.querySelector('.bg-success');
+        b.classList.remove(NAV_CLASSES.ACTIVE);
+        b.classList.add(NAV_CLASSES.INACTIVE);
+        var bar = b.querySelector('.bg-brand');
         if (bar) bar.remove();
     });
     var el = $(id);
     if (!el) return;
-    el.classList.remove('text-secondary');
-    el.classList.add('text-success');
+    el.classList.remove(NAV_CLASSES.INACTIVE);
+    el.classList.add(NAV_CLASSES.ACTIVE);
     var bar = document.createElement('span');
-    bar.className = 'bg-success rounded-pill nav-active-bar';
+    bar.className = NAV_CLASSES.BAR;
     el.appendChild(bar);
 }
 
 function showPage(kind) {
     PAGES.forEach(function (id) {
         var el = $(id);
-        if (el) { el.classList.add('d-none'); el.classList.remove('d-flex'); }
+        if (el) { el.classList.add('d-none'); el.classList.remove('flex'); }
     });
 
-    var target = kind === 'dashboard' ? 'dashboardPage' :
-        (kind === 'tracker' || kind === 'current' || kind === 'old') ? 'trackerPage' :
-            kind === 'settings' ? 'settingsPage' :
-                kind === 'tasbeeh' ? 'tasbeehPage' :
-                    kind === 'duas' ? 'duasPage' : null;
+    var target = PAGE_MAP[kind] || null;
 
     if (!target) return;
 
     var el = $(target);
     if (el) {
         el.classList.remove('d-none');
-        el.classList.add('d-flex');
+        el.classList.add('flex');
     }
 
     setNav(NAVS[kind] || 'navCur');

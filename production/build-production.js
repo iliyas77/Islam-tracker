@@ -15,8 +15,10 @@ const OUT_FILE = path.join(BUILD_DIR, 'production.html');
 
 const htmlPath = path.join(ROOT, 'main.html');
 const colorCssPath = path.join(ROOT, 'css', 'color.css');
+const utilityCssPath = path.join(ROOT, 'css', 'utility.css');
 const styleCssPath = path.join(ROOT, 'css', 'style.css');
 const constantJsPath = path.join(ROOT, 'utilities', 'constant.js');
+const svgConstantJsPath = path.join(ROOT, 'utilities', 'svg.constant.js');
 const utilityJsPath = path.join(ROOT, 'utilities', 'utility.js');
 const prayerCardJsPath = path.join(ROOT, 'components', 'prayer-card.js');
 const appJsPath = path.join(ROOT, 'features', 'app', 'app.js');
@@ -79,17 +81,20 @@ function buildProduction() {
 
         let html = fs.readFileSync(htmlPath, 'utf8');
 
-        // 1. Minify and inline CSS (css/color.css + css/style.css)
+        // 1. Minify and inline CSS (css/color.css + css/utility.css + css/style.css)
         const colorCss = fs.existsSync(colorCssPath) ? fs.readFileSync(colorCssPath, 'utf8') : '';
+        const utilityCss = fs.existsSync(utilityCssPath) ? fs.readFileSync(utilityCssPath, 'utf8') : '';
         const styleCss = fs.existsSync(styleCssPath) ? fs.readFileSync(styleCssPath, 'utf8') : '';
-        const minifiedCss = minifyCss(colorCss + '\n' + styleCss);
+        const minifiedCss = minifyCss(colorCss + '\n' + utilityCss + '\n' + styleCss);
 
         // Replace link CSS tags with minified inlined style block
         html = html.replace(/<link[^>]*href="css\/color\.css"[^>]*\/?>/g, '');
+        html = html.replace(/<link[^>]*href="css\/utility\.css"[^>]*\/?>/g, '');
         html = html.replace(/<link[^>]*href="css\/style\.css"[^>]*\/?>/g, () => `<style>${minifiedCss}</style>`);
 
         // 2. Combine and Minify JS
         const constantJs = fs.existsSync(constantJsPath) ? fs.readFileSync(constantJsPath, 'utf8') : '';
+        const svgConstantJs = fs.existsSync(svgConstantJsPath) ? fs.readFileSync(svgConstantJsPath, 'utf8') : '';
         const utilityJs = fs.existsSync(utilityJsPath) ? fs.readFileSync(utilityJsPath, 'utf8') : '';
         const prayerCardJs = fs.existsSync(prayerCardJsPath) ? fs.readFileSync(prayerCardJsPath, 'utf8') : '';
         const appJs = fs.existsSync(appJsPath) ? fs.readFileSync(appJsPath, 'utf8') : '';
@@ -103,11 +108,12 @@ function buildProduction() {
         const tasbeehOldJs = fs.existsSync(tasbeehOldJsPath) ? fs.readFileSync(tasbeehOldJsPath, 'utf8') : '';
         const tasbeehHistoryJs = fs.existsSync(tasbeehHistoryJsPath) ? fs.readFileSync(tasbeehHistoryJsPath, 'utf8') : '';
         const duasJs = fs.existsSync(duasJsPath) ? fs.readFileSync(duasJsPath, 'utf8') : '';
-        const combinedJs = constantJs + '\n' + utilityJs + '\n' + prayerCardJs + '\n' + appJs + '\n' + navigationJs + '\n' + currentPrayerJs + '\n' + dashboardJs + '\n' + oldTrackingJs + '\n' + settingsJs + '\n' + tasbeehHomeJs + '\n' + tasbeehCurrentJs + '\n' + tasbeehOldJs + '\n' + tasbeehHistoryJs + '\n' + duasJs;
+        const combinedJs = constantJs + '\n' + svgConstantJs + '\n' + utilityJs + '\n' + prayerCardJs + '\n' + appJs + '\n' + navigationJs + '\n' + currentPrayerJs + '\n' + dashboardJs + '\n' + oldTrackingJs + '\n' + settingsJs + '\n' + tasbeehHomeJs + '\n' + tasbeehCurrentJs + '\n' + tasbeehOldJs + '\n' + tasbeehHistoryJs + '\n' + duasJs;
         const minifiedJs = minifyJs(combinedJs);
 
         // Replace script src tags with minified inlined script block
         html = html.replace(/<script[^>]*src="utilities\/constant\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="utilities\/svg\.constant\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="utilities\/utility\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="components\/prayer-card\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/navigation\/navigation\.js"[^>]*><\/script>/g, '');
@@ -119,7 +125,6 @@ function buildProduction() {
         html = html.replace(/<script[^>]*src="features\/tasbeeh\/tasbeeh-current\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/tasbeeh\/tasbeeh-old\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/tasbeeh\/tasbeeh-history\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/tasbeeh\/tasbeeh\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/duas\/duas\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/app\/app\.js"[^>]*><\/script>/g, () => `<script>${minifiedJs}<\/script>`);
 

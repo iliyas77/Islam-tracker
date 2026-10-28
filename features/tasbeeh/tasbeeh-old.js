@@ -13,6 +13,11 @@
 window.TasbeehOldApp = (function () {
     /* ---------- Constants (Referenced from utilities/constant.js) ---------- */
     var PERIOD_KEY = (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.STORAGE_KEYS && window.CONSTANTS.TASBEEH.STORAGE_KEYS.PERIOD) || 'app_tasbeeh_period';
+    var PERIOD_PRESETS = (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.PERIOD_PRESETS) || {
+        THIS_YEAR: 'this-year',
+        LAST_6_MONTHS: '6-months',
+        LAST_1_YEAR: '1-year'
+    };
 
     /* ---------- State ---------- */
     var currentOldMonthKey = null; // Currently active / displayed old month
@@ -24,12 +29,6 @@ window.TasbeehOldApp = (function () {
             return window.TasbeehCurrentApp.getItems();
         }
         return [];
-    }
-
-    function persistItems() {
-        if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.persist === 'function') {
-            window.TasbeehCurrentApp.persist();
-        }
     }
 
     /* ---------- Period Storage Layer (YYYY-MM) ---------- */
@@ -234,7 +233,7 @@ window.TasbeehOldApp = (function () {
             '<button type="button" class="tb-btn-edit" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr">' +
             (icons.PENCIL || '<i class="fa-solid fa-pen"></i>') +
             '</button>' +
-            (icons.CHEVRON || '<svg class="tb-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>') +
+            ((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.CHEVRON) || icons.CHEVRON || '') +
             '</div>' +
             '</div>' +
             '<div class="tb-card-body">' +
@@ -246,10 +245,10 @@ window.TasbeehOldApp = (function () {
             '</div>' +
             '<div class="tb-meta-row">' +
             (icons.CHECK_CIRCLE || '<i class="fa-solid fa-circle-check"></i>') +
-            '<span class="tb-meta-text">Completed: <strong class="tb-val-done">' + completedDays + '</strong><span class="tb-val-total"> / ' + totalDays + ' days</span></span>' +
+            '<span class="tb-meta-text"><span class="badge-pill-custom badge-done" style="font-size:0.72rem;padding:0.25rem 0.6rem;">Done</span><strong class="tb-val-done ms-1">' + completedDays + '</strong><span class="tb-val-total"> / ' + totalDays + ' days</span></span>' +
             '</div>' +
             (isDhikrDone
-                ? '<div class="tb-meta-row tb-meta-sub-row"><span class="text-success fw-bold" style="font-size: 11px;"><i class="fa-solid fa-circle-check me-1"></i>Month Completed</span></div>'
+                ? '<div class="tb-meta-row tb-meta-sub-row"><span class="text-brand fw-bold" style="font-size: 11px;"><i class="fa-solid fa-circle-check me-1"></i>Month Completed</span></div>'
                 : '') +
             '</div>' +
             '</div>' +
@@ -294,13 +293,13 @@ window.TasbeehOldApp = (function () {
             oldBody.innerHTML =
                 '<div class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white">' +
                 '<div class="mb-3">' +
-                '<i class="fa-solid fa-circle-check display-4 text-success"></i>' +
+                '<i class="fa-solid fa-circle-check display-4 text-brand"></i>' +
                 '</div>' +
                 '<h5 class="fw-bold text-gr1 mb-2">All Previous Months Completed!</h5>' +
                 '<p class="text-muted small mb-3">' +
                 'All previous months back to ' + formatMonthLabel(period.startDate) + ' have been completed.' +
                 '</p>' +
-                '<div class="d-flex justify-content-center gap-2">' +
+                '<div class="flex justify-center gap-2">' +
                 '<button type="button" class="btn btn-outline-brand rounded-pill px-4 py-2 fw-bold" data-act="tb-old-reopen">' +
                 '<i class="fa-solid fa-rotate-left me-1"></i>Reopen Last Month' +
                 '</button>' +
@@ -348,7 +347,7 @@ window.TasbeehOldApp = (function () {
         var isAllDone = todoOldItems.length === 0 && items.length > 0;
         var advanceMonthHtml = isAllDone
             ? '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm mb-3">' +
-              '<div class="text-success fw-bold mb-2">' +
+              '<div class="text-brand fw-bold mb-2">' +
               '<i class="fa-solid fa-circle-check me-1"></i>All targets for ' + monthName + ' are completed!' +
               '</div>' +
               '<button type="button" class="btn btn-brand btn-sm fw-bold rounded-pill px-4 py-2 mx-auto" data-act="tb-old-advance">' +
@@ -360,7 +359,7 @@ window.TasbeehOldApp = (function () {
         var todoOldCardsHtml = todoOldItems.length > 0
             ? todoOldItems.map(function (it) { return renderOldCardHtml(it, false, curOldMonth, monthName); }).join('')
             : '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
-              '<i class="fa-solid fa-circle-check text-success fs-3 mb-2"></i>' +
+              '<i class="fa-solid fa-circle-check text-brand fs-3 mb-2"></i>' +
               '<div class="fw-bold text-gr1">All Dhikrs for ' + monthName + ' Completed!</div>' +
               '</div>';
 
@@ -376,11 +375,9 @@ window.TasbeehOldApp = (function () {
             advanceMonthHtml +
             '<!-- TO DO GROUP (OLD) -->' +
             '<section class="prayer-group mb-3">' +
-            '<button type="button" class="group-toggle tb-group-toggle py-1 d-flex align-items-center gap-2" data-bs-toggle="collapse" data-bs-target="#tbOldTodoList" aria-expanded="true">' +
+            '<button type="button" class="group-toggle tb-group-toggle py-1 flex items-center gap-2" data-bs-toggle="collapse" data-bs-target="#tbOldTodoList" aria-expanded="true">' +
             '<span class="tb-toggle-icon">' +
-            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0b3829" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' +
-            '<path d="m6 9 6 6 6-6"/>' +
-            '</svg>' +
+            ((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_DOWN) || '') +
             '</span>' +
             '<span class="tb-group-title">To Do</span>' +
             '<span class="tb-group-badge">' + todoOldItems.length + '</span>' +
@@ -394,11 +391,9 @@ window.TasbeehOldApp = (function () {
 
             '<!-- COMPLETED GROUP (OLD) -->' +
             '<section class="prayer-group mb-3">' +
-            '<button type="button" class="group-toggle tb-group-toggle py-1 d-flex align-items-center gap-2 ' + (isOldDoneExpanded ? '' : 'collapsed') + '" data-bs-toggle="collapse" data-bs-target="#tbOldDoneList" aria-expanded="' + (isOldDoneExpanded ? 'true' : 'false') + '">' +
+            '<button type="button" class="group-toggle tb-group-toggle py-1 flex items-center gap-2 ' + (isOldDoneExpanded ? '' : 'collapsed') + '" data-bs-toggle="collapse" data-bs-target="#tbOldDoneList" aria-expanded="' + (isOldDoneExpanded ? 'true' : 'false') + '">' +
             '<span class="tb-toggle-icon">' +
-            '<svg width="11" height="11" viewBox="0 0 24 24" fill="#0b3829">' +
-            '<path d="m5 8 7 8 7-8z"/>' +
-            '</svg>' +
+            ((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_COLLAPSED) || '') +
             '</span>' +
             '<span class="tb-group-title-completed">COMPLETED</span>' +
             '<span class="tb-group-badge">' + doneOldItems.length + '</span>' +
@@ -463,9 +458,10 @@ window.TasbeehOldApp = (function () {
         var modalEl = getEl('tasbeehPeriodModal');
         if (modalEl) {
             if (!periodModalInstance) {
-                periodModalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+                var ModalClass = window.UIModal || (window.bootstrap && window.bootstrap.Modal);
+                periodModalInstance = ModalClass ? ModalClass.getOrCreateInstance(modalEl) : null;
             }
-            periodModalInstance.show();
+            if (periodModalInstance) periodModalInstance.show();
         }
     }
 
@@ -545,12 +541,12 @@ window.TasbeehOldApp = (function () {
         var startStr = '';
         var endStr = prevMonth + '-01';
 
-        if (type === 'this-year') {
+        if (type === PERIOD_PRESETS.THIS_YEAR) {
             startStr = now.getFullYear() + '-01-01';
-        } else if (type === '6-months') {
+        } else if (type === PERIOD_PRESETS.LAST_6_MONTHS) {
             var d6 = new Date(now.getFullYear(), now.getMonth() - 6, 1);
             startStr = d6.getFullYear() + '-' + pad2(d6.getMonth() + 1) + '-01';
-        } else if (type === '1-year') {
+        } else if (type === PERIOD_PRESETS.LAST_1_YEAR) {
             var d12 = new Date(now.getFullYear() - 1, now.getMonth(), 1);
             startStr = d12.getFullYear() + '-' + pad2(d12.getMonth() + 1) + '-01';
         }
@@ -581,17 +577,17 @@ window.TasbeehOldApp = (function () {
 
         var presetThisYear = getEl('tbPresetThisYear');
         if (presetThisYear) {
-            presetThisYear.onclick = function () { setPeriodPreset('this-year'); };
+            presetThisYear.onclick = function () { setPeriodPreset(PERIOD_PRESETS.THIS_YEAR); };
         }
 
         var preset6M = getEl('tbPreset6Months');
         if (preset6M) {
-            preset6M.onclick = function () { setPeriodPreset('6-months'); };
+            preset6M.onclick = function () { setPeriodPreset(PERIOD_PRESETS.LAST_6_MONTHS); };
         }
 
         var preset1Y = getEl('tbPreset1Year');
         if (preset1Y) {
-            preset1Y.onclick = function () { setPeriodPreset('1-year'); };
+            preset1Y.onclick = function () { setPeriodPreset(PERIOD_PRESETS.LAST_1_YEAR); };
         }
 
         var pStart = getEl('tbPeriodStart');

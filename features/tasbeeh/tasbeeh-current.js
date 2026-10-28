@@ -14,12 +14,20 @@
 window.TasbeehCurrentApp = (function () {
     /* ---------- Constants & Presets (Referenced from utilities/constant.js) ---------- */
     var TASBEEH_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.TASBEEH) || {};
-    var STORAGE_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.DATA) || 'app_tasbeeh_data';
-    var DAY_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.DAY) || 'app_tasbeeh_day';
-    var BM_CUR_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.BOOKMARK_CURRENT) || 'app_tasbeeh_bookmark_current';
-    var BM_OLD_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.BOOKMARK_OLD) || 'app_tasbeeh_bookmark_old';
-    var CURRENT_PERIOD_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.CURRENT_PERIOD) || 'app_tasbeeh_current_period';
-    var CAL_COMPLETION_KEY = 'app_tasbeeh_cal_completions';
+    var STORAGE_KEYS = TASBEEH_CONSTANTS.STORAGE_KEYS || {};
+    var STORAGE_KEY = STORAGE_KEYS.DATA || 'app_tasbeeh_data';
+    var DAY_KEY = STORAGE_KEYS.DAY || 'app_tasbeeh_day';
+    var BM_CUR_KEY = STORAGE_KEYS.BOOKMARK_CURRENT || 'app_tasbeeh_bookmark_current';
+    var BM_OLD_KEY = STORAGE_KEYS.BOOKMARK_OLD || 'app_tasbeeh_bookmark_old';
+    var CURRENT_PERIOD_KEY = STORAGE_KEYS.CURRENT_PERIOD || 'app_tasbeeh_current_period';
+    var CAL_COMPLETION_KEY = STORAGE_KEYS.CAL_COMPLETIONS || 'app_tasbeeh_cal_completions';
+    var TABS = TASBEEH_CONSTANTS.TABS || { HOME: 'home', CURRENT: 'current', OLD: 'old', HISTORY: 'history' };
+    var TAB_HEADERS = TASBEEH_CONSTANTS.TAB_HEADERS || {
+        home: { iconClass: 'fa-solid fa-house text-brand', label: 'Digital Tasbeeh', sub: 'Home · Bookmarks' },
+        current: { iconClass: 'fa-regular fa-calendar text-brand', label: 'Digital Tasbeeh' },
+        old: { iconClass: 'fa-solid fa-clock-rotate-left text-warning', label: 'Old Tasbeeh' },
+        history: { iconClass: 'fa-solid fa-gear text-gr-accent', label: 'Tasbeeh History', sub: 'Period & Settings' }
+    };
     var counterOpenedFrom = null;
 
     var DEFAULT_PRESETS = [
@@ -234,7 +242,7 @@ window.TasbeehCurrentApp = (function () {
         });
     }
 
-    /* ---------- Confirmation Action Dialog (Bootstrap Modal + Fallback) ---------- */
+    /* ---------- Confirmation Action Dialog (Vanilla Modal + Fallback) ---------- */
     function confirmAction(options, onConfirm) {
         pendingConfirmCallback = onConfirm || null;
         pendingToggleDate = null;
@@ -252,17 +260,18 @@ window.TasbeehCurrentApp = (function () {
 
         if (iconEl && badgeEl) {
             if (options.isSuccess) {
-                badgeEl.className = 'modal-icon-badge bg-success-subtle';
-                iconEl.className = 'fa-solid fa-circle-check fs-3 text-success';
+                badgeEl.className = 'modal-icon-badge bg-brand-light';
+                iconEl.className = 'fa-solid fa-circle-check fs-3 text-brand';
             } else {
                 badgeEl.className = 'modal-icon-badge bg-warning-subtle';
                 iconEl.className = 'fa-solid fa-triangle-exclamation fs-3 text-warning';
             }
         }
 
-        if (confirmModalEl && window.bootstrap && typeof window.bootstrap.Modal === 'function') {
+        var ModalClass = window.UIModal || (window.bootstrap && window.bootstrap.Modal);
+        if (confirmModalEl && ModalClass) {
             if (!confirmModalInstance) {
-                confirmModalInstance = bootstrap.Modal.getOrCreateInstance(confirmModalEl);
+                confirmModalInstance = ModalClass.getOrCreateInstance(confirmModalEl);
                 confirmModalEl.addEventListener('hidden.bs.modal', function () {
                     pendingToggleDate = null;
                     pendingConfirmCallback = null;
@@ -592,7 +601,7 @@ window.TasbeehCurrentApp = (function () {
             '<button type="button" class="tb-btn-edit" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr" data-ref="page.tasbeeh.card.edit-btn">' +
             (icons.PENCIL || '<i class="fa-solid fa-pen"></i>') +
             '</button>' +
-            (icons.CHEVRON || '<svg class="tb-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>') +
+            ((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.CHEVRON) || icons.CHEVRON || '') +
             '</div>' +
             '</div>' +
             '<div class="tb-card-body" data-ref="page.tasbeeh.card.info">' +
@@ -604,10 +613,10 @@ window.TasbeehCurrentApp = (function () {
             '</div>' +
             '<div class="tb-meta-row">' +
             (icons.CHECK_CIRCLE || '<i class="fa-solid fa-circle-check"></i>') +
-            '<span class="tb-meta-text">Completed: <strong class="tb-val-done">' + completedDays + '</strong><span class="tb-val-total"> / ' + totalDays + ' days</span></span>' +
+            '<span class="tb-meta-text"><span class="badge-pill-custom badge-done" style="font-size:0.72rem;padding:0.25rem 0.6rem;">Done</span><strong class="tb-val-done ms-1">' + completedDays + '</strong><span class="tb-val-total"> / ' + totalDays + ' days</span></span>' +
             '</div>' +
             (isTodayDone
-                ? '<div class="tb-meta-row tb-meta-sub-row"><span class="text-success fw-bold" style="font-size: 11px;"><i class="fa-solid fa-circle-check me-1"></i>Today Completed</span></div>'
+                ? '<div class="tb-meta-row tb-meta-sub-row"><span class="text-brand fw-bold" style="font-size: 11px;"><i class="fa-solid fa-circle-check me-1"></i>Today Completed</span></div>'
                 : '') +
             '</div>' +
             '</div>' +
@@ -663,7 +672,7 @@ window.TasbeehCurrentApp = (function () {
             ? todoItems.map(function (it) { return renderCurrentCardHtml(it, false); }).join('')
             : (isMonthComplete
                 ? '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
-                  '<i class="fa-solid fa-circle-check text-success fs-3 mb-2"></i>' +
+                  '<i class="fa-solid fa-circle-check text-brand fs-3 mb-2"></i>' +
                   '<div class="fw-bold text-gr1">All Dhikrs for ' + curMonthName + ' Completed!</div>' +
                   '<div class="text-muted small mb-3">All daily targets for this month have been achieved.</div>' +
                   '<button type="button" class="btn btn-brand btn-sm fw-bold rounded-pill px-4 py-2 mx-auto" data-act="tb-current-advance">' +
@@ -671,7 +680,7 @@ window.TasbeehCurrentApp = (function () {
                   '</button>' +
                   '</div>'
                 : '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
-                  '<i class="fa-solid fa-circle-check text-success fs-3 mb-2"></i>' +
+                  '<i class="fa-solid fa-circle-check text-brand fs-3 mb-2"></i>' +
                   '<div class="fw-bold text-gr1">All Dhikrs Completed Today!</div>' +
                   '<div class="text-muted small">You have met today’s targets for all your chants.</div>' +
                   '</div>');
@@ -687,11 +696,9 @@ window.TasbeehCurrentApp = (function () {
         var html =
             '<!-- TO DO GROUP -->' +
             '<section class="prayer-group mb-3" data-ref="page.tasbeeh.group.todo">' +
-            '<button type="button" class="group-toggle tb-group-toggle py-1 d-flex align-items-center gap-2" data-bs-toggle="collapse" data-bs-target="#tbCurrentTodoList" aria-expanded="true">' +
+            '<button type="button" class="group-toggle tb-group-toggle py-1 flex items-center gap-2" data-bs-toggle="collapse" data-bs-target="#tbCurrentTodoList" aria-expanded="true">' +
             '<span class="tb-toggle-icon">' +
-            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0b3829" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' +
-            '<path d="m6 9 6 6 6-6"/>' +
-            '</svg>' +
+            ((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_DOWN) || '') +
             '</span>' +
             '<span class="tb-group-title">To Do</span>' +
             '<span class="tb-group-badge">' + todoItems.length + '</span>' +
@@ -705,11 +712,9 @@ window.TasbeehCurrentApp = (function () {
 
             '<!-- COMPLETED GROUP -->' +
             '<section class="prayer-group mb-3" data-ref="page.tasbeeh.group.done">' +
-            '<button type="button" class="group-toggle tb-group-toggle py-1 d-flex align-items-center gap-2 ' + (isDoneExpanded ? '' : 'collapsed') + '" data-bs-toggle="collapse" data-bs-target="#tbCurrentDoneList" aria-expanded="' + (isDoneExpanded ? 'true' : 'false') + '">' +
+            '<button type="button" class="group-toggle tb-group-toggle py-1 flex items-center gap-2 ' + (isDoneExpanded ? '' : 'collapsed') + '" data-bs-toggle="collapse" data-bs-target="#tbCurrentDoneList" aria-expanded="' + (isDoneExpanded ? 'true' : 'false') + '">' +
             '<span class="tb-toggle-icon">' +
-            '<svg width="11" height="11" viewBox="0 0 24 24" fill="#0b3829">' +
-            '<path d="m5 8 7 8 7-8z"/>' +
-            '</svg>' +
+            ((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_COLLAPSED) || '') +
             '</span>' +
             '<span class="tb-group-title-completed">COMPLETED</span>' +
             '<span class="tb-group-badge">' + doneItems.length + '</span>' +
@@ -744,7 +749,7 @@ window.TasbeehCurrentApp = (function () {
     }
 
     function switchTab(tab) {
-        activeTab = (tab === 'old' || tab === 'history' || tab === 'home') ? tab : 'current';
+        activeTab = (tab === TABS.OLD || tab === TABS.HISTORY || tab === TABS.HOME) ? tab : TABS.CURRENT;
         var btnHome = getEl('tabTbHome');
         var btnCur = getEl('tabTbCurrent');
         var btnOld = getEl('tabTbOld');
@@ -777,23 +782,23 @@ window.TasbeehCurrentApp = (function () {
             }
         }
 
-        if (activeTab === 'home') {
+        if (activeTab === TABS.HOME) {
             if (btnHome) { btnHome.classList.add('active'); btnHome.setAttribute('aria-selected', 'true'); }
             if (bodyHome) bodyHome.classList.remove('d-none');
             if (addBtn) addBtn.classList.add('d-none');
-            if (icon) icon.className = 'fa-solid fa-house text-success';
-            if (label) label.textContent = 'Digital Tasbeeh';
-            if (sub) sub.textContent = 'Home · Bookmarks';
+            if (icon) icon.className = TAB_HEADERS.home.iconClass;
+            if (label) label.textContent = TAB_HEADERS.home.label;
+            if (sub) sub.textContent = TAB_HEADERS.home.sub;
 
             if (window.TasbeehHomeApp && typeof window.TasbeehHomeApp.renderHomeTab === 'function') {
                 window.TasbeehHomeApp.renderHomeTab();
             }
-        } else if (activeTab === 'old') {
+        } else if (activeTab === TABS.OLD) {
             if (btnOld) { btnOld.classList.add('active'); btnOld.setAttribute('aria-selected', 'true'); }
             if (bodyOld) bodyOld.classList.remove('d-none');
             if (addBtn) addBtn.classList.remove('d-none');
-            if (icon) icon.className = 'fa-solid fa-clock-rotate-left text-warning';
-            if (label) label.textContent = 'Old Tasbeeh';
+            if (icon) icon.className = TAB_HEADERS.old.iconClass;
+            if (label) label.textContent = TAB_HEADERS.old.label;
 
             var curOldM = window.TasbeehOldApp && typeof window.TasbeehOldApp.getCurrentOldMonth === 'function'
                 ? window.TasbeehOldApp.getCurrentOldMonth()
@@ -806,13 +811,13 @@ window.TasbeehCurrentApp = (function () {
             if (window.TasbeehOldApp && typeof window.TasbeehOldApp.renderOldTab === 'function') {
                 window.TasbeehOldApp.renderOldTab();
             }
-        } else if (activeTab === 'history') {
+        } else if (activeTab === TABS.HISTORY) {
             if (btnHist) { btnHist.classList.add('active'); btnHist.setAttribute('aria-selected', 'true'); }
             if (bodyHist) bodyHist.classList.remove('d-none');
             if (addBtn) addBtn.classList.add('d-none');
-            if (icon) icon.className = 'fa-solid fa-gear text-gr-accent';
-            if (label) label.textContent = 'Tasbeeh History';
-            if (sub) sub.textContent = 'Period & Settings';
+            if (icon) icon.className = TAB_HEADERS.history.iconClass;
+            if (label) label.textContent = TAB_HEADERS.history.label;
+            if (sub) sub.textContent = TAB_HEADERS.history.sub;
 
             if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
                 window.TasbeehHistoryApp.renderHistoryTab();
@@ -821,8 +826,8 @@ window.TasbeehCurrentApp = (function () {
             if (btnCur) { btnCur.classList.add('active'); btnCur.setAttribute('aria-selected', 'true'); }
             if (bodyCur) bodyCur.classList.remove('d-none');
             if (addBtn) addBtn.classList.remove('d-none');
-            if (icon) icon.className = 'fa-regular fa-calendar text-primary';
-            if (label) label.textContent = 'Digital Tasbeeh';
+            if (icon) icon.className = TAB_HEADERS.current.iconClass;
+            if (label) label.textContent = TAB_HEADERS.current.label;
             if (sub) sub.textContent = formatMonthLabel(getCurrentTrackingMonth());
 
             renderCurrentTab();
@@ -920,7 +925,7 @@ window.TasbeehCurrentApp = (function () {
                 prevBtn.style.pointerEvents = 'auto';
                 if (isFullyDone) {
                     prevBtn.style.opacity = '1';
-                    prevBtn.className = 'tb-cal-nav-btn text-success border-success';
+                    prevBtn.className = 'tb-cal-nav-btn text-brand border-brand';
                     prevBtn.title = 'All targets complete: tap to move to previous month';
                 } else {
                     prevBtn.style.opacity = '0.5';
@@ -939,7 +944,7 @@ window.TasbeehCurrentApp = (function () {
                 nextBtn.style.pointerEvents = 'auto';
                 if (isFullyDone) {
                     nextBtn.style.opacity = '1';
-                    nextBtn.className = 'tb-cal-nav-btn text-success border-success';
+                    nextBtn.className = 'tb-cal-nav-btn text-brand border-brand';
                     nextBtn.title = 'All targets complete: tap to advance to next month';
                 } else {
                     nextBtn.style.opacity = '0.5';
@@ -1080,7 +1085,7 @@ window.TasbeehCurrentApp = (function () {
         var counterView = getEl('tasbeehCounterView');
         if (counterView) {
             counterView.classList.remove('d-none');
-            counterView.classList.add('d-flex');
+            counterView.classList.add('flex');
         }
     }
 
@@ -1096,7 +1101,7 @@ window.TasbeehCurrentApp = (function () {
         var counterView = getEl('tasbeehCounterView');
         if (counterView) {
             counterView.classList.add('d-none');
-            counterView.classList.remove('d-flex');
+            counterView.classList.remove('flex');
         }
 
         if (prevCM && window.TasbeehOldApp && typeof window.TasbeehOldApp.checkAndAdvanceMonth === 'function') {
@@ -1162,14 +1167,15 @@ window.TasbeehCurrentApp = (function () {
         var modalEl = getEl('tasbeehModal');
         if (modalEl) {
             if (!editModalInstance) {
-                editModalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+                var ModalClass = window.UIModal || (window.bootstrap && window.bootstrap.Modal);
+                editModalInstance = ModalClass ? ModalClass.getOrCreateInstance(modalEl) : null;
                 modalEl.addEventListener('hidden.bs.modal', function () {
                     editingId = null;
                     var b = getEl('tbModalDelBtn');
                     if (b) b.classList.add('d-none');
                 });
             }
-            editModalInstance.show();
+            if (editModalInstance) editModalInstance.show();
         }
     }
 

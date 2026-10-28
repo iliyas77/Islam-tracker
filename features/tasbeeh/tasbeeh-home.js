@@ -70,9 +70,7 @@ window.TasbeehHomeApp = (function () {
                 '    </div>' +
                 '    <div class="tb-card-actions">' +
                 '      <span class="tb-bookmark-pill tb-pill-current">Current</span>' +
-                '      <svg class="tb-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
-                '        <path d="m9 18 6-6-6-6"/>' +
-                '      </svg>' +
+                '      ' + ((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.CHEVRON) || '') +
                 '    </div>' +
                 '  </div>' +
                 '  <div class="tb-card-body">' +
@@ -84,11 +82,11 @@ window.TasbeehHomeApp = (function () {
                 '      </div>' +
                 '      <div class="tb-meta-row">' +
                 checkIcon +
-                '        <span class="tb-meta-text">Completed: <strong class="tb-val-done">' + (c.completedDays || 0) + '</strong><span class="tb-val-total"> / ' + (c.totalDays || 0) + ' days</span></span>' +
+                '        <span class="tb-meta-text"><span class="badge-pill-custom badge-done" style="font-size:0.72rem;padding:0.25rem 0.6rem;">Done</span><strong class="tb-val-done ms-1">' + (c.completedDays || 0) + '</strong><span class="tb-val-total"> / ' + (c.totalDays || 0) + ' days</span></span>' +
                 '      </div>' +
                 '      <div class="tb-meta-row tb-meta-sub-row">' +
                 '        <i class="fa-regular fa-calendar-days text-muted" style="font-size: 11px;"></i>' +
-                '        <span class="tb-meta-text">' + escHtml(c.monthName || 'Current Month') + (c.isTodayDone ? ' · <span class="text-success fw-bold">Today ✓</span>' : '') + '</span>' +
+                '        <span class="tb-meta-text">' + escHtml(c.monthName || 'Current Month') + (c.isTodayDone ? ' · <span class="text-brand fw-bold">Today ✓</span>' : '') + '</span>' +
                 '      </div>' +
                 '    </div>' +
                 '  </div>' +
@@ -107,9 +105,7 @@ window.TasbeehHomeApp = (function () {
                 '    </div>' +
                 '    <div class="tb-card-actions">' +
                 '      <span class="tb-bookmark-pill tb-pill-old">Old</span>' +
-                '      <svg class="tb-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
-                '        <path d="m9 18 6-6-6-6"/>' +
-                '      </svg>' +
+                '      ' + ((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.CHEVRON) || '') +
                 '    </div>' +
                 '  </div>' +
                 '  <div class="tb-card-body">' +
@@ -121,7 +117,7 @@ window.TasbeehHomeApp = (function () {
                 '      </div>' +
                 '      <div class="tb-meta-row">' +
                 checkIcon +
-                '        <span class="tb-meta-text">Completed: <strong class="tb-val-done">' + (o.completedDays || 0) + '</strong><span class="tb-val-total"> / ' + (o.totalDays || 0) + ' days</span></span>' +
+                '        <span class="tb-meta-text"><span class="badge-pill-custom badge-done" style="font-size:0.72rem;padding:0.25rem 0.6rem;">Done</span><strong class="tb-val-done ms-1">' + (o.completedDays || 0) + '</strong><span class="tb-val-total"> / ' + (o.totalDays || 0) + ' days</span></span>' +
                 '      </div>' +
                 '      <div class="tb-meta-row tb-meta-sub-row">' +
                 '        <i class="fa-regular fa-calendar-days text-muted" style="font-size: 11px;"></i>' +
@@ -151,14 +147,14 @@ window.TasbeehHomeApp = (function () {
         var activeOldLabel = curOldMonth ? (window.TasbeehApp && window.TasbeehApp.formatMonthLabel ? window.TasbeehApp.formatMonthLabel(curOldMonth) : curOldMonth) : 'All Cleared';
 
         body.innerHTML =
-            '<div class="d-flex flex-column gap-3 pt-1 pb-4" data-ref="page.tasbeeh.home.content">' +
+            '<div class="flex flex-col gap-3 pt-1 pb-4" data-ref="page.tasbeeh.home.content">' +
             '  <!-- Header Bar with Quick Action -->' +
-            '  <div class="d-flex align-items-center justify-content-between px-1">' +
+            '  <div class="flex items-center justify-between px-1">' +
             '    <div>' +
             '      <h6 class="fw-bold text-gr1 mb-0" style="font-size: 1.02rem;">Bookmarked Counters</h6>' +
             '      <div class="text-muted small">Tap any bookmark to recount directly</div>' +
             '    </div>' +
-            '    <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1" data-act="switch-tb-current" style="font-size: 0.78rem; font-weight: 600;">' +
+            '    <button type="button" class="btn btn-sm btn-outline-brand rounded-pill px-3 py-1 inline-flex items-center gap-1" data-act="switch-tb-current" style="font-size: 0.78rem; font-weight: 600;">' +
             '      <span>All Dhikrs</span>' +
             '      <i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>' +
             '    </button>' +
@@ -173,18 +169,18 @@ window.TasbeehHomeApp = (function () {
             '  <!-- Quick Navigation / Status Cards -->' +
             '  <div class="row g-2 mt-1">' +
             '    <div class="col-6">' +
-            '      <div class="card p-3 rounded-4 bg-white border border-light-subtle shadow-sm h-100" role="button" tabindex="0" data-act="switch-tb-current">' +
-            '        <div class="d-flex align-items-center justify-content-between mb-2">' +
-            '          <span class="badge rounded-pill bg-success-subtle text-success fw-bold" style="font-size: 10px;">CURRENT</span>' +
-            '          <i class="fa-regular fa-calendar text-success" style="font-size: 14px;"></i>' +
+            '      <div class="card p-3 rounded-4 bg-white border shadow-sm h-100" role="button" tabindex="0" data-act="switch-tb-current">' +
+            '        <div class="flex items-center justify-between mb-2">' +
+            '          <span class="badge rounded-pill bg-brand-light text-brand fw-bold" style="font-size: 10px;">CURRENT</span>' +
+            '          <i class="fa-regular fa-calendar text-brand" style="font-size: 14px;"></i>' +
             '        </div>' +
             '        <div class="fw-bold text-gr1" style="font-size: 1.15rem;">' + items.length + ' <span class="small fw-normal text-muted" style="font-size: 0.8rem;">Dhikrs</span></div>' +
             '        <div class="text-muted small mt-1" style="font-size: 0.74rem;">Active in Current Month</div>' +
             '      </div>' +
             '    </div>' +
             '    <div class="col-6">' +
-            '      <div class="card p-3 rounded-4 bg-white border border-light-subtle shadow-sm h-100" role="button" tabindex="0" data-act="switch-tb-history">' +
-            '        <div class="d-flex align-items-center justify-content-between mb-2">' +
+            '      <div class="card p-3 rounded-4 bg-white border shadow-sm h-100" role="button" tabindex="0" data-act="switch-tb-history">' +
+            '        <div class="flex items-center justify-between mb-2">' +
             '          <span class="badge rounded-pill bg-warning-subtle text-warning fw-bold" style="font-size: 10px;">HISTORY</span>' +
             '          <i class="fa-solid fa-gear text-warning" style="font-size: 14px;"></i>' +
             '        </div>' +
@@ -195,9 +191,9 @@ window.TasbeehHomeApp = (function () {
             '  </div>' +
             '' +
             '  <!-- Helpful Guidance Banner -->' +
-            '  <div class="card p-3 rounded-4 bg-success-subtle border-0">' +
-            '    <div class="d-flex align-items-start gap-2">' +
-            '      <i class="fa-solid fa-circle-info text-success mt-1" style="font-size: 14px;"></i>' +
+            '  <div class="card p-3 rounded-4 bg-brand-light border-0">' +
+            '    <div class="flex items-start gap-2">' +
+            '      <i class="fa-solid fa-circle-info text-brand mt-1" style="font-size: 14px;"></i>' +
             '      <div class="small text-muted" style="font-size: 0.78rem; line-height: 1.45;">' +
             '        Whenever you open a Dhikr in <strong>Current</strong> or <strong>Old</strong> tracking, its bookmark updates automatically so you can continue where you left off.' +
             '      </div>' +
