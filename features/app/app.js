@@ -3,35 +3,39 @@
    ============================================================ */
 
 /* ---------- Constants (Referenced from utilities/constant.js) ---------- */
-var P = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.NAMES) || window.P || ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-var K = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS.TRACKER_DATA) || window.K || 'namazTrackerData';
-var OCK = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS.OLD_DATA) || window.OCK || 'namazOldData';
-var FK = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS.FONT_SIZE) || window.FK || 'namazFontSize';
-var SK = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS.START_DATE) || window.SK || 'namazStartDate';
-var OK = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS.OLD_PERIOD) || window.OK || 'namazOldPeriod';
+var PRAYER_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.PRAYER) || {};
+var P = PRAYER_CONSTANTS.NAMES || window.P || ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+var K = (PRAYER_CONSTANTS.STORAGE_KEYS && PRAYER_CONSTANTS.STORAGE_KEYS.TRACKER_DATA) || window.K || 'namazTrackerData';
+var OCK = (PRAYER_CONSTANTS.STORAGE_KEYS && PRAYER_CONSTANTS.STORAGE_KEYS.OLD_DATA) || window.OCK || 'namazOldData';
+var FK = (PRAYER_CONSTANTS.STORAGE_KEYS && PRAYER_CONSTANTS.STORAGE_KEYS.FONT_SIZE) || window.FK || 'namazFontSize';
+var SK = (PRAYER_CONSTANTS.STORAGE_KEYS && PRAYER_CONSTANTS.STORAGE_KEYS.START_DATE) || window.SK || 'namazStartDate';
+var OK = (PRAYER_CONSTANTS.STORAGE_KEYS && PRAYER_CONSTANTS.STORAGE_KEYS.OLD_PERIOD) || window.OK || 'namazOldPeriod';
 
 /* Prayer Timings Storage Keys */
-var PTK_CACHE = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS.TIMINGS_CACHE) || window.PTK_CACHE || 'namazPrayerTimingsCache';
-var PTK_CONFIG = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS.CONFIG) || window.PTK_CONFIG || 'namazPrayerConfig';
+var PTK_CACHE = (PRAYER_CONSTANTS.STORAGE_KEYS && PRAYER_CONSTANTS.STORAGE_KEYS.TIMINGS_CACHE) || window.PTK_CACHE || 'namazPrayerTimingsCache';
+var PTK_CONFIG = (PRAYER_CONSTANTS.STORAGE_KEYS && PRAYER_CONSTANTS.STORAGE_KEYS.CONFIG) || window.PTK_CONFIG || 'namazPrayerConfig';
 
-var defaultPrayerConfig = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.DEFAULT_CONFIG) || window.defaultPrayerConfig || {
+var defaultPrayerConfig = PRAYER_CONSTANTS.DEFAULT_CONFIG || window.defaultPrayerConfig || {
     city: 'Guntur',
     country: 'India',
     method: 1,
     school: 1
 };
 
-var T = window.T || Object.assign({}, (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.DEFAULT_TIMINGS) || {});
+var T = window.T || Object.assign({}, PRAYER_CONSTANTS.DEFAULT_TIMINGS || {});
 window.T = T;
 
-var I = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.FA_ICONS) || window.I || {};
+var I = PRAYER_CONSTANTS.FA_ICONS || window.I || {};
+var TIMINGS_API_URL = (PRAYER_CONSTANTS.API && PRAYER_CONSTANTS.API.TIMINGS_BY_CITY) || 'https://api.aladhan.com/v1/timingsByCity/';
+var SCHOOL_NAMES = PRAYER_CONSTANTS.SCHOOL_NAMES || { 1: 'Hanafi', 0: 'Shafi' };
+var TIMINGS_STATUS = PRAYER_CONSTANTS.STATUS || { LIVE: 'live', CACHED: 'cached', OFFLINE: 'offline' };
 
 /* ---------- State ---------- */
 var sd = td();
 var sheet2BS;
 var dashTimer = null;
 var currentHijri = null;
-var prayerTimingsStatus = 'cached'; // 'live', 'cached', 'offline'
+var prayerTimingsStatus = TIMINGS_STATUS.CACHED; // 'live', 'cached', 'offline'
 
 /* ---------- Prayer Timings Service & Caching ---------- */
 function getPrayerConfig() {
@@ -129,13 +133,13 @@ function fetchPrayerTimings(dateStr, callback) {
     // 1. Check local cache first
     var cached = getPrayerCacheForDate(dateStr);
     if (cached && cached.timings) {
-        applyTimings(cached.timings, cached.hijri, 'cached');
+        applyTimings(cached.timings, cached.hijri, TIMINGS_STATUS.CACHED);
         if (typeof callback === 'function') callback(null, cached);
     }
 
     // 2. Fetch live data from Aladhan API
     var apiDate = formatApiDate(dateStr);
-    var url = 'https://api.aladhan.com/v1/timingsByCity/' + apiDate +
+    var url = TIMINGS_API_URL + apiDate +
         '?city=' + encodeURIComponent(cfg.city) +
         '&country=' + encodeURIComponent(cfg.country) +
         '&method=' + encodeURIComponent(cfg.method) +
@@ -179,13 +183,13 @@ function fetchPrayerTimings(dateStr, callback) {
                 hijri: hijriData,
                 city: cfg.city,
                 country: cfg.country,
-                school: cfg.school === 1 ? 'Hanafi' : 'Shafi',
+                school: SCHOOL_NAMES[cfg.school] || 'Hanafi',
                 method: cfg.method,
                 fetchedAt: Date.now()
             };
 
             savePrayerCacheForDate(dateStr, record);
-            applyTimings(record.timings, record.hijri, 'live');
+            applyTimings(record.timings, record.hijri, TIMINGS_STATUS.LIVE);
             refreshPrayerTimesUI(dateStr);
 
             if (typeof callback === 'function') callback(null, record);
@@ -193,71 +197,13 @@ function fetchPrayerTimings(dateStr, callback) {
         .catch(function (err) {
             console.warn('Aladhan prayer times fetch error:', err.message);
             if (cached && cached.timings) {
-                prayerTimingsStatus = 'cached';
+                prayerTimingsStatus = TIMINGS_STATUS.CACHED;
             } else {
-                prayerTimingsStatus = 'offline';
+                prayerTimingsStatus = TIMINGS_STATUS.OFFLINE;
             }
             refreshPrayerTimesUI(dateStr);
             if (typeof callback === 'function') callback(err, cached);
         });
-}
-
-function getNextPrayerInfo() {
-    var now = new Date();
-    var currentMin = now.getHours() * 60 + now.getMinutes();
-
-    function parseToMinutes(timeStr) {
-        if (!timeStr) return -1;
-        var parts = timeStr.trim().split(' ');
-        if (!parts[0]) return -1;
-        var sub = parts[0].split(':');
-        var h = parseInt(sub[0], 10);
-        var m = parseInt(sub[1], 10);
-        if (isNaN(h) || isNaN(m)) return -1;
-        var ap = parts[1] || 'AM';
-        if (ap === 'PM' && h < 12) h += 12;
-        if (ap === 'AM' && h === 12) h = 0;
-        return h * 60 + m;
-    }
-
-    for (var i = 0; i < P.length; i++) {
-        var p = P[i];
-        var pMin = parseToMinutes(T[p]);
-        if (pMin > currentMin) {
-            var diff = pMin - currentMin;
-            var hrs = Math.floor(diff / 60);
-            var mins = diff % 60;
-            var remaining = hrs > 0 ? (hrs + 'h ' + mins + 'm') : (mins + 'm');
-            var remainingPad = pad2(hrs) + 'h ' + pad2(mins) + 'm';
-            return {
-                name: p,
-                time: T[p],
-                diffMin: diff,
-                hrs: hrs,
-                mins: mins,
-                remaining: remaining,
-                remainingPad: remainingPad,
-                isTomorrow: false
-            };
-        }
-    }
-
-    var fajrMin = parseToMinutes(T.Fajr);
-    var diffTomorrow = (24 * 60 - currentMin) + fajrMin;
-    var fHrs = Math.floor(diffTomorrow / 60);
-    var fMins = diffTomorrow % 60;
-    var remainingTomorrow = fHrs > 0 ? (fHrs + 'h ' + fMins + 'm') : (fMins + 'm');
-    var remainingTomorrowPad = pad2(fHrs) + 'h ' + pad2(fMins) + 'm';
-    return {
-        name: 'Fajr',
-        time: T.Fajr,
-        diffMin: diffTomorrow,
-        hrs: fHrs,
-        mins: fMins,
-        remaining: remainingTomorrow,
-        remainingPad: remainingTomorrowPad,
-        isTomorrow: true
-    };
 }
 
 function getActivePrayerInfo() {
@@ -311,7 +257,8 @@ function getActivePrayerInfo() {
 
 /* ---------- Init ---------- */
 document.addEventListener('DOMContentLoaded', function () {
-    sheet2BS = new bootstrap.Offcanvas($('sheet2'));
+    var OffcanvasClass = window.UIOffcanvas || (window.bootstrap && window.bootstrap.Offcanvas);
+    sheet2BS = OffcanvasClass ? new OffcanvasClass($('sheet2')) : null;
 
     apFS(rdFS());
     if (typeof migratePrayerData === 'function') {
@@ -328,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Check cached prayer timings and fetch live timings
     var cachedToday = getPrayerCacheForDate(td());
     if (cachedToday && cachedToday.timings) {
-        applyTimings(cachedToday.timings, cachedToday.hijri, 'cached');
+        applyTimings(cachedToday.timings, cachedToday.hijri, TIMINGS_STATUS.CACHED);
     }
     fetchPrayerTimings(td());
 

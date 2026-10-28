@@ -7,6 +7,14 @@
 (function (window) {
         'use strict';
 
+        const PRAYER_FA_ICONS = {
+                Fajr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M4.93 6.93l2.12 2.12M19.07 6.93l-2.12 2.12M2 17h20M17 17a5 5 0 0 0-10 0"/></svg>',
+                Dhuhr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>',
+                Asr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>',
+                Maghrib: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M4.93 6.93l2.12 2.12M19.07 6.93l-2.12 2.12M2 17h20M17 17a5 5 0 0 0-10 0"/></svg>',
+                Isha: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5a9.5 9.5 0 0 0 8.5 13.7 9.5 9.5 0 1 1-8.5-13.7z"/><polygon points="18.8 4 19.5 5.5 21 5.6 19.9 6.7 20.2 8.2 18.8 7.4 17.4 8.2 17.7 6.7 16.6 5.6 18.1 5.5"/></svg>'
+        };
+
         const CONSTANTS = {
                 // ==========================================
                 // Prayer Tracker & Core Prayer Constants
@@ -20,19 +28,8 @@
                                 Maghrib: '05:47 PM',
                                 Isha: '06:59 PM'
                         },
-                        FA_ICONS: {
-                                Fajr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M4.93 6.93l2.12 2.12M19.07 6.93l-2.12 2.12M2 17h20M17 17a5 5 0 0 0-10 0"/></svg>',
-                                Dhuhr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>',
-                                Asr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>',
-                                Maghrib: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M4.93 6.93l2.12 2.12M19.07 6.93l-2.12 2.12M2 17h20M17 17a5 5 0 0 0-10 0"/></svg>',
-                                Isha: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5a9.5 9.5 0 0 0 8.5 13.7 9.5 9.5 0 1 1-8.5-13.7z"/><polygon points="18.8 4 19.5 5.5 21 5.6 19.9 6.7 20.2 8.2 18.8 7.4 17.4 8.2 17.7 6.7 16.6 5.6 18.1 5.5"/></svg>'
-                        },
-                        CARD_ICONS: {
-                                Fajr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M4.93 6.93l2.12 2.12M19.07 6.93l-2.12 2.12M2 17h20M17 17a5 5 0 0 0-10 0"/></svg>',
-                                Dhuhr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>',
-                                Asr: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>',
-                                Maghrib: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M4.93 6.93l2.12 2.12M19.07 6.93l-2.12 2.12M2 17h20M17 17a5 5 0 0 0-10 0"/></svg>',
-                                Isha: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5a9.5 9.5 0 0 0 8.5 13.7 9.5 9.5 0 1 1-8.5-13.7z"/><polygon points="18.8 4 19.5 5.5 21 5.6 19.9 6.7 20.2 8.2 18.8 7.4 17.4 8.2 17.7 6.7 16.6 5.6 18.1 5.5"/></svg>',
+                        FA_ICONS: PRAYER_FA_ICONS,
+                        CARD_ICONS: Object.assign({}, PRAYER_FA_ICONS, {
                                 DoneCheck: '<svg class="icon-md" viewBox="0 0 20 20" fill="currentColor">' +
                                         '<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />' +
                                         '</svg>',
@@ -46,12 +43,49 @@
                                         '<rect x="3" y="4" width="14" height="13" rx="2" />' +
                                         '<path d="M16 2v4M4 2v4M3 8h14" />' +
                                         '</svg>'
-                        },
+                        }),
                         DEFAULT_CONFIG: {
                                 city: 'Guntur',
                                 country: 'India',
                                 method: 1, // University of Islamic Sciences, Karachi
                                 school: 1  // 1 = Hanafi, 0 = Shafi
+                        },
+                        API: {
+                                TIMINGS_BY_CITY: 'https://api.aladhan.com/v1/timingsByCity/'
+                        },
+                        SCHOOLS: {
+                                HANAFI: 1,
+                                SHAFI: 0
+                        },
+                        SCHOOL_NAMES: {
+                                1: 'Hanafi',
+                                0: 'Shafi'
+                        },
+                        STATUS: {
+                                LIVE: 'live',
+                                CACHED: 'cached',
+                                OFFLINE: 'offline'
+                        },
+                        STATUS_LABELS: {
+                                live: 'Live',
+                                cached: 'Cached',
+                                offline: 'Offline'
+                        },
+                        SHEETS: {
+                                MISSED_PRAYERS: {
+                                        iconClass: 'fa-solid fa-clipboard-list text-gr-accent',
+                                        title: 'Missed Prayers',
+                                        sub: 'From previous days (today excluded)'
+                                },
+                                PERIOD_INFO: {
+                                        iconClass: 'fa-solid fa-circle-info text-brand',
+                                        title: 'Period Info'
+                                },
+                                SET_OLD_PERIOD: {
+                                        iconClass: 'fa-solid fa-clock-rotate-left text-warning',
+                                        title: 'Set Old Period',
+                                        sub: ''
+                                }
                         },
                         STORAGE_KEYS: {
                                 TRACKER_DATA: 'namazTrackerData',
@@ -70,13 +104,20 @@
                 // Dashboard Constants
                 // ==========================================
                 DASHBOARD: {
-                        TIMELINE_ICONS: {
-                                Fajr: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M4.93 6.93l2.12 2.12M19.07 6.93l-2.12 2.12M2 17h20M17 17a5 5 0 0 0-10 0"/></svg>',
-                                Dhuhr: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>',
-                                Asr: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>',
-                                Maghrib: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M4.93 6.93l2.12 2.12M19.07 6.93l-2.12 2.12M2 17h20M17 17a5 5 0 0 0-10 0"/></svg>',
-                                Isha: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5a9.5 9.5 0 0 0 8.5 13.7 9.5 9.5 0 1 1-8.5-13.7z"/><polygon points="18.8 4 19.5 5.5 21 5.6 19.9 6.7 20.2 8.2 18.8 7.4 17.4 8.2 17.7 6.7 16.6 5.6 18.1 5.5"/></svg>'
-                        }
+                        TIMELINE_ICONS: PRAYER_FA_ICONS,
+                        STATUSES: {
+                                ACTIVE: 'active',
+                                PASSED: 'passed',
+                                NEXT: 'next',
+                                UPCOMING: 'upcoming'
+                        },
+                        STATUS_BADGES: {
+                                active: { className: 'badge-active', text: 'Active' },
+                                passed: { className: 'badge-passed', text: 'Passed' },
+                                next: { className: 'badge-next', text: 'Next' },
+                                upcoming: { className: 'badge-upcoming', text: 'Upcoming' }
+                        },
+                        CLOCK_INTERVAL_MS: 1000
                 },
 
                 // ==========================================
@@ -89,7 +130,39 @@
                                 PERIOD: 'app_tasbeeh_period',
                                 CURRENT_PERIOD: 'app_tasbeeh_current_period',
                                 BOOKMARK_CURRENT: 'app_tasbeeh_bookmark_current',
-                                BOOKMARK_OLD: 'app_tasbeeh_bookmark_old'
+                                BOOKMARK_OLD: 'app_tasbeeh_bookmark_old',
+                                CAL_COMPLETIONS: 'app_tasbeeh_cal_completions'
+                        },
+                        TABS: {
+                                HOME: 'home',
+                                CURRENT: 'current',
+                                OLD: 'old',
+                                HISTORY: 'history'
+                        },
+                        TAB_HEADERS: {
+                                home: {
+                                        iconClass: 'fa-solid fa-house text-brand',
+                                        label: 'Digital Tasbeeh',
+                                        sub: 'Home · Bookmarks'
+                                },
+                                current: {
+                                        iconClass: 'fa-regular fa-calendar text-brand',
+                                        label: 'Digital Tasbeeh'
+                                },
+                                old: {
+                                        iconClass: 'fa-solid fa-clock-rotate-left text-warning',
+                                        label: 'Old Tasbeeh'
+                                },
+                                history: {
+                                        iconClass: 'fa-solid fa-gear text-gr-accent',
+                                        label: 'Tasbeeh History',
+                                        sub: 'Period & Settings'
+                                }
+                        },
+                        PERIOD_PRESETS: {
+                                THIS_YEAR: 'this-year',
+                                LAST_6_MONTHS: '6-months',
+                                LAST_1_YEAR: '1-year'
                         },
                         DEFAULT_PRESETS: [
                                 { title: 'SubhanAllah', targetCount: 33, targetCycles: 3 },
@@ -135,6 +208,18 @@
                                 FAVS: 'quranDuas_favourites',
                                 PINS: 'quranDuas_pins'
                         },
+                        TABS: {
+                                HOME: 'home',
+                                DUAS: 'duas',
+                                FAVOURITES: 'favourites'
+                        },
+                        ICONS: {
+                                PINNED: '📌',
+                                UNPINNED: '📍',
+                                FAV: '❤️',
+                                UNFAV: '♡'
+                        },
+                        SEARCH_DEBOUNCE_MS: 80,
                         MAX_PINS: 2,
                         DEFAULT_DUAS: [
                                 {
@@ -844,6 +929,9 @@
                 // Settings Constants
                 // ==========================================
                 SETTINGS: {
+                        CUSTOM_CITY_VALUE: '__custom__',
+                        BASE_FONT_SIZE_PX: 16,
+                        DEFAULT_FONT_SIZE: 1,
                         INDIAN_CITIES: [
                                 { name: 'Guntur', state: 'Andhra Pradesh', group: 'Popular Andhra Pradesh Cities' },
                                 { name: 'Vijayawada', state: 'Andhra Pradesh', group: 'Popular Andhra Pradesh Cities' },
@@ -895,12 +983,58 @@
                                 settings: 'navSet',
                                 tasbeeh: 'navTasbeeh',
                                 duas: 'navDuas'
+                        },
+                        SUB_TABS: {
+                                CURRENT: 'current',
+                                OLD: 'old'
+                        },
+                        PAGE_MAP: {
+                                dashboard: 'dashboardPage',
+                                tracker: 'trackerPage',
+                                current: 'trackerPage',
+                                old: 'trackerPage',
+                                settings: 'settingsPage',
+                                tasbeeh: 'tasbeehPage',
+                                duas: 'duasPage'
+                        },
+                        TRACKER_HEADER: {
+                                current: {
+                                        iconClass: 'fa-regular fa-calendar text-gr-accent',
+                                        label: 'Current Prayer'
+                                },
+                                old: {
+                                        iconClass: 'fa-solid fa-clock-rotate-left text-warning',
+                                        label: 'Old Tracking'
+                                }
+                        },
+                        NAV_CLASSES: {
+                                ACTIVE: 'text-brand',
+                                INACTIVE: 'text-secondary',
+                                BAR: 'bg-brand rounded-pill nav-active-bar'
                         }
+                },
+
+                // ==========================================
+                // Common / UI / Date Constants
+                // ==========================================
+                COMMON: {
+                        TOAST_DURATION_MS: 2200,
+                        RIPPLE_DURATION_MS: 620,
+                        MS_PER_DAY: 864e5,
+                        MONTH_NAMES: [
+                                'January', 'February', 'March', 'April', 'May', 'June',
+                                'July', 'August', 'September', 'October', 'November', 'December'
+                        ]
                 }
         };
 
         // Alias DUAS to DUA for convenience
         CONSTANTS.DUAS = CONSTANTS.DUA;
+
+        // Alias DATE for convenience
+        CONSTANTS.DATE = {
+                MONTH_NAMES: CONSTANTS.COMMON.MONTH_NAMES
+        };
 
         // Expose CONSTANTS object globally
         window.CONSTANTS = CONSTANTS;
@@ -914,6 +1048,8 @@
         window.OK = CONSTANTS.PRAYER.STORAGE_KEYS.OLD_PERIOD;
         window.PTK_CACHE = CONSTANTS.PRAYER.STORAGE_KEYS.TIMINGS_CACHE;
         window.PTK_CONFIG = CONSTANTS.PRAYER.STORAGE_KEYS.CONFIG;
+        window.LIK = CONSTANTS.PRAYER.STORAGE_KEYS.LAST_INIT_DATE;
+        window.OIK = CONSTANTS.PRAYER.STORAGE_KEYS.OLD_INIT;
         window.defaultPrayerConfig = CONSTANTS.PRAYER.DEFAULT_CONFIG;
         window.T = CONSTANTS.PRAYER.DEFAULT_TIMINGS;
         window.I = CONSTANTS.PRAYER.FA_ICONS;
@@ -922,5 +1058,6 @@
         window.INDIAN_CITIES = CONSTANTS.SETTINGS.INDIAN_CITIES;
         window.PAGES = CONSTANTS.NAVIGATION.PAGES;
         window.NAVS = CONSTANTS.NAVIGATION.NAVS;
+        window.MONTH_NAMES = CONSTANTS.COMMON.MONTH_NAMES;
 
 })(window);

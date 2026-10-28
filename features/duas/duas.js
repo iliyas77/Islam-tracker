@@ -12,13 +12,22 @@ window.DuasApp = (function () {
     var STORAGE_KEY_FAVS = (DUA_CONSTANTS.STORAGE_KEYS && DUA_CONSTANTS.STORAGE_KEYS.FAVS) || 'quranDuas_favourites';
     var STORAGE_KEY_PINS = (DUA_CONSTANTS.STORAGE_KEYS && DUA_CONSTANTS.STORAGE_KEYS.PINS) || 'quranDuas_pins';
     var MAX_PINS = typeof DUA_CONSTANTS.MAX_PINS === 'number' ? DUA_CONSTANTS.MAX_PINS : 2;
+    var DUA_TABS = DUA_CONSTANTS.TABS || { HOME: 'home', DUAS: 'duas', FAVOURITES: 'favourites' };
+    var DUA_ICONS = DUA_CONSTANTS.ICONS || {
+        PINNED: '📌',
+        UNPINNED: '📍',
+        FAV: '❤️',
+        UNFAV: '♡'
+    };
+    var SEARCH_DEBOUNCE_MS = typeof DUA_CONSTANTS.SEARCH_DEBOUNCE_MS === 'number' ? DUA_CONSTANTS.SEARCH_DEBOUNCE_MS : 80;
+
     // ===== STATE =====
     var duasData = [];
     var favourites = [];
     var pins = [];
     var currentIndex = 0;
-    var activeTab = 'home'; // 'home' | 'duas' | 'favourites'
-    var detailOpenedFrom = 'home';
+    var activeTab = DUA_TABS.HOME; // 'home' | 'duas' | 'favourites'
+    var detailOpenedFrom = DUA_TABS.HOME;
     var pendingPinIndex = null;
     var searchDebounceTimer = null;
 
@@ -150,18 +159,18 @@ window.DuasApp = (function () {
             var surahLabel = getSurah(dua);
             var uchPreview = getUchcharana(dua);
 
-            return '<div class="dua-list-item" data-act="dua-open-detail" data-idx="' + realIndex + '" data-source="duas">' +
+            return '<div class="dua-list-item flex items-center" data-act="dua-open-detail" data-idx="' + realIndex + '" data-source="duas">' +
                 '<div class="dua-item-number">#' + String(dua.number).padStart(2, '0') + '</div>' +
-                '<div class="dua-item-content">' +
+                '<div class="dua-item-content flex-1 min-w-0">' +
                 '  <div class="dua-item-surah">' + escapeHtml(surahLabel) + '</div>' +
                 '  <div class="dua-item-preview">' + escapeHtml(uchPreview) + '</div>' +
                 '</div>' +
                 '<button type="button" class="dua-action-btn dua-pin-btn ' + (isPinned ? 'pinned' : '') + '"' +
                 ' data-act="dua-item-pin" data-idx="' + realIndex + '" title="' + (isPinned ? 'Unpin' : 'Pin to Home') + '">' +
-                (isPinned ? '📌' : '📍') +
+                (isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED) +
                 '</button>' +
                 '<button type="button" class="dua-action-btn" data-act="dua-item-fav" data-idx="' + realIndex + '" title="Toggle favourite">' +
-                (isFav ? '❤️' : '♡') +
+                (isFav ? DUA_ICONS.FAV : DUA_ICONS.UNFAV) +
                 '</button>' +
                 '</div>';
         }).join('');
@@ -191,18 +200,18 @@ window.DuasApp = (function () {
             var surahLabel = getSurah(dua);
             var uchPreview = getUchcharana(dua);
 
-            return '<div class="dua-list-item" data-act="dua-open-detail" data-idx="' + realIndex + '" data-source="favourites">' +
+            return '<div class="dua-list-item flex items-center" data-act="dua-open-detail" data-idx="' + realIndex + '" data-source="favourites">' +
                 '<div class="dua-item-number">#' + String(dua.number).padStart(2, '0') + '</div>' +
-                '<div class="dua-item-content">' +
+                '<div class="dua-item-content flex-1 min-w-0">' +
                 '  <div class="dua-item-surah">' + escapeHtml(surahLabel) + '</div>' +
                 '  <div class="dua-item-preview">' + escapeHtml(uchPreview) + '</div>' +
                 '</div>' +
                 '<button type="button" class="dua-action-btn dua-pin-btn ' + (isPinned ? 'pinned' : '') + '"' +
                 ' data-act="dua-item-pin" data-idx="' + realIndex + '" title="' + (isPinned ? 'Unpin' : 'Pin to Home') + '">' +
-                (isPinned ? '📌' : '📍') +
+                (isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED) +
                 '</button>' +
                 '<button type="button" class="dua-action-btn" data-act="dua-item-fav" data-idx="' + realIndex + '" title="Remove from favourites">' +
-                '❤️' +
+                DUA_ICONS.FAV +
                 '</button>' +
                 '</div>';
         }).join('');
@@ -234,7 +243,7 @@ window.DuasApp = (function () {
                 var uch = getUchcharana(dua);
                 var ard = getArdham(dua);
 
-                return '<div class="pinned-dua-card mb-3" data-act="dua-open-detail" data-idx="' + pinIndex + '" data-source="home">' +
+                return '<div class="pinned-dua-card flex flex-col mb-3" data-act="dua-open-detail" data-idx="' + pinIndex + '" data-source="home">' +
                     '<span class="pinned-badge">📌</span>' +
                     '<div class="pinned-dua-number">#' + String(dua.number).padStart(2, '0') + '</div>' +
                     '<div class="pinned-dua-surah">' + escapeHtml(surahLabel) + '</div>' +
@@ -295,10 +304,10 @@ window.DuasApp = (function () {
             if (!dua) return '';
             var surahLabel = getSurah(dua);
 
-            return '<button class="btn btn-outline-secondary w-100 text-start mb-2 d-flex align-items-center gap-2 justify-content-start" ' +
+            return '<button class="btn btn-outline-secondary w-100 text-start mb-2 flex items-center gap-2 justify-start" ' +
                 'type="button" data-act="dua-replace-pin" data-old-idx="' + p + '">' +
                 '<span>📌</span>' +
-                '<span class="flex-grow-1 text-truncate font-telugu">' +
+                '<span class="grow text-truncate font-telugu">' +
                 '#' + String(dua.number).padStart(2, '0') + ' — ' + escapeHtml(surahLabel) +
                 '</span>' +
                 '<span class="text-danger fw-bold ms-auto">Unpin</span>' +
@@ -406,7 +415,7 @@ window.DuasApp = (function () {
         if (!btn || !icon) return;
         var isFav = favourites.indexOf(currentIndex) !== -1;
         btn.classList.toggle('is-fav', isFav);
-        icon.textContent = isFav ? '❤️' : '♡';
+        icon.textContent = isFav ? DUA_ICONS.FAV : DUA_ICONS.UNFAV;
     }
 
     function updateDetailPinButton() {
@@ -415,7 +424,7 @@ window.DuasApp = (function () {
         if (!btn || !icon) return;
         var isPinned = pins.indexOf(currentIndex) !== -1;
         btn.classList.toggle('is-pinned', isPinned);
-        icon.textContent = isPinned ? '📌' : '📍';
+        icon.textContent = isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED;
     }
 
     function changeDua(direction) {
@@ -427,7 +436,7 @@ window.DuasApp = (function () {
 
     // ===== TAB SWITCH =====
     function switchTab(tab) {
-        activeTab = tab || 'home';
+        activeTab = tab || DUA_TABS.HOME;
 
         var subDetail = document.getElementById('duaSubDetail');
         if (subDetail) subDetail.classList.add('d-none');
@@ -445,29 +454,29 @@ window.DuasApp = (function () {
         var tabFavs = document.getElementById('duaTabFavs');
 
         if (tabPinned) {
-            tabPinned.classList.toggle('active', activeTab === 'home');
-            tabPinned.setAttribute('aria-selected', activeTab === 'home' ? 'true' : 'false');
+            tabPinned.classList.toggle('active', activeTab === DUA_TABS.HOME);
+            tabPinned.setAttribute('aria-selected', activeTab === DUA_TABS.HOME ? 'true' : 'false');
         }
         if (tabAll) {
-            tabAll.classList.toggle('active', activeTab === 'duas');
-            tabAll.setAttribute('aria-selected', activeTab === 'duas' ? 'true' : 'false');
+            tabAll.classList.toggle('active', activeTab === DUA_TABS.DUAS);
+            tabAll.setAttribute('aria-selected', activeTab === DUA_TABS.DUAS ? 'true' : 'false');
         }
         if (tabFavs) {
-            tabFavs.classList.toggle('active', activeTab === 'favourites');
-            tabFavs.setAttribute('aria-selected', activeTab === 'favourites' ? 'true' : 'false');
+            tabFavs.classList.toggle('active', activeTab === DUA_TABS.FAVOURITES);
+            tabFavs.setAttribute('aria-selected', activeTab === DUA_TABS.FAVOURITES ? 'true' : 'false');
         }
 
         var subHome = document.getElementById('duaSubHome');
         var subAll = document.getElementById('duaSubAll');
         var subFavs = document.getElementById('duaSubFavs');
 
-        if (subHome) subHome.classList.toggle('d-none', activeTab !== 'home');
-        if (subAll) subAll.classList.toggle('d-none', activeTab !== 'duas');
-        if (subFavs) subFavs.classList.toggle('d-none', activeTab !== 'favourites');
+        if (subHome) subHome.classList.toggle('d-none', activeTab !== DUA_TABS.HOME);
+        if (subAll) subAll.classList.toggle('d-none', activeTab !== DUA_TABS.DUAS);
+        if (subFavs) subFavs.classList.toggle('d-none', activeTab !== DUA_TABS.FAVOURITES);
 
-        if (activeTab === 'home') {
+        if (activeTab === DUA_TABS.HOME) {
             renderHome();
-        } else if (activeTab === 'duas') {
+        } else if (activeTab === DUA_TABS.DUAS) {
             renderList();
         } else {
             renderFavourites();
@@ -479,7 +488,7 @@ window.DuasApp = (function () {
         if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
         searchDebounceTimer = setTimeout(function () {
             renderList();
-        }, 80);
+        }, SEARCH_DEBOUNCE_MS);
     }
 
     // ===== ADD DUA MODAL =====
@@ -578,9 +587,9 @@ window.DuasApp = (function () {
 
         adminDuaList.innerHTML = duasData.map(function (dua, idx) {
             var surahLabel = getSurah(dua);
-            return '<div class="dua-admin-item">' +
+            return '<div class="dua-admin-item flex items-center">' +
                 '<span class="dua-item-number">#' + String(dua.number).padStart(2, '0') + '</span>' +
-                '<span class="admin-item-name">' + escapeHtml(surahLabel) + '</span>' +
+                '<span class="admin-item-name flex-1 text-truncate">' + escapeHtml(surahLabel) + '</span>' +
                 '<button type="button" class="dua-admin-del-btn" data-act="dua-del" data-idx="' + idx + '" title="Delete">🗑️</button>' +
                 '</div>';
         }).join('');

@@ -3,6 +3,18 @@
    Path: utilities/utility.js
    ============================================================ */
 
+/* ---------- Constants References ---------- */
+var PRAYER_KEYS = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS) || {};
+var LIK = PRAYER_KEYS.LAST_INIT_DATE || window.LIK || 'namazLastInitDate';
+var OIK = PRAYER_KEYS.OLD_INIT || window.OIK || 'namazOldPeriodInitialized';
+var COMMON_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.COMMON) || {};
+var TOAST_DURATION_MS = COMMON_CONSTANTS.TOAST_DURATION_MS || 2200;
+var RIPPLE_DURATION_MS = COMMON_CONSTANTS.RIPPLE_DURATION_MS || 620;
+var MS_PER_DAY = COMMON_CONSTANTS.MS_PER_DAY || 864e5;
+var BASE_FONT_SIZE_PX = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window.CONSTANTS.SETTINGS.BASE_FONT_SIZE_PX) || 16;
+var DEFAULT_FONT_SIZE = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window.CONSTANTS.SETTINGS.DEFAULT_FONT_SIZE) || 1;
+var CUSTOM_CITY_VALUE = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window.CONSTANTS.SETTINGS.CUSTOM_CITY_VALUE) || '__custom__';
+
 /* ---------- Helpers ---------- */
 function $(id) { return document.getElementById(id); }
 function getEl(id) { return document.getElementById(id); }
@@ -130,7 +142,7 @@ function friendly(ds) {
     var today = td();
     var d1 = new Date(today + 'T00:00:00');
     var d2 = new Date(ds + 'T00:00:00');
-    var diff = Math.round((d1 - d2) / 864e5);
+    var diff = Math.round((d1 - d2) / MS_PER_DAY);
     if (diff === 0) return 'Today';
     if (diff === 1) return 'Yesterday';
     if (diff === 2) return 'Day Before Yesterday';
@@ -176,14 +188,14 @@ function createRipple(e, container) {
     ripple.style.left = (clientX - rect.left - size / 2) + 'px';
     ripple.style.top = (clientY - rect.top - size / 2) + 'px';
     container.appendChild(ripple);
-    setTimeout(function () { ripple.remove(); }, 620);
+    setTimeout(function () { ripple.remove(); }, RIPPLE_DURATION_MS);
 }
 
 var _globalToastTimer = null;
 function showToast(message, duration, toastId) {
     var el = document.getElementById(toastId || 'tbToast');
     if (!el) return;
-    duration = duration || 2200;
+    duration = duration || TOAST_DURATION_MS;
     el.textContent = message;
     el.classList.remove('d-none');
     el.classList.add('show');
@@ -357,7 +369,7 @@ function migratePrayerData() {
 
 function ensureCurrentDateInitialized() {
     var today = td();
-    var lastInit = localStorage.getItem('namazLastInitDate');
+    var lastInit = localStorage.getItem(LIK);
     var a = rd();
 
     if (lastInit !== today) {
@@ -370,7 +382,7 @@ function ensureCurrentDateInitialized() {
             a[today] = initialPrayers;
             LS.set(K, a);
         }
-        localStorage.setItem('namazLastInitDate', today);
+        localStorage.setItem(LIK, today);
     }
 }
 
@@ -378,7 +390,7 @@ function ensureCurrentDateInitialized() {
 function rd() { return LS.get(K) || {}; }
 
 function gr(d) {
-    if (d === td() && localStorage.getItem('namazLastInitDate') !== td()) {
+    if (d === td() && localStorage.getItem(LIK) !== td()) {
         ensureCurrentDateInitialized();
     }
     var a = rd();
@@ -535,7 +547,7 @@ function ensureAllOldMissed() {
         o.initialEnd = o.end;
         wrOK(o);
     }
-    var initKey = localStorage.getItem('namazOldPeriodInitialized');
+    var initKey = localStorage.getItem(OIK);
     var expectedKey = String(o.created);
     var a = rdOC();
     var isDbEmpty = Object.keys(a).length === 0;
@@ -559,7 +571,7 @@ function ensureAllOldMissed() {
                 });
             }
         });
-        localStorage.setItem('namazOldPeriodInitialized', expectedKey);
+        localStorage.setItem(OIK, expectedKey);
         if (changed) LS.set(OCK, a);
     }
 }
@@ -619,12 +631,12 @@ function shrinkOldPeriod(completedDate) {
 /* ---------- Font size ---------- */
 function rdFS() {
     var v = parseFloat(localStorage.getItem(FK));
-    return v && v > 0 ? v : 1;
+    return v && v > 0 ? v : DEFAULT_FONT_SIZE;
 }
 
 function apFS(v) {
-    document.documentElement.style.fontSize = (16 * v) + 'px';
-    document.body.style.fontSize = (16 * v) + 'px';
+    document.documentElement.style.fontSize = (BASE_FONT_SIZE_PX * v) + 'px';
+    document.body.style.fontSize = (BASE_FONT_SIZE_PX * v) + 'px';
     localStorage.setItem(FK, String(v));
 }
 
@@ -745,7 +757,7 @@ function handleClick(e) {
         var city = '';
         var country = 'India';
         if (sel) {
-            if (sel.value === '__custom__') {
+            if (sel.value === CUSTOM_CITY_VALUE) {
                 var customInp = $('ptCustomCityInput');
                 city = customInp ? customInp.value.trim() : '';
                 var countryInp = $('ptCountryInput');
@@ -790,7 +802,7 @@ function handleClick(e) {
         if (en2 < s) { alert('End date must be after start date.'); return; }
         if (!confirm('Save Old Tracking Period from ' + fr(s) + ' to ' + fr(en2) + '?')) return;
         wrOK({ start: s, end: en2, initialEnd: en2, created: Date.now() });
-        localStorage.removeItem('namazOldPeriodInitialized');
+        localStorage.removeItem(OIK);
         ensureAllOldMissed();
         if (typeof setOldSd === 'function') setOldSd(en2);
         sheet2BS.hide();
@@ -802,7 +814,7 @@ function handleClick(e) {
         if (confirm('Clear the saved Old Tracking period and all its data?')) {
             localStorage.removeItem(OK);
             localStorage.removeItem(OCK);
-            localStorage.removeItem('namazOldPeriodInitialized');
+            localStorage.removeItem(OIK);
             if (typeof setOldSd === 'function') setOldSd(null);
             sheet2BS.hide();
             rOT();
@@ -812,8 +824,8 @@ function handleClick(e) {
             localStorage.removeItem(K);
             localStorage.removeItem(OCK);
             localStorage.removeItem(OK);
-            localStorage.removeItem('namazLastInitDate');
-            localStorage.removeItem('namazOldPeriodInitialized');
+            localStorage.removeItem(LIK);
+            localStorage.removeItem(OIK);
             if (typeof PTK_CACHE !== 'undefined') localStorage.removeItem(PTK_CACHE);
             sd = td();
             ensureCurrentDateInitialized();
@@ -955,4 +967,285 @@ function handleClick(e) {
 
 /* ---------- Input handlers ---------- */
 document.addEventListener('click', handleClick);
+
+/* ============================================================
+   NUR PRAYER - VANILLA UI COMPONENT ENGINE
+   Replaces Bootstrap Modal, Offcanvas & Collapse with 0 external dependencies
+   ============================================================ */
+(function (window) {
+    'use strict';
+
+    // 1. Modal Engine
+    function Modal(element, options) {
+        this.element = typeof element === 'string' ? document.querySelector(element) : element;
+        this.options = options || {};
+        if (this.element) {
+            this.element._uiModal = this;
+        }
+    }
+
+    Modal.prototype.show = function () {
+        if (!this.element) return;
+        var el = this.element;
+        el.style.display = 'flex';
+        // Force reflow for smooth animation
+        void el.offsetWidth;
+        el.classList.add('show');
+        el.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        try {
+            el.dispatchEvent(new CustomEvent('shown.bs.modal', { bubbles: true }));
+            el.dispatchEvent(new CustomEvent('shown', { bubbles: true }));
+        } catch (_) {}
+    };
+
+    Modal.prototype.hide = function () {
+        if (!this.element) return;
+        var el = this.element;
+        el.classList.remove('show');
+        el.setAttribute('aria-hidden', 'true');
+        setTimeout(function () {
+            if (!el.classList.contains('show')) {
+                el.style.display = 'none';
+            }
+        }, 220);
+        if (!document.querySelector('.modal.show') && !document.querySelector('.offcanvas.show')) {
+            document.body.classList.remove('modal-open');
+        }
+        try {
+            el.dispatchEvent(new CustomEvent('hidden.bs.modal', { bubbles: true }));
+            el.dispatchEvent(new CustomEvent('hidden', { bubbles: true }));
+        } catch (_) {}
+    };
+
+    Modal.prototype.toggle = function () {
+        if (!this.element) return;
+        if (this.element.classList.contains('show')) {
+            this.hide();
+        } else {
+            this.show();
+        }
+    };
+
+    Modal.getInstance = function (element) {
+        var el = typeof element === 'string' ? document.querySelector(element) : element;
+        return el ? el._uiModal || null : null;
+    };
+
+    Modal.getOrCreateInstance = function (element, options) {
+        return Modal.getInstance(element) || new Modal(element, options);
+    };
+
+    // 2. Offcanvas Engine
+    function getOrCreateOffcanvasBackdrop() {
+        var bd = document.getElementById('uiOffcanvasBackdrop');
+        if (!bd) {
+            bd = document.createElement('div');
+            bd.id = 'uiOffcanvasBackdrop';
+            bd.className = 'offcanvas-backdrop';
+            document.body.appendChild(bd);
+            bd.addEventListener('click', function () {
+                var openSheet = document.querySelector('.offcanvas.show');
+                if (openSheet) {
+                    var instance = Offcanvas.getInstance(openSheet);
+                    if (instance) instance.hide();
+                    else openSheet.classList.remove('show');
+                }
+            });
+        }
+        return bd;
+    }
+
+    function Offcanvas(element, options) {
+        this.element = typeof element === 'string' ? document.querySelector(element) : element;
+        this.options = options || {};
+        if (this.element) {
+            this.element._uiOffcanvas = this;
+        }
+    }
+
+    Offcanvas.prototype.show = function () {
+        if (!this.element) return;
+        var bd = getOrCreateOffcanvasBackdrop();
+        // Force reflow
+        void bd.offsetWidth;
+        bd.classList.add('show');
+        this.element.classList.add('show');
+        this.element.setAttribute('aria-modal', 'true');
+        this.element.setAttribute('role', 'dialog');
+        this.element.removeAttribute('aria-hidden');
+        document.body.classList.add('modal-open');
+        try {
+            this.element.dispatchEvent(new CustomEvent('shown.bs.offcanvas', { bubbles: true }));
+            this.element.dispatchEvent(new CustomEvent('shown', { bubbles: true }));
+        } catch (_) {}
+    };
+
+    Offcanvas.prototype.hide = function () {
+        if (!this.element) return;
+        this.element.classList.remove('show');
+        this.element.setAttribute('aria-hidden', 'true');
+        var bd = document.getElementById('uiOffcanvasBackdrop');
+        if (bd) bd.classList.remove('show');
+        if (!document.querySelector('.modal.show') && !document.querySelector('.offcanvas.show')) {
+            document.body.classList.remove('modal-open');
+        }
+        try {
+            this.element.dispatchEvent(new CustomEvent('hidden.bs.offcanvas', { bubbles: true }));
+            this.element.dispatchEvent(new CustomEvent('hidden', { bubbles: true }));
+        } catch (_) {}
+    };
+
+    Offcanvas.prototype.toggle = function () {
+        if (!this.element) return;
+        if (this.element.classList.contains('show')) {
+            this.hide();
+        } else {
+            this.show();
+        }
+    };
+
+    Offcanvas.getInstance = function (element) {
+        var el = typeof element === 'string' ? document.querySelector(element) : element;
+        return el ? el._uiOffcanvas || null : null;
+    };
+
+    Offcanvas.getOrCreateInstance = function (element, options) {
+        return Offcanvas.getInstance(element) || new Offcanvas(element, options);
+    };
+
+    // 3. Collapse Engine
+    function Collapse(element, options) {
+        this.element = typeof element === 'string' ? document.querySelector(element) : element;
+        this.options = options || {};
+        if (this.element) {
+            this.element._uiCollapse = this;
+        }
+    }
+
+    Collapse.prototype.show = function () {
+        if (!this.element) return;
+        this.element.classList.add('show');
+        try {
+            this.element.dispatchEvent(new CustomEvent('shown.bs.collapse', { bubbles: true }));
+            this.element.dispatchEvent(new CustomEvent('shown', { bubbles: true }));
+        } catch (_) {}
+    };
+
+    Collapse.prototype.hide = function () {
+        if (!this.element) return;
+        this.element.classList.remove('show');
+        try {
+            this.element.dispatchEvent(new CustomEvent('hidden.bs.collapse', { bubbles: true }));
+            this.element.dispatchEvent(new CustomEvent('hidden', { bubbles: true }));
+        } catch (_) {}
+    };
+
+    Collapse.prototype.toggle = function () {
+        if (!this.element) return;
+        if (this.element.classList.contains('show')) {
+            this.hide();
+        } else {
+            this.show();
+        }
+    };
+
+    Collapse.getInstance = function (element) {
+        var el = typeof element === 'string' ? document.querySelector(element) : element;
+        return el ? el._uiCollapse || null : null;
+    };
+
+    Collapse.getOrCreateInstance = function (element, options) {
+        return Collapse.getInstance(element) || new Collapse(element, options);
+    };
+
+    // 4. Global Event Delegation (Dismiss, Collapse Toggle, Escape, Backdrop Click)
+    document.addEventListener('click', function (e) {
+        // A. Dismiss Modal
+        var dismissModalBtn = e.target.closest('[data-bs-dismiss="modal"], [data-dismiss="modal"]');
+        if (dismissModalBtn) {
+            var modal = dismissModalBtn.closest('.modal');
+            if (modal) {
+                var inst = Modal.getOrCreateInstance(modal);
+                inst.hide();
+            }
+            return;
+        }
+
+        // B. Dismiss Offcanvas
+        var dismissOffcanvasBtn = e.target.closest('[data-bs-dismiss="offcanvas"], [data-dismiss="offcanvas"]');
+        if (dismissOffcanvasBtn) {
+            var offcanvas = dismissOffcanvasBtn.closest('.offcanvas');
+            if (offcanvas) {
+                var offInst = Offcanvas.getOrCreateInstance(offcanvas);
+                offInst.hide();
+            }
+            return;
+        }
+
+        // C. Toggle Collapse (Accordions)
+        var toggleCollapseBtn = e.target.closest('[data-bs-toggle="collapse"], [data-toggle="collapse"]');
+        if (toggleCollapseBtn) {
+            e.preventDefault();
+            var targetSelector = toggleCollapseBtn.getAttribute('data-bs-target') ||
+                toggleCollapseBtn.getAttribute('data-target') ||
+                toggleCollapseBtn.getAttribute('href');
+            if (targetSelector) {
+                var targetEl = document.querySelector(targetSelector);
+                if (targetEl) {
+                    var isExpanded = targetEl.classList.toggle('show');
+                    toggleCollapseBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+                    if (isExpanded) {
+                        toggleCollapseBtn.classList.remove('collapsed');
+                    } else {
+                        toggleCollapseBtn.classList.add('collapsed');
+                    }
+                    try {
+                        targetEl.dispatchEvent(new CustomEvent(isExpanded ? 'shown.bs.collapse' : 'hidden.bs.collapse', { bubbles: true }));
+                    } catch (_) {}
+                }
+            }
+            return;
+        }
+
+        // D. Backdrop click directly on Modal overlay
+        if (e.target.classList.contains('modal')) {
+            var mInst = Modal.getInstance(e.target);
+            if (mInst) mInst.hide();
+            else e.target.classList.remove('show');
+        }
+    });
+
+    // Escape Key Listener
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' || e.keyCode === 27) {
+            var openModal = document.querySelector('.modal.show');
+            if (openModal) {
+                var mInst = Modal.getInstance(openModal);
+                if (mInst) mInst.hide();
+                else openModal.classList.remove('show');
+                return;
+            }
+            var openOffcanvas = document.querySelector('.offcanvas.show');
+            if (openOffcanvas) {
+                var oInst = Offcanvas.getInstance(openOffcanvas);
+                if (oInst) oInst.hide();
+                else openOffcanvas.classList.remove('show');
+            }
+        }
+    });
+
+    // Standalone UI namespaces
+    window.UIModal = Modal;
+    window.UIOffcanvas = Offcanvas;
+    window.UICollapse = Collapse;
+
+    // Full compatibility shim for existing window.bootstrap references
+    window.bootstrap = {
+        Modal: Modal,
+        Offcanvas: Offcanvas,
+        Collapse: Collapse
+    };
+
+})(window);
 

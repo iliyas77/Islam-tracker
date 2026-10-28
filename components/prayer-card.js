@@ -6,6 +6,10 @@
 
 
 var PRAYER_CARD_ICONS = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.CARD_ICONS) || window.PRAYER_CARD_ICONS || {};
+var MONTH_NAMES = (window.CONSTANTS && ((window.CONSTANTS.COMMON && window.CONSTANTS.COMMON.MONTH_NAMES) || (window.CONSTANTS.DATE && window.CONSTANTS.DATE.MONTH_NAMES))) || window.MONTH_NAMES || [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+];
 
 
 function parseTimeToMin(timeStr) {
@@ -53,10 +57,9 @@ function formatChipDate(dateStr) {
     if (!dateStr) return '';
     var d = new Date(dateStr + 'T00:00:00');
     var day = d.getDate();
-    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var currentYear = new Date().getFullYear();
     var yearStr = d.getFullYear() !== currentYear ? (' ' + d.getFullYear()) : '';
-    return day + ' ' + months[d.getMonth()] + yearStr;
+    return day + ' ' + MONTH_NAMES[d.getMonth()] + yearStr;
 }
 
 /**
@@ -84,31 +87,31 @@ function renderPrayerTrackerRow(opts) {
     var prefix = opts.pagePrefix || 'page.current';
 
     if (isDone) {
-        return '<li class="prayer-row prayer-row-done" data-ref="' + prefix + '.row.' + pLower + '">' +
-            '  <div class="prayer-meta" data-ref="' + prefix + '.row.' + pLower + '.meta">' +
-            '    <div class="icon-avatar icon-done" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
+        return '<li class="prayer-row prayer-row-done flex items-center justify-between" data-ref="' + prefix + '.row.' + pLower + '">' +
+            '  <div class="prayer-meta flex items-center" data-ref="' + prefix + '.row.' + pLower + '.meta">' +
+            '    <div class="icon-avatar icon-done flex items-center justify-center shrink-0" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
             PRAYER_CARD_ICONS.DoneCheck +
             '    </div>' +
-            '    <div class="prayer-details" data-ref="' + prefix + '.row.' + pLower + '.details">' +
-            '      <div class="title-wrap" data-ref="' + prefix + '.row.' + pLower + '.title-wrap">' +
+            '    <div class="prayer-details flex flex-col" data-ref="' + prefix + '.row.' + pLower + '.details">' +
+            '      <div class="title-wrap flex items-baseline" data-ref="' + prefix + '.row.' + pLower + '.title-wrap">' +
             '        <span class="prayer-name" data-ref="' + prefix + '.row.' + pLower + '.name">' + p + '</span>' +
             '      </div>' +
             '      <time class="prayer-time" data-ref="' + prefix + '.row.' + pLower + '.time">' + time + '</time>' +
             '    </div>' +
             '  </div>' +
-            '  <button type="button" class="btn-action btn-completed" data-act="' + act + '" data-p="' + p + '"' + dateAttr + ' data-ref="' + prefix + '.row.' + pLower + '.action-btn" title="Tap to mark missed">' +
+            '  <button type="button" class="btn-action btn-completed inline-flex items-center" data-act="' + act + '" data-p="' + p + '"' + dateAttr + ' data-ref="' + prefix + '.row.' + pLower + '.action-btn" title="Tap to mark missed">' +
             PRAYER_CARD_ICONS.DoneCheckSm +
             'Done' +
             '  </button>' +
             '</li>';
     } else if (isUpcoming) {
-        return '<li class="prayer-row prayer-row-upcoming" data-ref="' + prefix + '.row.' + pLower + '">' +
-            '  <div class="prayer-meta" data-ref="' + prefix + '.row.' + pLower + '.meta">' +
-            '    <div class="icon-avatar" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
+        return '<li class="prayer-row prayer-row-upcoming flex items-center justify-between" data-ref="' + prefix + '.row.' + pLower + '">' +
+            '  <div class="prayer-meta flex items-center" data-ref="' + prefix + '.row.' + pLower + '.meta">' +
+            '    <div class="icon-avatar flex items-center justify-center shrink-0" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
             (PRAYER_CARD_ICONS[p] || PRAYER_CARD_ICONS.Dhuhr) +
             '    </div>' +
-            '    <div class="prayer-details" data-ref="' + prefix + '.row.' + pLower + '.details">' +
-            '      <div class="title-wrap" data-ref="' + prefix + '.row.' + pLower + '.title-wrap">' +
+            '    <div class="prayer-details flex flex-col" data-ref="' + prefix + '.row.' + pLower + '.details">' +
+            '      <div class="title-wrap flex items-baseline" data-ref="' + prefix + '.row.' + pLower + '.title-wrap">' +
             '        <span class="prayer-name" data-ref="' + prefix + '.row.' + pLower + '.name">' + p + '</span>' +
             '      </div>' +
             '      <time class="prayer-time" data-ref="' + prefix + '.row.' + pLower + '.time">' + time + '</time>' +
@@ -117,13 +120,13 @@ function renderPrayerTrackerRow(opts) {
             '  <button type="button" class="btn-action btn-upcoming" disabled aria-disabled="true" data-ref="' + prefix + '.row.' + pLower + '.action-btn">Upcoming</button>' +
             '</li>';
     } else if (isMissed) {
-        return '<li class="prayer-row prayer-row-missed" data-ref="' + prefix + '.row.' + pLower + '">' +
-            '  <div class="prayer-meta" data-ref="' + prefix + '.row.' + pLower + '.meta">' +
-            '    <div class="icon-avatar icon-missed" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
+        return '<li class="prayer-row prayer-row-missed flex items-center justify-between" data-ref="' + prefix + '.row.' + pLower + '">' +
+            '  <div class="prayer-meta flex items-center" data-ref="' + prefix + '.row.' + pLower + '.meta">' +
+            '    <div class="icon-avatar icon-missed flex items-center justify-center shrink-0" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
             (PRAYER_CARD_ICONS[p] || PRAYER_CARD_ICONS.Dhuhr) +
             '    </div>' +
-            '    <div class="prayer-details" data-ref="' + prefix + '.row.' + pLower + '.details">' +
-            '      <div class="title-wrap" data-ref="' + prefix + '.row.' + pLower + '.title-wrap">' +
+            '    <div class="prayer-details flex flex-col" data-ref="' + prefix + '.row.' + pLower + '.details">' +
+            '      <div class="title-wrap flex items-baseline" data-ref="' + prefix + '.row.' + pLower + '.title-wrap">' +
             '        <span class="prayer-name" data-ref="' + prefix + '.row.' + pLower + '.name">' + p + '</span>' +
             '      </div>' +
             '      <time class="prayer-time" data-ref="' + prefix + '.row.' + pLower + '.time">' + time + '</time>' +
@@ -132,17 +135,17 @@ function renderPrayerTrackerRow(opts) {
             '  <button type="button" class="btn-action btn-action-missed" data-act="' + act + '" data-p="' + p + '"' + dateAttr + ' data-ref="' + prefix + '.row.' + pLower + '.action-btn">Mark Done</button>' +
             '</li>';
     } else {
-        var rowClass = isCurrent ? 'prayer-row prayer-row-current' : 'prayer-row';
-        var avatarClass = isCurrent ? 'icon-avatar icon-current' : 'icon-avatar';
+        var rowClass = isCurrent ? 'prayer-row prayer-row-current flex items-center justify-between' : 'prayer-row flex items-center justify-between';
+        var avatarClass = isCurrent ? 'icon-avatar icon-current flex items-center justify-center shrink-0' : 'icon-avatar flex items-center justify-center shrink-0';
         var btnClass = isCurrent ? 'btn-action btn-action-primary' : 'btn-action';
 
         return '<li class="' + rowClass + '" data-ref="' + prefix + '.row.' + pLower + '">' +
-            '  <div class="prayer-meta" data-ref="' + prefix + '.row.' + pLower + '.meta">' +
+            '  <div class="prayer-meta flex items-center" data-ref="' + prefix + '.row.' + pLower + '.meta">' +
             '    <div class="' + avatarClass + '" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
             (PRAYER_CARD_ICONS[p] || PRAYER_CARD_ICONS.Dhuhr) +
             '    </div>' +
-            '    <div class="prayer-details" data-ref="' + prefix + '.row.' + pLower + '.details">' +
-            '      <div class="title-wrap" data-ref="' + prefix + '.row.' + pLower + '.title-wrap">' +
+            '    <div class="prayer-details flex flex-col" data-ref="' + prefix + '.row.' + pLower + '.details">' +
+            '      <div class="title-wrap flex items-baseline" data-ref="' + prefix + '.row.' + pLower + '.title-wrap">' +
             '        <span class="prayer-name" data-ref="' + prefix + '.row.' + pLower + '.name">' + p + '</span>' +
             '      </div>' +
             '      <time class="prayer-time" data-ref="' + prefix + '.row.' + pLower + '.time">' + time + '</time>' +
@@ -239,39 +242,39 @@ function renderPrayerTrackerCard(cfg) {
         rightSideHtml = '<button type="button" class="btn-text"' + actionBtnActAttr + ' data-ref="' + prefix + '.card.header.action-btn">' + cfg.actionBtnText + '</button>';
     }
 
-    return '<div class="prayer-tracker-card mx-auto" data-ref="' + prefix + '.card">' +
+    return '<div class="prayer-tracker-card flex flex-col mx-auto" data-ref="' + prefix + '.card">' +
         '  <!-- Header: Date & Global Actions -->' +
-        '  <header class="tracker-header" data-ref="' + prefix + '.card.header">' +
-        '    <button type="button" class="date-chip"' + dateChipActAttr + ' aria-label="Select date" data-ref="' + prefix + '.card.header.date-chip">' +
+        '  <header class="tracker-header flex items-center justify-between" data-ref="' + prefix + '.card.header">' +
+        '    <button type="button" class="date-chip inline-flex items-center"' + dateChipActAttr + ' aria-label="Select date" data-ref="' + prefix + '.card.header.date-chip">' +
         PRAYER_CARD_ICONS.Calendar +
         '      <span data-ref="' + prefix + '.card.header.date-text">' + (cfg.dateChipText || '') + '</span>' +
         '    </button>' +
-        '    <div class="header-status" data-ref="' + prefix + '.card.header.status">' +
+        '    <div class="header-status flex items-center" data-ref="' + prefix + '.card.header.status">' +
         rightSideHtml +
         '    </div>' +
         '  </header>' +
 
         '  <!-- Section 1: Missed / Pending Prayers -->' +
-        '  <section class="prayer-group" data-ref="' + prefix + '.card.missed-group">' +
-        '    <button type="button" class="group-toggle" data-bs-toggle="collapse" data-bs-target="#' + cPrefix + 'MissedList" aria-expanded="true" data-ref="' + prefix + '.card.missed-group.toggle">' +
+        '  <section class="prayer-group flex flex-col" data-ref="' + prefix + '.card.missed-group">' +
+        '    <button type="button" class="group-toggle flex items-center" data-bs-toggle="collapse" data-bs-target="#' + cPrefix + 'MissedList" aria-expanded="true" data-ref="' + prefix + '.card.missed-group.toggle">' +
         '      <span class="toggle-icon" data-ref="' + prefix + '.card.missed-group.icon">▼</span>' +
         '      <span class="section-title" data-ref="' + prefix + '.card.missed-group.title">' + missedTitle + ' (' + missed.length + ')</span>' +
         '    </button>' +
         '    <div class="collapse show" id="' + cPrefix + 'MissedList" data-ref="' + prefix + '.card.missed-group.collapse">' +
-        '      <ul class="prayer-list" data-ref="' + prefix + '.card.missed-group.list">' +
+        '      <ul class="prayer-list flex flex-col" data-ref="' + prefix + '.card.missed-group.list">' +
         missedRowsHtml +
         '      </ul>' +
         '    </div>' +
         '  </section>' +
 
         '  <!-- Section 2: Completed Prayers -->' +
-        '  <section class="prayer-group" data-ref="' + prefix + '.card.done-group">' +
-        '    <button type="button" class="group-toggle" data-bs-toggle="collapse" data-bs-target="#' + cPrefix + 'DoneList" aria-expanded="true" data-ref="' + prefix + '.card.done-group.toggle">' +
+        '  <section class="prayer-group flex flex-col" data-ref="' + prefix + '.card.done-group">' +
+        '    <button type="button" class="group-toggle flex items-center" data-bs-toggle="collapse" data-bs-target="#' + cPrefix + 'DoneList" aria-expanded="true" data-ref="' + prefix + '.card.done-group.toggle">' +
         '      <span class="toggle-icon" data-ref="' + prefix + '.card.done-group.icon">▼</span>' +
         '      <span class="section-title" data-ref="' + prefix + '.card.done-group.title">DONE (' + done.length + ')</span>' +
         '    </button>' +
         '    <div class="collapse show" id="' + cPrefix + 'DoneList" data-ref="' + prefix + '.card.done-group.collapse">' +
-        '      <ul class="prayer-list" data-ref="' + prefix + '.card.done-group.list">' +
+        '      <ul class="prayer-list flex flex-col" data-ref="' + prefix + '.card.done-group.list">' +
         doneRowsHtml +
         '      </ul>' +
         '    </div>' +

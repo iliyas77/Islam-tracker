@@ -26,23 +26,27 @@ function rOldInfo() {
 
     var perPrayerHtml = P.map(function (p) {
         var c = perPrayer[p];
-        return '<div class="d-flex justify-content-between align-items-center py-2 px-3 rounded-3 mb-2 bg-body-tertiary">' +
-            '<div class="d-flex align-items-center gap-2"><span class="fs-4">' + I[p] + '</span>' +
+        return '<div class="flex justify-between items-center py-2 px-3 rounded-3 mb-2 bg-surface">' +
+            '<div class="flex items-center gap-2"><span class="fs-4">' + I[p] + '</span>' +
             '<span class="fw-bold fs-6">' + p + '</span></div>' +
-            '<span class="badge rounded-pill ' + (c > 0 ? 'text-bg-danger' : 'text-bg-success') +
+            '<span class="badge rounded-pill ' + (c > 0 ? 'bg-danger text-white' : 'bg-brand text-white') +
             ' px-3 py-2 small">' + c + ' missed</span></div>';
     }).join('');
 
-    $('sheet2Icon').className = 'fa-solid fa-circle-info text-primary';
-    $('sheet2Title').textContent = 'Period Info';
+    var sheetCfg = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.SHEETS && window.CONSTANTS.PRAYER.SHEETS.PERIOD_INFO) || {
+        iconClass: 'fa-solid fa-circle-info text-brand',
+        title: 'Period Info'
+    };
+    $('sheet2Icon').className = sheetCfg.iconClass;
+    $('sheet2Title').textContent = sheetCfg.title;
     $('sheet2Sub').textContent = isAllCompleted ? (fr(o.start) + ' → Complete') : (fr(o.start) + ' → ' + fr(o.end));
 
     $('sheet2Body').innerHTML =
-        '<div class="d-flex flex-column gap-2">' +
-        '<div class="card rounded-4 p-3 bg-primary-subtle">' +
-        '<div class="d-flex align-items-center gap-2 mb-3">' +
-        '<i class="fa-regular fa-calendar-check fs-4 text-primary"></i>' +
-        '<strong class="fs-5 text-primary">Current Period</strong>' +
+        '<div class="flex flex-col gap-2">' +
+        '<div class="card rounded-4 p-3 bg-brand-light">' +
+        '<div class="flex items-center gap-2 mb-3">' +
+        '<i class="fa-regular fa-calendar-check fs-4 text-brand"></i>' +
+        '<strong class="fs-5 text-brand">Current Period</strong>' +
         '</div>' +
         '<div class="row g-2">' +
         '<div class="col-6"><div class="p-3 rounded-3 text-center bg-white">' +
@@ -54,26 +58,26 @@ function rOldInfo() {
         '</div>' +
         '</div>' +
         '<div class="card rounded-4 p-3 bg-white">' +
-        '<div class="d-flex align-items-center gap-2 mb-3">' +
-        '<i class="fa-solid fa-chart-simple fs-5 text-primary"></i>' +
+        '<div class="flex items-center gap-2 mb-3">' +
+        '<i class="fa-solid fa-chart-simple fs-5 text-brand"></i>' +
         '<strong class="text-dark">Summary</strong>' +
         '</div>' +
         '<div class="row g-2 mb-3">' +
-        '<div class="col-6"><div class="p-3 rounded-3 text-center bg-body-tertiary">' +
+        '<div class="col-6"><div class="p-3 rounded-3 text-center bg-surface">' +
         '<div class="text-muted small fw-bold text-uppercase">Total Days</div>' +
         '<div class="fw-bold fs-4 text-warning">' + totalDays + '</div></div></div>' +
-        '<div class="col-6"><div class="p-3 rounded-3 text-center bg-body-tertiary">' +
+        '<div class="col-6"><div class="p-3 rounded-3 text-center bg-surface">' +
         '<div class="text-muted small fw-bold text-uppercase">Total Missed</div>' +
         '<div class="fw-bold fs-4 text-danger">' + totalMissed + '</div></div></div>' +
         '</div>' +
         '<div class="row g-2">' +
-        '<div class="col-12"><div class="p-3 rounded-3 text-center bg-body-tertiary">' +
+        '<div class="col-12"><div class="p-3 rounded-3 text-center bg-surface">' +
         '<div class="text-muted small fw-bold text-uppercase">Days Missed</div>' +
         '<div class="fw-bold fs-4 text-danger">' + daysMissed + '</div></div></div>' +
         '</div>' +
         '</div>' +
         '<div class="card rounded-4 p-3 bg-white">' +
-        '<div class="d-flex align-items-center gap-2 mb-2">' +
+        '<div class="flex items-center gap-2 mb-2">' +
         '<i class="fa-solid fa-list-check fs-5 text-warning"></i>' +
         '<strong class="text-dark">Per Prayer Breakdown</strong>' +
         '</div>' +
@@ -86,37 +90,42 @@ function rOldInfo() {
 }
 
 function rPeriod() {
-    $('sheet2Icon').className = 'fa-solid fa-clock-rotate-left text-warning';
-    $('sheet2Title').textContent = 'Set Old Period';
-    $('sheet2Sub').textContent = '';
+    var sheetCfg = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.SHEETS && window.CONSTANTS.PRAYER.SHEETS.SET_OLD_PERIOD) || {
+        iconClass: 'fa-solid fa-clock-rotate-left text-warning',
+        title: 'Set Old Period',
+        sub: ''
+    };
+    $('sheet2Icon').className = sheetCfg.iconClass;
+    $('sheet2Title').textContent = sheetCfg.title;
+    $('sheet2Sub').textContent = sheetCfg.sub;
     var o = rdOK();
     var hasValidPeriod = o && o.end >= o.start;
     $('sheet2Body').innerHTML =
-        '<div class="d-flex flex-column gap-2">' +
+        '<div class="flex flex-col gap-2">' +
         '<div class="card rounded-4 p-3 bg-warning-subtle">' +
         '<div class="mb-3">' +
         '<label class="form-label fw-bold">' +
-        '<i class="fa-regular fa-calendar me-1 text-success"></i>Start date</label>' +
+        '<i class="fa-regular fa-calendar me-1 text-brand"></i>Start date</label>' +
         '<input type="date" class="form-control form-control-lg" id="oldStart" value="' +
         (o ? o.start : '') + '" max="' + td() + '">' +
         '</div>' +
         '<div class="mb-3">' +
         '<label class="form-label fw-bold">' +
-        '<i class="fa-regular fa-calendar-check me-1 text-success"></i>End date</label>' +
+        '<i class="fa-regular fa-calendar-check me-1 text-brand"></i>End date</label>' +
         '<input type="date" class="form-control form-control-lg" id="oldEnd" value="' +
         (hasValidPeriod ? (o.initialEnd || o.end) : (o ? o.end : '')) + '" max="' + td() + '">' +
         '</div>' +
-        '<div class="d-flex gap-2">' +
-        '<button class="btn btn-brand flex-fill fw-bold py-2 fs-5" data-act="old-save" type="button">' +
+        '<div class="flex gap-2">' +
+        '<button class="btn btn-brand flex-1 fw-bold py-2 fs-5" data-act="old-save" type="button">' +
         '<i class="fa-solid fa-check me-1"></i>Save Period</button>' +
         (o ? '<button class="btn btn-outline-danger fw-bold px-3" data-act="old-clear" type="button">' +
             '<i class="fa-solid fa-trash"></i></button>' : '') +
         '</div>' +
         '</div>' +
         (hasValidPeriod
-            ? '<div class="card rounded-4 p-3 bg-success-subtle">' +
-            '<div class="d-flex align-items-center gap-2">' +
-            '<i class="fa-solid fa-circle-info text-success"></i>' +
+            ? '<div class="card rounded-4 p-3 bg-brand-light">' +
+            '<div class="flex items-center gap-2">' +
+            '<i class="fa-solid fa-circle-info text-brand"></i>' +
             '<div class="small">Current period: <strong>' + fr(o.start) +
             '</strong> to <strong>' + fr(o.end) + '</strong></div>' +
             '</div></div>'
@@ -177,7 +186,7 @@ function rOT() {
     if (o.end < o.start) {
         sub.textContent = 'All days completed';
         lst.innerHTML = '<div class="text-center text-muted py-5 px-3 bg-white rounded-4 shadow-sm" data-ref="page.old.all-completed">' +
-            '<i class="fa-solid fa-circle-check display-4 mb-3 text-success"></i>' +
+            '<i class="fa-solid fa-circle-check display-4 mb-3 text-brand"></i>' +
             '<p class="fw-bold mb-2 text-gr-accent">All days complete!</p>' +
             '<p class="text-muted small mb-0">The Old Tracking period has been fully cleared.</p>' +
             '<button type="button" class="btn btn-brand btn-sm mt-3 fw-bold" data-act="old-change-period"><i class="fa-regular fa-calendar-plus me-1"></i>Set Period</button>' +

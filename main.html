@@ -8,64 +8,61 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;700&family=Noto+Sans+Telugu:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link href="css/color.css" rel="stylesheet">
+    <link href="css/utility.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
 
-    <div class="container p-0 position-relative mx-auto" id="app">
+    <div class="container p-0 position-relative mx-auto flex flex-col h-100" id="app">
 
         <!-- Dashboard / Home Page -->
-        <div id="dashboardPage" class="d-flex flex-column flex-grow-1 page">
-            <header class="app-header d-none" data-ref="page.dashboard.header">
-                <h1 class="brand-title" data-ref="page.dashboard.header.title">NUR PRAYER</h1>
-            </header>
-            <div class="flex-grow-1 overflow-auto p-0 position-relative" id="dashScroll">
+        <div id="dashboardPage" class="flex flex-col grow page">
+            <div class="grow overflow-auto p-0 position-relative" id="dashScroll">
                 <div id="dashBody"></div>
             </div>
         </div>
 
         <!-- Prayer Tracker Page (Combined Current & Old) -->
-        <div id="trackerPage" class="d-none flex-column flex-grow-1 page" data-ref="page.tracker">
+        <div id="trackerPage" class="d-none flex-col grow page" data-ref="page.tracker">
             <header class="app-header" data-ref="page.tracker.header">
-                <div class="d-flex align-items-center justify-content-between min-w-0 min-h-44">
-                    <div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1">
-                        <button type="button" class="btn-sheet-back" data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.tracker.back-btn">
+                <div class="flex items-center justify-between min-w-0 min-h-44">
+                    <div class="flex items-center gap-2 min-w-0 grow">
+                        <button type="button" class="btn-sheet-back flex items-center justify-center shrink-0" data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.tracker.back-btn">
                             <i class="fa-solid fa-arrow-left fs-5"></i>
                         </button>
-                        <div class="min-w-0 flex-grow-1">
-                            <h5 class="page-title mb-0" id="trackerHeaderTitle">
+                        <div class="min-w-0 grow">
+                            <h5 class="page-title flex items-center gap-2 mb-0" id="trackerHeaderTitle">
                                 <i class="fa-regular fa-calendar text-gr-accent" id="trackerHeaderIcon"></i>
                                 <span id="trackerHeaderLabel">Current Prayer</span>
                             </h5>
                             <div id="oldSub" class="page-sub d-none">Select a period to begin</div>
                         </div>
                     </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <button type="button" class="btn-action-round position-relative" id="currentMissedBtn" data-act="missed-open" title="Missed Prayers" aria-label="Missed Prayers" data-ref="page.current.card.header.badge">
+                    <div class="flex items-center gap-2">
+                        <button type="button" class="btn-action-round flex items-center justify-center shrink-0 position-relative" id="currentMissedBtn" data-act="missed-open" title="Missed Prayers" aria-label="Missed Prayers" data-ref="page.current.card.header.badge">
                             <i class="fa-solid fa-triangle-exclamation fs-5" data-ref="page.current.card.header.badge-icon"></i>
-                            <span class="btn-action-badge d-none" id="currentMissedBadge" data-ref="page.current.card.header.badge-count"></span>
+                            <span class="btn-action-badge inline-flex items-center justify-center d-none" id="currentMissedBadge" data-ref="page.current.card.header.badge-count"></span>
                         </button>
-                        <button type="button" class="btn-action-round d-none" id="oldActionBtn" data-act="old-info" title="Period Summary" aria-label="Period Summary" data-ref="page.old.header.summary-btn page.old.card.header.summary-btn">
+                        <button type="button" class="btn-action-round flex items-center justify-center shrink-0 d-none" id="oldActionBtn" data-act="old-info" title="Period Summary" aria-label="Period Summary" data-ref="page.old.header.summary-btn page.old.card.header.summary-btn">
                             <i class="fa-solid fa-chart-simple fs-5"></i>
                         </button>
                     </div>
                 </div>
             </header>
 
-            <div class="flex-grow-1 overflow-auto px-2 pt-2 pb-3" id="currentBody" data-ref="page.current.body"></div>
-            <div class="flex-grow-1 overflow-auto px-2 pt-2 pb-3 d-none" id="oldBody" data-ref="page.old.body"></div>
+            <div class="grow overflow-auto px-2 pt-2 pb-3" id="currentBody" data-ref="page.current.body"></div>
+            <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="oldBody" data-ref="page.old.body"></div>
 
             <!-- Bottom Navigation -->
-            <nav class="app-bottom-nav flex-shrink-0 d-flex align-items-center justify-content-around px-2 border-top" id="trackerBottomNav" data-ref="page.tracker.bottom-nav">
-                <button type="button" class="nav-tab active" id="tabTrackCurrent" data-act="switch-track-current" role="tab" aria-selected="true" data-ref="page.tracker.tab-current">
+            <nav class="app-bottom-nav shrink-0 flex items-center justify-around px-2 border-top" id="trackerBottomNav" data-ref="page.tracker.bottom-nav">
+                <button type="button" class="nav-tab flex-1 flex flex-col items-center justify-center active" id="tabTrackCurrent" data-act="switch-track-current" role="tab" aria-selected="true" data-ref="page.tracker.tab-current">
                     <i class="fa-regular fa-calendar"></i>
                     <span>Current</span>
                 </button>
-                <button type="button" class="nav-tab" id="tabTrackOld" data-act="switch-track-old" role="tab" aria-selected="false" data-ref="page.tracker.tab-old">
+                <button type="button" class="nav-tab flex-1 flex flex-col items-center justify-center" id="tabTrackOld" data-act="switch-track-old" role="tab" aria-selected="false" data-ref="page.tracker.tab-old">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <span>Old</span>
                 </button>
@@ -73,24 +70,24 @@
         </div>
 
         <!-- Settings Page -->
-        <div id="settingsPage" class="d-none flex-column flex-grow-1 page" data-ref="page.settings">
-            <header class="app-header d-flex align-items-center gap-2" data-ref="page.settings.header">
-                <button type="button" class="btn-sheet-back" data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.settings.back-btn">
+        <div id="settingsPage" class="d-none flex-col grow page" data-ref="page.settings">
+            <header class="app-header flex items-center gap-2" data-ref="page.settings.header">
+                <button type="button" class="btn-sheet-back flex items-center justify-center shrink-0" data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.settings.back-btn">
                     <i class="fa-solid fa-arrow-left fs-5"></i>
                 </button>
-                <div class="flex-grow-1 min-w-0">
-                    <h5 class="page-title">
+                <div class="grow min-w-0">
+                    <h5 class="page-title flex items-center gap-2 mb-0">
                         <i class="fa-solid fa-gear text-gr-accent"></i>
                         <span>Settings</span>
                     </h5>
                     <div class="page-sub">App preferences</div>
                 </div>
             </header>
-            <div class="flex-grow-1 overflow-auto p-2 pb-3" id="settingsBody" data-ref="page.settings.body"></div>
+            <div class="grow overflow-auto p-2 pb-3" id="settingsBody" data-ref="page.settings.body"></div>
 
             <!-- Bottom Navigation -->
-            <nav class="app-bottom-nav flex-shrink-0 d-flex align-items-center justify-content-around px-2 border-top" id="settingsBottomNav" data-ref="page.settings.bottom-nav">
-                <button type="button" class="nav-tab active" id="tabSettings" data-act="goto-settings" role="tab" aria-selected="true" data-ref="page.settings.tab">
+            <nav class="app-bottom-nav shrink-0 flex items-center justify-around px-2 border-top" id="settingsBottomNav" data-ref="page.settings.bottom-nav">
+                <button type="button" class="nav-tab flex-1 flex flex-col items-center justify-center active" id="tabSettings" data-act="goto-settings" role="tab" aria-selected="true" data-ref="page.settings.tab">
                     <i class="fa-solid fa-gear"></i>
                     <span>Settings</span>
                 </button>
@@ -98,16 +95,16 @@
         </div>
 
         <!-- Digital Tasbeeh Page -->
-        <div id="tasbeehPage" class="d-none flex-column flex-grow-1 page" data-ref="page.tasbeeh">
+        <div id="tasbeehPage" class="d-none flex-col grow page" data-ref="page.tasbeeh">
             <header class="app-header" data-ref="page.tasbeeh.header">
-                <div class="d-flex align-items-center justify-content-between min-w-0 min-h-44">
-                    <div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1" data-ref="page.tasbeeh.header.info">
-                        <button type="button" class="btn-sheet-back" data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.tasbeeh.back-btn">
+                <div class="flex items-center justify-between min-w-0 min-h-44">
+                    <div class="flex items-center gap-2 min-w-0 grow" data-ref="page.tasbeeh.header.info">
+                        <button type="button" class="btn-sheet-back flex items-center justify-center shrink-0" data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.tasbeeh.back-btn">
                             <i class="fa-solid fa-arrow-left fs-5"></i>
                         </button>
-                        <div class="min-w-0 flex-grow-1">
-                            <h5 class="page-title mb-0" data-ref="page.tasbeeh.header.title">
-                                <i class="fa-solid fa-house text-success" id="tbHeaderIcon" data-ref="page.tasbeeh.header.icon"></i>
+                        <div class="min-w-0 grow">
+                            <h5 class="page-title flex items-center gap-2 mb-0" data-ref="page.tasbeeh.header.title">
+                                <i class="fa-solid fa-house text-brand" id="tbHeaderIcon" data-ref="page.tasbeeh.header.icon"></i>
                                 <span id="tbHeaderLabel" data-ref="page.tasbeeh.header.label">Digital Tasbeeh</span>
                             </h5>
                             <div class="page-sub" id="tbHeaderSub" data-ref="page.tasbeeh.header.sub">Home · Bookmarks</div>
@@ -117,11 +114,11 @@
             </header>
 
             <!-- Home Tab Body Container (Bookmarked Counters) -->
-            <div class="flex-grow-1 overflow-auto p-2 pb-5 position-relative" id="tbHomeBody" data-ref="page.tasbeeh.body.home"></div>
+            <div class="grow overflow-auto p-2 pb-5 position-relative" id="tbHomeBody" data-ref="page.tasbeeh.body.home"></div>
 
             <!-- Current Month Body Container -->
-            <div class="flex-grow-1 overflow-auto p-2 pb-5 position-relative d-none" id="tbCurrentBody" data-ref="page.tasbeeh.body.current">
-                <div id="tbList" class="d-flex flex-column gap-3" data-ref="page.tasbeeh.list"></div>
+            <div class="grow overflow-auto p-2 pb-5 position-relative d-none" id="tbCurrentBody" data-ref="page.tasbeeh.body.current">
+                <div id="tbList" class="flex flex-col gap-3" data-ref="page.tasbeeh.list"></div>
 
                 <div id="tbEmptyState" class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white d-none" data-ref="page.tasbeeh.empty-state">
                     <div class="mb-3" data-ref="page.tasbeeh.empty-state.icon-wrap">
@@ -133,31 +130,31 @@
             </div>
 
             <!-- Old Tracking (Previous Months) Body Container -->
-            <div class="flex-grow-1 overflow-auto p-2 pb-5 position-relative d-none" id="tbOldBody" data-ref="page.tasbeeh.body.old"></div>
+            <div class="grow overflow-auto p-2 pb-5 position-relative d-none" id="tbOldBody" data-ref="page.tasbeeh.body.old"></div>
 
             <!-- History & Settings Body Container -->
-            <div class="flex-grow-1 overflow-auto p-2 pb-5 position-relative d-none" id="tbHistoryBody" data-ref="page.tasbeeh.body.history"></div>
+            <div class="grow overflow-auto p-2 pb-5 position-relative d-none" id="tbHistoryBody" data-ref="page.tasbeeh.body.history"></div>
 
             <!-- Shared Floating Action Button for Add Dhikr (Current & Old tabs) -->
-            <button type="button" class="tb-fab d-none" id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr">
+            <button type="button" class="tb-fab flex items-center justify-center d-none" id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr">
                 <i class="fa-solid fa-plus fs-4" data-ref="page.tasbeeh.header.add-icon"></i>
             </button>
 
             <!-- Bottom Navigation: Home, Current, Old, History -->
-            <nav class="app-bottom-nav flex-shrink-0 d-flex align-items-center justify-content-around px-2 border-top" id="tasbeehBottomNav" data-ref="page.tasbeeh.bottom-nav">
-                <button type="button" class="nav-tab active" id="tabTbHome" data-act="switch-tb-home" role="tab" aria-selected="true" data-ref="page.tasbeeh.tab-home">
+            <nav class="app-bottom-nav shrink-0 flex items-center justify-around px-2 border-top" id="tasbeehBottomNav" data-ref="page.tasbeeh.bottom-nav">
+                <button type="button" class="nav-tab flex-1 flex flex-col items-center justify-center active" id="tabTbHome" data-act="switch-tb-home" role="tab" aria-selected="true" data-ref="page.tasbeeh.tab-home">
                     <i class="fa-solid fa-house"></i>
                     <span>Home</span>
                 </button>
-                <button type="button" class="nav-tab" id="tabTbCurrent" data-act="switch-tb-current" role="tab" aria-selected="false" data-ref="page.tasbeeh.tab-current">
+                <button type="button" class="nav-tab flex-1 flex flex-col items-center justify-center" id="tabTbCurrent" data-act="switch-tb-current" role="tab" aria-selected="false" data-ref="page.tasbeeh.tab-current">
                     <i class="fa-regular fa-calendar"></i>
                     <span>Current</span>
                 </button>
-                <button type="button" class="nav-tab" id="tabTbOld" data-act="switch-tb-old" role="tab" aria-selected="false" data-ref="page.tasbeeh.tab-old">
+                <button type="button" class="nav-tab flex-1 flex flex-col items-center justify-center" id="tabTbOld" data-act="switch-tb-old" role="tab" aria-selected="false" data-ref="page.tasbeeh.tab-old">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <span>Old</span>
                 </button>
-                <button type="button" class="nav-tab" id="tabTbHistory" data-act="switch-tb-history" role="tab" aria-selected="false" data-ref="page.tasbeeh.tab-history">
+                <button type="button" class="nav-tab flex-1 flex flex-col items-center justify-center" id="tabTbHistory" data-act="switch-tb-history" role="tab" aria-selected="false" data-ref="page.tasbeeh.tab-history">
                     <i class="fa-solid fa-gear"></i>
                     <span>History</span>
                 </button>
@@ -165,43 +162,43 @@
         </div>
 
         <!-- Full-screen Tasbeeh Calendar Tracker View Overlay -->
-        <div id="tasbeehCounterView" class="d-none flex-column flex-grow-1 tb-counter-overlay" data-ref="page.tasbeeh.counter">
-            <header class="app-header d-flex align-items-center gap-2" data-ref="page.tasbeeh.counter.header">
-                <button type="button" class="btn-sheet-back" id="tbBtnBack" data-ref="page.tasbeeh.counter.back-btn" title="Back">
+        <div id="tasbeehCounterView" class="d-none flex-col grow tb-counter-overlay" data-ref="page.tasbeeh.counter">
+            <header class="app-header flex items-center gap-2" data-ref="page.tasbeeh.counter.header">
+                <button type="button" class="btn-sheet-back flex items-center justify-center shrink-0" id="tbBtnBack" data-ref="page.tasbeeh.counter.back-btn" title="Back">
                     <i class="fa-solid fa-arrow-left fs-5" data-ref="page.tasbeeh.counter.back-icon"></i>
                 </button>
-                <div class="flex-grow-1 min-w-0 text-center" data-ref="page.tasbeeh.counter.header-center">
-                    <h5 class="page-title justify-content-center text-truncate mb-0" id="tbCounterTopTitle" data-ref="page.tasbeeh.counter.header-title">Calendar Tracker</h5>
+                <div class="grow min-w-0 text-center" data-ref="page.tasbeeh.counter.header-center">
+                    <h5 class="page-title flex items-center justify-center text-truncate mb-0" id="tbCounterTopTitle" data-ref="page.tasbeeh.counter.header-title">Calendar Tracker</h5>
                 </div>
-                <button type="button" class="btn-pill-action" id="tbBtnEditActive" data-ref="page.tasbeeh.counter.edit-btn" title="Edit active chant">
+                <button type="button" class="btn-pill-action inline-flex items-center gap-1" id="tbBtnEditActive" data-ref="page.tasbeeh.counter.edit-btn" title="Edit active chant">
                     <i class="fa-solid fa-pen" data-ref="page.tasbeeh.counter.edit-icon"></i>
                     <span data-ref="page.tasbeeh.counter.edit-label">Edit</span>
                 </button>
             </header>
 
-            <div class="flex-grow-1 d-flex flex-column overflow-auto" data-ref="page.tasbeeh.counter.body">
+            <div class="grow flex flex-col overflow-auto" data-ref="page.tasbeeh.counter.body">
                 <!-- Dhikr Title & Target Info -->
                 <div class="text-center w-100 pt-3 pb-2 px-3" data-ref="page.tasbeeh.counter.chant-info">
                     <h4 class="fw-bold text-gr1 mb-1 text-truncate" id="tbCounterTitle" data-ref="page.tasbeeh.counter.chant-title">—</h4>
-                    <div class="tb-cal-target-pill" id="tbCalTargetPill">
+                    <div class="tb-cal-target-pill inline-flex items-center" id="tbCalTargetPill">
                         <i class="fa-solid fa-bullseye"></i>
                         <span id="tbCalTargetLabel">Target: 100 / day</span>
                     </div>
                 </div>
 
                 <!-- Month Navigation -->
-                <div class="tb-cal-month-nav" id="tbCalMonthNav">
-                    <button type="button" class="tb-cal-nav-btn" id="tbCalPrevMonth" title="Previous month">
+                <div class="tb-cal-month-nav flex items-center justify-between" id="tbCalMonthNav">
+                    <button type="button" class="tb-cal-nav-btn flex items-center justify-center shrink-0" id="tbCalPrevMonth" title="Previous month">
                         <i class="fa-solid fa-chevron-left"></i>
                     </button>
-                    <div class="tb-cal-month-label" id="tbCalMonthLabel">October 2026</div>
-                    <button type="button" class="tb-cal-nav-btn" id="tbCalNextMonth" title="Next month">
+                    <div class="tb-cal-month-label flex-1" id="tbCalMonthLabel">October 2026</div>
+                    <button type="button" class="tb-cal-nav-btn flex items-center justify-center shrink-0" id="tbCalNextMonth" title="Next month">
                         <i class="fa-solid fa-chevron-right"></i>
                     </button>
                 </div>
 
                 <!-- Calendar Grid -->
-                <div class="tb-cal-container px-3 pb-3">
+                <div class="tb-cal-container flex-1 px-3 pb-3">
                     <!-- Day Headers -->
                     <div class="tb-cal-header">
                         <div class="tb-cal-day-label">Sun</div>
@@ -217,18 +214,18 @@
                 </div>
 
                 <!-- Progress Summary -->
-                <div class="tb-cal-summary mx-3 mb-3" id="tbCalSummary">
-                    <div class="tb-cal-stat">
+                <div class="tb-cal-summary flex items-center justify-around mx-3 mb-3" id="tbCalSummary">
+                    <div class="tb-cal-stat flex flex-col items-center flex-1">
                         <span class="tb-cal-stat-num" id="tbCalCompletedCount">0</span>
                         <span class="tb-cal-stat-label">Completed</span>
                     </div>
-                    <div class="tb-cal-stat-divider"></div>
-                    <div class="tb-cal-stat">
+                    <div class="tb-cal-stat-divider shrink-0"></div>
+                    <div class="tb-cal-stat flex flex-col items-center flex-1">
                         <span class="tb-cal-stat-num" id="tbCalRemainingCount">0</span>
                         <span class="tb-cal-stat-label">Remaining</span>
                     </div>
-                    <div class="tb-cal-stat-divider"></div>
-                    <div class="tb-cal-stat">
+                    <div class="tb-cal-stat-divider shrink-0"></div>
+                    <div class="tb-cal-stat flex flex-col items-center flex-1">
                         <span class="tb-cal-stat-num tb-cal-stat-pct" id="tbCalProgressPct">0%</span>
                         <span class="tb-cal-stat-label">Progress</span>
                     </div>
@@ -237,33 +234,33 @@
         </div>
 
         <!-- Quran Duas Page -->
-        <div id="duasPage" class="d-none flex-column flex-grow-1 page" data-ref="page.duas">
+        <div id="duasPage" class="d-none flex-col grow page" data-ref="page.duas">
             <header class="app-header" data-ref="page.duas.header">
-                <div class="d-flex align-items-center justify-content-between min-w-0 min-h-44">
-                    <div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1">
-                        <button type="button" class="btn-sheet-back" data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.duas.back-btn">
+                <div class="flex items-center justify-between min-w-0 min-h-44">
+                    <div class="flex items-center gap-2 min-w-0 grow">
+                        <button type="button" class="btn-sheet-back flex items-center justify-center shrink-0" data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.duas.back-btn">
                             <i class="fa-solid fa-arrow-left fs-5"></i>
                         </button>
-                        <div class="min-w-0 flex-grow-1">
-                            <h5 class="page-title mb-0" id="duasHeaderTitle">
-                                <i class="fa-solid fa-book-quran text-success"></i>
+                        <div class="min-w-0 grow">
+                            <h5 class="page-title flex items-center gap-2 mb-0" id="duasHeaderTitle">
+                                <i class="fa-solid fa-book-quran text-brand"></i>
                                 <span>Quran Duas</span>
                             </h5>
                             <div class="page-sub" id="duaProgressIndicator">0 pinned</div>
                         </div>
                     </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <button type="button" class="btn-action-round" data-act="dua-open-admin" title="Admin Settings">
+                    <div class="flex items-center gap-2">
+                        <button type="button" class="btn-action-round flex items-center justify-center shrink-0" data-act="dua-open-admin" title="Admin Settings">
                             <i class="fa-solid fa-gear fs-5"></i>
                         </button>
                     </div>
                 </div>
             </header>
 
-            <div class="flex-grow-1 overflow-auto p-3 position-relative pb-5" id="duasBody">
+            <div class="grow overflow-auto p-3 position-relative pb-5" id="duasBody">
                 <!-- Subview: Pinned (Home) -->
                 <div id="duaSubHome">
-                    <div class="home-view" id="duaHomeView"></div>
+                    <div class="home-view flex flex-col" id="duaHomeView"></div>
                 </div>
 
                 <!-- Subview: All Duas (List + Search) -->
@@ -272,22 +269,22 @@
                         <input type="text" id="duaSearchInput" class="form-control rounded-3 border ps-3 pe-5 py-2 shadow-none" placeholder="Search by number, Surah, or keywords...">
                         <button type="button" id="duaSearchClear" class="btn border-0 text-muted position-absolute end-0 top-50 translate-middle-y me-2 d-none p-1 lh-1">✕</button>
                     </div>
-                    <div class="list-view" id="duaListView"></div>
+                    <div class="list-view flex flex-col" id="duaListView"></div>
                 </div>
 
                 <!-- Subview: Favourites -->
                 <div id="duaSubFavs" class="d-none">
-                    <div class="list-view" id="duaFavouritesList"></div>
+                    <div class="list-view flex flex-col" id="duaFavouritesList"></div>
                 </div>
 
                 <!-- Subview: Detail Page -->
                 <div id="duaSubDetail" class="detail-page d-none">
-                    <button type="button" class="dua-back-btn mb-2" data-act="dua-detail-back">
+                    <button type="button" class="dua-back-btn self-start mb-2" data-act="dua-detail-back">
                         <i class="fa-solid fa-arrow-left me-1"></i> Back to list
                     </button>
 
-                    <div class="dua-card">
-                        <div class="dua-header-info">
+                    <div class="dua-card flex flex-col">
+                        <div class="dua-header-info flex items-center justify-between">
                             <div class="dua-countdown" id="duaDetailNumber">#01</div>
                             <div class="dua-prayer-name" id="duaDetailSurah"></div>
                         </div>
@@ -303,7 +300,7 @@
                         </div>
                     </div>
 
-                    <div class="dua-nav-controls">
+                    <div class="dua-nav-controls flex items-center justify-between">
                         <button type="button" class="btn btn-brand" id="duaPrevBtn" data-act="dua-prev">Previous</button>
                         <button type="button" class="dua-detail-icon-btn" id="duaDetailFavBtn" data-act="dua-detail-toggle-fav" title="Toggle Favourite">
                             <span id="duaDetailFavIcon">♡</span>
@@ -316,23 +313,23 @@
                 </div>
 
                 <!-- Floating Action Button for Add Dua -->
-                <button type="button" class="dua-fab" id="duaFabBtn" data-act="dua-open-add" title="Add New Dua">
+                <button type="button" class="dua-fab flex items-center justify-center" id="duaFabBtn" data-act="dua-open-add" title="Add New Dua">
                     <i class="fa-solid fa-plus"></i>
                 </button>
             </div>
 
             <!-- Bottom Navigation -->
-            <nav class="app-bottom-nav flex-shrink-0 d-flex align-items-center justify-content-around px-2 border-top" id="duaBottomNav" data-ref="page.duas.bottom-nav">
-                <div class="d-flex w-100 h-100 align-items-center justify-content-around" id="duaSegmentBar" role="tablist" aria-label="Duas view">
-                    <button type="button" class="nav-tab active" id="duaTabPinned" data-act="dua-switch-pinned" role="tab" aria-selected="true" data-ref="page.duas.tab-pinned">
+            <nav class="app-bottom-nav shrink-0 flex items-center justify-around px-2 border-top" id="duaBottomNav" data-ref="page.duas.bottom-nav">
+                <div class="flex w-100 h-100 items-center justify-around" id="duaSegmentBar" role="tablist" aria-label="Duas view">
+                    <button type="button" class="nav-tab flex-1 flex flex-col items-center justify-center active" id="duaTabPinned" data-act="dua-switch-pinned" role="tab" aria-selected="true" data-ref="page.duas.tab-pinned">
                         <span class="nav-tab-icon">📌</span>
                         <span>Pinned</span>
                     </button>
-                    <button type="button" class="nav-tab" id="duaTabAll" data-act="dua-switch-all" role="tab" aria-selected="false" data-ref="page.duas.tab-all">
+                    <button type="button" class="nav-tab flex-1 flex flex-col items-center justify-center" id="duaTabAll" data-act="dua-switch-all" role="tab" aria-selected="false" data-ref="page.duas.tab-all">
                         <span class="nav-tab-icon">📖</span>
                         <span>All Duas</span>
                     </button>
-                    <button type="button" class="nav-tab" id="duaTabFavs" data-act="dua-switch-favs" role="tab" aria-selected="false" data-ref="page.duas.tab-favs">
+                    <button type="button" class="nav-tab flex-1 flex flex-col items-center justify-center" id="duaTabFavs" data-act="dua-switch-favs" role="tab" aria-selected="false" data-ref="page.duas.tab-favs">
                         <span class="nav-tab-icon">❤️</span>
                         <span>Favourites</span>
                     </button>
@@ -344,12 +341,12 @@
         <!-- Layered Bottom Sheet (Missed Prayers / Period Info / Set Period) -->
         <div class="offcanvas offcanvas-bottom rounded-top-4" tabindex="-1" id="sheet2" data-bs-scroll="true"
             data-bs-backdrop="true">
-            <div class="offcanvas-header border-bottom py-3 d-flex align-items-center gap-2 px-3">
-                <button type="button" class="btn-sheet-back" data-bs-dismiss="offcanvas">
+            <div class="offcanvas-header border-bottom py-3 flex items-center gap-2 px-3">
+                <button type="button" class="btn-sheet-back flex items-center justify-center shrink-0" data-bs-dismiss="offcanvas">
                     <i class="fa-solid fa-arrow-left fs-5"></i>
                 </button>
-                <div class="flex-grow-1 min-w-0">
-                    <h5 class="offcanvas-title sheet-title">
+                <div class="grow min-w-0">
+                    <h5 class="offcanvas-title sheet-title flex items-center gap-2 mb-0">
                         <i id="sheet2Icon" class="fa-solid fa-clipboard-list text-gr-accent"></i>
                         <span id="sheet2Title" class="text-truncate">—</span>
                     </h5>
@@ -370,29 +367,29 @@
         <!-- Add Dua Modal -->
         <div class="dua-modal-overlay" id="duaAddModal">
             <div class="dua-modal">
-                <div class="dua-modal-header">
+                <div class="dua-modal-header flex items-center justify-between">
                     <div class="dua-modal-title">➕ Add New Dua</div>
                     <button type="button" class="dua-modal-close" data-act="dua-close-add">✕</button>
                 </div>
 
-                <div class="dua-form-group">
+                <div class="dua-form-group flex flex-col">
                     <label>Dua Number</label>
                     <input type="number" id="duaAddNumber" class="form-control" placeholder="e.g. 11">
                 </div>
-                <div class="dua-form-group">
+                <div class="dua-form-group flex flex-col">
                     <label>Surah Name (Telugu)</label>
                     <input type="text" id="duaAddSurah" class="form-control" placeholder="e.g. అల్-బఖరా (2:201)">
                 </div>
-                <div class="dua-form-group">
+                <div class="dua-form-group flex flex-col">
                     <label>Telugu Pronunciation</label>
                     <textarea id="duaAddUchcharana" class="form-control" rows="2" placeholder="రబ్బనా ఆతినా..."></textarea>
                 </div>
-                <div class="dua-form-group">
+                <div class="dua-form-group flex flex-col">
                     <label>Telugu Meaning</label>
                     <textarea id="duaAddArdham" class="form-control" rows="3" placeholder="మా ప్రభువా! మాకు..."></textarea>
                 </div>
 
-                <div class="d-flex gap-2 justify-content-end mt-4 pt-3 border-top">
+                <div class="flex gap-2 justify-end mt-4 pt-3 border-top">
                     <button type="button" class="btn btn-light border px-4" data-act="dua-close-add">Cancel</button>
                     <button type="button" class="btn btn-brand px-4" data-act="dua-save-new">Save Dua</button>
                 </div>
@@ -402,7 +399,7 @@
         <!-- Pin Confirmation Modal -->
         <div class="dua-modal-overlay" id="duaPinConfirmModal">
             <div class="dua-modal">
-                <div class="dua-modal-header">
+                <div class="dua-modal-header flex items-center justify-between">
                     <div class="dua-modal-title">📌 Pin Limit Reached</div>
                     <button type="button" class="dua-modal-close" data-act="dua-close-pin-confirm">✕</button>
                 </div>
@@ -415,7 +412,7 @@
                     Do you want to <strong>replace one</strong>? Choose which pinned dua to unpin:
                 </p>
 
-                <div class="d-flex justify-content-end pt-2 border-top">
+                <div class="flex justify-end pt-2 border-top">
                     <button type="button" class="btn btn-light border px-4" data-act="dua-close-pin-confirm">Cancel</button>
                 </div>
             </div>
@@ -424,14 +421,14 @@
         <!-- Admin Modal -->
         <div class="dua-modal-overlay" id="duaAdminModal">
             <div class="dua-modal">
-                <div class="dua-modal-header">
+                <div class="dua-modal-header flex items-center justify-between">
                     <div class="dua-modal-title">⚙️ Admin Panel</div>
                     <button type="button" class="dua-modal-close" data-act="dua-close-admin">✕</button>
                 </div>
 
                 <div id="duaAdminListSection">
-                    <div class="fw-bold mb-2 text-primary">Existing Duas</div>
-                    <div class="dua-admin-list mb-3" id="duaAdminDuaList"></div>
+                    <div class="fw-bold mb-2 text-brand">Existing Duas</div>
+                    <div class="dua-admin-list flex flex-col mb-3" id="duaAdminDuaList"></div>
                     <button type="button" class="btn btn-outline-danger w-100 py-2 rounded-3 fw-semibold" data-act="dua-reset-all">
                         <i class="fa-solid fa-arrows-rotate me-1"></i> Reset to Default Data
                     </button>
@@ -442,26 +439,26 @@
     </div>
 
     <!-- ============================================================
-         Bootstrap Modal Dialogs (Top-level body children to prevent
+         Modal Dialogs (Top-level body children to prevent
          stacking context trapping behind overlays and backdrops)
          ============================================================ -->
 <!-- Add / Edit Dhikr Modal -->
         <div class="modal fade" id="tasbeehModal" tabindex="-1" data-ref="component.modal.tasbeeh">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-tasbeeh" data-ref="component.modal.tasbeeh.dialog">
                 <div class="modal-content rounded-4 border-0 shadow" data-ref="component.modal.tasbeeh.content">
-                    <div class="modal-header border-0 pb-0 align-items-center gap-3 pt-4 px-4" data-ref="component.modal.tasbeeh.header">
-                        <span class="modal-icon-badge" data-ref="component.modal.tasbeeh.badge">
-                            <i class="fa-solid fa-hand-holding-heart fs-3 text-success" data-ref="component.modal.tasbeeh.badge-icon"></i>
+                    <div class="modal-header border-0 pb-0 flex items-center gap-3 pt-4 px-4" data-ref="component.modal.tasbeeh.header">
+                        <span class="modal-icon-badge flex items-center justify-center shrink-0" data-ref="component.modal.tasbeeh.badge">
+                            <i class="fa-solid fa-hand-holding-heart fs-3 text-brand" data-ref="component.modal.tasbeeh.badge-icon"></i>
                         </span>
-                        <h5 class="modal-title fw-bold fs-4 flex-grow-1 mb-0" id="tbModalTitle" data-ref="component.modal.tasbeeh.title">Add New Dhikr</h5>
+                        <h5 class="modal-title fw-bold fs-4 grow mb-0" id="tbModalTitle" data-ref="component.modal.tasbeeh.title">Add New Dhikr</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" data-ref="component.modal.tasbeeh.close-btn"></button>
                     </div>
                     <div class="modal-body pt-3 px-4" data-ref="component.modal.tasbeeh.body">
                         <!-- Chant Title -->
                         <div class="mb-3" data-ref="component.modal.tasbeeh.title-group">
                             <label class="form-label fw-bold mb-2" for="tbFormTitle" data-ref="component.modal.tasbeeh.title-label">Chant Title</label>
-                            <div class="field-group" data-ref="component.modal.tasbeeh.title-field">
-                                <span class="field-icon" data-ref="component.modal.tasbeeh.title-field-icon"><i class="fa-regular fa-file-lines fs-5"></i></span>
+                            <div class="field-group flex items-center" data-ref="component.modal.tasbeeh.title-field">
+                                <span class="field-icon flex items-center justify-center shrink-0" data-ref="component.modal.tasbeeh.title-field-icon"><i class="fa-regular fa-file-lines fs-5"></i></span>
                                 <input type="text" class="form-control border-0 ps-3 fs-6" id="tbFormTitle"
                                     placeholder="e.g. SubhanAllah" maxlength="40" data-ref="component.modal.tasbeeh.title-input">
                             </div>
@@ -470,27 +467,27 @@
                         <!-- Target Count with Chips -->
                         <div class="mb-3" data-ref="component.modal.tasbeeh.count-group">
                             <label class="form-label fw-bold mb-2" data-ref="component.modal.tasbeeh.count-label">Daily Target Count</label>
-                            <div class="d-flex gap-2 mb-2" id="tbCountChips" data-ref="component.modal.tasbeeh.count-chips">
-                                <button type="button" class="tb-chip flex-fill active" data-count="33" data-ref="component.modal.tasbeeh.chip-33">33</button>
-                                <button type="button" class="tb-chip flex-fill" data-count="99" data-ref="component.modal.tasbeeh.chip-99">99</button>
-                                <button type="button" class="tb-chip flex-fill" data-count="100" data-ref="component.modal.tasbeeh.chip-100">100</button>
-                                <button type="button" class="tb-chip flex-fill" data-count="infinite" data-ref="component.modal.tasbeeh.chip-inf">∞</button>
+                            <div class="flex gap-2 mb-2" id="tbCountChips" data-ref="component.modal.tasbeeh.count-chips">
+                                <button type="button" class="tb-chip flex-1 active" data-count="33" data-ref="component.modal.tasbeeh.chip-33">33</button>
+                                <button type="button" class="tb-chip flex-1" data-count="99" data-ref="component.modal.tasbeeh.chip-99">99</button>
+                                <button type="button" class="tb-chip flex-1" data-count="100" data-ref="component.modal.tasbeeh.chip-100">100</button>
+                                <button type="button" class="tb-chip flex-1" data-count="infinite" data-ref="component.modal.tasbeeh.chip-inf">∞</button>
                             </div>
-                            <div class="field-group" data-ref="component.modal.tasbeeh.count-field">
-                                <span class="field-icon" data-ref="component.modal.tasbeeh.count-field-icon"><i class="fa-solid fa-hashtag fs-5"></i></span>
+                            <div class="field-group flex items-center" data-ref="component.modal.tasbeeh.count-field">
+                                <span class="field-icon flex items-center justify-center shrink-0" data-ref="component.modal.tasbeeh.count-field-icon"><i class="fa-solid fa-hashtag fs-5"></i></span>
                                 <input type="number" class="form-control border-0 ps-3 fs-6" id="tbFormCount"
                                     placeholder="33" min="1" max="9999" value="33" data-ref="component.modal.tasbeeh.count-input">
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer border-0 pt-2 pb-4 px-4 d-flex gap-2" data-ref="component.modal.tasbeeh.footer">
-                        <button type="button" class="btn btn-light text-danger border rounded-3 py-3 px-3 d-none flex-shrink-0"
+                    <div class="modal-footer border-0 pt-2 pb-4 px-4 flex gap-2" data-ref="component.modal.tasbeeh.footer">
+                        <button type="button" class="btn btn-light text-danger border rounded-3 py-3 px-3 d-none shrink-0"
                             id="tbModalDelBtn" title="Delete Dhikr" aria-label="Delete Dhikr" data-ref="component.modal.tasbeeh.del-btn">
                             <i class="fa-solid fa-trash fs-5"></i>
                         </button>
-                        <button type="button" class="btn btn-light border fw-bold flex-fill py-3 rounded-3 fs-5"
+                        <button type="button" class="btn btn-light border fw-bold flex-1 py-3 rounded-3 fs-5"
                             data-bs-dismiss="modal" data-ref="component.modal.tasbeeh.cancel-btn">Cancel</button>
-                        <button type="button" class="btn btn-brand flex-fill py-3 rounded-3 fs-5"
+                        <button type="button" class="btn btn-brand flex-1 py-3 rounded-3 fs-5"
                             id="tbModalSaveBtn" data-ref="component.modal.tasbeeh.save-btn">Save Dhikr</button>
                     </div>
                 </div>
@@ -501,18 +498,18 @@
         <div class="modal fade" id="tasbeehConfirmModal" tabindex="-1" aria-hidden="true" data-ref="component.modal.tasbeeh-confirm">
             <div class="modal-dialog modal-dialog-centered modal-dialog-confirm" data-ref="component.modal.tasbeeh-confirm.dialog">
                 <div class="modal-content rounded-4 border-0 shadow p-2" data-ref="component.modal.tasbeeh-confirm.content">
-                    <div class="modal-header border-0 pb-0 align-items-center gap-3 pt-3 px-3" data-ref="component.modal.tasbeeh-confirm.header">
-                        <span class="modal-icon-badge bg-warning-subtle" id="tbConfirmModalBadge" data-ref="component.modal.tasbeeh-confirm.icon-badge">
+                    <div class="modal-header border-0 pb-0 flex items-center gap-3 pt-3 px-3" data-ref="component.modal.tasbeeh-confirm.header">
+                        <span class="modal-icon-badge flex items-center justify-center shrink-0 bg-warning-subtle" id="tbConfirmModalBadge" data-ref="component.modal.tasbeeh-confirm.icon-badge">
                             <i class="fa-solid fa-triangle-exclamation fs-3 text-warning" id="tbConfirmModalIcon" data-ref="component.modal.tasbeeh-confirm.icon"></i>
                         </span>
-                        <h5 class="modal-title fw-bold fs-5 flex-grow-1 mb-0" id="tbConfirmModalTitle" data-ref="component.modal.tasbeeh-confirm.title">Change Day Status</h5>
+                        <h5 class="modal-title fw-bold fs-5 grow mb-0" id="tbConfirmModalTitle" data-ref="component.modal.tasbeeh-confirm.title">Change Day Status</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" data-ref="component.modal.tasbeeh-confirm.close-btn"></button>
                     </div>
                     <div class="modal-body px-3 pt-2 text-center" data-ref="component.modal.tasbeeh-confirm.body">
                         <p class="text-muted small mb-3" id="tbConfirmModalMsg">
                             Mark this day's target as incomplete?
                         </p>
-                        <div class="d-flex flex-column gap-2" data-ref="component.modal.tasbeeh-confirm.actions">
+                        <div class="flex flex-col gap-2" data-ref="component.modal.tasbeeh-confirm.actions">
                             <button type="button" class="btn btn-brand py-2 rounded-3 fw-bold" id="tbBtnConfirmChange">
                                 Yes, Mark Incomplete
                             </button>
@@ -529,21 +526,21 @@
         <div class="modal fade" id="tasbeehPeriodModal" tabindex="-1" data-ref="component.modal.tasbeeh-period" aria-labelledby="tbPeriodModalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-tasbeeh" data-ref="component.modal.tasbeeh-period.dialog">
                 <div class="modal-content rounded-4 border-0 shadow">
-                    <div class="modal-header border-0 pb-0 align-items-center gap-3 pt-4 px-4">
-                        <span class="modal-icon-badge">
-                            <i class="fa-solid fa-gear fs-3 text-success"></i>
+                    <div class="modal-header border-0 pb-0 flex items-center gap-3 pt-4 px-4">
+                        <span class="modal-icon-badge flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-gear fs-3 text-brand"></i>
                         </span>
-                        <div class="flex-grow-1 min-w-0">
+                        <div class="grow min-w-0">
                             <h5 class="modal-title fw-bold fs-4 mb-0" id="tbPeriodModalTitle">Tasbeeh Period Settings</h5>
                             <div class="text-muted small">Configure tracking timeline</div>
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body pt-3 px-4">
-                        <div class="card p-3 rounded-4 bg-success-subtle border-0 mb-3">
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <i class="fa-solid fa-circle-info text-success fs-5"></i>
-                                <strong class="text-success small">How Tracking Periods Work</strong>
+                        <div class="card p-3 rounded-4 bg-brand-light border-0 mb-3">
+                            <div class="flex items-center gap-2 mb-1">
+                                <i class="fa-solid fa-circle-info text-brand fs-5"></i>
+                                <strong class="text-brand small">How Tracking Periods Work</strong>
                             </div>
                             <p class="text-muted small mb-0">
                                 <strong>Current Tab:</strong> Shows recitations for the current month.<br>
@@ -554,10 +551,10 @@
                         <!-- Start Date -->
                         <div class="mb-3">
                             <label class="form-label fw-bold mb-2" for="tbPeriodStart">
-                                <i class="fa-regular fa-calendar text-success me-1"></i>Start Date
+                                <i class="fa-regular fa-calendar text-brand me-1"></i>Start Date
                             </label>
-                            <div class="field-group">
-                                <span class="field-icon"><i class="fa-regular fa-calendar-days fs-5"></i></span>
+                            <div class="field-group flex items-center">
+                                <span class="field-icon flex items-center justify-center shrink-0"><i class="fa-regular fa-calendar-days fs-5"></i></span>
                                 <input type="date" class="form-control border-0 ps-3 fs-6" id="tbPeriodStart">
                             </div>
                             <div class="form-text small text-muted">Beginning of your Old Tasbeeh history range.</div>
@@ -566,10 +563,10 @@
                         <!-- End Date -->
                         <div class="mb-3">
                             <label class="form-label fw-bold mb-2" for="tbPeriodEnd">
-                                <i class="fa-regular fa-calendar-check text-success me-1"></i>End Date
+                                <i class="fa-regular fa-calendar-check text-brand me-1"></i>End Date
                             </label>
-                            <div class="field-group">
-                                <span class="field-icon"><i class="fa-solid fa-calendar-check fs-5"></i></span>
+                            <div class="field-group flex items-center">
+                                <span class="field-icon flex items-center justify-center shrink-0"><i class="fa-solid fa-calendar-check fs-5"></i></span>
                                 <input type="date" class="form-control border-0 ps-3 fs-6" id="tbPeriodEnd">
                             </div>
                             <div class="form-text small text-muted">End of your tracking range (defaults to current date).</div>
@@ -578,7 +575,7 @@
                         <!-- Quick Presets -->
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-muted text-uppercase mb-2">Quick Presets</label>
-                            <div class="d-flex gap-2 flex-wrap">
+                            <div class="flex gap-2 flex-wrap">
                                 <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" id="tbPresetThisYear">This Year</button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" id="tbPreset6Months">Last 6 Months</button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" id="tbPreset1Year">Last 1 Year</button>
@@ -586,9 +583,9 @@
                         </div>
 
                         <!-- Dynamic Preview Card -->
-                        <div class="card p-3 rounded-4 bg-body-tertiary border-0" id="tbPeriodPreviewBox">
-                            <div class="d-flex align-items-center gap-2 mb-2">
-                                <i class="fa-solid fa-calendar-week text-primary"></i>
+                        <div class="card p-3 rounded-4 bg-surface border-0" id="tbPeriodPreviewBox">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i class="fa-solid fa-calendar-week text-brand"></i>
                                 <span class="fw-bold small text-dark">Period Summary</span>
                             </div>
                             <div class="small text-muted" id="tbPeriodPreviewText">
@@ -596,18 +593,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer border-0 pt-2 pb-4 px-4 d-flex gap-2">
-                        <button type="button" class="btn btn-light border fw-bold flex-fill py-3 rounded-3 fs-6"
+                    <div class="modal-footer border-0 pt-2 pb-4 px-4 flex gap-2">
+                        <button type="button" class="btn btn-light border fw-bold flex-1 py-3 rounded-3 fs-6"
                             id="tbBtnResetPeriod">Reset Default</button>
-                        <button type="button" class="btn btn-brand flex-fill py-3 rounded-3 fs-6"
+                        <button type="button" class="btn btn-brand flex-1 py-3 rounded-3 fs-6"
                             id="tbBtnSavePeriod">Save Period</button>
                     </div>
                 </div>
             </div>
         </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="utilities/constant.js"></script>
+    <script src="utilities/svg.constant.js"></script>
     <script src="utilities/utility.js"></script>
     <script src="components/prayer-card.js"></script>
     <script src="features/app/app.js"></script>
