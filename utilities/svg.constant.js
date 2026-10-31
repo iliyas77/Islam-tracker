@@ -29,7 +29,25 @@
          * card and tasbeeh-home bookmark cards.
          * References CONSTANTS.TASBEEH.ICONS.MISBAHA.
          */
-        MISBAHA: (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.ICONS && window.CONSTANTS.TASBEEH.ICONS.MISBAHA) || ''
+        MISBAHA: (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.ICONS && window.CONSTANTS.TASBEEH.ICONS.MISBAHA) || '',
+
+        /**
+         * Drawing pin (15×15) — used in Quran Duas pinned tab.
+         */
+        DRAWING_PIN:
+            '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15"><title>drawing-pin</title><path fill="currentColor" d="M9.621 1.136a.5.5 0 0 1 .707 0l3.536 3.535a.5.5 0 0 1-.707.707l-.653-.652l-3.637 4.848l1.108 1.108a.5.5 0 1 1-.707.707L6.793 8.913v.001l-3.27 3.27a.5.5 0 0 1-.708-.706l3.27-3.27v-.002L3.612 5.732a.5.5 0 1 1 .707-.707l1.108 1.108l4.848-3.637l-.653-.653a.5.5 0 0 1 0-.707M6.14 6.847L8.153 8.86l3.637-4.85l-.802-.8z"/></svg>',
+
+        /**
+         * Book (32×32) — used in Quran Duas all tab.
+         */
+        BOOK:
+            '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><title>book</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7S9 1 2 6v22c7-5 14 0 14 0s7-5 14 0V6c-7-5-14 1-14 1m0 0v21"/></svg>',
+
+        /**
+         * All Bookmark (24×24) — used in Quran Duas favourites tab.
+         */
+        ALL_BOOKMARK:
+            '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>all-bookmark</title><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M3 17.98v-5.273c0-3.633 0-5.45 1.098-6.578S6.964 5 10.5 5s5.303 0 6.402 1.129C18 7.257 18 9.074 18 12.708v5.273c0 2.306 0 3.459-.724 3.871c-1.404.8-4.035-1.867-5.285-2.67c-.725-.465-1.088-.698-1.491-.698s-.766.233-1.49.698c-1.25.803-3.882 3.47-5.285 2.67C3 21.44 3 20.287 3 17.981"/><path d="M9 2h2c4.714 0 7.071 0 8.535 1.464C21 4.93 21 7.286 21 12v6"/></g></svg>'
     };
 
     /* ------------------------------------------------------------------

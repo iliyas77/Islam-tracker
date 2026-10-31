@@ -116,7 +116,7 @@ window.TasbeehHistoryApp = (function () {
         if (allOldMonths.length === 0) {
             monthsListHtml =
                 '<div class="text-center py-4 text-muted small">' +
-                '  <i class="fa-solid fa-calendar-xmark fs-2 opacity-50 mb-2 d-block"></i>' +
+                '  ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-xmark', size: 'fs-2', className: 'opacity-50 mb-2 d-block' }) : '<i class="fa-solid fa-calendar-xmark fs-2 opacity-50 mb-2 d-block"></i>') +
                 '  No past months found in this period range. Check your Start and End dates.' +
                 '</div>';
         } else {
@@ -129,9 +129,9 @@ window.TasbeehHistoryApp = (function () {
                     : (isActive ? 'bg-brand text-white border-0'
                         : 'bg-surface text-secondary border');
 
-                var badgeIcon = isCompleted ? '<i class="fa-solid fa-circle-check me-1"></i>'
-                    : (isActive ? '<i class="fa-solid fa-play me-1"></i>'
-                        : '<i class="fa-regular fa-clock me-1"></i>');
+                var badgeIcon = isCompleted ? (typeof renderIcon === 'function' ? renderIcon({ name: 'circle-check', className: 'me-1' }) : '<i class="fa-solid fa-circle-check me-1"></i>')
+                    : (isActive ? (typeof renderIcon === 'function' ? renderIcon({ name: 'play', className: 'me-1' }) : '<i class="fa-solid fa-play me-1"></i>')
+                        : (typeof renderIcon === 'function' ? renderIcon({ name: 'clock', variant: 'regular', className: 'me-1' }) : '<i class="fa-regular fa-clock me-1"></i>'));
 
                 var badgeText = isCompleted ? 'Completed'
                     : (isActive ? 'In Progress' : 'Pending');
@@ -139,7 +139,7 @@ window.TasbeehHistoryApp = (function () {
                 var canReopenThis = (mKey === reopenTargetMonth);
                 var reopenBtn = canReopenThis
                     ? '<button type="button" class="btn btn-sm btn-outline-warning rounded-pill px-2 py-0 ms-auto" style="font-size: 11px; font-weight: 600;" data-act="tb-old-reopen" title="Reopen this month to recount">' +
-                      '  <i class="fa-solid fa-arrow-rotate-left me-1"></i> Reopen' +
+                      '  ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'arrow-rotate-left', className: 'me-1' }) : '<i class="fa-solid fa-arrow-rotate-left me-1"></i>') + ' Reopen' +
                       '</button>'
                     : '';
 
@@ -208,8 +208,8 @@ window.TasbeehHistoryApp = (function () {
             '  <!-- Period Settings Card -->' +
             '  <div class="card p-3 rounded-4 bg-white border shadow-sm">' +
             '    <div class="flex items-center gap-2 mb-3">' +
-            '      <div class="modal-icon-badge flex items-center justify-center shrink-0" style="width: 36px; height: 36px; border-radius: 10px;">' +
-            '        <i class="fa-solid fa-gear fs-6 text-brand"></i>' +
+            '      <div class="icon-box icon-box-sm">' +
+            '        ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'gear', size: 'fs-6', color: 'text-brand' }) : '<i class="fa-solid fa-gear fs-6 text-brand"></i>') +
             '      </div>' +
             '      <div>' +
             '        <h6 class="fw-bold text-gr1 mb-0" style="font-size: 0.95rem;">Period Settings</h6>' +
@@ -220,10 +220,10 @@ window.TasbeehHistoryApp = (function () {
             '    <!-- Start Date Input -->' +
             '    <div class="mb-2">' +
             '      <label class="form-label small fw-bold text-muted mb-1" for="tbHistPeriodStart">' +
-            '        <i class="fa-regular fa-calendar text-brand me-1"></i>Start Date' +
+            '        ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar', variant: 'regular', color: 'text-brand', className: 'me-1' }) : '<i class="fa-regular fa-calendar text-brand me-1"></i>') + 'Start Date' +
             '      </label>' +
             '      <div class="field-group flex items-center" style="border-radius: 8px;">' +
-            '        <span class="field-icon flex items-center justify-center shrink-0" style="width: 42px; height: 42px;"><i class="fa-regular fa-calendar-days text-brand" style="font-size: 15px;"></i></span>' +
+            '        <span class="field-icon flex items-center justify-center shrink-0" style="width: 42px; height: 42px;">' + (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-days', variant: 'regular', color: 'text-brand', size: 15 }) : '<i class="fa-regular fa-calendar-days text-brand" style="font-size: 15px;"></i>') + '</span>' +
             '        <input type="date" class="form-control border-0 ps-2" style="height: 42px; font-size: 14px;" id="tbHistPeriodStart" value="' + startInputVal + '">' +
             '      </div>' +
             '    </div>' +
@@ -231,10 +231,10 @@ window.TasbeehHistoryApp = (function () {
             '    <!-- End Date Input -->' +
             '    <div class="mb-3">' +
             '      <label class="form-label small fw-bold text-muted mb-1" for="tbHistPeriodEnd">' +
-            '        <i class="fa-regular fa-calendar-check text-brand me-1"></i>End Date' +
+            '        ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-check', variant: 'regular', color: 'text-brand', className: 'me-1' }) : '<i class="fa-regular fa-calendar-check text-brand me-1"></i>') + 'End Date' +
             '      </label>' +
             '      <div class="field-group flex items-center" style="border-radius: 8px;">' +
-            '        <span class="field-icon flex items-center justify-center shrink-0" style="width: 42px; height: 42px;"><i class="fa-solid fa-calendar-check text-brand" style="font-size: 15px;"></i></span>' +
+            '        <span class="field-icon flex items-center justify-center shrink-0" style="width: 42px; height: 42px;">' + (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-check', color: 'text-brand', size: 15 }) : '<i class="fa-solid fa-calendar-check text-brand" style="font-size: 15px;"></i>') + '</span>' +
             '        <input type="date" class="form-control border-0 ps-2" style="height: 42px; font-size: 14px;" id="tbHistPeriodEnd" value="' + endInputVal + '">' +
             '      </div>' +
             '    </div>' +
@@ -252,10 +252,10 @@ window.TasbeehHistoryApp = (function () {
             '    <!-- Action Buttons -->' +
             '    <div class="flex gap-2 pt-1">' +
             '      <button type="button" class="btn btn-sm btn-brand grow rounded-3 py-2 fw-bold" style="font-size: 13.5px;" data-act="tb-hist-save">' +
-            '        <i class="fa-solid fa-check me-1"></i> Save Period Settings' +
+            '        ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'check', className: 'me-1' }) : '<i class="fa-solid fa-check me-1"></i>') + ' Save Period Settings' +
             '      </button>' +
             '      <button type="button" class="btn btn-sm btn-outline-secondary rounded-3 px-3 py-2" style="font-size: 13.5px;" data-act="tb-hist-reset" title="Reset Period Settings">' +
-            '        <i class="fa-solid fa-rotate-left"></i>' +
+            '        ' + (typeof renderIcon === 'function' ? renderIcon('rotate-left') : '<i class="fa-solid fa-rotate-left"></i>') +
             '      </button>' +
             '    </div>' +
             '  </div>' +
@@ -266,7 +266,7 @@ window.TasbeehHistoryApp = (function () {
             '      <h6 class="fw-bold text-gr1 mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6>' +
             (completedCount > 0
                 ? '<button type="button" class="btn btn-link text-danger text-decoration-none p-0 small fw-bold" style="font-size: 11px;" data-act="tb-reset-all-completed">' +
-                  '  <i class="fa-solid fa-rotate-left me-1"></i> Reset Cleared' +
+                  '  ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'rotate-left', className: 'me-1' }) : '<i class="fa-solid fa-rotate-left me-1"></i>') + ' Reset Cleared' +
                   '</button>'
                 : '') +
             '    </div>' +

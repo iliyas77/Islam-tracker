@@ -160,16 +160,16 @@ function getActivePrayerInfo() {
 
 /* ---------- Dedicated SVG Graphics matching Reference UI ---------- */
 var _svgC = (window.SVG_CONSTANTS) || {};
-var DASH_SVG_MOSQUE_CLOCK  = (_svgC.SHARED  && _svgC.SHARED.MOSQUE)        || '';
+var DASH_SVG_MOSQUE_CLOCK  = typeof renderIcon === 'function' ? renderIcon('mosque') : ((_svgC.SHARED && _svgC.SHARED.MOSQUE) || '');
 var DASH_SVG_MOSQUE_HEADER = DASH_SVG_MOSQUE_CLOCK;
-var DASH_SVG_RUB_EL_HIZB   = (_svgC.DASHBOARD && _svgC.DASHBOARD.RUB_EL_HIZB) || '';
-var DASH_SVG_TRACKER        = (_svgC.DASHBOARD && _svgC.DASHBOARD.TRACKER)     || '';
-var DASH_SVG_TASBEEH        = (_svgC.SHARED  && _svgC.SHARED.MISBAHA)       || '';
-var DASH_SVG_DUAS           = (_svgC.DASHBOARD && _svgC.DASHBOARD.DUAS)        || '';
-var DASH_SVG_SETTINGS       = (_svgC.DASHBOARD && _svgC.DASHBOARD.SETTINGS)    || '';
-var DASH_SVG_CHEVRON        = (_svgC.DASHBOARD && _svgC.DASHBOARD.CHEVRON)     || '';
-var DASH_SVG_CORNER_TL      = (_svgC.DASHBOARD && _svgC.DASHBOARD.CORNER_TL)    || '';
-var DASH_SVG_CORNER_TR      = (_svgC.DASHBOARD && _svgC.DASHBOARD.CORNER_TR)    || '';
+var DASH_SVG_RUB_EL_HIZB   = typeof renderIcon === 'function' ? renderIcon('rub-el-hizb') : ((_svgC.DASHBOARD && _svgC.DASHBOARD.RUB_EL_HIZB) || '');
+var DASH_SVG_TRACKER        = typeof renderIcon === 'function' ? renderIcon('tracker') : ((_svgC.DASHBOARD && _svgC.DASHBOARD.TRACKER) || '');
+var DASH_SVG_TASBEEH        = typeof renderIcon === 'function' ? renderIcon('misbaha') : ((_svgC.SHARED && _svgC.SHARED.MISBAHA) || '');
+var DASH_SVG_DUAS           = typeof renderIcon === 'function' ? renderIcon('duas') : ((_svgC.DASHBOARD && _svgC.DASHBOARD.DUAS) || '');
+var DASH_SVG_SETTINGS       = typeof renderIcon === 'function' ? renderIcon('settings-gear') : ((_svgC.DASHBOARD && _svgC.DASHBOARD.SETTINGS) || '');
+var DASH_SVG_CHEVRON        = typeof renderIcon === 'function' ? renderIcon('dash-chevron') : ((_svgC.DASHBOARD && _svgC.DASHBOARD.CHEVRON) || '');
+var DASH_SVG_CORNER_TL      = typeof renderIcon === 'function' ? renderIcon('corner-tl') : ((_svgC.DASHBOARD && _svgC.DASHBOARD.CORNER_TL) || '');
+var DASH_SVG_CORNER_TR      = typeof renderIcon === 'function' ? renderIcon('corner-tr') : ((_svgC.DASHBOARD && _svgC.DASHBOARD.CORNER_TR) || '');
 
 var TIMELINE_ICONS = (window.CONSTANTS && window.CONSTANTS.DASHBOARD && window.CONSTANTS.DASHBOARD.TIMELINE_ICONS) || window.TIMELINE_ICONS || {};
 
@@ -191,16 +191,16 @@ function rDashboard() {
     var timelineNodesHtml = P.map(function (p) {
         var st = statuses[p] || DASH_STATUSES.UPCOMING;
         var isActive = st === DASH_STATUSES.ACTIVE;
-        var circleClass = isActive ? 'dash-timeline-circle active flex items-center justify-center' : 'dash-timeline-circle flex items-center justify-center';
+        var boxClass = isActive ? 'icon-box icon-box-md active flex items-center justify-center' : 'icon-box icon-box-md flex items-center justify-center';
 
         var badgeInfo = DASH_STATUS_BADGES[st] || DASH_STATUS_BADGES[DASH_STATUSES.UPCOMING];
         var badgeClass = badgeInfo.className;
         var badgeText = badgeInfo.text;
 
-        var prayerIcon = TIMELINE_ICONS[p] || '';
+        var prayerIcon = typeof renderIcon === 'function' ? renderIcon(p.toLowerCase()) : (TIMELINE_ICONS[p] || '');
 
         return '<div class="dash-timeline-col flex-1 flex flex-col items-center" data-ref="page.dashboard.timeline.item.' + p.toLowerCase() + '">' +
-            '  <div class="' + circleClass + '" data-ref="page.dashboard.timeline.icon.' + p.toLowerCase() + '">' +
+            '  <div class="' + boxClass + '" data-ref="page.dashboard.timeline.icon.' + p.toLowerCase() + '">' +
             prayerIcon +
             '  </div>' +
             '  <div class="dash-timeline-name" data-ref="page.dashboard.timeline.name.' + p.toLowerCase() + '">' + p + '</div>' +
@@ -220,7 +220,7 @@ function rDashboard() {
         '  <!-- Top Header Bar: Location & Mosque Silhouette -->' +
         '  <header class="dash-top-header flex items-center justify-between" data-ref="page.dashboard.header">' +
         '    <div class="dash-location-text flex items-center" data-ref="page.dashboard.header.location">' +
-        '      <i class="fa-solid fa-location-dot dash-location-icon" data-ref="page.dashboard.header.location-icon"></i>' +
+        '      ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'location-dot', className: 'dash-location-icon', dataRef: 'page.dashboard.header.location-icon' }) : '<i class="fa-solid fa-location-dot dash-location-icon" data-ref="page.dashboard.header.location-icon"></i>') +
         '      <span data-ref="page.dashboard.header.location-text">' + cfg.city + ' &bull; ' + (SCHOOL_NAMES[cfg.school] || 'Hanafi') + '</span>' +
         '    </div>' +
         '    <div class="dash-header-mosque flex items-center justify-center" data-ref="page.dashboard.header.mosque-icon">' +
@@ -247,10 +247,7 @@ function rDashboard() {
         '      <span class="dash-timeline-title" data-ref="page.dashboard.timeline.title">Daily Prayer Timeline</span>' +
         '      <div class="dash-timeline-header-line flex-1" data-ref="page.dashboard.timeline.line"></div>' +
         '      <div class="dash-timeline-header-icon flex items-center justify-center shrink-0" title="Daily Prayers" aria-hidden="true" data-ref="page.dashboard.timeline.alarm-icon">' +
-        '        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-        '          <circle cx="12" cy="13" r="8"/>' +
-        '          <path d="M12 9v4l2 1.5M5 3L2 6M22 6l-3-3M6.38 18.7L4 21M17.64 18.67L20 21"/>' +
-        '        </svg>' +
+        '        ' + (typeof renderIcon === 'function' ? renderIcon('timeline-alarm') : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 1.5M5 3L2 6M22 6l-3-3M6.38 18.7L4 21M17.64 18.67L20 21"/></svg>') +
         '      </div>' +
         '    </div>' +
         '    <div class="dash-timeline-nodes flex justify-between items-stretch" data-ref="page.dashboard.timeline.nodes">' +
@@ -262,7 +259,7 @@ function rDashboard() {
         '  <div class="dash-grid-2x2" data-ref="page.dashboard.nav-grid">' +
         '    <!-- Tracker -->' +
         '    <div class="dash-nav-card flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-tracker" data-ref="page.dashboard.card.tracker">' +
-        '      <div class="dash-nav-icon-circle flex items-center justify-center" data-ref="page.dashboard.card.tracker-icon">' +
+        '      <div class="icon-box icon-box-lg flex items-center justify-center" data-ref="page.dashboard.card.tracker-icon">' +
         '        ' + DASH_SVG_TRACKER +
         '      </div>' +
         '      <div class="dash-nav-footer flex items-center justify-center">' +
@@ -272,7 +269,7 @@ function rDashboard() {
         '    </div>' +
         '    <!-- Tasbeeh -->' +
         '    <div class="dash-nav-card flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-tasbeeh" data-ref="page.dashboard.card.tasbeeh">' +
-        '      <div class="dash-nav-icon-circle flex items-center justify-center" data-ref="page.dashboard.card.tasbeeh-icon">' +
+        '      <div class="icon-box icon-box-lg flex items-center justify-center" data-ref="page.dashboard.card.tasbeeh-icon">' +
         '        ' + DASH_SVG_TASBEEH +
         '      </div>' +
         '      <div class="dash-nav-footer flex items-center justify-center">' +
@@ -282,7 +279,7 @@ function rDashboard() {
         '    </div>' +
         '    <!-- Duas -->' +
         '    <div class="dash-nav-card flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-duas" data-ref="page.dashboard.card.duas">' +
-        '      <div class="dash-nav-icon-circle flex items-center justify-center" data-ref="page.dashboard.card.duas-icon">' +
+        '      <div class="icon-box icon-box-lg flex items-center justify-center" data-ref="page.dashboard.card.duas-icon">' +
         '        ' + DASH_SVG_DUAS +
         '      </div>' +
         '      <div class="dash-nav-footer flex items-center justify-center">' +
@@ -292,7 +289,7 @@ function rDashboard() {
         '    </div>' +
         '    <!-- Settings -->' +
         '    <div class="dash-nav-card flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-settings" data-ref="page.dashboard.card.settings">' +
-        '      <div class="dash-nav-icon-circle flex items-center justify-center" data-ref="page.dashboard.card.settings-icon">' +
+        '      <div class="icon-box icon-box-lg flex items-center justify-center" data-ref="page.dashboard.card.settings-icon">' +
         '        ' + DASH_SVG_SETTINGS +
         '      </div>' +
         '      <div class="dash-nav-footer flex items-center justify-center">' +

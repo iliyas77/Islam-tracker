@@ -144,6 +144,11 @@ body {
     transition: transform 0.15s ease, color 0.15s ease;
 }
 
+.nav-tab .nav-tab-icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
 .nav-tab span:not(.nav-tab-icon) {
     font-size: 0.72rem;
     line-height: 1.1;
@@ -199,12 +204,156 @@ body {
     border: 0;
 }
 
+/* ============================================================
+   Unified Icon Box Component (.icon-box)
+   Single class used across the application for all icon
+   background containers. Features square (squircle) design
+   with three standardized size modifiers:
+     - .icon-box-sm : 36px × 36px (Small)
+     - .icon-box-md : 46px × 46px (Medium - default)
+     - .icon-box-lg : 56px × 56px (Large)
+     - .icon-box-xl : 64px × 64px (Very Big / Extra Large)
+   ============================================================ */
+.icon-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 1;
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-md, 14px);
+    background: var(--dash-mint-bg, var(--brand-light, #e1eee5));
+    color: var(--brand, #123D2E);
+    transition: transform 0.15s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    overflow: hidden;
+}
+
+/* 1. Small: 36px */
+.icon-box.icon-box-sm,
+.icon-box-sm,
+.icon-box.sm,
+.icon-box.icon-sm,
+.info-icon-badge {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    border-radius: 10px;
+}
+
+/* 2. Medium: 46px (Default) */
+.icon-box.icon-box-md,
+.icon-box-md,
+.icon-box.md,
+.icon-box.icon-md,
+.tb-card-icon-box,
+.dash-timeline-circle,
+.timeline-circle,
+.icon-avatar {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    min-height: 46px;
+    border-radius: 14px;
+}
+
+/* 3. Large: 56px */
+.icon-box.icon-box-lg,
+.icon-box-lg,
+.icon-box.lg,
+.icon-box.icon-lg,
+.modal-icon-badge,
+.dash-nav-icon-circle,
 .icon-circle-lg {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: var(--brand-soft);
-    font-size: 1.5rem;
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    min-height: 56px;
+    border-radius: 16px;
+}
+
+/* 4. Very Big / Extra Large: 64px */
+.icon-box.icon-box-xl,
+.icon-box-xl,
+.icon-box.xl,
+.icon-box.icon-xl {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    min-height: 64px;
+    border-radius: 18px;
+}
+
+/* Hover effect in clickable cards */
+.dash-nav-card:hover .icon-box,
+.tb-dhikr-card:hover .icon-box,
+.tb-card:hover .icon-box {
+    transform: scale(1.05);
+}
+
+/* Active timeline state */
+.icon-box.active {
+    background: var(--brand, #123D2E) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(20, 66, 52, 0.25);
+}
+
+.icon-box.active svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+/* Prayer card state variants */
+.icon-box.icon-current {
+    background-color: var(--brand) !important;
+    color: var(--card-bg) !important;
+}
+
+.icon-box.icon-done {
+    background-color: var(--icon-done-bg) !important;
+    color: var(--brand) !important;
+}
+
+.icon-box.icon-missed {
+    background-color: var(--gr-danger) !important;
+    color: var(--whole-bg) !important;
+}
+
+/* Auto-scale SVG & app-icon inside .icon-box */
+.icon-box svg {
+    display: block;
+    max-width: 65%;
+    max-height: 65%;
+    width: auto;
+    height: auto;
+}
+
+.icon-box.icon-box-sm svg,
+.icon-box-sm svg {
+    max-width: 58%;
+    max-height: 58%;
+}
+
+.icon-box.icon-box-lg svg,
+.icon-box-lg svg {
+    max-width: 60%;
+    max-height: 60%;
+}
+
+.icon-box.icon-box-xl svg,
+.icon-box-xl svg {
+    max-width: 60%;
+    max-height: 60%;
+}
+
+.icon-box app-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
 /* ---------- Badges ---------- */
@@ -491,16 +640,16 @@ body {
 .dash-timeline-card {
     background: #ffffff;
     border: 1px solid var(--dash-card-border, #e1ece5);
-    border-radius: 22px;
-    padding: 20px 16px;
+    border-radius: 20px;
+    padding: 12px 10px;
     box-shadow: var(--dash-card-shadow, 0 1px 4px rgba(20, 66, 52, 0.03));
     position: relative;
     z-index: 2;
 }
 
 .dash-timeline-header {
-    margin-bottom: 20px;
-    gap: 12px;
+    margin-bottom: 12px;
+    gap: 10px;
 }
 
 .dash-timeline-title {
@@ -544,7 +693,7 @@ body {
 .timeline-circle {
     width: 48px;
     height: 48px;
-    border-radius: 50%;
+    border-radius: 14px;
     background: var(--dash-mint-bg, #e1eee5);
     color: var(--brand);
     transition: all 0.2s ease;
@@ -654,7 +803,7 @@ body {
 .dash-nav-icon-circle {
     width: 58px;
     height: 58px;
-    border-radius: 50%;
+    border-radius: 16px;
     background: var(--dash-mint-bg, #e1eee5);
     margin: 0 auto;
     transition: transform 0.15s ease;
@@ -721,7 +870,7 @@ body {
     gap: 12px;
 }
 
-.tb-grid > .card {
+.tb-grid>.card {
     grid-column: 1 / -1;
 }
 
@@ -1091,7 +1240,7 @@ body {
 .tb-cal-nav-btn {
     width: 36px;
     height: 36px;
-    border-radius: 50%;
+    border-radius: 10px;
     border: 1px solid var(--border);
     background: var(--card-bg);
     color: var(--ink);
@@ -1288,9 +1437,17 @@ body {
 
 /* Calendar cell toggle animation */
 @keyframes tbCalPop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.12); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .tb-cal-cell.tb-cal-pop {
@@ -1671,6 +1828,14 @@ body {
     top: 14px;
     right: 16px;
     font-size: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pinned-badge svg {
+    width: 16px;
+    height: 16px;
 }
 
 .pinned-dua-number {
@@ -1777,6 +1942,14 @@ body {
 
 .dua-pin-btn {
     opacity: 0.5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dua-pin-btn svg {
+    width: 16px;
+    height: 16px;
 }
 
 .dua-pin-btn:hover {
@@ -1868,6 +2041,14 @@ body {
     cursor: pointer;
     transition: background 0.2s, border-color 0.2s;
     line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dua-detail-icon-btn svg {
+    width: 16px;
+    height: 16px;
 }
 
 .dua-detail-icon-btn:hover {
@@ -1899,7 +2080,7 @@ body {
     bottom: 80px;
     width: 54px;
     height: 54px;
-    border-radius: 50%;
+    border-radius: 16px;
     background: var(--brand);
     color: var(--card-bg);
     border: none;
@@ -2066,6 +2247,7 @@ body {
 .info-icon-badge {
     width: 34px !important;
     height: 34px !important;
+    border-radius: 10px !important;
 }
 
 .country-input-width {

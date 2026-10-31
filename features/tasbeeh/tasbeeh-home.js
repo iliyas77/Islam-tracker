@@ -40,13 +40,13 @@ window.TasbeehHomeApp = (function () {
             body.innerHTML =
                 '<div class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white mt-3" data-ref="page.tasbeeh.home.empty">' +
                 '  <div class="mb-3">' +
-                '    <i class="fa-solid fa-hand-holding-heart fs-1 text-muted opacity-50"></i>' +
+                '    ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'hand-holding-heart', size: 'fs-1', color: 'text-muted', className: 'opacity-50' }) : '<i class="fa-solid fa-hand-holding-heart fs-1 text-muted opacity-50"></i>') +
                 '  </div>' +
                 '  <h5 class="fw-bold text-gr1 mb-1">No Dhikr Configured</h5>' +
                 '  <p class="text-muted small mb-3">Add your first recitation chant in the Current tab to begin tracking bookmarks.</p>' +
                 '  <div>' +
                 '    <button type="button" class="btn btn-sm btn-brand rounded-pill px-4 py-2" data-act="switch-tb-current">' +
-                '      <i class="fa-solid fa-plus me-1"></i> Add First Dhikr' +
+                '      ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'plus', className: 'me-1' }) : '<i class="fa-solid fa-plus me-1"></i>') + ' Add First Dhikr' +
                 '    </button>' +
                 '  </div>' +
                 '</div>';
@@ -54,9 +54,11 @@ window.TasbeehHomeApp = (function () {
         }
 
         var icons = (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.ICONS) || {};
-        var misbahaIcon = icons.MISBAHA || '<i class="fa-solid fa-hand-holding-heart"></i>';
-        var targetIcon = icons.TARGET || '';
-        var checkIcon = icons.CHECK_CIRCLE || '';
+        var misbahaIcon = typeof renderIcon === 'function' ? renderIcon('misbaha') : (icons.MISBAHA || '<i class="fa-solid fa-hand-holding-heart"></i>');
+        var targetIcon = typeof renderIcon === 'function' ? renderIcon('tb-target') : (icons.TARGET || '');
+        var checkIcon = typeof renderIcon === 'function' ? renderIcon('tb-check-circle') : (icons.CHECK_CIRCLE || '');
+        var tbChevron = typeof renderIcon === 'function' ? renderIcon('tb-chevron') : (((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.CHEVRON) || ''));
+        var calendarDaysIcon = typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-days', variant: 'regular', color: 'text-muted', size: 13 }) : '<i class="fa-regular fa-calendar-days text-muted" style="font-size: 13px;"></i>';
 
         // 1. Current Bookmark Card
         var curHtml = '';
@@ -65,12 +67,12 @@ window.TasbeehHomeApp = (function () {
             curHtml =
                 '<div class="tb-card tb-card-bookmark" role="button" tabindex="0" data-act="tb-open-bookmark" data-type="current" data-id="' + c.item.id + '" data-ref="page.tasbeeh.home.bookmark-current" aria-label="Open Current Tasbeeh ' + escHtml(c.item.title) + '">' +
                 '  <div class="tb-card-top">' +
-                '    <div class="tb-card-icon-box">' +
+                '    <div class="icon-box icon-box-md">' +
                 misbahaIcon +
                 '    </div>' +
                 '    <div class="tb-card-actions">' +
                 '      <span class="tb-bookmark-pill tb-pill-current">Current</span>' +
-                '      ' + ((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.CHEVRON) || '') +
+                '      ' + tbChevron +
                 '    </div>' +
                 '  </div>' +
                 '  <div class="tb-card-body">' +
@@ -82,10 +84,13 @@ window.TasbeehHomeApp = (function () {
                 '      </div>' +
                 '      <div class="tb-meta-row">' +
                 checkIcon +
-                '        <span class="tb-meta-text"><span class="badge-pill-custom badge-done" style="font-size:0.72rem;padding:0.25rem 0.6rem;">Done</span><strong class="tb-val-done ms-1">' + (c.completedDays || 0) + '</strong><span class="tb-val-total"> / ' + (c.totalDays || 0) + ' days</span></span>' +
+                '        <span class="tb-meta-text"><span class="badge-pill-custom badge-done" style="font-size:0.72rem;padding:0.25rem 0.6rem;">Done</span><strong class="tb-val-done ms-1">' + (c.completedDays || 0) + '</strong></span>' +
+                '      </div>' +
+                '      <div class="tb-meta-row">' +
+                calendarDaysIcon +
+                '        <span class="tb-meta-text">Total: <span class="tb-val-total">' + (c.totalDays || 0) + ' days</span></span>' +
                 '      </div>' +
                 '      <div class="tb-meta-row tb-meta-sub-row">' +
-                '        <i class="fa-regular fa-calendar-days text-muted" style="font-size: 11px;"></i>' +
                 '        <span class="tb-meta-text">' + escHtml(c.monthName || 'Current Month') + (c.isTodayDone ? ' · <span class="text-brand fw-bold">Today ✓</span>' : '') + '</span>' +
                 '      </div>' +
                 '    </div>' +
@@ -100,12 +105,12 @@ window.TasbeehHomeApp = (function () {
             oldHtml =
                 '<div class="tb-card tb-card-bookmark" role="button" tabindex="0" data-act="tb-open-bookmark" data-type="old" data-id="' + o.item.id + '" data-month="' + (o.monthKey || '') + '" data-ref="page.tasbeeh.home.bookmark-old" aria-label="Open Old Tasbeeh ' + escHtml(o.item.title) + '">' +
                 '  <div class="tb-card-top">' +
-                '    <div class="tb-card-icon-box">' +
+                '    <div class="icon-box icon-box-md">' +
                 misbahaIcon +
                 '    </div>' +
                 '    <div class="tb-card-actions">' +
                 '      <span class="tb-bookmark-pill tb-pill-old">Old</span>' +
-                '      ' + ((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.CHEVRON) || '') +
+                '      ' + tbChevron +
                 '    </div>' +
                 '  </div>' +
                 '  <div class="tb-card-body">' +
@@ -117,10 +122,13 @@ window.TasbeehHomeApp = (function () {
                 '      </div>' +
                 '      <div class="tb-meta-row">' +
                 checkIcon +
-                '        <span class="tb-meta-text"><span class="badge-pill-custom badge-done" style="font-size:0.72rem;padding:0.25rem 0.6rem;">Done</span><strong class="tb-val-done ms-1">' + (o.completedDays || 0) + '</strong><span class="tb-val-total"> / ' + (o.totalDays || 0) + ' days</span></span>' +
+                '        <span class="tb-meta-text"><span class="badge-pill-custom badge-done" style="font-size:0.72rem;padding:0.25rem 0.6rem;">Done</span><strong class="tb-val-done ms-1">' + (o.completedDays || 0) + '</strong></span>' +
+                '      </div>' +
+                '      <div class="tb-meta-row">' +
+                calendarDaysIcon +
+                '        <span class="tb-meta-text">Total: <span class="tb-val-total">' + (o.totalDays || 0) + ' days</span></span>' +
                 '      </div>' +
                 '      <div class="tb-meta-row tb-meta-sub-row">' +
-                '        <i class="fa-regular fa-calendar-days text-muted" style="font-size: 11px;"></i>' +
                 '        <span class="tb-meta-text">' + escHtml(o.monthName) + '</span>' +
                 '      </div>' +
                 '    </div>' +
@@ -156,7 +164,7 @@ window.TasbeehHomeApp = (function () {
             '    </div>' +
             '    <button type="button" class="btn btn-sm btn-outline-brand rounded-pill px-3 py-1 inline-flex items-center gap-1" data-act="switch-tb-current" style="font-size: 0.78rem; font-weight: 600;">' +
             '      <span>All Dhikrs</span>' +
-            '      <i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>' +
+            '      ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'chevron-right', size: 10 }) : '<i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>') +
             '    </button>' +
             '  </div>' +
             '' +
@@ -172,7 +180,7 @@ window.TasbeehHomeApp = (function () {
             '      <div class="card p-3 rounded-4 bg-white border shadow-sm h-100" role="button" tabindex="0" data-act="switch-tb-current">' +
             '        <div class="flex items-center justify-between mb-2">' +
             '          <span class="badge rounded-pill bg-brand-light text-brand fw-bold" style="font-size: 10px;">CURRENT</span>' +
-            '          <i class="fa-regular fa-calendar text-brand" style="font-size: 14px;"></i>' +
+            '          ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar', variant: 'regular', color: 'text-brand', size: 14 }) : '<i class="fa-regular fa-calendar text-brand" style="font-size: 14px;"></i>') +
             '        </div>' +
             '        <div class="fw-bold text-gr1" style="font-size: 1.15rem;">' + items.length + ' <span class="small fw-normal text-muted" style="font-size: 0.8rem;">Dhikrs</span></div>' +
             '        <div class="text-muted small mt-1" style="font-size: 0.74rem;">Active in Current Month</div>' +
@@ -182,7 +190,7 @@ window.TasbeehHomeApp = (function () {
             '      <div class="card p-3 rounded-4 bg-white border shadow-sm h-100" role="button" tabindex="0" data-act="switch-tb-history">' +
             '        <div class="flex items-center justify-between mb-2">' +
             '          <span class="badge rounded-pill bg-warning-subtle text-warning fw-bold" style="font-size: 10px;">HISTORY</span>' +
-            '          <i class="fa-solid fa-gear text-warning" style="font-size: 14px;"></i>' +
+            '          ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'gear', color: 'text-warning', size: 14 }) : '<i class="fa-solid fa-gear text-warning" style="font-size: 14px;"></i>') +
             '        </div>' +
             '        <div class="fw-bold text-gr1" style="font-size: 1.15rem;">' + completedCount + ' <span class="small fw-normal text-muted" style="font-size: 0.8rem;">Cleared</span></div>' +
             '        <div class="text-muted small mt-1" style="font-size: 0.74rem;">Active: ' + escHtml(activeOldLabel) + '</div>' +
@@ -193,7 +201,7 @@ window.TasbeehHomeApp = (function () {
             '  <!-- Helpful Guidance Banner -->' +
             '  <div class="card p-3 rounded-4 bg-brand-light border-0">' +
             '    <div class="flex items-start gap-2">' +
-            '      <i class="fa-solid fa-circle-info text-brand mt-1" style="font-size: 14px;"></i>' +
+            '      ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'circle-info', color: 'text-brand', size: 14, className: 'mt-1' }) : '<i class="fa-solid fa-circle-info text-brand mt-1" style="font-size: 14px;"></i>') +
             '      <div class="small text-muted" style="font-size: 0.78rem; line-height: 1.45;">' +
             '        Whenever you open a Dhikr in <strong>Current</strong> or <strong>Old</strong> tracking, its bookmark updates automatically so you can continue where you left off.' +
             '      </div>' +
