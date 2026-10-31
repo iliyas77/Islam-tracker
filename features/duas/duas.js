@@ -13,9 +13,12 @@ window.DuasApp = (function () {
     var STORAGE_KEY_PINS = (DUA_CONSTANTS.STORAGE_KEYS && DUA_CONSTANTS.STORAGE_KEYS.PINS) || 'quranDuas_pins';
     var MAX_PINS = typeof DUA_CONSTANTS.MAX_PINS === 'number' ? DUA_CONSTANTS.MAX_PINS : 2;
     var DUA_TABS = DUA_CONSTANTS.TABS || { HOME: 'home', DUAS: 'duas', FAVOURITES: 'favourites' };
+    var DRAWING_PIN_SVG = (window.SVG_CONSTANTS && window.SVG_CONSTANTS.SHARED && window.SVG_CONSTANTS.SHARED.DRAWING_PIN) ||
+        '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15"><title>drawing-pin</title><path fill="currentColor" d="M9.621 1.136a.5.5 0 0 1 .707 0l3.536 3.535a.5.5 0 0 1-.707.707l-.653-.652l-3.637 4.848l1.108 1.108a.5.5 0 1 1-.707.707L6.793 8.913v.001l-3.27 3.27a.5.5 0 0 1-.708-.706l3.27-3.27v-.002L3.612 5.732a.5.5 0 1 1 .707-.707l1.108 1.108l4.848-3.637l-.653-.653a.5.5 0 0 1 0-.707M6.14 6.847L8.153 8.86l3.637-4.85l-.802-.8z"/></svg>';
+
     var DUA_ICONS = DUA_CONSTANTS.ICONS || {
-        PINNED: '📌',
-        UNPINNED: '📍',
+        PINNED: DRAWING_PIN_SVG,
+        UNPINNED: DRAWING_PIN_SVG,
         FAV: '❤️',
         UNFAV: '♡'
     };
@@ -227,15 +230,16 @@ window.DuasApp = (function () {
 
         if (pins.length === 0) {
             homeView.innerHTML = '<div class="dua-empty-state">' +
-                '📌 No pinned duas yet.<br>' +
-                'Tap the 📍 pin icon on any dua to pin it here.<br>' +
+                '<span class="inline-flex items-center justify-center mb-2">' + DRAWING_PIN_SVG + '</span><br>' +
+                'No pinned duas yet.<br>' +
+                'Tap the pin icon on any dua to pin it here.<br>' +
                 '<span class="small opacity-75 mt-2 d-block">You can pin up to ' + MAX_PINS + ' duas for quick access.</span>' +
                 '</div>';
             if (progressIndicator) progressIndicator.textContent = '0 pinned';
             return;
         }
 
-        homeView.innerHTML = '<div class="home-section-title mb-2">📌 Your Pinned Duas (' + pins.length + '/' + MAX_PINS + ')</div>' +
+        homeView.innerHTML = '<div class="home-section-title mb-2 flex items-center gap-2">' + DRAWING_PIN_SVG + '<span>Your Pinned Duas (' + pins.length + '/' + MAX_PINS + ')</span></div>' +
             pins.map(function (pinIndex) {
                 var dua = duasData[pinIndex];
                 if (!dua) return '';
@@ -244,14 +248,14 @@ window.DuasApp = (function () {
                 var ard = getArdham(dua);
 
                 return '<div class="pinned-dua-card flex flex-col mb-3" data-act="dua-open-detail" data-idx="' + pinIndex + '" data-source="home">' +
-                    '<span class="pinned-badge">📌</span>' +
+                    '<span class="pinned-badge">' + DRAWING_PIN_SVG + '</span>' +
                     '<div class="pinned-dua-number">#' + String(dua.number).padStart(2, '0') + '</div>' +
                     '<div class="pinned-dua-surah">' + escapeHtml(surahLabel) + '</div>' +
                     '<div class="pinned-dua-text">' + escapeHtml(uch) + '</div>' +
                     '<div class="pinned-dua-meaning">' + escapeHtml(ard) + '</div>' +
                     '</div>';
             }).join('') +
-            '<div class="pin-limit-note">Tap the 📌 icon on a dua to unpin it, or pin another (max ' + MAX_PINS + ').</div>';
+            '<div class="pin-limit-note flex items-center justify-center gap-1">Tap the ' + DRAWING_PIN_SVG + ' icon on a dua to unpin it, or pin another (max ' + MAX_PINS + ').</div>';
 
         if (progressIndicator) progressIndicator.textContent = pins.length + ' pinned';
     }
@@ -306,7 +310,7 @@ window.DuasApp = (function () {
 
             return '<button class="btn btn-outline-secondary w-100 text-start mb-2 flex items-center gap-2 justify-start" ' +
                 'type="button" data-act="dua-replace-pin" data-old-idx="' + p + '">' +
-                '<span>📌</span>' +
+                '<span class="inline-flex items-center justify-center">' + DRAWING_PIN_SVG + '</span>' +
                 '<span class="grow text-truncate font-telugu">' +
                 '#' + String(dua.number).padStart(2, '0') + ' — ' + escapeHtml(surahLabel) +
                 '</span>' +
@@ -424,7 +428,7 @@ window.DuasApp = (function () {
         if (!btn || !icon) return;
         var isPinned = pins.indexOf(currentIndex) !== -1;
         btn.classList.toggle('is-pinned', isPinned);
-        icon.textContent = isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED;
+        icon.innerHTML = isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED;
     }
 
     function changeDua(direction) {

@@ -26,8 +26,9 @@ function rOldInfo() {
 
     var perPrayerHtml = P.map(function (p) {
         var c = perPrayer[p];
+        var pIcon = typeof renderIcon === 'function' ? renderIcon(p.toLowerCase()) : I[p];
         return '<div class="flex justify-between items-center py-2 px-3 rounded-3 mb-2 bg-surface">' +
-            '<div class="flex items-center gap-2"><span class="fs-4">' + I[p] + '</span>' +
+            '<div class="flex items-center gap-2"><span class="fs-4">' + pIcon + '</span>' +
             '<span class="fw-bold fs-6">' + p + '</span></div>' +
             '<span class="badge rounded-pill ' + (c > 0 ? 'bg-danger text-white' : 'bg-brand text-white') +
             ' px-3 py-2 small">' + c + ' missed</span></div>';
@@ -37,7 +38,11 @@ function rOldInfo() {
         iconClass: 'fa-solid fa-circle-info text-brand',
         title: 'Period Info'
     };
-    $('sheet2Icon').className = sheetCfg.iconClass;
+    if (window.Icon && typeof Icon.update === 'function') {
+        Icon.update($('sheet2Icon'), sheetCfg.iconClass);
+    } else {
+        $('sheet2Icon').className = sheetCfg.iconClass;
+    }
     $('sheet2Title').textContent = sheetCfg.title;
     $('sheet2Sub').textContent = isAllCompleted ? (fr(o.start) + ' → Complete') : (fr(o.start) + ' → ' + fr(o.end));
 
@@ -45,7 +50,7 @@ function rOldInfo() {
         '<div class="flex flex-col gap-2">' +
         '<div class="card rounded-4 p-3 bg-brand-light">' +
         '<div class="flex items-center gap-2 mb-3">' +
-        '<i class="fa-regular fa-calendar-check fs-4 text-brand"></i>' +
+        (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-check', variant: 'regular', size: 'fs-4', color: 'text-brand' }) : '<i class="fa-regular fa-calendar-check fs-4 text-brand"></i>') +
         '<strong class="fs-5 text-brand">Current Period</strong>' +
         '</div>' +
         '<div class="row g-2">' +
@@ -59,7 +64,7 @@ function rOldInfo() {
         '</div>' +
         '<div class="card rounded-4 p-3 bg-white">' +
         '<div class="flex items-center gap-2 mb-3">' +
-        '<i class="fa-solid fa-chart-simple fs-5 text-brand"></i>' +
+        (typeof renderIcon === 'function' ? renderIcon({ name: 'chart-simple', size: 'fs-5', color: 'text-brand' }) : '<i class="fa-solid fa-chart-simple fs-5 text-brand"></i>') +
         '<strong class="text-dark">Summary</strong>' +
         '</div>' +
         '<div class="row g-2 mb-3">' +
@@ -78,13 +83,13 @@ function rOldInfo() {
         '</div>' +
         '<div class="card rounded-4 p-3 bg-white">' +
         '<div class="flex items-center gap-2 mb-2">' +
-        '<i class="fa-solid fa-list-check fs-5 text-warning"></i>' +
+        (typeof renderIcon === 'function' ? renderIcon({ name: 'list-check', size: 'fs-5', color: 'text-warning' }) : '<i class="fa-solid fa-list-check fs-5 text-warning"></i>') +
         '<strong class="text-dark">Per Prayer Breakdown</strong>' +
         '</div>' +
         '<div class="mt-2">' + perPrayerHtml + '</div>' +
         '</div>' +
         '<button type="button" class="btn btn-brand fw-bold py-3 rounded-3 fs-6" data-act="old-change-period">' +
-        '<i class="fa-regular fa-calendar-plus me-1"></i>Change Period</button>' +
+        (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-plus', variant: 'regular', className: 'me-1' }) : '<i class="fa-regular fa-calendar-plus me-1"></i>') + 'Change Period</button>' +
         '</div>';
     sheet2BS.show();
 }
@@ -95,7 +100,11 @@ function rPeriod() {
         title: 'Set Old Period',
         sub: ''
     };
-    $('sheet2Icon').className = sheetCfg.iconClass;
+    if (window.Icon && typeof Icon.update === 'function') {
+        Icon.update($('sheet2Icon'), sheetCfg.iconClass);
+    } else {
+        $('sheet2Icon').className = sheetCfg.iconClass;
+    }
     $('sheet2Title').textContent = sheetCfg.title;
     $('sheet2Sub').textContent = sheetCfg.sub;
     var o = rdOK();
@@ -105,27 +114,27 @@ function rPeriod() {
         '<div class="card rounded-4 p-3 bg-warning-subtle">' +
         '<div class="mb-3">' +
         '<label class="form-label fw-bold">' +
-        '<i class="fa-regular fa-calendar me-1 text-brand"></i>Start date</label>' +
+        (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar', variant: 'regular', color: 'text-brand', className: 'me-1' }) : '<i class="fa-regular fa-calendar me-1 text-brand"></i>') + 'Start date</label>' +
         '<input type="date" class="form-control form-control-lg" id="oldStart" value="' +
         (o ? o.start : '') + '" max="' + td() + '">' +
         '</div>' +
         '<div class="mb-3">' +
         '<label class="form-label fw-bold">' +
-        '<i class="fa-regular fa-calendar-check me-1 text-brand"></i>End date</label>' +
+        (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-check', variant: 'regular', color: 'text-brand', className: 'me-1' }) : '<i class="fa-regular fa-calendar-check me-1 text-brand"></i>') + 'End date</label>' +
         '<input type="date" class="form-control form-control-lg" id="oldEnd" value="' +
         (hasValidPeriod ? (o.initialEnd || o.end) : (o ? o.end : '')) + '" max="' + td() + '">' +
         '</div>' +
         '<div class="flex gap-2">' +
         '<button class="btn btn-brand flex-1 fw-bold py-2 fs-5" data-act="old-save" type="button">' +
-        '<i class="fa-solid fa-check me-1"></i>Save Period</button>' +
+        (typeof renderIcon === 'function' ? renderIcon({ name: 'check', className: 'me-1' }) : '<i class="fa-solid fa-check me-1"></i>') + 'Save Period</button>' +
         (o ? '<button class="btn btn-outline-danger fw-bold px-3" data-act="old-clear" type="button">' +
-            '<i class="fa-solid fa-trash"></i></button>' : '') +
+            (typeof renderIcon === 'function' ? renderIcon('trash') : '<i class="fa-solid fa-trash"></i>') + '</button>' : '') +
         '</div>' +
         '</div>' +
         (hasValidPeriod
             ? '<div class="card rounded-4 p-3 bg-brand-light">' +
             '<div class="flex items-center gap-2">' +
-            '<i class="fa-solid fa-circle-info text-brand"></i>' +
+            (typeof renderIcon === 'function' ? renderIcon({ name: 'circle-info', color: 'text-brand' }) : '<i class="fa-solid fa-circle-info text-brand"></i>') +
             '<div class="small">Current period: <strong>' + fr(o.start) +
             '</strong> to <strong>' + fr(o.end) + '</strong></div>' +
             '</div></div>'
@@ -175,10 +184,11 @@ function rOT() {
     if (!o) {
         sub.textContent = 'Select a period to begin';
         lst.innerHTML = '<div class="text-center text-muted py-5 px-3 bg-white rounded-4 shadow-sm" data-ref="page.old.empty-period">' +
-            '<i class="fa-regular fa-calendar-plus display-4 mb-3 text-warning"></i>' +
+            (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-plus', variant: 'regular', size: 'display-4', color: 'text-warning', className: 'mb-3' }) : '<i class="fa-regular fa-calendar-plus display-4 mb-3 text-warning"></i>') +
             '<p class="fw-bold mb-1 text-warning">No period selected</p>' +
             '<p class="text-muted small mb-0">Tap the bookmark button above to set your Old Tracking period.</p>' +
-            '<button type="button" class="btn btn-brand btn-sm mt-3 fw-bold" data-act="old-change-period"><i class="fa-solid fa-plus me-1"></i>Set Period</button>' +
+            '<button type="button" class="btn btn-brand btn-sm mt-3 fw-bold" data-act="old-change-period">' +
+            (typeof renderIcon === 'function' ? renderIcon({ name: 'plus', className: 'me-1' }) : '<i class="fa-solid fa-plus me-1"></i>') + 'Set Period</button>' +
             '</div>';
         return;
     }
@@ -186,10 +196,11 @@ function rOT() {
     if (o.end < o.start) {
         sub.textContent = 'All days completed';
         lst.innerHTML = '<div class="text-center text-muted py-5 px-3 bg-white rounded-4 shadow-sm" data-ref="page.old.all-completed">' +
-            '<i class="fa-solid fa-circle-check display-4 mb-3 text-brand"></i>' +
+            (typeof renderIcon === 'function' ? renderIcon({ name: 'circle-check', size: 'display-4', color: 'text-brand', className: 'mb-3' }) : '<i class="fa-solid fa-circle-check display-4 mb-3 text-brand"></i>') +
             '<p class="fw-bold mb-2 text-gr-accent">All days complete!</p>' +
             '<p class="text-muted small mb-0">The Old Tracking period has been fully cleared.</p>' +
-            '<button type="button" class="btn btn-brand btn-sm mt-3 fw-bold" data-act="old-change-period"><i class="fa-regular fa-calendar-plus me-1"></i>Set Period</button>' +
+            '<button type="button" class="btn btn-brand btn-sm mt-3 fw-bold" data-act="old-change-period">' +
+            (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-plus', variant: 'regular', className: 'me-1' }) : '<i class="fa-regular fa-calendar-plus me-1"></i>') + 'Set Period</button>' +
             '</div>';
         return;
     }

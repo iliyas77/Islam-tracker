@@ -224,31 +224,42 @@ window.TasbeehOldApp = (function () {
         var icons = (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.ICONS) || {};
         var targetDisplay = isInfinite ? '∞' : item.targetCount;
 
+        var misbahaIcon = typeof renderIcon === 'function' ? renderIcon('misbaha') : (icons.MISBAHA || '<i class="fa-solid fa-hand-holding-heart"></i>');
+        var pencilIcon = typeof renderIcon === 'function' ? renderIcon('tb-pencil') : (icons.PENCIL || '<i class="fa-solid fa-pen"></i>');
+        var chevronIcon = typeof renderIcon === 'function' ? renderIcon('tb-chevron') : (((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.CHEVRON) || icons.CHEVRON || ''));
+        var targetIcon = typeof renderIcon === 'function' ? renderIcon('tb-target') : (icons.TARGET || '<i class="fa-solid fa-bullseye"></i>');
+        var checkCircleIcon = typeof renderIcon === 'function' ? renderIcon('tb-check-circle') : (icons.CHECK_CIRCLE || '<i class="fa-solid fa-circle-check"></i>');
+        var calendarDaysIcon = typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-days', variant: 'regular', color: 'text-muted', size: 13 }) : '<i class="fa-regular fa-calendar-days text-muted" style="font-size: 13px;"></i>';
+
         return '<div class="tb-card ' + (isDhikrDone ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-month="' + curOldMonth + '" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
             '<div class="tb-card-top">' +
-            '<div class="tb-card-icon-box">' +
-            (icons.MISBAHA || '<i class="fa-solid fa-hand-holding-heart"></i>') +
+            '<div class="icon-box icon-box-md">' +
+            misbahaIcon +
             '</div>' +
             '<div class="tb-card-actions">' +
             '<button type="button" class="tb-btn-edit" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr">' +
-            (icons.PENCIL || '<i class="fa-solid fa-pen"></i>') +
+            pencilIcon +
             '</button>' +
-            ((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.CHEVRON) || icons.CHEVRON || '') +
+            chevronIcon +
             '</div>' +
             '</div>' +
             '<div class="tb-card-body">' +
             '<h6 class="tb-card-title">' + escHtml(item.title) + '</h6>' +
             '<div class="tb-card-meta">' +
             '<div class="tb-meta-row">' +
-            (icons.TARGET || '<i class="fa-solid fa-bullseye"></i>') +
+            targetIcon +
             '<span class="tb-meta-text">Target: <span class="tb-val-num">' + targetDisplay + '</span> / day</span>' +
             '</div>' +
             '<div class="tb-meta-row">' +
-            (icons.CHECK_CIRCLE || '<i class="fa-solid fa-circle-check"></i>') +
-            '<span class="tb-meta-text"><span class="badge-pill-custom badge-done" style="font-size:0.72rem;padding:0.25rem 0.6rem;">Done</span><strong class="tb-val-done ms-1">' + completedDays + '</strong><span class="tb-val-total"> / ' + totalDays + ' days</span></span>' +
+            checkCircleIcon +
+            '<span class="tb-meta-text"><span class="badge-pill-custom badge-done" style="font-size:0.72rem;padding:0.25rem 0.6rem;">Done</span><strong class="tb-val-done ms-1">' + completedDays + '</strong></span>' +
+            '</div>' +
+            '<div class="tb-meta-row">' +
+            calendarDaysIcon +
+            '<span class="tb-meta-text">Total: <span class="tb-val-total">' + totalDays + ' days</span></span>' +
             '</div>' +
             (isDhikrDone
-                ? '<div class="tb-meta-row tb-meta-sub-row"><span class="text-brand fw-bold" style="font-size: 11px;"><i class="fa-solid fa-circle-check me-1"></i>Month Completed</span></div>'
+                ? '<div class="tb-meta-row tb-meta-sub-row"><span class="text-brand fw-bold" style="font-size: 11px;">' + (typeof renderIcon === 'function' ? renderIcon({ name: 'circle-check', className: 'me-1' }) : '<i class="fa-solid fa-circle-check me-1"></i>') + 'Month Completed</span></div>'
                 : '') +
             '</div>' +
             '</div>' +
@@ -272,7 +283,7 @@ window.TasbeehOldApp = (function () {
             oldBody.innerHTML =
                 '<div class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white">' +
                 '<div class="mb-3">' +
-                '<i class="fa-regular fa-calendar-xmark display-4 text-warning opacity-75"></i>' +
+                (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-xmark', variant: 'regular', size: 'display-4', color: 'text-warning', className: 'opacity-75' }) : '<i class="fa-regular fa-calendar-xmark display-4 text-warning opacity-75"></i>') +
                 '</div>' +
                 '<h5 class="fw-bold text-gr1 mb-2">No Previous Months in Period</h5>' +
                 '<p class="text-muted small mb-3">' +
@@ -280,7 +291,7 @@ window.TasbeehOldApp = (function () {
                 'The Old tab displays previous completed months prior to <strong>' + curMonthName + '</strong>.' +
                 '</p>' +
                 '<button type="button" class="btn btn-brand px-4 py-2 rounded-3 fw-bold mx-auto" data-act="tb-open-settings">' +
-                '<i class="fa-solid fa-calendar-days me-2"></i>Adjust Start Date' +
+                (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-days', className: 'me-2' }) : '<i class="fa-solid fa-calendar-days me-2"></i>') + 'Adjust Start Date' +
                 '</button>' +
                 '</div>';
             return;
@@ -293,7 +304,7 @@ window.TasbeehOldApp = (function () {
             oldBody.innerHTML =
                 '<div class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white">' +
                 '<div class="mb-3">' +
-                '<i class="fa-solid fa-circle-check display-4 text-brand"></i>' +
+                (typeof renderIcon === 'function' ? renderIcon({ name: 'circle-check', size: 'display-4', color: 'text-brand' }) : '<i class="fa-solid fa-circle-check display-4 text-brand"></i>') +
                 '</div>' +
                 '<h5 class="fw-bold text-gr1 mb-2">All Previous Months Completed!</h5>' +
                 '<p class="text-muted small mb-3">' +
@@ -301,10 +312,10 @@ window.TasbeehOldApp = (function () {
                 '</p>' +
                 '<div class="flex justify-center gap-2">' +
                 '<button type="button" class="btn btn-outline-brand rounded-pill px-4 py-2 fw-bold" data-act="tb-old-reopen">' +
-                '<i class="fa-solid fa-rotate-left me-1"></i>Reopen Last Month' +
+                (typeof renderIcon === 'function' ? renderIcon({ name: 'rotate-left', className: 'me-1' }) : '<i class="fa-solid fa-rotate-left me-1"></i>') + 'Reopen Last Month' +
                 '</button>' +
                 '<button type="button" class="btn btn-light border rounded-pill px-3 py-2 text-muted small" data-act="tb-reset-all-completed">' +
-                '<i class="fa-solid fa-arrows-rotate me-1"></i>Reset Completed' +
+                (typeof renderIcon === 'function' ? renderIcon({ name: 'arrows-rotate', className: 'me-1' }) : '<i class="fa-solid fa-arrows-rotate me-1"></i>') + 'Reset Completed' +
                 '</button>' +
                 '</div>' +
                 '</div>';
@@ -348,10 +359,10 @@ window.TasbeehOldApp = (function () {
         var advanceMonthHtml = isAllDone
             ? '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm mb-3">' +
               '<div class="text-brand fw-bold mb-2">' +
-              '<i class="fa-solid fa-circle-check me-1"></i>All targets for ' + monthName + ' are completed!' +
+              (typeof renderIcon === 'function' ? renderIcon({ name: 'circle-check', className: 'me-1' }) : '<i class="fa-solid fa-circle-check me-1"></i>') + 'All targets for ' + monthName + ' are completed!' +
               '</div>' +
               '<button type="button" class="btn btn-brand btn-sm fw-bold rounded-pill px-4 py-2 mx-auto" data-act="tb-old-advance">' +
-              '<i class="fa-solid fa-arrow-left me-1"></i>Finalize & Move to Previous Month' +
+              (typeof renderIcon === 'function' ? renderIcon({ name: 'arrow-left', className: 'me-1' }) : '<i class="fa-solid fa-arrow-left me-1"></i>') + 'Finalize & Move to Previous Month' +
               '</button>' +
               '</div>'
             : '';
@@ -359,7 +370,7 @@ window.TasbeehOldApp = (function () {
         var todoOldCardsHtml = todoOldItems.length > 0
             ? todoOldItems.map(function (it) { return renderOldCardHtml(it, false, curOldMonth, monthName); }).join('')
             : '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
-              '<i class="fa-solid fa-circle-check text-brand fs-3 mb-2"></i>' +
+              (typeof renderIcon === 'function' ? renderIcon({ name: 'circle-check', color: 'text-brand', size: 'fs-3', className: 'mb-2' }) : '<i class="fa-solid fa-circle-check text-brand fs-3 mb-2"></i>') +
               '<div class="fw-bold text-gr1">All Dhikrs for ' + monthName + ' Completed!</div>' +
               '</div>';
 
@@ -377,7 +388,7 @@ window.TasbeehOldApp = (function () {
             '<section class="prayer-group mb-3">' +
             '<button type="button" class="group-toggle tb-group-toggle py-1 flex items-center gap-2" data-bs-toggle="collapse" data-bs-target="#tbOldTodoList" aria-expanded="true">' +
             '<span class="tb-toggle-icon">' +
-            ((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_DOWN) || '') +
+            (typeof renderIcon === 'function' ? renderIcon('tb-group-toggle-down') : (((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_DOWN) || ''))) +
             '</span>' +
             '<span class="tb-group-title">To Do</span>' +
             '<span class="tb-group-badge">' + todoOldItems.length + '</span>' +
@@ -393,7 +404,7 @@ window.TasbeehOldApp = (function () {
             '<section class="prayer-group mb-3">' +
             '<button type="button" class="group-toggle tb-group-toggle py-1 flex items-center gap-2 ' + (isOldDoneExpanded ? '' : 'collapsed') + '" data-bs-toggle="collapse" data-bs-target="#tbOldDoneList" aria-expanded="' + (isOldDoneExpanded ? 'true' : 'false') + '">' +
             '<span class="tb-toggle-icon">' +
-            ((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_COLLAPSED) || '') +
+            (typeof renderIcon === 'function' ? renderIcon('tb-group-toggle-collapsed') : (((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_COLLAPSED) || ''))) +
             '</span>' +
             '<span class="tb-group-title-completed">COMPLETED</span>' +
             '<span class="tb-group-badge">' + doneOldItems.length + '</span>' +
@@ -429,7 +440,7 @@ window.TasbeehOldApp = (function () {
         if (oldMonths.length === 0) {
             previewText.innerHTML =
                 '<div><strong>Current Month:</strong> ' + curMonthName + '</div>' +
-                '<div class="text-warning mt-1"><i class="fa-solid fa-triangle-exclamation me-1"></i>Start Date is in or after current month. No previous months will show in Old tab.</div>';
+                '<div class="text-warning mt-1">' + (typeof renderIcon === 'function' ? renderIcon({ name: 'triangle-exclamation', className: 'me-1' }) : '<i class="fa-solid fa-triangle-exclamation me-1"></i>') + 'Start Date is in or after current month. No previous months will show in Old tab.</div>';
         } else {
             var newestOldMonth = formatMonthLabel(oldMonths[0]);
             var oldestMonth = formatMonthLabel(oldMonths[oldMonths.length - 1]);

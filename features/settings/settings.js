@@ -51,14 +51,14 @@ function rSET() {
         '<!-- Prayer Times Location Card -->' +
         '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.prayer-times.card">' +
         '<div class="flex items-center gap-3 mb-3" data-ref="page.settings.prayer-times.header">' +
-        '<span class="modal-icon-badge bg-brand-light" data-ref="page.settings.prayer-times.icon-badge">' +
-        ((window.SVG_CONSTANTS && window.SVG_CONSTANTS.SHARED && window.SVG_CONSTANTS.SHARED.MOSQUE) || '').replace('<svg ', '<svg data-ref="page.settings.prayer-times.icon" ') + '</span>' +
+        '<span class="icon-box icon-box-lg bg-brand-light flex items-center justify-center shrink-0" data-ref="page.settings.prayer-times.icon-badge">' +
+        renderIcon({ name: 'mosque', dataRef: 'page.settings.prayer-times.icon' }) + '</span>' +
         '<div class="grow" data-ref="page.settings.prayer-times.info">' +
         '<div class="fw-bold fs-6 text-gr1" data-ref="page.settings.prayer-times.title">Prayer Times Location</div>' +
         '<div class="text-muted small" data-ref="page.settings.prayer-times.subtitle">Selected City: ' + esc(cfg.city) + ', India</div>' +
         '</div>' +
         '<span class="badge rounded-pill bg-gr-accent-soft text-gr-accent px-2 py-1 fs-xs" data-ref="page.settings.prayer-times.status-badge">' +
-        '<i class="fa-solid fa-circle-dot me-1"></i>' + statusText +
+        renderIcon({ name: 'circle-dot', className: 'me-1' }) + statusText +
         '</span>' +
         '</div>' +
         '<div class="row g-2 mb-3" data-ref="page.settings.prayer-times.form-row">' +
@@ -84,15 +84,15 @@ function rSET() {
         '</div>' +
         '</div>' +
         '<button class="btn btn-brand fw-bold w-100 py-3 fs-6 rounded-3" data-act="pt-save" type="button" data-ref="page.settings.prayer-times.save-btn">' +
-        '<i class="fa-solid fa-arrows-rotate me-1" data-ref="page.settings.prayer-times.save-icon"></i>Sync &amp; Save Prayer Times' +
+        renderIcon({ name: 'arrows-rotate', className: 'me-1', dataRef: 'page.settings.prayer-times.save-icon' }) + 'Sync &amp; Save Prayer Times' +
         '</button>' +
         '</div>' +
 
         '<!-- Start Date Card -->' +
         '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.start-date.card">' +
         '<div class="flex items-center gap-3 mb-3" data-ref="page.settings.start-date.header">' +
-        '<span class="modal-icon-badge" data-ref="page.settings.start-date.icon-badge">' +
-        '<i class="fa-regular fa-calendar-check fs-4 text-brand" data-ref="page.settings.start-date.icon"></i></span>' +
+        '<span class="icon-box icon-box-lg bg-brand-light flex items-center justify-center shrink-0" data-ref="page.settings.start-date.icon-badge">' +
+        renderIcon({ name: 'calendar-check', variant: 'regular', size: 'fs-4', color: 'text-brand', dataRef: 'page.settings.start-date.icon' }) + '</span>' +
         '<div class="grow" data-ref="page.settings.start-date.info"><div class="fw-bold fs-6" data-ref="page.settings.start-date.title">Current Start Date</div></div>' +
         '</div>' +
         '<div class="flex gap-2 items-center" data-ref="page.settings.start-date.input-row">' +
@@ -106,7 +106,7 @@ function rSET() {
         '<!-- Font Size Card -->' +
         '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.font-size.card">' +
         '<div class="flex items-center gap-3 mb-3" data-ref="page.settings.font-size.header">' +
-        '<span class="modal-icon-badge text-gr-accent fw-bold fs-5" data-ref="page.settings.font-size.icon-badge">Aa</span>' +
+        '<span class="icon-box icon-box-lg bg-brand-light text-gr-accent fw-bold fs-5 flex items-center justify-center shrink-0" data-ref="page.settings.font-size.icon-badge">Aa</span>' +
         '<div class="grow" data-ref="page.settings.font-size.info"><div class="fw-bold fs-6" data-ref="page.settings.font-size.title">Font Size</div></div>' +
         '</div>' +
         '<div class="flex gap-2" id="fsBtns" data-ref="page.settings.font-size.buttons-row">' + fsb + '</div>' +
@@ -115,8 +115,8 @@ function rSET() {
         '<!-- Reset DB Card -->' +
         '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.reset.card">' +
         '<div class="flex items-center gap-3 mb-2" data-ref="page.settings.reset.header">' +
-        '<span class="modal-icon-badge bg-danger-subtle" data-ref="page.settings.reset.icon-badge">' +
-        '<i class="fa-solid fa-triangle-exclamation fs-4 text-danger" data-ref="page.settings.reset.icon"></i></span>' +
+        '<span class="icon-box icon-box-lg bg-danger-subtle flex items-center justify-center shrink-0" data-ref="page.settings.reset.icon-badge">' +
+        renderIcon({ name: 'triangle-exclamation', size: 'fs-4', color: 'text-danger', dataRef: 'page.settings.reset.icon' }) + '</span>' +
         '<div class="grow" data-ref="page.settings.reset.info">' +
         '<div class="fw-bold fs-6" data-ref="page.settings.reset.title">Reset Database</div>' +
         '<div class="text-muted small" data-ref="page.settings.reset.subtitle">This will delete all prayer data, old data and cache.</div>' +
@@ -129,9 +129,9 @@ function rSET() {
         '<!-- Storage Info -->' +
         '<div class="card rounded-4 p-3 border-0 bg-brand-light" data-ref="page.settings.info.card">' +
         '<div class="flex items-center gap-3" data-ref="page.settings.info.content">' +
-        '<span class="flex items-center justify-center rounded-circle shrink-0 bg-brand text-white info-icon-badge" ' +
+        '<span class="icon-box icon-box-sm bg-brand text-white flex items-center justify-center shrink-0" ' +
         'data-ref="page.settings.info.icon">' +
-        '<i class="fa-solid fa-info fs-6"></i></span>' +
+        renderIcon({ name: 'info', size: 'fs-6' }) + '</span>' +
         '<div class="small text-gr1 lh-sm" data-ref="page.settings.info.text">' +
         'All changes are saved automatically in your device (localStorage).</div>' +
         '</div>' +

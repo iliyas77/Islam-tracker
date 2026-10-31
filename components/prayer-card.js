@@ -89,8 +89,8 @@ function renderPrayerTrackerRow(opts) {
     if (isDone) {
         return '<li class="prayer-row prayer-row-done flex items-center justify-between" data-ref="' + prefix + '.row.' + pLower + '">' +
             '  <div class="prayer-meta flex items-center" data-ref="' + prefix + '.row.' + pLower + '.meta">' +
-            '    <div class="icon-avatar icon-done flex items-center justify-center shrink-0" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
-            PRAYER_CARD_ICONS.DoneCheck +
+            '    <div class="icon-box icon-box-md icon-done" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
+            (typeof renderIcon === 'function' ? renderIcon('done-check') : PRAYER_CARD_ICONS.DoneCheck) +
             '    </div>' +
             '    <div class="prayer-details flex flex-col" data-ref="' + prefix + '.row.' + pLower + '.details">' +
             '      <div class="title-wrap flex items-baseline" data-ref="' + prefix + '.row.' + pLower + '.title-wrap">' +
@@ -100,15 +100,15 @@ function renderPrayerTrackerRow(opts) {
             '    </div>' +
             '  </div>' +
             '  <button type="button" class="btn-action btn-completed inline-flex items-center" data-act="' + act + '" data-p="' + p + '"' + dateAttr + ' data-ref="' + prefix + '.row.' + pLower + '.action-btn" title="Tap to mark missed">' +
-            PRAYER_CARD_ICONS.DoneCheckSm +
+            (typeof renderIcon === 'function' ? renderIcon('done-check-sm') : PRAYER_CARD_ICONS.DoneCheckSm) +
             'Done' +
             '  </button>' +
             '</li>';
     } else if (isUpcoming) {
         return '<li class="prayer-row prayer-row-upcoming flex items-center justify-between" data-ref="' + prefix + '.row.' + pLower + '">' +
             '  <div class="prayer-meta flex items-center" data-ref="' + prefix + '.row.' + pLower + '.meta">' +
-            '    <div class="icon-avatar flex items-center justify-center shrink-0" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
-            (PRAYER_CARD_ICONS[p] || PRAYER_CARD_ICONS.Dhuhr) +
+            '    <div class="icon-box icon-box-md" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
+            (typeof renderIcon === 'function' ? renderIcon(pLower) : (PRAYER_CARD_ICONS[p] || PRAYER_CARD_ICONS.Dhuhr)) +
             '    </div>' +
             '    <div class="prayer-details flex flex-col" data-ref="' + prefix + '.row.' + pLower + '.details">' +
             '      <div class="title-wrap flex items-baseline" data-ref="' + prefix + '.row.' + pLower + '.title-wrap">' +
@@ -122,8 +122,8 @@ function renderPrayerTrackerRow(opts) {
     } else if (isMissed) {
         return '<li class="prayer-row prayer-row-missed flex items-center justify-between" data-ref="' + prefix + '.row.' + pLower + '">' +
             '  <div class="prayer-meta flex items-center" data-ref="' + prefix + '.row.' + pLower + '.meta">' +
-            '    <div class="icon-avatar icon-missed flex items-center justify-center shrink-0" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
-            (PRAYER_CARD_ICONS[p] || PRAYER_CARD_ICONS.Dhuhr) +
+            '    <div class="icon-box icon-box-md icon-missed" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
+            (typeof renderIcon === 'function' ? renderIcon(pLower) : (PRAYER_CARD_ICONS[p] || PRAYER_CARD_ICONS.Dhuhr)) +
             '    </div>' +
             '    <div class="prayer-details flex flex-col" data-ref="' + prefix + '.row.' + pLower + '.details">' +
             '      <div class="title-wrap flex items-baseline" data-ref="' + prefix + '.row.' + pLower + '.title-wrap">' +
@@ -136,13 +136,13 @@ function renderPrayerTrackerRow(opts) {
             '</li>';
     } else {
         var rowClass = isCurrent ? 'prayer-row prayer-row-current flex items-center justify-between' : 'prayer-row flex items-center justify-between';
-        var avatarClass = isCurrent ? 'icon-avatar icon-current flex items-center justify-center shrink-0' : 'icon-avatar flex items-center justify-center shrink-0';
+        var avatarClass = isCurrent ? 'icon-box icon-box-md icon-current' : 'icon-box icon-box-md';
         var btnClass = isCurrent ? 'btn-action btn-action-primary' : 'btn-action';
 
         return '<li class="' + rowClass + '" data-ref="' + prefix + '.row.' + pLower + '">' +
             '  <div class="prayer-meta flex items-center" data-ref="' + prefix + '.row.' + pLower + '.meta">' +
             '    <div class="' + avatarClass + '" data-ref="' + prefix + '.row.' + pLower + '.avatar">' +
-            (PRAYER_CARD_ICONS[p] || PRAYER_CARD_ICONS.Dhuhr) +
+            (typeof renderIcon === 'function' ? renderIcon(pLower) : (PRAYER_CARD_ICONS[p] || PRAYER_CARD_ICONS.Dhuhr)) +
             '    </div>' +
             '    <div class="prayer-details flex flex-col" data-ref="' + prefix + '.row.' + pLower + '.details">' +
             '      <div class="title-wrap flex items-baseline" data-ref="' + prefix + '.row.' + pLower + '.title-wrap">' +
@@ -229,7 +229,7 @@ function renderPrayerTrackerCard(cfg) {
 
     var badgeHtml = cfg.badgeText
         ? ('<span class="badge badge-warning"' + badgeActAttr + ' data-ref="' + prefix + '.card.header.badge">' +
-            PRAYER_CARD_ICONS.Warning +
+            (typeof renderIcon === 'function' ? renderIcon('warning') : PRAYER_CARD_ICONS.Warning) +
             '  ' + cfg.badgeText +
             '</span>')
         : '';
@@ -246,7 +246,7 @@ function renderPrayerTrackerCard(cfg) {
         '  <!-- Header: Date & Global Actions -->' +
         '  <header class="tracker-header flex items-center justify-between" data-ref="' + prefix + '.card.header">' +
         '    <button type="button" class="date-chip inline-flex items-center"' + dateChipActAttr + ' aria-label="Select date" data-ref="' + prefix + '.card.header.date-chip">' +
-        PRAYER_CARD_ICONS.Calendar +
+        (typeof renderIcon === 'function' ? renderIcon('calendar-card') : PRAYER_CARD_ICONS.Calendar) +
         '      <span data-ref="' + prefix + '.card.header.date-text">' + (cfg.dateChipText || '') + '</span>' +
         '    </button>' +
         '    <div class="header-status flex items-center" data-ref="' + prefix + '.card.header.status">' +

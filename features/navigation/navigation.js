@@ -57,7 +57,11 @@ function switchTrackerSubTab(subTab) {
         if (oldActionBtn) oldActionBtn.classList.remove('d-none');
         if (currentMissedBtn) currentMissedBtn.classList.add('d-none');
         if (headerIcon) {
-            headerIcon.className = TRACKER_HEADER.old.iconClass;
+            if (window.Icon && typeof Icon.update === 'function') {
+                Icon.update(headerIcon, TRACKER_HEADER.old.iconClass);
+            } else {
+                headerIcon.className = TRACKER_HEADER.old.iconClass;
+            }
         }
         if (headerLabel) headerLabel.textContent = TRACKER_HEADER.old.label;
         rOT();
@@ -76,7 +80,11 @@ function switchTrackerSubTab(subTab) {
         if (oldActionBtn) oldActionBtn.classList.add('d-none');
         if (currentMissedBtn) currentMissedBtn.classList.remove('d-none');
         if (headerIcon) {
-            headerIcon.className = TRACKER_HEADER.current.iconClass;
+            if (window.Icon && typeof Icon.update === 'function') {
+                Icon.update(headerIcon, TRACKER_HEADER.current.iconClass);
+            } else {
+                headerIcon.className = TRACKER_HEADER.current.iconClass;
+            }
         }
         if (headerLabel) headerLabel.textContent = TRACKER_HEADER.current.label;
         rn();
