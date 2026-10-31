@@ -87,27 +87,35 @@ function go(d) {
 /* ---------- Missed Prayers Sheet ---------- */
 function missTile(date, p) {
     var iconHtml = typeof renderIcon === 'function' ? renderIcon(p.toLowerCase()) : I[p];
-    return '<div class="rounded-4 p-2 flex flex-col items-center justify-center gap-2 flex-1 bg-danger-subtle min-w-0" ' +
+    return '<div class="rounded-3 p-2 flex flex-col items-center justify-center gap-1.5 bg-danger-subtle min-w-0" ' +
         'data-ref="page.current.missed-sheet.tile.' + p.toLowerCase() + '">' +
-        '<span class="fs-3">' + iconHtml + '</span>' +
-        '<span class="fw-bold text-truncate w-100 text-center small text-dark">' + p + '</span>' +
-        '<span class="badge-pill-custom badge-missed inline-flex items-center fs-xs py-1 px-2">' +
+        '<span class="fs-4 flex items-center justify-center">' + iconHtml + '</span>' +
+        '<span class="fw-bold text-truncate w-100 text-center fs-xs text-dark">' + p + '</span>' +
+        '<span class="badge-pill-custom badge-missed inline-flex items-center fs-xs py-1 px-1.5">' +
         (typeof renderIcon === 'function' ? renderIcon('circle-exclamation') : '<i class="fa-solid fa-circle-exclamation"></i>') + 'Missed</span>' +
         '</div>';
 }
 
 function missCard(x) {
     var tiles = x.prayers.map(function (p) { return missTile(x.date, p); }).join('');
-    return '<div class="card shadow-sm rounded-4 p-3 bg-gr border-0 cursor-pointer" role="button" data-act="jump" data-d="' + x.date + '" data-ref="page.current.missed-sheet.card.' + x.date + '">' +
-        '<div class="flex items-center gap-3 p-2 rounded-4 mb-3 bg-brand-light" data-ref="page.current.missed-sheet.card.header">' +
-        '<span class="icon-box icon-box-lg flex items-center justify-center shrink-0" data-ref="page.current.missed-sheet.card.icon">' +
-        (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-days', variant: 'regular', size: 'fs-3', color: 'text-gr-accent' }) : '<i class="fa-regular fa-calendar-days fs-3 text-gr-accent"></i>') + '</span>' +
-        '<div class="grow min-w-0" data-ref="page.current.missed-sheet.card.info">' +
-        '<div class="fw-bold text-gr1 fs-5 lh-1" data-ref="page.current.missed-sheet.card.title">' + friendly(x.date) + '</div>' +
-        '<div class="text-gr-accent fw-semibold mt-1" data-ref="page.current.missed-sheet.card.date">' + fr(x.date) + '</div>' +
+    var missedCount = x.prayers.length;
+    var countBadge = '<span class="badge-pill-custom badge-missed fs-xs py-1 px-2 inline-flex items-center gap-1 shrink-0">' +
+        missedCount + ' Missed' +
+        '<i class="fa-solid fa-chevron-right fs-xs opacity-75"></i></span>';
+
+    return '<div class="card shadow-sm rounded-4 p-2 bg-gr border-0 cursor-pointer" role="button" data-act="jump" data-d="' + x.date + '" data-ref="page.current.missed-sheet.card.' + x.date + '">' +
+        '<div class="flex items-center justify-between gap-2 mb-2 px-1" data-ref="page.current.missed-sheet.card.header">' +
+        '<div class="flex items-center gap-2 min-w-0" data-ref="page.current.missed-sheet.card.info">' +
+        '<span class="icon-box icon-box-sm flex items-center justify-center shrink-0" data-ref="page.current.missed-sheet.card.icon">' +
+        (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-days', variant: 'regular', size: 'fs-5', color: 'text-gr-accent' }) : '<i class="fa-regular fa-calendar-days fs-5 text-gr-accent"></i>') + '</span>' +
+        '<div class="min-w-0">' +
+        '<div class="fw-bold text-gr1 fs-5 lh-1 text-truncate" data-ref="page.current.missed-sheet.card.title">' + friendly(x.date) + '</div>' +
+        '<div class="text-gr-accent fw-semibold small mt-0.5 text-truncate" data-ref="page.current.missed-sheet.card.date">' + fr(x.date) + '</div>' +
         '</div>' +
         '</div>' +
-        '<div class="flex gap-2 w-100" data-ref="page.current.missed-sheet.card.tiles">' + tiles + '</div>' +
+        countBadge +
+        '</div>' +
+        '<div class="grid grid-cols-3 gap-2 w-100" data-ref="page.current.missed-sheet.card.tiles">' + tiles + '</div>' +
         '</div>';
 }
 

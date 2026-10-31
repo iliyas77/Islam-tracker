@@ -469,6 +469,13 @@ body {
     padding-bottom: 40px !important;
 }
 
+/* Missed Prayers Sheet 3-Column Grid */
+[data-ref="page.current.missed-sheet.card.tiles"] {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+}
+
 /* ---------- Progress bar ---------- */
 .progress {
     background: var(--gray150);
@@ -778,6 +785,7 @@ body {
 }
 
 .dash-nav-card {
+    position: relative;
     background: #ffffff;
     border: 1px solid var(--dash-card-border, #e1ece5);
     border-radius: 18px;
@@ -819,6 +827,38 @@ body {
 
 .dash-nav-card:hover .dash-nav-icon-circle {
     transform: scale(1.05);
+}
+
+/* Tracker Card Missed Count Badge */
+.dash-tracker-badge {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    font-size: 10.5px;
+    font-weight: 700;
+    line-height: 1;
+    padding: 3px 8px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    z-index: 3;
+    letter-spacing: -0.1px;
+    pointer-events: none;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.dash-tracker-badge-missed {
+    background: var(--gr-danger-soft, #fce8e6);
+    color: var(--gr-danger, #ef4444);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.dash-tracker-badge-zero {
+    background: var(--dash-mint-bg, #e1eee5);
+    color: var(--brand, #123D2E);
+    border: 1px solid rgba(18, 61, 46, 0.12);
 }
 
 .dash-nav-footer {
