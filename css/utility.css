@@ -1474,3 +1474,34 @@ app-icon {
     min-height: 64px !important;
     border-radius: 18px !important;
 }
+
+/* Tracker Card Missed Count Badge */
+.dash-tracker-badge {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    font-size: 10.5px;
+    font-weight: 700;
+    line-height: 1;
+    padding: 3px 8px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    z-index: 3;
+    letter-spacing: -0.1px;
+    pointer-events: none;
+}
+
+.dash-tracker-badge-missed {
+    background: var(--gr-danger-soft, #fce8e6) !important;
+    color: var(--gr-danger, #ef4444) !important;
+    border: 1px solid rgba(239, 68, 68, 0.25) !important;
+}
+
+.dash-tracker-badge-zero {
+    background: var(--dash-mint-bg, #e1eee5) !important;
+    color: var(--brand, #123D2E) !important;
+    border: 1px solid rgba(18, 61, 46, 0.12) !important;
+}

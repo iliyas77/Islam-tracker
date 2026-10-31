@@ -76,6 +76,18 @@ function dashTick() {
         liveTimeEl.textContent = dashLiveHeaderTime();
     }
 
+    var trackerBadgeEl = document.querySelector('[data-ref="page.dashboard.card.tracker-missed-badge"]');
+    if (trackerBadgeEl && typeof getConsolidatedMissedCount === 'function') {
+        var tm = getConsolidatedMissedCount();
+        if (tm > 0) {
+            trackerBadgeEl.className = 'dash-tracker-badge dash-tracker-badge-missed';
+            trackerBadgeEl.textContent = tm + ' missed';
+        } else {
+            trackerBadgeEl.className = 'dash-tracker-badge dash-tracker-badge-missed d-none';
+            trackerBadgeEl.textContent = '';
+        }
+    }
+
     if (typeof getActivePrayerInfo === 'function') {
         var curActive = getActivePrayerInfo();
         if (dashCurrentActivePrayer && curActive && curActive.name !== dashCurrentActivePrayer) {
@@ -209,6 +221,14 @@ function rDashboard() {
             '</div>';
     }).join('');
 
+    var totalMissed = typeof getConsolidatedMissedCount === 'function'
+        ? getConsolidatedMissedCount()
+        : (typeof tMT === 'function' ? tMT() : 0);
+    var hasMissed = totalMissed > 0;
+    var trackerBadgeClass = 'dash-tracker-badge dash-tracker-badge-missed' + (hasMissed ? '' : ' d-none');
+    var trackerBadgeText = hasMissed ? (totalMissed + ' missed') : '';
+    var trackerBadgeHtml = '<span class="' + trackerBadgeClass + '" data-ref="page.dashboard.card.tracker-missed-badge">' + trackerBadgeText + '</span>';
+
     body.innerHTML =
         '<div class="dash-container flex flex-col" data-ref="page.dashboard.container">' +
         '  <!-- Background Islamic Geometric Watermark -->' +
@@ -259,6 +279,7 @@ function rDashboard() {
         '  <div class="dash-grid-2x2" data-ref="page.dashboard.nav-grid">' +
         '    <!-- Tracker -->' +
         '    <div class="dash-nav-card flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-tracker" data-ref="page.dashboard.card.tracker">' +
+        '      ' + trackerBadgeHtml +
         '      <div class="icon-box icon-box-lg flex items-center justify-center" data-ref="page.dashboard.card.tracker-icon">' +
         '        ' + DASH_SVG_TRACKER +
         '      </div>' +
