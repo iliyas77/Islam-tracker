@@ -25,7 +25,7 @@ var defaultPrayerConfig = PRAYER_CONSTANTS.DEFAULT_CONFIG || window.defaultPraye
 var T = window.T || Object.assign({}, PRAYER_CONSTANTS.DEFAULT_TIMINGS || {});
 window.T = T;
 
-var I = PRAYER_CONSTANTS.FA_ICONS || window.I || {};
+var I = PRAYER_CONSTANTS.ICONS || window.I || {};
 var TIMINGS_API_URL = (PRAYER_CONSTANTS.API && PRAYER_CONSTANTS.API.TIMINGS_BY_CITY) || 'https://api.aladhan.com/v1/timingsByCity/';
 var SCHOOL_NAMES = PRAYER_CONSTANTS.SCHOOL_NAMES || { 1: 'Hanafi', 0: 'Shafi' };
 var TIMINGS_STATUS = PRAYER_CONSTANTS.STATUS || { LIVE: 'live', CACHED: 'cached', OFFLINE: 'offline' };

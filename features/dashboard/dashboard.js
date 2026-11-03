@@ -76,7 +76,7 @@ function dashTick() {
         liveTimeEl.textContent = dashLiveHeaderTime();
     }
 
-    var trackerBadgeEl = document.querySelector('[data-ref="page.dashboard.card.tracker-missed-badge"]');
+    var trackerBadgeEl = document.getElementById('trackerMissedBadge');
     if (trackerBadgeEl && typeof getConsolidatedMissedCount === 'function') {
         var tm = getConsolidatedMissedCount();
         if (tm > 0) {
@@ -227,7 +227,7 @@ function rDashboard() {
     var hasMissed = totalMissed > 0;
     var trackerBadgeClass = 'dash-tracker-badge dash-tracker-badge-missed' + (hasMissed ? '' : ' d-none');
     var trackerBadgeText = hasMissed ? (totalMissed + ' missed') : '';
-    var trackerBadgeHtml = '<span class="' + trackerBadgeClass + '" data-ref="page.dashboard.card.tracker-missed-badge">' + trackerBadgeText + '</span>';
+    var trackerBadgeHtml = '<span id="trackerMissedBadge" class="' + trackerBadgeClass + '" data-ref="page.dashboard.card.tracker-missed-badge">' + trackerBadgeText + '</span>';
 
     body.innerHTML =
         '<div class="dash-container flex flex-col" data-ref="page.dashboard.container">' +
@@ -240,7 +240,7 @@ function rDashboard() {
         '  <!-- Top Header Bar: Location & Mosque Silhouette -->' +
         '  <header class="dash-top-header flex items-center justify-between" data-ref="page.dashboard.header">' +
         '    <div class="dash-location-text flex items-center" data-ref="page.dashboard.header.location">' +
-        '      ' + (typeof renderIcon === 'function' ? renderIcon({ name: 'location-dot', className: 'dash-location-icon', dataRef: 'page.dashboard.header.location-icon' }) : '<i class="fa-solid fa-location-dot dash-location-icon" data-ref="page.dashboard.header.location-icon"></i>') +
+        '      ' + renderIcon({ name: 'location-dot', className: 'dash-location-icon', dataRef: 'page.dashboard.header.location-icon' }) +
         '      <span data-ref="page.dashboard.header.location-text">' + cfg.city + ' &bull; ' + (SCHOOL_NAMES[cfg.school] || 'Hanafi') + '</span>' +
         '    </div>' +
         '    <div class="dash-header-mosque flex items-center justify-center" data-ref="page.dashboard.header.mosque-icon">' +

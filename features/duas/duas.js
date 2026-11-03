@@ -7,7 +7,7 @@
 window.DuasApp = (function () {
     // ===== CONSTANTS (Referenced from utilities/constant.js) =====
     var DUA_CONSTANTS = (window.CONSTANTS && (window.CONSTANTS.DUA || window.CONSTANTS.DUAS)) || {};
-    var defaultDuas = DUA_CONSTANTS.DEFAULT_DUAS || [];
+    var defaultDuas = [];
     var STORAGE_KEY_DUAS = (DUA_CONSTANTS.STORAGE_KEYS && DUA_CONSTANTS.STORAGE_KEYS.DATA) || 'quranDuas_data';
     var STORAGE_KEY_FAVS = (DUA_CONSTANTS.STORAGE_KEYS && DUA_CONSTANTS.STORAGE_KEYS.FAVS) || 'quranDuas_favourites';
     var STORAGE_KEY_PINS = (DUA_CONSTANTS.STORAGE_KEYS && DUA_CONSTANTS.STORAGE_KEYS.PINS) || 'quranDuas_pins';
@@ -33,6 +33,10 @@ window.DuasApp = (function () {
     var detailOpenedFrom = DUA_TABS.HOME;
     var pendingPinIndex = null;
     var searchDebounceTimer = null;
+    var isLoaded = false;
+    var isLoading = false;
+    var fetchPromise = null;
+    var loadError = null;
 
     // ===== DATA HELPERS & NORMALIZATION =====
     function getSurah(d) {
@@ -61,24 +65,7 @@ window.DuasApp = (function () {
     }
 
     // ===== LOAD FROM STORAGE =====
-    function loadFromStorage() {
-        var storedDuas = localStorage.getItem(STORAGE_KEY_DUAS);
-        if (storedDuas) {
-            try { duasData = JSON.parse(storedDuas); }
-            catch (e) { duasData = defaultDuas.map(function (d) { return Object.assign({}, d); }); }
-        } else {
-            duasData = defaultDuas.map(function (d) { return Object.assign({}, d); });
-            saveDuasToStorage();
-        }
-
-        // If stored data was from old 10-item default or invalid, upgrade to full default dataset
-        if (!Array.isArray(duasData) || duasData.length < defaultDuas.length) {
-            duasData = defaultDuas.map(function (d) { return Object.assign({}, d); });
-            saveDuasToStorage();
-        }
-
-        duasData.forEach(normalizeDua);
-
+    function loadFavsAndPins() {
         var storedFavs = localStorage.getItem(STORAGE_KEY_FAVS);
         if (storedFavs) {
             try {
@@ -99,6 +86,133 @@ window.DuasApp = (function () {
             pins = [];
         }
         pins = pins.filter(function (p) { return p >= 0 && p < duasData.length; }).slice(0, MAX_PINS);
+    }
+
+    function loadFromStorage() {
+        var storedDuas = localStorage.getItem(STORAGE_KEY_DUAS);
+        if (storedDuas) {
+            try {
+                duasData = JSON.parse(storedDuas);
+            } catch (e) {
+                if (defaultDuas.length > 0) {
+                    duasData = defaultDuas.map(function (d) { return Object.assign({}, d); });
+                }
+            }
+        } else if (defaultDuas.length > 0) {
+            duasData = defaultDuas.map(function (d) { return Object.assign({}, d); });
+            saveDuasToStorage();
+        }
+
+        // If stored data was from old 10-item default or partial, upgrade to full dataset if defaultDuas available
+        if (Array.isArray(duasData) && defaultDuas.length > 0 && duasData.length < defaultDuas.length) {
+            duasData = defaultDuas.map(function (d) { return Object.assign({}, d); });
+            saveDuasToStorage();
+        }
+
+        if (Array.isArray(duasData)) {
+            duasData.forEach(normalizeDua);
+        }
+        loadFavsAndPins();
+    }
+
+    // ===== FETCH DATA =====
+    function fetchDuas() {
+        if (isLoaded) {
+            return Promise.resolve(duasData);
+        }
+        if (fetchPromise) {
+            return fetchPromise;
+        }
+
+        isLoading = true;
+        loadError = null;
+        renderLoadingState();
+
+        var fetcher = (typeof DUA_CONSTANTS.fetchDuas === 'function')
+            ? DUA_CONSTANTS.fetchDuas()
+            : fetch('./duas.json').then(function (res) {
+                if (!res.ok) {
+                    return fetch('../duas.json').then(function (fallbackRes) {
+                        if (!fallbackRes.ok) throw new Error('HTTP ' + fallbackRes.status);
+                        return fallbackRes.json();
+                    });
+                }
+                return res.json();
+            });
+
+        fetchPromise = fetcher
+            .then(function (data) {
+                if (!Array.isArray(data)) {
+                    throw new Error('Invalid duas data format: expected an array');
+                }
+                defaultDuas = data;
+                isLoaded = true;
+                isLoading = false;
+                loadError = null;
+                fetchPromise = null;
+
+                loadFromStorage();
+                refreshAllViews();
+                return duasData;
+            })
+            .catch(function (err) {
+                isLoading = false;
+                fetchPromise = null;
+                loadError = err;
+                console.error('Failed to load duas.json:', err);
+
+                // Gracefully fallback to localStorage if available
+                loadFromStorage();
+                if (Array.isArray(duasData) && duasData.length > 0) {
+                    isLoaded = true;
+                    refreshAllViews();
+                    return duasData;
+                }
+
+                // If no cached data, fall back to empty state and show error
+                duasData = [];
+                isLoaded = true;
+                renderErrorState(err && err.message ? err.message : 'Unable to load Duas data.');
+                return [];
+            });
+
+        return fetchPromise;
+    }
+
+    function renderLoadingState() {
+        var homeView = document.getElementById('duaHomeView');
+        var listView = document.getElementById('duaListView');
+        var favView = document.getElementById('duaFavouritesList');
+        var progressIndicator = document.getElementById('duaProgressIndicator');
+
+        var loadingHtml = '<div class="dua-empty-state py-4">' +
+            '<div class="spinner-border spinner-border-sm text-brand mb-2" role="status"></div>' +
+            '<div>Loading Duas...</div>' +
+            '</div>';
+
+        if (homeView && (!duasData || duasData.length === 0)) homeView.innerHTML = loadingHtml;
+        if (listView && (!duasData || duasData.length === 0)) listView.innerHTML = loadingHtml;
+        if (favView && (!duasData || duasData.length === 0)) favView.innerHTML = loadingHtml;
+        if (progressIndicator && (!duasData || duasData.length === 0)) progressIndicator.textContent = 'Loading...';
+    }
+
+    function renderErrorState(msg) {
+        var homeView = document.getElementById('duaHomeView');
+        var listView = document.getElementById('duaListView');
+        var favView = document.getElementById('duaFavouritesList');
+        var progressIndicator = document.getElementById('duaProgressIndicator');
+
+        var errorHtml = '<div class="dua-empty-state text-danger py-4">' +
+            '<div class="fs-4 mb-2">⚠️</div>' +
+            '<div class="fw-bold mb-1">Failed to load Duas</div>' +
+            '<div class="small opacity-75 mb-3">' + escapeHtml(msg) + '</div>' +
+            '<button type="button" class="btn btn-sm btn-outline-brand" data-act="dua-retry">Retry</button>' +
+            '</div>';
+
+        if (homeView && (!duasData || duasData.length === 0)) homeView.innerHTML = errorHtml;
+        if (listView && (!duasData || duasData.length === 0)) listView.innerHTML = errorHtml;
+        if (favView && (!duasData || duasData.length === 0)) favView.innerHTML = errorHtml;
+        if (progressIndicator && (!duasData || duasData.length === 0)) progressIndicator.textContent = 'Failed to load';
     }
 
     // ===== SAVE TO STORAGE =====
@@ -478,6 +592,16 @@ window.DuasApp = (function () {
         if (subAll) subAll.classList.toggle('d-none', activeTab !== DUA_TABS.DUAS);
         if (subFavs) subFavs.classList.toggle('d-none', activeTab !== DUA_TABS.FAVOURITES);
 
+        if (isLoading && duasData.length === 0) {
+            renderLoadingState();
+            return;
+        }
+
+        if (loadError && duasData.length === 0) {
+            renderErrorState(loadError.message || 'Failed to load Duas data.');
+            return;
+        }
+
         if (activeTab === DUA_TABS.HOME) {
             renderHome();
         } else if (activeTab === DUA_TABS.DUAS) {
@@ -620,26 +744,43 @@ window.DuasApp = (function () {
 
     function resetAllData() {
         if (!confirm('Reset all data to default? This will restore the 100 original Quran duas and reset custom additions, favourites, and pins.')) return;
-        duasData = defaultDuas.map(function (d) { return Object.assign({}, d); });
-        duasData.forEach(normalizeDua);
-        favourites = [];
-        pins = [];
-        saveDuasToStorage();
-        saveFavouritesToStorage();
-        savePinsToStorage();
-        renderAdminList();
-        refreshAllViews();
+        function doReset() {
+            duasData = defaultDuas.map(function (d) { return Object.assign({}, d); });
+            duasData.forEach(normalizeDua);
+            favourites = [];
+            pins = [];
+            saveDuasToStorage();
+            saveFavouritesToStorage();
+            savePinsToStorage();
+            renderAdminList();
+            refreshAllViews();
+        }
+        if (defaultDuas.length > 0) {
+            doReset();
+        } else {
+            fetchDuas().then(doReset);
+        }
     }
 
     // ===== INIT & RENDER =====
     function render() {
-        loadFromStorage();
+        if (!isLoaded && isLoading) {
+            renderLoadingState();
+            return;
+        }
+        if (!isLoaded) {
+            renderLoadingState();
+            fetchDuas().then(function () {
+                switchTab(activeTab || 'home');
+            });
+            return;
+        }
         switchTab(activeTab || 'home');
     }
 
     // Setup search listener when DOM ready
     document.addEventListener('DOMContentLoaded', function () {
-        loadFromStorage();
+        fetchDuas();
         var searchInput = document.getElementById('duaSearchInput');
         if (searchInput) {
             searchInput.addEventListener('input', handleSearch);
@@ -664,6 +805,8 @@ window.DuasApp = (function () {
 
     // Public API
     return {
+        init: fetchDuas,
+        fetchDuas: fetchDuas,
         render: render,
         switchTab: switchTab,
         openDetail: openDetail,
