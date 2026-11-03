@@ -23,7 +23,18 @@ window.DuasApp = (function () {
         UNFAV: '♡'
     };
     var SEARCH_DEBOUNCE_MS = typeof DUA_CONSTANTS.SEARCH_DEBOUNCE_MS === 'number' ? DUA_CONSTANTS.SEARCH_DEBOUNCE_MS : 80;
-    var DUA_API_URL = (DUA_CONSTANTS && DUA_CONSTANTS.API_URL) || 'https://iliyas77.github.io/Islam-tracker/duas.json';
+    var DUA_API_URL = (DUA_CONSTANTS && DUA_CONSTANTS.API_URL) || 'https://raw.githubusercontent.com/iliyas77/data.github.io/main/duas.json';
+
+    function fetchDuasResource() {
+        if (typeof DUA_CONSTANTS.fetchDuas === 'function') {
+            return DUA_CONSTANTS.fetchDuas();
+        }
+        return fetch(DUA_API_URL)
+            .then(function (res) {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json();
+            });
+    }
 
     // ===== STATE =====
     var duasData = [];
@@ -129,25 +140,7 @@ window.DuasApp = (function () {
         loadError = null;
         renderLoadingState();
 
-        var fetcher = (typeof DUA_CONSTANTS.fetchDuas === 'function')
-            ? DUA_CONSTANTS.fetchDuas()
-            : fetch(DUA_API_URL)
-                .then(function (res) {
-                    if (!res.ok) throw new Error('HTTP ' + res.status);
-                    return res.json();
-                })
-                .catch(function () {
-                    // Fallback to local / relative path for offline or local testing
-                    return fetch('./duas.json').then(function (res) {
-                        if (!res.ok) {
-                            return fetch('../duas.json').then(function (fallbackRes) {
-                                if (!fallbackRes.ok) throw new Error('HTTP ' + fallbackRes.status);
-                                return fallbackRes.json();
-                            });
-                        }
-                        return res.json();
-                    });
-                });
+        var fetcher = fetchDuasResource();
 
         fetchPromise = fetcher
             .then(function (data) {
