@@ -131,12 +131,34 @@ function buildProduction() {
         html = html.replace(/<script[^>]*src="features\/duas\/duas\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/app\/app\.js"[^>]*><\/script>/g, () => `<script>${minifiedJs}<\/script>`);
 
+        // ---- Strip data-ref attributes from production output ----
+        // data-ref is a development/testing aid; it adds no runtime value
+        // and is stripped from production to save bytes.
+        (function stripDataRef() {
+            var before = html.length;
+            var matches = html.match(/\s+data-ref=("[^"]*"|'[^']*')/g) || [];
+            html = html.replace(/\s+data-ref=("[^"]*"|'[^']*')/g, '');
+            var after = html.length;
+            console.log('[build] stripped ' + matches.length +
+                        ' data-ref attributes (' + (before - after) +
+                        ' bytes removed)');
+        })();
+        // ---- End data-ref strip ----
+
         // 3. Minify HTML wrapper
         const originalSizeBytes = Buffer.byteLength(html, 'utf8');
         const minifiedHtml = minifyHtml(html);
 
         // 4. Write out minified production/production.html
         fs.writeFileSync(OUT_FILE, minifiedHtml, 'utf8');
+
+        // Ensure duas.json remains an external asset (not inlined) and copy to production/
+        const rootDuasJson = path.join(ROOT, 'duas.json');
+        const prodDuasJson = path.join(BUILD_DIR, 'duas.json');
+        if (fs.existsSync(rootDuasJson)) {
+            fs.copyFileSync(rootDuasJson, prodDuasJson);
+            console.log('✓ production/duas.json copied as external asset (not inlined)');
+        }
 
         const minifiedSizeBytes = fs.statSync(OUT_FILE).size;
         const minifiedKb = (minifiedSizeBytes / 1024).toFixed(1);

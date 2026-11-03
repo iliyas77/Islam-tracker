@@ -962,6 +962,10 @@ function handleClick(e) {
             var delIdx = parseInt(t.dataset.idx, 10);
             window.DuasApp.deleteDua(delIdx);
         }
+    } else if (act === 'dua-retry') {
+        if (window.DuasApp && typeof window.DuasApp.fetchDuas === 'function') {
+            window.DuasApp.fetchDuas();
+        }
     }
 }
 

@@ -23,10 +23,10 @@ window.TasbeehCurrentApp = (function () {
     var CAL_COMPLETION_KEY = STORAGE_KEYS.CAL_COMPLETIONS || 'app_tasbeeh_cal_completions';
     var TABS = TASBEEH_CONSTANTS.TABS || { HOME: 'home', CURRENT: 'current', OLD: 'old', HISTORY: 'history' };
     var TAB_HEADERS = TASBEEH_CONSTANTS.TAB_HEADERS || {
-        home: { iconClass: 'fa-solid fa-house text-brand', label: 'Digital Tasbeeh', sub: 'Home · Bookmarks' },
-        current: { iconClass: 'fa-regular fa-calendar text-brand', label: 'Digital Tasbeeh' },
-        old: { iconClass: 'fa-solid fa-clock-rotate-left text-warning', label: 'Old Tasbeeh' },
-        history: { iconClass: 'fa-solid fa-gear text-gr-accent', label: 'Tasbeeh History', sub: 'Period & Settings' }
+        home: { iconClass: 'house text-brand', label: 'Digital Tasbeeh', sub: 'Home · Bookmarks' },
+        current: { iconClass: 'calendar text-brand', label: 'Digital Tasbeeh' },
+        old: { iconClass: 'clock-rotate-left text-warning', label: 'Old Tasbeeh' },
+        history: { iconClass: 'gear text-gr-accent', label: 'Tasbeeh History', sub: 'Period & Settings' }
     };
     var counterOpenedFrom = null;
 
@@ -261,18 +261,10 @@ window.TasbeehCurrentApp = (function () {
         if (iconEl && badgeEl) {
             if (options.isSuccess) {
                 badgeEl.className = 'icon-box icon-box-lg bg-brand-light flex items-center justify-center shrink-0';
-                if (window.Icon && typeof Icon.update === 'function') {
-                    Icon.update(iconEl, { name: 'circle-check', size: 'fs-3', color: 'text-brand' });
-                } else {
-                    iconEl.className = 'fa-solid fa-circle-check fs-3 text-brand';
-                }
+                Icon.update(iconEl, { name: 'circle-check', size: 'fs-3', color: 'text-brand' });
             } else {
                 badgeEl.className = 'icon-box icon-box-lg bg-warning-subtle flex items-center justify-center shrink-0';
-                if (window.Icon && typeof Icon.update === 'function') {
-                    Icon.update(iconEl, { name: 'triangle-exclamation', size: 'fs-3', color: 'text-warning' });
-                } else {
-                    iconEl.className = 'fa-solid fa-triangle-exclamation fs-3 text-warning';
-                }
+                Icon.update(iconEl, { name: 'triangle-exclamation', size: 'fs-3', color: 'text-warning' });
             }
         }
 
@@ -398,7 +390,7 @@ window.TasbeehCurrentApp = (function () {
             id: raw.id || uid(),
             title: raw.title || 'Dhikr',
             targetCount: raw.targetCount === 'infinite' ? 'infinite' : clamp(parseInt(raw.targetCount, 10) || 33, 1, 9999),
-            icon: raw.icon || 'fa-solid fa-ring',
+            icon: raw.icon || 'ring',
             updatedAt: raw.updatedAt || Date.now(),
             dailyHistory: (raw.dailyHistory && typeof raw.dailyHistory === 'object') ? Object.assign({}, raw.dailyHistory) : {},
             monthlyHistory: (raw.monthlyHistory && typeof raw.monthlyHistory === 'object') ? Object.assign({}, raw.monthlyHistory) : {}
@@ -600,12 +592,12 @@ window.TasbeehCurrentApp = (function () {
         var targetDisplay = isInfinite ? '∞' : item.targetCount;
         var icons = (window.CONSTANTS && window.CONSTANTS.TASBEEH && window.CONSTANTS.TASBEEH.ICONS) || {};
 
-        var misbahaIcon = typeof renderIcon === 'function' ? renderIcon('misbaha') : (icons.MISBAHA || '<i class="fa-solid fa-hand-holding-heart"></i>');
-        var pencilIcon = typeof renderIcon === 'function' ? renderIcon('tb-pencil') : (icons.PENCIL || '<i class="fa-solid fa-pen"></i>');
-        var chevronIcon = typeof renderIcon === 'function' ? renderIcon('tb-chevron') : (((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.CHEVRON) || icons.CHEVRON || ''));
-        var targetIcon = typeof renderIcon === 'function' ? renderIcon('tb-target') : (icons.TARGET || '<i class="fa-solid fa-bullseye"></i>');
-        var checkCircleIcon = typeof renderIcon === 'function' ? renderIcon('tb-check-circle') : (icons.CHECK_CIRCLE || '<i class="fa-solid fa-circle-check"></i>');
-        var calendarDaysIcon = typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-days', variant: 'regular', color: 'text-muted', size: 13 }) : '<i class="fa-regular fa-calendar-days text-muted" style="font-size: 13px;"></i>';
+        var misbahaIcon = renderIcon('misbaha');
+        var pencilIcon = renderIcon('tb-pencil');
+        var chevronIcon = renderIcon('tb-chevron');
+        var targetIcon = renderIcon('tb-target');
+        var checkCircleIcon = renderIcon('tb-check-circle');
+        var calendarDaysIcon = renderIcon({ name: 'calendar-days', color: 'text-muted', size: 13 });
 
         return '<div class="tb-card ' + (isComplete ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-ref="page.tasbeeh.card" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
             '<div class="tb-card-top">' +
@@ -635,7 +627,7 @@ window.TasbeehCurrentApp = (function () {
             '<span class="tb-meta-text">Total: <span class="tb-val-total">' + totalDays + ' days</span></span>' +
             '</div>' +
             (isTodayDone
-                ? '<div class="tb-meta-row tb-meta-sub-row"><span class="text-brand fw-bold" style="font-size: 11px;">' + (typeof renderIcon === 'function' ? renderIcon({ name: 'circle-check', className: 'me-1' }) : '<i class="fa-solid fa-circle-check me-1"></i>') + 'Today Completed</span></div>'
+                ? '<div class="tb-meta-row tb-meta-sub-row"><span class="text-brand fw-bold" style="font-size: 11px;">' + renderIcon({ name: 'circle-check', className: 'me-1' }) + 'Today Completed</span></div>'
                 : '') +
             '</div>' +
             '</div>' +
@@ -691,15 +683,15 @@ window.TasbeehCurrentApp = (function () {
             ? todoItems.map(function (it) { return renderCurrentCardHtml(it, false); }).join('')
             : (isMonthComplete
                 ? '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
-                  (typeof renderIcon === 'function' ? renderIcon({ name: 'circle-check', color: 'text-brand', size: 'fs-3', className: 'mb-2' }) : '<i class="fa-solid fa-circle-check text-brand fs-3 mb-2"></i>') +
+                  renderIcon({ name: 'circle-check', color: 'text-brand', size: 'fs-3', className: 'mb-2' }) +
                   '<div class="fw-bold text-gr1">All Dhikrs for ' + curMonthName + ' Completed!</div>' +
                   '<div class="text-muted small mb-3">All daily targets for this month have been achieved.</div>' +
                   '<button type="button" class="btn btn-brand btn-sm fw-bold rounded-pill px-4 py-2 mx-auto" data-act="tb-current-advance">' +
-                  (typeof renderIcon === 'function' ? renderIcon({ name: 'arrow-right', className: 'me-1' }) : '<i class="fa-solid fa-arrow-right me-1"></i>') + ' Finalize & Advance to Next Month' +
+                  renderIcon({ name: 'arrow-right', className: 'me-1' }) + ' Finalize & Advance to Next Month' +
                   '</button>' +
                   '</div>'
                 : '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
-                  (typeof renderIcon === 'function' ? renderIcon({ name: 'circle-check', color: 'text-brand', size: 'fs-3', className: 'mb-2' }) : '<i class="fa-solid fa-circle-check text-brand fs-3 mb-2"></i>') +
+                  renderIcon({ name: 'circle-check', color: 'text-brand', size: 'fs-3', className: 'mb-2' }) +
                   '<div class="fw-bold text-gr1">All Dhikrs Completed Today!</div>' +
                   '<div class="text-muted small">You have met today’s targets for all your chants.</div>' +
                   '</div>');

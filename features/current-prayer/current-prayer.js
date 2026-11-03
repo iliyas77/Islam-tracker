@@ -92,7 +92,7 @@ function missTile(date, p) {
         '<span class="fs-4 flex items-center justify-center">' + iconHtml + '</span>' +
         '<span class="fw-bold text-truncate w-100 text-center fs-xs text-dark">' + p + '</span>' +
         '<span class="badge-pill-custom badge-missed inline-flex items-center fs-xs py-1 px-1.5">' +
-        (typeof renderIcon === 'function' ? renderIcon('circle-exclamation') : '<i class="fa-solid fa-circle-exclamation"></i>') + 'Missed</span>' +
+        renderIcon('circle-exclamation') + 'Missed</span>' +
         '</div>';
 }
 
@@ -101,13 +101,13 @@ function missCard(x) {
     var missedCount = x.prayers.length;
     var countBadge = '<span class="badge-pill-custom badge-missed fs-xs py-1 px-2 inline-flex items-center gap-1 shrink-0">' +
         missedCount + ' Missed' +
-        '<i class="fa-solid fa-chevron-right fs-xs opacity-75"></i></span>';
+        renderIcon({ name: 'chevron-right', size: 'fs-xs', className: 'opacity-75' }) + '</span>';
 
     return '<div class="card shadow-sm rounded-4 p-2 bg-gr border-0 cursor-pointer" role="button" data-act="jump" data-d="' + x.date + '" data-ref="page.current.missed-sheet.card.' + x.date + '">' +
         '<div class="flex items-center justify-between gap-2 mb-2 px-1" data-ref="page.current.missed-sheet.card.header">' +
         '<div class="flex items-center gap-2 min-w-0" data-ref="page.current.missed-sheet.card.info">' +
         '<span class="icon-box icon-box-sm flex items-center justify-center shrink-0" data-ref="page.current.missed-sheet.card.icon">' +
-        (typeof renderIcon === 'function' ? renderIcon({ name: 'calendar-days', variant: 'regular', size: 'fs-5', color: 'text-gr-accent' }) : '<i class="fa-regular fa-calendar-days fs-5 text-gr-accent"></i>') + '</span>' +
+        renderIcon({ name: 'calendar-days', size: 'fs-5', color: 'text-gr-accent' }) + '</span>' +
         '<div class="min-w-0">' +
         '<div class="fw-bold text-gr1 fs-5 lh-1 text-truncate" data-ref="page.current.missed-sheet.card.title">' + friendly(x.date) + '</div>' +
         '<div class="text-gr-accent fw-semibold small mt-0.5 text-truncate" data-ref="page.current.missed-sheet.card.date">' + fr(x.date) + '</div>' +
@@ -115,13 +115,13 @@ function missCard(x) {
         '</div>' +
         countBadge +
         '</div>' +
-        '<div class="grid grid-cols-3 gap-2 w-100" data-ref="page.current.missed-sheet.card.tiles">' + tiles + '</div>' +
+        '<div class="grid grid-cols-3 gap-2 w-100 missed-tiles-grid" data-ref="page.current.missed-sheet.card.tiles">' + tiles + '</div>' +
         '</div>';
 }
 
 function rMS() {
     var sheetCfg = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.SHEETS && window.CONSTANTS.PRAYER.SHEETS.MISSED_PRAYERS) || {
-        iconClass: 'fa-solid fa-clipboard-list text-gr-accent',
+        iconClass: 'clipboard-list text-gr-accent',
         title: 'Missed Prayers',
         sub: 'From previous days (today excluded)'
     };
@@ -137,7 +137,7 @@ function rMS() {
     var b = $('sheet2Body');
     if (!list.length) {
         b.innerHTML = '<div class="text-center text-muted py-5" data-ref="page.current.missed-sheet.empty">' +
-            (typeof renderIcon === 'function' ? renderIcon({ name: 'star', size: 'display-4', color: 'text-brand', className: 'opacity-50' }) : '<i class="fa-solid fa-star display-4 text-brand opacity-50"></i>') +
+            renderIcon({ name: 'star', size: 'display-4', color: 'text-brand', className: 'opacity-50' }) +
             '<p class="mt-3">No missed prayers from previous days.<br>All caught up!</p></div>';
     } else {
         b.innerHTML = '<div class="flex flex-col gap-2" data-ref="page.current.missed-sheet.list">' +
