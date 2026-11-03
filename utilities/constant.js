@@ -224,16 +224,25 @@
                         },
                         SEARCH_DEBOUNCE_MS: 80,
                         MAX_PINS: 2,
+                        API_URL: 'https://iliyas77.github.io/Islam-tracker/duas.json',
                         fetchDuas: function () {
-                                return fetch('./duas.json')
+                                return fetch('https://iliyas77.github.io/Islam-tracker/duas.json')
                                         .then(function (response) {
-                                                if (!response.ok) {
-                                                        return fetch('../duas.json').then(function (fallbackRes) {
-                                                                if (!fallbackRes.ok) throw new Error('HTTP ' + fallbackRes.status);
-                                                                return fallbackRes.json();
-                                                        });
-                                                }
+                                                if (!response.ok) throw new Error('HTTP ' + response.status);
                                                 return response.json();
+                                        })
+                                        .catch(function () {
+                                                // Fallback to local / relative path for offline or local testing
+                                                return fetch('./duas.json')
+                                                        .then(function (response) {
+                                                                if (!response.ok) {
+                                                                        return fetch('../duas.json').then(function (fallbackRes) {
+                                                                                if (!fallbackRes.ok) throw new Error('HTTP ' + fallbackRes.status);
+                                                                                return fallbackRes.json();
+                                                                        });
+                                                                }
+                                                                return response.json();
+                                                        });
                                         });
                         }
                 },

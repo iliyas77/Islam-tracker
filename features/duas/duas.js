@@ -23,6 +23,7 @@ window.DuasApp = (function () {
         UNFAV: '♡'
     };
     var SEARCH_DEBOUNCE_MS = typeof DUA_CONSTANTS.SEARCH_DEBOUNCE_MS === 'number' ? DUA_CONSTANTS.SEARCH_DEBOUNCE_MS : 80;
+    var DUA_API_URL = (DUA_CONSTANTS && DUA_CONSTANTS.API_URL) || 'https://iliyas77.github.io/Islam-tracker/duas.json';
 
     // ===== STATE =====
     var duasData = [];
@@ -130,15 +131,23 @@ window.DuasApp = (function () {
 
         var fetcher = (typeof DUA_CONSTANTS.fetchDuas === 'function')
             ? DUA_CONSTANTS.fetchDuas()
-            : fetch('./duas.json').then(function (res) {
-                if (!res.ok) {
-                    return fetch('../duas.json').then(function (fallbackRes) {
-                        if (!fallbackRes.ok) throw new Error('HTTP ' + fallbackRes.status);
-                        return fallbackRes.json();
+            : fetch(DUA_API_URL)
+                .then(function (res) {
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    return res.json();
+                })
+                .catch(function () {
+                    // Fallback to local / relative path for offline or local testing
+                    return fetch('./duas.json').then(function (res) {
+                        if (!res.ok) {
+                            return fetch('../duas.json').then(function (fallbackRes) {
+                                if (!fallbackRes.ok) throw new Error('HTTP ' + fallbackRes.status);
+                                return fallbackRes.json();
+                            });
+                        }
+                        return res.json();
                     });
-                }
-                return res.json();
-            });
+                });
 
         fetchPromise = fetcher
             .then(function (data) {
