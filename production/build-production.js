@@ -152,14 +152,6 @@ function buildProduction() {
         // 4. Write out minified production/production.html
         fs.writeFileSync(OUT_FILE, minifiedHtml, 'utf8');
 
-        // Ensure duas.json remains an external asset (not inlined) and copy to production/
-        const rootDuasJson = path.join(ROOT, 'duas.json');
-        const prodDuasJson = path.join(BUILD_DIR, 'duas.json');
-        if (fs.existsSync(rootDuasJson)) {
-            fs.copyFileSync(rootDuasJson, prodDuasJson);
-            console.log('✓ production/duas.json copied as external asset (not inlined)');
-        }
-
         const minifiedSizeBytes = fs.statSync(OUT_FILE).size;
         const minifiedKb = (minifiedSizeBytes / 1024).toFixed(1);
         const unminifiedKb = (originalSizeBytes / 1024).toFixed(1);

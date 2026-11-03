@@ -11,10 +11,10 @@
         const SUN_ICON = '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M6.7 17.3l-1.77 1.77M19.07 4.93l-1.77 1.77"/></svg>';
 
         const PRAYER_ICONS = {
-                Fajr:    SUNRISE_ICON,   // = previous Fajr SVG
+                Fajr: SUNRISE_ICON,   // = previous Fajr SVG
                 Maghrib: SUNRISE_ICON,
-                Dhuhr:   SUN_ICON,       // = previous Dhuhr SVG
-                Asr:     SUN_ICON,
+                Dhuhr: SUN_ICON,       // = previous Dhuhr SVG
+                Asr: SUN_ICON,
                 Isha: '<svg class="icon-md" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5a9.5 9.5 0 0 0 8.5 13.7 9.5 9.5 0 1 1-8.5-13.7z"/><polygon points="18.8 4 19.5 5.5 21 5.6 19.9 6.7 20.2 8.2 18.8 7.4 17.4 8.2 17.7 6.7 16.6 5.6 18.1 5.5"/></svg>'
         };
 
@@ -224,25 +224,12 @@
                         },
                         SEARCH_DEBOUNCE_MS: 80,
                         MAX_PINS: 2,
-                        API_URL: 'https://iliyas77.github.io/Islam-tracker/duas.json',
+                        API_URL: 'https://raw.githubusercontent.com/iliyas77/data.github.io/main/duas.json',
                         fetchDuas: function () {
-                                return fetch('https://iliyas77.github.io/Islam-tracker/duas.json')
+                                return fetch('https://raw.githubusercontent.com/iliyas77/data.github.io/main/duas.json')
                                         .then(function (response) {
                                                 if (!response.ok) throw new Error('HTTP ' + response.status);
                                                 return response.json();
-                                        })
-                                        .catch(function () {
-                                                // Fallback to local / relative path for offline or local testing
-                                                return fetch('./duas.json')
-                                                        .then(function (response) {
-                                                                if (!response.ok) {
-                                                                        return fetch('../duas.json').then(function (fallbackRes) {
-                                                                                if (!fallbackRes.ok) throw new Error('HTTP ' + fallbackRes.status);
-                                                                                return fallbackRes.json();
-                                                                        });
-                                                                }
-                                                                return response.json();
-                                                        });
                                         });
                         }
                 },
