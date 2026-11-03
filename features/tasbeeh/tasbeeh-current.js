@@ -260,10 +260,10 @@ window.TasbeehCurrentApp = (function () {
 
         if (iconEl && badgeEl) {
             if (options.isSuccess) {
-                badgeEl.className = 'icon-box icon-box-lg bg-brand-light flex items-center justify-center shrink-0';
+                badgeEl.className = 'icon-box icon-box-lg bg-brand-light';
                 Icon.update(iconEl, { name: 'circle-check', size: 'fs-3', color: 'text-brand' });
             } else {
-                badgeEl.className = 'icon-box icon-box-lg bg-warning-subtle flex items-center justify-center shrink-0';
+                badgeEl.className = 'icon-box icon-box-lg bg-warning-subtle';
                 Icon.update(iconEl, { name: 'triangle-exclamation', size: 'fs-3', color: 'text-warning' });
             }
         }
@@ -601,13 +601,17 @@ window.TasbeehCurrentApp = (function () {
 
         return '<div class="tb-card ' + (isComplete ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-ref="page.tasbeeh.card" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
             '<div class="tb-card-top">' +
-            '<div class="icon-box icon-box-md" data-ref="page.tasbeeh.card.icon">' +
-            misbahaIcon +
-            '</div>' +
+            IconBox({ icon: 'misbaha', size: 'md', dataRef: 'page.tasbeeh.card.icon' }) +
             '<div class="tb-card-actions">' +
-            '<button type="button" class="tb-btn-edit" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr" data-ref="page.tasbeeh.card.edit-btn">' +
-            pencilIcon +
-            '</button>' +
+            Button({
+                label: pencilIcon,
+                variant: 'raw',
+                className: 'tb-btn-edit',
+                dataAct: 'tb-edit',
+                title: 'Edit Dhikr',
+                ariaLabel: 'Edit Dhikr',
+                dataRef: 'page.tasbeeh.card.edit-btn'
+            }) +
             chevronIcon +
             '</div>' +
             '</div>' +
@@ -686,9 +690,14 @@ window.TasbeehCurrentApp = (function () {
                   renderIcon({ name: 'circle-check', color: 'text-brand', size: 'fs-3', className: 'mb-2' }) +
                   '<div class="fw-bold text-gr1">All Dhikrs for ' + curMonthName + ' Completed!</div>' +
                   '<div class="text-muted small mb-3">All daily targets for this month have been achieved.</div>' +
-                  '<button type="button" class="btn btn-brand btn-sm fw-bold rounded-pill px-4 py-2 mx-auto" data-act="tb-current-advance">' +
-                  renderIcon({ name: 'arrow-right', className: 'me-1' }) + ' Finalize & Advance to Next Month' +
-                  '</button>' +
+                  Button({
+                      label: 'Finalize & Advance to Next Month',
+                      variant: 'brand',
+                      size: 'sm',
+                      className: 'fw-bold rounded-pill px-4 py-2 mx-auto',
+                      icon: renderIcon({ name: 'arrow-right', className: 'me-1' }),
+                      dataAct: 'tb-current-advance'
+                  }) +
                   '</div>'
                 : '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
                   renderIcon({ name: 'circle-check', color: 'text-brand', size: 'fs-3', className: 'mb-2' }) +
@@ -707,13 +716,18 @@ window.TasbeehCurrentApp = (function () {
         var html =
             '<!-- TO DO GROUP -->' +
             '<section class="prayer-group mb-3" data-ref="page.tasbeeh.group.todo">' +
-            '<button type="button" class="group-toggle tb-group-toggle py-1 flex items-center gap-2" data-bs-toggle="collapse" data-bs-target="#tbCurrentTodoList" aria-expanded="true">' +
-            '<span class="tb-toggle-icon">' +
-            (typeof renderIcon === 'function' ? renderIcon('tb-group-toggle-down') : (((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_DOWN) || ''))) +
-            '</span>' +
-            '<span class="tb-group-title">To Do</span>' +
-            '<span class="tb-group-badge">' + todoItems.length + '</span>' +
-            '</button>' +
+            Button({
+                label: '<span class="tb-toggle-icon">' +
+                    (typeof renderIcon === 'function' ? renderIcon('tb-group-toggle-down') : (((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_DOWN) || ''))) +
+                    '</span>' +
+                    '<span class="tb-group-title">To Do</span>' +
+                    '<span class="tb-group-badge">' + todoItems.length + '</span>',
+                variant: 'raw',
+                className: 'group-toggle tb-group-toggle py-1 flex items-center gap-2',
+                dataToggle: 'collapse',
+                dataTarget: '#tbCurrentTodoList',
+                ariaExpanded: 'true'
+            }) +
             '<div class="collapse show" id="tbCurrentTodoList">' +
             '<div class="tb-grid mt-2">' +
             todoCardsHtml +
@@ -721,13 +735,18 @@ window.TasbeehCurrentApp = (function () {
             '</div>' +
             '</section>' +
             '<section class="prayer-group mb-3" data-ref="page.tasbeeh.group.done">' +
-            '<button type="button" class="group-toggle tb-group-toggle py-1 flex items-center gap-2 ' + (isDoneExpanded ? '' : 'collapsed') + '" data-bs-toggle="collapse" data-bs-target="#tbCurrentDoneList" aria-expanded="' + (isDoneExpanded ? 'true' : 'false') + '">' +
-            '<span class="tb-toggle-icon">' +
-            (typeof renderIcon === 'function' ? renderIcon('tb-group-toggle-collapsed') : (((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_COLLAPSED) || ''))) +
-            '</span>' +
-            '<span class="tb-group-title-completed">COMPLETED</span>' +
-            '<span class="tb-group-badge">' + doneItems.length + '</span>' +
-            '</button>' +
+            Button({
+                label: '<span class="tb-toggle-icon">' +
+                    (typeof renderIcon === 'function' ? renderIcon('tb-group-toggle-collapsed') : (((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_COLLAPSED) || ''))) +
+                    '</span>' +
+                    '<span class="tb-group-title-completed">COMPLETED</span>' +
+                    '<span class="tb-group-badge">' + doneItems.length + '</span>',
+                variant: 'raw',
+                className: 'group-toggle tb-group-toggle py-1 flex items-center gap-2 ' + (isDoneExpanded ? '' : 'collapsed'),
+                dataToggle: 'collapse',
+                dataTarget: '#tbCurrentDoneList',
+                ariaExpanded: isDoneExpanded ? 'true' : 'false'
+            }) +
             '<div class="collapse ' + (isDoneExpanded ? 'show' : '') + '" id="tbCurrentDoneList">' +
             '<div class="tb-grid mt-2">' +
             doneCardsHtml +

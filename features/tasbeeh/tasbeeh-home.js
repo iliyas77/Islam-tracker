@@ -45,9 +45,14 @@ window.TasbeehHomeApp = (function () {
                 '  <h5 class="fw-bold text-gr1 mb-1">No Dhikr Configured</h5>' +
                 '  <p class="text-muted small mb-3">Add your first recitation chant in the Current tab to begin tracking bookmarks.</p>' +
                 '  <div>' +
-                '    <button type="button" class="btn btn-sm btn-brand rounded-pill px-4 py-2" data-act="switch-tb-current">' +
-                '      ' + renderIcon({ name: 'plus', className: 'me-1' }) + ' Add First Dhikr' +
-                '    </button>' +
+                '    ' + Button({
+                    label: 'Add First Dhikr',
+                    variant: 'brand',
+                    size: 'sm',
+                    className: 'rounded-pill px-4 py-2',
+                    icon: renderIcon({ name: 'plus', className: 'me-1' }),
+                    dataAct: 'switch-tb-current'
+                }) +
                 '  </div>' +
                 '</div>';
             return;
@@ -67,9 +72,7 @@ window.TasbeehHomeApp = (function () {
             curHtml =
                 '<div class="tb-card tb-card-bookmark" role="button" tabindex="0" data-act="tb-open-bookmark" data-type="current" data-id="' + c.item.id + '" data-ref="page.tasbeeh.home.bookmark-current" aria-label="Open Current Tasbeeh ' + escHtml(c.item.title) + '">' +
                 '  <div class="tb-card-top">' +
-                '    <div class="icon-box icon-box-md">' +
-                misbahaIcon +
-                '    </div>' +
+                '    ' + IconBox({ icon: 'misbaha', size: 'md' }) +
                 '    <div class="tb-card-actions">' +
                 '      <span class="tb-bookmark-pill tb-pill-current">Current</span>' +
                 '      ' + tbChevron +
@@ -105,9 +108,7 @@ window.TasbeehHomeApp = (function () {
             oldHtml =
                 '<div class="tb-card tb-card-bookmark" role="button" tabindex="0" data-act="tb-open-bookmark" data-type="old" data-id="' + o.item.id + '" data-month="' + (o.monthKey || '') + '" data-ref="page.tasbeeh.home.bookmark-old" aria-label="Open Old Tasbeeh ' + escHtml(o.item.title) + '">' +
                 '  <div class="tb-card-top">' +
-                '    <div class="icon-box icon-box-md">' +
-                misbahaIcon +
-                '    </div>' +
+                '    ' + IconBox({ icon: 'misbaha', size: 'md' }) +
                 '    <div class="tb-card-actions">' +
                 '      <span class="tb-bookmark-pill tb-pill-old">Old</span>' +
                 '      ' + tbChevron +
@@ -162,10 +163,16 @@ window.TasbeehHomeApp = (function () {
             '      <h6 class="fw-bold text-gr1 mb-0" style="font-size: 1.02rem;">Bookmarked Counters</h6>' +
             '      <div class="text-muted small">Tap any bookmark to recount directly</div>' +
             '    </div>' +
-            '    <button type="button" class="btn btn-sm btn-outline-brand rounded-pill px-3 py-1 inline-flex items-center gap-1" data-act="switch-tb-current" style="font-size: 0.78rem; font-weight: 600;">' +
-            '      <span>All Dhikrs</span>' +
-            '      ' + renderIcon({ name: 'chevron-right', size: 10 }) +
-            '    </button>' +
+            '    ' + Button({
+                label: 'All Dhikrs',
+                variant: 'outline-brand',
+                size: 'sm',
+                className: 'rounded-pill px-3 py-1 inline-flex items-center gap-1',
+                style: 'font-size: 0.78rem; font-weight: 600;',
+                icon: renderIcon({ name: 'chevron-right', size: 10 }),
+                iconPosition: 'right',
+                dataAct: 'switch-tb-current'
+            }) +
             '  </div>' +
             '' +
             '  <!-- 2x2 Bookmarks Grid -->' +

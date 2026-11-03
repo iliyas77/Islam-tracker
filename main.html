@@ -54,6 +54,7 @@
 
             <div class="grow overflow-auto px-2 pt-2 pb-3" id="currentBody" data-ref="page.current.body"></div>
             <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="oldBody" data-ref="page.old.body"></div>
+            <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="performanceBody" data-ref="page.performance.body"></div>
 
             <!-- Bottom Navigation -->
             <nav class="app-bottom-nav shrink-0 flex items-center justify-around px-2 border-top" id="trackerBottomNav" data-ref="page.tracker.bottom-nav">
@@ -64,6 +65,10 @@
                 <button type="button" class="nav-tab flex-1 flex flex-col items-center justify-center" id="tabTrackOld" data-act="switch-track-old" role="tab" aria-selected="false" data-ref="page.tracker.tab-old">
                     <app-icon name="clock-rotate-left"></app-icon>
                     <span>Old</span>
+                </button>
+                <button type="button" class="nav-tab flex-1 flex flex-col items-center justify-center" id="tabTrackPerformance" data-act="switch-track-performance" role="tab" aria-selected="false" data-ref="page.tracker.tab-performance">
+                    <app-icon name="chart-simple"></app-icon>
+                    <span>Performance</span>
                 </button>
             </nav>
         </div>
@@ -449,7 +454,7 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-tasbeeh" data-ref="component.modal.tasbeeh.dialog">
                 <div class="modal-content rounded-4 border-0 shadow" data-ref="component.modal.tasbeeh.content">
                     <div class="modal-header border-0 pb-0 flex items-center gap-3 pt-4 px-4" data-ref="component.modal.tasbeeh.header">
-                        <span class="icon-box icon-box-lg flex items-center justify-center shrink-0" data-ref="component.modal.tasbeeh.badge">
+                        <span class="icon-box icon-box-lg" data-ref="component.modal.tasbeeh.badge">
                             <app-icon name="hand-holding-heart" size="fs-3" color="text-brand" data-ref="component.modal.tasbeeh.badge-icon"></app-icon>
                         </span>
                         <h5 class="modal-title fw-bold fs-4 grow mb-0" id="tbModalTitle" data-ref="component.modal.tasbeeh.title">Add New Dhikr</h5>
@@ -501,7 +506,7 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-confirm" data-ref="component.modal.tasbeeh-confirm.dialog">
                 <div class="modal-content rounded-4 border-0 shadow p-2" data-ref="component.modal.tasbeeh-confirm.content">
                     <div class="modal-header border-0 pb-0 flex items-center gap-3 pt-3 px-3" data-ref="component.modal.tasbeeh-confirm.header">
-                        <span class="icon-box icon-box-lg flex items-center justify-center shrink-0 bg-warning-subtle" id="tbConfirmModalBadge" data-ref="component.modal.tasbeeh-confirm.icon-badge">
+                        <span class="icon-box icon-box-lg bg-warning-subtle" id="tbConfirmModalBadge" data-ref="component.modal.tasbeeh-confirm.icon-badge">
                             <app-icon name="triangle-exclamation" size="fs-3" color="text-warning" id="tbConfirmModalIcon" data-ref="component.modal.tasbeeh-confirm.icon"></app-icon>
                         </span>
                         <h5 class="modal-title fw-bold fs-5 grow mb-0" id="tbConfirmModalTitle" data-ref="component.modal.tasbeeh-confirm.title">Change Day Status</h5>
@@ -529,7 +534,7 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-tasbeeh" data-ref="component.modal.tasbeeh-period.dialog">
                 <div class="modal-content rounded-4 border-0 shadow">
                     <div class="modal-header border-0 pb-0 flex items-center gap-3 pt-4 px-4">
-                        <span class="icon-box icon-box-lg flex items-center justify-center shrink-0">
+                        <span class="icon-box icon-box-lg">
                             <app-icon name="gear" size="fs-3" color="text-brand"></app-icon>
                         </span>
                         <div class="grow min-w-0">
@@ -609,12 +614,15 @@
     <script src="utilities/svg.constant.js"></script>
     <script src="utilities/utility.js"></script>
     <script src="components/icon.js"></script>
-    <script src="components/prayer-card.js"></script>
+    <script src="components/icon-box.js"></script>
+    <script src="components/button.js"></script>
+    <script src="features/prayer-tracking/prayer-card.js"></script>
     <script src="features/app/app.js"></script>
     <script src="features/navigation/navigation.js"></script>
-    <script src="features/current-prayer/current-prayer.js"></script>
+    <script src="features/prayer-tracking/current-prayer.js"></script>
     <script src="features/dashboard/dashboard.js"></script>
-    <script src="features/old-tracking/old-tracking.js"></script>
+    <script src="features/prayer-tracking/old-tracking.js"></script>
+    <script src="features/prayer-tracking/prayer-performance.js"></script>
     <script src="features/settings/settings.js"></script>
     <script src="features/tasbeeh/tasbeeh-home.js"></script>
     <script src="features/tasbeeh/tasbeeh-current.js"></script>

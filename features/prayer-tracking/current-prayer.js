@@ -53,6 +53,9 @@ function rn() {
     $('currentBody').innerHTML = html;
 
     updateCurrentMissedBadge();
+    if (typeof updatePerformanceTab === 'function') {
+        updatePerformanceTab();
+    }
 }
 
 function updateCurrentMissedBadge() {
@@ -106,8 +109,12 @@ function missCard(x) {
     return '<div class="card shadow-sm rounded-4 p-2 bg-gr border-0 cursor-pointer" role="button" data-act="jump" data-d="' + x.date + '" data-ref="page.current.missed-sheet.card.' + x.date + '">' +
         '<div class="flex items-center justify-between gap-2 mb-2 px-1" data-ref="page.current.missed-sheet.card.header">' +
         '<div class="flex items-center gap-2 min-w-0" data-ref="page.current.missed-sheet.card.info">' +
-        '<span class="icon-box icon-box-sm flex items-center justify-center shrink-0" data-ref="page.current.missed-sheet.card.icon">' +
-        renderIcon({ name: 'calendar-days', size: 'fs-5', color: 'text-gr-accent' }) + '</span>' +
+        IconBox({
+            icon: 'calendar-days',
+            size: 'sm',
+            color: 'text-gr-accent',
+            dataRef: 'page.current.missed-sheet.card.icon'
+        }) +
         '<div class="min-w-0">' +
         '<div class="fw-bold text-gr1 fs-5 lh-1 text-truncate" data-ref="page.current.missed-sheet.card.title">' + friendly(x.date) + '</div>' +
         '<div class="text-gr-accent fw-semibold small mt-0.5 text-truncate" data-ref="page.current.missed-sheet.card.date">' + fr(x.date) + '</div>' +

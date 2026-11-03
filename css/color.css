@@ -169,19 +169,3 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-
-/* ==========================================
-   BUTTON BRAND UTILITIES
-   ========================================== */
-.btn-outline-brand {
-    color: var(--brand) !important;
-    border-color: var(--brand) !important;
-    background-color: transparent !important;
-}
-
-.btn-outline-brand:hover,
-.btn-outline-brand:active {
-    color: #ffffff !important;
-    background-color: var(--brand) !important;
-    border-color: var(--brand) !important;
-}

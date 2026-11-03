@@ -138,9 +138,16 @@ window.TasbeehHistoryApp = (function () {
 
                 var canReopenThis = (mKey === reopenTargetMonth);
                 var reopenBtn = canReopenThis
-                    ? '<button type="button" class="btn btn-sm btn-outline-warning rounded-pill px-2 py-0 ms-auto" style="font-size: 11px; font-weight: 600;" data-act="tb-old-reopen" title="Reopen this month to recount">' +
-                      '  ' + renderIcon({ name: 'arrow-rotate-left', className: 'me-1' }) + ' Reopen' +
-                      '</button>'
+                    ? Button({
+                        label: 'Reopen',
+                        variant: 'outline-warning',
+                        size: 'sm',
+                        className: 'rounded-pill px-2 py-0 ms-auto',
+                        style: 'font-size: 11px; font-weight: 600;',
+                        icon: renderIcon({ name: 'arrow-rotate-left', className: 'me-1' }),
+                        dataAct: 'tb-old-reopen',
+                        title: 'Reopen this month to recount'
+                    })
                     : '';
 
                 return (
@@ -208,9 +215,7 @@ window.TasbeehHistoryApp = (function () {
             '  <!-- Period Settings Card -->' +
             '  <div class="card p-3 rounded-4 bg-white border shadow-sm">' +
             '    <div class="flex items-center gap-2 mb-3">' +
-            '      <div class="icon-box icon-box-sm">' +
-            '        ' + renderIcon({ name: 'gear', size: 'fs-6', color: 'text-brand' }) +
-            '      </div>' +
+            '      ' + IconBox({ icon: 'gear', size: 'sm', color: 'text-brand' }) +
             '      <div>' +
             '        <h6 class="fw-bold text-gr1 mb-0" style="font-size: 0.95rem;">Period Settings</h6>' +
             '        <div class="text-muted small" style="font-size: 11.5px;">Configure range for Old Tasbeeh tracking</div>' +
@@ -243,20 +248,57 @@ window.TasbeehHistoryApp = (function () {
             '    <div class="mb-3">' +
             '      <label class="form-label small fw-bold text-muted text-uppercase mb-1" style="font-size: 10.5px;">Quick Presets</label>' +
             '      <div class="flex gap-2 flex-wrap">' +
-            '        <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" style="font-size: 12px;" data-act="tb-hist-preset" data-preset="this-year">This Year</button>' +
-            '        <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" style="font-size: 12px;" data-act="tb-hist-preset" data-preset="6-months">Last 6 Months</button>' +
-            '        <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" style="font-size: 12px;" data-act="tb-hist-preset" data-preset="1-year">Last 1 Year</button>' +
+            Button({
+                label: 'This Year',
+                variant: 'outline-secondary',
+                size: 'sm',
+                className: 'rounded-pill px-3 py-1',
+                style: 'font-size: 12px;',
+                dataAct: 'tb-hist-preset',
+                attrs: { 'data-preset': 'this-year' }
+            }) +
+            Button({
+                label: 'Last 6 Months',
+                variant: 'outline-secondary',
+                size: 'sm',
+                className: 'rounded-pill px-3 py-1',
+                style: 'font-size: 12px;',
+                dataAct: 'tb-hist-preset',
+                attrs: { 'data-preset': '6-months' }
+            }) +
+            Button({
+                label: 'Last 1 Year',
+                variant: 'outline-secondary',
+                size: 'sm',
+                className: 'rounded-pill px-3 py-1',
+                style: 'font-size: 12px;',
+                dataAct: 'tb-hist-preset',
+                attrs: { 'data-preset': '1-year' }
+            }) +
             '      </div>' +
             '    </div>' +
             '' +
             '    <!-- Action Buttons -->' +
             '    <div class="flex gap-2 pt-1">' +
-            '      <button type="button" class="btn btn-sm btn-brand grow rounded-3 py-2 fw-bold" style="font-size: 13.5px;" data-act="tb-hist-save">' +
-            '        ' + renderIcon({ name: 'check', className: 'me-1' }) + ' Save Period Settings' +
-            '      </button>' +
-            '      <button type="button" class="btn btn-sm btn-outline-secondary rounded-3 px-3 py-2" style="font-size: 13.5px;" data-act="tb-hist-reset" title="Reset Period Settings">' +
-            '        ' + renderIcon('rotate-left') +
-            '      </button>' +
+            Button({
+                label: 'Save Period Settings',
+                variant: 'brand',
+                size: 'sm',
+                className: 'grow rounded-3 py-2 fw-bold',
+                style: 'font-size: 13.5px;',
+                icon: renderIcon({ name: 'check', className: 'me-1' }),
+                dataAct: 'tb-hist-save'
+            }) +
+            Button({
+                label: '',
+                variant: 'outline-secondary',
+                size: 'sm',
+                className: 'rounded-3 px-3 py-2',
+                style: 'font-size: 13.5px;',
+                icon: renderIcon('rotate-left'),
+                dataAct: 'tb-hist-reset',
+                title: 'Reset Period Settings'
+            }) +
             '    </div>' +
             '  </div>' +
             '' +
@@ -265,9 +307,14 @@ window.TasbeehHistoryApp = (function () {
             '    <div class="flex items-center justify-between mb-2">' +
             '      <h6 class="fw-bold text-gr1 mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6>' +
             (completedCount > 0
-                ? '<button type="button" class="btn btn-link text-danger text-decoration-none p-0 small fw-bold" style="font-size: 11px;" data-act="tb-reset-all-completed">' +
-                  '  ' + renderIcon({ name: 'rotate-left', className: 'me-1' }) + ' Reset Cleared' +
-                  '</button>'
+                ? Button({
+                    label: 'Reset Cleared',
+                    variant: 'link',
+                    className: 'text-danger text-decoration-none p-0 small fw-bold',
+                    style: 'font-size: 11px;',
+                    icon: renderIcon({ name: 'rotate-left', className: 'me-1' }),
+                    dataAct: 'tb-reset-all-completed'
+                })
                 : '') +
             '    </div>' +
             '    <div class="text-muted small mb-3" style="font-size: 11.5px;">Sequential monthly clearance advances backward month-by-month as dhikrs are completed.</div>' +
