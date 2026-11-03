@@ -203,18 +203,19 @@ function rDashboard() {
     var timelineNodesHtml = P.map(function (p) {
         var st = statuses[p] || DASH_STATUSES.UPCOMING;
         var isActive = st === DASH_STATUSES.ACTIVE;
-        var boxClass = isActive ? 'icon-box icon-box-md active flex items-center justify-center' : 'icon-box icon-box-md flex items-center justify-center';
+        var iconHtml = IconBox({
+            icon: p.toLowerCase(),
+            size: 'md',
+            variant: isActive ? 'active' : 'default',
+            dataRef: 'page.dashboard.timeline.icon.' + p.toLowerCase()
+        });
 
         var badgeInfo = DASH_STATUS_BADGES[st] || DASH_STATUS_BADGES[DASH_STATUSES.UPCOMING];
         var badgeClass = badgeInfo.className;
         var badgeText = badgeInfo.text;
 
-        var prayerIcon = typeof renderIcon === 'function' ? renderIcon(p.toLowerCase()) : (TIMELINE_ICONS[p] || '');
-
         return '<div class="dash-timeline-col flex-1 flex flex-col items-center" data-ref="page.dashboard.timeline.item.' + p.toLowerCase() + '">' +
-            '  <div class="' + boxClass + '" data-ref="page.dashboard.timeline.icon.' + p.toLowerCase() + '">' +
-            prayerIcon +
-            '  </div>' +
+            '  ' + iconHtml +
             '  <div class="dash-timeline-name" data-ref="page.dashboard.timeline.name.' + p.toLowerCase() + '">' + p + '</div>' +
             '  <div class="dash-timeline-time" data-ref="page.dashboard.timeline.time.' + p.toLowerCase() + '">' + (T[p] || '--:--') + '</div>' +
             '  <span class="dash-timeline-badge ' + badgeClass + '" data-ref="page.dashboard.timeline.badge.' + p.toLowerCase() + '">' + badgeText + '</span>' +
@@ -280,9 +281,7 @@ function rDashboard() {
         '    <!-- Tracker -->' +
         '    <div class="dash-nav-card flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-tracker" data-ref="page.dashboard.card.tracker">' +
         '      ' + trackerBadgeHtml +
-        '      <div class="icon-box icon-box-lg flex items-center justify-center" data-ref="page.dashboard.card.tracker-icon">' +
-        '        ' + DASH_SVG_TRACKER +
-        '      </div>' +
+        '      ' + IconBox({ icon: DASH_SVG_TRACKER, size: 'lg', dataRef: 'page.dashboard.card.tracker-icon' }) +
         '      <div class="dash-nav-footer flex items-center justify-center">' +
         '        <span class="dash-nav-title" data-ref="page.dashboard.card.tracker-label">Tracker</span>' +
         '        ' + DASH_SVG_CHEVRON +
@@ -290,9 +289,7 @@ function rDashboard() {
         '    </div>' +
         '    <!-- Tasbeeh -->' +
         '    <div class="dash-nav-card flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-tasbeeh" data-ref="page.dashboard.card.tasbeeh">' +
-        '      <div class="icon-box icon-box-lg flex items-center justify-center" data-ref="page.dashboard.card.tasbeeh-icon">' +
-        '        ' + DASH_SVG_TASBEEH +
-        '      </div>' +
+        '      ' + IconBox({ icon: DASH_SVG_TASBEEH, size: 'lg', dataRef: 'page.dashboard.card.tasbeeh-icon' }) +
         '      <div class="dash-nav-footer flex items-center justify-center">' +
         '        <span class="dash-nav-title" data-ref="page.dashboard.card.tasbeeh-label">Tasbeeh</span>' +
         '        ' + DASH_SVG_CHEVRON +
@@ -300,9 +297,7 @@ function rDashboard() {
         '    </div>' +
         '    <!-- Duas -->' +
         '    <div class="dash-nav-card flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-duas" data-ref="page.dashboard.card.duas">' +
-        '      <div class="icon-box icon-box-lg flex items-center justify-center" data-ref="page.dashboard.card.duas-icon">' +
-        '        ' + DASH_SVG_DUAS +
-        '      </div>' +
+        '      ' + IconBox({ icon: DASH_SVG_DUAS, size: 'lg', dataRef: 'page.dashboard.card.duas-icon' }) +
         '      <div class="dash-nav-footer flex items-center justify-center">' +
         '        <span class="dash-nav-title" data-ref="page.dashboard.card.duas-label">Duas</span>' +
         '        ' + DASH_SVG_CHEVRON +
@@ -310,9 +305,7 @@ function rDashboard() {
         '    </div>' +
         '    <!-- Settings -->' +
         '    <div class="dash-nav-card flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-settings" data-ref="page.dashboard.card.settings">' +
-        '      <div class="icon-box icon-box-lg flex items-center justify-center" data-ref="page.dashboard.card.settings-icon">' +
-        '        ' + DASH_SVG_SETTINGS +
-        '      </div>' +
+        '      ' + IconBox({ icon: DASH_SVG_SETTINGS, size: 'lg', dataRef: 'page.dashboard.card.settings-icon' }) +
         '      <div class="dash-nav-footer flex items-center justify-center">' +
         '        <span class="dash-nav-title" data-ref="page.dashboard.card.settings-label">Settings</span>' +
         '        ' + DASH_SVG_CHEVRON +

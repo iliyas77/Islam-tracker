@@ -289,19 +289,22 @@
                                 tracker: 'navCur',
                                 current: 'navCur',
                                 old: 'navCur',
+                                performance: 'navCur',
                                 settings: 'navSet',
                                 tasbeeh: 'navTasbeeh',
                                 duas: 'navDuas'
                         },
                         SUB_TABS: {
                                 CURRENT: 'current',
-                                OLD: 'old'
+                                OLD: 'old',
+                                PERFORMANCE: 'performance'
                         },
                         PAGE_MAP: {
                                 dashboard: 'dashboardPage',
                                 tracker: 'trackerPage',
                                 current: 'trackerPage',
                                 old: 'trackerPage',
+                                performance: 'trackerPage',
                                 settings: 'settingsPage',
                                 tasbeeh: 'tasbeehPage',
                                 duas: 'duasPage'
@@ -314,6 +317,10 @@
                                 old: {
                                         iconClass: 'clock-rotate-left text-warning',
                                         label: 'Old Tracking'
+                                },
+                                performance: {
+                                        iconClass: 'chart-simple text-brand',
+                                        label: 'Performance'
                                 }
                         },
                         NAV_CLASSES: {

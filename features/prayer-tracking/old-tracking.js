@@ -88,8 +88,13 @@ function rOldInfo() {
         '</div>' +
         '<div class="mt-2">' + perPrayerHtml + '</div>' +
         '</div>' +
-        '<button type="button" class="btn btn-brand fw-bold py-3 rounded-3 fs-6" data-act="old-change-period">' +
-        renderIcon({ name: 'calendar-plus', className: 'me-1' }) + 'Change Period</button>' +
+        Button({
+            label: 'Change Period',
+            variant: 'brand',
+            className: 'fw-bold py-3 rounded-3 fs-6',
+            icon: renderIcon({ name: 'calendar-plus', className: 'me-1' }),
+            dataAct: 'old-change-period'
+        }) +
         '</div>';
     sheet2BS.show();
 }
@@ -125,10 +130,20 @@ function rPeriod() {
         (hasValidPeriod ? (o.initialEnd || o.end) : (o ? o.end : '')) + '" max="' + td() + '">' +
         '</div>' +
         '<div class="flex gap-2">' +
-        '<button class="btn btn-brand flex-1 fw-bold py-2 fs-5" data-act="old-save" type="button">' +
-        renderIcon({ name: 'check', className: 'me-1' }) + 'Save Period</button>' +
-        (o ? '<button class="btn btn-outline-danger fw-bold px-3" data-act="old-clear" type="button">' +
-            renderIcon('trash') + '</button>' : '') +
+        Button({
+            label: 'Save Period',
+            variant: 'brand',
+            className: 'flex-1 fw-bold py-2 fs-5',
+            icon: renderIcon({ name: 'check', className: 'me-1' }),
+            dataAct: 'old-save'
+        }) +
+        (o ? Button({
+            label: '',
+            variant: 'outline-danger',
+            className: 'fw-bold px-3',
+            icon: renderIcon('trash'),
+            dataAct: 'old-clear'
+        }) : '') +
         '</div>' +
         '</div>' +
         (hasValidPeriod
@@ -187,8 +202,14 @@ function rOT() {
             renderIcon({ name: 'calendar-plus', size: 'display-4', color: 'text-warning', className: 'mb-3' }) +
             '<p class="fw-bold mb-1 text-warning">No period selected</p>' +
             '<p class="text-muted small mb-0">Tap the bookmark button above to set your Old Tracking period.</p>' +
-            '<button type="button" class="btn btn-brand btn-sm mt-3 fw-bold" data-act="old-change-period">' +
-            renderIcon({ name: 'plus', className: 'me-1' }) + 'Set Period</button>' +
+            Button({
+                label: 'Set Period',
+                variant: 'brand',
+                size: 'sm',
+                className: 'mt-3 fw-bold',
+                icon: renderIcon({ name: 'plus', className: 'me-1' }),
+                dataAct: 'old-change-period'
+            }) +
             '</div>';
         return;
     }
@@ -199,8 +220,14 @@ function rOT() {
             renderIcon({ name: 'circle-check', size: 'display-4', color: 'text-brand', className: 'mb-3' }) +
             '<p class="fw-bold mb-2 text-gr-accent">All days complete!</p>' +
             '<p class="text-muted small mb-0">The Old Tracking period has been fully cleared.</p>' +
-            '<button type="button" class="btn btn-brand btn-sm mt-3 fw-bold" data-act="old-change-period">' +
-            renderIcon({ name: 'calendar-plus', className: 'me-1' }) + 'Set Period</button>' +
+            Button({
+                label: 'Set Period',
+                variant: 'brand',
+                size: 'sm',
+                className: 'mt-3 fw-bold',
+                icon: renderIcon({ name: 'calendar-plus', className: 'me-1' }),
+                dataAct: 'old-change-period'
+            }) +
             '</div>';
         return;
     }
@@ -243,6 +270,9 @@ function rOT() {
     });
 
     lst.innerHTML = html;
+    if (typeof updatePerformanceTab === 'function') {
+        updatePerformanceTab();
+    }
 }
 
 if (typeof window !== 'undefined') {

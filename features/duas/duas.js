@@ -208,7 +208,12 @@ window.DuasApp = (function () {
             '<div class="fs-4 mb-2">⚠️</div>' +
             '<div class="fw-bold mb-1">Failed to load Duas</div>' +
             '<div class="small opacity-75 mb-3">' + escapeHtml(msg) + '</div>' +
-            '<button type="button" class="btn btn-sm btn-outline-brand" data-act="dua-retry">Retry</button>' +
+            Button({
+                label: 'Retry',
+                variant: 'outline-brand',
+                size: 'sm',
+                dataAct: 'dua-retry'
+            }) +
             '</div>';
 
         if (homeView && (!duasData || duasData.length === 0)) homeView.innerHTML = errorHtml;
@@ -284,13 +289,22 @@ window.DuasApp = (function () {
                 '  <div class="dua-item-surah">' + escapeHtml(surahLabel) + '</div>' +
                 '  <div class="dua-item-preview">' + escapeHtml(uchPreview) + '</div>' +
                 '</div>' +
-                '<button type="button" class="dua-action-btn dua-pin-btn ' + (isPinned ? 'pinned' : '') + '"' +
-                ' data-act="dua-item-pin" data-idx="' + realIndex + '" title="' + (isPinned ? 'Unpin' : 'Pin to Home') + '">' +
-                (isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED) +
-                '</button>' +
-                '<button type="button" class="dua-action-btn" data-act="dua-item-fav" data-idx="' + realIndex + '" title="Toggle favourite">' +
-                (isFav ? DUA_ICONS.FAV : DUA_ICONS.UNFAV) +
-                '</button>' +
+                Button({
+                    label: isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED,
+                    variant: 'raw',
+                    className: 'dua-action-btn dua-pin-btn ' + (isPinned ? 'pinned' : ''),
+                    dataAct: 'dua-item-pin',
+                    dataIdx: realIndex,
+                    title: isPinned ? 'Unpin' : 'Pin to Home'
+                }) +
+                Button({
+                    label: isFav ? DUA_ICONS.FAV : DUA_ICONS.UNFAV,
+                    variant: 'raw',
+                    className: 'dua-action-btn',
+                    dataAct: 'dua-item-fav',
+                    dataIdx: realIndex,
+                    title: 'Toggle favourite'
+                }) +
                 '</div>';
         }).join('');
 
@@ -325,13 +339,22 @@ window.DuasApp = (function () {
                 '  <div class="dua-item-surah">' + escapeHtml(surahLabel) + '</div>' +
                 '  <div class="dua-item-preview">' + escapeHtml(uchPreview) + '</div>' +
                 '</div>' +
-                '<button type="button" class="dua-action-btn dua-pin-btn ' + (isPinned ? 'pinned' : '') + '"' +
-                ' data-act="dua-item-pin" data-idx="' + realIndex + '" title="' + (isPinned ? 'Unpin' : 'Pin to Home') + '">' +
-                (isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED) +
-                '</button>' +
-                '<button type="button" class="dua-action-btn" data-act="dua-item-fav" data-idx="' + realIndex + '" title="Remove from favourites">' +
-                DUA_ICONS.FAV +
-                '</button>' +
+                Button({
+                    label: isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED,
+                    variant: 'raw',
+                    className: 'dua-action-btn dua-pin-btn ' + (isPinned ? 'pinned' : ''),
+                    dataAct: 'dua-item-pin',
+                    dataIdx: realIndex,
+                    title: isPinned ? 'Unpin' : 'Pin to Home'
+                }) +
+                Button({
+                    label: DUA_ICONS.FAV,
+                    variant: 'raw',
+                    className: 'dua-action-btn',
+                    dataAct: 'dua-item-fav',
+                    dataIdx: realIndex,
+                    title: 'Remove from favourites'
+                }) +
                 '</div>';
         }).join('');
 
@@ -424,14 +447,17 @@ window.DuasApp = (function () {
             if (!dua) return '';
             var surahLabel = getSurah(dua);
 
-            return '<button class="btn btn-outline-secondary w-100 text-start mb-2 flex items-center gap-2 justify-start" ' +
-                'type="button" data-act="dua-replace-pin" data-old-idx="' + p + '">' +
-                '<span class="inline-flex items-center justify-center">' + DRAWING_PIN_SVG + '</span>' +
-                '<span class="grow text-truncate font-telugu">' +
-                '#' + String(dua.number).padStart(2, '0') + ' — ' + escapeHtml(surahLabel) +
-                '</span>' +
-                '<span class="text-danger fw-bold ms-auto">Unpin</span>' +
-                '</button>';
+            return Button({
+                label: '<span class="inline-flex items-center justify-center">' + DRAWING_PIN_SVG + '</span>' +
+                    '<span class="grow text-truncate font-telugu">' +
+                    '#' + String(dua.number).padStart(2, '0') + ' — ' + escapeHtml(surahLabel) +
+                    '</span>' +
+                    '<span class="text-danger fw-bold ms-auto">Unpin</span>',
+                variant: 'outline-secondary',
+                className: 'w-100 text-start mb-2 flex items-center gap-2 justify-start',
+                dataAct: 'dua-replace-pin',
+                dataOldIdx: p
+            });
         }).join('');
 
         pinConfirmModal.classList.add('active');
@@ -720,7 +746,14 @@ window.DuasApp = (function () {
             return '<div class="dua-admin-item flex items-center">' +
                 '<span class="dua-item-number">#' + String(dua.number).padStart(2, '0') + '</span>' +
                 '<span class="admin-item-name flex-1 text-truncate">' + escapeHtml(surahLabel) + '</span>' +
-                '<button type="button" class="dua-admin-del-btn" data-act="dua-del" data-idx="' + idx + '" title="Delete">🗑️</button>' +
+                Button({
+                    label: '🗑️',
+                    variant: 'raw',
+                    className: 'dua-admin-del-btn',
+                    dataAct: 'dua-del',
+                    dataIdx: idx,
+                    title: 'Delete'
+                }) +
                 '</div>';
         }).join('');
     }

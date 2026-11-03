@@ -11,9 +11,14 @@ function rSET() {
     var opts = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window.CONSTANTS.SETTINGS.FONT_SIZE_OPTIONS) || [{ v: 0.9, l: 'Small' }, { v: 1, l: 'Medium' }, { v: 1.15, l: 'Large' }];
     var fsb = opts.map(function (o) {
         var a = Math.abs(fs - o.v) < 0.01;
-        return '<button type="button" class="btn ' + (a ? 'btn-brand' : 'btn-light border') +
-            ' flex-1 py-3 fw-bold rounded-3 fs-6" data-act="font" data-fs="' + o.v +
-            '" data-ref="page.settings.font-size.' + o.l.toLowerCase() + '">' + o.l + '</button>';
+        return Button({
+            label: o.l,
+            variant: a ? 'brand' : 'light',
+            className: (a ? '' : 'border') + ' flex-1 py-3 fw-bold rounded-3 fs-6',
+            dataAct: 'font',
+            attrs: { 'data-fs': o.v },
+            dataRef: 'page.settings.font-size.' + o.l.toLowerCase()
+        });
     }).join('');
 
     var statusText = TIMINGS_STATUS_LABELS[prayerTimingsStatus] || 'Offline';
@@ -51,8 +56,12 @@ function rSET() {
         '<!-- Prayer Times Location Card -->' +
         '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.prayer-times.card">' +
         '<div class="flex items-center gap-3 mb-3" data-ref="page.settings.prayer-times.header">' +
-        '<span class="icon-box icon-box-lg bg-brand-light flex items-center justify-center shrink-0" data-ref="page.settings.prayer-times.icon-badge">' +
-        renderIcon({ name: 'mosque', dataRef: 'page.settings.prayer-times.icon' }) + '</span>' +
+        IconBox({
+            icon: 'mosque',
+            size: 'lg',
+            className: 'bg-brand-light',
+            dataRef: 'page.settings.prayer-times.icon-badge'
+        }) +
         '<div class="grow" data-ref="page.settings.prayer-times.info">' +
         '<div class="fw-bold fs-6 text-gr1" data-ref="page.settings.prayer-times.title">Prayer Times Location</div>' +
         '<div class="text-muted small" data-ref="page.settings.prayer-times.subtitle">Selected City: ' + esc(cfg.city) + ', India</div>' +
@@ -83,30 +92,50 @@ function rSET() {
         '</select>' +
         '</div>' +
         '</div>' +
-        '<button class="btn btn-brand fw-bold w-100 py-3 fs-6 rounded-3" data-act="pt-save" type="button" data-ref="page.settings.prayer-times.save-btn">' +
-        renderIcon({ name: 'arrows-rotate', className: 'me-1', dataRef: 'page.settings.prayer-times.save-icon' }) + 'Sync &amp; Save Prayer Times' +
-        '</button>' +
+        Button({
+            label: 'Sync & Save Prayer Times',
+            variant: 'brand',
+            className: 'fw-bold w-100 py-3 fs-6 rounded-3',
+            icon: renderIcon({ name: 'arrows-rotate', className: 'me-1', dataRef: 'page.settings.prayer-times.save-icon' }),
+            dataAct: 'pt-save',
+            dataRef: 'page.settings.prayer-times.save-btn'
+        }) +
         '</div>' +
 
         '<!-- Start Date Card -->' +
         '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.start-date.card">' +
         '<div class="flex items-center gap-3 mb-3" data-ref="page.settings.start-date.header">' +
-        '<span class="icon-box icon-box-lg bg-brand-light flex items-center justify-center shrink-0" data-ref="page.settings.start-date.icon-badge">' +
-        renderIcon({ name: 'calendar-check', variant: 'regular', size: 'fs-4', color: 'text-brand', dataRef: 'page.settings.start-date.icon' }) + '</span>' +
+        IconBox({
+            icon: 'calendar-check',
+            size: 'lg',
+            color: 'text-brand',
+            className: 'bg-brand-light',
+            dataRef: 'page.settings.start-date.icon-badge'
+        }) +
         '<div class="grow" data-ref="page.settings.start-date.info"><div class="fw-bold fs-6" data-ref="page.settings.start-date.title">Current Start Date</div></div>' +
         '</div>' +
         '<div class="flex gap-2 items-center" data-ref="page.settings.start-date.input-row">' +
         '<input type="date" class="form-control form-control-lg rounded-3" id="sdInput" value="' + sdate +
         '" max="' + td() + '" data-ref="page.settings.start-date.input">' +
-        '<button class="btn btn-brand fw-bold px-4 fs-6 text-nowrap" data-act="sd-save" type="button" ' +
-        'data-ref="page.settings.start-date.save-btn">Change</button>' +
+        Button({
+            label: 'Change',
+            variant: 'brand',
+            className: 'fw-bold px-4 fs-6 text-nowrap',
+            dataAct: 'sd-save',
+            dataRef: 'page.settings.start-date.save-btn'
+        }) +
         '</div>' +
         '</div>' +
 
         '<!-- Font Size Card -->' +
         '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.font-size.card">' +
         '<div class="flex items-center gap-3 mb-3" data-ref="page.settings.font-size.header">' +
-        '<span class="icon-box icon-box-lg bg-brand-light text-gr-accent fw-bold fs-5 flex items-center justify-center shrink-0" data-ref="page.settings.font-size.icon-badge">Aa</span>' +
+        IconBox({
+            icon: 'Aa',
+            size: 'lg',
+            className: 'bg-brand-light text-gr-accent fw-bold fs-5',
+            dataRef: 'page.settings.font-size.icon-badge'
+        }) +
         '<div class="grow" data-ref="page.settings.font-size.info"><div class="fw-bold fs-6" data-ref="page.settings.font-size.title">Font Size</div></div>' +
         '</div>' +
         '<div class="flex gap-2" id="fsBtns" data-ref="page.settings.font-size.buttons-row">' + fsb + '</div>' +
@@ -115,23 +144,36 @@ function rSET() {
         '<!-- Reset DB Card -->' +
         '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.reset.card">' +
         '<div class="flex items-center gap-3 mb-2" data-ref="page.settings.reset.header">' +
-        '<span class="icon-box icon-box-lg bg-danger-subtle flex items-center justify-center shrink-0" data-ref="page.settings.reset.icon-badge">' +
-        renderIcon({ name: 'triangle-exclamation', size: 'fs-4', color: 'text-danger', dataRef: 'page.settings.reset.icon' }) + '</span>' +
+        IconBox({
+            icon: 'triangle-exclamation',
+            size: 'lg',
+            color: 'text-danger',
+            className: 'bg-danger-subtle',
+            dataRef: 'page.settings.reset.icon-badge'
+        }) +
         '<div class="grow" data-ref="page.settings.reset.info">' +
         '<div class="fw-bold fs-6" data-ref="page.settings.reset.title">Reset Database</div>' +
         '<div class="text-muted small" data-ref="page.settings.reset.subtitle">This will delete all prayer data, old data and cache.</div>' +
         '</div>' +
         '</div>' +
-        '<button class="btn btn-danger fw-bold w-100 mt-2 py-3 rounded-3 fs-6" data-act="reset-db" type="button" ' +
-        'data-ref="page.settings.reset.btn">Reset</button>' +
+        Button({
+            label: 'Reset',
+            variant: 'danger',
+            className: 'fw-bold w-100 mt-2 py-3 rounded-3 fs-6',
+            dataAct: 'reset-db',
+            dataRef: 'page.settings.reset.btn'
+        }) +
         '</div>' +
 
         '<!-- Storage Info -->' +
         '<div class="card rounded-4 p-3 border-0 bg-brand-light" data-ref="page.settings.info.card">' +
         '<div class="flex items-center gap-3" data-ref="page.settings.info.content">' +
-        '<span class="icon-box icon-box-sm bg-brand text-white flex items-center justify-center shrink-0" ' +
-        'data-ref="page.settings.info.icon">' +
-        renderIcon({ name: 'info', size: 'fs-6' }) + '</span>' +
+        IconBox({
+            icon: 'info',
+            size: 'sm',
+            className: 'bg-brand text-white',
+            dataRef: 'page.settings.info.icon'
+        }) +
         '<div class="small text-gr1 lh-sm" data-ref="page.settings.info.text">' +
         'All changes are saved automatically in your device (localStorage).</div>' +
         '</div>' +

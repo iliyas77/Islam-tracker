@@ -233,13 +233,16 @@ window.TasbeehOldApp = (function () {
 
         return '<div class="tb-card ' + (isDhikrDone ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-month="' + curOldMonth + '" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
             '<div class="tb-card-top">' +
-            '<div class="icon-box icon-box-md">' +
-            misbahaIcon +
-            '</div>' +
+            IconBox({ icon: 'misbaha', size: 'md' }) +
             '<div class="tb-card-actions">' +
-            '<button type="button" class="tb-btn-edit" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr">' +
-            pencilIcon +
-            '</button>' +
+            Button({
+                label: pencilIcon,
+                variant: 'raw',
+                className: 'tb-btn-edit',
+                dataAct: 'tb-edit',
+                title: 'Edit Dhikr',
+                ariaLabel: 'Edit Dhikr'
+            }) +
             chevronIcon +
             '</div>' +
             '</div>' +
@@ -290,9 +293,13 @@ window.TasbeehOldApp = (function () {
                 'Your tracking start date is <strong>' + formatMonthLabel(period.startDate) + '</strong>, which falls in or after the current period.<br>' +
                 'The Old tab displays previous completed months prior to <strong>' + curMonthName + '</strong>.' +
                 '</p>' +
-                '<button type="button" class="btn btn-brand px-4 py-2 rounded-3 fw-bold mx-auto" data-act="tb-open-settings">' +
-                renderIcon({ name: 'calendar-days', className: 'me-2' }) + 'Adjust Start Date' +
-                '</button>' +
+                Button({
+                    label: 'Adjust Start Date',
+                    variant: 'brand',
+                    className: 'px-4 py-2 rounded-3 fw-bold mx-auto',
+                    icon: renderIcon({ name: 'calendar-days', className: 'me-2' }),
+                    dataAct: 'tb-open-settings'
+                }) +
                 '</div>';
             return;
         }
@@ -311,12 +318,20 @@ window.TasbeehOldApp = (function () {
                 'All previous months back to ' + formatMonthLabel(period.startDate) + ' have been completed.' +
                 '</p>' +
                 '<div class="flex justify-center gap-2">' +
-                '<button type="button" class="btn btn-outline-brand rounded-pill px-4 py-2 fw-bold" data-act="tb-old-reopen">' +
-                renderIcon({ name: 'rotate-left', className: 'me-1' }) + 'Reopen Last Month' +
-                '</button>' +
-                '<button type="button" class="btn btn-light border rounded-pill px-3 py-2 text-muted small" data-act="tb-reset-all-completed">' +
-                renderIcon({ name: 'arrows-rotate', className: 'me-1' }) + 'Reset Completed' +
-                '</button>' +
+                Button({
+                    label: 'Reopen Last Month',
+                    variant: 'outline-brand',
+                    className: 'rounded-pill px-4 py-2 fw-bold',
+                    icon: renderIcon({ name: 'rotate-left', className: 'me-1' }),
+                    dataAct: 'tb-old-reopen'
+                }) +
+                Button({
+                    label: 'Reset Completed',
+                    variant: 'light',
+                    className: 'border rounded-pill px-3 py-2 text-muted small',
+                    icon: renderIcon({ name: 'arrows-rotate', className: 'me-1' }),
+                    dataAct: 'tb-reset-all-completed'
+                }) +
                 '</div>' +
                 '</div>';
             return;
@@ -361,9 +376,14 @@ window.TasbeehOldApp = (function () {
               '<div class="text-brand fw-bold mb-2">' +
               renderIcon({ name: 'circle-check', className: 'me-1' }) + 'All targets for ' + monthName + ' are completed!' +
               '</div>' +
-              '<button type="button" class="btn btn-brand btn-sm fw-bold rounded-pill px-4 py-2 mx-auto" data-act="tb-old-advance">' +
-              renderIcon({ name: 'arrow-left', className: 'me-1' }) + 'Finalize & Move to Previous Month' +
-              '</button>' +
+              Button({
+                  label: 'Finalize & Move to Previous Month',
+                  variant: 'brand',
+                  size: 'sm',
+                  className: 'fw-bold rounded-pill px-4 py-2 mx-auto',
+                  icon: renderIcon({ name: 'arrow-left', className: 'me-1' }),
+                  dataAct: 'tb-old-advance'
+              }) +
               '</div>'
             : '';
 
@@ -386,13 +406,18 @@ window.TasbeehOldApp = (function () {
             advanceMonthHtml +
             '<!-- TO DO GROUP (OLD) -->' +
             '<section class="prayer-group mb-3">' +
-            '<button type="button" class="group-toggle tb-group-toggle py-1 flex items-center gap-2" data-bs-toggle="collapse" data-bs-target="#tbOldTodoList" aria-expanded="true">' +
-            '<span class="tb-toggle-icon">' +
-            (typeof renderIcon === 'function' ? renderIcon('tb-group-toggle-down') : (((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_DOWN) || ''))) +
-            '</span>' +
-            '<span class="tb-group-title">To Do</span>' +
-            '<span class="tb-group-badge">' + todoOldItems.length + '</span>' +
-            '</button>' +
+            Button({
+                label: '<span class="tb-toggle-icon">' +
+                    (typeof renderIcon === 'function' ? renderIcon('tb-group-toggle-down') : (((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_DOWN) || ''))) +
+                    '</span>' +
+                    '<span class="tb-group-title">To Do</span>' +
+                    '<span class="tb-group-badge">' + todoOldItems.length + '</span>',
+                variant: 'raw',
+                className: 'group-toggle tb-group-toggle py-1 flex items-center gap-2',
+                dataToggle: 'collapse',
+                dataTarget: '#tbOldTodoList',
+                ariaExpanded: 'true'
+            }) +
             '<div class="collapse show" id="tbOldTodoList">' +
             '<div class="tb-grid mt-2">' +
             todoOldCardsHtml +
@@ -402,13 +427,18 @@ window.TasbeehOldApp = (function () {
 
             '<!-- COMPLETED GROUP (OLD) -->' +
             '<section class="prayer-group mb-3">' +
-            '<button type="button" class="group-toggle tb-group-toggle py-1 flex items-center gap-2 ' + (isOldDoneExpanded ? '' : 'collapsed') + '" data-bs-toggle="collapse" data-bs-target="#tbOldDoneList" aria-expanded="' + (isOldDoneExpanded ? 'true' : 'false') + '">' +
-            '<span class="tb-toggle-icon">' +
-            (typeof renderIcon === 'function' ? renderIcon('tb-group-toggle-collapsed') : (((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_COLLAPSED) || ''))) +
-            '</span>' +
-            '<span class="tb-group-title-completed">COMPLETED</span>' +
-            '<span class="tb-group-badge">' + doneOldItems.length + '</span>' +
-            '</button>' +
+            Button({
+                label: '<span class="tb-toggle-icon">' +
+                    (typeof renderIcon === 'function' ? renderIcon('tb-group-toggle-collapsed') : (((window.SVG_CONSTANTS && window.SVG_CONSTANTS.TASBEEH && window.SVG_CONSTANTS.TASBEEH.GROUP_TOGGLE_COLLAPSED) || ''))) +
+                    '</span>' +
+                    '<span class="tb-group-title-completed">COMPLETED</span>' +
+                    '<span class="tb-group-badge">' + doneOldItems.length + '</span>',
+                variant: 'raw',
+                className: 'group-toggle tb-group-toggle py-1 flex items-center gap-2 ' + (isOldDoneExpanded ? '' : 'collapsed'),
+                dataToggle: 'collapse',
+                dataTarget: '#tbOldDoneList',
+                ariaExpanded: isOldDoneExpanded ? 'true' : 'false'
+            }) +
             '<div class="collapse ' + (isOldDoneExpanded ? 'show' : '') + '" id="tbOldDoneList">' +
             '<div class="tb-grid mt-2">' +
             doneOldCardsHtml +

@@ -673,6 +673,7 @@ function handleClick(e) {
         c1[p] = wasDone ? true : false;
         sr(sd, c1);
         rn();
+        if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
     } else if (act === 'select-all') {
         var c2 = gr(sd);
         var isToday = sd === td();
@@ -690,6 +691,7 @@ function handleClick(e) {
         });
         sr(sd, c2);
         rn();
+        if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
     } else if (act === 'jump-today') {
         sd = td();
         if (typeof fetchPrayerTimings === 'function') {
@@ -740,6 +742,7 @@ function handleClick(e) {
         if ($('sheet2') && $('sheet2').classList.contains('show') && typeof rOldInfo === 'function') {
             rOldInfo();
         }
+        if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
     } else if (act === 'old-change-period') {
         rPeriod();
     } else if (act === 'jump') {
@@ -796,6 +799,7 @@ function handleClick(e) {
         if (!confirm('Save Current Start Date as ' + fr(v) + '?')) return;
         wrSD(v);
         rSET();
+        if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
     } else if (act === 'old-save') {
         var s = $('oldStart').value, en2 = $('oldEnd').value;
         if (!s || !en2) { alert('Please pick both start and end dates.'); return; }
@@ -810,6 +814,7 @@ function handleClick(e) {
         if ($('sheet2') && $('sheet2').classList.contains('show') && typeof rOldInfo === 'function') {
             rOldInfo();
         }
+        if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
     } else if (act === 'old-clear') {
         if (confirm('Clear the saved Old Tracking period and all its data?')) {
             localStorage.removeItem(OK);
@@ -818,6 +823,7 @@ function handleClick(e) {
             if (typeof setOldSd === 'function') setOldSd(null);
             sheet2BS.hide();
             rOT();
+            if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
         }
     } else if (act === 'reset-db') {
         if (confirm('Delete ALL prayer records and cached prayer times?')) {
@@ -831,6 +837,7 @@ function handleClick(e) {
             ensureCurrentDateInitialized();
             if (typeof fetchPrayerTimings === 'function') fetchPrayerTimings(td());
             rSET();
+            if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
         }
     } else if (act === 'go-home') {
         showPage('dashboard');
@@ -844,6 +851,8 @@ function handleClick(e) {
         switchTrackerSubTab('current');
     } else if (act === 'switch-track-old') {
         switchTrackerSubTab('old');
+    } else if (act === 'switch-track-performance') {
+        switchTrackerSubTab('performance');
     } else if (act === 'goto-settings') {
         showPage('settings');
     } else if (act === 'goto-tasbeeh') {
