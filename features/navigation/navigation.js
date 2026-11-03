@@ -14,11 +14,11 @@ var PAGE_MAP = NAV_CONSTANTS.PAGE_MAP || {
 };
 var TRACKER_HEADER = NAV_CONSTANTS.TRACKER_HEADER || {
     current: {
-        iconClass: 'fa-regular fa-calendar text-gr-accent',
+        iconClass: 'calendar text-gr-accent',
         label: 'Current Prayer'
     },
     old: {
-        iconClass: 'fa-solid fa-clock-rotate-left text-warning',
+        iconClass: 'clock-rotate-left text-warning',
         label: 'Old Tracking'
     }
 };
