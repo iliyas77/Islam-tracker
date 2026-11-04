@@ -281,61 +281,77 @@
     }
 
     /**
+     * Format prayer date: e.g. "Wed, 04 Nov 2026"
+     * @param {string} dateStr YYYY-MM-DD
+     * @returns {string}
+     */
+    function formatPrayerDate(dateStr) {
+        if (!dateStr) return '';
+        try {
+            var d = new Date(dateStr + 'T00:00:00');
+            if (isNaN(d.getTime())) return dateStr;
+            var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            var dayName = days[d.getDay()];
+            var dayNum = String(d.getDate()).padStart(2, '0');
+            var monthName = months[d.getMonth()];
+            var year = d.getFullYear();
+            return dayName + ', ' + dayNum + ' ' + monthName + ' ' + year;
+        } catch (e) {
+            return dateStr;
+        }
+    }
+
+    /**
      * Render a single history entry card.
      * @param {Object} entry
      * @returns {string} HTML string
      */
     function renderHistoryEntryCard(entry) {
-        var frFn = typeof window.fr === 'function' ? window.fr : function (d) { return d; };
         var renderIconFn = typeof window.renderIcon === 'function' ? window.renderIcon : function (opts) {
             var n = typeof opts === 'object' ? opts.name : opts;
             return '<span class="icon-' + n + '"></span>';
         };
-        var iconBoxFn = typeof window.IconBox === 'function' ? window.IconBox : function (props) {
-            return '<div class="icon-box">' + (props.icon || '') + '</div>';
-        };
 
         var isCurrent = entry.type === 'Current';
         var typeBadgeClass = isCurrent
-            ? 'bg-brand-light text-brand'
-            : 'bg-warning-subtle text-warning';
+            ? 'badge-history-type-current'
+            : 'badge-history-type-old';
 
-        var prayerIcon = iconBoxFn({
-            icon: entry.prayer.toLowerCase(),
-            variant: 'done',
-            size: 'md',
-            dataRef: 'page.history.item.avatar.' + (entry.id || '')
-        });
-
-        var formattedDate = frFn(entry.date);
+        var pLower = (entry.prayer || '').toLowerCase();
+        var pIcon = renderIconFn({ name: pLower, size: 22, color: 'text-brand' });
+        var formattedDate = formatPrayerDate(entry.date);
         var exactTime = formatHistoryTimestamp(entry.timestamp);
         var ago = formatTimeAgo(entry.timestamp);
 
-        return '<div class="card rounded-4 p-3 bg-white border border-borderGrey mb-2" data-ref="page.history.card.' + (entry.id || '') + '">' +
-            '  <div class="flex items-start justify-between gap-2">' +
+        return '<div class="card rounded-4 p-3 bg-white border border-borderGrey mb-3 flex flex-col gap-2.5" data-ref="page.history.card.' + (entry.id || '') + '">' +
+            '  <!-- Row 1: Prayer Icon + Name + Badge (Left) and Completed (Right) -->' +
+            '  <div class="flex items-center justify-between">' +
             '    <div class="flex items-center gap-2.5 min-w-0">' +
-            '      ' + prayerIcon +
-            '      <div class="min-w-0">' +
-            '        <div class="flex items-center gap-2">' +
-            '          <span class="fw-bold text-gr1 fs-6" data-ref="page.history.item.prayer.' + (entry.id || '') + '">' + entry.prayer + '</span>' +
-            '          <span class="badge-pill-custom ' + typeBadgeClass + ' fs-xs px-2 py-0.5 rounded-pill fw-bold" data-ref="page.history.item.type.' + (entry.id || '') + '">' + entry.type + '</span>' +
-            '        </div>' +
-            '        <div class="text-muted small mt-0.5 flex items-center gap-1 text-truncate" data-ref="page.history.item.date.' + (entry.id || '') + '">' +
-            '          ' + renderIconFn({ name: 'calendar', size: 'fs-xs', color: 'text-muted' }) +
-            '          <span>Prayer Date: <strong class="text-dark">' + formattedDate + '</strong></span>' +
-            '        </div>' +
+            '      <div class="rounded-circle bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 44px; height: 44px;" data-ref="page.history.item.avatar.' + (entry.id || '') + '">' +
+            '        ' + pIcon +
+            '      </div>' +
+            '      <div class="flex items-center gap-2 min-w-0">' +
+            '        <h6 class="fw-bold text-gr1 fs-5 mb-0 lh-1" data-ref="page.history.item.prayer.' + (entry.id || '') + '">' + entry.prayer + '</h6>' +
+            '        <span class="badge-history-type ' + typeBadgeClass + '" data-ref="page.history.item.type.' + (entry.id || '') + '">' + entry.type + '</span>' +
             '      </div>' +
             '    </div>' +
-            '    <span class="badge rounded-pill bg-success-subtle text-brand fs-xs px-2 py-1 flex items-center gap-1 shrink-0">' +
-            '      ' + renderIconFn({ name: 'check', size: 'fs-xs' }) + ' Completed' +
+            '    <span class="flex items-center gap-1.5 text-brand fs-sm fw-bold shrink-0">' +
+            '      ' + renderIconFn({ name: 'check', size: 14, className: 'shrink-0' }) +
+            '      <span>Completed</span>' +
             '    </span>' +
             '  </div>' +
-            '  <div class="mt-2 pt-2 border-top flex items-center justify-between text-muted fs-xs">' +
-            '    <span class="flex items-center gap-1" data-ref="page.history.item.time.' + (entry.id || '') + '">' +
-            '      ' + renderIconFn({ name: 'clock', size: 'fs-xs' }) +
-            '      <span>Completed: <strong class="text-secondary">' + exactTime + '</strong></span>' +
-            '    </span>' +
-            '    <span class="text-muted opacity-75">' + ago + '</span>' +
+            '  <!-- Row 2: Prayer Date -->' +
+            '  <div class="text-muted fs-xs" data-ref="page.history.item.date.' + (entry.id || '') + '">' +
+            '    Prayer Date: <strong class="text-gr1 fw-bold">' + formattedDate + '</strong>' +
+            '  </div>' +
+            '  <!-- Row 3: Completed exact time (Left) & Relative time (Right) -->' +
+            '  <div class="flex items-center justify-between text-muted fs-xs">' +
+            '    <div class="flex items-center gap-1.5" data-ref="page.history.item.time.' + (entry.id || '') + '">' +
+            '      ' + renderIconFn({ name: 'clock', size: 12, className: 'shrink-0' }) +
+            '      <span>Completed: <span class="text-gr1">' + exactTime + '</span></span>' +
+            '    </div>' +
+            '    <span class="text-muted">' + ago + '</span>' +
             '  </div>' +
             '</div>';
     }
@@ -397,17 +413,17 @@
         var summaryCardHtml =
             '<div class="card rounded-4 p-3 bg-white border border-borderGrey mb-3" data-ref="page.history.summary-card">' +
             '  <div class="flex items-center justify-between">' +
-            '    <div class="flex items-center gap-2.5">' +
-            '      <span class="icon-box icon-box-md bg-brand-light text-brand">' +
-            '        ' + renderIconFn2({ name: 'list-check', size: 'fs-5', color: 'text-brand' }) +
-            '      </span>' +
-            '      <div>' +
-            '        <h6 class="fw-bold text-gr1 mb-0">Activity Log</h6>' +
-            '        <div class="text-muted fs-xs">' + totalCount + ' completed ' + (totalCount === 1 ? 'prayer' : 'prayers') + ' (' + currentCount + ' Current, ' + oldCount + ' Old)</div>' +
+            '    <div class="flex items-center gap-2.5 min-w-0">' +
+            '      <div class="rounded-3 bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 40px; height: 40px;">' +
+            '        ' + renderIconFn2({ name: 'list-check', size: 20, color: 'text-brand' }) +
+            '      </div>' +
+            '      <div class="min-w-0">' +
+            '        <h6 class="fw-bold text-gr1 mb-0 fs-base lh-sm">Activity Log</h6>' +
+            '        <div class="text-muted fs-xs mt-0.5">' + totalCount + ' completed ' + (totalCount === 1 ? 'prayer' : 'prayers') + ' (' + currentCount + ' Current, ' + oldCount + ' Old)</div>' +
             '      </div>' +
             '    </div>' +
-            '    <div class="flex items-center gap-1.5 fs-xs text-muted">' +
-            '      ' + renderIconFn2({ name: 'clock', size: 'fs-xs' }) +
+            '    <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-pill border border-borderGrey bg-surface fs-xs text-muted fw-medium shrink-0">' +
+            '      ' + renderIconFn2({ name: 'clock', size: 13, className: 'shrink-0' }) +
             '      <span>Latest first</span>' +
             '    </div>' +
             '  </div>' +
