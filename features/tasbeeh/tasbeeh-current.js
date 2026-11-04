@@ -599,7 +599,7 @@ window.TasbeehCurrentApp = (function () {
         var checkCircleIcon = renderIcon('tb-check-circle');
         var calendarDaysIcon = renderIcon({ name: 'calendar-days', color: 'text-muted', size: 13 });
 
-        return '<div class="tb-card ' + (isComplete ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-ref="page.tasbeeh.card" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
+        return '<div class="tb-card border border-borderGrey ' + (isComplete ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-ref="page.tasbeeh.card" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
             '<div class="tb-card-top">' +
             IconBox({ icon: 'misbaha', size: 'md', dataRef: 'page.tasbeeh.card.icon' }) +
             '<div class="tb-card-actions">' +
@@ -686,7 +686,7 @@ window.TasbeehCurrentApp = (function () {
         var todoCardsHtml = todoItems.length > 0
             ? todoItems.map(function (it) { return renderCurrentCardHtml(it, false); }).join('')
             : (isMonthComplete
-                ? '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
+                ? '<div class="card border border-borderGrey p-3 text-center rounded-4 bg-white">' +
                   renderIcon({ name: 'circle-check', color: 'text-brand', size: 'fs-3', className: 'mb-2' }) +
                   '<div class="fw-bold text-gr1">All Dhikrs for ' + curMonthName + ' Completed!</div>' +
                   '<div class="text-muted small mb-3">All daily targets for this month have been achieved.</div>' +
@@ -699,7 +699,7 @@ window.TasbeehCurrentApp = (function () {
                       dataAct: 'tb-current-advance'
                   }) +
                   '</div>'
-                : '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
+                : '<div class="card border border-borderGrey p-3 text-center rounded-4 bg-white">' +
                   renderIcon({ name: 'circle-check', color: 'text-brand', size: 'fs-3', className: 'mb-2' }) +
                   '<div class="fw-bold text-gr1">All Dhikrs Completed Today!</div>' +
                   '<div class="text-muted small">You have met today’s targets for all your chants.</div>' +
@@ -707,7 +707,7 @@ window.TasbeehCurrentApp = (function () {
 
         var doneCardsHtml = doneItems.length > 0
             ? doneItems.map(function (it) { return renderCurrentCardHtml(it, true); }).join('')
-            : '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
+            : '<div class="card border border-borderGrey p-3 text-center rounded-4 bg-white">' +
               '<div class="text-muted small">No completed Dhikrs for ' + curMonthName + ' yet. Mark your daily targets to see them here.</div>' +
               '</div>';
 

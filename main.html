@@ -41,12 +41,15 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button type="button" class="btn-action-round flex items-center justify-center shrink-0 position-relative" id="currentMissedBtn" data-act="missed-open" title="Missed Prayers" aria-label="Missed Prayers" data-ref="page.current.card.header.badge">
+                        <button type="button" class="btn-action-round shrink-0 position-relative" id="currentMissedBtn" data-act="missed-open" title="Missed Prayers" aria-label="Missed Prayers" data-ref="page.current.card.header.badge">
                             <app-icon name="triangle-exclamation" size="fs-5" data-ref="page.current.card.header.badge-icon"></app-icon>
-                            <span class="btn-action-badge inline-flex items-center justify-center d-none" id="currentMissedBadge" data-ref="page.current.card.header.badge-count"></span>
+                            <span class="btn-action-badge d-none" id="currentMissedBadge" data-ref="page.current.card.header.badge-count"></span>
                         </button>
-                        <button type="button" class="btn-action-round flex items-center justify-center shrink-0 d-none" id="oldActionBtn" data-act="old-info" title="Period Summary" aria-label="Period Summary" data-ref="page.old.header.summary-btn page.old.card.header.summary-btn">
+                        <button type="button" class="btn-action-round shrink-0 d-none" id="oldActionBtn" data-act="old-info" title="Period Summary" aria-label="Period Summary" data-ref="page.old.header.summary-btn page.old.card.header.summary-btn">
                             <app-icon name="chart-simple" size="fs-5"></app-icon>
+                        </button>
+                        <button type="button" class="btn-action-round shrink-0 d-none" id="historyEmptyBtn" data-act="history-empty" title="Empty History" aria-label="Empty History" data-ref="page.history.header.empty-btn">
+                            <app-icon name="trash" size="fs-5"></app-icon>
                         </button>
                     </div>
                 </div>
@@ -55,6 +58,7 @@
             <div class="grow overflow-auto px-2 pt-2 pb-3" id="currentBody" data-ref="page.current.body"></div>
             <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="oldBody" data-ref="page.old.body"></div>
             <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="performanceBody" data-ref="page.performance.body"></div>
+            <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="historyBody" data-ref="page.history.body"></div>
 
             <!-- Bottom Navigation -->
             <nav class="app-bottom-nav shrink-0 flex items-center justify-around px-2 border-top" id="trackerBottomNav" data-ref="page.tracker.bottom-nav">
@@ -69,6 +73,10 @@
                 <button type="button" class="nav-tab flex-1 flex flex-col items-center justify-center" id="tabTrackPerformance" data-act="switch-track-performance" role="tab" aria-selected="false" data-ref="page.tracker.tab-performance">
                     <app-icon name="chart-simple"></app-icon>
                     <span>Performance</span>
+                </button>
+                <button type="button" class="nav-tab flex-1 flex flex-col items-center justify-center" id="tabTrackHistory" data-act="switch-track-history" role="tab" aria-selected="false" data-ref="page.tracker.tab-history">
+                    <app-icon name="list-check"></app-icon>
+                    <span>History</span>
                 </button>
             </nav>
         </div>
@@ -124,7 +132,7 @@
             <div class="grow overflow-auto p-2 pb-5 position-relative d-none" id="tbCurrentBody" data-ref="page.tasbeeh.body.current">
                 <div id="tbList" class="flex flex-col gap-3" data-ref="page.tasbeeh.list"></div>
 
-                <div id="tbEmptyState" class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white d-none" data-ref="page.tasbeeh.empty-state">
+                <div id="tbEmptyState" class="card border border-borderGrey p-4 text-center rounded-4 bg-white d-none" data-ref="page.tasbeeh.empty-state">
                     <div class="mb-3" data-ref="page.tasbeeh.empty-state.icon-wrap">
                         <app-icon name="hand-holding-heart" size="fs-1" color="text-muted" class-name="opacity-50" data-ref="page.tasbeeh.empty-state.icon"></app-icon>
                     </div>
@@ -270,7 +278,7 @@
                 <!-- Subview: All Duas (List + Search) -->
                 <div id="duaSubAll" class="d-none">
                     <div class="position-relative mb-3">
-                        <input type="text" id="duaSearchInput" class="form-control rounded-3 border ps-3 pe-5 py-2 shadow-none" placeholder="Search by number, Surah, or keywords...">
+                        <input type="text" id="duaSearchInput" class="form-control rounded-3 border border-borderGrey ps-3 pe-5 py-2" placeholder="Search by number, Surah, or keywords...">
                         <button type="button" id="duaSearchClear" class="btn border-0 text-muted position-absolute end-0 top-50 translate-middle-y me-2 d-none p-1 lh-1">✕</button>
                     </div>
                     <div class="list-view flex flex-col" id="duaListView"></div>
@@ -287,7 +295,7 @@
                         <app-icon name="arrow-left" class-name="me-1"></app-icon> Back to list
                     </button>
 
-                    <div class="dua-card flex flex-col">
+                    <div class="dua-card border border-borderGrey flex flex-col">
                         <div class="dua-header-info flex items-center justify-between">
                             <div class="dua-countdown" id="duaDetailNumber">#01</div>
                             <div class="dua-prayer-name" id="duaDetailSurah"></div>
@@ -452,7 +460,7 @@
 <!-- Add / Edit Dhikr Modal -->
         <div class="modal fade" id="tasbeehModal" tabindex="-1" data-ref="component.modal.tasbeeh">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-tasbeeh" data-ref="component.modal.tasbeeh.dialog">
-                <div class="modal-content rounded-4 border-0 shadow" data-ref="component.modal.tasbeeh.content">
+                <div class="modal-content rounded-4 border border-borderGrey" data-ref="component.modal.tasbeeh.content">
                     <div class="modal-header border-0 pb-0 flex items-center gap-3 pt-4 px-4" data-ref="component.modal.tasbeeh.header">
                         <span class="icon-box icon-box-lg" data-ref="component.modal.tasbeeh.badge">
                             <app-icon name="hand-holding-heart" size="fs-3" color="text-brand" data-ref="component.modal.tasbeeh.badge-icon"></app-icon>
@@ -504,7 +512,7 @@
         <!-- Tasbeeh Day Status Change Confirmation Modal -->
         <div class="modal fade" id="tasbeehConfirmModal" tabindex="-1" aria-hidden="true" data-ref="component.modal.tasbeeh-confirm">
             <div class="modal-dialog modal-dialog-centered modal-dialog-confirm" data-ref="component.modal.tasbeeh-confirm.dialog">
-                <div class="modal-content rounded-4 border-0 shadow p-2" data-ref="component.modal.tasbeeh-confirm.content">
+                <div class="modal-content rounded-4 border border-borderGrey p-2" data-ref="component.modal.tasbeeh-confirm.content">
                     <div class="modal-header border-0 pb-0 flex items-center gap-3 pt-3 px-3" data-ref="component.modal.tasbeeh-confirm.header">
                         <span class="icon-box icon-box-lg bg-warning-subtle" id="tbConfirmModalBadge" data-ref="component.modal.tasbeeh-confirm.icon-badge">
                             <app-icon name="triangle-exclamation" size="fs-3" color="text-warning" id="tbConfirmModalIcon" data-ref="component.modal.tasbeeh-confirm.icon"></app-icon>
@@ -532,7 +540,7 @@
         <!-- Tasbeeh Period Settings Modal -->
         <div class="modal fade" id="tasbeehPeriodModal" tabindex="-1" data-ref="component.modal.tasbeeh-period" aria-labelledby="tbPeriodModalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-tasbeeh" data-ref="component.modal.tasbeeh-period.dialog">
-                <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-content rounded-4 border border-borderGrey">
                     <div class="modal-header border-0 pb-0 flex items-center gap-3 pt-4 px-4">
                         <span class="icon-box icon-box-lg">
                             <app-icon name="gear" size="fs-3" color="text-brand"></app-icon>
@@ -544,7 +552,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body pt-3 px-4">
-                        <div class="card p-3 rounded-4 bg-brand-light border-0 mb-3">
+                        <div class="card border border-borderGrey p-3 rounded-4 bg-brand-light mb-3">
                             <div class="flex items-center gap-2 mb-1">
                                 <app-icon name="circle-info" color="text-brand" size="fs-5"></app-icon>
                                 <strong class="text-brand small">How Tracking Periods Work</strong>
@@ -590,7 +598,7 @@
                         </div>
 
                         <!-- Dynamic Preview Card -->
-                        <div class="card p-3 rounded-4 bg-surface border-0" id="tbPeriodPreviewBox">
+                        <div class="card border border-borderGrey p-3 rounded-4 bg-surface" id="tbPeriodPreviewBox">
                             <div class="flex items-center gap-2 mb-2">
                                 <app-icon name="calendar-week" color="text-brand"></app-icon>
                                 <span class="fw-bold small text-dark">Period Summary</span>
@@ -623,6 +631,7 @@
     <script src="features/dashboard/dashboard.js"></script>
     <script src="features/prayer-tracking/old-tracking.js"></script>
     <script src="features/prayer-tracking/prayer-performance.js"></script>
+    <script src="features/prayer-tracking/prayer-history.js"></script>
     <script src="features/settings/settings.js"></script>
     <script src="features/tasbeeh/tasbeeh-home.js"></script>
     <script src="features/tasbeeh/tasbeeh-current.js"></script>
@@ -645,6 +654,9 @@
             }
             if (window.DuasApp && typeof window.DuasApp.init === 'function') {
                 window.DuasApp.init();
+            }
+            if (window.PrayerHistoryApp && typeof window.PrayerHistoryApp.init === 'function') {
+                window.PrayerHistoryApp.init();
             }
         });
     </script>

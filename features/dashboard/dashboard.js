@@ -250,7 +250,7 @@ function rDashboard() {
         '  </header>' +
         '' +
         '  <!-- 1. Digital Clock Card -->' +
-        '  <div class="dash-clock-card flex items-center justify-between" data-ref="page.dashboard.clock-card">' +
+        '  <div class="dash-clock-card border border-borderGrey flex items-center justify-between" data-ref="page.dashboard.clock-card">' +
         '    <div class="dash-clock-left" data-ref="page.dashboard.clock-card.left-icon">' +
         '      ' + DASH_SVG_MOSQUE_CLOCK +
         '    </div>' +
@@ -263,7 +263,7 @@ function rDashboard() {
         '  </div>' +
         '' +
         '  <!-- 2. Daily Prayer Timeline Card -->' +
-        '  <div class="dash-timeline-card" data-ref="page.dashboard.timeline-card">' +
+        '  <div class="dash-timeline-card border border-borderGrey" data-ref="page.dashboard.timeline-card">' +
         '    <div class="dash-timeline-header flex items-center" data-ref="page.dashboard.timeline.header">' +
         '      <span class="dash-timeline-title" data-ref="page.dashboard.timeline.title">Daily Prayer Timeline</span>' +
         '      <div class="dash-timeline-header-line flex-1" data-ref="page.dashboard.timeline.line"></div>' +
@@ -279,7 +279,7 @@ function rDashboard() {
         '  <!-- 3. 2x2 Quick Navigation Cards Grid -->' +
         '  <div class="dash-grid-2x2" data-ref="page.dashboard.nav-grid">' +
         '    <!-- Tracker -->' +
-        '    <div class="dash-nav-card flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-tracker" data-ref="page.dashboard.card.tracker">' +
+        '    <div class="dash-nav-card border border-borderGrey flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-tracker" data-ref="page.dashboard.card.tracker">' +
         '      ' + trackerBadgeHtml +
         '      ' + IconBox({ icon: DASH_SVG_TRACKER, size: 'lg', dataRef: 'page.dashboard.card.tracker-icon' }) +
         '      <div class="dash-nav-footer flex items-center justify-center">' +
@@ -288,7 +288,7 @@ function rDashboard() {
         '      </div>' +
         '    </div>' +
         '    <!-- Tasbeeh -->' +
-        '    <div class="dash-nav-card flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-tasbeeh" data-ref="page.dashboard.card.tasbeeh">' +
+        '    <div class="dash-nav-card border border-borderGrey flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-tasbeeh" data-ref="page.dashboard.card.tasbeeh">' +
         '      ' + IconBox({ icon: DASH_SVG_TASBEEH, size: 'lg', dataRef: 'page.dashboard.card.tasbeeh-icon' }) +
         '      <div class="dash-nav-footer flex items-center justify-center">' +
         '        <span class="dash-nav-title" data-ref="page.dashboard.card.tasbeeh-label">Tasbeeh</span>' +
@@ -296,7 +296,7 @@ function rDashboard() {
         '      </div>' +
         '    </div>' +
         '    <!-- Duas -->' +
-        '    <div class="dash-nav-card flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-duas" data-ref="page.dashboard.card.duas">' +
+        '    <div class="dash-nav-card border border-borderGrey flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-duas" data-ref="page.dashboard.card.duas">' +
         '      ' + IconBox({ icon: DASH_SVG_DUAS, size: 'lg', dataRef: 'page.dashboard.card.duas-icon' }) +
         '      <div class="dash-nav-footer flex items-center justify-center">' +
         '        <span class="dash-nav-title" data-ref="page.dashboard.card.duas-label">Duas</span>' +
@@ -304,7 +304,7 @@ function rDashboard() {
         '      </div>' +
         '    </div>' +
         '    <!-- Settings -->' +
-        '    <div class="dash-nav-card flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-settings" data-ref="page.dashboard.card.settings">' +
+        '    <div class="dash-nav-card border border-borderGrey flex flex-col items-center justify-between" role="button" tabindex="0" data-act="goto-settings" data-ref="page.dashboard.card.settings">' +
         '      ' + IconBox({ icon: DASH_SVG_SETTINGS, size: 'lg', dataRef: 'page.dashboard.card.settings-icon' }) +
         '      <div class="dash-nav-footer flex items-center justify-center">' +
         '        <span class="dash-nav-title" data-ref="page.dashboard.card.settings-label">Settings</span>' +

@@ -35,7 +35,9 @@
     /* Surface & Accents */
     --surface-bg: #F5F8F6;
     --card-bg: #FFFFFF;
-    --border-subtle: #E3ECE8;
+    --tw-border-opacity: 1;
+    --border-borderGrey: rgb(224 224 224 / var(--tw-border-opacity, 1));
+    --border-subtle: rgb(224 224 224 / var(--tw-border-opacity, 1));
     --warning-bg: #FFF7ED;
     --warning-text: #C2410C;
     --warning-border: #FFEDD5;
@@ -44,14 +46,14 @@
     --border-hover: #CCDCD5;
     --btn-primary-hover: #1c6847;
 
-    /* Radius & Shadows */
+    /* Radius & Shadows (Shadows removed application-wide) */
     --radius-sm: 8px;
     --radius-md: 14px;
     --radius-lg: 20px;
-    --shadow-card: 0 8px 24px -4px rgba(var(--brand-rgb), 0.06);
+    --shadow-card: none;
 
     /* Brand Base Tokens */
-    --whole-bg: #f8f9fa;
+    --whole-bg: #ffffff;
     --gr-bg: #ffffff;
     --gr-bg-soft: #f4f5f7;
     --gr-input-bg: #f9fafb;
@@ -79,7 +81,7 @@
     /* Nur Prayer Design Tokens & Global Aliases */
     --brand-light: #e8f4ed;
     --brand-soft: #f4f8f5;
-    --bg: #f5f7f4;
+    --bg: #ffffff;
     --ink: var(--text-primary);
     --ink-soft: var(--text-secondary);
     --ink-muted: var(--text-muted);
@@ -87,16 +89,16 @@
     --danger-soft: var(--gr-danger-soft);
     --success-soft: var(--gr-success-soft);
     --warn: var(--gr-warning);
-    --border: #eef2f0;
+    --border: rgb(224 224 224 / var(--tw-border-opacity, 1));
     --divider: #d6dcd9;
 
     /* Dashboard UI Tokens */
     --dash-mint-bg: #e1eee5;
-    --dash-card-border: #e1ece5;
+    --dash-card-border: rgb(224 224 224 / var(--tw-border-opacity, 1));
     --dash-next-gold: #c49a5b;
     --dash-text-muted: #69887c;
     --dash-timeline-line: #cdded4;
-    --dash-card-shadow: 0 1px 4px rgba(20, 66, 52, 0.03);
+    --dash-card-shadow: none;
 }
 
 /* ==========================================

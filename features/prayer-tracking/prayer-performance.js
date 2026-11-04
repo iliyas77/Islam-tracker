@@ -112,13 +112,10 @@
             var n = typeof opts === 'object' ? opts.name : opts;
             return '<i class="icon-' + n + '"></i>';
         };
-        var iconBoxFn = typeof window.IconBox === 'function' ? window.IconBox : function (props) {
-            return '<div class="icon-box">' + (props.icon || '') + '</div>';
-        };
         var buttonFn = typeof window.Button === 'function' ? window.Button : function (props) {
             return '<button type="button" class="btn ' + (props.className || '') + '" data-act="' + (props.dataAct || '') + '">' + (props.label || '') + '</button>';
         };
-        var timings = window.T || {};
+        var timings = window.T || (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.DEFAULT_TIMINGS) || {};
 
         // Update header subtitle if currently on performance tab
         var oldSub = typeof window.$ === 'function' ? window.$('oldSub') : document.getElementById('oldSub');
@@ -127,143 +124,171 @@
             oldSub.textContent = frFn(stats.startDate) + ' → ' + frFn(stats.endDate) + ' (' + stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days') + ')';
         }
 
+        // Hero Card: Circular Progress Ring & Summary
+        var heroCardHtml =
+            '<!-- Main Stat Card -->' +
+            '<div class="card rounded-4 p-3 bg-white border border-borderGrey" data-ref="page.performance.hero-card">' +
+            '<div class="flex items-center justify-between gap-3">' +
+            '<!-- Circular Progress Ring -->' +
+            '<div class="perf-ring-container">' +
+            '<svg class="perf-ring-svg" viewBox="0 0 36 36">' +
+            '<path class="perf-ring-bg" stroke-width="3.5" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />' +
+            '<path class="perf-ring-val" stroke-dasharray="' + stats.totalPercentage + ', 100" stroke-width="3.5" stroke-linecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />' +
+            '</svg>' +
+            '<div class="absolute flex flex-col items-center justify-center text-center">' +
+            '<span class="fs-5 fw-bold text-brand lh-1" data-ref="page.performance.hero-percentage">' + stats.totalPercentage + '%</span>' +
+            '<span class="text-muted fw-medium mt-0.5" style="font-size: 10px;">completed</span>' +
+            '</div>' +
+            '</div>' +
+            '<!-- Total Stats Info -->' +
+            '<div class="flex flex-col items-end gap-2 text-end">' +
+            '<div>' +
+            '<div class="text-muted fs-xs fw-medium">Total completed prayers</div>' +
+            '<div class="fw-bold fs-2 text-brand tracking-tight lh-1 mt-1">' +
+            '<span data-ref="page.performance.total-completed">' + stats.totalCompleted + '</span>' +
+            '<span class="text-muted fw-normal fs-5" data-ref="page.performance.total-possible"> / ' + stats.totalPossible + '</span>' +
+            '</div>' +
+            '</div>' +
+            '<!-- Date Pill -->' +
+            '<div class="inline-flex items-center px-2.5 py-1 rounded-pill bg-brand-light text-brand fs-xs fw-medium border border-borderGrey">' +
+            '<span class="fw-bold me-1">' + stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days') + '</span> · ' + frFn(stats.startDate) + ' → ' + frFn(stats.endDate) +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+        // Three Summary Cards: Completed, Missed, Success
+        var missedCountColor = stats.totalMissed > 0 ? 'text-danger' : 'text-gr1';
+        var summaryCardsHtml =
+            '<!-- Three Summary Cards -->' +
+            '<div class="grid grid-cols-3 gap-2" data-ref="page.performance.stats-row">' +
+            '<!-- Completed Card -->' +
+            '<div class="card rounded-3 p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center" data-ref="page.performance.stat.completed-card">' +
+            '<div class="text-muted fw-bold text-uppercase" style="font-size: 10px; letter-spacing: 0.5px;">Completed</div>' +
+            '<div class="fw-bold fs-4 text-brand mt-1 lh-1" data-ref="page.performance.stat.completed">' + stats.totalCompleted + '</div>' +
+            '<div class="text-muted mt-1" style="font-size: 11px;">prayers</div>' +
+            '</div>' +
+            '<!-- Missed Card -->' +
+            '<div class="card rounded-3 p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center" data-ref="page.performance.stat.missed-card">' +
+            '<div class="text-muted fw-bold text-uppercase" style="font-size: 10px; letter-spacing: 0.5px;">Missed</div>' +
+            '<div class="fw-bold fs-4 ' + missedCountColor + ' mt-1 lh-1" data-ref="page.performance.stat.missed">' + stats.totalMissed + '</div>' +
+            '<div class="text-muted mt-1" style="font-size: 11px;">prayers</div>' +
+            '</div>' +
+            '<!-- Success Card -->' +
+            '<div class="card rounded-3 p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center" data-ref="page.performance.stat.rate-card">' +
+            '<div class="text-muted fw-bold text-uppercase" style="font-size: 10px; letter-spacing: 0.5px;">Success</div>' +
+            '<div class="fw-bold fs-4 text-brand mt-1 lh-1" data-ref="page.performance.stat.rate">' + stats.totalPercentage + '%</div>' +
+            '<div class="text-muted mt-1" style="font-size: 11px;">rate</div>' +
+            '</div>' +
+            '</div>';
+
+        // Section Header Card: Individual Prayer Breakdown
+        var sectionHeaderHtml =
+            '<!-- Section Header Card -->' +
+            '<div class="card rounded-4 p-3 bg-white border border-borderGrey flex flex-row items-center justify-between" data-ref="page.performance.breakdown-header">' +
+            '<div class="flex items-center gap-3">' +
+            '<div class="rounded-3 bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 40px; height: 40px;">' +
+            renderIconFn({ name: 'list-check', size: 20, color: 'text-brand' }) +
+            '</div>' +
+            '<h6 class="fw-bold text-gr1 fs-base mb-0 lh-sm">Individual Prayer<br>Breakdown</h6>' +
+            '</div>' +
+            '<div class="shrink-0" style="width: 1px; height: 32px; background-color: var(--border-subtle, #e2e8f0); margin: 0 4px;"></div>' +
+            '<div class="flex items-center gap-2 bg-brand-light px-3 py-1.5 rounded-3 border border-subtle text-brand fs-xs fw-medium shrink-0">' +
+            renderIconFn({ name: 'calendar', size: 16, color: 'text-brand' }) +
+            '<div class="text-end">' +
+            '<div class="fw-bold lh-1">' + stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days') + '</div>' +
+            '<div class="text-muted lh-1 mt-0.5" style="font-size: 10px;">tracked</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
         // Generate individual prayer cards
         var prayerRowsHtml = PRAYER_NAMES.map(function (p) {
             var pLower = p.toLowerCase();
             var pStats = stats.perPrayer[p] || { completed: 0, missed: 0, total: stats.totalDays, percentage: 0 };
-            var pIcon = renderIconFn(pLower);
-            var pTime = timings[p] || '--:--';
+            var pIcon = renderIconFn({ name: pLower, size: 22, color: 'text-brand' });
+            var pTime = timings[p] || (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.DEFAULT_TIMINGS && window.CONSTANTS.PRAYER.DEFAULT_TIMINGS[p]) || '--:--';
+            var isPerfect = (pStats.missed === 0);
 
-            var badgeClass = 'bg-gr-accent-soft text-gr-accent';
-            var barClass = 'bg-gr-accent';
-            if (pStats.percentage < 50) {
-                badgeClass = 'bg-danger-subtle text-danger';
-                barClass = 'bg-danger';
-            } else if (pStats.percentage < 80) {
-                badgeClass = 'bg-warning-subtle text-warning';
-                barClass = 'bg-warning';
+            // Badge variant matching reference
+            var pctBadge = isPerfect
+                ? '<span class="badge-perf-pill badge-perf-pill-success" data-ref="page.performance.prayer.' + pLower + '.pct">' + pStats.percentage + '%</span>'
+                : '<span class="badge-perf-pill badge-perf-pill-missed" data-ref="page.performance.prayer.' + pLower + '.pct">' + pStats.percentage + '%</span>';
+
+            // Progress bar with dual/single fill matching reference
+            var progressBarHtml;
+            if (isPerfect) {
+                progressBarHtml =
+                    '<div class="perf-bar-track">' +
+                    '<div class="perf-bar-fill rounded-pill" style="width: ' + pStats.percentage + '%;"></div>' +
+                    '</div>';
+            } else {
+                var compW = pStats.percentage;
+                var missW = Math.max(0, 100 - compW);
+                progressBarHtml =
+                    '<div class="perf-bar-track">' +
+                    (compW > 0 ? '<div class="perf-bar-fill" style="width: ' + compW + '%; border-top-left-radius: 9999px; border-bottom-left-radius: 9999px;"></div>' : '') +
+                    (missW > 0 ? '<div class="perf-bar-missed" style="width: ' + missW + '%; border-top-right-radius: 9999px; border-bottom-right-radius: 9999px;"></div>' : '') +
+                    '</div>';
             }
 
-            return '<div class="p-2.5 rounded-3 bg-surface border border-brand-subtle flex flex-col gap-1.5" data-ref="page.performance.prayer.' + pLower + '">' +
-                '<div class="flex items-center justify-between">' +
-                '<div class="flex items-center gap-2.5 min-w-0">' +
-                '<span class="fs-4 flex items-center justify-center shrink-0" data-ref="page.performance.prayer.' + pLower + '.icon">' + pIcon + '</span>' +
+            // Bottom indicators matching reference
+            var completedStatusHtml =
+                '<span class="flex items-center gap-1.5 text-brand fs-xs fw-semibold text-nowrap lh-1">' +
+                renderIconFn({ name: 'circle-check', size: 14, className: 'shrink-0' }) +
+                '<span>' + pStats.completed + ' Completed</span>' +
+                '</span>';
+
+            var missedStatusHtml = isPerfect
+                ? '<span class="flex items-center gap-1.5 text-muted fs-xs fw-medium text-nowrap lh-1">' +
+                  renderIconFn({ name: 'circle-xmark', size: 14, className: 'shrink-0' }) +
+                  '<span>0 Missed</span>' +
+                  '</span>'
+                : '<span class="flex items-center gap-1.5 text-danger fs-xs fw-semibold text-nowrap lh-1">' +
+                  renderIconFn({ name: 'circle-exclamation', size: 14, className: 'shrink-0' }) +
+                  '<span>' + pStats.missed + ' Missed</span>' +
+                  '</span>';
+
+            return '<div class="card perf-prayer-card rounded-4 p-3 bg-white border border-borderGrey flex flex-row items-center gap-3" data-ref="page.performance.prayer.' + pLower + '">' +
+                '<!-- Left Info -->' +
+                '<div class="flex items-center gap-2.5 shrink-0" style="width: 126px;">' +
+                '<div class="rounded-circle bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 44px; height: 44px;" data-ref="page.performance.prayer.' + pLower + '.icon">' +
+                pIcon +
+                '</div>' +
                 '<div class="min-w-0">' +
-                '<span class="fw-bold fs-6 text-gr1" data-ref="page.performance.prayer.' + pLower + '.name">' + p + '</span>' +
-                '<span class="text-muted fs-xs ms-1.5" data-ref="page.performance.prayer.' + pLower + '.time">(' + pTime + ')</span>' +
+                '<h6 class="fw-bold text-gr1 fs-base mb-0 lh-sm" data-ref="page.performance.prayer.' + pLower + '.name">' + p + '</h6>' +
+                '<div class="flex items-center gap-1 text-muted fs-xs mt-0.5" data-ref="page.performance.prayer.' + pLower + '.time">' +
+                renderIconFn({ name: 'clock', size: 11, className: 'shrink-0' }) +
+                '<span style="font-size: 11px;">' + pTime + '</span>' +
                 '</div>' +
                 '</div>' +
-                '<div class="flex items-center gap-1.5 shrink-0">' +
-                '<span class="fw-bold text-gr1 fs-6" data-ref="page.performance.prayer.' + pLower + '.count">' + pStats.completed + '</span>' +
-                '<span class="text-muted fs-xs">/ ' + stats.totalDays + '</span>' +
-                '<span class="badge rounded-pill ' + badgeClass + ' px-2 py-0.5 fw-bold fs-xs ms-1" data-ref="page.performance.prayer.' + pLower + '.pct">' +
-                pStats.percentage + '%' +
+                '</div>' +
+                '<!-- Vertical Divider -->' +
+                '<div class="perf-divider shrink-0 self-stretch my-1" style="width: 1px; background-color: var(--border-subtle, #e2e8f0);"></div>' +
+                '<!-- Right Stat Info & Progress -->' +
+                '<div class="flex-1 min-w-0 flex flex-col justify-center gap-1.5">' +
+                '<div class="flex items-center justify-between">' +
+                '<span class="fs-sm fw-bold text-gr1 lh-1" data-ref="page.performance.prayer.' + pLower + '.count">' +
+                pStats.completed + ' <span class="text-muted fw-normal">/ ' + stats.totalDays + '</span>' +
                 '</span>' +
+                pctBadge +
                 '</div>' +
+                progressBarHtml +
+                '<div class="flex items-center justify-between">' +
+                completedStatusHtml +
+                missedStatusHtml +
                 '</div>' +
-                '<div class="progress w-100" style="height: 6px;">' +
-                '<div class="progress-bar ' + barClass + '" role="progressbar" style="width: ' + pStats.percentage + '%;" aria-valuenow="' + pStats.percentage + '" aria-valuemin="0" aria-valuemax="100"></div>' +
-                '</div>' +
-                '<div class="flex items-center justify-between text-muted fs-xs">' +
-                '<span class="text-gr-accent fw-semibold">' + renderIconFn({ name: 'check', size: 'fs-xs', className: 'me-1' }) + pStats.completed + ' Completed</span>' +
-                '<span class="' + (pStats.missed > 0 ? 'text-danger fw-semibold' : 'text-muted') + '">' + pStats.missed + ' Missed</span>' +
                 '</div>' +
                 '</div>';
         }).join('');
 
-        // Hero badge variant based on completion rate
-        var heroBadgeClass = 'badge-done';
-        if (stats.totalPercentage < 50) {
-            heroBadgeClass = 'badge-missed';
-        } else if (stats.totalPercentage < 80) {
-            heroBadgeClass = 'badge-warning';
-        }
-
-        var html =
-            '<!-- Overall Performance Hero Card -->' +
-            '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.performance.hero-card">' +
-            '<div class="flex items-center justify-between mb-2">' +
-            '<div class="flex items-center gap-2">' +
-            iconBoxFn({
-                icon: 'chart-simple',
-                size: 'sm',
-                className: 'bg-brand-light text-brand',
-                dataRef: 'page.performance.hero-icon'
-            }) +
-            '<span class="fw-bold fs-6 text-gr1">Prayer Performance</span>' +
-            '</div>' +
-            '<span class="badge-pill-custom ' + heroBadgeClass + '" data-ref="page.performance.hero-badge">' +
-            stats.totalPercentage + '% Completed' +
-            '</span>' +
-            '</div>' +
-
-            '<div class="mt-2 mb-1">' +
-            '<div class="text-muted small fw-semibold">Total Completed Prayers</div>' +
-            '<div class="flex items-baseline gap-2 mt-0.5">' +
-            '<span class="fw-bold display-4 text-brand lh-1" data-ref="page.performance.total-completed">' + stats.totalCompleted + '</span>' +
-            '<span class="text-muted fs-6" data-ref="page.performance.total-possible">/ ' + stats.totalPossible + ' completed prayers</span>' +
-            '</div>' +
-            '</div>' +
-
-            '<div class="progress w-100 my-2" style="height: 10px;">' +
-            '<div class="progress-bar" role="progressbar" style="width: ' + stats.totalPercentage + '%;" aria-valuenow="' + stats.totalPercentage + '" aria-valuemin="0" aria-valuemax="100"></div>' +
-            '</div>' +
-
-            '<div class="flex items-center justify-between small text-muted pt-2 mt-1 border-top">' +
-            '<div class="flex items-center gap-1 min-w-0 text-truncate">' +
-            renderIconFn({ name: 'calendar', size: 'fs-xs', color: 'text-brand' }) +
-            '<span class="text-truncate">From <strong>' + frFn(stats.startDate) + '</strong> to <strong>' + frFn(stats.endDate) + '</strong></span>' +
-            '</div>' +
-            '<span class="badge rounded-pill bg-brand-light text-brand px-2 py-0.5 fw-bold fs-xs shrink-0">' +
-            stats.totalDays + (stats.totalDays === 1 ? ' Day' : ' Days') +
-            '</span>' +
-            '</div>' +
-            '</div>' +
-
-            '<!-- Summary Metrics Row -->' +
-            '<div class="row g-2 mb-2" data-ref="page.performance.stats-row">' +
-            '<div class="col-4">' +
-            '<div class="p-2.5 rounded-3 text-center bg-white shadow-sm border-0 flex flex-col items-center" data-ref="page.performance.stat.completed-card">' +
-            '<span class="text-muted fs-xs fw-bold text-uppercase">Completed</span>' +
-            '<span class="fw-bold fs-4 text-brand lh-1 mt-1" data-ref="page.performance.stat.completed">' + stats.totalCompleted + '</span>' +
-            '<span class="text-muted fs-xs mt-1">prayers</span>' +
-            '</div>' +
-            '</div>' +
-            '<div class="col-4">' +
-            '<div class="p-2.5 rounded-3 text-center bg-white shadow-sm border-0 flex flex-col items-center" data-ref="page.performance.stat.missed-card">' +
-            '<span class="text-muted fs-xs fw-bold text-uppercase">Missed</span>' +
-            '<span class="fw-bold fs-4 text-danger lh-1 mt-1" data-ref="page.performance.stat.missed">' + stats.totalMissed + '</span>' +
-            '<span class="text-muted fs-xs mt-1">prayers</span>' +
-            '</div>' +
-            '</div>' +
-            '<div class="col-4">' +
-            '<div class="p-2.5 rounded-3 text-center bg-white shadow-sm border-0 flex flex-col items-center" data-ref="page.performance.stat.rate-card">' +
-            '<span class="text-muted fs-xs fw-bold text-uppercase">Success</span>' +
-            '<span class="fw-bold fs-4 text-gr-accent lh-1 mt-1" data-ref="page.performance.stat.rate">' + stats.totalPercentage + '%</span>' +
-            '<span class="text-muted fs-xs mt-1">rate</span>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-
-            '<!-- Individual Prayer Statistics -->' +
-            '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.performance.breakdown-card">' +
-            '<div class="flex items-center justify-between mb-3">' +
-            '<div class="flex items-center gap-2">' +
-            renderIconFn({ name: 'list-check', size: 'fs-5', color: 'text-brand' }) +
-            '<strong class="text-gr1 fs-6">Individual Prayer Breakdown</strong>' +
-            '</div>' +
-            '<span class="text-muted fs-xs">' + stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days') + ' tracked</span>' +
-            '</div>' +
-            '<div class="flex flex-col gap-2" data-ref="page.performance.breakdown-list">' +
-            prayerRowsHtml +
-            '</div>' +
-            '</div>' +
-
+        // Settings Start Date Footer Card
+        var footerCardHtml =
             '<!-- Settings Start Date Footer Card -->' +
-            '<div class="card rounded-4 p-3 bg-brand-light border-0 text-center" data-ref="page.performance.footer-card">' +
-            '<div class="flex items-center justify-center gap-2 mb-1">' +
-            renderIconFn({ name: 'calendar-check', color: 'text-brand' }) +
-            '<span class="small fw-bold text-brand">Tracking Start Date: ' + frFn(stats.startDate) + '</span>' +
+            '<div class="card rounded-4 p-3 bg-brand-light border border-borderGrey text-center flex flex-col items-center mt-1" data-ref="page.performance.footer-card">' +
+            '<div class="flex items-center justify-center gap-1.5 mb-1">' +
+            renderIconFn({ name: 'calendar-check', size: 16, color: 'text-brand' }) +
+            '<span class="fs-xs fw-bold text-brand">Tracking Start Date: ' + frFn(stats.startDate) + '</span>' +
             '</div>' +
             '<p class="text-muted fs-xs mb-2.5">' +
             'Calculated from your start date configured in Settings up to today (' + frFn(stats.endDate) + ').' +
@@ -274,11 +299,22 @@
                 variant: 'brand',
                 size: 'sm',
                 className: 'fw-bold px-3 py-1.5 rounded-pill fs-xs',
-                icon: renderIconFn({ name: 'gear', className: 'me-1' }),
+                icon: renderIconFn({ name: 'gear', size: 14, className: 'me-1' }),
                 dataAct: 'goto-settings',
                 dataRef: 'page.performance.goto-settings-btn'
             }) +
             '</div>' +
+            '</div>';
+
+        var html =
+            '<div class="flex flex-col gap-3 pb-2" data-ref="page.performance.container">' +
+            heroCardHtml +
+            summaryCardsHtml +
+            sectionHeaderHtml +
+            '<div class="flex flex-col gap-2.5" data-ref="page.performance.breakdown-list">' +
+            prayerRowsHtml +
+            '</div>' +
+            footerCardHtml +
             '</div>';
 
         body.innerHTML = html;

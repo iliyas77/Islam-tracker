@@ -30,6 +30,7 @@ const currentPrayerJsPath = path.join(ROOT, 'features', 'prayer-tracking', 'curr
 const dashboardJsPath = path.join(ROOT, 'features', 'dashboard', 'dashboard.js');
 const oldTrackingJsPath = path.join(ROOT, 'features', 'prayer-tracking', 'old-tracking.js');
 const prayerPerformanceJsPath = path.join(ROOT, 'features', 'prayer-tracking', 'prayer-performance.js');
+const prayerHistoryJsPath = path.join(ROOT, 'features', 'prayer-tracking', 'prayer-history.js');
 const settingsJsPath = path.join(ROOT, 'features', 'settings', 'settings.js');
 const tasbeehHomeJsPath = path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-home.js');
 const tasbeehCurrentJsPath = path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-current.js');
@@ -110,13 +111,14 @@ function buildProduction() {
         const dashboardJs = fs.existsSync(dashboardJsPath) ? fs.readFileSync(dashboardJsPath, 'utf8') : '';
         const oldTrackingJs = fs.existsSync(oldTrackingJsPath) ? fs.readFileSync(oldTrackingJsPath, 'utf8') : '';
         const prayerPerformanceJs = fs.existsSync(prayerPerformanceJsPath) ? fs.readFileSync(prayerPerformanceJsPath, 'utf8') : '';
+        const prayerHistoryJs = fs.existsSync(prayerHistoryJsPath) ? fs.readFileSync(prayerHistoryJsPath, 'utf8') : '';
         const settingsJs = fs.existsSync(settingsJsPath) ? fs.readFileSync(settingsJsPath, 'utf8') : '';
         const tasbeehHomeJs = fs.existsSync(tasbeehHomeJsPath) ? fs.readFileSync(tasbeehHomeJsPath, 'utf8') : '';
         const tasbeehCurrentJs = fs.existsSync(tasbeehCurrentJsPath) ? fs.readFileSync(tasbeehCurrentJsPath, 'utf8') : '';
         const tasbeehOldJs = fs.existsSync(tasbeehOldJsPath) ? fs.readFileSync(tasbeehOldJsPath, 'utf8') : '';
         const tasbeehHistoryJs = fs.existsSync(tasbeehHistoryJsPath) ? fs.readFileSync(tasbeehHistoryJsPath, 'utf8') : '';
         const duasJs = fs.existsSync(duasJsPath) ? fs.readFileSync(duasJsPath, 'utf8') : '';
-        const combinedJs = constantJs + '\n' + svgConstantJs + '\n' + utilityJs + '\n' + iconJs + '\n' + iconBoxJs + '\n' + buttonJs + '\n' + prayerCardJs + '\n' + appJs + '\n' + navigationJs + '\n' + currentPrayerJs + '\n' + dashboardJs + '\n' + oldTrackingJs + '\n' + prayerPerformanceJs + '\n' + settingsJs + '\n' + tasbeehHomeJs + '\n' + tasbeehCurrentJs + '\n' + tasbeehOldJs + '\n' + tasbeehHistoryJs + '\n' + duasJs;
+        const combinedJs = constantJs + '\n' + svgConstantJs + '\n' + utilityJs + '\n' + iconJs + '\n' + iconBoxJs + '\n' + buttonJs + '\n' + prayerCardJs + '\n' + appJs + '\n' + navigationJs + '\n' + currentPrayerJs + '\n' + dashboardJs + '\n' + oldTrackingJs + '\n' + prayerPerformanceJs + '\n' + prayerHistoryJs + '\n' + settingsJs + '\n' + tasbeehHomeJs + '\n' + tasbeehCurrentJs + '\n' + tasbeehOldJs + '\n' + tasbeehHistoryJs + '\n' + duasJs;
         const minifiedJs = minifyJs(combinedJs);
 
         // Replace script src tags with minified inlined script block
@@ -132,6 +134,7 @@ function buildProduction() {
         html = html.replace(/<script[^>]*src="features\/dashboard\/dashboard\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/prayer-tracking\/old-tracking\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/prayer-tracking\/prayer-performance\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="features\/prayer-tracking\/prayer-history\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/settings\/settings\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/tasbeeh\/tasbeeh-home\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="features\/tasbeeh\/tasbeeh-current\.js"[^>]*><\/script>/g, '');

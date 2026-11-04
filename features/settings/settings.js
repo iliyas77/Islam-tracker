@@ -54,7 +54,7 @@ function rSET() {
 
     $('settingsBody').innerHTML =
         '<!-- Prayer Times Location Card -->' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.prayer-times.card">' +
+        '<div class="card border border-borderGrey rounded-4 p-3 mb-2 bg-gr" data-ref="page.settings.prayer-times.card">' +
         '<div class="flex items-center gap-3 mb-3" data-ref="page.settings.prayer-times.header">' +
         IconBox({
             icon: 'mosque',
@@ -103,7 +103,7 @@ function rSET() {
         '</div>' +
 
         '<!-- Start Date Card -->' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.start-date.card">' +
+        '<div class="card border border-borderGrey rounded-4 p-3 mb-2 bg-gr" data-ref="page.settings.start-date.card">' +
         '<div class="flex items-center gap-3 mb-3" data-ref="page.settings.start-date.header">' +
         IconBox({
             icon: 'calendar-check',
@@ -128,7 +128,7 @@ function rSET() {
         '</div>' +
 
         '<!-- Font Size Card -->' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.font-size.card">' +
+        '<div class="card border border-borderGrey rounded-4 p-3 mb-2 bg-gr" data-ref="page.settings.font-size.card">' +
         '<div class="flex items-center gap-3 mb-3" data-ref="page.settings.font-size.header">' +
         IconBox({
             icon: 'Aa',
@@ -142,7 +142,7 @@ function rSET() {
         '</div>' +
 
         '<!-- Reset DB Card -->' +
-        '<div class="card shadow-sm rounded-4 p-3 mb-2 bg-gr border-0" data-ref="page.settings.reset.card">' +
+        '<div class="card border border-borderGrey rounded-4 p-3 mb-2 bg-gr" data-ref="page.settings.reset.card">' +
         '<div class="flex items-center gap-3 mb-2" data-ref="page.settings.reset.header">' +
         IconBox({
             icon: 'triangle-exclamation',
@@ -166,7 +166,7 @@ function rSET() {
         '</div>' +
 
         '<!-- Storage Info -->' +
-        '<div class="card rounded-4 p-3 border-0 bg-brand-light" data-ref="page.settings.info.card">' +
+        '<div class="card border border-borderGrey rounded-4 p-3 bg-brand-light" data-ref="page.settings.info.card">' +
         '<div class="flex items-center gap-3" data-ref="page.settings.info.content">' +
         IconBox({
             icon: 'info',

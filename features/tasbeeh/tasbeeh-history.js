@@ -151,7 +151,7 @@ window.TasbeehHistoryApp = (function () {
                     : '';
 
                 return (
-                    '<div class="flex items-center justify-between p-2 rounded-3 bg-white border shadow-xs mb-2" data-month="' + mKey + '">' +
+                    '<div class="flex items-center justify-between p-2 rounded-3 bg-white border border-borderGrey mb-2" data-month="' + mKey + '">' +
                     '  <div class="flex items-center gap-2 min-w-0">' +
                     '    <span class="text-muted fw-bold small" style="width: 24px; font-size: 11px;">#' + (totalMonthsCount - idx) + '</span>' +
                     '    <span class="fw-bold text-gr1 small text-truncate" style="font-size: 13.5px;">' + escHtml(monthLabel) + '</span>' +
@@ -173,7 +173,7 @@ window.TasbeehHistoryApp = (function () {
         body.innerHTML =
             '<div class="flex flex-col gap-3 pt-1 pb-4" data-ref="page.tasbeeh.history.content">' +
             '  <!-- Header Summary Banner -->' +
-            '  <div class="card p-3 rounded-4 bg-white border shadow-sm">' +
+            '  <div class="card p-3 rounded-4 bg-white border border-borderGrey">' +
             '    <div class="flex items-center justify-between mb-2">' +
             '      <div>' +
             '        <h6 class="fw-bold text-gr1 mb-0" style="font-size: 1.05rem;">Tracking Period & History</h6>' +
@@ -213,7 +213,7 @@ window.TasbeehHistoryApp = (function () {
             '  </div>' +
             '' +
             '  <!-- Period Settings Card -->' +
-            '  <div class="card p-3 rounded-4 bg-white border shadow-sm">' +
+            '  <div class="card p-3 rounded-4 bg-white border border-borderGrey">' +
             '    <div class="flex items-center gap-2 mb-3">' +
             '      ' + IconBox({ icon: 'gear', size: 'sm', color: 'text-brand' }) +
             '      <div>' +
@@ -303,7 +303,7 @@ window.TasbeehHistoryApp = (function () {
             '  </div>' +
             '' +
             '  <!-- Monthly Clearance Breakdown -->' +
-            '  <div class="card p-3 rounded-4 bg-white border shadow-sm">' +
+            '  <div class="card p-3 rounded-4 bg-white border border-borderGrey">' +
             '    <div class="flex items-center justify-between mb-2">' +
             '      <h6 class="fw-bold text-gr1 mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6>' +
             (completedCount > 0
