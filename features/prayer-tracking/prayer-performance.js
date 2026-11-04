@@ -127,8 +127,8 @@
         // Hero Card: Circular Progress Ring & Summary
         var heroCardHtml =
             '<!-- Main Stat Card -->' +
-            '<div class="card rounded-4 p-3 bg-white border border-borderGrey" data-ref="page.performance.hero-card">' +
-            '<div class="flex items-center justify-between gap-3">' +
+            '<div class="card rounded-4 p-3 bg-white border border-borderGrey flex flex-col gap-3" data-ref="page.performance.hero-card">' +
+            '<div class="flex items-center justify-between">' +
             '<!-- Circular Progress Ring -->' +
             '<div class="perf-ring-container">' +
             '<svg class="perf-ring-svg" viewBox="0 0 36 36">' +
@@ -141,44 +141,42 @@
             '</div>' +
             '</div>' +
             '<!-- Total Stats Info -->' +
-            '<div class="flex flex-col items-end gap-2 text-end">' +
-            '<div>' +
+            '<div class="text-end">' +
             '<div class="text-muted fs-xs fw-medium">Total completed prayers</div>' +
             '<div class="fw-bold fs-2 text-brand tracking-tight lh-1 mt-1">' +
             '<span data-ref="page.performance.total-completed">' + stats.totalCompleted + '</span>' +
-            '<span class="text-muted fw-normal fs-5" data-ref="page.performance.total-possible"> / ' + stats.totalPossible + '</span>' +
+            '<span class="text-muted fw-normal fs-4" data-ref="page.performance.total-possible"> / ' + stats.totalPossible + '</span>' +
             '</div>' +
             '</div>' +
-            '<!-- Date Pill -->' +
-            '<div class="inline-flex items-center px-2.5 py-1 rounded-pill bg-brand-light text-brand fs-xs fw-medium border border-borderGrey">' +
+            '</div>' +
+            '<!-- Full-width Date Pill -->' +
+            '<div class="w-100 text-center py-2 px-3 rounded-pill bg-brand-light text-brand fs-xs fw-medium border border-borderGrey">' +
             '<span class="fw-bold me-1">' + stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days') + '</span> · ' + frFn(stats.startDate) + ' → ' + frFn(stats.endDate) +
-            '</div>' +
-            '</div>' +
             '</div>' +
             '</div>';
 
         // Three Summary Cards: Completed, Missed, Success
-        var missedCountColor = stats.totalMissed > 0 ? 'text-danger' : 'text-gr1';
+        var missedCountColor = stats.totalMissed > 0 ? 'text-danger' : 'text-brand';
         var summaryCardsHtml =
             '<!-- Three Summary Cards -->' +
             '<div class="grid grid-cols-3 gap-2" data-ref="page.performance.stats-row">' +
             '<!-- Completed Card -->' +
             '<div class="card rounded-3 p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center" data-ref="page.performance.stat.completed-card">' +
-            '<div class="text-muted fw-bold text-uppercase" style="font-size: 10px; letter-spacing: 0.5px;">Completed</div>' +
-            '<div class="fw-bold fs-4 text-brand mt-1 lh-1" data-ref="page.performance.stat.completed">' + stats.totalCompleted + '</div>' +
-            '<div class="text-muted mt-1" style="font-size: 11px;">prayers</div>' +
+            '<div class="text-muted fw-bold text-uppercase" style="font-size: 10px; letter-spacing: 0.5px;">COMPLETED</div>' +
+            '<div class="fw-bold fs-3 text-brand mt-1.5 lh-1" data-ref="page.performance.stat.completed">' + stats.totalCompleted + '</div>' +
+            '<div class="text-muted fs-xs mt-1">prayers</div>' +
             '</div>' +
             '<!-- Missed Card -->' +
             '<div class="card rounded-3 p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center" data-ref="page.performance.stat.missed-card">' +
-            '<div class="text-muted fw-bold text-uppercase" style="font-size: 10px; letter-spacing: 0.5px;">Missed</div>' +
-            '<div class="fw-bold fs-4 ' + missedCountColor + ' mt-1 lh-1" data-ref="page.performance.stat.missed">' + stats.totalMissed + '</div>' +
-            '<div class="text-muted mt-1" style="font-size: 11px;">prayers</div>' +
+            '<div class="text-muted fw-bold text-uppercase" style="font-size: 10px; letter-spacing: 0.5px;">MISSED</div>' +
+            '<div class="fw-bold fs-3 ' + missedCountColor + ' mt-1.5 lh-1" data-ref="page.performance.stat.missed">' + stats.totalMissed + '</div>' +
+            '<div class="text-muted fs-xs mt-1">prayers</div>' +
             '</div>' +
             '<!-- Success Card -->' +
             '<div class="card rounded-3 p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center" data-ref="page.performance.stat.rate-card">' +
-            '<div class="text-muted fw-bold text-uppercase" style="font-size: 10px; letter-spacing: 0.5px;">Success</div>' +
-            '<div class="fw-bold fs-4 text-brand mt-1 lh-1" data-ref="page.performance.stat.rate">' + stats.totalPercentage + '%</div>' +
-            '<div class="text-muted mt-1" style="font-size: 11px;">rate</div>' +
+            '<div class="text-muted fw-bold text-uppercase" style="font-size: 10px; letter-spacing: 0.5px;">SUCCESS</div>' +
+            '<div class="fw-bold fs-3 text-brand mt-1.5 lh-1" data-ref="page.performance.stat.rate">' + stats.totalPercentage + '%</div>' +
+            '<div class="text-muted fs-xs mt-1">rate</div>' +
             '</div>' +
             '</div>';
 
@@ -186,16 +184,15 @@
         var sectionHeaderHtml =
             '<!-- Section Header Card -->' +
             '<div class="card rounded-4 p-3 bg-white border border-borderGrey flex flex-row items-center justify-between" data-ref="page.performance.breakdown-header">' +
-            '<div class="flex items-center gap-3">' +
+            '<div class="flex items-center gap-2.5">' +
             '<div class="rounded-3 bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 40px; height: 40px;">' +
             renderIconFn({ name: 'list-check', size: 20, color: 'text-brand' }) +
             '</div>' +
             '<h6 class="fw-bold text-gr1 fs-base mb-0 lh-sm">Individual Prayer<br>Breakdown</h6>' +
             '</div>' +
-            '<div class="shrink-0" style="width: 1px; height: 32px; background-color: var(--border-subtle, #e2e8f0); margin: 0 4px;"></div>' +
-            '<div class="flex items-center gap-2 bg-brand-light px-3 py-1.5 rounded-3 border border-subtle text-brand fs-xs fw-medium shrink-0">' +
+            '<div class="flex items-center gap-2 bg-brand-light px-3 py-1.5 rounded-3 border border-borderGrey text-brand fs-xs fw-medium shrink-0">' +
             renderIconFn({ name: 'calendar', size: 16, color: 'text-brand' }) +
-            '<div class="text-end">' +
+            '<div class="text-start">' +
             '<div class="fw-bold lh-1">' + stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days') + '</div>' +
             '<div class="text-muted lh-1 mt-0.5" style="font-size: 10px;">tracked</div>' +
             '</div>' +
@@ -203,6 +200,8 @@
             '</div>';
 
         // Generate individual prayer cards
+        var filledCircleCheckSvg = '<svg class="shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="m8.5 12 2.5 2.5 5-5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
         var prayerRowsHtml = PRAYER_NAMES.map(function (p) {
             var pLower = p.toLowerCase();
             var pStats = stats.perPrayer[p] || { completed: 0, missed: 0, total: stats.totalDays, percentage: 0 };
@@ -219,14 +218,14 @@
             var progressBarHtml;
             if (isPerfect) {
                 progressBarHtml =
-                    '<div class="perf-bar-track">' +
+                    '<div class="perf-bar-track w-100">' +
                     '<div class="perf-bar-fill rounded-pill" style="width: ' + pStats.percentage + '%;"></div>' +
                     '</div>';
             } else {
                 var compW = pStats.percentage;
                 var missW = Math.max(0, 100 - compW);
                 progressBarHtml =
-                    '<div class="perf-bar-track">' +
+                    '<div class="perf-bar-track w-100">' +
                     (compW > 0 ? '<div class="perf-bar-fill" style="width: ' + compW + '%; border-top-left-radius: 9999px; border-bottom-left-radius: 9999px;"></div>' : '') +
                     (missW > 0 ? '<div class="perf-bar-missed" style="width: ' + missW + '%; border-top-right-radius: 9999px; border-bottom-right-radius: 9999px;"></div>' : '') +
                     '</div>';
@@ -234,24 +233,25 @@
 
             // Bottom indicators matching reference
             var completedStatusHtml =
-                '<span class="flex items-center gap-1.5 text-brand fs-xs fw-semibold text-nowrap lh-1">' +
-                renderIconFn({ name: 'circle-check', size: 14, className: 'shrink-0' }) +
+                '<span class="flex items-center gap-1.5 text-brand fw-semibold text-nowrap lh-1">' +
+                filledCircleCheckSvg +
                 '<span>' + pStats.completed + ' Completed</span>' +
                 '</span>';
 
             var missedStatusHtml = isPerfect
-                ? '<span class="flex items-center gap-1.5 text-muted fs-xs fw-medium text-nowrap lh-1">' +
+                ? '<span class="flex items-center gap-1.5 text-muted fw-medium text-nowrap lh-1">' +
                   renderIconFn({ name: 'circle-xmark', size: 14, className: 'shrink-0' }) +
                   '<span>0 Missed</span>' +
                   '</span>'
-                : '<span class="flex items-center gap-1.5 text-danger fs-xs fw-semibold text-nowrap lh-1">' +
+                : '<span class="flex items-center gap-1.5 text-danger fw-semibold text-nowrap lh-1">' +
                   renderIconFn({ name: 'circle-exclamation', size: 14, className: 'shrink-0' }) +
                   '<span>' + pStats.missed + ' Missed</span>' +
                   '</span>';
 
-            return '<div class="card perf-prayer-card rounded-4 p-3 bg-white border border-borderGrey flex flex-row items-center gap-3" data-ref="page.performance.prayer.' + pLower + '">' +
-                '<!-- Left Info -->' +
-                '<div class="flex items-center gap-2.5 shrink-0" style="width: 126px;">' +
+            return '<div class="card perf-prayer-card rounded-4 p-3 bg-white border border-borderGrey flex flex-col gap-2.5" data-ref="page.performance.prayer.' + pLower + '">' +
+                '<!-- Top Row: Icon + Name/Time on left, Count + Pill on right -->' +
+                '<div class="flex items-center justify-between">' +
+                '<div class="flex items-center gap-2.5 min-w-0">' +
                 '<div class="rounded-circle bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 44px; height: 44px;" data-ref="page.performance.prayer.' + pLower + '.icon">' +
                 pIcon +
                 '</div>' +
@@ -263,21 +263,19 @@
                 '</div>' +
                 '</div>' +
                 '</div>' +
-                '<!-- Vertical Divider -->' +
-                '<div class="perf-divider shrink-0 self-stretch my-1" style="width: 1px; background-color: var(--border-subtle, #e2e8f0);"></div>' +
-                '<!-- Right Stat Info & Progress -->' +
-                '<div class="flex-1 min-w-0 flex flex-col justify-center gap-1.5">' +
-                '<div class="flex items-center justify-between">' +
+                '<div class="flex items-center gap-2 shrink-0">' +
                 '<span class="fs-sm fw-bold text-gr1 lh-1" data-ref="page.performance.prayer.' + pLower + '.count">' +
                 pStats.completed + ' <span class="text-muted fw-normal">/ ' + stats.totalDays + '</span>' +
                 '</span>' +
                 pctBadge +
                 '</div>' +
+                '</div>' +
+                '<!-- Middle Row: Full-width Progress Bar -->' +
                 progressBarHtml +
-                '<div class="flex items-center justify-between">' +
+                '<!-- Bottom Row: Completed & Missed Statuses -->' +
+                '<div class="flex items-center justify-between fs-xs">' +
                 completedStatusHtml +
                 missedStatusHtml +
-                '</div>' +
                 '</div>' +
                 '</div>';
         }).join('');

@@ -59,6 +59,10 @@ function switchTrackerSubTab(subTab) {
     var historyEmptyBtn = $('historyEmptyBtn');
     var headerIcon = $('trackerHeaderIcon');
     var headerLabel = $('trackerHeaderLabel');
+    var trackerHeaderTitle = $('trackerHeaderTitle');
+    if (trackerHeaderTitle) trackerHeaderTitle.classList.remove('justify-center');
+    if (oldSub) oldSub.classList.remove('text-center');
+    if (headerIcon) headerIcon.classList.remove('d-none');
 
     if (trackerSubTab === SUB_TABS.OLD) {
         if (btnCur) {
@@ -118,7 +122,8 @@ function switchTrackerSubTab(subTab) {
         if (oldSub) {
             oldSub.classList.remove('d-none');
             var sdate = typeof rdSD === 'function' ? rdSD() : td();
-            oldSub.textContent = fr(sdate) + ' → ' + fr(td());
+            var totalDays = typeof window.datesInRange === 'function' ? window.datesInRange(sdate, td()).length : 1;
+            oldSub.textContent = fr(sdate) + ' → ' + fr(td()) + ' (' + totalDays + (totalDays === 1 ? ' day' : ' days') + ')';
         }
         if (oldActionBtn) oldActionBtn.classList.add('d-none');
         if (currentMissedBtn) currentMissedBtn.classList.add('d-none');
@@ -167,15 +172,16 @@ function switchTrackerSubTab(subTab) {
         if (currentMissedBtn) currentMissedBtn.classList.add('d-none');
         if (historyEmptyBtn) historyEmptyBtn.classList.remove('d-none');
         if (headerIcon) {
-            var histIcon = (TRACKER_HEADER.history && TRACKER_HEADER.history.iconClass) || 'list-check text-brand';
-            if (window.Icon && typeof Icon.update === 'function') {
-                Icon.update(headerIcon, histIcon);
-            } else {
-                headerIcon.className = histIcon;
-            }
+            headerIcon.classList.add('d-none');
         }
         if (headerLabel) {
             headerLabel.textContent = (TRACKER_HEADER.history && TRACKER_HEADER.history.label) || 'History';
+        }
+        if (trackerHeaderTitle) {
+            trackerHeaderTitle.classList.add('justify-center');
+        }
+        if (oldSub) {
+            oldSub.classList.add('text-center');
         }
         if (typeof renderPrayerHistoryTab === 'function') {
             renderPrayerHistoryTab();

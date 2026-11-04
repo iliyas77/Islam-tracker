@@ -83,6 +83,32 @@ body {
     transform: scale(0.96);
 }
 
+.btn-action-round[data-act="nav-back"] {
+    background: #ffffff !important;
+    color: var(--text-primary) !important;
+    border: 1px solid rgb(224 224 224 / var(--tw-border-opacity, 1)) !important;
+}
+
+.btn-action-round[data-act="nav-back"]:hover {
+    background: var(--surface-bg, #f8fafc) !important;
+}
+
+#historyEmptyBtn {
+    background: var(--brand, #123D2E) !important;
+    color: #ffffff !important;
+    border: 1px solid var(--brand, #123D2E) !important;
+}
+
+#historyEmptyBtn:hover {
+    background: var(--brand-dark, #0b291f) !important;
+    border-color: var(--brand-dark, #0b291f) !important;
+}
+
+#historyEmptyBtn svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
 .btn-action-badge {
     display: inline-flex;
     align-items: center;
@@ -2400,4 +2426,32 @@ body {
     background-color: var(--gr-danger-soft);
     color: var(--gr-danger);
     border: 1px solid #fecaca;
+}
+
+/* ---------- History Type Badges (Current & Old) ---------- */
+.badge-history-type {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 22px;
+    padding: 0 10px;
+    font-size: 11.5px;
+    font-weight: 500;
+    line-height: 1;
+    border-radius: 9999px;
+    border: 1px solid rgb(224 224 224 / var(--tw-border-opacity, 1));
+    white-space: nowrap;
+    vertical-align: middle;
+    letter-spacing: 0.1px;
+}
+
+.badge-history-type-current {
+    background-color: var(--brand-light, #e1eee5);
+    color: var(--brand, #123D2E);
+}
+
+.badge-history-type-old {
+    background-color: var(--warning-subtle, #fef3c7);
+    color: var(--warning, #b45309);
+    border-color: #fde68a;
 }
