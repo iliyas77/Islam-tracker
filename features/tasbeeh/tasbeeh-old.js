@@ -231,7 +231,7 @@ window.TasbeehOldApp = (function () {
         var checkCircleIcon = renderIcon('tb-check-circle');
         var calendarDaysIcon = renderIcon({ name: 'calendar-days', color: 'text-muted', size: 13 });
 
-        return '<div class="tb-card ' + (isDhikrDone ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-month="' + curOldMonth + '" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
+        return '<div class="tb-card border border-borderGrey ' + (isDhikrDone ? 'tb-card-done' : '') + '" data-id="' + item.id + '" data-month="' + curOldMonth + '" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
             '<div class="tb-card-top">' +
             IconBox({ icon: 'misbaha', size: 'md' }) +
             '<div class="tb-card-actions">' +
@@ -284,7 +284,7 @@ window.TasbeehOldApp = (function () {
             var subNone = getEl('tbHeaderSub');
             if (subNone) subNone.textContent = 'None';
             oldBody.innerHTML =
-                '<div class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white">' +
+                '<div class="card border border-borderGrey p-4 text-center rounded-4 bg-white">' +
                 '<div class="mb-3">' +
                 renderIcon({ name: 'calendar-xmark', size: 'display-4', color: 'text-warning', className: 'opacity-75' }) +
                 '</div>' +
@@ -309,7 +309,7 @@ window.TasbeehOldApp = (function () {
             var subAll = getEl('tbHeaderSub');
             if (subAll) subAll.textContent = 'All Completed';
             oldBody.innerHTML =
-                '<div class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white">' +
+                '<div class="card border border-borderGrey p-4 text-center rounded-4 bg-white">' +
                 '<div class="mb-3">' +
                 renderIcon({ name: 'circle-check', size: 'display-4', color: 'text-brand' }) +
                 '</div>' +
@@ -372,7 +372,7 @@ window.TasbeehOldApp = (function () {
 
         var isAllDone = todoOldItems.length === 0 && items.length > 0;
         var advanceMonthHtml = isAllDone
-            ? '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm mb-3">' +
+            ? '<div class="card border border-borderGrey p-3 text-center rounded-4 bg-white mb-3">' +
               '<div class="text-brand fw-bold mb-2">' +
               renderIcon({ name: 'circle-check', className: 'me-1' }) + 'All targets for ' + monthName + ' are completed!' +
               '</div>' +
@@ -389,14 +389,14 @@ window.TasbeehOldApp = (function () {
 
         var todoOldCardsHtml = todoOldItems.length > 0
             ? todoOldItems.map(function (it) { return renderOldCardHtml(it, false, curOldMonth, monthName); }).join('')
-            : '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
+            : '<div class="card border border-borderGrey p-3 text-center rounded-4 bg-white">' +
               renderIcon({ name: 'circle-check', color: 'text-brand', size: 'fs-3', className: 'mb-2' }) +
               '<div class="fw-bold text-gr1">All Dhikrs for ' + monthName + ' Completed!</div>' +
               '</div>';
 
         var doneOldCardsHtml = doneOldItems.length > 0
             ? doneOldItems.map(function (it) { return renderOldCardHtml(it, true, curOldMonth, monthName); }).join('')
-            : '<div class="card p-3 text-center border-0 rounded-4 bg-white shadow-sm">' +
+            : '<div class="card border border-borderGrey p-3 text-center rounded-4 bg-white">' +
               '<div class="text-muted small">No completed Dhikrs for ' + monthName + ' yet. Completed chants will appear here.</div>' +
               '</div>';
 

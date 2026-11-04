@@ -34,6 +34,7 @@
         'circle-dot': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4" fill="currentColor"/></svg>',
         'circle-exclamation': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>',
         'circle-info': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>',
+        'circle-xmark': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>',
         'clipboard-list': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6M9 16h6"/></svg>',
         'clock': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
         'clock-rotate-left': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/></svg>',
@@ -200,16 +201,13 @@
             }
 
             if (px !== null) {
-                if (/width="[^"]*"/.test(svg)) {
-                    svg = svg.replace(/width="[^"]*"/, 'width="' + px + '"');
-                } else {
-                    svg = svg.replace('<svg ', '<svg width="' + px + '" ');
-                }
-                if (/height="[^"]*"/.test(svg)) {
-                    svg = svg.replace(/height="[^"]*"/, 'height="' + px + '"');
-                } else {
-                    svg = svg.replace('<svg ', '<svg height="' + px + '" ');
-                }
+                svg = svg.replace(/<svg\b([^>]*)>/, function (match, attrs) {
+                    var newAttrs = attrs
+                        .replace(/(?<![-\w])width="[^"]*"/g, '')
+                        .replace(/(?<![-\w])height="[^"]*"/g, '')
+                        .trim();
+                    return '<svg ' + (newAttrs ? newAttrs + ' ' : '') + 'width="' + px + '" height="' + px + '">';
+                });
             }
         }
 

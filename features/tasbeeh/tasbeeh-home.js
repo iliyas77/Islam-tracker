@@ -38,7 +38,7 @@ window.TasbeehHomeApp = (function () {
 
         if (!items || items.length === 0) {
             body.innerHTML =
-                '<div class="card p-4 text-center border-0 shadow-sm rounded-4 bg-white mt-3" data-ref="page.tasbeeh.home.empty">' +
+                '<div class="card border border-borderGrey p-4 text-center rounded-4 bg-white mt-3" data-ref="page.tasbeeh.home.empty">' +
                 '  <div class="mb-3">' +
                 '    ' + renderIcon({ name: 'hand-holding-heart', size: 'fs-1', color: 'text-muted', className: 'opacity-50' }) +
                 '  </div>' +
@@ -184,7 +184,7 @@ window.TasbeehHomeApp = (function () {
             '  <!-- Quick Navigation / Status Cards -->' +
             '  <div class="row g-2 mt-1">' +
             '    <div class="col-6">' +
-            '      <div class="card p-3 rounded-4 bg-white border shadow-sm h-100" role="button" tabindex="0" data-act="switch-tb-current">' +
+            '      <div class="card border border-borderGrey p-3 rounded-4 bg-white h-100" role="button" tabindex="0" data-act="switch-tb-current">' +
             '        <div class="flex items-center justify-between mb-2">' +
             '          <span class="badge rounded-pill bg-brand-light text-brand fw-bold" style="font-size: 10px;">CURRENT</span>' +
             '          ' + renderIcon({ name: 'calendar', color: 'text-brand', size: 14 }) +
@@ -194,7 +194,7 @@ window.TasbeehHomeApp = (function () {
             '      </div>' +
             '    </div>' +
             '    <div class="col-6">' +
-            '      <div class="card p-3 rounded-4 bg-white border shadow-sm h-100" role="button" tabindex="0" data-act="switch-tb-history">' +
+            '      <div class="card border border-borderGrey p-3 rounded-4 bg-white h-100" role="button" tabindex="0" data-act="switch-tb-history">' +
             '        <div class="flex items-center justify-between mb-2">' +
             '          <span class="badge rounded-pill bg-warning-subtle text-warning fw-bold" style="font-size: 10px;">HISTORY</span>' +
             '          ' + renderIcon({ name: 'gear', color: 'text-warning', size: 14 }) +
@@ -206,7 +206,7 @@ window.TasbeehHomeApp = (function () {
             '  </div>' +
             '' +
             '  <!-- Helpful Guidance Banner -->' +
-            '  <div class="card p-3 rounded-4 bg-brand-light border-0">' +
+            '  <div class="card border border-borderGrey p-3 rounded-4 bg-brand-light">' +
             '    <div class="flex items-start gap-2">' +
             '      ' + renderIcon({ name: 'circle-info', color: 'text-brand', size: 14, className: 'mt-1' }) +
             '      <div class="small text-muted" style="font-size: 0.78rem; line-height: 1.45;">' +

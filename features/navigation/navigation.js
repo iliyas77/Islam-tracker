@@ -2,13 +2,14 @@
 var NAV_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.NAVIGATION) || {};
 var PAGES = NAV_CONSTANTS.PAGES || window.PAGES || ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage'];
 var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', performance: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas' };
-var SUB_TABS = NAV_CONSTANTS.SUB_TABS || { CURRENT: 'current', OLD: 'old', PERFORMANCE: 'performance' };
+var SUB_TABS = NAV_CONSTANTS.SUB_TABS || { CURRENT: 'current', OLD: 'old', PERFORMANCE: 'performance', HISTORY: 'history' };
 var PAGE_MAP = NAV_CONSTANTS.PAGE_MAP || {
     dashboard: 'dashboardPage',
     tracker: 'trackerPage',
     current: 'trackerPage',
     old: 'trackerPage',
     performance: 'trackerPage',
+    history: 'trackerPage',
     settings: 'settingsPage',
     tasbeeh: 'tasbeehPage',
     duas: 'duasPage'
@@ -25,6 +26,10 @@ var TRACKER_HEADER = NAV_CONSTANTS.TRACKER_HEADER || {
     performance: {
         iconClass: 'chart-simple text-brand',
         label: 'Performance'
+    },
+    history: {
+        iconClass: 'list-check text-brand',
+        label: 'History'
     }
 };
 var NAV_CLASSES = NAV_CONSTANTS.NAV_CLASSES || {
@@ -37,15 +42,21 @@ var trackerSubTab = SUB_TABS.CURRENT;
 
 function switchTrackerSubTab(subTab) {
     trackerSubTab = subTab || SUB_TABS.CURRENT;
+    if (typeof window !== 'undefined') {
+        window.trackerSubTab = trackerSubTab;
+    }
     var btnCur = $('tabTrackCurrent');
     var btnOld = $('tabTrackOld');
     var btnPerf = $('tabTrackPerformance');
+    var btnHist = $('tabTrackHistory');
     var bodyCur = $('currentBody');
     var bodyOld = $('oldBody');
     var bodyPerf = $('performanceBody');
+    var bodyHist = $('historyBody');
     var oldSub = $('oldSub');
     var oldActionBtn = $('oldActionBtn');
     var currentMissedBtn = $('currentMissedBtn');
+    var historyEmptyBtn = $('historyEmptyBtn');
     var headerIcon = $('trackerHeaderIcon');
     var headerLabel = $('trackerHeaderLabel');
 
@@ -62,12 +73,18 @@ function switchTrackerSubTab(subTab) {
             btnPerf.classList.remove('active');
             btnPerf.setAttribute('aria-selected', 'false');
         }
+        if (btnHist) {
+            btnHist.classList.remove('active');
+            btnHist.setAttribute('aria-selected', 'false');
+        }
         if (bodyCur) bodyCur.classList.add('d-none');
         if (bodyOld) bodyOld.classList.remove('d-none');
         if (bodyPerf) bodyPerf.classList.add('d-none');
+        if (bodyHist) bodyHist.classList.add('d-none');
         if (oldSub) oldSub.classList.remove('d-none');
         if (oldActionBtn) oldActionBtn.classList.remove('d-none');
         if (currentMissedBtn) currentMissedBtn.classList.add('d-none');
+        if (historyEmptyBtn) historyEmptyBtn.classList.add('d-none');
         if (headerIcon) {
             if (window.Icon && typeof Icon.update === 'function') {
                 Icon.update(headerIcon, TRACKER_HEADER.old.iconClass);
@@ -90,9 +107,14 @@ function switchTrackerSubTab(subTab) {
             btnPerf.classList.add('active');
             btnPerf.setAttribute('aria-selected', 'true');
         }
+        if (btnHist) {
+            btnHist.classList.remove('active');
+            btnHist.setAttribute('aria-selected', 'false');
+        }
         if (bodyCur) bodyCur.classList.add('d-none');
         if (bodyOld) bodyOld.classList.add('d-none');
         if (bodyPerf) bodyPerf.classList.remove('d-none');
+        if (bodyHist) bodyHist.classList.add('d-none');
         if (oldSub) {
             oldSub.classList.remove('d-none');
             var sdate = typeof rdSD === 'function' ? rdSD() : td();
@@ -100,6 +122,7 @@ function switchTrackerSubTab(subTab) {
         }
         if (oldActionBtn) oldActionBtn.classList.add('d-none');
         if (currentMissedBtn) currentMissedBtn.classList.add('d-none');
+        if (historyEmptyBtn) historyEmptyBtn.classList.add('d-none');
         if (headerIcon) {
             var perfIcon = (TRACKER_HEADER.performance && TRACKER_HEADER.performance.iconClass) || 'chart-simple text-brand';
             if (window.Icon && typeof Icon.update === 'function') {
@@ -114,6 +137,49 @@ function switchTrackerSubTab(subTab) {
         if (typeof renderPerformanceTab === 'function') {
             renderPerformanceTab();
         }
+    } else if (trackerSubTab === SUB_TABS.HISTORY) {
+        if (btnCur) {
+            btnCur.classList.remove('active');
+            btnCur.setAttribute('aria-selected', 'false');
+        }
+        if (btnOld) {
+            btnOld.classList.remove('active');
+            btnOld.setAttribute('aria-selected', 'false');
+        }
+        if (btnPerf) {
+            btnPerf.classList.remove('active');
+            btnPerf.setAttribute('aria-selected', 'false');
+        }
+        if (btnHist) {
+            btnHist.classList.add('active');
+            btnHist.setAttribute('aria-selected', 'true');
+        }
+        if (bodyCur) bodyCur.classList.add('d-none');
+        if (bodyOld) bodyOld.classList.add('d-none');
+        if (bodyPerf) bodyPerf.classList.add('d-none');
+        if (bodyHist) bodyHist.classList.remove('d-none');
+        if (oldSub) {
+            oldSub.classList.remove('d-none');
+            var histEntries = typeof getPrayerHistory === 'function' ? getPrayerHistory() : [];
+            oldSub.textContent = 'Activity Log · ' + histEntries.length + (histEntries.length === 1 ? ' entry' : ' entries');
+        }
+        if (oldActionBtn) oldActionBtn.classList.add('d-none');
+        if (currentMissedBtn) currentMissedBtn.classList.add('d-none');
+        if (historyEmptyBtn) historyEmptyBtn.classList.remove('d-none');
+        if (headerIcon) {
+            var histIcon = (TRACKER_HEADER.history && TRACKER_HEADER.history.iconClass) || 'list-check text-brand';
+            if (window.Icon && typeof Icon.update === 'function') {
+                Icon.update(headerIcon, histIcon);
+            } else {
+                headerIcon.className = histIcon;
+            }
+        }
+        if (headerLabel) {
+            headerLabel.textContent = (TRACKER_HEADER.history && TRACKER_HEADER.history.label) || 'History';
+        }
+        if (typeof renderPrayerHistoryTab === 'function') {
+            renderPrayerHistoryTab();
+        }
     } else {
         if (btnCur) {
             btnCur.classList.add('active');
@@ -127,12 +193,18 @@ function switchTrackerSubTab(subTab) {
             btnPerf.classList.remove('active');
             btnPerf.setAttribute('aria-selected', 'false');
         }
+        if (btnHist) {
+            btnHist.classList.remove('active');
+            btnHist.setAttribute('aria-selected', 'false');
+        }
         if (bodyCur) bodyCur.classList.remove('d-none');
         if (bodyOld) bodyOld.classList.add('d-none');
         if (bodyPerf) bodyPerf.classList.add('d-none');
+        if (bodyHist) bodyHist.classList.add('d-none');
         if (oldSub) oldSub.classList.add('d-none');
         if (oldActionBtn) oldActionBtn.classList.add('d-none');
         if (currentMissedBtn) currentMissedBtn.classList.remove('d-none');
+        if (historyEmptyBtn) historyEmptyBtn.classList.add('d-none');
         if (headerIcon) {
             if (window.Icon && typeof Icon.update === 'function') {
                 Icon.update(headerIcon, TRACKER_HEADER.current.iconClass);
@@ -198,6 +270,8 @@ function showPage(kind) {
         switchTrackerSubTab('old');
     } else if (kind === 'performance') {
         switchTrackerSubTab('performance');
+    } else if (kind === 'history') {
+        switchTrackerSubTab('history');
     } else if (kind === 'tracker') {
         switchTrackerSubTab(trackerSubTab || 'current');
     } else if (kind === 'settings') {

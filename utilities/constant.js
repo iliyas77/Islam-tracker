@@ -93,6 +93,7 @@
                         STORAGE_KEYS: {
                                 TRACKER_DATA: 'namazTrackerData',
                                 OLD_DATA: 'namazOldData',
+                                HISTORY: 'namazPrayerHistory',
                                 FONT_SIZE: 'namazFontSize',
                                 START_DATE: 'namazStartDate',
                                 OLD_PERIOD: 'namazOldPeriod',
@@ -297,7 +298,8 @@
                         SUB_TABS: {
                                 CURRENT: 'current',
                                 OLD: 'old',
-                                PERFORMANCE: 'performance'
+                                PERFORMANCE: 'performance',
+                                HISTORY: 'history'
                         },
                         PAGE_MAP: {
                                 dashboard: 'dashboardPage',
@@ -305,6 +307,7 @@
                                 current: 'trackerPage',
                                 old: 'trackerPage',
                                 performance: 'trackerPage',
+                                history: 'trackerPage',
                                 settings: 'settingsPage',
                                 tasbeeh: 'tasbeehPage',
                                 duas: 'duasPage'
@@ -321,6 +324,10 @@
                                 performance: {
                                         iconClass: 'chart-simple text-brand',
                                         label: 'Performance'
+                                },
+                                history: {
+                                        iconClass: 'list-check text-brand',
+                                        label: 'History'
                                 }
                         },
                         NAV_CLASSES: {
@@ -359,6 +366,7 @@
         window.P = CONSTANTS.PRAYER.NAMES;
         window.K = CONSTANTS.PRAYER.STORAGE_KEYS.TRACKER_DATA;
         window.OCK = CONSTANTS.PRAYER.STORAGE_KEYS.OLD_DATA;
+        window.PHK = CONSTANTS.PRAYER.STORAGE_KEYS.HISTORY;
         window.FK = CONSTANTS.PRAYER.STORAGE_KEYS.FONT_SIZE;
         window.SK = CONSTANTS.PRAYER.STORAGE_KEYS.START_DATE;
         window.OK = CONSTANTS.PRAYER.STORAGE_KEYS.OLD_PERIOD;

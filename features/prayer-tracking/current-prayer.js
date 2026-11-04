@@ -106,7 +106,7 @@ function missCard(x) {
         missedCount + ' Missed' +
         renderIcon({ name: 'chevron-right', size: 'fs-xs', className: 'opacity-75' }) + '</span>';
 
-    return '<div class="card shadow-sm rounded-4 p-2 bg-gr border-0 cursor-pointer" role="button" data-act="jump" data-d="' + x.date + '" data-ref="page.current.missed-sheet.card.' + x.date + '">' +
+    return '<div class="card border border-borderGrey rounded-4 p-2 bg-gr cursor-pointer" role="button" data-act="jump" data-d="' + x.date + '" data-ref="page.current.missed-sheet.card.' + x.date + '">' +
         '<div class="flex items-center justify-between gap-2 mb-2 px-1" data-ref="page.current.missed-sheet.card.header">' +
         '<div class="flex items-center gap-2 min-w-0" data-ref="page.current.missed-sheet.card.info">' +
         IconBox({

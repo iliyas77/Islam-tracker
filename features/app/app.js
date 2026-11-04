@@ -290,7 +290,10 @@ document.addEventListener('DOMContentLoaded', function () {
     /* Action buttons */
     if ($('currentActionBtn')) $('currentActionBtn').onclick = openCal;
     if ($('currentMissedBtn')) $('currentMissedBtn').onclick = rMS;
-    $('oldActionBtn').onclick = rOldInfo;
+    if ($('oldActionBtn')) $('oldActionBtn').onclick = rOldInfo;
+    if ($('historyEmptyBtn')) $('historyEmptyBtn').onclick = function () {
+        if (typeof emptyPrayerHistory === 'function') emptyPrayerHistory();
+    };
 
     if (typeof updateCurrentMissedBadge === 'function') {
         updateCurrentMissedBadge();

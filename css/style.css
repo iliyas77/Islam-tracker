@@ -10,7 +10,7 @@ body {
     height: 100%;
     height: 100dvh;
     overflow: hidden;
-    background: var(--bg);
+    background: #ffffff;
     font-family: var(--font-primary);
     color: var(--text-primary);
 }
@@ -23,7 +23,7 @@ body {
     margin: 0 auto;
     overflow: hidden;
     position: relative;
-    background: var(--bg);
+    background: #ffffff;
     display: flex;
     flex-direction: column;
 }
@@ -32,7 +32,7 @@ body {
     width: 100%;
     height: 100%;
     min-height: 0;
-    background: var(--bg);
+    background: #ffffff;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -62,6 +62,9 @@ body {
 
 /* ---------- Action buttons ---------- */
 .btn-action-round {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 44px;
     height: 44px;
     border-radius: 14px;
@@ -81,6 +84,9 @@ body {
 }
 
 .btn-action-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     top: -4px;
     right: -4px;
@@ -95,7 +101,7 @@ body {
     border: 2px solid var(--card-bg);
     line-height: 1;
     z-index: 2;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: none;
     pointer-events: none;
 }
 
@@ -201,7 +207,12 @@ body {
 
 /* ---------- Cards ---------- */
 .card {
-    border: 0;
+    border: 1px solid rgb(224 224 224 / var(--tw-border-opacity, 1));
+}
+
+.border-borderGrey {
+    --tw-border-opacity: 1;
+    border-color: rgb(224 224 224 / var(--tw-border-opacity, 1)) !important;
 }
 
 /* ============================================================
@@ -225,7 +236,7 @@ body {
     border-radius: var(--radius-md, 14px);
     background: var(--dash-mint-bg, var(--brand-light, #e1eee5));
     color: var(--brand, #123D2E);
-    transition: transform 0.15s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.15s ease, background-color 0.2s ease, color 0.2s ease;
     user-select: none;
     -webkit-user-select: none;
     overflow: hidden;
@@ -298,7 +309,7 @@ body {
 .icon-box.active {
     background: var(--brand, #123D2E) !important;
     color: #ffffff !important;
-    box-shadow: 0 4px 10px rgba(20, 66, 52, 0.25);
+    box-shadow: none;
 }
 
 .icon-box.active svg {
@@ -617,10 +628,10 @@ body {
 /* 1. Digital Clock Card */
 .dash-clock-card {
     background: #ffffff;
-    border: 1px solid var(--dash-card-border, #e1ece5);
+    border: 1px solid rgb(224 224 224 / var(--tw-border-opacity, 1));
     border-radius: 18px;
     padding: 16px 20px;
-    box-shadow: var(--dash-card-shadow, 0 1px 4px rgba(20, 66, 52, 0.03));
+    box-shadow: none;
     position: relative;
     z-index: 2;
 }
@@ -647,10 +658,10 @@ body {
 /* 2. Daily Prayer Timeline Card */
 .dash-timeline-card {
     background: #ffffff;
-    border: 1px solid var(--dash-card-border, #e1ece5);
+    border: 1px solid rgb(224 224 224 / var(--tw-border-opacity, 1));
     border-radius: 20px;
     padding: 12px 10px;
-    box-shadow: var(--dash-card-shadow, 0 1px 4px rgba(20, 66, 52, 0.03));
+    box-shadow: none;
     position: relative;
     z-index: 2;
 }
@@ -711,7 +722,7 @@ body {
 .timeline-circle-active {
     background: var(--brand);
     color: #ffffff;
-    box-shadow: 0 4px 10px rgba(20, 66, 52, 0.25);
+    box-shadow: none;
 }
 
 .dash-timeline-circle svg,
@@ -788,21 +799,21 @@ body {
 .dash-nav-card {
     position: relative;
     background: #ffffff;
-    border: 1px solid var(--dash-card-border, #e1ece5);
+    border: 1px solid rgb(224 224 224 / var(--tw-border-opacity, 1));
     border-radius: 18px;
     padding: 18px 14px 16px 14px;
-    box-shadow: var(--dash-card-shadow, 0 1px 4px rgba(20, 66, 52, 0.03));
+    box-shadow: none;
     cursor: pointer;
     text-align: center;
     aspect-ratio: 1.1 / 1;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 0.15s ease;
     user-select: none;
     -webkit-user-select: none;
 }
 
 .dash-nav-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(20, 66, 52, 0.07);
+    box-shadow: none;
 }
 
 .dash-nav-card:active {
@@ -918,9 +929,9 @@ body {
 .tb-card {
     background: #ffffff;
     border-radius: 18px;
-    border: 1px solid #eef2f6;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    border: 1px solid rgb(224 224 224 / var(--tw-border-opacity, 1));
+    box-shadow: none;
+    transition: transform 0.15s ease, border-color 0.15s ease;
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -934,12 +945,12 @@ body {
 
 .tb-card:hover {
     border-color: #cbd5e1;
-    box-shadow: 0 4px 14px rgba(18, 61, 46, 0.08);
+    box-shadow: none;
 }
 
 .tb-card.tb-card-done {
     background: #ffffff;
-    border-color: #e2e8f0;
+    border-color: rgb(224 224 224 / var(--tw-border-opacity, 1));
 }
 
 .tb-card:active {
@@ -1131,10 +1142,10 @@ body {
 
 .tb-card-bookmark {
     background: #ffffff;
-    border: 1px solid var(--dash-card-border, #e1ece5);
+    border: 1px solid rgb(224 224 224 / var(--tw-border-opacity, 1));
     border-radius: 18px;
-    box-shadow: var(--dash-card-shadow, 0 1px 4px rgba(20, 66, 52, 0.03));
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    box-shadow: none;
+    transition: transform 0.15s ease, border-color 0.15s ease;
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -1148,7 +1159,7 @@ body {
 
 .tb-card-bookmark:hover {
     border-color: #cbd5e1;
-    box-shadow: 0 4px 14px rgba(18, 61, 46, 0.08);
+    box-shadow: none;
     transform: translateY(-2px);
 }
 
@@ -1169,7 +1180,7 @@ body {
 }
 
 .shadow-xs {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    box-shadow: none !important;
 }
 
 .tb-group-toggle {
@@ -1346,12 +1357,12 @@ body {
     -webkit-user-select: none;
     min-height: 0;
     padding: 0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    box-shadow: none;
 }
 
 .tb-cal-cell:hover {
     border-color: var(--brand);
-    box-shadow: 0 4px 12px rgba(37, 132, 91, 0.15);
+    box-shadow: none;
     transform: translateY(-1px);
 }
 
@@ -1414,7 +1425,7 @@ body {
 /* Today highlight */
 .tb-cal-cell.tb-cal-today {
     border-color: var(--brand);
-    box-shadow: 0 0 0 2px rgba(37, 132, 91, 0.12);
+    box-shadow: none;
 }
 
 .tb-cal-cell.tb-cal-today .tb-cal-date {
@@ -1429,7 +1440,7 @@ body {
 
 .tb-cal-cell.tb-cal-future:hover {
     border-color: transparent;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    box-shadow: none;
 }
 
 .tb-cal-cell.tb-cal-future:active {
@@ -1442,7 +1453,7 @@ body {
     border-radius: 16px;
     border: 1px solid var(--border);
     padding: 14px 16px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+    box-shadow: none;
 }
 
 .tb-cal-stat {
@@ -1540,7 +1551,7 @@ body {
     font-size: 0.85rem;
     padding: 0.6rem 1.25rem;
     border-radius: 50rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: none;
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.2s ease;
@@ -1558,10 +1569,10 @@ body {
     width: 100%;
     max-width: 480px;
     background: var(--card-bg);
-    border: 1px solid var(--border-subtle);
+    border: 1px solid rgb(224 224 224 / var(--tw-border-opacity, 1));
     border-radius: var(--radius-lg);
     padding: 12px 14px;
-    box-shadow: var(--shadow-card);
+    box-shadow: none;
     gap: 12px;
 }
 
@@ -1848,19 +1859,20 @@ body {
 
 .pinned-dua-card {
     background-color: var(--card-bg);
+    border: 1px solid rgb(224 224 224 / var(--tw-border-opacity, 1));
     border-radius: 16px;
     padding: 18px 20px;
     gap: 10px;
     border-left: 5px solid var(--brand);
     position: relative;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(18, 61, 46, 0.05);
-    transition: box-shadow 0.2s, background 0.2s, transform 0.15s;
+    box-shadow: none;
+    transition: background 0.2s, transform 0.15s;
 }
 
 .pinned-dua-card:hover {
     background: var(--surface-bg);
-    box-shadow: 0 8px 22px rgba(37, 132, 91, 0.12);
+    box-shadow: none;
     transform: translateY(-1px);
 }
 
@@ -1926,9 +1938,9 @@ body {
     padding: 14px 16px;
     border-radius: 14px;
     background: var(--card-bg);
-    border: 1px solid var(--border);
+    border: 1px solid rgb(224 224 224 / var(--tw-border-opacity, 1));
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(18, 61, 46, 0.04);
+    box-shadow: none;
     transition: background 0.2s, border-color 0.2s, transform 0.15s;
 }
 
@@ -2022,11 +2034,12 @@ body {
 
 .dua-card {
     background-color: var(--card-bg);
+    border: 1px solid rgb(224 224 224 / var(--tw-border-opacity, 1));
     border-radius: 18px;
     padding: 22px;
     gap: 16px;
     border-left: 5px solid var(--brand);
-    box-shadow: 0 4px 16px rgba(18, 61, 46, 0.06);
+    box-shadow: none;
 }
 
 .dua-countdown {
@@ -2127,9 +2140,9 @@ body {
     border: none;
     font-size: 20px;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(37, 132, 91, 0.45);
+    box-shadow: none;
     z-index: 150;
-    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    transition: background 0.2s, transform 0.15s;
 }
 
 .dua-fab:hover,
@@ -2137,7 +2150,7 @@ body {
     background: var(--btn-primary-hover);
     color: var(--card-bg);
     transform: scale(1.05);
-    box-shadow: 0 8px 24px rgba(37, 132, 91, 0.55);
+    box-shadow: none;
 }
 
 .dua-fab:active,
@@ -2178,7 +2191,7 @@ body {
     max-height: 90vh;
     overflow-y: auto;
     padding: 24px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    box-shadow: none;
 }
 
 .dua-modal-header {
@@ -2303,4 +2316,88 @@ body {
 
 .font-telugu {
     font-family: var(--font-telugu) !important;
+}
+
+/* ============================================================
+   Prayer Performance Dashboard Styling
+   ============================================================ */
+.perf-ring-container {
+    width: 88px;
+    height: 88px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.perf-ring-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.perf-ring-bg {
+    stroke: var(--gray150, #f0f1f3);
+}
+
+.perf-ring-val {
+    stroke: var(--brand);
+    transition: stroke-dasharray 0.5s ease;
+}
+
+.perf-prayer-card {
+    transition: border-color 0.15s ease;
+}
+
+.perf-prayer-card:hover {
+    border-color: var(--border-hover, #CCDCD5) !important;
+}
+
+.perf-divider {
+    width: 1px;
+    align-self: stretch;
+    background-color: var(--border-subtle, #e2e8f0);
+}
+
+.perf-bar-track {
+    width: 100%;
+    height: 10px;
+    background-color: var(--surface-bg, #f0f1f3);
+    border-radius: 9999px;
+    overflow: hidden;
+    display: flex;
+}
+
+.perf-bar-fill {
+    background-color: var(--brand);
+    height: 100%;
+}
+
+.perf-bar-missed {
+    background-color: var(--gr-danger);
+    height: 100%;
+}
+
+.badge-perf-pill {
+    padding: 2px 10px;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.4;
+}
+
+.badge-perf-pill-success {
+    background-color: var(--brand-light);
+    color: var(--brand);
+    border: 1px solid var(--gr-border-calc, #bbf7d0);
+}
+
+.badge-perf-pill-missed {
+    background-color: var(--gr-danger-soft);
+    color: var(--gr-danger);
+    border: 1px solid #fecaca;
 }

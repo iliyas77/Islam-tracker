@@ -671,9 +671,21 @@ function handleClick(e) {
             ? 'Mark ' + p + ' as Missed for ' + fr(sd) + '?'
             : 'Mark ' + p + ' as Done for ' + fr(sd) + '?')) return;
         c1[p] = wasDone ? true : false;
+        if (wasDone) {
+            if (typeof removePrayerHistoryEntry === 'function') {
+                removePrayerHistoryEntry(p, 'Current', sd);
+            }
+        } else {
+            if (typeof addPrayerHistoryEntry === 'function') {
+                addPrayerHistoryEntry(p, 'Current', sd);
+            }
+        }
         sr(sd, c1);
         rn();
         if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+        if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+            renderPrayerHistoryTab();
+        }
     } else if (act === 'select-all') {
         var c2 = gr(sd);
         var isToday = sd === td();
@@ -687,11 +699,24 @@ function handleClick(e) {
         var action = willMarkDone ? 'Done' : 'Missed';
         if (!confirm('Mark available prayers as ' + action + ' for ' + fr(sd) + '?')) return;
         actionable.forEach(function (x) {
+            var wasXDone = typeof isDonePrayer === 'function' ? isDonePrayer(x, sd, c2) : (c2[x] === false);
+            if (willMarkDone) {
+                if (!wasXDone && typeof addPrayerHistoryEntry === 'function') {
+                    addPrayerHistoryEntry(x, 'Current', sd);
+                }
+            } else {
+                if (wasXDone && typeof removePrayerHistoryEntry === 'function') {
+                    removePrayerHistoryEntry(x, 'Current', sd);
+                }
+            }
             c2[x] = willMarkDone ? false : true;
         });
         sr(sd, c2);
         rn();
         if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+        if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+            renderPrayerHistoryTab();
+        }
     } else if (act === 'jump-today') {
         sd = td();
         if (typeof fetchPrayerTimings === 'function') {
@@ -718,6 +743,15 @@ function handleClick(e) {
             ? 'Mark ' + p2 + ' as Done for ' + fr(d2) + '?'
             : 'Mark ' + p2 + ' as Missed for ' + fr(d2) + '?')) return;
         c3[p2] = !was2;
+        if (was2) {
+            if (typeof addPrayerHistoryEntry === 'function') {
+                addPrayerHistoryEntry(p2, 'Old', d2);
+            }
+        } else {
+            if (typeof removePrayerHistoryEntry === 'function') {
+                removePrayerHistoryEntry(p2, 'Old', d2);
+            }
+        }
         srO(d2, c3);
 
         var o = rdOK();
@@ -743,6 +777,9 @@ function handleClick(e) {
             rOldInfo();
         }
         if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+        if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+            renderPrayerHistoryTab();
+        }
     } else if (act === 'old-change-period') {
         rPeriod();
     } else if (act === 'jump') {
@@ -820,10 +857,16 @@ function handleClick(e) {
             localStorage.removeItem(OK);
             localStorage.removeItem(OCK);
             localStorage.removeItem(OIK);
+            if (typeof clearPrayerHistoryByType === 'function') {
+                clearPrayerHistoryByType('Old');
+            }
             if (typeof setOldSd === 'function') setOldSd(null);
             sheet2BS.hide();
             rOT();
             if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+            if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+                renderPrayerHistoryTab();
+            }
         }
     } else if (act === 'reset-db') {
         if (confirm('Delete ALL prayer records and cached prayer times?')) {
@@ -832,12 +875,17 @@ function handleClick(e) {
             localStorage.removeItem(OK);
             localStorage.removeItem(LIK);
             localStorage.removeItem(OIK);
+            if (typeof PHK !== 'undefined') localStorage.removeItem(PHK);
+            if (typeof clearPrayerHistory === 'function') clearPrayerHistory();
             if (typeof PTK_CACHE !== 'undefined') localStorage.removeItem(PTK_CACHE);
             sd = td();
             ensureCurrentDateInitialized();
             if (typeof fetchPrayerTimings === 'function') fetchPrayerTimings(td());
             rSET();
             if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+            if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+                renderPrayerHistoryTab();
+            }
         }
     } else if (act === 'go-home') {
         showPage('dashboard');
@@ -853,6 +901,12 @@ function handleClick(e) {
         switchTrackerSubTab('old');
     } else if (act === 'switch-track-performance') {
         switchTrackerSubTab('performance');
+    } else if (act === 'switch-track-history') {
+        switchTrackerSubTab('history');
+    } else if (act === 'history-empty') {
+        if (typeof emptyPrayerHistory === 'function') {
+            emptyPrayerHistory();
+        }
     } else if (act === 'goto-settings') {
         showPage('settings');
     } else if (act === 'goto-tasbeeh') {

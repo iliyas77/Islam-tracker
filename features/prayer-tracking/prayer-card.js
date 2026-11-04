@@ -265,7 +265,7 @@ function renderPrayerTrackerCard(cfg) {
         });
     }
 
-    return '<div class="prayer-tracker-card flex flex-col mx-auto" data-ref="' + prefix + '.card">' +
+    return '<div class="prayer-tracker-card border border-borderGrey flex flex-col mx-auto" data-ref="' + prefix + '.card">' +
         '  <!-- Header: Date & Global Actions -->' +
         '  <header class="tracker-header flex items-center justify-between" data-ref="' + prefix + '.card.header">' +
         '    ' + Button({

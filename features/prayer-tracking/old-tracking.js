@@ -48,40 +48,40 @@ function rOldInfo() {
 
     $('sheet2Body').innerHTML =
         '<div class="flex flex-col gap-2">' +
-        '<div class="card rounded-4 p-3 bg-brand-light">' +
+        '<div class="card border border-borderGrey rounded-4 p-3 bg-brand-light">' +
         '<div class="flex items-center gap-2 mb-3">' +
         renderIcon({ name: 'calendar-check', size: 'fs-4', color: 'text-brand' }) +
         '<strong class="fs-5 text-brand">Current Period</strong>' +
         '</div>' +
         '<div class="row g-2">' +
-        '<div class="col-6"><div class="p-3 rounded-3 text-center bg-white">' +
+        '<div class="col-6"><div class="p-3 rounded-3 text-center bg-white border border-borderGrey">' +
         '<div class="text-muted small fw-bold text-uppercase">Start</div>' +
         '<div class="fw-bold small text-dark">' + fr(o.start) + '</div></div></div>' +
-        '<div class="col-6"><div class="p-3 rounded-3 text-center bg-white">' +
+        '<div class="col-6"><div class="p-3 rounded-3 text-center bg-white border border-borderGrey">' +
         '<div class="text-muted small fw-bold text-uppercase">End</div>' +
         '<div class="fw-bold small text-dark">' + (isAllCompleted ? 'Complete' : fr(o.end)) + '</div></div></div>' +
         '</div>' +
         '</div>' +
-        '<div class="card rounded-4 p-3 bg-white">' +
+        '<div class="card border border-borderGrey rounded-4 p-3 bg-white">' +
         '<div class="flex items-center gap-2 mb-3">' +
         renderIcon({ name: 'chart-simple', size: 'fs-5', color: 'text-brand' }) +
         '<strong class="text-dark">Summary</strong>' +
         '</div>' +
         '<div class="row g-2 mb-3">' +
-        '<div class="col-6"><div class="p-3 rounded-3 text-center bg-surface">' +
+        '<div class="col-6"><div class="p-3 rounded-3 text-center bg-surface border border-borderGrey">' +
         '<div class="text-muted small fw-bold text-uppercase">Total Days</div>' +
         '<div class="fw-bold fs-4 text-warning">' + totalDays + '</div></div></div>' +
-        '<div class="col-6"><div class="p-3 rounded-3 text-center bg-surface">' +
+        '<div class="col-6"><div class="p-3 rounded-3 text-center bg-surface border border-borderGrey">' +
         '<div class="text-muted small fw-bold text-uppercase">Total Missed</div>' +
         '<div class="fw-bold fs-4 text-danger">' + totalMissed + '</div></div></div>' +
         '</div>' +
         '<div class="row g-2">' +
-        '<div class="col-12"><div class="p-3 rounded-3 text-center bg-surface">' +
+        '<div class="col-12"><div class="p-3 rounded-3 text-center bg-surface border border-borderGrey">' +
         '<div class="text-muted small fw-bold text-uppercase">Days Missed</div>' +
         '<div class="fw-bold fs-4 text-danger">' + daysMissed + '</div></div></div>' +
         '</div>' +
         '</div>' +
-        '<div class="card rounded-4 p-3 bg-white">' +
+        '<div class="card border border-borderGrey rounded-4 p-3 bg-white">' +
         '<div class="flex items-center gap-2 mb-2">' +
         renderIcon({ name: 'list-check', size: 'fs-5', color: 'text-warning' }) +
         '<strong class="text-dark">Per Prayer Breakdown</strong>' +
@@ -116,7 +116,7 @@ function rPeriod() {
     var hasValidPeriod = o && o.end >= o.start;
     $('sheet2Body').innerHTML =
         '<div class="flex flex-col gap-2">' +
-        '<div class="card rounded-4 p-3 bg-warning-subtle">' +
+        '<div class="card border border-borderGrey rounded-4 p-3 bg-warning-subtle">' +
         '<div class="mb-3">' +
         '<label class="form-label fw-bold">' +
         renderIcon({ name: 'calendar', color: 'text-brand', className: 'me-1' }) + 'Start date</label>' +
@@ -147,7 +147,7 @@ function rPeriod() {
         '</div>' +
         '</div>' +
         (hasValidPeriod
-            ? '<div class="card rounded-4 p-3 bg-brand-light">' +
+            ? '<div class="card border border-borderGrey rounded-4 p-3 bg-brand-light">' +
             '<div class="flex items-center gap-2">' +
             renderIcon({ name: 'circle-info', color: 'text-brand' }) +
             '<div class="small">Current period: <strong>' + fr(o.start) +
@@ -198,7 +198,7 @@ function rOT() {
 
     if (!o) {
         sub.textContent = 'Select a period to begin';
-        lst.innerHTML = '<div class="text-center text-muted py-5 px-3 bg-white rounded-4 shadow-sm" data-ref="page.old.empty-period">' +
+        lst.innerHTML = '<div class="text-center text-muted py-5 px-3 bg-white border border-borderGrey rounded-4" data-ref="page.old.empty-period">' +
             renderIcon({ name: 'calendar-plus', size: 'display-4', color: 'text-warning', className: 'mb-3' }) +
             '<p class="fw-bold mb-1 text-warning">No period selected</p>' +
             '<p class="text-muted small mb-0">Tap the bookmark button above to set your Old Tracking period.</p>' +
@@ -216,7 +216,7 @@ function rOT() {
 
     if (o.end < o.start) {
         sub.textContent = 'All days completed';
-        lst.innerHTML = '<div class="text-center text-muted py-5 px-3 bg-white rounded-4 shadow-sm" data-ref="page.old.all-completed">' +
+        lst.innerHTML = '<div class="text-center text-muted py-5 px-3 bg-white border border-borderGrey rounded-4" data-ref="page.old.all-completed">' +
             renderIcon({ name: 'circle-check', size: 'display-4', color: 'text-brand', className: 'mb-3' }) +
             '<p class="fw-bold mb-2 text-gr-accent">All days complete!</p>' +
             '<p class="text-muted small mb-0">The Old Tracking period has been fully cleared.</p>' +

@@ -386,7 +386,7 @@ window.DuasApp = (function () {
                 var uch = getUchcharana(dua);
                 var ard = getArdham(dua);
 
-                return '<div class="pinned-dua-card flex flex-col mb-3" data-act="dua-open-detail" data-idx="' + pinIndex + '" data-source="home">' +
+                return '<div class="pinned-dua-card border border-borderGrey flex flex-col mb-3" data-act="dua-open-detail" data-idx="' + pinIndex + '" data-source="home">' +
                     '<span class="pinned-badge">' + DRAWING_PIN_SVG + '</span>' +
                     '<div class="pinned-dua-number">#' + String(dua.number).padStart(2, '0') + '</div>' +
                     '<div class="pinned-dua-surah">' + escapeHtml(surahLabel) + '</div>' +
