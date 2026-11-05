@@ -6,7 +6,7 @@
         <button type="button" class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
             data-bind="attr: { id: collapsePrefix + 'DateChip', 'data-act': dateChipAct || '', 'data-ref': pagePrefix + '.card.header.date-chip' }"
             aria-label="Select date">
-            <i class="fa-regular fa-calendar-days text-sm"></i>
+            <app-icon params="name: 'calendar-days', prefix: 'fa-regular', size: 'sm'"></app-icon>
             <span data-bind="text: dateChipText, attr: { id: collapsePrefix + 'DateChipText', 'data-ref': pagePrefix + '.card.header.date-text' }"></span>
         </button>
         <div class="header-status flex items-center gap-2"
@@ -14,7 +14,7 @@
             <!-- ko if: badgeText -->
             <span class="badge badge-warning inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer"
                 data-bind="attr: { 'data-act': badgeAct || '', 'data-ref': pagePrefix + '.card.header.badge' }">
-                <i class="fa-solid fa-triangle-exclamation text-xs"></i>
+                <app-icon params="name: 'triangle-exclamation', size: 'xs'"></app-icon>
                 <span data-bind="text: badgeText"></span>
             </span>
             <!-- /ko -->

@@ -6,12 +6,12 @@
         data-bind="text: badgeText, attr: { id: badgeId, 'data-ref': badgeDataRef }, css: { 'd-none': !badgeVisible() }"></span>
     <!-- /ko -->
     <div class="icon-box icon-box-lg" data-bind="attr: { 'data-ref': iconDataRef }">
-        <i data-bind="attr: { class: iconClass }"></i>
+        <app-icon params="name: iconClass"></app-icon>
     </div>
     <div class="flex items-center justify-center gap-1 text-xs font-bold text-brand mt-2">
         <span class="text-xs font-bold text-brand"
             data-bind="text: title, attr: { 'data-ref': titleDataRef }"></span>
-        <i class="fa-solid fa-chevron-right"></i>
+        <app-icon params="name: 'chevron-right'"></app-icon>
     </div>
 </div>
 

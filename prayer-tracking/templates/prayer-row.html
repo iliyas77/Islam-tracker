@@ -5,7 +5,7 @@
         data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }">
         <div class="icon-box icon-box-md icon-done w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-[#D1E5DC] text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
             data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }">
-            <i class="fa-solid fa-check text-xl"></i>
+            <app-icon params="name: 'check', size: 'xl'"></app-icon>
         </div>
         <div class="prayer-details flex flex-col gap-0.5 min-w-0"
             data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }">
@@ -22,7 +22,7 @@
         class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#D1E5DC] text-brand border-0 hover:bg-[#c2ded3] transition-colors cursor-pointer shrink-0 text-xs font-semibold"
         data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }"
         title="Tap to mark missed">
-        <i class="fa-solid fa-check text-xs"></i> Done
+        <app-icon params="name: 'check', size: 'xs'"></app-icon> Done
     </button>
 </li>
 <!-- /ko -->
@@ -34,7 +34,7 @@
         data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }">
         <div class="icon-box icon-box-md w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
             data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }">
-            <i data-bind="attr: { class: iconClass }"></i>
+            <app-icon params="name: iconClass"></app-icon>
         </div>
         <div class="prayer-details flex flex-col gap-0.5 min-w-0"
             data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }">
@@ -61,7 +61,7 @@
         data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }">
         <div class="icon-box icon-box-md icon-missed w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-red-500 text-white inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
             data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }">
-            <i data-bind="attr: { class: iconClass }"></i>
+            <app-icon params="name: iconClass"></app-icon>
         </div>
         <div class="prayer-details flex flex-col gap-0.5 min-w-0"
             data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }">
@@ -87,7 +87,7 @@
         data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }">
         <div class="icon-box icon-box-md w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
             data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }, css: isCurrent ? 'icon-current bg-brand text-white' : 'bg-dash-mintBg text-brand'">
-            <i data-bind="attr: { class: iconClass }"></i>
+            <app-icon params="name: iconClass"></app-icon>
         </div>
         <div class="prayer-details flex flex-col gap-0.5 min-w-0"
             data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }">

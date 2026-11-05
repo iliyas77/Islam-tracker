@@ -638,11 +638,11 @@ function rOT() {
     if (o.end < o.start) {
         if (sub) sub.textContent = 'All days completed';
         lst.innerHTML = '<div class="text-center text-gr-textMuted py-8 px-4 bg-white border border-borderGrey rounded-2xl flex flex-col items-center justify-center max-w-[480px] mx-auto" data-ref="page.old.all-completed">' +
-            '<i class="fa-solid fa-circle-check text-brand mb-3 text-4xl"></i>' +
+            '<app-icon params="name: \'circle-check\', color: \'text-brand\', size: \'4xl\', customClass: \'mb-3\'"></app-icon>' +
             '<p class="font-bold mb-2 text-gr-accent text-base">All days complete!</p>' +
             '<p class="text-gr-textMuted text-xs mb-0">The Old Tracking period has been fully cleared.</p>' +
             '<button type="button" class="mt-4 px-4 py-2 bg-brand text-white font-bold text-xs rounded-xl hover:bg-brand-hover inline-flex items-center gap-1.5 transition-colors cursor-pointer" data-act="old-change-period">' +
-            '<i class="fa-solid fa-calendar-plus"></i> Set Period' +
+            '<app-icon params="name: \'calendar-plus\'"></app-icon> Set Period' +
             '</button>' +
             '</div>';
         return;
@@ -816,7 +816,7 @@ if (typeof window !== 'undefined') {
         var frFn = typeof window.fr === 'function' ? window.fr : function (d) { return d; };
         var renderIconFn = typeof window.renderIcon === 'function' ? window.renderIcon : function (opts) {
             var n = typeof opts === 'object' ? opts.name : opts;
-            return '<i class="icon-' + n + '"></i>';
+            return '<app-icon params="name: \'' + n + '\'"></app-icon>';
         };
         var buttonFn = typeof window.Button === 'function' ? window.Button : function (props) {
             return '<button type="button" class="btn ' + (props.className || '') + '" data-act="' + (props.dataAct || '') + '">' + (props.label || '') + '</button>';
@@ -874,7 +874,7 @@ if (typeof window !== 'undefined') {
         }
 
         // Generate individual prayer cards
-        var filledCircleCheckSvg = '<i class="fa-solid fa-circle-check shrink-0" style="font-size: 14px;"></i>';
+        var filledCircleCheckSvg = '<app-icon params="name: \'circle-check\', customClass: \'shrink-0\', size: \'14px\'"></app-icon>';
 
         var prayerRowsHtml = PRAYER_NAMES.map(function (p) {
             var pLower = p.toLowerCase();

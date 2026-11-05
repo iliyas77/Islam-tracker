@@ -5,7 +5,7 @@
         id="tabTbHome" data-act="switch-tb-home" role="tab"
         data-bind="css: activeTab() === 'home' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'home' ? 'true' : 'false' }"
         data-ref="page.tasbeeh.tab-home">
-        <i class="fa-solid fa-house"></i>
+        <app-icon params="name: 'house'"></app-icon>
         <span>Home</span>
     </button>
     <button type="button"
@@ -13,7 +13,7 @@
         id="tabTbCurrent" data-act="switch-tb-current" role="tab"
         data-bind="css: activeTab() === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'current' ? 'true' : 'false' }"
         data-ref="page.tasbeeh.tab-current">
-        <i class="fa-regular fa-calendar-days"></i>
+        <app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon>
         <span>Current</span>
     </button>
     <button type="button"
@@ -21,7 +21,7 @@
         id="tabTbOld" data-act="switch-tb-old" role="tab"
         data-bind="css: activeTab() === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'old' ? 'true' : 'false' }"
         data-ref="page.tasbeeh.tab-old">
-        <i class="fa-solid fa-clock-rotate-left"></i>
+        <app-icon params="name: 'clock-rotate-left'"></app-icon>
         <span>Old</span>
     </button>
     <button type="button"
@@ -29,7 +29,7 @@
         id="tabTbHistory" data-act="switch-tb-history" role="tab"
         data-bind="css: activeTab() === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'history' ? 'true' : 'false' }"
         data-ref="page.tasbeeh.tab-history">
-        <i class="fa-solid fa-gear"></i>
+        <app-icon params="name: 'gear'"></app-icon>
         <span>History</span>
     </button>
 </nav>

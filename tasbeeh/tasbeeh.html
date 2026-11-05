@@ -9,7 +9,7 @@
         <div class="border border-borderGrey p-4 text-center rounded-2xl bg-white mt-3 d-none shadow-none"
             id="tbHomeEmptyState" data-ref="page.tasbeeh.home.empty">
             <div class="mb-3">
-                <i class="fa-solid fa-hand-holding-heart text-gr-textMuted opacity-50 text-3xl"></i>
+                <app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50'"></app-icon>
             </div>
             <h5 class="font-bold text-brand mb-1">No Dhikr Configured</h5>
             <p class="text-gr-textMuted text-xs mb-3">Add your first recitation chant in the Current tab to begin tracking bookmarks.</p>
@@ -17,7 +17,7 @@
                 <button type="button"
                     class="rounded-xl px-4 py-2 bg-brand text-white hover:bg-brand-hover transition-colors text-xs font-semibold cursor-pointer"
                     data-act="switch-tb-current">
-                    <i class="fa-solid fa-plus mr-1"></i> Add First Dhikr
+                    <app-icon params="name: 'plus', customClass: 'mr-1'"></app-icon> Add First Dhikr
                 </button>
             </div>
         </div>
@@ -34,7 +34,7 @@
                     class="px-3 py-1.5 inline-flex items-center gap-1 border border-brand bg-white text-brand hover:bg-brand-light transition-colors text-xs font-semibold rounded-xl cursor-pointer"
                     data-act="switch-tb-current">
                     <span>All Dhikrs</span>
-                    <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    <app-icon params="name: 'chevron-right', size: 'text-[10px]'"></app-icon>
                 </button>
             </div>
 
@@ -52,7 +52,7 @@
                         role="button" tabindex="0" data-act="switch-tb-current">
                         <div class="flex items-center justify-between mb-2">
                             <span class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand">CURRENT</span>
-                            <i class="fa-regular fa-calendar-days text-brand text-sm"></i>
+                            <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', size: 'sm'"></app-icon>
                         </div>
                         <div class="font-bold text-brand text-lg leading-tight"><span id="tbHomeCurrentCount" data-bind="text: currentDhikrsCount">0</span> <span class="text-xs font-normal text-gr-textMuted">Dhikrs</span></div>
                         <div class="text-gr-textMuted text-xs mt-1">Active in Current Month</div>
@@ -63,7 +63,7 @@
                         role="button" tabindex="0" data-act="switch-tb-history">
                         <div class="flex items-center justify-between mb-2">
                             <span class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700">HISTORY</span>
-                            <i class="fa-solid fa-gear text-amber-600 text-sm"></i>
+                            <app-icon params="name: 'gear', color: 'text-amber-600', size: 'sm'"></app-icon>
                         </div>
                         <div class="font-bold text-brand text-lg leading-tight"><span id="tbHomeHistoryCount" data-bind="text: clearedMonthsCount">0</span> <span class="text-xs font-normal text-gr-textMuted">Cleared</span></div>
                         <div class="text-gr-textMuted text-xs mt-1">Active: <span id="tbHomeActiveOldLabel" data-bind="text: activeOldLabel">All Cleared</span></div>
@@ -74,7 +74,7 @@
             <!-- Helpful Guidance Banner -->
             <div class="border border-borderGrey p-3 rounded-2xl bg-brand-soft shadow-none">
                 <div class="flex items-start gap-2">
-                    <i class="fa-solid fa-circle-info text-brand mt-0.5 text-sm"></i>
+                    <app-icon params="name: 'circle-info', color: 'text-brand', size: 'sm', customClass: 'mt-0.5'"></app-icon>
                     <div class="text-xs text-gr-text leading-relaxed">
                         Whenever you open a Dhikr in <strong>Current</strong> or <strong>Old</strong> tracking, its bookmark updates automatically so you can continue where you left off.
                     </div>
@@ -89,13 +89,13 @@
             <!-- Advance Banner -->
             <div class="border border-borderGrey p-3 text-center rounded-2xl bg-white d-none shadow-none"
                 id="tbCurrentAdvanceBanner">
-                <i class="fa-solid fa-circle-check text-brand mb-2 text-xl"></i>
+                <app-icon params="name: 'circle-check', color: 'text-brand', size: 'xl', customClass: 'mb-2'"></app-icon>
                 <div class="font-bold text-brand" id="tbCurrentAdvanceBannerText">All Dhikrs for this month Completed!</div>
                 <div class="text-gr-textMuted text-xs mb-3">All daily targets for this month have been achieved.</div>
                 <button type="button"
                     class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
                     data-act="tb-current-advance">
-                    <i class="fa-solid fa-arrow-right mr-1"></i> Finalize & Advance to Next Month
+                    <app-icon params="name: 'arrow-right', customClass: 'mr-1'"></app-icon> Finalize & Advance to Next Month
                 </button>
             </div>
 
@@ -105,7 +105,7 @@
                     class="group-toggle py-1 flex items-center justify-between w-full cursor-pointer select-none text-gr-text gap-2"
                     data-toggle="collapse" data-target="#tbCurrentTodoList" aria-expanded="true">
                     <span class="text-xs transition-transform duration-200 inline-block">
-                        <i class="fa-solid fa-chevron-down"></i>
+                        <app-icon params="name: 'chevron-down'"></app-icon>
                     </span>
                     <span class="font-bold text-xs uppercase tracking-wider text-gr-text">To Do</span>
                     <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand ml-1.5"
@@ -122,7 +122,7 @@
                     class="group-toggle py-1 flex items-center justify-between w-full cursor-pointer select-none text-gr-text gap-2"
                     id="tbCurrentDoneToggle" data-toggle="collapse" data-target="#tbCurrentDoneList" aria-expanded="true">
                     <span class="text-xs transition-transform duration-200 inline-block">
-                        <i class="fa-solid fa-chevron-right"></i>
+                        <app-icon params="name: 'chevron-right'"></app-icon>
                     </span>
                     <span class="font-bold text-xs uppercase tracking-wider text-gr-accent">COMPLETED</span>
                     <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand ml-1.5"
@@ -137,8 +137,7 @@
         <div id="tbEmptyState" class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"
             data-ref="page.tasbeeh.empty-state">
             <div class="mb-3" data-ref="page.tasbeeh.empty-state.icon-wrap">
-                <i class="fa-solid fa-hand-holding-heart text-gr-textMuted opacity-50 text-3xl"
-                    data-ref="page.tasbeeh.empty-state.icon"></i>
+                <app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50', dataRef: 'page.tasbeeh.empty-state.icon'"></app-icon>
             </div>
             <h5 class="font-bold text-brand mb-1" data-ref="page.tasbeeh.empty-state.title">No Dhikr Yet</h5>
             <p class="text-gr-textMuted text-xs mb-0" data-ref="page.tasbeeh.empty-state.text">Tap “+” below to add your first chant and begin counting.</p>
@@ -167,7 +166,7 @@
                     <button type="button"
                         class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 underline text-gr-danger text-decoration-none text-xs font-bold d-none"
                         id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed">
-                        <i class="fa-solid fa-rotate-left mr-1"></i> Reset Cleared
+                        <app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Cleared
                     </button>
                 </div>
                 <div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">Sequential monthly clearance advances backward month-by-month as dhikrs are completed.</div>
@@ -180,7 +179,7 @@
     <button type="button"
         class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all d-none"
         id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr">
-        <i class="fa-solid fa-plus text-xl" data-ref="page.tasbeeh.header.add-icon"></i>
+        <app-icon params="name: 'plus', size: 'xl', dataRef: 'page.tasbeeh.header.add-icon'"></app-icon>
     </button>
 
     <!-- Bottom Navigation Component -->
@@ -194,7 +193,7 @@
         <button type="button"
             class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
             id="tbBtnBack" data-ref="page.tasbeeh.counter.back-btn" title="Back">
-            <i class="fa-solid fa-arrow-left text-base" data-ref="page.tasbeeh.counter.back-icon"></i>
+            <app-icon params="name: 'arrow-left', size: 'base', dataRef: 'page.tasbeeh.counter.back-icon'"></app-icon>
         </button>
         <div class="grow min-w-0 text-center" data-ref="page.tasbeeh.counter.header-center">
             <h5 class="font-bold text-base text-brand m-0 flex items-center justify-center truncate mb-0"
@@ -203,7 +202,7 @@
         <button type="button"
             class="inline-flex items-center gap-1 px-3 py-1.5 bg-brand-soft text-brand font-bold text-xs rounded-full hover:bg-brand-light transition-colors cursor-pointer"
             id="tbBtnEditActive" data-ref="page.tasbeeh.counter.edit-btn" title="Edit active chant">
-            <i class="fa-solid fa-pencil" data-ref="page.tasbeeh.counter.edit-icon"></i>
+            <app-icon params="name: 'pencil', dataRef: 'page.tasbeeh.counter.edit-icon'"></app-icon>
             <span data-ref="page.tasbeeh.counter.edit-label">Edit</span>
         </button>
     </header>
@@ -215,7 +214,7 @@
                 data-ref="page.tasbeeh.counter.chant-title">—</h4>
             <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-surfaceBg border border-borderGrey rounded-full text-xs font-semibold text-brand"
                 id="tbCalTargetPill">
-                <i class="fa-solid fa-bullseye"></i>
+                <app-icon params="name: 'bullseye'"></app-icon>
                 <span id="tbCalTargetLabel">Target: 100 / day</span>
             </div>
         </div>
@@ -225,13 +224,13 @@
             <button type="button"
                 class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
                 id="tbCalPrevMonth" title="Previous month">
-                <i class="fa-solid fa-chevron-left"></i>
+                <app-icon params="name: 'chevron-left'"></app-icon>
             </button>
             <div class="font-bold text-base text-brand text-center tracking-wide flex-1" id="tbCalMonthLabel">October 2026</div>
             <button type="button"
                 class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
                 id="tbCalNextMonth" title="Next month">
-                <i class="fa-solid fa-chevron-right"></i>
+                <app-icon params="name: 'chevron-right'"></app-icon>
             </button>
         </div>
 

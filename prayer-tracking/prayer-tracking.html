@@ -28,12 +28,12 @@
                 <div class="flex items-center gap-2.5">
                     <div class="rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0"
                         style="width: 40px; height: 40px;">
-                        <i class="fa-solid fa-list-check text-brand" style="font-size: 20px;"></i>
+                        <app-icon params="name: 'list-check', color: 'text-brand', size: '20px'"></app-icon>
                     </div>
                     <h6 class="font-bold text-brand text-sm mb-0 leading-tight">Individual Prayer<br>Breakdown</h6>
                 </div>
                 <div class="flex items-center gap-2 bg-brand-light px-3 py-1.5 rounded-xl border border-borderGrey text-brand text-xs font-medium shrink-0">
-                    <i class="fa-regular fa-calendar-days text-brand" style="font-size: 16px;"></i>
+                    <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', size: '16px'"></app-icon>
                     <div class="text-left">
                         <div class="font-bold leading-none" id="perfTrackedDays" data-bind="text: performance.trackedDays">0 days</div>
                         <div class="text-gr-textMuted leading-none mt-0.5" style="font-size: 10px;">tracked</div>
@@ -49,7 +49,7 @@
             <div class="rounded-2xl p-3 bg-brand-light border border-borderGrey text-center flex flex-col items-center mt-1 bg-white shadow-none"
                 data-ref="page.performance.footer-card">
                 <div class="flex items-center justify-center gap-1.5 mb-1">
-                    <i class="fa-solid fa-calendar-check text-brand" style="font-size: 16px;"></i>
+                    <app-icon params="name: 'calendar-check', color: 'text-brand', size: '16px'"></app-icon>
                     <span class="text-xs font-bold text-brand" id="perfFooterLabel" data-bind="text: performance.footerLabel">Tracking Start Date: --</span>
                 </div>
                 <p class="text-gr-textMuted text-xs mb-2.5" id="perfFooterDesc">
@@ -59,7 +59,7 @@
                     <button type="button"
                         class="font-bold px-3 py-1.5 rounded-full text-xs bg-brand text-white hover:bg-brand-hover transition-colors rounded-lg"
                         data-act="goto-settings" data-ref="page.performance.goto-settings-btn">
-                        <i class="fa-solid fa-gear mr-1" style="font-size: 14px;"></i> Adjust Start Date in Settings
+                        <app-icon params="name: 'gear', customClass: 'mr-1', size: '14px'"></app-icon> Adjust Start Date in Settings
                     </button>
                 </div>
             </div>
@@ -72,7 +72,7 @@
         <div class="text-center text-gr-textMuted py-8 px-4 bg-white border border-borderGrey rounded-2xl d-none flex flex-col items-center justify-center"
             id="histEmptyState" data-ref="page.history.empty-state">
             <div class="mb-3">
-                <i class="fa-solid fa-list-check text-brand opacity-50 text-4xl"></i>
+                <app-icon params="name: 'list-check', color: 'text-brand', size: '4xl', customClass: 'opacity-50'"></app-icon>
             </div>
             <h5 class="font-bold text-brand text-base mb-1">No Activity Yet</h5>
             <p class="text-gr-textMuted text-xs mb-0">Whenever a prayer is marked as completed in Current or Old Tracking, its history entry will appear here.</p>
@@ -86,7 +86,7 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2.5 min-w-0">
                         <div class="w-10 h-10 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
-                            <i class="fa-solid fa-list-check text-brand text-lg"></i>
+                            <app-icon params="name: 'list-check', color: 'text-brand', size: 'lg'"></app-icon>
                         </div>
                         <div class="min-w-0">
                             <h6 class="font-bold text-brand mb-0 text-sm leading-tight">Activity Log</h6>
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-borderGrey bg-surfaceBg text-xs text-gr-textMuted font-medium shrink-0">
-                        <i class="fa-regular fa-clock shrink-0 text-xs"></i>
+                        <app-icon params="name: 'clock', prefix: 'fa-regular', size: 'xs', customClass: 'shrink-0'"></app-icon>
                         <span>Latest first</span>
                     </div>
                 </div>

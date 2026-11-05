@@ -5,7 +5,7 @@
         id="tabTrackCurrent" data-act="switch-track-current" role="tab"
         data-bind="css: activeTab() === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'current' ? 'true' : 'false' }"
         data-ref="page.tracker.tab-current">
-        <i class="fa-regular fa-calendar-days"></i>
+        <app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon>
         <span>Current</span>
     </button>
     <button type="button"
@@ -13,7 +13,7 @@
         id="tabTrackOld" data-act="switch-track-old" role="tab"
         data-bind="css: activeTab() === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'old' ? 'true' : 'false' }"
         data-ref="page.tracker.tab-old">
-        <i class="fa-solid fa-clock-rotate-left"></i>
+        <app-icon params="name: 'clock-rotate-left'"></app-icon>
         <span>Old</span>
     </button>
     <button type="button"
@@ -21,7 +21,7 @@
         id="tabTrackPerformance" data-act="switch-track-performance" role="tab"
         data-bind="css: activeTab() === 'performance' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'performance' ? 'true' : 'false' }"
         data-ref="page.tracker.tab-performance">
-        <i class="fa-solid fa-chart-simple"></i>
+        <app-icon params="name: 'chart-simple'"></app-icon>
         <span>Performance</span>
     </button>
     <button type="button"
@@ -29,7 +29,7 @@
         id="tabTrackHistory" data-act="switch-track-history" role="tab"
         data-bind="css: activeTab() === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'history' ? 'true' : 'false' }"
         data-ref="page.tracker.tab-history">
-        <i class="fa-solid fa-list-check"></i>
+        <app-icon params="name: 'list-check'"></app-icon>
         <span>History</span>
     </button>
 </nav>

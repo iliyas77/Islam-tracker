@@ -2,7 +2,7 @@
     data-act="dua-open-detail"
     data-bind="attr: { 'data-idx': index, 'data-source': 'home' }">
     <span class="pinned-badge absolute top-3.5 right-4 text-base inline-flex items-center justify-center text-pinAmber">
-        <i class="fa-solid fa-thumbtack"></i>
+        <app-icon params="name: 'thumbtack'"></app-icon>
     </span>
     <div class="pinned-dua-number text-sm font-bold text-brand"
         data-bind="text: '#' + String(number).padStart(2, '0')">#01</div>

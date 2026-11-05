@@ -2,7 +2,7 @@
     data-bind="attr: { 'data-ref': cardDataRef }">
     <div class="flex items-center gap-3" data-bind="attr: { 'data-ref': contentDataRef }">
         <div data-bind="attr: { class: iconBoxClass, 'data-ref': iconDataRef }">
-            <i data-bind="attr: { class: icon }"></i>
+            <app-icon params="name: icon"></app-icon>
         </div>
         <div class="text-xs text-brand leading-tight" data-bind="text: text, attr: { 'data-ref': textDataRef }"></div>
     </div>

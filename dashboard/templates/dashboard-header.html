@@ -2,14 +2,13 @@
     data-ref="page.dashboard.header">
     <div class="flex items-center gap-1.5 text-xs text-brand font-medium"
         data-ref="page.dashboard.header.location">
-        <i class="fa-solid fa-location-dot text-brand text-sm"
-            data-ref="page.dashboard.header.location-icon"></i>
+        <app-icon params="name: 'location-dot', color: 'text-brand', size: 'sm', dataRef: 'page.dashboard.header.location-icon'"></app-icon>
         <span id="dashLocationText" data-ref="page.dashboard.header.location-text"
             data-bind="html: locationText">Guntur &bull; Hanafi</span>
     </div>
     <div class="w-8 h-8 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-sm"
         data-ref="page.dashboard.header.mosque-icon">
-        <i class="fa-solid fa-mosque"></i>
+        <app-icon params="name: 'mosque'"></app-icon>
     </div>
 </header>
 

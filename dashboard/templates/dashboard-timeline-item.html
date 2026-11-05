@@ -2,7 +2,7 @@
     data-bind="attr: { id: 'dashTimeline' + name, 'data-ref': 'page.dashboard.timeline.item.' + name.toLowerCase() }">
     <div class="icon-box icon-box-md"
         data-bind="attr: { id: 'dashIconBox' + name, 'data-ref': 'page.dashboard.timeline.icon.' + name.toLowerCase() }, css: { 'icon-box-active': isActive }">
-        <i data-bind="attr: { class: iconClass }"></i>
+        <app-icon params="name: iconClass"></app-icon>
     </div>
     <div class="text-xs font-bold text-brand mt-1 truncate"
         data-bind="text: name, attr: { 'data-ref': 'page.dashboard.timeline.name.' + name.toLowerCase() }"></div>

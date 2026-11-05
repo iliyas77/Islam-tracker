@@ -8,7 +8,7 @@
             data-bind="css: activeTab() === 'pinned' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'pinned' ? 'true' : 'false' }"
             data-ref="page.duas.tab-pinned">
             <span class="text-xl leading-none inline-flex items-center justify-center">
-                <i class="fa-solid fa-thumbtack"></i>
+                <app-icon params="name: 'thumbtack'"></app-icon>
             </span>
             <span>Pinned</span>
         </button>
@@ -18,7 +18,7 @@
             data-bind="css: activeTab() === 'all' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'all' ? 'true' : 'false' }"
             data-ref="page.duas.tab-all">
             <span class="text-xl leading-none inline-flex items-center justify-center">
-                <i class="fa-solid fa-book-quran"></i>
+                <app-icon params="name: 'book-quran'"></app-icon>
             </span>
             <span>All Duas</span>
         </button>
@@ -28,7 +28,7 @@
             data-bind="css: activeTab() === 'favourites' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'favourites' ? 'true' : 'false' }"
             data-ref="page.duas.tab-favs">
             <span class="text-xl leading-none inline-flex items-center justify-center">
-                <i class="fa-solid fa-bookmark"></i>
+                <app-icon params="name: 'bookmark'"></app-icon>
             </span>
             <span>Favourites</span>
         </button>

@@ -27,7 +27,7 @@
             <!-- Home Empty State -->
             <div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed d-none"
                 id="duaHomeEmptyState">
-                <span class="inline-flex items-center justify-center mb-2"><i class="fa-solid fa-thumbtack"></i></span><br>
+                <span class="inline-flex items-center justify-center mb-2"><app-icon params="name: 'thumbtack'"></app-icon></span><br>
                 No pinned duas yet.<br>
                 Tap the pin icon on any dua to pin it here.<br>
                 <span class="text-xs opacity-75 mt-2 block">You can pin up to 2 duas for quick access.</span>
@@ -36,7 +36,7 @@
             <!-- Home Content -->
             <div id="duaHomeContent" class="d-none">
                 <div class="text-sm font-bold text-brand flex items-center gap-2 mb-2">
-                    <i class="fa-solid fa-thumbtack"></i>
+                    <app-icon params="name: 'thumbtack'"></app-icon>
                     <span id="duaHomeTitleCount" data-bind="text: pinnedTitle">Your Pinned Duas (0/2)</span>
                 </div>
                 <div class="flex flex-col gap-2" id="duaHomeView">
@@ -45,7 +45,7 @@
                     <!-- /ko -->
                 </div>
                 <div class="text-xs text-gr-textMuted flex items-center justify-center gap-1 mt-3 mt-2">
-                    <span>Tap the</span> <i class="fa-solid fa-thumbtack"></i> <span>icon on a dua to unpin it, or pin another (max 2).</span>
+                    <span>Tap the</span> <app-icon params="name: 'thumbtack'"></app-icon> <span>icon on a dua to unpin it, or pin another (max 2).</span>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
             <button type="button"
                 class="self-start mb-3 px-4 py-2 bg-white border border-borderGrey rounded-xl text-xs font-semibold text-brand cursor-pointer hover:bg-brand-light inline-flex items-center gap-1.5 transition-colors mb-2"
                 data-act="dua-detail-back">
-                <i class="fa-solid fa-arrow-left mr-1"></i> Back to list
+                <app-icon params="name: 'arrow-left', customClass: 'mr-1'"></app-icon> Back to list
             </button>
 
             <!-- Translation Card Component -->
@@ -93,12 +93,12 @@
                     <button type="button"
                         class="w-10 h-10 rounded-xl border border-borderGrey bg-white text-brand hover:bg-brand-light cursor-pointer text-base inline-flex items-center justify-center transition-colors"
                         id="duaDetailFavBtn" data-act="dua-detail-toggle-fav" title="Toggle Favourite">
-                        <span id="duaDetailFavIcon"><i class="fa-regular fa-heart"></i></span>
+                        <span id="duaDetailFavIcon"><app-icon params="name: 'heart', prefix: 'fa-regular'"></app-icon></span>
                     </button>
                     <button type="button"
                         class="w-10 h-10 rounded-xl border border-borderGrey bg-white text-brand hover:bg-brand-light cursor-pointer text-base inline-flex items-center justify-center transition-colors"
                         id="duaDetailPinBtn" data-act="dua-detail-toggle-pin" title="Toggle Pin">
-                        <span id="duaDetailPinIcon"><i class="fa-solid fa-thumbtack"></i></span>
+                        <span id="duaDetailPinIcon"><app-icon params="name: 'thumbtack'"></app-icon></span>
                     </button>
                 </div>
                 <button type="button"
@@ -111,7 +111,7 @@
         <button type="button"
             class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
             id="duaFabBtn" data-act="dua-open-add" title="Add New Dua">
-            <i class="fa-solid fa-plus text-xl"></i>
+            <app-icon params="name: 'plus', size: 'xl'"></app-icon>
         </button>
     </div>
 

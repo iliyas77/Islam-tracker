@@ -13,13 +13,13 @@ window.DuasApp = (function () {
     var STORAGE_KEY_PINS = (DUA_CONSTANTS.STORAGE_KEYS && DUA_CONSTANTS.STORAGE_KEYS.PINS) || 'quranDuas_pins';
     var MAX_PINS = typeof DUA_CONSTANTS.MAX_PINS === 'number' ? DUA_CONSTANTS.MAX_PINS : 2;
     var DUA_TABS = DUA_CONSTANTS.TABS || { HOME: 'home', DUAS: 'duas', FAVOURITES: 'favourites' };
-    var DRAWING_PIN_SVG = '<i class="fa-solid fa-thumbtack"></i>';
+    var DRAWING_PIN_SVG = '<app-icon params="name: \'thumbtack\'"></app-icon>';
 
     var DUA_ICONS = DUA_CONSTANTS.ICONS || {
         PINNED: DRAWING_PIN_SVG,
         UNPINNED: DRAWING_PIN_SVG,
-        FAV: '<i class="fa-solid fa-heart text-danger"></i>',
-        UNFAV: '<i class="fa-regular fa-heart"></i>'
+        FAV: '<app-icon params="name: \'heart\', color: \'text-danger\'"></app-icon>',
+        UNFAV: '<app-icon params="name: \'heart\', prefix: \'fa-regular\'"></app-icon>'
     };
     var SEARCH_DEBOUNCE_MS = typeof DUA_CONSTANTS.SEARCH_DEBOUNCE_MS === 'number' ? DUA_CONSTANTS.SEARCH_DEBOUNCE_MS : 80;
     var DUA_API_URL = (DUA_CONSTANTS && DUA_CONSTANTS.API_URL) || 'https://raw.githubusercontent.com/iliyas77/data.github.io/main/duas.json';

@@ -6,14 +6,12 @@
                 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
                 data-act="go-home" title="Back to Home" aria-label="Back to Home"
                 data-ref="page.tasbeeh.back-btn">
-                <i class="fa-solid fa-arrow-left text-base"></i>
+                <app-icon params="name: 'arrow-left', size: 'base'"></app-icon>
             </button>
             <div class="min-w-0 grow">
                 <h5 class="font-bold text-base text-brand m-0 flex items-center gap-2"
                     data-ref="page.tasbeeh.header.title">
-                    <i id="tbHeaderIcon" class="fa-solid fa-house text-brand"
-                        data-bind="attr: { class: iconClass || 'fa-solid fa-house text-brand' }"
-                        data-ref="page.tasbeeh.header.icon"></i>
+                    <app-icon params="id: 'tbHeaderIcon', name: iconClass || 'fa-solid fa-house text-brand', dataRef: 'page.tasbeeh.header.icon'"></app-icon>
                     <span id="tbHeaderLabel" data-bind="text: title || 'Digital Tasbeeh'"
                         data-ref="page.tasbeeh.header.label">Digital Tasbeeh</span>
                 </h5>

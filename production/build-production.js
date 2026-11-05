@@ -14,25 +14,16 @@ const ROOT = path.join(BUILD_DIR, '..');
 const OUT_FILE = path.join(BUILD_DIR, 'production.html');
 
 const htmlPath = path.join(ROOT, 'main.html');
+const iconJsPath = path.join(ROOT, 'components', 'icon', 'icon.js');
 const constantJsPath = path.join(ROOT, 'utilities', 'constant.js');
 const utilityJsPath = path.join(ROOT, 'utilities', 'utility.js');
 const appJsPath = path.join(ROOT, 'app.js');
 const navigationJsPath = path.join(ROOT, 'navigation.js');
-const prayerTrackingJsPath = fs.existsSync(path.join(ROOT, 'prayer-tracking', 'prayer-tracking.js'))
-    ? path.join(ROOT, 'prayer-tracking', 'prayer-tracking.js')
-    : path.join(ROOT, 'prayer-tracking.js');
-const dashboardJsPath = fs.existsSync(path.join(ROOT, 'dashboard', 'dashboard.js'))
-    ? path.join(ROOT, 'dashboard', 'dashboard.js')
-    : path.join(ROOT, 'dashboard.js');
-const settingsJsPath = fs.existsSync(path.join(ROOT, 'settings', 'settings.js'))
-    ? path.join(ROOT, 'settings', 'settings.js')
-    : path.join(ROOT, 'settings.js');
-const tasbeehJsPath = fs.existsSync(path.join(ROOT, 'tasbeeh', 'tasbeeh.js'))
-    ? path.join(ROOT, 'tasbeeh', 'tasbeeh.js')
-    : path.join(ROOT, 'tasbeeh.js');
-const duaJsPath = fs.existsSync(path.join(ROOT, 'duva', 'duva.js'))
-    ? path.join(ROOT, 'duva', 'duva.js')
-    : (fs.existsSync(path.join(ROOT, 'dua.js')) ? path.join(ROOT, 'dua.js') : path.join(ROOT, 'duva.js'));
+const prayerTrackingJsPath = path.join(ROOT, 'prayer-tracking', 'prayer-tracking.js');
+const dashboardJsPath = path.join(ROOT, 'dashboard', 'dashboard.js');
+const settingsJsPath = path.join(ROOT, 'settings', 'settings.js');
+const tasbeehJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh.js');
+const duaJsPath = path.join(ROOT, 'duva', 'duva.js');
 
 /**
  * Minify CSS content by removing comments and unnecessary whitespace
@@ -91,6 +82,7 @@ function buildProduction() {
         html = html.replace(/<link[^>]*href="css\/[^"]*"[^>]*\/?>/g, '');
 
         // 2. Combine and Minify JS
+        const iconJs = fs.existsSync(iconJsPath) ? fs.readFileSync(iconJsPath, 'utf8') : '';
         const constantJs = fs.existsSync(constantJsPath) ? fs.readFileSync(constantJsPath, 'utf8') : '';
         const utilityJs = fs.existsSync(utilityJsPath) ? fs.readFileSync(utilityJsPath, 'utf8') : '';
         const appJs = fs.existsSync(appJsPath) ? fs.readFileSync(appJsPath, 'utf8') : '';
@@ -100,10 +92,11 @@ function buildProduction() {
         const settingsJs = fs.existsSync(settingsJsPath) ? fs.readFileSync(settingsJsPath, 'utf8') : '';
         const tasbeehJs = fs.existsSync(tasbeehJsPath) ? fs.readFileSync(tasbeehJsPath, 'utf8') : '';
         const duaJs = fs.existsSync(duaJsPath) ? fs.readFileSync(duaJsPath, 'utf8') : '';
-        const combinedJs = constantJs + '\n' + utilityJs + '\n' + appJs + '\n' + navigationJs + '\n' + prayerTrackingJs + '\n' + dashboardJs + '\n' + settingsJs + '\n' + tasbeehJs + '\n' + duaJs;
+        const combinedJs = iconJs + '\n' + constantJs + '\n' + utilityJs + '\n' + appJs + '\n' + navigationJs + '\n' + prayerTrackingJs + '\n' + dashboardJs + '\n' + settingsJs + '\n' + tasbeehJs + '\n' + duaJs;
         const minifiedJs = minifyJs(combinedJs);
 
         // Replace script src tags with minified inlined script block
+        html = html.replace(/<script[^>]*src="components\/icon\/icon\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="utilities\/constant\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="utilities\/utility\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="navigation\.js"[^>]*><\/script>/g, '');

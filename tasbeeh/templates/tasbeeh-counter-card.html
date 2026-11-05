@@ -4,16 +4,16 @@
     <div class="tb-card-top flex items-start justify-between w-full">
         <div class="w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
             data-ref="page.tasbeeh.card.icon">
-            <i class="fa-solid fa-hands-praying"></i>
+            <app-icon params="name: 'hands-praying'"></app-icon>
         </div>
         <div class="tb-card-actions flex items-center gap-1.5 shrink-0 ml-auto">
             <button type="button"
                 class="tb-btn-edit w-8 h-8 rounded-lg bg-brand-light text-brand flex items-center justify-center cursor-pointer hover:bg-brand/20 active:scale-95 transition-all p-0"
                 data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
                 data-ref="page.tasbeeh.card.edit-btn">
-                <i class="fa-solid fa-pencil text-xs"></i>
+                <app-icon params="name: 'pencil', size: 'xs'"></app-icon>
             </button>
-            <i class="fa-solid fa-chevron-right text-gr-textMuted text-xs ml-1"></i>
+            <app-icon params="name: 'chevron-right', color: 'text-gr-textMuted', size: 'xs', customClass: 'ml-1'"></app-icon>
         </div>
     </div>
     <div class="tb-card-body flex flex-col justify-end w-full mt-2.5 min-w-0" data-ref="page.tasbeeh.card.info">
@@ -21,24 +21,24 @@
             data-bind="text: title" data-ref="page.tasbeeh.card.title"></h6>
         <div class="tb-card-meta flex flex-col gap-1 w-full" data-ref="page.tasbeeh.card.meta">
             <div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">
-                <i class="fa-solid fa-bullseye text-gr-textMuted text-xs"></i>
+                <app-icon params="name: 'bullseye', color: 'text-gr-textMuted', size: 'xs'"></app-icon>
                 <span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Target: <span class="tb-val-num font-semibold text-brand ml-1" data-bind="text: targetCount"></span> / day</span>
             </div>
             <div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">
-                <i class="fa-solid fa-circle-check text-brand text-xs"></i>
+                <app-icon params="name: 'circle-check', color: 'text-brand', size: 'xs'"></app-icon>
                 <span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">
                     <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-brand text-white leading-none">Done</span>
                     <strong class="tb-val-done ml-1 font-bold text-brand" data-bind="text: completedDays"></strong>
                 </span>
             </div>
             <div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">
-                <i class="fa-regular fa-calendar-days text-gr-textMuted text-xs"></i>
+                <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-gr-textMuted', size: 'xs'"></app-icon>
                 <span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Total: <span class="tb-val-total text-gr-textMuted font-medium ml-1" data-bind="text: totalDays + ' days'"></span></span>
             </div>
             <!-- ko if: isTodayDone -->
             <div class="tb-meta-row tb-meta-sub-row">
                 <span class="text-brand font-bold flex items-center gap-1" style="font-size: 11px;">
-                    <i class="fa-solid fa-circle-check text-brand"></i> Today Completed
+                    <app-icon params="name: 'circle-check', color: 'text-brand'"></app-icon> Today Completed
                 </span>
             </div>
             <!-- /ko -->

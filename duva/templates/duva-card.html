@@ -13,17 +13,17 @@
         class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all"
         data-act="dua-item-pin"
         data-bind="attr: { 'data-idx': index, title: isPinned ? 'Unpin' : 'Pin to Home' }, css: isPinned ? 'pinned text-pinAmber' : 'opacity-50'">
-        <i class="fa-solid fa-thumbtack"></i>
+        <app-icon params="name: 'thumbtack'"></app-icon>
     </button>
     <button type="button"
         class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all"
         data-act="dua-item-fav"
         data-bind="attr: { 'data-idx': index, title: isFav ? 'Remove from favourites' : 'Toggle favourite' }">
         <!-- ko if: isFav -->
-        <i class="fa-solid fa-heart text-heartRed"></i>
+        <app-icon params="name: 'heart', color: 'text-heartRed'"></app-icon>
         <!-- /ko -->
         <!-- ko if: !isFav -->
-        <i class="fa-regular fa-heart"></i>
+        <app-icon params="name: 'heart', prefix: 'fa-regular'"></app-icon>
         <!-- /ko -->
     </button>
 </div>

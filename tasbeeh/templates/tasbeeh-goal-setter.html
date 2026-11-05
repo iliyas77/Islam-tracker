@@ -1,7 +1,7 @@
 <div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none">
     <div class="flex items-center gap-2 mb-3">
         <div class="icon-box icon-box-sm">
-            <i class="fa-solid fa-gear text-brand"></i>
+            <app-icon params="name: 'gear', color: 'text-brand'"></app-icon>
         </div>
         <div>
             <h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Period Settings</h6>
@@ -13,13 +13,13 @@
     <div class="mb-2">
         <label class="text-xs font-bold text-gr-textMuted mb-1 block font-semibold text-brand mb-1.5"
             for="tbHistPeriodStart">
-            <i class="fa-regular fa-calendar-days text-brand mr-1"></i>Start Date
+            <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', customClass: 'mr-1'"></app-icon>Start Date
         </label>
         <div class="relative flex items-center rounded-xl border border-borderGrey bg-white focus-within:border-brand overflow-hidden"
             style="border-radius: 8px;">
             <span class="w-10 h-10 flex items-center justify-center text-gr-textMuted shrink-0"
                 style="width: 42px; height: 42px;">
-                <i class="fa-regular fa-calendar-days text-brand" style="font-size: 15px;"></i>
+                <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', size: '15px'"></app-icon>
             </span>
             <input type="date"
                 class="border-0 pl-2 w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
@@ -32,13 +32,13 @@
     <div class="mb-3">
         <label class="text-xs font-bold text-gr-textMuted mb-1 block font-semibold text-brand mb-1.5"
             for="tbHistPeriodEnd">
-            <i class="fa-solid fa-calendar-check text-brand mr-1"></i>End Date
+            <app-icon params="name: 'calendar-check', color: 'text-brand', customClass: 'mr-1'"></app-icon>End Date
         </label>
         <div class="relative flex items-center rounded-xl border border-borderGrey bg-white focus-within:border-brand overflow-hidden"
             style="border-radius: 8px;">
             <span class="w-10 h-10 flex items-center justify-center text-gr-textMuted shrink-0"
                 style="width: 42px; height: 42px;">
-                <i class="fa-solid fa-calendar-check text-brand" style="font-size: 15px;"></i>
+                <app-icon params="name: 'calendar-check', color: 'text-brand', size: '15px'"></app-icon>
             </span>
             <input type="date"
                 class="border-0 pl-2 w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
@@ -69,12 +69,12 @@
         <button type="button"
             class="grow rounded-xl py-2 font-bold bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
             style="font-size: 13.5px;" data-act="tb-hist-save">
-            <i class="fa-solid fa-check mr-1"></i> Save Period Settings
+            <app-icon params="name: 'check', customClass: 'mr-1'"></app-icon> Save Period Settings
         </button>
         <button type="button"
             class="rounded-xl px-3 py-2 border border-borderGrey bg-white text-gr-text hover:bg-surfaceBg transition-colors text-xs py-1.5 rounded-lg cursor-pointer"
             style="font-size: 13.5px;" data-act="tb-hist-reset" title="Reset Period Settings">
-            <i class="fa-solid fa-rotate-left"></i>
+            <app-icon params="name: 'rotate-left'"></app-icon>
         </button>
     </div>
 </div>

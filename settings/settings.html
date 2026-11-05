@@ -4,11 +4,11 @@
     <button type="button"
         class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
         data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.settings.back-btn">
-        <i class="fa-solid fa-arrow-left text-base"></i>
+        <app-icon params="name: 'arrow-left', size: 'base'"></app-icon>
     </button>
     <div class="grow min-w-0">
         <h5 class="font-bold text-base text-brand m-0 flex items-center gap-2">
-            <i class="fa-solid fa-gear text-gr-accent"></i>
+            <app-icon params="name: 'gear', color: 'text-gr-accent'"></app-icon>
             <span>Settings</span>
         </h5>
         <div class="text-xs text-gr-textMuted mt-0.5">App preferences</div>
@@ -65,8 +65,7 @@
         <button type="button"
             class="font-bold w-full py-3 text-sm rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors"
             data-act="pt-save" data-ref="page.settings.prayer-times.save-btn">
-            <i class="fa-solid fa-rotate-left mr-1 text-base"
-                data-ref="page.settings.prayer-times.save-icon"></i>Sync &amp; Save Prayer Times
+            <app-icon params="name: 'rotate-left', size: 'base', customClass: 'mr-1', dataRef: 'page.settings.prayer-times.save-icon'"></app-icon>Sync &amp; Save Prayer Times
         </button>
     </div>
 
@@ -113,7 +112,7 @@
         class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium text-brand py-1.5 relative cursor-pointer select-none transition-colors active"
         id="tabSettings" data-act="goto-settings" role="tab" aria-selected="true"
         data-ref="page.settings.tab">
-        <i class="fa-solid fa-gear"></i>
+        <app-icon params="name: 'gear'"></app-icon>
         <span>Settings</span>
     </button>
 </nav>

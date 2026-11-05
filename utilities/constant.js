@@ -7,15 +7,15 @@
 (function (window) {
         'use strict';
 
-        const SUNRISE_ICON = '<i class="fa-solid fa-cloud-sun"></i>';
-        const SUN_ICON = '<i class="fa-solid fa-sun"></i>';
+        const SUNRISE_ICON = '<app-icon params="name: \'cloud-sun\'"></app-icon>';
+        const SUN_ICON = '<app-icon params="name: \'sun\'"></app-icon>';
 
         const PRAYER_ICONS = {
                 Fajr: SUNRISE_ICON,
                 Maghrib: SUNRISE_ICON,
                 Dhuhr: SUN_ICON,
                 Asr: SUN_ICON,
-                Isha: '<i class="fa-solid fa-moon"></i>'
+                Isha: '<app-icon params="name: \'moon\'"></app-icon>'
         };
 
         const CONSTANTS = {
@@ -33,10 +33,10 @@
                         },
                         ICONS: PRAYER_ICONS,
                         CARD_ICONS: Object.assign({}, PRAYER_ICONS, {
-                                DoneCheck: '<i class="fa-solid fa-circle-check icon-md"></i>',
-                                DoneCheckSm: '<i class="fa-solid fa-circle-check icon-sm"></i>',
-                                Warning: '<i class="fa-solid fa-triangle-exclamation icon-sm"></i>',
-                                Calendar: '<i class="fa-regular fa-calendar icon-sm"></i>'
+                                DoneCheck: '<app-icon params="name: \'circle-check\', size: \'icon-md\'"></app-icon>',
+                                DoneCheckSm: '<app-icon params="name: \'circle-check\', size: \'icon-sm\'"></app-icon>',
+                                Warning: '<app-icon params="name: \'triangle-exclamation\', size: \'icon-sm\'"></app-icon>',
+                                Calendar: '<app-icon params="name: \'calendar\', prefix: \'fa-regular\', size: \'icon-sm\'"></app-icon>'
                         }),
                         DEFAULT_CONFIG: {
                                 city: 'Guntur',
@@ -296,11 +296,11 @@
                         MAX_BEADS: 60,
 			SVG_NS: "http://www.w3.org/2000/svg",
 			ICONS: {
-				MISBAHA: '<i class="fa-solid fa-hands-praying"></i>',
-				TARGET: '<i class="fa-solid fa-bullseye tb-meta-icon" style="color: #168a54; font-size: 14px;"></i>',
-				CHECK_CIRCLE: '<i class="fa-solid fa-circle-check tb-meta-icon" style="color: #168a54; font-size: 14px;"></i>',
-				PENCIL: '<i class="fa-solid fa-pencil" style="color: #168a54; font-size: 14px;"></i>',
-				CHEVRON: '<i class="fa-solid fa-chevron-right tb-chevron" style="color: #94a3b8; font-size: 12px;"></i>'
+				MISBAHA: '<app-icon params="name: \'hands-praying\'"></app-icon>',
+				TARGET: '<app-icon params="name: \'bullseye\', customClass: \'tb-meta-icon\', color: \'#168a54\', size: \'14px\'"></app-icon>',
+				CHECK_CIRCLE: '<app-icon params="name: \'circle-check\', customClass: \'tb-meta-icon\', color: \'#168a54\', size: \'14px\'"></app-icon>',
+				PENCIL: '<app-icon params="name: \'pencil\', color: \'#168a54\', size: \'14px\'"></app-icon>',
+				CHEVRON: '<app-icon params="name: \'chevron-right\', customClass: \'tb-chevron\', color: \'#94a3b8\', size: \'12px\'"></app-icon>'
 			}
 		},
 
@@ -358,10 +358,10 @@
                                 FAVOURITES: 'favourites'
                         },
                         ICONS: {
-				PINNED: '<i class="fa-solid fa-thumbtack"></i>',
-				UNPINNED: '<i class="fa-solid fa-thumbtack"></i>',
-				FAV: '<i class="fa-solid fa-heart text-danger"></i>',
-				UNFAV: '<i class="fa-regular fa-heart"></i>'
+				PINNED: '<app-icon params="name: \'thumbtack\'"></app-icon>',
+				UNPINNED: '<app-icon params="name: \'thumbtack\'"></app-icon>',
+				FAV: '<app-icon params="name: \'heart\', color: \'text-danger\'"></app-icon>',
+				UNFAV: '<app-icon params="name: \'heart\', prefix: \'fa-regular\'"></app-icon>'
 			},
                         SEARCH_DEBOUNCE_MS: 80,
                         MAX_PINS: 2,
