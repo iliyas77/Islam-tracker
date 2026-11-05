@@ -1,6 +1,6 @@
 /* ============================================================
    Nur Prayer — Quran Duas Feature Module
-   Path: features/duas/duas.js
+   Path: dua.js
    ============================================================ */
 'use strict';
 
@@ -13,14 +13,13 @@ window.DuasApp = (function () {
     var STORAGE_KEY_PINS = (DUA_CONSTANTS.STORAGE_KEYS && DUA_CONSTANTS.STORAGE_KEYS.PINS) || 'quranDuas_pins';
     var MAX_PINS = typeof DUA_CONSTANTS.MAX_PINS === 'number' ? DUA_CONSTANTS.MAX_PINS : 2;
     var DUA_TABS = DUA_CONSTANTS.TABS || { HOME: 'home', DUAS: 'duas', FAVOURITES: 'favourites' };
-    var DRAWING_PIN_SVG = (window.SVG_CONSTANTS && window.SVG_CONSTANTS.SHARED && window.SVG_CONSTANTS.SHARED.DRAWING_PIN) ||
-        '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15"><title>drawing-pin</title><path fill="currentColor" d="M9.621 1.136a.5.5 0 0 1 .707 0l3.536 3.535a.5.5 0 0 1-.707.707l-.653-.652l-3.637 4.848l1.108 1.108a.5.5 0 1 1-.707.707L6.793 8.913v.001l-3.27 3.27a.5.5 0 0 1-.708-.706l3.27-3.27v-.002L3.612 5.732a.5.5 0 1 1 .707-.707l1.108 1.108l4.848-3.637l-.653-.653a.5.5 0 0 1 0-.707M6.14 6.847L8.153 8.86l3.637-4.85l-.802-.8z"/></svg>';
+    var DRAWING_PIN_SVG = '<i class="fa-solid fa-thumbtack"></i>';
 
     var DUA_ICONS = DUA_CONSTANTS.ICONS || {
         PINNED: DRAWING_PIN_SVG,
         UNPINNED: DRAWING_PIN_SVG,
-        FAV: '❤️',
-        UNFAV: '♡'
+        FAV: '<i class="fa-solid fa-heart text-danger"></i>',
+        UNFAV: '<i class="fa-regular fa-heart"></i>'
     };
     var SEARCH_DEBOUNCE_MS = typeof DUA_CONSTANTS.SEARCH_DEBOUNCE_MS === 'number' ? DUA_CONSTANTS.SEARCH_DEBOUNCE_MS : 80;
     var DUA_API_URL = (DUA_CONSTANTS && DUA_CONSTANTS.API_URL) || 'https://raw.githubusercontent.com/iliyas77/data.github.io/main/duas.json';
@@ -153,6 +152,11 @@ window.DuasApp = (function () {
                 loadError = null;
                 fetchPromise = null;
 
+                var loadingEl = document.getElementById('duaLoadingState');
+                var errorEl = document.getElementById('duaErrorState');
+                if (loadingEl) loadingEl.classList.add('d-none');
+                if (errorEl) errorEl.classList.add('d-none');
+
                 loadFromStorage();
                 refreshAllViews();
                 return duasData;
@@ -182,43 +186,26 @@ window.DuasApp = (function () {
     }
 
     function renderLoadingState() {
-        var homeView = document.getElementById('duaHomeView');
-        var listView = document.getElementById('duaListView');
-        var favView = document.getElementById('duaFavouritesList');
+        var loading = document.getElementById('duaLoadingState');
+        var error = document.getElementById('duaErrorState');
         var progressIndicator = document.getElementById('duaProgressIndicator');
 
-        var loadingHtml = '<div class="dua-empty-state py-4">' +
-            '<div class="spinner-border spinner-border-sm text-brand mb-2" role="status"></div>' +
-            '<div>Loading Duas...</div>' +
-            '</div>';
-
-        if (homeView && (!duasData || duasData.length === 0)) homeView.innerHTML = loadingHtml;
-        if (listView && (!duasData || duasData.length === 0)) listView.innerHTML = loadingHtml;
-        if (favView && (!duasData || duasData.length === 0)) favView.innerHTML = loadingHtml;
+        if (loading && (!duasData || duasData.length === 0)) loading.classList.remove('d-none');
+        if (error) error.classList.add('d-none');
         if (progressIndicator && (!duasData || duasData.length === 0)) progressIndicator.textContent = 'Loading...';
     }
 
     function renderErrorState(msg) {
-        var homeView = document.getElementById('duaHomeView');
-        var listView = document.getElementById('duaListView');
-        var favView = document.getElementById('duaFavouritesList');
+        var loading = document.getElementById('duaLoadingState');
+        var error = document.getElementById('duaErrorState');
+        var errMsg = document.getElementById('duaErrorMessage');
         var progressIndicator = document.getElementById('duaProgressIndicator');
 
-        var errorHtml = '<div class="dua-empty-state text-danger py-4">' +
-            '<div class="fs-4 mb-2">⚠️</div>' +
-            '<div class="fw-bold mb-1">Failed to load Duas</div>' +
-            '<div class="small opacity-75 mb-3">' + escapeHtml(msg) + '</div>' +
-            Button({
-                label: 'Retry',
-                variant: 'outline-brand',
-                size: 'sm',
-                dataAct: 'dua-retry'
-            }) +
-            '</div>';
-
-        if (homeView && (!duasData || duasData.length === 0)) homeView.innerHTML = errorHtml;
-        if (listView && (!duasData || duasData.length === 0)) listView.innerHTML = errorHtml;
-        if (favView && (!duasData || duasData.length === 0)) favView.innerHTML = errorHtml;
+        if (loading) loading.classList.add('d-none');
+        if (error && (!duasData || duasData.length === 0)) {
+            error.classList.remove('d-none');
+            if (errMsg) errMsg.textContent = msg;
+        }
         if (progressIndicator && (!duasData || duasData.length === 0)) progressIndicator.textContent = 'Failed to load';
     }
 
@@ -266,16 +253,19 @@ window.DuasApp = (function () {
     // ===== RENDER LIST =====
     function renderList() {
         var listView = document.getElementById('duaListView');
+        var emptyState = document.getElementById('duaListEmptyState');
         var progressIndicator = document.getElementById('duaProgressIndicator');
         if (!listView) return;
 
         var filteredData = getFilteredData();
         if (filteredData.length === 0) {
-            listView.innerHTML = '<div class="dua-empty-state">No duas match your search.</div>';
+            if (emptyState) emptyState.classList.remove('d-none');
+            listView.innerHTML = '';
             if (progressIndicator) progressIndicator.textContent = '0 duas';
             return;
         }
 
+        if (emptyState) emptyState.classList.add('d-none');
         listView.innerHTML = filteredData.map(function (dua) {
             var realIndex = duasData.indexOf(dua);
             var isFav = favourites.indexOf(realIndex) !== -1;
@@ -283,28 +273,14 @@ window.DuasApp = (function () {
             var surahLabel = getSurah(dua);
             var uchPreview = getUchcharana(dua);
 
-            return '<div class="dua-list-item flex items-center" data-act="dua-open-detail" data-idx="' + realIndex + '" data-source="duas">' +
-                '<div class="dua-item-number">#' + String(dua.number).padStart(2, '0') + '</div>' +
+            return '<div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2" data-act="dua-open-detail" data-idx="' + realIndex + '" data-source="duas">' +
+                '<div class="dua-item-number text-sm font-bold text-brand min-w-[36px]">#' + String(dua.number).padStart(2, '0') + '</div>' +
                 '<div class="dua-item-content flex-1 min-w-0">' +
-                '  <div class="dua-item-surah">' + escapeHtml(surahLabel) + '</div>' +
-                '  <div class="dua-item-preview">' + escapeHtml(uchPreview) + '</div>' +
+                '  <div class="dua-item-surah text-sm font-semibold text-brand font-telugu truncate">' + escapeHtml(surahLabel) + '</div>' +
+                '  <div class="dua-item-preview text-xs text-gr-textMuted font-telugu truncate mt-0.5">' + escapeHtml(uchPreview) + '</div>' +
                 '</div>' +
-                Button({
-                    label: isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED,
-                    variant: 'raw',
-                    className: 'dua-action-btn dua-pin-btn ' + (isPinned ? 'pinned' : ''),
-                    dataAct: 'dua-item-pin',
-                    dataIdx: realIndex,
-                    title: isPinned ? 'Unpin' : 'Pin to Home'
-                }) +
-                Button({
-                    label: isFav ? DUA_ICONS.FAV : DUA_ICONS.UNFAV,
-                    variant: 'raw',
-                    className: 'dua-action-btn',
-                    dataAct: 'dua-item-fav',
-                    dataIdx: realIndex,
-                    title: 'Toggle favourite'
-                }) +
+                '<button type="button" class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all ' + (isPinned ? 'pinned text-pinAmber' : 'opacity-50') + '" data-act="dua-item-pin" data-idx="' + realIndex + '" title="' + (isPinned ? 'Unpin' : 'Pin to Home') + '">' + (isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED) + '</button>' +
+                '<button type="button" class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all" data-act="dua-item-fav" data-idx="' + realIndex + '" title="Toggle favourite">' + (isFav ? DUA_ICONS.FAV : DUA_ICONS.UNFAV) + '</button>' +
                 '</div>';
         }).join('');
 
@@ -314,6 +290,7 @@ window.DuasApp = (function () {
     // ===== RENDER FAVOURITES =====
     function renderFavourites() {
         var favouritesList = document.getElementById('duaFavouritesList');
+        var emptyState = document.getElementById('duaFavsEmptyState');
         var progressIndicator = document.getElementById('duaProgressIndicator');
         if (!favouritesList) return;
 
@@ -322,39 +299,27 @@ window.DuasApp = (function () {
         });
 
         if (favList.length === 0) {
-            favouritesList.innerHTML = '<div class="dua-empty-state">No favourites yet.<br>Tap the ♡ icon on any dua to add it here.</div>';
+            if (emptyState) emptyState.classList.remove('d-none');
+            favouritesList.innerHTML = '';
             if (progressIndicator) progressIndicator.textContent = '0 favourites';
             return;
         }
 
+        if (emptyState) emptyState.classList.add('d-none');
         favouritesList.innerHTML = favList.map(function (dua) {
             var realIndex = duasData.indexOf(dua);
             var isPinned = pins.indexOf(realIndex) !== -1;
             var surahLabel = getSurah(dua);
             var uchPreview = getUchcharana(dua);
 
-            return '<div class="dua-list-item flex items-center" data-act="dua-open-detail" data-idx="' + realIndex + '" data-source="favourites">' +
-                '<div class="dua-item-number">#' + String(dua.number).padStart(2, '0') + '</div>' +
+            return '<div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2" data-act="dua-open-detail" data-idx="' + realIndex + '" data-source="favourites">' +
+                '<div class="dua-item-number text-sm font-bold text-brand min-w-[36px]">#' + String(dua.number).padStart(2, '0') + '</div>' +
                 '<div class="dua-item-content flex-1 min-w-0">' +
-                '  <div class="dua-item-surah">' + escapeHtml(surahLabel) + '</div>' +
-                '  <div class="dua-item-preview">' + escapeHtml(uchPreview) + '</div>' +
+                '  <div class="dua-item-surah text-sm font-semibold text-brand font-telugu truncate">' + escapeHtml(surahLabel) + '</div>' +
+                '  <div class="dua-item-preview text-xs text-gr-textMuted font-telugu truncate mt-0.5">' + escapeHtml(uchPreview) + '</div>' +
                 '</div>' +
-                Button({
-                    label: isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED,
-                    variant: 'raw',
-                    className: 'dua-action-btn dua-pin-btn ' + (isPinned ? 'pinned' : ''),
-                    dataAct: 'dua-item-pin',
-                    dataIdx: realIndex,
-                    title: isPinned ? 'Unpin' : 'Pin to Home'
-                }) +
-                Button({
-                    label: DUA_ICONS.FAV,
-                    variant: 'raw',
-                    className: 'dua-action-btn',
-                    dataAct: 'dua-item-fav',
-                    dataIdx: realIndex,
-                    title: 'Remove from favourites'
-                }) +
+                '<button type="button" class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all ' + (isPinned ? 'pinned text-pinAmber' : 'opacity-50') + '" data-act="dua-item-pin" data-idx="' + realIndex + '" title="' + (isPinned ? 'Unpin' : 'Pin to Home') + '">' + (isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED) + '</button>' +
+                '<button type="button" class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all" data-act="dua-item-fav" data-idx="' + realIndex + '" title="Remove from favourites">' + DUA_ICONS.FAV + '</button>' +
                 '</div>';
         }).join('');
 
@@ -364,37 +329,39 @@ window.DuasApp = (function () {
     // ===== RENDER HOME (PINNED DUAS) =====
     function renderHome() {
         var homeView = document.getElementById('duaHomeView');
+        var emptyState = document.getElementById('duaHomeEmptyState');
+        var content = document.getElementById('duaHomeContent');
+        var titleCount = document.getElementById('duaHomeTitleCount');
         var progressIndicator = document.getElementById('duaProgressIndicator');
         if (!homeView) return;
 
         if (pins.length === 0) {
-            homeView.innerHTML = '<div class="dua-empty-state">' +
-                '<span class="inline-flex items-center justify-center mb-2">' + DRAWING_PIN_SVG + '</span><br>' +
-                'No pinned duas yet.<br>' +
-                'Tap the pin icon on any dua to pin it here.<br>' +
-                '<span class="small opacity-75 mt-2 d-block">You can pin up to ' + MAX_PINS + ' duas for quick access.</span>' +
-                '</div>';
+            if (emptyState) emptyState.classList.remove('d-none');
+            if (content) content.classList.add('d-none');
+            homeView.innerHTML = '';
             if (progressIndicator) progressIndicator.textContent = '0 pinned';
             return;
         }
 
-        homeView.innerHTML = '<div class="home-section-title mb-2 flex items-center gap-2">' + DRAWING_PIN_SVG + '<span>Your Pinned Duas (' + pins.length + '/' + MAX_PINS + ')</span></div>' +
-            pins.map(function (pinIndex) {
-                var dua = duasData[pinIndex];
-                if (!dua) return '';
-                var surahLabel = getSurah(dua);
-                var uch = getUchcharana(dua);
-                var ard = getArdham(dua);
+        if (emptyState) emptyState.classList.add('d-none');
+        if (content) content.classList.remove('d-none');
+        if (titleCount) titleCount.textContent = 'Your Pinned Duas (' + pins.length + '/' + MAX_PINS + ')';
 
-                return '<div class="pinned-dua-card border border-borderGrey flex flex-col mb-3" data-act="dua-open-detail" data-idx="' + pinIndex + '" data-source="home">' +
-                    '<span class="pinned-badge">' + DRAWING_PIN_SVG + '</span>' +
-                    '<div class="pinned-dua-number">#' + String(dua.number).padStart(2, '0') + '</div>' +
-                    '<div class="pinned-dua-surah">' + escapeHtml(surahLabel) + '</div>' +
-                    '<div class="pinned-dua-text">' + escapeHtml(uch) + '</div>' +
-                    '<div class="pinned-dua-meaning">' + escapeHtml(ard) + '</div>' +
-                    '</div>';
-            }).join('') +
-            '<div class="pin-limit-note flex items-center justify-center gap-1">Tap the ' + DRAWING_PIN_SVG + ' icon on a dua to unpin it, or pin another (max ' + MAX_PINS + ').</div>';
+        homeView.innerHTML = pins.map(function (pinIndex) {
+            var dua = duasData[pinIndex];
+            if (!dua) return '';
+            var surahLabel = getSurah(dua);
+            var uch = getUchcharana(dua);
+            var ard = getArdham(dua);
+
+            return '<div class="pinned-dua-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col gap-2.5 border-l-4 border-l-brand relative cursor-pointer hover:bg-surfaceBg transition-all mb-3" data-act="dua-open-detail" data-idx="' + pinIndex + '" data-source="home">' +
+                '<span class="pinned-badge absolute top-3.5 right-4 text-base inline-flex items-center justify-center text-pinAmber">' + DRAWING_PIN_SVG + '</span>' +
+                '<div class="pinned-dua-number text-sm font-bold text-brand">#' + String(dua.number).padStart(2, '0') + '</div>' +
+                '<div class="pinned-dua-surah text-base font-bold text-brand font-telugu pr-8">' + escapeHtml(surahLabel) + '</div>' +
+                '<div class="pinned-dua-text text-base text-gr-text leading-relaxed font-telugu">' + escapeHtml(uch) + '</div>' +
+                '<div class="pinned-dua-meaning text-sm text-gr-textMuted leading-relaxed font-telugu border-t border-dashed border-borderGrey pt-2.5">' + escapeHtml(ard) + '</div>' +
+                '</div>';
+        }).join('');
 
         if (progressIndicator) progressIndicator.textContent = pins.length + ' pinned';
     }
@@ -447,17 +414,11 @@ window.DuasApp = (function () {
             if (!dua) return '';
             var surahLabel = getSurah(dua);
 
-            return Button({
-                label: '<span class="inline-flex items-center justify-center">' + DRAWING_PIN_SVG + '</span>' +
-                    '<span class="grow text-truncate font-telugu">' +
-                    '#' + String(dua.number).padStart(2, '0') + ' — ' + escapeHtml(surahLabel) +
-                    '</span>' +
-                    '<span class="text-danger fw-bold ms-auto">Unpin</span>',
-                variant: 'outline-secondary',
-                className: 'w-100 text-start mb-2 flex items-center gap-2 justify-start',
-                dataAct: 'dua-replace-pin',
-                dataOldIdx: p
-            });
+            return '<button type="button" class="w-full text-left mb-2 flex items-center gap-2 justify-start border border-borderGrey bg-white text-gr-text font-semibold rounded-xl px-4 py-2 hover:bg-gray-100 transition-colors cursor-pointer select-none" data-act="dua-replace-pin" data-old-idx="' + p + '">' +
+                '<span class="inline-flex items-center justify-center">' + DRAWING_PIN_SVG + '</span>' +
+                '<span class="grow truncate font-telugu">#' + String(dua.number).padStart(2, '0') + ' — ' + escapeHtml(surahLabel) + '</span>' +
+                '<span class="text-gr-danger font-bold ml-auto">Unpin</span>' +
+                '</button>';
         }).join('');
 
         pinConfirmModal.classList.add('active');
@@ -561,7 +522,7 @@ window.DuasApp = (function () {
         if (!btn || !icon) return;
         var isFav = favourites.indexOf(currentIndex) !== -1;
         btn.classList.toggle('is-fav', isFav);
-        icon.textContent = isFav ? DUA_ICONS.FAV : DUA_ICONS.UNFAV;
+        icon.innerHTML = isFav ? DUA_ICONS.FAV : DUA_ICONS.UNFAV;
     }
 
     function updateDetailPinButton() {
@@ -600,16 +561,25 @@ window.DuasApp = (function () {
         var tabFavs = document.getElementById('duaTabFavs');
 
         if (tabPinned) {
-            tabPinned.classList.toggle('active', activeTab === DUA_TABS.HOME);
-            tabPinned.setAttribute('aria-selected', activeTab === DUA_TABS.HOME ? 'true' : 'false');
+            var isPin = activeTab === DUA_TABS.HOME;
+            tabPinned.classList.toggle('active', isPin);
+            tabPinned.classList.toggle('text-brand', isPin);
+            tabPinned.classList.toggle('text-gr-textMuted', !isPin);
+            tabPinned.setAttribute('aria-selected', isPin ? 'true' : 'false');
         }
         if (tabAll) {
-            tabAll.classList.toggle('active', activeTab === DUA_TABS.DUAS);
-            tabAll.setAttribute('aria-selected', activeTab === DUA_TABS.DUAS ? 'true' : 'false');
+            var isAll = activeTab === DUA_TABS.DUAS;
+            tabAll.classList.toggle('active', isAll);
+            tabAll.classList.toggle('text-brand', isAll);
+            tabAll.classList.toggle('text-gr-textMuted', !isAll);
+            tabAll.setAttribute('aria-selected', isAll ? 'true' : 'false');
         }
         if (tabFavs) {
-            tabFavs.classList.toggle('active', activeTab === DUA_TABS.FAVOURITES);
-            tabFavs.setAttribute('aria-selected', activeTab === DUA_TABS.FAVOURITES ? 'true' : 'false');
+            var isFav = activeTab === DUA_TABS.FAVOURITES;
+            tabFavs.classList.toggle('active', isFav);
+            tabFavs.classList.toggle('text-brand', isFav);
+            tabFavs.classList.toggle('text-gr-textMuted', !isFav);
+            tabFavs.setAttribute('aria-selected', isFav ? 'true' : 'false');
         }
 
         var subHome = document.getElementById('duaSubHome');
@@ -734,26 +704,22 @@ window.DuasApp = (function () {
 
     function renderAdminList() {
         var adminDuaList = document.getElementById('duaAdminDuaList');
+        var emptyState = document.getElementById('duaAdminEmptyState');
         if (!adminDuaList) return;
 
         if (duasData.length === 0) {
-            adminDuaList.innerHTML = '<div class="dua-empty-state py-3">No duas yet.</div>';
+            if (emptyState) emptyState.classList.remove('d-none');
+            adminDuaList.innerHTML = '';
             return;
         }
 
+        if (emptyState) emptyState.classList.add('d-none');
         adminDuaList.innerHTML = duasData.map(function (dua, idx) {
             var surahLabel = getSurah(dua);
-            return '<div class="dua-admin-item flex items-center">' +
-                '<span class="dua-item-number">#' + String(dua.number).padStart(2, '0') + '</span>' +
+            return '<div class="dua-admin-item p-2.5 bg-surfaceBg rounded-xl text-sm border border-borderGrey flex items-center gap-2.5 mb-2">' +
+                '<span class="dua-item-number text-sm font-bold text-brand min-w-[36px]">#' + String(dua.number).padStart(2, '0') + '</span>' +
                 '<span class="admin-item-name flex-1 text-truncate">' + escapeHtml(surahLabel) + '</span>' +
-                Button({
-                    label: '🗑️',
-                    variant: 'raw',
-                    className: 'dua-admin-del-btn',
-                    dataAct: 'dua-del',
-                    dataIdx: idx,
-                    title: 'Delete'
-                }) +
+                '<button type="button" class="dua-admin-del-btn p-1 text-base leading-none rounded cursor-pointer hover:bg-red-500/10 transition-colors" data-act="dua-del" data-idx="' + idx + '" title="Delete">🗑️</button>' +
                 '</div>';
         }).join('');
     }
@@ -862,3 +828,8 @@ window.DuasApp = (function () {
         closePinConfirm: closePinConfirm
     };
 })();
+
+
+if (typeof window !== 'undefined') {
+    window.DuaApp = window.DuasApp;
+}

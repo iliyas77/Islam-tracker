@@ -15,6 +15,168 @@ var BASE_FONT_SIZE_PX = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window
 var DEFAULT_FONT_SIZE = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window.CONSTANTS.SETTINGS.DEFAULT_FONT_SIZE) || 1;
 var CUSTOM_CITY_VALUE = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window.CONSTANTS.SETTINGS.CUSTOM_CITY_VALUE) || '__custom__';
 
+/* ---------- Font Awesome Icon Helper ---------- */
+var FA_ICON_MAP = {
+    'fajr': 'fa-solid fa-cloud-sun',
+    'dhuhr': 'fa-solid fa-sun',
+    'asr': 'fa-solid fa-sun',
+    'maghrib': 'fa-solid fa-cloud-sun',
+    'isha': 'fa-solid fa-moon',
+    'sunrise': 'fa-solid fa-mountain-sun',
+    'sunset': 'fa-solid fa-cloud-sun',
+    'mosque': 'fa-solid fa-mosque',
+    'rub-el-hizb': 'fa-solid fa-star-and-crescent',
+    'tracker': 'fa-solid fa-calendar-check',
+    'misbaha': 'fa-solid fa-hands-praying',
+    'duas': 'fa-solid fa-hands-praying',
+    'duas-icon': 'fa-solid fa-hands-praying',
+    'settings': 'fa-solid fa-gear',
+    'settings-gear': 'fa-solid fa-gear',
+    'gear': 'fa-solid fa-gear',
+    'dash-chevron': 'fa-solid fa-chevron-right',
+    'chevron': 'fa-solid fa-chevron-right',
+    'chevron-right': 'fa-solid fa-chevron-right',
+    'chevron-left': 'fa-solid fa-chevron-left',
+    'tb-chevron': 'fa-solid fa-chevron-right',
+    'tb-pencil': 'fa-solid fa-pencil',
+    'pencil': 'fa-solid fa-pencil',
+    'pen': 'fa-solid fa-pencil',
+    'tb-target': 'fa-solid fa-bullseye',
+    'target': 'fa-solid fa-bullseye',
+    'tb-check-circle': 'fa-solid fa-circle-check',
+    'check': 'fa-solid fa-check',
+    'check-circle': 'fa-solid fa-circle-check',
+    'circle-check': 'fa-solid fa-circle-check',
+    'circle-dot': 'fa-solid fa-circle-dot',
+    'circle-exclamation': 'fa-solid fa-circle-exclamation',
+    'circle-info': 'fa-solid fa-circle-info',
+    'circle-xmark': 'fa-solid fa-circle-xmark',
+    'xmark': 'fa-solid fa-xmark',
+    'triangle-exclamation': 'fa-solid fa-triangle-exclamation',
+    'warning': 'fa-solid fa-triangle-exclamation',
+    'donecheck': 'fa-solid fa-check',
+    'done-check': 'fa-solid fa-check',
+    'donechecksm': 'fa-solid fa-check',
+    'done-check-sm': 'fa-solid fa-check',
+    'clipboard-list': 'fa-solid fa-list-check',
+    'list-check': 'fa-solid fa-list-check',
+    'clock': 'fa-regular fa-clock',
+    'clock-rotate-left': 'fa-solid fa-clock-rotate-left',
+    'rotate-left': 'fa-solid fa-rotate-left',
+    'arrow-rotate-left': 'fa-solid fa-rotate-left',
+    'arrow-right': 'fa-solid fa-arrow-right',
+    'play': 'fa-solid fa-play',
+    'plus': 'fa-solid fa-plus',
+    'trash': 'fa-solid fa-trash-can',
+    'calendar': 'fa-regular fa-calendar-days',
+    'calendar-card': 'fa-regular fa-calendar-days',
+    'calendar-days': 'fa-regular fa-calendar-days',
+    'calendar-xmark': 'fa-regular fa-calendar-xmark',
+    'file-lines': 'fa-regular fa-file-lines',
+    'location-dot': 'fa-solid fa-location-dot',
+    'star': 'fa-solid fa-star',
+    'drawing-pin': 'fa-solid fa-thumbtack',
+    'thumbtack': 'fa-solid fa-thumbtack',
+    'book': 'fa-solid fa-book-quran',
+    'book-quran': 'fa-solid fa-book-quran',
+    'all-bookmark': 'fa-solid fa-bookmark',
+    'bookmark': 'fa-solid fa-bookmark',
+    'heart': 'fa-solid fa-heart',
+    'heart-outline': 'fa-regular fa-heart',
+    'house': 'fa-solid fa-house',
+    'info': 'fa-solid fa-circle-info',
+    'hashtag': 'fa-solid fa-hashtag',
+    'hand-holding-heart': 'fa-solid fa-hand-holding-heart',
+    'hands-praying': 'fa-solid fa-hands-praying',
+    'timeline-alarm': 'fa-solid fa-bell',
+    'bell': 'fa-solid fa-bell',
+    'chart-simple': 'fa-solid fa-chart-simple',
+    'trash-can': 'fa-solid fa-trash-can'
+};
+
+function renderIcon(nameOrOpts, maybeSize, maybeColor, maybeClass) {
+    if (!nameOrOpts) return '';
+    var name = '';
+    var size = '';
+    var color = '';
+    var className = '';
+    if (typeof nameOrOpts === 'object') {
+        name = nameOrOpts.name || '';
+        size = nameOrOpts.size || '';
+        color = nameOrOpts.color || '';
+        className = nameOrOpts.className || '';
+    } else {
+        name = String(nameOrOpts);
+        size = maybeSize || '';
+        color = maybeColor || '';
+        className = maybeClass || '';
+    }
+
+    if (name.trim().startsWith('<')) return name;
+
+    var key = name.toLowerCase().trim();
+    var faClass = FA_ICON_MAP[key] || (key.startsWith('fa-') ? key : ('fa-solid fa-' + key));
+    var classes = [faClass];
+    if (color) classes.push(color);
+    if (className) classes.push(className);
+    if (typeof size === 'string' && (size.startsWith('fs-') || size.startsWith('text-'))) {
+        classes.push(size);
+    }
+
+    var style = '';
+    if (typeof size === 'number') {
+        style = ' style="font-size: ' + size + 'px;"';
+    } else if (typeof size === 'string' && size && !size.startsWith('fs-') && !size.startsWith('text-')) {
+        style = ' style="font-size: ' + size + ';"';
+    }
+
+    return '<i class="' + classes.join(' ') + '"' + style + '></i>';
+}
+window.renderIcon = renderIcon;
+
+/* Central Icon object to ensure seamless Icon.update & Icon.render across components */
+window.Icon = {
+    render: renderIcon,
+    update: function (el, nameOrOpts, maybeSize, maybeColor, maybeClass) {
+        if (!el) return null;
+        var name = '';
+        var color = '';
+        var className = '';
+        var size = '';
+        if (typeof nameOrOpts === 'object' && nameOrOpts !== null) {
+            name = nameOrOpts.name || '';
+            size = nameOrOpts.size || '';
+            color = nameOrOpts.color || '';
+            className = nameOrOpts.className || '';
+        } else if (typeof nameOrOpts === 'string') {
+            var parts = nameOrOpts.trim().split(/\s+/);
+            name = parts[0] || '';
+            if (parts.length > 1) {
+                color = parts.slice(1).join(' ');
+            }
+        }
+        if (maybeSize) size = maybeSize;
+        if (maybeColor) color = maybeColor;
+        if (maybeClass) className = maybeClass;
+
+        var key = name.toLowerCase().trim();
+        var faClass = FA_ICON_MAP[key] || (key.startsWith('fa-') ? key : ('fa-solid fa-' + key));
+        var classes = [faClass];
+        if (color) classes.push(color);
+        if (className) classes.push(className);
+        if (typeof size === 'string' && (size.startsWith('fs-') || size.startsWith('text-'))) {
+            classes.push(size);
+        }
+        el.className = classes.join(' ');
+        if (typeof size === 'number') {
+            el.style.fontSize = size + 'px';
+        } else if (typeof size === 'string' && size && !size.startsWith('fs-') && !size.startsWith('text-')) {
+            el.style.fontSize = size;
+        }
+        return el;
+    }
+};
+
 /* ---------- Helpers ---------- */
 function $(id) { return document.getElementById(id); }
 function getEl(id) { return document.getElementById(id); }
