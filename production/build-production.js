@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Nur Prayer Production Build Script
- * Inlines and Minifies CSS (css/style.css) and JS modules
+ * Inlines and Minifies CSS (css/tailwind.css) and JS modules
  * from main.html into a self-contained, compressed production/production.html distribution.
  */
 'use strict';
@@ -14,29 +14,15 @@ const ROOT = path.join(BUILD_DIR, '..');
 const OUT_FILE = path.join(BUILD_DIR, 'production.html');
 
 const htmlPath = path.join(ROOT, 'main.html');
-const colorCssPath = path.join(ROOT, 'css', 'color.css');
-const utilityCssPath = path.join(ROOT, 'css', 'utility.css');
-const styleCssPath = path.join(ROOT, 'css', 'style.css');
 const constantJsPath = path.join(ROOT, 'utilities', 'constant.js');
-const svgConstantJsPath = path.join(ROOT, 'utilities', 'svg.constant.js');
 const utilityJsPath = path.join(ROOT, 'utilities', 'utility.js');
-const iconJsPath = path.join(ROOT, 'components', 'icon.js');
-const iconBoxJsPath = path.join(ROOT, 'components', 'icon-box.js');
-const buttonJsPath = path.join(ROOT, 'components', 'button.js');
-const prayerCardJsPath = path.join(ROOT, 'features', 'prayer-tracking', 'prayer-card.js');
-const appJsPath = path.join(ROOT, 'features', 'app', 'app.js');
-const navigationJsPath = path.join(ROOT, 'features', 'navigation', 'navigation.js');
-const currentPrayerJsPath = path.join(ROOT, 'features', 'prayer-tracking', 'current-prayer.js');
-const dashboardJsPath = path.join(ROOT, 'features', 'dashboard', 'dashboard.js');
-const oldTrackingJsPath = path.join(ROOT, 'features', 'prayer-tracking', 'old-tracking.js');
-const prayerPerformanceJsPath = path.join(ROOT, 'features', 'prayer-tracking', 'prayer-performance.js');
-const prayerHistoryJsPath = path.join(ROOT, 'features', 'prayer-tracking', 'prayer-history.js');
-const settingsJsPath = path.join(ROOT, 'features', 'settings', 'settings.js');
-const tasbeehHomeJsPath = path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-home.js');
-const tasbeehCurrentJsPath = path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-current.js');
-const tasbeehOldJsPath = path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-old.js');
-const tasbeehHistoryJsPath = path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-history.js');
-const duasJsPath = path.join(ROOT, 'features', 'duas', 'duas.js');
+const appJsPath = path.join(ROOT, 'app.js');
+const navigationJsPath = path.join(ROOT, 'navigation.js');
+const prayerTrackingJsPath = path.join(ROOT, 'prayer-tracking.js');
+const dashboardJsPath = path.join(ROOT, 'dashboard.js');
+const settingsJsPath = path.join(ROOT, 'settings.js');
+const tasbeehJsPath = path.join(ROOT, 'tasbeeh.js');
+const duaJsPath = path.join(ROOT, 'dua.js');
 
 /**
  * Minify CSS content by removing comments and unnecessary whitespace
@@ -86,62 +72,37 @@ function buildProduction() {
 
         let html = fs.readFileSync(htmlPath, 'utf8');
 
-        // 1. Minify and inline CSS (css/color.css + css/utility.css + css/style.css)
-        const colorCss = fs.existsSync(colorCssPath) ? fs.readFileSync(colorCssPath, 'utf8') : '';
-        const utilityCss = fs.existsSync(utilityCssPath) ? fs.readFileSync(utilityCssPath, 'utf8') : '';
-        const styleCss = fs.existsSync(styleCssPath) ? fs.readFileSync(styleCssPath, 'utf8') : '';
-        const minifiedCss = minifyCss(colorCss + '\n' + utilityCss + '\n' + styleCss);
+        // 1. Minify inlined CSS in <style type="text/tailwindcss">
+        html = html.replace(/<style type="text\/tailwindcss">([\s\S]*?)<\/style>/g, (_, css) => {
+            return `<style type="text/tailwindcss">${minifyCss(css)}</style>`;
+        });
 
-        // Replace link CSS tags with minified inlined style block
-        html = html.replace(/<link[^>]*href="css\/color\.css"[^>]*\/?>/g, '');
-        html = html.replace(/<link[^>]*href="css\/utility\.css"[^>]*\/?>/g, '');
-        html = html.replace(/<link[^>]*href="css\/style\.css"[^>]*\/?>/g, () => `<style>${minifiedCss}</style>`);
+        // Strip any residual link CSS tags
+        html = html.replace(/<link[^>]*href="css\/[^"]*"[^>]*\/?>/g, '');
 
         // 2. Combine and Minify JS
         const constantJs = fs.existsSync(constantJsPath) ? fs.readFileSync(constantJsPath, 'utf8') : '';
-        const svgConstantJs = fs.existsSync(svgConstantJsPath) ? fs.readFileSync(svgConstantJsPath, 'utf8') : '';
         const utilityJs = fs.existsSync(utilityJsPath) ? fs.readFileSync(utilityJsPath, 'utf8') : '';
-        const iconJs = fs.existsSync(iconJsPath) ? fs.readFileSync(iconJsPath, 'utf8') : '';
-        const iconBoxJs = fs.existsSync(iconBoxJsPath) ? fs.readFileSync(iconBoxJsPath, 'utf8') : '';
-        const buttonJs = fs.existsSync(buttonJsPath) ? fs.readFileSync(buttonJsPath, 'utf8') : '';
-        const prayerCardJs = fs.existsSync(prayerCardJsPath) ? fs.readFileSync(prayerCardJsPath, 'utf8') : '';
         const appJs = fs.existsSync(appJsPath) ? fs.readFileSync(appJsPath, 'utf8') : '';
         const navigationJs = fs.existsSync(navigationJsPath) ? fs.readFileSync(navigationJsPath, 'utf8') : '';
-        const currentPrayerJs = fs.existsSync(currentPrayerJsPath) ? fs.readFileSync(currentPrayerJsPath, 'utf8') : '';
+        const prayerTrackingJs = fs.existsSync(prayerTrackingJsPath) ? fs.readFileSync(prayerTrackingJsPath, 'utf8') : '';
         const dashboardJs = fs.existsSync(dashboardJsPath) ? fs.readFileSync(dashboardJsPath, 'utf8') : '';
-        const oldTrackingJs = fs.existsSync(oldTrackingJsPath) ? fs.readFileSync(oldTrackingJsPath, 'utf8') : '';
-        const prayerPerformanceJs = fs.existsSync(prayerPerformanceJsPath) ? fs.readFileSync(prayerPerformanceJsPath, 'utf8') : '';
-        const prayerHistoryJs = fs.existsSync(prayerHistoryJsPath) ? fs.readFileSync(prayerHistoryJsPath, 'utf8') : '';
         const settingsJs = fs.existsSync(settingsJsPath) ? fs.readFileSync(settingsJsPath, 'utf8') : '';
-        const tasbeehHomeJs = fs.existsSync(tasbeehHomeJsPath) ? fs.readFileSync(tasbeehHomeJsPath, 'utf8') : '';
-        const tasbeehCurrentJs = fs.existsSync(tasbeehCurrentJsPath) ? fs.readFileSync(tasbeehCurrentJsPath, 'utf8') : '';
-        const tasbeehOldJs = fs.existsSync(tasbeehOldJsPath) ? fs.readFileSync(tasbeehOldJsPath, 'utf8') : '';
-        const tasbeehHistoryJs = fs.existsSync(tasbeehHistoryJsPath) ? fs.readFileSync(tasbeehHistoryJsPath, 'utf8') : '';
-        const duasJs = fs.existsSync(duasJsPath) ? fs.readFileSync(duasJsPath, 'utf8') : '';
-        const combinedJs = constantJs + '\n' + svgConstantJs + '\n' + utilityJs + '\n' + iconJs + '\n' + iconBoxJs + '\n' + buttonJs + '\n' + prayerCardJs + '\n' + appJs + '\n' + navigationJs + '\n' + currentPrayerJs + '\n' + dashboardJs + '\n' + oldTrackingJs + '\n' + prayerPerformanceJs + '\n' + prayerHistoryJs + '\n' + settingsJs + '\n' + tasbeehHomeJs + '\n' + tasbeehCurrentJs + '\n' + tasbeehOldJs + '\n' + tasbeehHistoryJs + '\n' + duasJs;
+        const tasbeehJs = fs.existsSync(tasbeehJsPath) ? fs.readFileSync(tasbeehJsPath, 'utf8') : '';
+        const duaJs = fs.existsSync(duaJsPath) ? fs.readFileSync(duaJsPath, 'utf8') : '';
+        const combinedJs = constantJs + '\n' + utilityJs + '\n' + appJs + '\n' + navigationJs + '\n' + prayerTrackingJs + '\n' + dashboardJs + '\n' + settingsJs + '\n' + tasbeehJs + '\n' + duaJs;
         const minifiedJs = minifyJs(combinedJs);
 
         // Replace script src tags with minified inlined script block
         html = html.replace(/<script[^>]*src="utilities\/constant\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="utilities\/svg\.constant\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="utilities\/utility\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="components\/icon\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="components\/icon-box\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="components\/button\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/prayer-tracking\/prayer-card\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/navigation\/navigation\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/prayer-tracking\/current-prayer\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/dashboard\/dashboard\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/prayer-tracking\/old-tracking\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/prayer-tracking\/prayer-performance\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/prayer-tracking\/prayer-history\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/settings\/settings\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/tasbeeh\/tasbeeh-home\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/tasbeeh\/tasbeeh-current\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/tasbeeh\/tasbeeh-old\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/tasbeeh\/tasbeeh-history\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/duas\/duas\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="features\/app\/app\.js"[^>]*><\/script>/g, () => `<script>${minifiedJs}<\/script>`);
+        html = html.replace(/<script[^>]*src="navigation\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="prayer-tracking\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="dashboard\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="settings\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="tasbeeh\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="dua\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="app\.js"[^>]*><\/script>/g, () => `<script>${minifiedJs}<\/script>`);
 
         // ---- Strip data-ref attributes from production output ----
         // data-ref is a development/testing aid; it adds no runtime value

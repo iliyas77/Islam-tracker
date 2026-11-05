@@ -5,6 +5,7 @@
 /* ---------- Constants (Referenced from utilities/constant.js) ---------- */
 var PRAYER_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.PRAYER) || {};
 var P = PRAYER_CONSTANTS.NAMES || window.P || ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+window.P = P;
 var K = (PRAYER_CONSTANTS.STORAGE_KEYS && PRAYER_CONSTANTS.STORAGE_KEYS.TRACKER_DATA) || window.K || 'namazTrackerData';
 var OCK = (PRAYER_CONSTANTS.STORAGE_KEYS && PRAYER_CONSTANTS.STORAGE_KEYS.OLD_DATA) || window.OCK || 'namazOldData';
 var FK = (PRAYER_CONSTANTS.STORAGE_KEYS && PRAYER_CONSTANTS.STORAGE_KEYS.FONT_SIZE) || window.FK || 'namazFontSize';
@@ -32,6 +33,7 @@ var TIMINGS_STATUS = PRAYER_CONSTANTS.STATUS || { LIVE: 'live', CACHED: 'cached'
 
 /* ---------- State ---------- */
 var sd = td();
+window.sd = sd;
 var sheet2BS;
 var dashTimer = null;
 var currentHijri = null;

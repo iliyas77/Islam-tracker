@@ -16,26 +16,26 @@ var PAGE_MAP = NAV_CONSTANTS.PAGE_MAP || {
 };
 var TRACKER_HEADER = NAV_CONSTANTS.TRACKER_HEADER || {
     current: {
-        iconClass: 'calendar text-gr-accent',
+        iconClass: 'fa-regular fa-calendar-days text-gr-accent',
         label: 'Current Prayer'
     },
     old: {
-        iconClass: 'clock-rotate-left text-warning',
+        iconClass: 'fa-solid fa-clock-rotate-left text-gr-warning',
         label: 'Old Tracking'
     },
     performance: {
-        iconClass: 'chart-simple text-brand',
+        iconClass: 'fa-solid fa-chart-simple text-brand',
         label: 'Performance'
     },
     history: {
-        iconClass: 'list-check text-brand',
+        iconClass: 'fa-solid fa-list-check text-brand',
         label: 'History'
     }
 };
 var NAV_CLASSES = NAV_CONSTANTS.NAV_CLASSES || {
     ACTIVE: 'text-brand',
     INACTIVE: 'text-secondary',
-    BAR: 'bg-brand rounded-pill nav-active-bar'
+    BAR: 'bg-brand rounded-full absolute bottom-1 h-[3px] w-7'
 };
 
 var trackerSubTab = SUB_TABS.CURRENT;
