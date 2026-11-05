@@ -1,0 +1,36 @@
+<nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
+    id="trackerBottomNav" data-ref="page.tracker.bottom-nav">
+    <button type="button"
+        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
+        id="tabTrackCurrent" data-act="switch-track-current" role="tab"
+        data-bind="css: activeTab() === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'current' ? 'true' : 'false' }"
+        data-ref="page.tracker.tab-current">
+        <app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon>
+        <span>Current</span>
+    </button>
+    <button type="button"
+        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
+        id="tabTrackOld" data-act="switch-track-old" role="tab"
+        data-bind="css: activeTab() === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'old' ? 'true' : 'false' }"
+        data-ref="page.tracker.tab-old">
+        <app-icon params="name: 'clock-rotate-left'"></app-icon>
+        <span>Old</span>
+    </button>
+    <button type="button"
+        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
+        id="tabTrackPerformance" data-act="switch-track-performance" role="tab"
+        data-bind="css: activeTab() === 'performance' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'performance' ? 'true' : 'false' }"
+        data-ref="page.tracker.tab-performance">
+        <app-icon params="name: 'chart-simple'"></app-icon>
+        <span>Performance</span>
+    </button>
+    <button type="button"
+        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
+        id="tabTrackHistory" data-act="switch-track-history" role="tab"
+        data-bind="css: activeTab() === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'history' ? 'true' : 'false' }"
+        data-ref="page.tracker.tab-history">
+        <app-icon params="name: 'list-check'"></app-icon>
+        <span>History</span>
+    </button>
+</nav>
+

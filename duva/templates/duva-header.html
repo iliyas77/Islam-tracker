@@ -1,0 +1,29 @@
+<header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"
+    data-ref="page.duas.header">
+    <div class="w-full flex items-center justify-between min-w-0 min-h-[44px]">
+        <div class="flex items-center gap-2 min-w-0 grow">
+            <button type="button"
+                class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
+                data-act="go-home" title="Back to Home" aria-label="Back to Home"
+                data-ref="page.duas.back-btn">
+                <app-icon params="name: 'arrow-left', size: 'base'"></app-icon>
+            </button>
+            <div class="min-w-0 grow">
+                <h5 class="font-bold text-base text-brand m-0 flex items-center gap-2" id="duasHeaderTitle">
+                    <app-icon params="name: iconClass || 'fa-solid fa-hands-praying text-brand'"></app-icon>
+                    <span data-bind="text: title || 'Quran Duas'">Quran Duas</span>
+                </h5>
+                <div class="text-xs text-gr-textMuted mt-0.5" id="duaProgressIndicator"
+                    data-bind="text: progressText || '0 pinned'">0 pinned</div>
+            </div>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+            <button type="button"
+                class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer"
+                data-act="dua-open-admin" title="Admin Settings">
+                <app-icon params="name: 'gear', size: 'base'"></app-icon>
+            </button>
+        </div>
+    </div>
+</header>
+

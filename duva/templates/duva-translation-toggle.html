@@ -1,0 +1,21 @@
+<div class="bg-white border border-borderGrey rounded-2xl p-5 flex flex-col gap-4 border-l-4 border-l-brand shadow-none">
+    <div class="flex items-center justify-between gap-3">
+        <div class="text-3xl font-bold tracking-tight text-brand" id="duaDetailNumber"
+            data-bind="text: '#' + String(number).padStart(2, '0')">#01</div>
+        <div class="text-base font-semibold text-brand font-telugu text-right" id="duaDetailSurah"
+            data-bind="text: surah"></div>
+    </div>
+
+    <div>
+        <div class="text-[11px] font-bold tracking-wider uppercase text-gr-textMuted">Telugu Pronunciation</div>
+        <div class="text-base font-medium text-brand leading-relaxed font-telugu mt-1" id="duaDetailUchcharana"
+            data-bind="text: uchcharana"></div>
+    </div>
+
+    <div>
+        <div class="text-[11px] font-bold tracking-wider uppercase text-gr-textMuted">Telugu Meaning</div>
+        <div class="text-sm font-normal text-gr-text leading-relaxed font-telugu mt-1" id="duaDetailArdham"
+            data-bind="text: ardham"></div>
+    </div>
+</div>
+

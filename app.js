@@ -257,8 +257,20 @@ function getActivePrayerInfo() {
     };
 }
 
+/* ---------- Global Components Registration ---------- */
+if (typeof ko !== 'undefined' && ko.components) {
+    if (window.AppIcon && typeof window.AppIcon.register === 'function') {
+        window.AppIcon.register(ko);
+    }
+}
+
 /* ---------- Init ---------- */
 document.addEventListener('DOMContentLoaded', function () {
+    if (typeof ko !== 'undefined' && ko.components) {
+        if (window.AppIcon && typeof window.AppIcon.register === 'function') {
+            window.AppIcon.register(ko);
+        }
+    }
     var OffcanvasClass = window.UIOffcanvas || (window.bootstrap && window.bootstrap.Offcanvas);
     sheet2BS = OffcanvasClass ? new OffcanvasClass($('sheet2')) : null;
 

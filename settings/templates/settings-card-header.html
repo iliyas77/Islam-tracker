@@ -1,0 +1,24 @@
+<div class="flex items-center gap-3 mb-3" data-bind="attr: { class: headerClass || 'flex items-center gap-3 mb-3', 'data-ref': headerDataRef }">
+    <div class="icon-box icon-box-lg" data-bind="attr: { class: iconBoxClass, 'data-ref': iconDataRef }">
+        <!-- ko if: icon -->
+        <app-icon params="name: icon"></app-icon>
+        <!-- /ko -->
+        <!-- ko if: iconText -->
+        <!-- ko text: iconText --><!-- /ko -->
+        <!-- /ko -->
+    </div>
+    <div class="grow" data-bind="attr: { 'data-ref': infoDataRef }">
+        <div data-bind="text: title, attr: { class: titleClass || 'font-bold text-sm', 'data-ref': titleDataRef }"></div>
+        <!-- ko if: subtitle -->
+        <div class="text-gr-textMuted text-xs" data-bind="text: subtitle, attr: { id: subtitleId, 'data-ref': subtitleDataRef }"></div>
+        <!-- /ko -->
+    </div>
+    <!-- ko if: showStatusBadge -->
+    <span class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-gr-accent-soft text-gr-accent px-2"
+        data-bind="attr: { id: statusBadgeId, 'data-ref': statusBadgeDataRef }">
+        <app-icon params="name: 'circle-dot', size: '10px', customClass: 'mr-1'"></app-icon><span
+            data-bind="text: statusText, attr: { id: statusTextId }">Offline</span>
+    </span>
+    <!-- /ko -->
+</div>
+

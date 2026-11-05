@@ -1,0 +1,27 @@
+<!-- Reusable Icon Component Template (Global) -->
+<!-- ko if: isSvg -->
+<svg data-bind="attr: {
+    class: computedClass,
+    style: computedStyle,
+    viewBox: svgViewBox,
+    'aria-hidden': ariaHidden,
+    'aria-label': ariaLabel,
+    role: role,
+    id: id,
+    'data-ref': dataRef
+}" fill="currentColor">
+    <use data-bind="attr: { 'xlink:href': svgHref, href: svgHref }"></use>
+</svg>
+<!-- /ko -->
+<!-- ko ifnot: isSvg -->
+<i data-bind="attr: {
+    class: computedClass,
+    style: computedStyle,
+    'aria-hidden': ariaHidden,
+    'aria-label': ariaLabel,
+    role: role,
+    id: id,
+    'data-ref': dataRef
+}"></i>
+<!-- /ko -->
+

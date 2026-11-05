@@ -1,0 +1,36 @@
+<nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
+    id="tasbeehBottomNav" data-ref="page.tasbeeh.bottom-nav">
+    <button type="button"
+        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
+        id="tabTbHome" data-act="switch-tb-home" role="tab"
+        data-bind="css: activeTab() === 'home' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'home' ? 'true' : 'false' }"
+        data-ref="page.tasbeeh.tab-home">
+        <app-icon params="name: 'house'"></app-icon>
+        <span>Home</span>
+    </button>
+    <button type="button"
+        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
+        id="tabTbCurrent" data-act="switch-tb-current" role="tab"
+        data-bind="css: activeTab() === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'current' ? 'true' : 'false' }"
+        data-ref="page.tasbeeh.tab-current">
+        <app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon>
+        <span>Current</span>
+    </button>
+    <button type="button"
+        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
+        id="tabTbOld" data-act="switch-tb-old" role="tab"
+        data-bind="css: activeTab() === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'old' ? 'true' : 'false' }"
+        data-ref="page.tasbeeh.tab-old">
+        <app-icon params="name: 'clock-rotate-left'"></app-icon>
+        <span>Old</span>
+    </button>
+    <button type="button"
+        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
+        id="tabTbHistory" data-act="switch-tb-history" role="tab"
+        data-bind="css: activeTab() === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'history' ? 'true' : 'false' }"
+        data-ref="page.tasbeeh.tab-history">
+        <app-icon params="name: 'gear'"></app-icon>
+        <span>History</span>
+    </button>
+</nav>
+

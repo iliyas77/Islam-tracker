@@ -1,0 +1,17 @@
+<div class="dash-clock-card bg-white rounded-2xl p-4 border border-borderGrey flex items-center justify-between shadow-none relative overflow-hidden min-h-[96px]"
+    data-ref="page.dashboard.clock-card">
+    <div class="text-2xl text-brand/30" data-ref="page.dashboard.clock-card.left-icon">
+        <app-icon params="name: 'mosque'"></app-icon>
+    </div>
+    <div class="dash-clock-wrap flex items-baseline justify-center" id="dashTime"
+        data-ref="page.dashboard.clock-card.time">
+        <span class="text-3xl font-bold tracking-tight text-brand font-mono"
+            id="dashClockDigits" data-bind="text: digits">--:--:--</span>
+        <span class="text-sm font-bold uppercase ml-1.5 text-brand"
+            id="dashClockAmPm" data-bind="text: ampm">--</span>
+    </div>
+    <div class="text-2xl text-brand/30" data-ref="page.dashboard.clock-card.right-icon">
+        <app-icon params="name: 'star-and-crescent'"></app-icon>
+    </div>
+</div>
+

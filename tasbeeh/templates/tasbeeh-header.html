@@ -1,0 +1,25 @@
+<header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"
+    data-ref="page.tasbeeh.header">
+    <div class="w-full flex items-center justify-between min-w-0 min-h-[44px]">
+        <div class="flex items-center gap-2 min-w-0 grow" data-ref="page.tasbeeh.header.info">
+            <button type="button"
+                class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
+                data-act="go-home" title="Back to Home" aria-label="Back to Home"
+                data-ref="page.tasbeeh.back-btn">
+                <app-icon params="name: 'arrow-left', size: 'base'"></app-icon>
+            </button>
+            <div class="min-w-0 grow">
+                <h5 class="font-bold text-base text-brand m-0 flex items-center gap-2"
+                    data-ref="page.tasbeeh.header.title">
+                    <app-icon params="id: 'tbHeaderIcon', name: iconClass || 'fa-solid fa-house text-brand', dataRef: 'page.tasbeeh.header.icon'"></app-icon>
+                    <span id="tbHeaderLabel" data-bind="text: title || 'Digital Tasbeeh'"
+                        data-ref="page.tasbeeh.header.label">Digital Tasbeeh</span>
+                </h5>
+                <div class="text-xs text-gr-textMuted mt-0.5" id="tbHeaderSub"
+                    data-bind="text: subtitle || 'Home · Bookmarks'"
+                    data-ref="page.tasbeeh.header.sub">Home · Bookmarks</div>
+            </div>
+        </div>
+    </div>
+</header>
+

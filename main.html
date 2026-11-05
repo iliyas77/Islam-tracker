@@ -94,6 +94,9 @@
         .collapse:not(.show) {
             display: none !important;
         }
+        app-icon {
+            display: contents;
+        }
         .group-toggle.collapsed .toggle-icon,
         .group-toggle[aria-expanded="false"] .toggle-icon {
             transform: rotate(-90deg);
@@ -882,8 +885,8 @@
                         <!-- Background Islamic Geometric Watermark -->
                         <div class="absolute top-0 left-0 right-0 h-[220px] pointer-events-none opacity-20 z-0 flex justify-between p-4"
                             aria-hidden="true">
-                            <i class="fa-solid fa-star-and-crescent" style="opacity: 0.15; font-size: 1.5rem;"></i>
-                            <i class="fa-solid fa-star-and-crescent" style="opacity: 0.15; font-size: 1.5rem;"></i>
+                            <app-icon params="name: 'star-and-crescent', style: 'opacity: 0.15; font-size: 1.5rem;'"></app-icon>
+                            <app-icon params="name: 'star-and-crescent', style: 'opacity: 0.15; font-size: 1.5rem;'"></app-icon>
                         </div>
 
                         <!-- Top Header Bar: Location & Mosque Silhouette -->
@@ -891,14 +894,13 @@
                             data-ref="page.dashboard.header">
                             <div class="flex items-center gap-1.5 text-xs text-brand font-medium"
                                 data-ref="page.dashboard.header.location">
-                                <i class="fa-solid fa-location-dot text-brand text-sm"
-                                    data-ref="page.dashboard.header.location-icon"></i>
+                                <app-icon params="name: 'location-dot', color: 'text-brand', size: 'sm', dataRef: 'page.dashboard.header.location-icon'"></app-icon>
                                 <span id="dashLocationText" data-ref="page.dashboard.header.location-text">Guntur &bull;
                                     Hanafi</span>
                             </div>
                             <div class="w-8 h-8 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-sm"
                                 data-ref="page.dashboard.header.mosque-icon">
-                                <i class="fa-solid fa-mosque"></i>
+                                <app-icon params="name: 'mosque'"></app-icon>
                             </div>
                         </header>
 
@@ -906,7 +908,7 @@
                         <div class="dash-clock-card bg-white rounded-2xl p-4 border border-borderGrey flex items-center justify-between shadow-none relative overflow-hidden min-h-[96px]"
                             data-ref="page.dashboard.clock-card">
                             <div class="text-2xl text-brand/30" data-ref="page.dashboard.clock-card.left-icon">
-                                <i class="fa-solid fa-mosque"></i>
+                                <app-icon params="name: 'mosque'"></app-icon>
                             </div>
                             <div class="dash-clock-wrap flex items-baseline justify-center" id="dashTime"
                                 data-ref="page.dashboard.clock-card.time">
@@ -915,7 +917,7 @@
                                 <span class="text-sm font-bold uppercase ml-1.5 text-brand" id="dashClockAmPm">--</span>
                             </div>
                             <div class="text-2xl text-brand/30" data-ref="page.dashboard.clock-card.right-icon">
-                                <i class="fa-solid fa-star-and-crescent"></i>
+                                <app-icon params="name: 'star-and-crescent'"></app-icon>
                             </div>
                         </div>
 
@@ -930,7 +932,7 @@
                                 <div class="w-6 h-6 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-xs shrink-0"
                                     title="Daily Prayers" aria-hidden="true"
                                     data-ref="page.dashboard.timeline.alarm-icon">
-                                    <i class="fa-solid fa-bell"></i>
+                                    <app-icon params="name: 'bell'"></app-icon>
                                 </div>
                             </div>
                             <div class="flex justify-between items-stretch gap-1 w-full" id="dashTimelineNodes"
@@ -939,7 +941,7 @@
                                     id="dashTimelineFajr" data-ref="page.dashboard.timeline.item.fajr">
                                     <div class="icon-box icon-box-md" id="dashIconBoxFajr"
                                         data-ref="page.dashboard.timeline.icon.fajr">
-                                        <i class="fa-solid fa-cloud-sun"></i>
+                                        <app-icon params="name: 'cloud-sun'"></app-icon>
                                     </div>
                                     <div class="text-xs font-bold text-brand mt-1 truncate"
                                         data-ref="page.dashboard.timeline.name.fajr">Fajr</div>
@@ -954,7 +956,7 @@
                                     id="dashTimelineDhuhr" data-ref="page.dashboard.timeline.item.dhuhr">
                                     <div class="icon-box icon-box-md" id="dashIconBoxDhuhr"
                                         data-ref="page.dashboard.timeline.icon.dhuhr">
-                                        <i class="fa-solid fa-sun"></i>
+                                        <app-icon params="name: 'sun'"></app-icon>
                                     </div>
                                     <div class="text-xs font-bold text-brand mt-1 truncate"
                                         data-ref="page.dashboard.timeline.name.dhuhr">Dhuhr</div>
@@ -970,7 +972,7 @@
                                     id="dashTimelineAsr" data-ref="page.dashboard.timeline.item.asr">
                                     <div class="icon-box icon-box-md" id="dashIconBoxAsr"
                                         data-ref="page.dashboard.timeline.icon.asr">
-                                        <i class="fa-solid fa-sun"></i>
+                                        <app-icon params="name: 'sun'"></app-icon>
                                     </div>
                                     <div class="text-xs font-bold text-brand mt-1 truncate"
                                         data-ref="page.dashboard.timeline.name.asr">Asr</div>
@@ -985,7 +987,7 @@
                                     id="dashTimelineMaghrib" data-ref="page.dashboard.timeline.item.maghrib">
                                     <div class="icon-box icon-box-md" id="dashIconBoxMaghrib"
                                         data-ref="page.dashboard.timeline.icon.maghrib">
-                                        <i class="fa-solid fa-cloud-sun"></i>
+                                        <app-icon params="name: 'cloud-sun'"></app-icon>
                                     </div>
                                     <div class="text-xs font-bold text-brand mt-1 truncate"
                                         data-ref="page.dashboard.timeline.name.maghrib">Maghrib</div>
@@ -1001,7 +1003,7 @@
                                     id="dashTimelineIsha" data-ref="page.dashboard.timeline.item.isha">
                                     <div class="icon-box icon-box-md" id="dashIconBoxIsha"
                                         data-ref="page.dashboard.timeline.icon.isha">
-                                        <i class="fa-solid fa-moon"></i>
+                                        <app-icon params="name: 'moon'"></app-icon>
                                     </div>
                                     <div class="text-xs font-bold text-brand mt-1 truncate"
                                         data-ref="page.dashboard.timeline.name.isha">Isha</div>
@@ -1024,12 +1026,12 @@
                                     class="dash-tracker-badge absolute top-2.5 right-2.5 text-[10.5px] font-bold leading-none px-2 py-0.5 rounded-full inline-flex items-center justify-center whitespace-nowrap z-[3] pointer-events-none bg-red-100 text-red-600 border border-red-300 d-none"
                                     data-ref="page.dashboard.card.tracker-missed-badge"></span>
                                 <div class="icon-box icon-box-lg" data-ref="page.dashboard.card.tracker-icon">
-                                    <i class="fa-solid fa-calendar-check"></i>
+                                    <app-icon params="name: 'calendar-check'"></app-icon>
                                 </div>
                                 <div class="flex items-center justify-center gap-1 text-xs font-bold text-brand mt-2">
                                     <span class="text-xs font-bold text-brand"
                                         data-ref="page.dashboard.card.tracker-label">Tracker</span>
-                                    <i class="fa-solid fa-chevron-right"></i>
+                                    <app-icon params="name: 'chevron-right'"></app-icon>
                                 </div>
                             </div>
                             <!-- Tasbeeh -->
@@ -1037,24 +1039,24 @@
                                 role="button" tabindex="0" data-act="goto-tasbeeh"
                                 data-ref="page.dashboard.card.tasbeeh">
                                 <div class="icon-box icon-box-lg" data-ref="page.dashboard.card.tasbeeh-icon">
-                                    <i class="fa-solid fa-hands-praying"></i>
+                                    <app-icon params="name: 'hands-praying'"></app-icon>
                                 </div>
                                 <div class="flex items-center justify-center gap-1 text-xs font-bold text-brand mt-2">
                                     <span class="text-xs font-bold text-brand"
                                         data-ref="page.dashboard.card.tasbeeh-label">Tasbeeh</span>
-                                    <i class="fa-solid fa-chevron-right"></i>
+                                    <app-icon params="name: 'chevron-right'"></app-icon>
                                 </div>
                             </div>
                             <!-- Duas -->
                             <div class="dash-nav-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col items-center justify-between cursor-pointer hover:border-brand hover:shadow-sm transition-all min-h-[120px] relative shadow-none"
                                 role="button" tabindex="0" data-act="goto-duas" data-ref="page.dashboard.card.duas">
                                 <div class="icon-box icon-box-lg" data-ref="page.dashboard.card.duas-icon">
-                                    <i class="fa-solid fa-hands-praying"></i>
+                                    <app-icon params="name: 'hands-praying'"></app-icon>
                                 </div>
                                 <div class="flex items-center justify-center gap-1 text-xs font-bold text-brand mt-2">
                                     <span class="text-xs font-bold text-brand"
                                         data-ref="page.dashboard.card.duas-label">Duas</span>
-                                    <i class="fa-solid fa-chevron-right"></i>
+                                    <app-icon params="name: 'chevron-right'"></app-icon>
                                 </div>
                             </div>
                             <!-- Settings -->
@@ -1062,12 +1064,12 @@
                                 role="button" tabindex="0" data-act="goto-settings"
                                 data-ref="page.dashboard.card.settings">
                                 <div class="icon-box icon-box-lg" data-ref="page.dashboard.card.settings-icon">
-                                    <i class="fa-solid fa-gear"></i>
+                                    <app-icon params="name: 'gear'"></app-icon>
                                 </div>
                                 <div class="flex items-center justify-center gap-1 text-xs font-bold text-brand mt-2">
                                     <span class="text-xs font-bold text-brand"
                                         data-ref="page.dashboard.card.settings-label">Settings</span>
-                                    <i class="fa-solid fa-chevron-right"></i>
+                                    <app-icon params="name: 'chevron-right'"></app-icon>
                                 </div>
                             </div>
                         </div>
@@ -1076,7 +1078,7 @@
                         <div class="flex items-center justify-center gap-2 py-3 w-full text-brand/30"
                             data-ref="page.dashboard.bottom-divider">
                             <div class="h-[1px] bg-borderGrey flex-1"></div>
-                            <div class="text-xs text-brand/40 px-2"><i class="fa-solid fa-star-and-crescent"></i></div>
+                            <div class="text-xs text-brand/40 px-2"><app-icon params="name: 'star-and-crescent'"></app-icon></div>
                             <div class="h-[1px] bg-borderGrey flex-1"></div>
                         </div>
                     </div>
@@ -1336,239 +1338,8 @@
         </div>
 
         <!-- Settings Page -->
-        <div id="settingsPage" class="d-none flex-col grow page" data-ref="page.settings">
-            <header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center gap-2 min-h-[44px]"
-                data-ref="page.settings.header">
-                <button type="button"
-                    class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
-                    data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.settings.back-btn">
-                    <i class="fa-solid fa-arrow-left text-base"></i>
-                </button>
-                <div class="grow min-w-0">
-                    <h5 class="font-bold text-base text-brand m-0 flex items-center gap-2">
-                        <i class="fa-solid fa-gear text-gr-accent"></i>
-                        <span>Settings</span>
-                    </h5>
-                    <div class="text-xs text-gr-textMuted mt-0.5">App preferences</div>
-                </div>
-            </header>
-            <div class="grow overflow-auto p-2 pb-3" id="settingsBody" data-ref="page.settings.body">
-                <!-- Prayer Times Location Card -->
-                <div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"
-                    data-ref="page.settings.prayer-times.card">
-                    <div class="flex items-center gap-3 mb-3" data-ref="page.settings.prayer-times.header">
-                        <div class="icon-box icon-box-lg bg-brand-light"
-                            data-ref="page.settings.prayer-times.icon-badge">
-                            <i class="fa-solid fa-mosque text-xl"></i>
-                        </div>
-                        <div class="grow" data-ref="page.settings.prayer-times.info">
-                            <div class="font-bold text-sm text-brand" data-ref="page.settings.prayer-times.title">Prayer
-                                Times Location</div>
-                            <div class="text-gr-textMuted text-xs" id="ptLocationSubtitle"
-                                data-ref="page.settings.prayer-times.subtitle">Selected City: Guntur, India</div>
-                        </div>
-                        <span
-                            class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-gr-accent-soft text-gr-accent px-2"
-                            id="ptStatusBadge" data-ref="page.settings.prayer-times.status-badge">
-                            <i class="fa-solid fa-circle-dot mr-1" style="font-size: 10px;"></i><span
-                                id="ptStatusText">Offline</span>
-                        </span>
-                    </div>
-                    <div class="flex flex-wrap -mx-1 gap-2 mb-3" data-ref="page.settings.prayer-times.form-row">
-                        <div class="w-full" data-ref="page.settings.prayer-times.city-col">
-                            <label
-                                class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5"
-                                data-ref="page.settings.prayer-times.city-label">City (India)</label>
-                            <select
-                                class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                                id="ptCitySelect" data-ref="page.settings.prayer-times.city-select">
-                                <option value="Guntur" data-ref="page.settings.prayer-times.city-option.guntur">Guntur
-                                    (Andhra Pradesh)</option>
-                                <option value="Vijayawada" data-ref="page.settings.prayer-times.city-option.vijayawada">
-                                    Vijayawada (Andhra Pradesh)</option>
-                                <option value="Visakhapatnam"
-                                    data-ref="page.settings.prayer-times.city-option.visakhapatnam">Visakhapatnam
-                                    (Andhra Pradesh)</option>
-                                <option value="Tirupati" data-ref="page.settings.prayer-times.city-option.tirupati">
-                                    Tirupati (Andhra Pradesh)</option>
-                                <option value="Kurnool" data-ref="page.settings.prayer-times.city-option.kurnool">
-                                    Kurnool (Andhra Pradesh)</option>
-                                <option value="Nellore" data-ref="page.settings.prayer-times.city-option.nellore">
-                                    Nellore (Andhra Pradesh)</option>
-                                <option value="Delhi" data-ref="page.settings.prayer-times.city-option.delhi">Delhi
-                                    (National Capital Region)</option>
-                                <option value="Hyderabad" data-ref="page.settings.prayer-times.city-option.hyderabad">
-                                    Hyderabad (Telangana)</option>
-                                <option value="Bengaluru" data-ref="page.settings.prayer-times.city-option.bengaluru">
-                                    Bengaluru (Karnataka)</option>
-                                <option value="Mumbai" data-ref="page.settings.prayer-times.city-option.mumbai">Mumbai
-                                    (Maharashtra)</option>
-                                <option value="Chennai" data-ref="page.settings.prayer-times.city-option.chennai">
-                                    Chennai (Tamil Nadu)</option>
-                                <option value="Kolkata" data-ref="page.settings.prayer-times.city-option.kolkata">
-                                    Kolkata (West Bengal)</option>
-                                <option value="Ahmedabad" data-ref="page.settings.prayer-times.city-option.ahmedabad">
-                                    Ahmedabad (Gujarat)</option>
-                                <option value="Lucknow" data-ref="page.settings.prayer-times.city-option.lucknow">
-                                    Lucknow (Uttar Pradesh)</option>
-                                <option value="Pune" data-ref="page.settings.prayer-times.city-option.pune">Pune
-                                    (Maharashtra)</option>
-                                <option value="Jaipur" data-ref="page.settings.prayer-times.city-option.jaipur">Jaipur
-                                    (Rajasthan)</option>
-                                <option value="Bhopal" data-ref="page.settings.prayer-times.city-option.bhopal">Bhopal
-                                    (Madhya Pradesh)</option>
-                                <option value="Patna" data-ref="page.settings.prayer-times.city-option.patna">Patna
-                                    (Bihar)</option>
-                                <option value="Srinagar" data-ref="page.settings.prayer-times.city-option.srinagar">
-                                    Srinagar (Jammu &amp; Kashmir)</option>
-                                <option value="Kozhikode" data-ref="page.settings.prayer-times.city-option.kozhikode">
-                                    Kozhikode (Kerala)</option>
-                                <option value="Kochi" data-ref="page.settings.prayer-times.city-option.kochi">Kochi
-                                    (Kerala)</option>
-                                <option value="Indore" data-ref="page.settings.prayer-times.city-option.indore">Indore
-                                    (Madhya Pradesh)</option>
-                                <option value="Nagpur" data-ref="page.settings.prayer-times.city-option.nagpur">Nagpur
-                                    (Maharashtra)</option>
-                                <option value="Kanpur" data-ref="page.settings.prayer-times.city-option.kanpur">Kanpur
-                                    (Uttar Pradesh)</option>
-                                <option value="Surat" data-ref="page.settings.prayer-times.city-option.surat">Surat
-                                    (Gujarat)</option>
-                                <option value="Aurangabad" data-ref="page.settings.prayer-times.city-option.aurangabad">
-                                    Aurangabad (Maharashtra)</option>
-                                <option value="Chandigarh" data-ref="page.settings.prayer-times.city-option.chandigarh">
-                                    Chandigarh (Punjab/Haryana)</option>
-                                <option value="__custom__" data-ref="page.settings.prayer-times.city-option.custom">
-                                    Other / Custom City...</option>
-                            </select>
-                        </div>
-                        <div class="w-full d-none" id="ptCustomCityWrap"
-                            data-ref="page.settings.prayer-times.custom-city-wrap">
-                            <label
-                                class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5"
-                                data-ref="page.settings.prayer-times.custom-city-label">Custom City Name &amp;
-                                Country</label>
-                            <div class="flex gap-2" data-ref="page.settings.prayer-times.custom-city-row">
-                                <input type="text"
-                                    class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                                    id="ptCustomCityInput" value="" placeholder="e.g. Guntur"
-                                    data-ref="page.settings.prayer-times.custom-city-input">
-                                <input type="text"
-                                    class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                                    id="ptCountryInput" value="India" placeholder="Country"
-                                    data-ref="page.settings.prayer-times.country-input">
-                            </div>
-                        </div>
-                        <div class="w-full" data-ref="page.settings.prayer-times.school-col">
-                            <label
-                                class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5"
-                                data-ref="page.settings.prayer-times.school-label">Juristic Method (Asr
-                                calculation)</label>
-                            <select
-                                class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                                id="ptSchoolSelect" data-ref="page.settings.prayer-times.school-select">
-                                <option value="1">Hanafi (Standard in South Asia)</option>
-                                <option value="0">Shafi / Maliki / Hanbali</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button type="button"
-                        class="font-bold w-full py-3 text-sm rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors"
-                        data-act="pt-save" data-ref="page.settings.prayer-times.save-btn">
-                        <i class="fa-solid fa-rotate-left mr-1 text-base"
-                            data-ref="page.settings.prayer-times.save-icon"></i>Sync &amp; Save Prayer Times
-                    </button>
-                </div>
-
-                <!-- Start Date Card -->
-                <div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"
-                    data-ref="page.settings.start-date.card">
-                    <div class="flex items-center gap-3 mb-3" data-ref="page.settings.start-date.header">
-                        <div class="icon-box icon-box-lg bg-brand-light text-brand"
-                            data-ref="page.settings.start-date.icon-badge">
-                            <i class="fa-solid fa-calendar-check text-xl"></i>
-                        </div>
-                        <div class="grow" data-ref="page.settings.start-date.info">
-                            <div class="font-bold text-sm" data-ref="page.settings.start-date.title">Current Start Date
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex gap-2 items-center" data-ref="page.settings.start-date.input-row">
-                        <input type="date"
-                            class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                            id="sdInput" value="" data-ref="page.settings.start-date.input">
-                        <button type="button"
-                            class="px-5 py-2.5 bg-brand text-white font-bold rounded-xl text-sm hover:bg-brand-hover whitespace-nowrap transition-colors"
-                            data-act="sd-save" data-ref="page.settings.start-date.save-btn">Change</button>
-                    </div>
-                </div>
-
-                <!-- Font Size Card -->
-                <div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"
-                    data-ref="page.settings.font-size.card">
-                    <div class="flex items-center gap-3 mb-3" data-ref="page.settings.font-size.header">
-                        <div class="icon-box icon-box-lg bg-brand-light text-gr-accent font-bold text-base"
-                            data-ref="page.settings.font-size.icon-badge">Aa</div>
-                        <div class="grow" data-ref="page.settings.font-size.info">
-                            <div class="font-bold text-sm" data-ref="page.settings.font-size.title">Font Size</div>
-                        </div>
-                    </div>
-                    <div class="flex gap-2" id="fsBtns" data-ref="page.settings.font-size.buttons-row">
-                        <button type="button"
-                            class="border flex-1 py-3 font-bold rounded-xl text-sm bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors"
-                            data-act="font" data-fs="0.9" data-ref="page.settings.font-size.small">Small</button>
-                        <button type="button"
-                            class="flex-1 py-3 font-bold rounded-xl text-sm bg-brand text-white hover:bg-brand-hover transition-colors"
-                            data-act="font" data-fs="1" data-ref="page.settings.font-size.medium">Medium</button>
-                        <button type="button"
-                            class="border flex-1 py-3 font-bold rounded-xl text-sm bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors"
-                            data-act="font" data-fs="1.15" data-ref="page.settings.font-size.large">Large</button>
-                    </div>
-                </div>
-
-                <!-- Reset DB Card -->
-                <div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"
-                    data-ref="page.settings.reset.card">
-                    <div class="flex items-center gap-3 mb-2" data-ref="page.settings.reset.header">
-                        <div class="icon-box icon-box-lg bg-danger-subtle text-gr-danger"
-                            data-ref="page.settings.reset.icon-badge">
-                            <i class="fa-solid fa-triangle-exclamation text-xl"></i>
-                        </div>
-                        <div class="grow" data-ref="page.settings.reset.info">
-                            <div class="font-bold text-sm" data-ref="page.settings.reset.title">Reset Database</div>
-                            <div class="text-gr-textMuted text-xs" data-ref="page.settings.reset.subtitle">This will
-                                delete all prayer data, old data and cache.</div>
-                        </div>
-                    </div>
-                    <button type="button"
-                        class="w-full py-3 bg-gr-danger text-white font-bold rounded-xl text-sm hover:bg-red-600 transition-colors mt-2"
-                        data-act="reset-db" data-ref="page.settings.reset.btn">Reset</button>
-                </div>
-
-                <!-- Storage Info -->
-                <div class="rounded-2xl border border-borderGrey p-4 bg-brand-light flex flex-col shadow-none"
-                    data-ref="page.settings.info.card">
-                    <div class="flex items-center gap-3" data-ref="page.settings.info.content">
-                        <div class="icon-box icon-box-sm bg-brand text-white" data-ref="page.settings.info.icon">
-                            <i class="fa-solid fa-circle-info text-sm"></i>
-                        </div>
-                        <div class="text-xs text-brand leading-tight" data-ref="page.settings.info.text">
-                            All changes are saved automatically in your device (localStorage).
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bottom Navigation -->
-            <nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
-                id="settingsBottomNav" data-ref="page.settings.bottom-nav">
-                <button type="button"
-                    class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium text-brand py-1.5 relative cursor-pointer select-none transition-colors active"
-                    id="tabSettings" data-act="goto-settings" role="tab" aria-selected="true"
-                    data-ref="page.settings.tab">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Settings</span>
-                </button>
-            </nav>
+        <div id="settingsPage" class="d-none flex-col grow page" data-ref="page.settings"
+            data-bind="component: { name: 'settings-page', params: $data }">
         </div>
 
         <!-- Digital Tasbeeh Page -->
@@ -2835,17 +2606,26 @@
     <!-- Knockout.js Library (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js"></script>
 
+    <!-- Global Components -->
+    <script src="components/icon/icon.js"></script>
+
     <script src="utilities/constant.js"></script>
     <script src="utilities/utility.js"></script>
     <script src="app.js"></script>
     <script src="navigation.js"></script>
     <script src="prayer-tracking.js"></script>
-    <script src="dashboard.js"></script>
-    <script src="settings.js"></script>
+    <script src="dashboard/dashboard.js"></script>
+    <script src="settings/settings.js"></script>
     <script src="tasbeeh.js"></script>
     <script src="dua.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            if (window.DashboardApp && typeof window.DashboardApp.init === 'function') {
+                window.DashboardApp.init();
+            }
+            if (window.SettingsApp && typeof window.SettingsApp.init === 'function') {
+                window.SettingsApp.init();
+            }
             if (typeof rSET === 'function') {
                 rSET();
             }
