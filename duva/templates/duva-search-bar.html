@@ -1,0 +1,10 @@
+<div class="relative mb-3">
+    <input type="text" id="duaSearchInput"
+        class="rounded-xl border border-borderGrey pl-3 pr-5 py-2 w-full px-3.5 py-2.5 bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
+        data-bind="value: query, valueUpdate: 'afterkeydown', attr: { placeholder: placeholder || 'Search by number, Surah, or keywords...' }"
+        placeholder="Search by number, Surah, or keywords...">
+    <button type="button" id="duaSearchClear"
+        class="border-0 text-gr-textMuted absolute right-2.5 top-1/2 -translate-y-1/2 d-none p-1 leading-none text-base cursor-pointer hover:text-brand"
+        data-bind="css: { 'd-none': !query() }">✕</button>
+</div>
+

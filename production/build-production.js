@@ -18,11 +18,21 @@ const constantJsPath = path.join(ROOT, 'utilities', 'constant.js');
 const utilityJsPath = path.join(ROOT, 'utilities', 'utility.js');
 const appJsPath = path.join(ROOT, 'app.js');
 const navigationJsPath = path.join(ROOT, 'navigation.js');
-const prayerTrackingJsPath = path.join(ROOT, 'prayer-tracking.js');
-const dashboardJsPath = path.join(ROOT, 'dashboard.js');
-const settingsJsPath = path.join(ROOT, 'settings.js');
-const tasbeehJsPath = path.join(ROOT, 'tasbeeh.js');
-const duaJsPath = path.join(ROOT, 'dua.js');
+const prayerTrackingJsPath = fs.existsSync(path.join(ROOT, 'prayer-tracking', 'prayer-tracking.js'))
+    ? path.join(ROOT, 'prayer-tracking', 'prayer-tracking.js')
+    : path.join(ROOT, 'prayer-tracking.js');
+const dashboardJsPath = fs.existsSync(path.join(ROOT, 'dashboard', 'dashboard.js'))
+    ? path.join(ROOT, 'dashboard', 'dashboard.js')
+    : path.join(ROOT, 'dashboard.js');
+const settingsJsPath = fs.existsSync(path.join(ROOT, 'settings', 'settings.js'))
+    ? path.join(ROOT, 'settings', 'settings.js')
+    : path.join(ROOT, 'settings.js');
+const tasbeehJsPath = fs.existsSync(path.join(ROOT, 'tasbeeh', 'tasbeeh.js'))
+    ? path.join(ROOT, 'tasbeeh', 'tasbeeh.js')
+    : path.join(ROOT, 'tasbeeh.js');
+const duaJsPath = fs.existsSync(path.join(ROOT, 'duva', 'duva.js'))
+    ? path.join(ROOT, 'duva', 'duva.js')
+    : (fs.existsSync(path.join(ROOT, 'dua.js')) ? path.join(ROOT, 'dua.js') : path.join(ROOT, 'duva.js'));
 
 /**
  * Minify CSS content by removing comments and unnecessary whitespace
@@ -51,8 +61,8 @@ function minifyJs(js) {
  * Minify HTML structure by stripping comments and collapsing whitespace
  */
 function minifyHtml(html) {
-    // 1. Remove HTML comments
-    let minified = html.replace(/<!--[\s\S]*?-->/g, '');
+    // 1. Remove HTML comments, preserving Knockout virtual element bindings (<!-- ko --> and <!-- /ko -->)
+    let minified = html.replace(/<!--(?!\s*\/?ko\b)[\s\S]*?-->/g, '');
     
     // 2. Collapse whitespace between HTML tags
     minified = minified.replace(/>\s+</g, '><');
@@ -97,11 +107,11 @@ function buildProduction() {
         html = html.replace(/<script[^>]*src="utilities\/constant\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="utilities\/utility\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="navigation\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="prayer-tracking\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="dashboard\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="settings\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="tasbeeh\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script[^>]*src="dua\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="(?:prayer-tracking\/)?prayer-tracking\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="(?:dashboard\/)?dashboard\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="(?:settings\/)?settings\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="(?:tasbeeh\/)?tasbeeh\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="(?:duva\/|dua\/)?(?:duva|dua)\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="app\.js"[^>]*><\/script>/g, () => `<script>${minifiedJs}<\/script>`);
 
         // ---- Strip data-ref attributes from production output ----

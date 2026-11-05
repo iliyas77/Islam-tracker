@@ -1,0 +1,44 @@
+<div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none">
+    <div class="flex items-center justify-between mb-2">
+        <div>
+            <h6 class="font-bold text-brand mb-0" style="font-size: 1.05rem;">Tracking Period & History</h6>
+            <div class="text-gr-textMuted text-xs">Configure timeline and view past monthly clearance</div>
+        </div>
+        <span class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-brand-light text-brand px-3 font-bold"
+            id="tbHistPercentBadge" style="font-size: 11px;"
+            data-bind="text: percentCleared + '% Cleared'">
+            0% Cleared
+        </span>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="mb-3 w-full bg-gray-100 rounded-full overflow-hidden" style="height: 6px;">
+        <div class="bg-brand rounded-full w-full bg-gray-100 overflow-hidden h-full transition-all duration-300"
+            id="tbHistProgressBar" role="progressbar"
+            data-bind="style: { width: percentCleared + '%' }, attr: { 'aria-valuenow': percentCleared }"
+            style="width: 0%;" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+
+    <!-- Stats Tiles -->
+    <div class="grid grid-cols-3 gap-2 text-center">
+        <div>
+            <div class="p-2 rounded-xl bg-surfaceBg border border-borderGrey">
+                <div class="text-gr-textMuted text-[11px]">Total Months</div>
+                <div class="font-bold text-brand text-base mt-0.5" id="tbHistTotalMonths" data-bind="text: totalMonths">0</div>
+            </div>
+        </div>
+        <div>
+            <div class="p-2 rounded-xl bg-brand-light text-brand border border-brand/20">
+                <div class="text-[11px] font-semibold text-brand">Cleared</div>
+                <div class="font-bold text-base mt-0.5" id="tbHistClearedMonths" data-bind="text: clearedMonths">0</div>
+            </div>
+        </div>
+        <div>
+            <div class="p-2 rounded-xl bg-surfaceBg border border-borderGrey">
+                <div class="text-gr-textMuted text-[11px]">Pending</div>
+                <div class="font-bold text-gr-textMuted text-base mt-0.5" id="tbHistPendingMonths" data-bind="text: pendingMonths">0</div>
+            </div>
+        </div>
+    </div>
+</div>
+

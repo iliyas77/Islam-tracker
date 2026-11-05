@@ -1,0 +1,34 @@
+<!-- Dashboard / Home Page -->
+<div id="dashboardPage" class="flex flex-col grow page">
+    <div class="grow overflow-auto p-0 relative" id="dashScroll">
+        <div id="dashBody">
+            <div class="p-2.5 pt-2 pb-3 relative flex flex-col gap-3.5 w-full min-h-full box-border"
+                data-ref="page.dashboard.container">
+                <!-- Background Islamic Geometric Watermark -->
+                <div class="absolute top-0 left-0 right-0 h-[220px] pointer-events-none opacity-20 z-0 flex justify-between p-4"
+                    aria-hidden="true">
+                    <i class="fa-solid fa-star-and-crescent" style="opacity: 0.15; font-size: 1.5rem;"></i>
+                    <i class="fa-solid fa-star-and-crescent" style="opacity: 0.15; font-size: 1.5rem;"></i>
+                </div>
+
+                <!-- Top Header Bar: Location & Mosque Silhouette -->
+                <!-- ko component: { name: 'dashboard-header', params: header } --><!-- /ko -->
+
+                <!-- 1. Digital Clock Card -->
+                <!-- ko component: { name: 'dashboard-clock', params: clock } --><!-- /ko -->
+
+                <!-- 2. Daily Prayer Timeline Card -->
+                <!-- ko component: { name: 'dashboard-timeline', params: timeline } --><!-- /ko -->
+
+                <!-- 3. 2x2 Quick Navigation Cards Grid -->
+                <div class="grid grid-cols-2 gap-3 w-full" data-ref="page.dashboard.nav-grid"
+                    data-bind="template: { name: 'dashboard-nav-card-template', foreach: navCards }">
+                </div>
+
+                <!-- 4. Bottom Decorative Divider -->
+                <!-- ko component: { name: 'dashboard-divider', params: {} } --><!-- /ko -->
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,30 @@
+<div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2"
+    data-act="dua-open-detail"
+    data-bind="attr: { 'data-idx': index, 'data-source': source || 'duas' }">
+    <div class="dua-item-number text-sm font-bold text-brand min-w-[36px]"
+        data-bind="text: '#' + String(number).padStart(2, '0')">#01</div>
+    <div class="dua-item-content flex-1 min-w-0">
+        <div class="dua-item-surah text-sm font-semibold text-brand font-telugu truncate"
+            data-bind="text: surah"></div>
+        <div class="dua-item-preview text-xs text-gr-textMuted font-telugu truncate mt-0.5"
+            data-bind="text: preview"></div>
+    </div>
+    <button type="button"
+        class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all"
+        data-act="dua-item-pin"
+        data-bind="attr: { 'data-idx': index, title: isPinned ? 'Unpin' : 'Pin to Home' }, css: isPinned ? 'pinned text-pinAmber' : 'opacity-50'">
+        <i class="fa-solid fa-thumbtack"></i>
+    </button>
+    <button type="button"
+        class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all"
+        data-act="dua-item-fav"
+        data-bind="attr: { 'data-idx': index, title: isFav ? 'Remove from favourites' : 'Toggle favourite' }">
+        <!-- ko if: isFav -->
+        <i class="fa-solid fa-heart text-heartRed"></i>
+        <!-- /ko -->
+        <!-- ko if: !isFav -->
+        <i class="fa-regular fa-heart"></i>
+        <!-- /ko -->
+    </button>
+</div>
+
