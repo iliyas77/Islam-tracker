@@ -1,0 +1,10 @@
+<div class="rounded-2xl border border-borderGrey p-4 bg-brand-light flex flex-col shadow-none"
+    data-bind="attr: { 'data-ref': cardDataRef }">
+    <div class="flex items-center gap-3" data-bind="attr: { 'data-ref': contentDataRef }">
+        <div data-bind="attr: { class: iconBoxClass, 'data-ref': iconDataRef }">
+            <i data-bind="attr: { class: icon }"></i>
+        </div>
+        <div class="text-xs text-brand leading-tight" data-bind="text: text, attr: { 'data-ref': textDataRef }"></div>
+    </div>
+</div>
+

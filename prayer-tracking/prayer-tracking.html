@@ -1,0 +1,111 @@
+<!-- Prayer Tracker Page (Combined Current, Old, Performance, History) -->
+<div id="trackerPage" class="d-none flex-col grow page" data-ref="page.tracker">
+    <!-- Header Component -->
+    <!-- ko component: { name: 'prayer-header', params: header } --><!-- /ko -->
+
+    <!-- Current Prayer Body -->
+    <div class="grow overflow-auto px-2 pt-2 pb-3" id="currentBody" data-ref="page.current.body">
+        <!-- ko component: { name: 'prayer-tracker-card', params: currentCard } --><!-- /ko -->
+    </div>
+
+    <!-- Old Tracking Body -->
+    <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="oldBody" data-ref="page.old.body">
+        <!-- ko component: { name: 'prayer-tracker-card', params: oldCard } --><!-- /ko -->
+    </div>
+
+    <!-- Performance Body -->
+    <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="performanceBody" data-ref="page.performance.body">
+        <div class="flex flex-col gap-3 pb-2" data-ref="page.performance.container">
+            <!-- Main Circular Stat Card -->
+            <!-- ko component: { name: 'prayer-perf-ring', params: performance.hero } --><!-- /ko -->
+
+            <!-- Three Summary Stats Cards -->
+            <!-- ko component: { name: 'prayer-stat-card', params: performance.stats } --><!-- /ko -->
+
+            <!-- Section Header Card -->
+            <div class="rounded-2xl p-3 bg-white border border-borderGrey flex flex-row items-center justify-between shadow-none"
+                data-ref="page.performance.breakdown-header">
+                <div class="flex items-center gap-2.5">
+                    <div class="rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0"
+                        style="width: 40px; height: 40px;">
+                        <i class="fa-solid fa-list-check text-brand" style="font-size: 20px;"></i>
+                    </div>
+                    <h6 class="font-bold text-brand text-sm mb-0 leading-tight">Individual Prayer<br>Breakdown</h6>
+                </div>
+                <div class="flex items-center gap-2 bg-brand-light px-3 py-1.5 rounded-xl border border-borderGrey text-brand text-xs font-medium shrink-0">
+                    <i class="fa-regular fa-calendar-days text-brand" style="font-size: 16px;"></i>
+                    <div class="text-left">
+                        <div class="font-bold leading-none" id="perfTrackedDays" data-bind="text: performance.trackedDays">0 days</div>
+                        <div class="text-gr-textMuted leading-none mt-0.5" style="font-size: 10px;">tracked</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breakdown List (Fajr, Dhuhr, Asr, Maghrib, Isha) -->
+            <div class="flex flex-col gap-2.5" id="perfBreakdownList"
+                data-ref="page.performance.breakdown-list"></div>
+
+            <!-- Settings Start Date Footer Card -->
+            <div class="rounded-2xl p-3 bg-brand-light border border-borderGrey text-center flex flex-col items-center mt-1 bg-white shadow-none"
+                data-ref="page.performance.footer-card">
+                <div class="flex items-center justify-center gap-1.5 mb-1">
+                    <i class="fa-solid fa-calendar-check text-brand" style="font-size: 16px;"></i>
+                    <span class="text-xs font-bold text-brand" id="perfFooterLabel" data-bind="text: performance.footerLabel">Tracking Start Date: --</span>
+                </div>
+                <p class="text-gr-textMuted text-xs mb-2.5" id="perfFooterDesc">
+                    Calculated from your start date configured in Settings up to today.
+                </p>
+                <div class="flex justify-center">
+                    <button type="button"
+                        class="font-bold px-3 py-1.5 rounded-full text-xs bg-brand text-white hover:bg-brand-hover transition-colors rounded-lg"
+                        data-act="goto-settings" data-ref="page.performance.goto-settings-btn">
+                        <i class="fa-solid fa-gear mr-1" style="font-size: 14px;"></i> Adjust Start Date in Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Body -->
+    <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="historyBody" data-ref="page.history.body">
+        <!-- Empty State -->
+        <div class="text-center text-gr-textMuted py-8 px-4 bg-white border border-borderGrey rounded-2xl d-none flex flex-col items-center justify-center"
+            id="histEmptyState" data-ref="page.history.empty-state">
+            <div class="mb-3">
+                <i class="fa-solid fa-list-check text-brand opacity-50 text-4xl"></i>
+            </div>
+            <h5 class="font-bold text-brand text-base mb-1">No Activity Yet</h5>
+            <p class="text-gr-textMuted text-xs mb-0">Whenever a prayer is marked as completed in Current or Old Tracking, its history entry will appear here.</p>
+        </div>
+
+        <!-- Content Container -->
+        <div id="histContent" class="d-none">
+            <!-- Summary Card -->
+            <div class="rounded-2xl p-3.5 bg-white border border-borderGrey mb-3"
+                data-ref="page.history.summary-card">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        <div class="w-10 h-10 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-list-check text-brand text-lg"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <h6 class="font-bold text-brand mb-0 text-sm leading-tight">Activity Log</h6>
+                            <div class="text-gr-textMuted text-xs mt-0.5" id="histSubtitleCount" data-bind="text: historySubtitle">0 completed prayers</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-borderGrey bg-surfaceBg text-xs text-gr-textMuted font-medium shrink-0">
+                        <i class="fa-regular fa-clock shrink-0 text-xs"></i>
+                        <span>Latest first</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entries List Container -->
+            <div class="flex flex-col gap-1" id="histList" data-ref="page.history.list"></div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Component -->
+    <!-- ko component: { name: 'prayer-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko -->
+</div>
+

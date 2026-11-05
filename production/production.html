@@ -74,76 +74,8 @@ id="tabTrackOld" data-act="switch-track-old" role="tab" aria-selected="false"><i
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium text-gr-textMuted py-1.5 relative cursor-pointer select-none transition-colors"
 id="tabTrackPerformance" data-act="switch-track-performance" role="tab" aria-selected="false"><i class="fa-solid fa-chart-simple"></i><span>Performance</span></button><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium text-gr-textMuted py-1.5 relative cursor-pointer select-none transition-colors"
-id="tabTrackHistory" data-act="switch-track-history" role="tab" aria-selected="false"><i class="fa-solid fa-list-check"></i><span>History</span></button></nav></div><div id="settingsPage" class="d-none flex-col grow page"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center gap-2 min-h-[44px]"><button type="button"
-class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
-data-act="go-home" title="Back to Home" aria-label="Back to Home"><i class="fa-solid fa-arrow-left text-base"></i></button><div class="grow min-w-0"><h5 class="font-bold text-base text-brand m-0 flex items-center gap-2"><i class="fa-solid fa-gear text-gr-accent"></i><span>Settings</span></h5><div class="text-xs text-gr-textMuted mt-0.5">App preferences</div></div></header><div class="grow overflow-auto p-2 pb-3" id="settingsBody"><div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"><div class="flex items-center gap-3 mb-3"><div class="icon-box icon-box-lg bg-brand-light"><i class="fa-solid fa-mosque text-xl"></i></div><div class="grow"><div class="font-bold text-sm text-brand">Prayer
-Times Location</div><div class="text-gr-textMuted text-xs" id="ptLocationSubtitle">Selected City: Guntur, India</div></div><span
-class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-gr-accent-soft text-gr-accent px-2"
-id="ptStatusBadge"><i class="fa-solid fa-circle-dot mr-1" style="font-size: 10px;"></i><span
-id="ptStatusText">Offline</span></span></div><div class="flex flex-wrap -mx-1 gap-2 mb-3"><div class="w-full"><label
-class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5">City (India)</label><select
-class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-id="ptCitySelect"><option value="Guntur">Guntur
-(Andhra Pradesh)</option><option value="Vijayawada">
-Vijayawada (Andhra Pradesh)</option><option value="Visakhapatnam">Visakhapatnam
-(Andhra Pradesh)</option><option value="Tirupati">
-Tirupati (Andhra Pradesh)</option><option value="Kurnool">
-Kurnool (Andhra Pradesh)</option><option value="Nellore">
-Nellore (Andhra Pradesh)</option><option value="Delhi">Delhi
-(National Capital Region)</option><option value="Hyderabad">
-Hyderabad (Telangana)</option><option value="Bengaluru">
-Bengaluru (Karnataka)</option><option value="Mumbai">Mumbai
-(Maharashtra)</option><option value="Chennai">
-Chennai (Tamil Nadu)</option><option value="Kolkata">
-Kolkata (West Bengal)</option><option value="Ahmedabad">
-Ahmedabad (Gujarat)</option><option value="Lucknow">
-Lucknow (Uttar Pradesh)</option><option value="Pune">Pune
-(Maharashtra)</option><option value="Jaipur">Jaipur
-(Rajasthan)</option><option value="Bhopal">Bhopal
-(Madhya Pradesh)</option><option value="Patna">Patna
-(Bihar)</option><option value="Srinagar">
-Srinagar (Jammu &amp; Kashmir)</option><option value="Kozhikode">
-Kozhikode (Kerala)</option><option value="Kochi">Kochi
-(Kerala)</option><option value="Indore">Indore
-(Madhya Pradesh)</option><option value="Nagpur">Nagpur
-(Maharashtra)</option><option value="Kanpur">Kanpur
-(Uttar Pradesh)</option><option value="Surat">Surat
-(Gujarat)</option><option value="Aurangabad">
-Aurangabad (Maharashtra)</option><option value="Chandigarh">
-Chandigarh (Punjab/Haryana)</option><option value="__custom__">
-Other / Custom City...</option></select></div><div class="w-full d-none" id="ptCustomCityWrap"><label
-class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5">Custom City Name &amp;
-Country</label><div class="flex gap-2"><input type="text"
-class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-id="ptCustomCityInput" value="" placeholder="e.g. Guntur"><input type="text"
-class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-id="ptCountryInput" value="India" placeholder="Country"></div></div><div class="w-full"><label
-class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5">Juristic Method (Asr
-calculation)</label><select
-class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-id="ptSchoolSelect"><option value="1">Hanafi (Standard in South Asia)</option><option value="0">Shafi / Maliki / Hanbali</option></select></div></div><button type="button"
-class="font-bold w-full py-3 text-sm rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors"
-data-act="pt-save"><i class="fa-solid fa-rotate-left mr-1 text-base"></i>Sync &amp; Save Prayer Times
-</button></div><div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"><div class="flex items-center gap-3 mb-3"><div class="icon-box icon-box-lg bg-brand-light text-brand"><i class="fa-solid fa-calendar-check text-xl"></i></div><div class="grow"><div class="font-bold text-sm">Current Start Date
-</div></div></div><div class="flex gap-2 items-center"><input type="date"
-class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-id="sdInput" value=""><button type="button"
-class="px-5 py-2.5 bg-brand text-white font-bold rounded-xl text-sm hover:bg-brand-hover whitespace-nowrap transition-colors"
-data-act="sd-save">Change</button></div></div><div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"><div class="flex items-center gap-3 mb-3"><div class="icon-box icon-box-lg bg-brand-light text-gr-accent font-bold text-base">Aa</div><div class="grow"><div class="font-bold text-sm">Font Size</div></div></div><div class="flex gap-2" id="fsBtns"><button type="button"
-class="border flex-1 py-3 font-bold rounded-xl text-sm bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors"
-data-act="font" data-fs="0.9">Small</button><button type="button"
-class="flex-1 py-3 font-bold rounded-xl text-sm bg-brand text-white hover:bg-brand-hover transition-colors"
-data-act="font" data-fs="1">Medium</button><button type="button"
-class="border flex-1 py-3 font-bold rounded-xl text-sm bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors"
-data-act="font" data-fs="1.15">Large</button></div></div><div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"><div class="flex items-center gap-3 mb-2"><div class="icon-box icon-box-lg bg-danger-subtle text-gr-danger"><i class="fa-solid fa-triangle-exclamation text-xl"></i></div><div class="grow"><div class="font-bold text-sm">Reset Database</div><div class="text-gr-textMuted text-xs">This will
-delete all prayer data, old data and cache.</div></div></div><button type="button"
-class="w-full py-3 bg-gr-danger text-white font-bold rounded-xl text-sm hover:bg-red-600 transition-colors mt-2"
-data-act="reset-db">Reset</button></div><div class="rounded-2xl border border-borderGrey p-4 bg-brand-light flex flex-col shadow-none"><div class="flex items-center gap-3"><div class="icon-box icon-box-sm bg-brand text-white"><i class="fa-solid fa-circle-info text-sm"></i></div><div class="text-xs text-brand leading-tight">
-All changes are saved automatically in your device (localStorage).
-</div></div></div></div><nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
-id="settingsBottomNav"><button type="button"
-class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium text-brand py-1.5 relative cursor-pointer select-none transition-colors active"
-id="tabSettings" data-act="goto-settings" role="tab" aria-selected="true"><i class="fa-solid fa-gear"></i><span>Settings</span></button></nav></div><div id="tasbeehPage" class="d-none flex-col grow page"><header
+id="tabTrackHistory" data-act="switch-track-history" role="tab" aria-selected="false"><i class="fa-solid fa-list-check"></i><span>History</span></button></nav></div><div id="settingsPage" class="d-none flex-col grow page"
+data-bind="component: { name: 'settings-page', params: $data }"></div><div id="tasbeehPage" class="d-none flex-col grow page"><header
 class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"><div class="w-full flex items-center justify-between min-w-0 min-h-[44px]"><div class="flex items-center gap-2 min-w-0 grow"><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
 data-act="go-home" title="Back to Home" aria-label="Back to Home"><i class="fa-solid fa-arrow-left text-base"></i></button><div class="min-w-0 grow"><h5 class="font-bold text-base text-brand m-0 flex items-center gap-2"><i id="tbHeaderIcon" class="fa-solid fa-house text-brand"></i><span id="tbHeaderLabel">Digital Tasbeeh</span></h5><div class="text-xs text-gr-textMuted mt-0.5" id="tbHeaderSub">Home · Bookmarks</div></div></div></div></header><div class="grow overflow-auto p-2 pb-5 relative" id="tbHomeBody"><div class="border border-borderGrey p-4 text-center rounded-2xl bg-white mt-3 d-none shadow-none"
@@ -161,8 +93,8 @@ class="text-xs font-normal text-gr-textMuted">Dhikrs</span></div><div class="tex
 role="button" tabindex="0" data-act="switch-tb-history"><div class="flex items-center justify-between mb-2"><span
 class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700">HISTORY</span><i class="fa-solid fa-gear text-amber-600 text-sm"></i></div><div class="font-bold text-brand text-lg leading-tight"><span
 id="tbHomeHistoryCount">0</span><span
-class="text-xs font-normal text-gr-textMuted">Cleared</span></div><div class="text-gr-textMuted text-xs mt-1">Active: <span
-id="tbHomeActiveOldLabel">All Cleared</span></div></div></div></div><div class="border border-borderGrey p-3 rounded-2xl bg-brand-soft shadow-none"><div class="flex items-start gap-2"><i class="fa-solid fa-circle-info text-brand mt-0.5 text-sm"></i><div class="text-xs text-gr-text leading-relaxed">
+class="text-xs font-normal text-gr-textMuted">Cleared</span></div><div class="text-gr-textMuted text-xs mt-1">Active: <span id="tbHomeActiveOldLabel">All
+Cleared</span></div></div></div></div><div class="border border-borderGrey p-3 rounded-2xl bg-brand-soft shadow-none"><div class="flex items-start gap-2"><i class="fa-solid fa-circle-info text-brand mt-0.5 text-sm"></i><div class="text-xs text-gr-text leading-relaxed">
 Whenever you open a Dhikr in <strong>Current</strong> or <strong>Old</strong> tracking,
 its bookmark updates automatically so you can continue where you left off.
 </div></div></div></div></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbCurrentBody"><div id="tbList" class="flex flex-col gap-3"><div class="border border-borderGrey p-3 text-center rounded-2xl bg-white d-none shadow-none"
@@ -218,7 +150,8 @@ id="tbHistPercentBadge" style="font-size: 11px;">
 0% Cleared
 </span></div><div class="mb-3 w-full bg-gray-100 rounded-full overflow-hidden" style="height: 6px;"><div class="bg-brand rounded-full w-full bg-gray-100 overflow-hidden h-full transition-all duration-300"
 id="tbHistProgressBar" role="progressbar" style="width: 0%;" aria-valuenow="0"
-aria-valuemin="0" aria-valuemax="100"></div></div><div class="grid grid-cols-3 gap-2 text-center"><div><div class="p-2 rounded-xl bg-surfaceBg border border-borderGrey"><div class="text-gr-textMuted text-[11px]">Total Months</div><div class="font-bold text-brand text-base mt-0.5" id="tbHistTotalMonths">0</div></div></div><div><div class="p-2 rounded-xl bg-brand-light text-brand border border-brand/20"><div class="text-[11px] font-semibold text-brand">Cleared</div><div class="font-bold text-base mt-0.5" id="tbHistClearedMonths">0</div></div></div><div><div class="p-2 rounded-xl bg-surfaceBg border border-borderGrey"><div class="text-gr-textMuted text-[11px]">Pending</div><div class="font-bold text-gr-textMuted text-base mt-0.5" id="tbHistPendingMonths">0</div></div></div></div></div><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center gap-2 mb-3"><div class="icon-box icon-box-sm"><i class="fa-solid fa-gear text-brand"></i></div><div><h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Period Settings</h6><div class="text-gr-textMuted text-xs" style="font-size: 11.5px;">Configure range for
+aria-valuemin="0" aria-valuemax="100"></div></div><div class="grid grid-cols-3 gap-2 text-center"><div><div class="p-2 rounded-xl bg-surfaceBg border border-borderGrey"><div class="text-gr-textMuted text-[11px]">Total Months</div><div class="font-bold text-brand text-base mt-0.5" id="tbHistTotalMonths">0</div></div></div><div><div class="p-2 rounded-xl bg-brand-light text-brand border border-brand/20"><div class="text-[11px] font-semibold text-brand">Cleared</div><div class="font-bold text-base mt-0.5" id="tbHistClearedMonths">0</div></div></div><div><div class="p-2 rounded-xl bg-surfaceBg border border-borderGrey"><div class="text-gr-textMuted text-[11px]">Pending</div><div class="font-bold text-gr-textMuted text-base mt-0.5" id="tbHistPendingMonths">0
+</div></div></div></div></div><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center gap-2 mb-3"><div class="icon-box icon-box-sm"><i class="fa-solid fa-gear text-brand"></i></div><div><h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Period Settings</h6><div class="text-gr-textMuted text-xs" style="font-size: 11.5px;">Configure range for
 Old Tasbeeh tracking</div></div></div><div class="mb-2"><label
 class="text-xs font-bold text-gr-textMuted mb-1 block font-semibold text-brand mb-1.5"
 for="tbHistPeriodStart"><i class="fa-regular fa-calendar-days text-brand mr-1"></i>Start Date
@@ -315,12 +248,14 @@ class="bg-white border border-borderGrey rounded-2xl p-5 flex flex-col gap-4 bor
 Pronunciation</div><div class="text-base font-medium text-brand leading-relaxed font-telugu mt-1"
 id="duaDetailUchcharana"></div></div><div><div class="text-[11px] font-bold tracking-wider uppercase text-gr-textMuted">Telugu Meaning
 </div><div class="text-sm font-normal text-gr-text leading-relaxed font-telugu mt-1"
-id="duaDetailArdham"></div></div></div><div class="flex items-center justify-between gap-2 mt-4"><button type="button" class="px-4 py-2.5 rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors font-semibold text-xs cursor-pointer inline-flex items-center justify-center"
+id="duaDetailArdham"></div></div></div><div class="flex items-center justify-between gap-2 mt-4"><button type="button"
+class="px-4 py-2.5 rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors font-semibold text-xs cursor-pointer inline-flex items-center justify-center"
 id="duaPrevBtn" data-act="dua-prev">Previous</button><div class="flex items-center gap-2"><button type="button"
 class="w-10 h-10 rounded-xl border border-borderGrey bg-white text-brand hover:bg-brand-light cursor-pointer text-base inline-flex items-center justify-center transition-colors"
 id="duaDetailFavBtn" data-act="dua-detail-toggle-fav" title="Toggle Favourite"><span id="duaDetailFavIcon"><i class="fa-regular fa-heart"></i></span></button><button type="button"
 class="w-10 h-10 rounded-xl border border-borderGrey bg-white text-brand hover:bg-brand-light cursor-pointer text-base inline-flex items-center justify-center transition-colors"
-id="duaDetailPinBtn" data-act="dua-detail-toggle-pin" title="Toggle Pin"><span id="duaDetailPinIcon"><i class="fa-solid fa-thumbtack"></i></span></button></div><button type="button" class="px-4 py-2.5 rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors font-semibold text-xs cursor-pointer inline-flex items-center justify-center"
+id="duaDetailPinBtn" data-act="dua-detail-toggle-pin" title="Toggle Pin"><span id="duaDetailPinIcon"><i class="fa-solid fa-thumbtack"></i></span></button></div><button type="button"
+class="px-4 py-2.5 rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors font-semibold text-xs cursor-pointer inline-flex items-center justify-center"
 id="duaNextBtn" data-act="dua-next">Next</button></div></div><button type="button"
 class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
 id="duaFabBtn" data-act="dua-open-add" title="Add New Dua"><i class="fa-solid fa-plus text-xl"></i></button></div><nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
@@ -373,7 +308,8 @@ rows="2" placeholder="రబ్బనా ఆతినా..."></textarea></div><d
 class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
 rows="3" placeholder="మా ప్రభువా! మాకు..."></textarea></div><div class="flex gap-2 justify-end mt-4 pt-3 border-t border-borderGrey"><button type="button"
 class="px-4 py-2 rounded-xl border bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors text-xs font-semibold cursor-pointer"
-data-act="dua-close-add">Cancel</button><button type="button" class="px-4 py-2 rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors text-xs font-semibold cursor-pointer"
+data-act="dua-close-add">Cancel</button><button type="button"
+class="px-4 py-2 rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors text-xs font-semibold cursor-pointer"
 data-act="dua-save-new">Save Dua</button></div></div></div><div class="fixed inset-0 z-[1095] hidden overflow-y-auto bg-black/45 items-center justify-center p-4 backdrop-blur-[2px]"
 id="duaPinConfirmModal"><div
 class="relative flex flex-col w-full max-w-[500px] bg-white rounded-2xl border border-borderGrey p-5 shadow-xl max-h-[90vh] overflow-y-auto"><div class="flex items-center justify-between pb-3 border-b border-borderGrey mb-4 shrink-0"><div class="text-base font-bold text-brand m-0 flex items-center gap-2"><i class="fa-solid fa-thumbtack"></i><span>Pin Limit Reached</span></div><button type="button"
@@ -3955,6 +3891,7 @@ window.clearPrayerHistoryByType = clearPrayerHistoryByType;
 window.emptyPrayerHistory = emptyPrayerHistory;
 window.renderPrayerHistoryTab = renderPrayerHistoryTab;
 })(typeof window !== 'undefined' ? window : global);
+'use strict';
 function dashLiveHeaderTime() {
 var now = new Date();
 var h = now.getHours();
@@ -3997,6 +3934,262 @@ upcoming: { className: 'badge-upcoming', text: 'Upcoming' }
 };
 var DASH_CLOCK_INTERVAL = DASH_CONSTANTS.CLOCK_INTERVAL_MS || 1000;
 var SCHOOL_NAMES = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.SCHOOL_NAMES) || { 1: 'Hanafi', 0: 'Shafi' };
+var dashTimer = null;
+var DASHBOARD_TEMPLATES = {
+'dashboard-header':
+'<header class="flex items-center justify-between text-brand text-xs font-semibold py-1 z-10">' +
+'<div class="flex items-center gap-1.5 text-xs text-brand font-medium">' +
+'<i class="fa-solid fa-location-dot text-brand text-sm"></i>' +
+'<span id="dashLocationText" data-bind="html: locationText">Guntur &bull; Hanafi</span>' +
+'</div>' +
+'<div class="w-8 h-8 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-sm">' +
+'<i class="fa-solid fa-mosque"></i>' +
+'</div>' +
+'</header>',
+'dashboard-clock':
+'<div class="dash-clock-card bg-white rounded-2xl p-4 border border-borderGrey flex items-center justify-between shadow-none relative overflow-hidden min-h-[96px]">' +
+'<div class="text-2xl text-brand/30">' +
+'<i class="fa-solid fa-mosque"></i>' +
+'</div>' +
+'<div class="dash-clock-wrap flex items-baseline justify-center" id="dashTime">' +
+'<span class="text-3xl font-bold tracking-tight text-brand font-mono" id="dashClockDigits" data-bind="text: digits">--:--:--</span>' +
+'<span class="text-sm font-bold uppercase ml-1.5 text-brand" id="dashClockAmPm" data-bind="text: ampm">--</span>' +
+'</div>' +
+'<div class="text-2xl text-brand/30">' +
+'<i class="fa-solid fa-star-and-crescent"></i>' +
+'</div>' +
+'</div>',
+'dashboard-timeline-item':
+'<div class="flex-1 flex flex-col items-center gap-1.5 text-center min-w-0" data-bind="attr: { id: \'dashTimeline\' + name, \'data-ref\': \'page.dashboard.timeline.item.\' + name.toLowerCase() }">' +
+'<div class="icon-box icon-box-md" data-bind="attr: { id: \'dashIconBox\' + name, \'data-ref\': \'page.dashboard.timeline.icon.\' + name.toLowerCase() }, css: { \'icon-box-active\': isActive }">' +
+'<i data-bind="attr: { class: iconClass }"></i>' +
+'</div>' +
+'<div class="text-xs font-bold text-brand mt-1 truncate" data-bind="text: name, attr: { \'data-ref\': \'page.dashboard.timeline.name.\' + name.toLowerCase() }"></div>' +
+'<div class="text-[11px] text-gr-text font-medium" data-bind="text: time, attr: { id: \'dashTime\' + name, \'data-ref\': \'page.dashboard.timeline.time.\' + name.toLowerCase() }">--:--</div>' +
+'<span class="dash-timeline-badge text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider" data-bind="text: statusText, attr: { id: \'dashBadge\' + name, \'data-ref\': \'page.dashboard.timeline.badge.\' + name.toLowerCase() }, css: statusBadgeClass">Upcoming</span>' +
+'</div>',
+'dashboard-timeline':
+'<div class="dash-timeline-card bg-white rounded-2xl p-4 border border-borderGrey flex flex-col gap-3 shadow-none">' +
+'<div class="flex items-center justify-between gap-2">' +
+'<span class="text-xs font-bold uppercase tracking-wider text-brand" data-bind="text: title || \'Daily Prayer Timeline\'">Daily Prayer Timeline</span>' +
+'<div class="h-[1px] bg-borderGrey flex-1"></div>' +
+'<div class="w-6 h-6 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-xs shrink-0" title="Daily Prayers" aria-hidden="true">' +
+'<i class="fa-solid fa-bell"></i>' +
+'</div>' +
+'</div>' +
+'<div class="flex justify-between items-stretch gap-1 w-full" id="dashTimelineNodes" data-bind="template: { name: \'dashboard-timeline-item-template\', foreach: items }">' +
+'</div>' +
+'</div>',
+'dashboard-nav-card':
+'<div class="dash-nav-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col items-center justify-between cursor-pointer hover:border-brand hover:shadow-sm transition-all min-h-[120px] relative shadow-none" role="button" tabindex="0" data-bind="attr: { \'data-act\': action, \'data-ref\': dataRef }">' +
+'<!-- ko if: hasBadge -->' +
+'<span class="dash-tracker-badge absolute top-2.5 right-2.5 text-[10.5px] font-bold leading-none px-2 py-0.5 rounded-full inline-flex items-center justify-center whitespace-nowrap z-[3] pointer-events-none bg-red-100 text-red-600 border border-red-300" data-bind="text: badgeText, attr: { id: badgeId, \'data-ref\': badgeDataRef }, css: { \'d-none\': !badgeVisible() }"></span>' +
+'<!-- /ko -->' +
+'<div class="icon-box icon-box-lg" data-bind="attr: { \'data-ref\': iconDataRef }">' +
+'<i data-bind="attr: { class: iconClass }"></i>' +
+'</div>' +
+'<div class="flex items-center justify-center gap-1 text-xs font-bold text-brand mt-2">' +
+'<span class="text-xs font-bold text-brand" data-bind="text: title, attr: { \'data-ref\': titleDataRef }"></span>' +
+'<i class="fa-solid fa-chevron-right"></i>' +
+'</div>' +
+'</div>',
+'dashboard-divider':
+'<div class="flex items-center justify-center gap-2 py-3 w-full text-brand/30">' +
+'<div class="h-[1px] bg-borderGrey flex-1"></div>' +
+'<div class="text-xs text-brand/40 px-2"><i class="fa-solid fa-star-and-crescent"></i></div>' +
+'<div class="h-[1px] bg-borderGrey flex-1"></div>' +
+'</div>',
+'dashboard-page':
+'<div id="dashboardPage" class="flex flex-col grow page">' +
+'<div class="grow overflow-auto p-0 relative" id="dashScroll">' +
+'<div id="dashBody">' +
+'<div class="p-2.5 pt-2 pb-3 relative flex flex-col gap-3.5 w-full min-h-full box-border">' +
+'<div class="absolute top-0 left-0 right-0 h-[220px] pointer-events-none opacity-20 z-0 flex justify-between p-4" aria-hidden="true">' +
+'<i class="fa-solid fa-star-and-crescent" style="opacity: 0.15; font-size: 1.5rem;"></i>' +
+'<i class="fa-solid fa-star-and-crescent" style="opacity: 0.15; font-size: 1.5rem;"></i>' +
+'</div>' +
+'<!-- ko component: { name: \'dashboard-header\', params: header } --><!-- /ko -->' +
+'<!-- ko component: { name: \'dashboard-clock\', params: clock } --><!-- /ko -->' +
+'<!-- ko component: { name: \'dashboard-timeline\', params: timeline } --><!-- /ko -->' +
+'<div class="grid grid-cols-2 gap-3 w-full" data-bind="template: { name: \'dashboard-nav-card-template\', foreach: navCards }"></div>' +
+'<!-- ko component: { name: \'dashboard-divider\', params: {} } --><!-- /ko -->' +
+'</div>' +
+'</div>' +
+'</div>' +
+'</div>'
+};
+function registerDashboardComponents() {
+if (typeof ko === 'undefined' || !ko.components) return;
+function ensureScriptTemplate(id, html) {
+if (!document.getElementById(id)) {
+var script = document.createElement('script');
+script.type = 'text/html';
+script.id = id;
+script.text = html;
+document.head.appendChild(script);
+}
+}
+ensureScriptTemplate('dashboard-header-template', DASHBOARD_TEMPLATES['dashboard-header']);
+ensureScriptTemplate('dashboard-clock-template', DASHBOARD_TEMPLATES['dashboard-clock']);
+ensureScriptTemplate('dashboard-timeline-item-template', DASHBOARD_TEMPLATES['dashboard-timeline-item']);
+ensureScriptTemplate('dashboard-timeline-template', DASHBOARD_TEMPLATES['dashboard-timeline']);
+ensureScriptTemplate('dashboard-nav-card-template', DASHBOARD_TEMPLATES['dashboard-nav-card']);
+ensureScriptTemplate('dashboard-divider-template', DASHBOARD_TEMPLATES['dashboard-divider']);
+if (!ko.components.isRegistered('dashboard-header')) {
+ko.components.register('dashboard-header', {
+viewModel: function (params) { return params || {}; },
+template: DASHBOARD_TEMPLATES['dashboard-header']
+});
+}
+if (!ko.components.isRegistered('dashboard-clock')) {
+ko.components.register('dashboard-clock', {
+viewModel: function (params) { return params || {}; },
+template: DASHBOARD_TEMPLATES['dashboard-clock']
+});
+}
+if (!ko.components.isRegistered('dashboard-timeline-item')) {
+ko.components.register('dashboard-timeline-item', {
+viewModel: function (params) { return params || {}; },
+template: DASHBOARD_TEMPLATES['dashboard-timeline-item']
+});
+}
+if (!ko.components.isRegistered('dashboard-timeline')) {
+ko.components.register('dashboard-timeline', {
+viewModel: function (params) { return params || {}; },
+template: DASHBOARD_TEMPLATES['dashboard-timeline']
+});
+}
+if (!ko.components.isRegistered('dashboard-nav-card')) {
+ko.components.register('dashboard-nav-card', {
+viewModel: function (params) { return params || {}; },
+template: DASHBOARD_TEMPLATES['dashboard-nav-card']
+});
+}
+if (!ko.components.isRegistered('dashboard-divider')) {
+ko.components.register('dashboard-divider', {
+viewModel: function (params) { return params || {}; },
+template: DASHBOARD_TEMPLATES['dashboard-divider']
+});
+}
+if (!ko.components.isRegistered('dashboard-page')) {
+ko.components.register('dashboard-page', {
+viewModel: function (params) {
+return (params && params.viewModel) ? params.viewModel : (dashboardViewModel || params);
+},
+template: DASHBOARD_TEMPLATES['dashboard-page']
+});
+}
+}
+var dashboardViewModel = null;
+function DashboardViewModel() {
+var self = this;
+var cfg = typeof getPrayerConfig === 'function' ? getPrayerConfig() : { city: 'Guntur', school: 1 };
+var initialLocationText = (cfg.city || 'Guntur') + ' &bull; ' + (SCHOOL_NAMES[cfg.school] || 'Hanafi');
+self.header = {
+locationText: ko.observable(initialLocationText)
+};
+self.clock = {
+digits: ko.observable('--:--:--'),
+ampm: ko.observable('--')
+};
+var timelineIcons = {
+Fajr: 'fa-solid fa-cloud-sun',
+Dhuhr: 'fa-solid fa-sun',
+Asr: 'fa-solid fa-sun',
+Maghrib: 'fa-solid fa-cloud-sun',
+Isha: 'fa-solid fa-moon'
+};
+var prayerItems = (window.P || ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']).map(function (p) {
+return {
+name: p,
+iconClass: timelineIcons[p] || 'fa-solid fa-mosque',
+time: ko.observable((window.T && window.T[p]) || '--:--'),
+statusText: ko.observable('Upcoming'),
+statusBadgeClass: ko.observable('text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider bg-gray-100 text-gray-500 border border-gray-200'),
+isActive: ko.observable(false)
+};
+});
+self.timeline = {
+title: 'Daily Prayer Timeline',
+items: ko.observableArray(prayerItems)
+};
+var missedCount = (typeof getConsolidatedMissedCount === 'function')
+? getConsolidatedMissedCount()
+: (typeof tMT === 'function' ? tMT() : 0);
+var trackerBadgeVisible = ko.observable(missedCount > 0);
+var trackerBadgeText = ko.observable(missedCount > 0 ? (missedCount + ' missed') : '');
+self.navCards = [
+{
+title: 'Tracker',
+action: 'goto-tracker',
+iconClass: 'fa-solid fa-calendar-check',
+dataRef: 'page.dashboard.card.tracker',
+iconDataRef: 'page.dashboard.card.tracker-icon',
+titleDataRef: 'page.dashboard.card.tracker-label',
+hasBadge: true,
+badgeId: 'trackerMissedBadge',
+badgeDataRef: 'page.dashboard.card.tracker-missed-badge',
+badgeText: trackerBadgeText,
+badgeVisible: trackerBadgeVisible
+},
+{
+title: 'Tasbeeh',
+action: 'goto-tasbeeh',
+iconClass: 'fa-solid fa-hands-praying',
+dataRef: 'page.dashboard.card.tasbeeh',
+iconDataRef: 'page.dashboard.card.tasbeeh-icon',
+titleDataRef: 'page.dashboard.card.tasbeeh-label',
+hasBadge: false
+},
+{
+title: 'Duas',
+action: 'goto-duas',
+iconClass: 'fa-solid fa-hands-praying',
+dataRef: 'page.dashboard.card.duas',
+iconDataRef: 'page.dashboard.card.duas-icon',
+titleDataRef: 'page.dashboard.card.duas-label',
+hasBadge: false
+},
+{
+title: 'Settings',
+action: 'goto-settings',
+iconClass: 'fa-solid fa-gear',
+dataRef: 'page.dashboard.card.settings',
+iconDataRef: 'page.dashboard.card.settings-icon',
+titleDataRef: 'page.dashboard.card.settings-label',
+hasBadge: false
+}
+];
+self.updateClock = function () {
+var now = new Date();
+var h = now.getHours();
+var ap = h >= 12 ? 'PM' : 'AM';
+var hh = h % 12;
+if (hh === 0) hh = 12;
+self.clock.digits(pad2(hh) + ':' + pad2(now.getMinutes()) + ':' + pad2(now.getSeconds()));
+self.clock.ampm(ap);
+};
+self.updateTimeline = function () {
+var statuses = getTimelinePrayerStatuses();
+self.timeline.items().forEach(function (item) {
+var p = item.name;
+var st = statuses[p] || DASH_STATUSES.UPCOMING;
+var isActive = (st === DASH_STATUSES.ACTIVE);
+var badgeInfo = DASH_STATUS_BADGES[st] || DASH_STATUS_BADGES[DASH_STATUSES.UPCOMING];
+item.time((window.T && window.T[p]) || '--:--');
+item.statusText(badgeInfo.text);
+item.statusBadgeClass('dash-timeline-badge ' + badgeInfo.className);
+item.isActive(isActive);
+});
+};
+self.updateTrackerBadge = function () {
+var totalMissed = typeof getConsolidatedMissedCount === 'function'
+? getConsolidatedMissedCount()
+: (typeof tMT === 'function' ? tMT() : 0);
+trackerBadgeVisible(totalMissed > 0);
+trackerBadgeText(totalMissed > 0 ? (totalMissed + ' missed') : '');
+};
+}
 function dashTick() {
 var curDate = typeof td === 'function' ? td() : null;
 if (curDate && dashLastCheckedDate && curDate !== dashLastCheckedDate) {
@@ -4010,6 +4203,9 @@ refreshPrayerTimesUI(curDate);
 } else if (curDate && !dashLastCheckedDate) {
 dashLastCheckedDate = curDate;
 }
+if (dashboardViewModel) {
+dashboardViewModel.updateClock();
+} else {
 var digitsEl = $('dashClockDigits');
 var ampmEl = $('dashClockAmPm');
 if (digitsEl && ampmEl) {
@@ -4020,16 +4216,15 @@ var hh = h % 12;
 if (hh === 0) hh = 12;
 digitsEl.textContent = pad2(hh) + ':' + pad2(now.getMinutes()) + ':' + pad2(now.getSeconds());
 ampmEl.textContent = ap;
-} else {
-var timeEl = $('dashTime');
-if (timeEl) {
-timeEl.innerHTML = dashBigTimeHtml();
 }
 }
 var liveTimeEl = $('dashLiveTime');
 if (liveTimeEl) {
 liveTimeEl.textContent = dashLiveHeaderTime();
 }
+if (dashboardViewModel) {
+dashboardViewModel.updateTrackerBadge();
+} else {
 var trackerBadgeEl = document.getElementById('trackerMissedBadge');
 if (trackerBadgeEl && typeof getConsolidatedMissedCount === 'function') {
 var tm = getConsolidatedMissedCount();
@@ -4039,6 +4234,7 @@ trackerBadgeEl.textContent = tm + ' missed';
 } else {
 trackerBadgeEl.className = 'dash-tracker-badge dash-tracker-badge-missed d-none';
 trackerBadgeEl.textContent = '';
+}
 }
 }
 if (typeof getActivePrayerInfo === 'function') {
@@ -4114,10 +4310,7 @@ time: T[activeName] || '--:--',
 isYesterday: (activeName === 'Isha' && nowMin < fajrMin)
 };
 }
-var TIMELINE_ICONS = (window.CONSTANTS && window.CONSTANTS.DASHBOARD && window.CONSTANTS.DASHBOARD.TIMELINE_ICONS) || window.TIMELINE_ICONS || {};
 function rDashboard() {
-var body = $('dashBody');
-if (!body) return;
 var activeP = typeof getActivePrayerInfo === 'function' ? getActivePrayerInfo() : {
 name: 'Fajr',
 time: T.Fajr,
@@ -4125,9 +4318,15 @@ isYesterday: false
 };
 dashCurrentActivePrayer = activeP.name;
 var cfg = typeof getPrayerConfig === 'function' ? getPrayerConfig() : { city: 'Guntur', school: 1 };
+var locText = cfg.city + ' &bull; ' + (SCHOOL_NAMES[cfg.school] || 'Hanafi');
+if (dashboardViewModel) {
+dashboardViewModel.header.locationText(locText);
+dashboardViewModel.updateTimeline();
+dashboardViewModel.updateTrackerBadge();
+}
 var locEl = $('dashLocationText');
 if (locEl) {
-locEl.innerHTML = cfg.city + ' &bull; ' + (SCHOOL_NAMES[cfg.school] || 'Hanafi');
+locEl.innerHTML = locText;
 }
 var statuses = getTimelinePrayerStatuses();
 P.forEach(function (p) {
@@ -4168,6 +4367,33 @@ trackerBadgeEl.textContent = '';
 }
 startDashClock();
 }
+function initDashboard() {
+registerDashboardComponents();
+var el = document.getElementById('dashboardPage');
+if (el && !dashboardViewModel && typeof ko !== 'undefined') {
+dashboardViewModel = new DashboardViewModel();
+ko.applyBindings(dashboardViewModel, el);
+}
+}
+if (typeof window !== 'undefined') {
+window.DashboardApp = {
+init: initDashboard,
+render: rDashboard,
+registerComponents: registerDashboardComponents
+};
+window.rDashboard = rDashboard;
+window.startDashClock = startDashClock;
+window.dashTick = dashTick;
+window.getTimelinePrayerStatuses = getTimelinePrayerStatuses;
+window.getActivePrayerInfo = getActivePrayerInfo;
+}
+if (typeof module !== 'undefined' && module.exports) {
+module.exports = {
+initDashboard: initDashboard,
+rDashboard: rDashboard,
+registerDashboardComponents: registerDashboardComponents
+};
+}
 'use strict';
 var SETTINGS_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.SETTINGS) || {};
 var INDIAN_CITIES = SETTINGS_CONSTANTS.INDIAN_CITIES || window.INDIAN_CITIES || [];
@@ -4186,19 +4412,352 @@ START_DATE_INPUT: 'sdInput',
 FONT_SIZE_BTNS: 'fsBtns'
 };
 var SETTINGS_BUTTON_CLASSES = SETTINGS_CONSTANTS.BUTTON_CLASSES || {
-FONT_ACTIVE: 'btn btn-brand flex-1 py-3 fw-bold rounded-3 fs-6',
-FONT_INACTIVE: 'btn btn-light border flex-1 py-3 fw-bold rounded-3 fs-6'
+FONT_ACTIVE: 'flex-1 py-3 font-bold rounded-xl text-sm bg-brand text-white border border-brand transition-all cursor-pointer',
+FONT_INACTIVE: 'flex-1 py-3 font-bold rounded-xl text-sm bg-surfaceBg text-brand border border-borderGrey hover:bg-brand-light transition-all cursor-pointer'
 };
 var SETTINGS_STATUS_FALLBACK = SETTINGS_CONSTANTS.STATUS_FALLBACK || 'Offline';
+var SETTINGS_TEMPLATES = {
+'settings-card-header':
+'<div class="flex items-center gap-3 mb-3" data-bind="attr: { class: headerClass || \'flex items-center gap-3 mb-3\', \'data-ref\': headerDataRef }">' +
+'<div class="icon-box icon-box-lg" data-bind="attr: { class: iconBoxClass, \'data-ref\': iconDataRef }">' +
+'<!-- ko if: icon -->' +
+'<i data-bind="attr: { class: icon }"></i>' +
+'<!-- /ko -->' +
+'<!-- ko if: iconText -->' +
+'<!-- ko text: iconText --><!-- /ko -->' +
+'<!-- /ko -->' +
+'</div>' +
+'<div class="grow" data-bind="attr: { \'data-ref\': infoDataRef }">' +
+'<div data-bind="text: title, attr: { class: titleClass || \'font-bold text-sm\', \'data-ref\': titleDataRef }"></div>' +
+'<!-- ko if: subtitle -->' +
+'<div class="text-gr-textMuted text-xs" data-bind="text: subtitle, attr: { id: subtitleId, \'data-ref\': subtitleDataRef }"></div>' +
+'<!-- /ko -->' +
+'</div>' +
+'<!-- ko if: showStatusBadge -->' +
+'<span class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-gr-accent-soft text-gr-accent px-2"' +
+' data-bind="attr: { id: statusBadgeId, \'data-ref\': statusBadgeDataRef }">' +
+'<i class="fa-solid fa-circle-dot mr-1" style="font-size: 10px;"></i><span' +
+' data-bind="text: statusText, attr: { id: statusTextId }">Offline</span>' +
+'</span>' +
+'<!-- /ko -->' +
+'</div>',
+'settings-city-option':
+'<option data-bind="value: value, text: label, attr: { \'data-ref\': dataRef }"></option>',
+'settings-font-size-btn':
+'<button type="button"' +
+' data-bind="text: label, attr: { \'data-act\': \'font\', \'data-fs\': size, \'data-ref\': dataRef }, css: $parent.getFontSizeBtnClass ? $parent.getFontSizeBtnClass(size) : ($root.getFontSizeBtnClass ? $root.getFontSizeBtnClass(size) : \'\')">' +
+'</button>',
+'settings-info-card':
+'<div class="rounded-2xl border border-borderGrey p-4 bg-brand-light flex flex-col shadow-none"' +
+' data-bind="attr: { \'data-ref\': cardDataRef }">' +
+'<div class="flex items-center gap-3" data-bind="attr: { \'data-ref\': contentDataRef }">' +
+'<div data-bind="attr: { class: iconBoxClass, \'data-ref\': iconDataRef }">' +
+'<i data-bind="attr: { class: icon }"></i>' +
+'</div>' +
+'<div class="text-xs text-brand leading-tight" data-bind="text: text, attr: { \'data-ref\': textDataRef }"></div>' +
+'</div>' +
+'</div>',
+'settings-page':
+'' +
+'<header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center gap-2 min-h-[44px]"' +
+'>' +
+'<button type="button"' +
+' class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"' +
+' data-act="go-home" title="Back to Home" aria-label="Back to Home">' +
+'<i class="fa-solid fa-arrow-left text-base"></i>' +
+'</button>' +
+'<div class="grow min-w-0">' +
+'<h5 class="font-bold text-base text-brand m-0 flex items-center gap-2">' +
+'<i class="fa-solid fa-gear text-gr-accent"></i>' +
+'<span>Settings</span>' +
+'</h5>' +
+'<div class="text-xs text-gr-textMuted mt-0.5">App preferences</div>' +
+'</div>' +
+'</header>' +
+'<div class="grow overflow-auto p-2 pb-3" id="settingsBody">' +
+'' +
+'<div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"' +
+'>' +
+'<!-- ko component: { name: \'settings-card-header\', params: prayerTimesHeader } --><!-- /ko -->' +
+'<div class="flex flex-wrap -mx-1 gap-2 mb-3">' +
+'<div class="w-full">' +
+'<label class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5"' +
+'>City (India)</label>' +
+'<select class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"' +
+' id="ptCitySelect"' +
+' data-bind="template: { name: \'settings-city-option-template\', foreach: cityOptions }">' +
+'</select>' +
+'</div>' +
+'<div class="w-full d-none" id="ptCustomCityWrap">' +
+'<label class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5"' +
+'>Custom City Name &amp; Country</label>' +
+'<div class="flex gap-2">' +
+'<input type="text"' +
+' class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"' +
+' id="ptCustomCityInput" value="" placeholder="e.g. Guntur">' +
+'<input type="text"' +
+' class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"' +
+' id="ptCountryInput" value="India" placeholder="Country">' +
+'</div>' +
+'</div>' +
+'<div class="w-full">' +
+'<label class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5"' +
+'>Juristic Method (Asr calculation)</label>' +
+'<select class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"' +
+' id="ptSchoolSelect">' +
+'<option value="1">Hanafi (Standard in South Asia)</option>' +
+'<option value="0">Shafi / Maliki / Hanbali</option>' +
+'</select>' +
+'</div>' +
+'</div>' +
+'<button type="button"' +
+' class="font-bold w-full py-3 text-sm rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors"' +
+' data-act="pt-save">' +
+'<i class="fa-solid fa-rotate-left mr-1 text-base"></i>Sync &amp; Save Prayer Times' +
+'</button>' +
+'</div>' +
+'' +
+'<div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"' +
+'>' +
+'<!-- ko component: { name: \'settings-card-header\', params: startDateHeader } --><!-- /ko -->' +
+'<div class="flex gap-2 items-center">' +
+'<input type="date"' +
+' class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"' +
+' id="sdInput" value="">' +
+'<button type="button"' +
+' class="px-5 py-2.5 bg-brand text-white font-bold rounded-xl text-sm hover:bg-brand-hover whitespace-nowrap transition-colors"' +
+' data-act="sd-save">Change</button>' +
+'</div>' +
+'</div>' +
+'' +
+'<div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"' +
+'>' +
+'<!-- ko component: { name: \'settings-card-header\', params: fontSizeHeader } --><!-- /ko -->' +
+'<div class="flex gap-2" id="fsBtns"' +
+' data-bind="template: { name: \'settings-font-size-btn-template\', foreach: fontSizeButtons }">' +
+'</div>' +
+'</div>' +
+'' +
+'<div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"' +
+'>' +
+'<!-- ko component: { name: \'settings-card-header\', params: resetDbHeader } --><!-- /ko -->' +
+'<button type="button"' +
+' class="w-full py-3 bg-gr-danger text-white font-bold rounded-xl text-sm hover:bg-red-600 transition-colors mt-2"' +
+' data-act="reset-db">Reset</button>' +
+'</div>' +
+'' +
+'<!-- ko component: { name: \'settings-info-card\', params: storageInfo } --><!-- /ko -->' +
+'</div>' +
+'' +
+'<nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"' +
+' id="settingsBottomNav">' +
+'<button type="button"' +
+' class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium text-brand py-1.5 relative cursor-pointer select-none transition-colors active"' +
+' id="tabSettings" data-act="goto-settings" role="tab" aria-selected="true">' +
+'<i class="fa-solid fa-gear"></i>' +
+'<span>Settings</span>' +
+'</button>' +
+'</nav>'
+};
+function registerSettingsComponents() {
+if (typeof ko === 'undefined' || !ko.components) return;
+function ensureScriptTemplate(id, html) {
+if (!document.getElementById(id)) {
+var script = document.createElement('script');
+script.type = 'text/html';
+script.id = id;
+script.text = html;
+document.head.appendChild(script);
+}
+}
+ensureScriptTemplate('settings-card-header-template', SETTINGS_TEMPLATES['settings-card-header']);
+ensureScriptTemplate('settings-city-option-template', SETTINGS_TEMPLATES['settings-city-option']);
+ensureScriptTemplate('settings-font-size-btn-template', SETTINGS_TEMPLATES['settings-font-size-btn']);
+ensureScriptTemplate('settings-info-card-template', SETTINGS_TEMPLATES['settings-info-card']);
+if (!ko.components.isRegistered('settings-card-header')) {
+ko.components.register('settings-card-header', {
+viewModel: function (params) {
+return (params && params.header) ? params.header : params;
+},
+template: SETTINGS_TEMPLATES['settings-card-header']
+});
+}
+if (!ko.components.isRegistered('settings-font-size-btn')) {
+ko.components.register('settings-font-size-btn', {
+viewModel: function (params) {
+return (params && params.button) ? params.button : params;
+},
+template: SETTINGS_TEMPLATES['settings-font-size-btn']
+});
+}
+if (!ko.components.isRegistered('settings-info-card')) {
+ko.components.register('settings-info-card', {
+viewModel: function (params) {
+return (params && params.info) ? params.info : params;
+},
+template: SETTINGS_TEMPLATES['settings-info-card']
+});
+}
+if (!ko.components.isRegistered('settings-page')) {
+ko.components.register('settings-page', {
+viewModel: function (params) {
+return (params && params.viewModel) ? params.viewModel : (settingsViewModel || params);
+},
+template: SETTINGS_TEMPLATES['settings-page']
+});
+}
+}
+var settingsViewModel = null;
+function SettingsViewModel() {
+var self = this;
+var initialFs = typeof rdFS === 'function' ? rdFS() : (SETTINGS_CONSTANTS.DEFAULT_FONT_SIZE || 1);
+var initialCfg = typeof getPrayerConfig === 'function' ? getPrayerConfig() : SETTINGS_DEFAULT_CONFIG;
+var initialStatusKey = (typeof prayerTimingsStatus !== 'undefined' && prayerTimingsStatus) ? prayerTimingsStatus : 'offline';
+var initialStatusText = TIMINGS_STATUS_LABELS[initialStatusKey] || SETTINGS_STATUS_FALLBACK;
+var initialSubtitle = 'Selected City: ' + (initialCfg.city || SETTINGS_DEFAULT_CONFIG.city) + ', ' + (initialCfg.country || SETTINGS_DEFAULT_CONFIG.country);
+self.prayerTimesHeader = {
+icon: 'fa-solid fa-mosque text-xl',
+iconText: null,
+iconBoxClass: 'icon-box icon-box-lg bg-brand-light',
+iconDataRef: 'page.settings.prayer-times.icon-badge',
+infoDataRef: 'page.settings.prayer-times.info',
+title: 'Prayer Times Location',
+titleClass: 'font-bold text-sm text-brand',
+titleDataRef: 'page.settings.prayer-times.title',
+subtitle: ko.observable(initialSubtitle),
+subtitleId: SETTINGS_ELEMENT_IDS.LOCATION_SUBTITLE,
+subtitleDataRef: 'page.settings.prayer-times.subtitle',
+showStatusBadge: true,
+statusBadgeId: 'ptStatusBadge',
+statusBadgeDataRef: 'page.settings.prayer-times.status-badge',
+statusTextId: SETTINGS_ELEMENT_IDS.STATUS_TEXT,
+statusText: ko.observable(initialStatusText),
+headerDataRef: 'page.settings.prayer-times.header',
+headerClass: 'flex items-center gap-3 mb-3'
+};
+self.startDateHeader = {
+icon: 'fa-solid fa-calendar-check text-xl',
+iconText: null,
+iconBoxClass: 'icon-box icon-box-lg bg-brand-light text-brand',
+iconDataRef: 'page.settings.start-date.icon-badge',
+infoDataRef: 'page.settings.start-date.info',
+title: 'Current Start Date',
+titleClass: 'font-bold text-sm',
+titleDataRef: 'page.settings.start-date.title',
+subtitle: null,
+subtitleId: null,
+subtitleDataRef: null,
+showStatusBadge: false,
+headerDataRef: 'page.settings.start-date.header',
+headerClass: 'flex items-center gap-3 mb-3'
+};
+self.fontSizeHeader = {
+icon: null,
+iconText: 'Aa',
+iconBoxClass: 'icon-box icon-box-lg bg-brand-light text-gr-accent font-bold text-base',
+iconDataRef: 'page.settings.font-size.icon-badge',
+infoDataRef: 'page.settings.font-size.info',
+title: 'Font Size',
+titleClass: 'font-bold text-sm',
+titleDataRef: 'page.settings.font-size.title',
+subtitle: null,
+subtitleId: null,
+subtitleDataRef: null,
+showStatusBadge: false,
+headerDataRef: 'page.settings.font-size.header',
+headerClass: 'flex items-center gap-3 mb-3'
+};
+self.resetDbHeader = {
+icon: 'fa-solid fa-triangle-exclamation text-xl',
+iconText: null,
+iconBoxClass: 'icon-box icon-box-lg bg-danger-subtle text-gr-danger',
+iconDataRef: 'page.settings.reset.icon-badge',
+infoDataRef: 'page.settings.reset.info',
+title: 'Reset Database',
+titleClass: 'font-bold text-sm',
+titleDataRef: 'page.settings.reset.title',
+subtitle: ko.observable('This will delete all prayer data, old data and cache.'),
+subtitleId: null,
+subtitleDataRef: 'page.settings.reset.subtitle',
+showStatusBadge: false,
+headerDataRef: 'page.settings.reset.header',
+headerClass: 'flex items-center gap-3 mb-2'
+};
+var cityOpts = (INDIAN_CITIES || []).map(function (c) {
+return {
+value: c.name,
+label: c.name + (c.state ? ' (' + c.state + ')' : ''),
+dataRef: 'page.settings.prayer-times.city-option.' + c.name.toLowerCase().replace(/\s+/g, '-')
+};
+});
+cityOpts.push({
+value: CUSTOM_CITY_VALUE,
+label: 'Other / Custom City...',
+dataRef: 'page.settings.prayer-times.city-option.custom'
+});
+self.cityOptions = ko.observableArray(cityOpts);
+self.currentFontSize = ko.observable(initialFs);
+self.getFontSizeBtnClass = function (size) {
+var active = Math.abs(self.currentFontSize() - size) < 0.01;
+return active ? SETTINGS_BUTTON_CLASSES.FONT_ACTIVE : SETTINGS_BUTTON_CLASSES.FONT_INACTIVE;
+};
+var rawFontOptions = SETTINGS_CONSTANTS.FONT_SIZE_OPTIONS || [
+{ v: 0.9, l: 'Small' },
+{ v: 1, l: 'Medium' },
+{ v: 1.15, l: 'Large' }
+];
+self.fontSizeButtons = rawFontOptions.map(function (opt) {
+var sizeVal = opt.v;
+var labelStr = opt.l;
+var refKey = labelStr.toLowerCase();
+return {
+size: sizeVal,
+label: labelStr,
+dataRef: 'page.settings.font-size.' + refKey
+};
+});
+self.storageInfo = {
+cardDataRef: 'page.settings.info.card',
+contentDataRef: 'page.settings.info.content',
+iconBoxClass: 'icon-box icon-box-sm bg-brand text-white',
+iconDataRef: 'page.settings.info.icon',
+icon: 'fa-solid fa-circle-info text-sm',
+text: 'All changes are saved automatically in your device (localStorage).',
+textDataRef: 'page.settings.info.text'
+};
+}
+function initSettings() {
+if (typeof ko === 'undefined') return;
+registerSettingsComponents();
+var el = document.getElementById('settingsPage');
+if (!el || settingsViewModel) return;
+settingsViewModel = new SettingsViewModel();
+ko.applyBindings(settingsViewModel, el);
+}
 function rSET() {
+if (!settingsViewModel) {
+initSettings();
+}
 var fs = typeof rdFS === 'function' ? rdFS() : (SETTINGS_CONSTANTS.DEFAULT_FONT_SIZE || 1);
 var sdate = typeof rdSD === 'function' ? rdSD() : '';
 var cfg = typeof getPrayerConfig === 'function' ? getPrayerConfig() : SETTINGS_DEFAULT_CONFIG;
 var statusKey = (typeof prayerTimingsStatus !== 'undefined' && prayerTimingsStatus) ? prayerTimingsStatus : 'offline';
 var statusText = TIMINGS_STATUS_LABELS[statusKey] || SETTINGS_STATUS_FALLBACK;
+var subtitleText = 'Selected City: ' + (cfg.city || SETTINGS_DEFAULT_CONFIG.city) + ', ' + (cfg.country || SETTINGS_DEFAULT_CONFIG.country);
+if (settingsViewModel) {
+if (settingsViewModel.prayerTimesHeader && ko.isObservable(settingsViewModel.prayerTimesHeader.subtitle)) {
+settingsViewModel.prayerTimesHeader.subtitle(subtitleText);
+}
+if (settingsViewModel.prayerTimesHeader && ko.isObservable(settingsViewModel.prayerTimesHeader.statusText)) {
+settingsViewModel.prayerTimesHeader.statusText(statusText);
+}
+if (ko.isObservable(settingsViewModel.currentFontSize)) {
+settingsViewModel.currentFontSize(fs);
+}
+}
 var sub = $(SETTINGS_ELEMENT_IDS.LOCATION_SUBTITLE);
 if (sub) {
-sub.textContent = 'Selected City: ' + (cfg.city || SETTINGS_DEFAULT_CONFIG.city) + ', ' + (cfg.country || SETTINGS_DEFAULT_CONFIG.country);
+sub.textContent = subtitleText;
 }
 var st = $(SETTINGS_ELEMENT_IDS.STATUS_TEXT);
 if (st) {
@@ -4279,7 +4838,27 @@ btn.className = active ? SETTINGS_BUTTON_CLASSES.FONT_ACTIVE : SETTINGS_BUTTON_C
 }
 }
 }
+if (typeof document !== 'undefined') {
+if (document.readyState === 'loading') {
+document.addEventListener('DOMContentLoaded', function () {
+initSettings();
+rSET();
+});
+} else {
+initSettings();
+rSET();
+}
+}
+var SettingsApp = {
+init: initSettings,
+render: rSET,
+getViewModel: function () {
+return settingsViewModel;
+},
+registerComponents: registerSettingsComponents
+};
 if (typeof window !== 'undefined') {
+window.SettingsApp = SettingsApp;
 window.rSET = rSET;
 }
 'use strict';
@@ -7222,6 +7801,9 @@ if (typeof window !== 'undefined') {
 window.DuaApp = window.DuasApp;
 }</script><script>
 document.addEventListener('DOMContentLoaded', function () {
+if (window.SettingsApp && typeof window.SettingsApp.init === 'function') {
+window.SettingsApp.init();
+}
 if (typeof rSET === 'function') {
 rSET();
 }
