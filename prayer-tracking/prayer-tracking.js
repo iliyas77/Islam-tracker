@@ -11,19 +11,220 @@
    ============================================================ */
 
 
-var PRAYER_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.PRAYER) || {};
-var P = PRAYER_CONSTANTS.NAMES || window.P || ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-window.P = P;
-var T = window.T || Object.assign({}, PRAYER_CONSTANTS.DEFAULT_TIMINGS || {});
-window.T = T;
-var sd = window.sd || (typeof td === 'function' ? td() : new Date().toISOString().slice(0, 10));
-window.sd = sd;
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var PRAYER_CONSTANTS = _win.PRAYER_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER) || {};
+var COMMON_CONSTANTS = _win.COMMON_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.COMMON) || {};
+var P = PRAYER_CONSTANTS.NAMES || _win.P || ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+if (typeof window !== 'undefined') window.P = P;
+var T = _win.T || Object.assign({}, PRAYER_CONSTANTS.DEFAULT_TIMINGS || {});
+if (typeof window !== 'undefined') window.T = T;
+var sd = _win.sd || (typeof td === 'function' ? td() : new Date().toISOString().slice(0, 10));
+if (typeof window !== 'undefined') window.sd = sd;
 
-var PRAYER_CARD_ICONS = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.CARD_ICONS) || window.PRAYER_CARD_ICONS || {};
-var MONTH_NAMES = (window.CONSTANTS && ((window.CONSTANTS.COMMON && window.CONSTANTS.COMMON.MONTH_NAMES) || (window.CONSTANTS.DATE && window.CONSTANTS.DATE.MONTH_NAMES))) || window.MONTH_NAMES || [
+var PRAYER_CARD_ICONS = PRAYER_CONSTANTS.CARD_ICONS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER && _win.CONSTANTS.PRAYER.CARD_ICONS) || _win.PRAYER_CARD_ICONS || {};
+var MONTH_NAMES = COMMON_CONSTANTS.MONTH_NAMES || (_win.CONSTANTS && ((_win.CONSTANTS.COMMON && _win.CONSTANTS.COMMON.MONTH_NAMES) || (_win.CONSTANTS.DATE && _win.CONSTANTS.DATE.MONTH_NAMES))) || _win.MONTH_NAMES || [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
 ];
+
+/* ---------- Prayer Tracking Component Templates ---------- */
+export const TrackerPageTemplate = { element: 'tracker-page-template', file: 'prayer-tracking/prayer-tracking.html' };
+export const PrayerHeaderTemplate = { element: 'prayer-header-template', file: 'prayer-tracking/templates/prayer-header.html' };
+export const PrayerTrackerCardTemplate = { element: 'prayer-tracker-card-template', file: 'prayer-tracking/templates/prayer-tracker-card.html' };
+export const PrayerRowTemplate = { element: 'prayer-row-template', file: 'prayer-tracking/templates/prayer-row.html' };
+export const PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'prayer-tracking/templates/prayer-stat-card.html' };
+export const PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'prayer-tracking/templates/prayer-perf-ring.html' };
+export const PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'prayer-tracking/templates/prayer-nav-tab.html' };
+
+/* ---------- Knockout ViewModel & Component Registration ---------- */
+var trackerViewModel = null;
+
+export function PrayerTrackerCardViewModel(params) {
+    if (params instanceof PrayerTrackerCardViewModel) {
+        return params;
+    }
+    if (!(this instanceof PrayerTrackerCardViewModel)) {
+        return new PrayerTrackerCardViewModel(params);
+    }
+    var p = (params && typeof params === 'function') ? params() : (params || {});
+    var k = typeof ko !== 'undefined' ? ko : (typeof window !== 'undefined' ? window.ko : null);
+    var self = this;
+
+    function unwrap(v, def) {
+        if (typeof v === 'function') return v();
+        return (v !== undefined && v !== null) ? v : def;
+    }
+
+    self.collapsePrefix = unwrap(p.collapsePrefix, 'cur');
+    self.pagePrefix = unwrap(p.pagePrefix, 'page.current');
+    self.dateChipAct = unwrap(p.dateChipAct, '');
+    self.dateChipText = (k && k.isObservable(p.dateChipText)) ? p.dateChipText : ((k && k.observable) ? k.observable(unwrap(p.dateChipText, '')) : unwrap(p.dateChipText, ''));
+    self.badgeText = (k && k.isObservable(p.badgeText)) ? p.badgeText : ((k && k.observable) ? k.observable(unwrap(p.badgeText, '')) : unwrap(p.badgeText, ''));
+    self.badgeAct = unwrap(p.badgeAct, '');
+    self.actionBtnText = (k && k.isObservable(p.actionBtnText)) ? p.actionBtnText : ((k && k.observable) ? k.observable(unwrap(p.actionBtnText, '')) : unwrap(p.actionBtnText, ''));
+    self.actionBtnAct = unwrap(p.actionBtnAct, '');
+    self.missedGroupTitle = (k && k.isObservable(p.missedGroupTitle)) ? p.missedGroupTitle : ((k && k.observable) ? k.observable(unwrap(p.missedGroupTitle, 'MISSED')) : unwrap(p.missedGroupTitle, 'MISSED'));
+    self.missedRows = (k && k.isObservable(p.missedRows)) ? p.missedRows : ((k && k.observableArray) ? k.observableArray(unwrap(p.missedRows, [])) : function () { return unwrap(p.missedRows, []); });
+    self.doneGroupTitle = (k && k.isObservable(p.doneGroupTitle)) ? p.doneGroupTitle : ((k && k.observable) ? k.observable(unwrap(p.doneGroupTitle, 'DONE')) : unwrap(p.doneGroupTitle, 'DONE'));
+    self.doneRows = (k && k.isObservable(p.doneRows)) ? p.doneRows : ((k && k.observableArray) ? k.observableArray(unwrap(p.doneRows, [])) : function () { return unwrap(p.doneRows, []); });
+}
+
+export function PrayerRowViewModel(params) {
+    if (params instanceof PrayerRowViewModel) return params;
+    if (!(this instanceof PrayerRowViewModel)) return new PrayerRowViewModel(params);
+    var p = (params && typeof params === 'function') ? params() : (params || {});
+    var self = this;
+    self.prayer = p.prayer || '';
+    self.time = p.time || '--:--';
+    self.isDone = !!p.isDone;
+    self.isUpcoming = !!p.isUpcoming;
+    self.isMissed = !!p.isMissed;
+    self.isStandard = (p.isStandard !== undefined) ? !!p.isStandard : (!self.isDone && !self.isUpcoming && !self.isMissed);
+    self.isCurrent = !!p.isCurrent;
+    self.prefix = p.prefix || p.pagePrefix || 'page.tracker';
+    self.actionAct = p.actionAct || '';
+    self.date = p.date || '';
+    self.iconClass = p.iconClass || 'fa-solid fa-mosque';
+}
+
+export function getTrackerViewModel() {
+    if (!trackerViewModel && typeof TrackerPageViewModel === 'function') {
+        trackerViewModel = new TrackerPageViewModel();
+    }
+    return trackerViewModel;
+}
+
+export function TrackerPageViewModel(params) {
+    params = params || {};
+    var self = this;
+    var k = typeof ko !== 'undefined' ? ko : (typeof window !== 'undefined' ? window.ko : null);
+
+    self.currentSubTab = (k && k.observable) ? k.observable(_win.trackerSubTab || 'current') : function () { return 'current'; };
+
+    var initialMissed = typeof tMT === 'function' ? tMT() : 0;
+    self.missedCount = (k && k.observable) ? k.observable(initialMissed) : function () { return 0; };
+    self.hasMissed = (k && k.pureComputed) ? k.pureComputed(function () {
+        return (typeof self.missedCount === 'function' ? self.missedCount() : self.missedCount) > 0;
+    }) : function () { return false; };
+
+    self.header = {
+        iconClass: (k && k.observable) ? k.observable('fa-regular fa-calendar-days text-gr-accent') : 'fa-regular fa-calendar-days text-gr-accent',
+        label: (k && k.observable) ? k.observable('Current Prayer') : 'Current Prayer',
+        subtitle: (k && k.observable) ? k.observable('Select a period to begin') : '',
+        showSubtitle: (k && k.observable) ? k.observable(false) : false,
+        missedCount: self.missedCount,
+        hasMissed: self.hasMissed
+    };
+
+    self.currentCard = (k && k.observable) ? k.observable(new PrayerTrackerCardViewModel({
+        collapsePrefix: 'cur',
+        pagePrefix: 'page.current',
+        dateChipAct: 'open-cal'
+    })) : new PrayerTrackerCardViewModel({
+        collapsePrefix: 'cur',
+        pagePrefix: 'page.current',
+        dateChipAct: 'open-cal'
+    });
+
+    self.oldCard = (k && k.observable) ? k.observable(new PrayerTrackerCardViewModel({
+        collapsePrefix: 'old',
+        pagePrefix: 'page.old',
+        dateChipAct: 'old-open-cal'
+    })) : new PrayerTrackerCardViewModel({
+        collapsePrefix: 'old',
+        pagePrefix: 'page.old',
+        dateChipAct: 'old-open-cal'
+    });
+
+    self.performance = {
+        hero: {
+            dashArray: (k && k.observable) ? k.observable('0, 100') : '0, 100',
+            percentageText: (k && k.observable) ? k.observable('0%') : '0%',
+            totalCompleted: (k && k.observable) ? k.observable(0) : 0,
+            totalPossible: (k && k.observable) ? k.observable(0) : 0,
+            datePillText: (k && k.observable) ? k.observable('0 days') : '0 days'
+        },
+        stats: {
+            completed: (k && k.observable) ? k.observable(0) : 0,
+            missed: (k && k.observable) ? k.observable(0) : 0,
+            rate: (k && k.observable) ? k.observable('0%') : '0%'
+        },
+        trackedDays: (k && k.observable) ? k.observable('0 days') : '0 days',
+        footerLabel: (k && k.observable) ? k.observable('Tracking Start Date: --') : ''
+    };
+
+    self.historySubtitle = (k && k.observable) ? k.observable('0 completed prayers') : '0 completed prayers';
+}
+
+export function registerPrayerTrackingComponents(customKo) {
+    var k = customKo || (typeof ko !== 'undefined' ? ko : (typeof window !== 'undefined' ? window.ko : null));
+    if (!k || !k.components) return;
+
+    if (!k.components.isRegistered('prayer-header')) {
+        k.components.register('prayer-header', {
+            viewModel: function (params) { return params || {}; },
+            template: PrayerHeaderTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('prayer-tracker-card')) {
+        k.components.register('prayer-tracker-card', {
+            viewModel: PrayerTrackerCardViewModel,
+            template: PrayerTrackerCardTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('prayer-row')) {
+        k.components.register('prayer-row', {
+            viewModel: PrayerRowViewModel,
+            template: PrayerRowTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('prayer-stat-card')) {
+        k.components.register('prayer-stat-card', {
+            viewModel: function (params) { return params || {}; },
+            template: PrayerStatCardTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('prayer-perf-ring')) {
+        k.components.register('prayer-perf-ring', {
+            viewModel: function (params) { return params || {}; },
+            template: PrayerPerfRingTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('prayer-nav-tab')) {
+        k.components.register('prayer-nav-tab', {
+            viewModel: function (params) { return params || {}; },
+            template: PrayerNavTabTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('tracker-page')) {
+        k.components.register('tracker-page', {
+            viewModel: function (params) {
+                return (params && params.viewModel) ? params.viewModel : getTrackerViewModel();
+            },
+            template: TrackerPageTemplate
+        });
+    }
+}
+
+export function initTracker() {
+    registerPrayerTrackingComponents();
+    var el = document.getElementById('trackerPage');
+    if (el && typeof ko !== 'undefined') {
+        var vm = getTrackerViewModel();
+        if (!ko.dataFor(el)) {
+            ko.applyBindings(vm, el);
+        }
+    }
+    if (typeof rn === 'function') {
+        rn();
+    }
+}
 
 
 function parseTimeToMin(timeStr) {
@@ -193,8 +394,6 @@ function renderPrayerTrackerCard(cfg) {
         : true;
 
     var badgeActAttr = cfg.badgeAct ? ' data-act="' + cfg.badgeAct + '" role="button" class="cursor-pointer"' : '';
-    var dateChipActAttr = cfg.dateChipAct ? ' data-act="' + cfg.dateChipAct + '"' : '';
-    var actionBtnActAttr = cfg.actionBtnAct ? ' data-act="' + cfg.actionBtnAct + '"' : '';
 
     var missedRowsHtml = missed.length
         ? missed.map(function (p) {
@@ -413,13 +612,16 @@ function rMS() {
         title: 'Missed Prayers',
         sub: 'From previous days (today excluded)'
     };
-    if (window.Icon && typeof Icon.update === 'function') {
+    if (window.sheet2BS && typeof window.sheet2BS.show === 'function') {
+        window.sheet2BS.show(sheetCfg);
+    }
+    if (window.Icon && typeof Icon.update === 'function' && $('sheet2Icon')) {
         Icon.update($('sheet2Icon'), sheetCfg.iconClass);
-    } else {
+    } else if ($('sheet2Icon')) {
         $('sheet2Icon').className = sheetCfg.iconClass;
     }
-    $('sheet2Title').textContent = sheetCfg.title;
-    $('sheet2Sub').textContent = sheetCfg.sub;
+    if ($('sheet2Title')) $('sheet2Title').textContent = sheetCfg.title;
+    if ($('sheet2Sub')) $('sheet2Sub').textContent = sheetCfg.sub;
 
     var list = mBD().reverse();
     var missedContent = $('sheetMissedContent');
@@ -438,7 +640,6 @@ function rMS() {
         if (emptyEl) emptyEl.classList.add('d-none');
         if (listEl) listEl.innerHTML = list.map(missCard).join('');
     }
-    sheet2BS.show();
 }
 
 if (typeof window !== 'undefined') {
@@ -489,13 +690,17 @@ function rOldInfo() {
         iconClass: 'circle-info text-brand',
         title: 'Period Info'
     };
-    if (window.Icon && typeof Icon.update === 'function') {
+    sheetCfg.sub = isAllCompleted ? (fr(o.start) + ' → Complete') : (fr(o.start) + ' → ' + fr(o.end));
+    if (window.sheet2BS && typeof window.sheet2BS.show === 'function') {
+        window.sheet2BS.show(sheetCfg);
+    }
+    if (window.Icon && typeof Icon.update === 'function' && $('sheet2Icon')) {
         Icon.update($('sheet2Icon'), sheetCfg.iconClass);
-    } else {
+    } else if ($('sheet2Icon')) {
         $('sheet2Icon').className = sheetCfg.iconClass;
     }
-    $('sheet2Title').textContent = sheetCfg.title;
-    $('sheet2Sub').textContent = isAllCompleted ? (fr(o.start) + ' → Complete') : (fr(o.start) + ' → ' + fr(o.end));
+    if ($('sheet2Title')) $('sheet2Title').textContent = sheetCfg.title;
+    if ($('sheet2Sub')) $('sheet2Sub').textContent = sheetCfg.sub;
 
     var missedContent = $('sheetMissedContent');
     var periodInfoContent = $('sheetPeriodInfoContent');
@@ -521,8 +726,6 @@ function rOldInfo() {
 
     var perPrayerEl = $('sheetPeriodPerPrayer');
     if (perPrayerEl) perPrayerEl.innerHTML = perPrayerHtml;
-
-    sheet2BS.show();
 }
 
 function rPeriod() {
@@ -531,13 +734,16 @@ function rPeriod() {
         title: 'Set Old Period',
         sub: ''
     };
-    if (window.Icon && typeof Icon.update === 'function') {
+    if (window.sheet2BS && typeof window.sheet2BS.show === 'function') {
+        window.sheet2BS.show(sheetCfg);
+    }
+    if (window.Icon && typeof Icon.update === 'function' && $('sheet2Icon')) {
         Icon.update($('sheet2Icon'), sheetCfg.iconClass);
-    } else {
+    } else if ($('sheet2Icon')) {
         $('sheet2Icon').className = sheetCfg.iconClass;
     }
-    $('sheet2Title').textContent = sheetCfg.title;
-    $('sheet2Sub').textContent = sheetCfg.sub;
+    if ($('sheet2Title')) $('sheet2Title').textContent = sheetCfg.title;
+    if ($('sheet2Sub')) $('sheet2Sub').textContent = sheetCfg.sub;
     var o = rdOK();
     var hasValidPeriod = o && o.end >= o.start;
 
@@ -568,8 +774,6 @@ function rPeriod() {
             resetBtn.classList.add('d-none');
         }
     }
-
-    sheet2BS.show();
 }
 
 function openOldCal() {
@@ -818,9 +1022,6 @@ if (typeof window !== 'undefined') {
             var n = typeof opts === 'object' ? opts.name : opts;
             return '<app-icon params="name: \'' + n + '\'"></app-icon>';
         };
-        var buttonFn = typeof window.Button === 'function' ? window.Button : function (props) {
-            return '<button type="button" class="btn ' + (props.className || '') + '" data-act="' + (props.dataAct || '') + '">' + (props.label || '') + '</button>';
-        };
         var timings = window.T || (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.DEFAULT_TIMINGS) || {};
 
         // Update header subtitle if currently on performance tab
@@ -999,7 +1200,7 @@ if (typeof window !== 'undefined') {
 (function (window) {
     'use strict';
 
-    var PRAYER_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.PRAYER) || {};
+    var PRAYER_CONSTANTS = window.PRAYER_CONSTANTS || (window.CONSTANTS && window.CONSTANTS.PRAYER) || {};
     var PRAYER_STORAGE_KEYS = PRAYER_CONSTANTS.STORAGE_KEYS || {};
     var HISTORY_STORAGE_KEY = PRAYER_STORAGE_KEYS.HISTORY || window.PHK || 'namazPrayerHistory';
 
@@ -1432,5 +1633,43 @@ if (typeof window !== 'undefined') {
     window.emptyPrayerHistory = emptyPrayerHistory;
     window.renderPrayerHistoryTab = renderPrayerHistoryTab;
 
-})(typeof window !== 'undefined' ? window : global);
+})(typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {}));
+
+export {
+    rn,
+    rOT,
+    trackerViewModel
+};
+
+var PrayerTrackingApp = {
+    init: initTracker,
+    render: rn,
+    getViewModel: getTrackerViewModel,
+    registerComponents: registerPrayerTrackingComponents
+};
+
+if (typeof window !== 'undefined') {
+    window.PrayerTrackingApp = PrayerTrackingApp;
+    window.initTracker = initTracker;
+    window.TrackerPageViewModel = TrackerPageViewModel;
+    window.PrayerTrackerCardViewModel = PrayerTrackerCardViewModel;
+    window.PrayerRowViewModel = PrayerRowViewModel;
+    window.getTrackerViewModel = getTrackerViewModel;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        initTracker: initTracker,
+        rn: rn,
+        rOT: rOT,
+        registerPrayerTrackingComponents: registerPrayerTrackingComponents,
+        TrackerPageViewModel: TrackerPageViewModel,
+        PrayerTrackerCardViewModel: PrayerTrackerCardViewModel,
+        PrayerRowViewModel: PrayerRowViewModel,
+        getTrackerViewModel: getTrackerViewModel
+    };
+    module.exports.default = PrayerTrackingApp;
+}
+
+export default PrayerTrackingApp;
 

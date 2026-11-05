@@ -1,5 +1,5 @@
-/* ---------- Navigation (Constants referenced from utilities/constant.js) ---------- */
-var NAV_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.NAVIGATION) || {};
+/* ---------- Navigation (Constants referenced from utilities/navigation-constants.js) ---------- */
+var NAV_CONSTANTS = window.NAVIGATION_CONSTANTS || (window.CONSTANTS && window.CONSTANTS.NAVIGATION) || {};
 var PAGES = NAV_CONSTANTS.PAGES || window.PAGES || ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage'];
 var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', performance: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas' };
 var SUB_TABS = NAV_CONSTANTS.SUB_TABS || { CURRENT: 'current', OLD: 'old', PERFORMANCE: 'performance', HISTORY: 'history' };
@@ -269,7 +269,13 @@ function showPage(kind) {
     }
 
     if (kind === 'dashboard') {
-        rDashboard();
+        if (typeof rDashboard === 'function') {
+            rDashboard();
+        } else if (window.rDashboard) {
+            window.rDashboard();
+        } else if (window.DashboardApp && typeof window.DashboardApp.render === 'function') {
+            window.DashboardApp.render();
+        }
     } else if (kind === 'current') {
         switchTrackerSubTab('current');
     } else if (kind === 'old') {
@@ -283,10 +289,20 @@ function showPage(kind) {
     } else if (kind === 'settings') {
         rSET();
     } else if (kind === 'tasbeeh') {
+        if (typeof initTasbeeh === 'function') {
+            initTasbeeh();
+        } else if (window.initTasbeeh) {
+            window.initTasbeeh();
+        }
         if (window.TasbeehApp && typeof window.TasbeehApp.render === 'function') {
             window.TasbeehApp.render();
         }
     } else if (kind === 'duas') {
+        if (typeof initDuas === 'function') {
+            initDuas();
+        } else if (window.initDuas) {
+            window.initDuas();
+        }
         if (window.DuasApp && typeof window.DuasApp.render === 'function') {
             window.DuasApp.render();
         }

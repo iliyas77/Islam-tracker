@@ -11,11 +11,13 @@
    ============================================================ */
 'use strict';
 
-/* ---------- Settings Constants ---------- */
-var SETTINGS_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.SETTINGS) || {};
-var INDIAN_CITIES = SETTINGS_CONSTANTS.INDIAN_CITIES || window.INDIAN_CITIES || [];
+/* ---------- Settings Constants (Referenced from utilities/settings-constants.js) ---------- */
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var SETTINGS_CONSTANTS = _win.SETTINGS_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.SETTINGS) || {};
+var PRAYER_CONSTANTS = _win.PRAYER_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER) || {};
+var INDIAN_CITIES = SETTINGS_CONSTANTS.INDIAN_CITIES || _win.INDIAN_CITIES || [];
 var CUSTOM_CITY_VALUE = SETTINGS_CONSTANTS.CUSTOM_CITY_VALUE || '__custom__';
-var TIMINGS_STATUS_LABELS = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STATUS_LABELS) || { live: 'Live', cached: 'Cached', offline: 'Offline' };
+var TIMINGS_STATUS_LABELS = PRAYER_CONSTANTS.STATUS_LABELS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER && _win.CONSTANTS.PRAYER.STATUS_LABELS) || { live: 'Live', cached: 'Cached', offline: 'Offline' };
 var SETTINGS_DEFAULT_CONFIG = SETTINGS_CONSTANTS.DEFAULT_CONFIG || { city: 'Guntur', country: 'India', school: 1 };
 var SETTINGS_ELEMENT_IDS = SETTINGS_CONSTANTS.ELEMENT_IDS || {
     LOCATION_SUBTITLE: 'ptLocationSubtitle',
@@ -34,47 +36,54 @@ var SETTINGS_BUTTON_CLASSES = SETTINGS_CONSTANTS.BUTTON_CLASSES || {
 };
 var SETTINGS_STATUS_FALLBACK = SETTINGS_CONSTANTS.STATUS_FALLBACK || 'Offline';
 
-/* ---------- Component Registration (Templates from separate HTML files) ---------- */
-function registerSettingsComponents() {
-    if (typeof ko === 'undefined' || !ko.components) return;
+/* ---------- Settings Component Templates ---------- */
+export const SettingsCardHeaderTemplate = { element: 'settings-card-header-template', file: 'settings/templates/settings-card-header.html' };
+export const SettingsFontSizeBtnTemplate = { element: 'settings-font-size-btn-template', file: 'settings/templates/settings-font-size-btn.html' };
+export const SettingsInfoCardTemplate = { element: 'settings-info-card-template', file: 'settings/templates/settings-info-card.html' };
+export const SettingsPageTemplate = { element: 'settings-page-template', file: 'settings/settings.html' };
+
+/* ---------- Component Registration ---------- */
+export function registerSettingsComponents(customKo) {
+    var k = customKo || (typeof ko !== 'undefined' ? ko : (typeof window !== 'undefined' ? window.ko : null));
+    if (!k || !k.components) return;
 
     // 1. Reusable Card Header Component
-    if (!ko.components.isRegistered('settings-card-header')) {
-        ko.components.register('settings-card-header', {
+    if (!k.components.isRegistered('settings-card-header')) {
+        k.components.register('settings-card-header', {
             viewModel: function (params) {
                 return (params && params.header) ? params.header : params;
             },
-            template: { element: 'settings-card-header-template', file: 'settings/templates/settings-card-header.html' }
+            template: SettingsCardHeaderTemplate
         });
     }
 
     // 2. Reusable Font Size Button Component
-    if (!ko.components.isRegistered('settings-font-size-btn')) {
-        ko.components.register('settings-font-size-btn', {
+    if (!k.components.isRegistered('settings-font-size-btn')) {
+        k.components.register('settings-font-size-btn', {
             viewModel: function (params) {
                 return (params && params.button) ? params.button : params;
             },
-            template: { element: 'settings-font-size-btn-template', file: 'settings/templates/settings-font-size-btn.html' }
+            template: SettingsFontSizeBtnTemplate
         });
     }
 
     // 3. Reusable Info Card Component
-    if (!ko.components.isRegistered('settings-info-card')) {
-        ko.components.register('settings-info-card', {
+    if (!k.components.isRegistered('settings-info-card')) {
+        k.components.register('settings-info-card', {
             viewModel: function (params) {
                 return (params && params.info) ? params.info : params;
             },
-            template: { element: 'settings-info-card-template', file: 'settings/templates/settings-info-card.html' }
+            template: SettingsInfoCardTemplate
         });
     }
 
     // 4. Main Settings Page Component (orchestrates layout shell and child components)
-    if (!ko.components.isRegistered('settings-page')) {
-        ko.components.register('settings-page', {
+    if (!k.components.isRegistered('settings-page')) {
+        k.components.register('settings-page', {
             viewModel: function (params) {
-                return (params && params.viewModel) ? params.viewModel : (settingsViewModel || params);
+                return (params && params.viewModel) ? params.viewModel : getSettingsViewModel();
             },
-            template: { element: 'settings-page-template', file: 'settings/settings.html' }
+            template: SettingsPageTemplate
         });
     }
 }
@@ -82,7 +91,14 @@ function registerSettingsComponents() {
 /* ---------- Knockout ViewModel ---------- */
 var settingsViewModel = null;
 
-function SettingsViewModel() {
+export function getSettingsViewModel() {
+    if (!settingsViewModel && typeof SettingsViewModel === 'function') {
+        settingsViewModel = new SettingsViewModel();
+    }
+    return settingsViewModel;
+}
+
+export function SettingsViewModel() {
     var self = this;
 
     var initialFs = typeof rdFS === 'function' ? rdFS() : (SETTINGS_CONSTANTS.DEFAULT_FONT_SIZE || 1);
@@ -216,15 +232,17 @@ function SettingsViewModel() {
     };
 }
 
-function initSettings() {
+export function initSettings() {
     if (typeof ko === 'undefined') return;
     registerSettingsComponents();
 
     var el = document.getElementById('settingsPage');
-    if (!el || settingsViewModel) return;
+    if (!el) return;
 
-    settingsViewModel = new SettingsViewModel();
-    ko.applyBindings(settingsViewModel, el);
+    var vm = getSettingsViewModel();
+    if (!ko.dataFor(el)) {
+        ko.applyBindings(vm, el);
+    }
 }
 
 function rSET() {
@@ -363,17 +381,33 @@ if (typeof document !== 'undefined') {
     }
 }
 
+export { rSET, settingsViewModel };
+
 var SettingsApp = {
     init: initSettings,
     render: rSET,
-    getViewModel: function () {
-        return settingsViewModel;
-    },
+    getViewModel: getSettingsViewModel,
     registerComponents: registerSettingsComponents
 };
 
 if (typeof window !== 'undefined') {
     window.SettingsApp = SettingsApp;
     window.rSET = rSET;
+    window.initSettings = initSettings;
+    window.SettingsViewModel = SettingsViewModel;
+    window.getSettingsViewModel = getSettingsViewModel;
 }
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        initSettings: initSettings,
+        rSET: rSET,
+        registerSettingsComponents: registerSettingsComponents,
+        SettingsViewModel: SettingsViewModel,
+        getSettingsViewModel: getSettingsViewModel
+    };
+    module.exports.default = SettingsApp;
+}
+
+export default SettingsApp;
 

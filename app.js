@@ -2,8 +2,8 @@
    Nur Prayer — Application Logic
    ============================================================ */
 
-/* ---------- Constants (Referenced from utilities/constant.js) ---------- */
-var PRAYER_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.PRAYER) || {};
+/* ---------- Constants (Referenced from utilities/prayer-constants.js) ---------- */
+var PRAYER_CONSTANTS = window.PRAYER_CONSTANTS || (window.CONSTANTS && window.CONSTANTS.PRAYER) || {};
 var P = PRAYER_CONSTANTS.NAMES || window.P || ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
 window.P = P;
 var K = (PRAYER_CONSTANTS.STORAGE_KEYS && PRAYER_CONSTANTS.STORAGE_KEYS.TRACKER_DATA) || window.K || 'namazTrackerData';
@@ -34,9 +34,44 @@ var TIMINGS_STATUS = PRAYER_CONSTANTS.STATUS || { LIVE: 'live', CACHED: 'cached'
 /* ---------- State ---------- */
 var sd = td();
 window.sd = sd;
-var sheet2BS;
-var dashTimer = null;
-var currentHijri = null;
+var sheet2IsOpen = typeof ko !== 'undefined' ? ko.observable(false) : function () { return false; };
+var sheet2Title = typeof ko !== 'undefined' ? ko.observable('—') : function () { return '—'; };
+var sheet2Sub = typeof ko !== 'undefined' ? ko.observable('') : function () { return ''; };
+var sheet2Icon = typeof ko !== 'undefined' ? ko.observable('fa-solid fa-list-check text-gr-accent') : function () { return ''; };
+
+var sheet2BS = {
+    show: function (cfg) {
+        if (cfg) {
+            if (cfg.title && typeof sheet2Title === 'function') sheet2Title(cfg.title);
+            if (cfg.sub !== undefined && typeof sheet2Sub === 'function') sheet2Sub(cfg.sub);
+            if (cfg.iconClass && typeof sheet2Icon === 'function') {
+                var iconCls = cfg.iconClass;
+                if (iconCls.indexOf('fa-') === -1) {
+                    iconCls = 'fa-solid fa-' + iconCls;
+                }
+                sheet2Icon(iconCls);
+            }
+        }
+        if (typeof sheet2IsOpen === 'function') {
+            sheet2IsOpen(true);
+        }
+    },
+    hide: function () {
+        if (typeof sheet2IsOpen === 'function') {
+            sheet2IsOpen(false);
+        }
+    },
+    toggle: function () {
+        if (typeof sheet2IsOpen === 'function') {
+            sheet2IsOpen(!sheet2IsOpen());
+        }
+    }
+};
+window.sheet2BS = sheet2BS;
+window.sheet2IsOpen = sheet2IsOpen;
+window.sheet2Title = sheet2Title;
+window.sheet2Sub = sheet2Sub;
+window.sheet2Icon = sheet2Icon;
 var prayerTimingsStatus = TIMINGS_STATUS.CACHED; // 'live', 'cached', 'offline'
 
 /* ---------- Prayer Timings Service & Caching ---------- */
@@ -107,9 +142,6 @@ function applyTimings(timings, hijri, status) {
     if (timings.Sunrise) {
         T.Sunrise = format12h(timings.Sunrise);
     }
-    if (hijri) {
-        currentHijri = hijri;
-    }
     if (status) {
         prayerTimingsStatus = status;
     }
@@ -118,12 +150,22 @@ function applyTimings(timings, hijri, status) {
 function refreshPrayerTimesUI(dateStr) {
     var dashPage = $('dashboardPage');
     if (dashPage && !dashPage.classList.contains('d-none')) {
-        rDashboard();
+        if (typeof rDashboard === 'function') {
+            rDashboard();
+        } else if (window.rDashboard) {
+            window.rDashboard();
+        } else if (window.DashboardApp && typeof window.DashboardApp.render === 'function') {
+            window.DashboardApp.render();
+        }
     }
     var trkPage = $('trackerPage') || $('currentPage');
     if (trkPage && !trkPage.classList.contains('d-none') && sd === dateStr) {
         if (typeof trackerSubTab === 'undefined' || trackerSubTab === 'current') {
-            rn();
+            if (typeof rn === 'function') {
+                rn();
+            } else if (window.rn) {
+                window.rn();
+            }
         }
     }
 }
@@ -294,21 +336,75 @@ if (typeof ko !== 'undefined' && ko.components && ko.components.loaders) {
 }
 
 /* ---------- Global Components Registration ---------- */
-if (typeof ko !== 'undefined' && ko.components) {
+if (typeof registerAllComponents === 'function') {
+    registerAllComponents();
+} else if (typeof window !== 'undefined' && typeof window.registerAllComponents === 'function') {
+    window.registerAllComponents();
+} else if (typeof ko !== 'undefined' && ko.components) {
     if (window.AppIcon && typeof window.AppIcon.register === 'function') {
         window.AppIcon.register(ko);
+    }
+    if (window.AppBottomSheet && typeof window.AppBottomSheet.register === 'function') {
+        window.AppBottomSheet.register(ko);
     }
 }
 
 /* ---------- Init ---------- */
 document.addEventListener('DOMContentLoaded', function () {
-    if (typeof ko !== 'undefined' && ko.components) {
+    if (typeof registerAllComponents === 'function') {
+        registerAllComponents();
+    } else if (typeof window !== 'undefined' && typeof window.registerAllComponents === 'function') {
+        window.registerAllComponents();
+    } else if (typeof ko !== 'undefined' && ko.components) {
         if (window.AppIcon && typeof window.AppIcon.register === 'function') {
             window.AppIcon.register(ko);
         }
+        if (window.AppBottomSheet && typeof window.AppBottomSheet.register === 'function') {
+            window.AppBottomSheet.register(ko);
+        }
     }
-    var OffcanvasClass = window.UIOffcanvas || (window.bootstrap && window.bootstrap.Offcanvas);
-    sheet2BS = OffcanvasClass ? new OffcanvasClass($('sheet2')) : null;
+    var sheet2El = document.getElementById('sheet2Wrapper');
+    if (sheet2El && typeof ko !== 'undefined') {
+        ko.applyBindings({
+            sheet2IsOpen: sheet2IsOpen,
+            sheet2Title: sheet2Title,
+            sheet2Sub: sheet2Sub,
+            sheet2Icon: sheet2Icon,
+            onSheet2Close: function () {
+                sheet2BS.hide();
+            }
+        }, sheet2El);
+    }
+
+    if (window.DashboardApp && typeof window.DashboardApp.init === 'function') {
+        window.DashboardApp.init();
+    }
+    if (window.SettingsApp && typeof window.SettingsApp.init === 'function') {
+        window.SettingsApp.init();
+    }
+    if (window.PrayerTrackingApp && typeof window.PrayerTrackingApp.init === 'function') {
+        window.PrayerTrackingApp.init();
+    }
+    if (typeof initTasbeeh === 'function') {
+        initTasbeeh();
+    } else if (window.initTasbeeh) {
+        window.initTasbeeh();
+    } else if (window.TasbeehApp && typeof window.TasbeehApp.init === 'function') {
+        window.TasbeehApp.init();
+    }
+    if (window.TasbeehApp && typeof window.TasbeehApp.initModals === 'function') {
+        window.TasbeehApp.initModals();
+    }
+    if (typeof initDuas === 'function') {
+        initDuas();
+    } else if (window.initDuas) {
+        window.initDuas();
+    } else if (window.DuasApp && typeof window.DuasApp.init === 'function') {
+        window.DuasApp.init();
+    }
+    if (window.DuasApp && typeof window.DuasApp.initModals === 'function') {
+        window.DuasApp.initModals();
+    }
 
     apFS(rdFS());
     if (typeof migratePrayerData === 'function') {

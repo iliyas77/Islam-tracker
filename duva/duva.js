@@ -2,11 +2,139 @@
    Nur Prayer — Quran Duas Feature Module
    Path: dua.js
    ============================================================ */
+
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+if (typeof window === 'undefined') {
+    globalThis.window = _win;
+}
+
+/* ---------- Quran Duas Component Templates ---------- */
+export const DuasPageTemplate = { element: 'duas-page-template', file: 'duva/duva.html' };
+export const DuvaHeaderTemplate = { element: 'duva-header-template', file: 'duva/templates/duva-header.html' };
+export const DuvaSearchBarTemplate = { element: 'duva-search-bar-template', file: 'duva/templates/duva-search-bar.html' };
+export const DuvaNavTabTemplate = { element: 'duva-nav-tab-template', file: 'duva/templates/duva-nav-tab.html' };
+export const DuvaPinnedCardTemplate = { element: 'duva-pinned-card-template', file: 'duva/templates/duva-pinned-card.html' };
+export const DuvaCardTemplate = { element: 'duva-card-template', file: 'duva/templates/duva-card.html' };
+export const DuvaTranslationToggleTemplate = { element: 'duva-translation-toggle-template', file: 'duva/templates/duva-translation-toggle.html' };
+
+/* ---------- Knockout ViewModel & Component Registration ---------- */
+var duasViewModel = null;
+
+export function getDuasViewModel() {
+    if (!duasViewModel && typeof DuasPageViewModel === 'function') {
+        duasViewModel = new DuasPageViewModel();
+    }
+    return duasViewModel;
+}
+
+export function DuasPageViewModel(params) {
+    params = params || {};
+    var self = this;
+    var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+
+    self.currentSubTab = (k && k.observable) ? k.observable('home') : function () { return 'home'; };
+
+    self.header = {
+        title: (k && k.observable) ? k.observable('Quran Duas') : 'Quran Duas',
+        progressText: (k && k.observable) ? k.observable('0 pinned') : '0 pinned',
+        iconClass: (k && k.observable) ? k.observable('fa-solid fa-hands-praying text-brand') : 'fa-solid fa-hands-praying text-brand'
+    };
+
+    self.pinnedTitle = (k && k.observable) ? k.observable('Your Pinned Duas (0/2)') : 'Your Pinned Duas (0/2)';
+    self.pinnedDuas = (k && k.observableArray) ? k.observableArray([]) : [];
+    self.filteredDuas = (k && k.observableArray) ? k.observableArray([]) : [];
+    self.favouriteDuas = (k && k.observableArray) ? k.observableArray([]) : [];
+
+    self.search = {
+        query: (k && k.observable) ? k.observable('') : '',
+        placeholder: (k && k.observable) ? k.observable('Search by number, Surah, or keywords...') : 'Search by number, Surah, or keywords...'
+    };
+
+    self.detail = {
+        number: (k && k.observable) ? k.observable(1) : 1,
+        surah: (k && k.observable) ? k.observable('') : '',
+        uchcharana: (k && k.observable) ? k.observable('') : '',
+        ardham: (k && k.observable) ? k.observable('') : ''
+    };
+}
+
+export function registerDuasComponents(customKo) {
+    var k = customKo || (typeof ko !== 'undefined' ? ko : (_win.ko || null));
+    if (!k || !k.components) return;
+
+    if (!k.components.isRegistered('duva-header')) {
+        k.components.register('duva-header', {
+            viewModel: function (params) { return params || {}; },
+            template: DuvaHeaderTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('duva-search-bar')) {
+        k.components.register('duva-search-bar', {
+            viewModel: function (params) { return params || {}; },
+            template: DuvaSearchBarTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('duva-nav-tab')) {
+        k.components.register('duva-nav-tab', {
+            viewModel: function (params) { return params || {}; },
+            template: DuvaNavTabTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('duva-pinned-card')) {
+        k.components.register('duva-pinned-card', {
+            viewModel: function (params) { return params || {}; },
+            template: DuvaPinnedCardTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('duva-card')) {
+        k.components.register('duva-card', {
+            viewModel: function (params) { return params || {}; },
+            template: DuvaCardTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('duva-translation-toggle')) {
+        k.components.register('duva-translation-toggle', {
+            viewModel: function (params) { return params || {}; },
+            template: DuvaTranslationToggleTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('duas-page')) {
+        k.components.register('duas-page', {
+            viewModel: function (params) {
+                return (params && params.viewModel) ? params.viewModel : getDuasViewModel();
+            },
+            template: DuasPageTemplate
+        });
+    }
+}
+
+export function initDuas() {
+    registerDuasComponents();
+    var el = document.getElementById('duasPage');
+    if (el && typeof ko !== 'undefined') {
+        var vm = getDuasViewModel();
+        if (!ko.dataFor(el)) {
+            ko.applyBindings(vm, el);
+        }
+    }
+    if (_win.DuasApp && typeof _win.DuasApp.init === 'function' && _win.DuasApp.init !== initDuas) {
+        _win.DuasApp.init();
+    } else if (_win.DuasApp && typeof _win.DuasApp.fetchDuas === 'function') {
+        _win.DuasApp.fetchDuas();
+    }
+}
+
 'use strict';
 
 window.DuasApp = (function () {
-    // ===== CONSTANTS (Referenced from utilities/constant.js) =====
-    var DUA_CONSTANTS = (window.CONSTANTS && (window.CONSTANTS.DUA || window.CONSTANTS.DUAS)) || {};
+    // ===== CONSTANTS (Referenced from utilities/dua-constants.js) =====
+    var DUA_CONSTANTS = window.DUA_CONSTANTS || window.DUAS_CONSTANTS || (window.CONSTANTS && (window.CONSTANTS.DUA || window.CONSTANTS.DUAS)) || {};
     var defaultDuas = [];
     var STORAGE_KEY_DUAS = (DUA_CONSTANTS.STORAGE_KEYS && DUA_CONSTANTS.STORAGE_KEYS.DATA) || 'quranDuas_data';
     var STORAGE_KEY_FAVS = (DUA_CONSTANTS.STORAGE_KEYS && DUA_CONSTANTS.STORAGE_KEYS.FAVS) || 'quranDuas_favourites';
@@ -607,6 +735,10 @@ window.DuasApp = (function () {
         } else {
             renderFavourites();
         }
+
+        if (duasViewModel && typeof duasViewModel.currentSubTab === 'function') {
+            duasViewModel.currentSubTab(activeTab);
+        }
     }
 
     // ===== SEARCH INPUT =====
@@ -764,7 +896,32 @@ window.DuasApp = (function () {
     }
 
     // ===== INIT & RENDER =====
+    function init() {
+        var pageEl = document.getElementById('duasPage');
+        if (pageEl && typeof ko !== 'undefined') {
+            registerDuasComponents();
+            var vm = (typeof getDuasViewModel === 'function') ? getDuasViewModel() : null;
+            if (vm && !ko.dataFor(pageEl)) {
+                ko.applyBindings(vm, pageEl);
+            }
+        }
+        return fetchDuas();
+    }
+
     function render() {
+        var pageEl = document.getElementById('duasPage');
+        if (pageEl && typeof ko !== 'undefined' && !ko.dataFor(pageEl)) {
+            init();
+        }
+
+        var isDomReady = document.getElementById('duaHomeView') || document.getElementById('duaListView');
+        if (!isDomReady) {
+            setTimeout(function () {
+                render();
+            }, 30);
+            return;
+        }
+
         if (!isLoaded && isLoading) {
             renderLoadingState();
             return;
@@ -773,6 +930,8 @@ window.DuasApp = (function () {
             renderLoadingState();
             fetchDuas().then(function () {
                 switchTab(activeTab || 'home');
+            }).catch(function () {
+                switchTab(activeTab || 'home');
             });
             return;
         }
@@ -780,33 +939,35 @@ window.DuasApp = (function () {
     }
 
     // Setup search listener when DOM ready
-    document.addEventListener('DOMContentLoaded', function () {
-        fetchDuas();
-        var searchInput = document.getElementById('duaSearchInput');
-        if (searchInput) {
-            searchInput.addEventListener('input', handleSearch);
-        }
-        var searchClear = document.getElementById('duaSearchClear');
-        if (searchClear && searchInput) {
-            searchClear.addEventListener('click', function () {
-                searchInput.value = '';
-                searchClear.classList.add('d-none');
-                renderList();
-                searchInput.focus();
-            });
-            searchInput.addEventListener('input', function () {
-                if (searchInput.value.length > 0) {
-                    searchClear.classList.remove('d-none');
-                } else {
+    if (typeof document !== 'undefined') {
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchDuas();
+            var searchInput = document.getElementById('duaSearchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', handleSearch);
+            }
+            var searchClear = document.getElementById('duaSearchClear');
+            if (searchClear && searchInput) {
+                searchClear.addEventListener('click', function () {
+                    searchInput.value = '';
                     searchClear.classList.add('d-none');
-                }
-            });
-        }
-    });
+                    renderList();
+                    searchInput.focus();
+                });
+                searchInput.addEventListener('input', function () {
+                    if (searchInput.value.length > 0) {
+                        searchClear.classList.remove('d-none');
+                    } else {
+                        searchClear.classList.add('d-none');
+                    }
+                });
+            }
+        });
+    }
 
     // Public API
     return {
-        init: fetchDuas,
+        init: init,
         fetchDuas: fetchDuas,
         render: render,
         switchTab: switchTab,
@@ -829,7 +990,33 @@ window.DuasApp = (function () {
     };
 })();
 
-
 if (typeof window !== 'undefined') {
     window.DuaApp = window.DuasApp;
+    window.DuasPageViewModel = DuasPageViewModel;
+    window.getDuasViewModel = getDuasViewModel;
+    window.initDuas = initDuas;
+    window.registerDuasComponents = registerDuasComponents;
 }
+
+export {
+    duasViewModel
+};
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        DuasPageTemplate: DuasPageTemplate,
+        DuvaHeaderTemplate: DuvaHeaderTemplate,
+        DuvaSearchBarTemplate: DuvaSearchBarTemplate,
+        DuvaNavTabTemplate: DuvaNavTabTemplate,
+        DuvaPinnedCardTemplate: DuvaPinnedCardTemplate,
+        DuvaCardTemplate: DuvaCardTemplate,
+        DuvaTranslationToggleTemplate: DuvaTranslationToggleTemplate,
+        DuasPageViewModel: DuasPageViewModel,
+        getDuasViewModel: getDuasViewModel,
+        initDuas: initDuas,
+        registerDuasComponents: registerDuasComponents
+    };
+    module.exports.default = (typeof window !== 'undefined' ? window.DuasApp : null);
+}
+
+export default (typeof window !== 'undefined' ? window.DuasApp : null);

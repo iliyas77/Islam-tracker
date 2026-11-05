@@ -139,6 +139,7 @@
                 // Dashboard Constants
                 // ==========================================
                 DASHBOARD: {
+                        POLLING_INTERVAL_MS: 30000,
                         ELEMENT_IDS: {
                                 BODY: 'dashBody',
                                 SCROLL: 'dashScroll',
@@ -149,7 +150,6 @@
                                 TIMELINE_NODES: 'dashTimelineNodes',
                                 TRACKER_MISSED_BADGE: 'trackerMissedBadge'
                         },
-                        TIMELINE_ICONS: PRAYER_ICONS,
                         STATUSES: {
                                 ACTIVE: 'active',
                                 PASSED: 'passed',
@@ -169,6 +169,7 @@
                 // Digital Tasbeeh Constants
                 // ==========================================
                 TASBEEH: {
+                        DEFAULT_TARGET: 33,
                         ELEMENT_IDS: {
                                 PAGE: 'tasbeehPage',
                                 HEADER_ICON: 'tbHeaderIcon',
@@ -209,11 +210,8 @@
                                 OLD_CONTENT: 'tbOldContent',
                                 OLD_ADVANCE_BANNER: 'tbOldAdvanceBanner',
                                 OLD_ADVANCE_BANNER_MSG: 'tbOldAdvanceBannerMsg',
-                                OLD_TODO_GROUP: 'tbOldTodoGroup',
-                                OLD_TODO_LIST: 'tbOldTodoList',
                                 OLD_TODO_GRID: 'tbOldTodoGrid',
                                 OLD_TODO_BADGE: 'tbOldTodoBadge',
-                                OLD_DONE_GROUP: 'tbOldDoneGroup',
                                 OLD_DONE_LIST: 'tbOldDoneList',
                                 OLD_DONE_GRID: 'tbOldDoneGrid',
                                 OLD_DONE_BADGE: 'tbOldDoneBadge',
@@ -291,17 +289,7 @@
                                 { title: 'Alhamdulillah', targetCount: 33, targetCycles: 3 },
                                 { title: 'Allahu Akbar', targetCount: 34, targetCycles: 3 },
                                 { title: 'Astaghfirullah', targetCount: 100, targetCycles: 1 }
-                        ],
-                        INFINITE_LAP: 33,
-                        MAX_BEADS: 60,
-			SVG_NS: "http://www.w3.org/2000/svg",
-			ICONS: {
-				MISBAHA: '<app-icon params="name: \'hands-praying\'"></app-icon>',
-				TARGET: '<app-icon params="name: \'bullseye\', customClass: \'tb-meta-icon\', color: \'#168a54\', size: \'14px\'"></app-icon>',
-				CHECK_CIRCLE: '<app-icon params="name: \'circle-check\', customClass: \'tb-meta-icon\', color: \'#168a54\', size: \'14px\'"></app-icon>',
-				PENCIL: '<app-icon params="name: \'pencil\', color: \'#168a54\', size: \'14px\'"></app-icon>',
-				CHEVRON: '<app-icon params="name: \'chevron-right\', customClass: \'tb-chevron\', color: \'#94a3b8\', size: \'12px\'"></app-icon>'
-			}
+                        ]
 		},
 
                 // ==========================================
@@ -336,7 +324,6 @@
                                 TAB_FAVS: 'duaTabFavs',
                                 ADD_MODAL: 'duaAddModal',
                                 ADMIN_MODAL: 'duaAdminModal',
-                                PIN_MODAL: 'duaPinModal',
                                 HOME_EMPTY_STATE: 'duaHomeEmptyState',
                                 HOME_CONTENT: 'duaHomeContent',
                                 HOME_TITLE_COUNT: 'duaHomeTitleCount',
@@ -528,6 +515,16 @@
         // Expose CONSTANTS object globally
         window.CONSTANTS = CONSTANTS;
 
+        // Feature-specific module aliases
+        window.PRAYER_CONSTANTS = CONSTANTS.PRAYER;
+        window.DASHBOARD_CONSTANTS = CONSTANTS.DASHBOARD;
+        window.TASBEEH_CONSTANTS = CONSTANTS.TASBEEH;
+        window.DUA_CONSTANTS = CONSTANTS.DUA;
+        window.DUAS_CONSTANTS = CONSTANTS.DUA;
+        window.SETTINGS_CONSTANTS = CONSTANTS.SETTINGS;
+        window.NAVIGATION_CONSTANTS = CONSTANTS.NAVIGATION;
+        window.COMMON_CONSTANTS = CONSTANTS.COMMON;
+
         // Backward compatibility aliases
         window.P = CONSTANTS.PRAYER.NAMES;
         window.K = CONSTANTS.PRAYER.STORAGE_KEYS.TRACKER_DATA;
@@ -543,9 +540,7 @@
         window.defaultPrayerConfig = CONSTANTS.PRAYER.DEFAULT_CONFIG;
         window.T = CONSTANTS.PRAYER.DEFAULT_TIMINGS;
         window.I = CONSTANTS.PRAYER.ICONS;
-        window.PRAYER_ICONS = PRAYER_ICONS;
         window.PRAYER_CARD_ICONS = CONSTANTS.PRAYER.CARD_ICONS;
-        window.TIMELINE_ICONS = CONSTANTS.DASHBOARD.TIMELINE_ICONS;
         window.INDIAN_CITIES = CONSTANTS.SETTINGS.INDIAN_CITIES;
         window.PAGES = CONSTANTS.NAVIGATION.PAGES;
         window.NAVS = CONSTANTS.NAVIGATION.NAVS;
