@@ -2603,6 +2603,334 @@
         </div>
     </div>
 
+    <!-- ============================================================
+         Global & Modular Knockout HTML Templates
+         (Loaded from separate HTML files under components/ and feature/templates/)
+         ============================================================ -->
+    <div id="appTemplates" style="display: none;">
+        <script type="text/html" id="app-icon-template">
+            <!-- Reusable Icon Component Template (Global) -->
+            <!-- ko if: isSvg -->
+            <svg data-bind="attr: {
+                class: computedClass,
+                style: computedStyle,
+                viewBox: svgViewBox,
+                'aria-hidden': ariaHidden,
+                'aria-label': ariaLabel,
+                role: role,
+                id: id,
+                'data-ref': dataRef
+            }" fill="currentColor">
+                <use data-bind="attr: { 'xlink:href': svgHref, href: svgHref }"></use>
+            </svg>
+            <!-- /ko -->
+            <!-- ko ifnot: isSvg -->
+            <i data-bind="attr: {
+                class: computedClass,
+                style: computedStyle,
+                'aria-hidden': ariaHidden,
+                'aria-label': ariaLabel,
+                role: role,
+                id: id,
+                'data-ref': dataRef
+            }"></i>
+            <!-- /ko -->
+        </script>
+        <script type="text/html" id="settings-card-header-template">
+            <div class="flex items-center gap-3 mb-3" data-bind="attr: { class: headerClass || 'flex items-center gap-3 mb-3', 'data-ref': headerDataRef }">
+                <div class="icon-box icon-box-lg" data-bind="attr: { class: iconBoxClass, 'data-ref': iconDataRef }">
+                    <!-- ko if: icon -->
+                    <app-icon params="name: icon"></app-icon>
+                    <!-- /ko -->
+                    <!-- ko if: iconText -->
+                    <!-- ko text: iconText --><!-- /ko -->
+                    <!-- /ko -->
+                </div>
+                <div class="grow" data-bind="attr: { 'data-ref': infoDataRef }">
+                    <div data-bind="text: title, attr: { class: titleClass || 'font-bold text-sm', 'data-ref': titleDataRef }"></div>
+                    <!-- ko if: subtitle -->
+                    <div class="text-gr-textMuted text-xs" data-bind="text: subtitle, attr: { id: subtitleId, 'data-ref': subtitleDataRef }"></div>
+                    <!-- /ko -->
+                </div>
+                <!-- ko if: showStatusBadge -->
+                <span class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-gr-accent-soft text-gr-accent px-2"
+                    data-bind="attr: { id: statusBadgeId, 'data-ref': statusBadgeDataRef }">
+                    <app-icon params="name: 'circle-dot', size: '10px', customClass: 'mr-1'"></app-icon><span
+                        data-bind="text: statusText, attr: { id: statusTextId }">Offline</span>
+                </span>
+                <!-- /ko -->
+            </div>
+        </script>
+        <script type="text/html" id="settings-city-option-template">
+            <option data-bind="value: value, text: label, attr: { 'data-ref': dataRef }"></option>
+        </script>
+        <script type="text/html" id="settings-font-size-btn-template">
+            <button type="button"
+                data-bind="text: label, attr: { 'data-act': 'font', 'data-fs': size, 'data-ref': dataRef }, css: $parent.getFontSizeBtnClass ? $parent.getFontSizeBtnClass(size) : ($root.getFontSizeBtnClass ? $root.getFontSizeBtnClass(size) : '')">
+            </button>
+        </script>
+        <script type="text/html" id="settings-info-card-template">
+            <div class="rounded-2xl border border-borderGrey p-4 bg-brand-light flex flex-col shadow-none"
+                data-bind="attr: { 'data-ref': cardDataRef }">
+                <div class="flex items-center gap-3" data-bind="attr: { 'data-ref': contentDataRef }">
+                    <div data-bind="attr: { class: iconBoxClass, 'data-ref': iconDataRef }">
+                        <app-icon params="name: icon"></app-icon>
+                    </div>
+                    <div class="text-xs text-brand leading-tight" data-bind="text: text, attr: { 'data-ref': textDataRef }"></div>
+                </div>
+            </div>
+        </script>
+        <script type="text/html" id="settings-page-template">
+            <!-- Settings Header -->
+            <header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center gap-2 min-h-[44px]"
+                data-ref="page.settings.header">
+                <button type="button"
+                    class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
+                    data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.settings.back-btn">
+                    <app-icon params="name: 'arrow-left', size: 'base'"></app-icon>
+                </button>
+                <div class="grow min-w-0">
+                    <h5 class="font-bold text-base text-brand m-0 flex items-center gap-2">
+                        <app-icon params="name: 'gear', color: 'text-gr-accent'"></app-icon>
+                        <span>Settings</span>
+                    </h5>
+                    <div class="text-xs text-gr-textMuted mt-0.5">App preferences</div>
+                </div>
+            </header>
+            
+            <!-- Settings Content Body -->
+            <div class="grow overflow-auto p-2 pb-3" id="settingsBody" data-ref="page.settings.body">
+                <!-- Prayer Times Location Card -->
+                <div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"
+                    data-ref="page.settings.prayer-times.card">
+                    <!-- ko component: { name: 'settings-card-header', params: prayerTimesHeader } --><!-- /ko -->
+                    <div class="flex flex-wrap -mx-1 gap-2 mb-3" data-ref="page.settings.prayer-times.form-row">
+                        <div class="w-full" data-ref="page.settings.prayer-times.city-col">
+                            <label
+                                class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5"
+                                data-ref="page.settings.prayer-times.city-label">City (India)</label>
+                            <select
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
+                                id="ptCitySelect" data-ref="page.settings.prayer-times.city-select"
+                                data-bind="template: { name: 'settings-city-option-template', foreach: cityOptions }">
+                            </select>
+                        </div>
+                        <div class="w-full d-none" id="ptCustomCityWrap"
+                            data-ref="page.settings.prayer-times.custom-city-wrap">
+                            <label
+                                class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5"
+                                data-ref="page.settings.prayer-times.custom-city-label">Custom City Name &amp;
+                                Country</label>
+                            <div class="flex gap-2" data-ref="page.settings.prayer-times.custom-city-row">
+                                <input type="text"
+                                    class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
+                                    id="ptCustomCityInput" value="" placeholder="e.g. Guntur"
+                                    data-ref="page.settings.prayer-times.custom-city-input">
+                                <input type="text"
+                                    class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
+                                    id="ptCountryInput" value="India" placeholder="Country"
+                                    data-ref="page.settings.prayer-times.country-input">
+                            </div>
+                        </div>
+                        <div class="w-full" data-ref="page.settings.prayer-times.school-col">
+                            <label
+                                class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5"
+                                data-ref="page.settings.prayer-times.school-label">Juristic Method (Asr
+                                calculation)</label>
+                            <select
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
+                                id="ptSchoolSelect" data-ref="page.settings.prayer-times.school-select">
+                                <option value="1">Hanafi (Standard in South Asia)</option>
+                                <option value="0">Shafi / Maliki / Hanbali</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="button"
+                        class="font-bold w-full py-3 text-sm rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors"
+                        data-act="pt-save" data-ref="page.settings.prayer-times.save-btn">
+                        <app-icon params="name: 'rotate-left', size: 'base', customClass: 'mr-1', dataRef: 'page.settings.prayer-times.save-icon'"></app-icon>Sync &amp; Save Prayer Times
+                    </button>
+                </div>
+            
+                <!-- Start Date Card -->
+                <div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"
+                    data-ref="page.settings.start-date.card">
+                    <!-- ko component: { name: 'settings-card-header', params: startDateHeader } --><!-- /ko -->
+                    <div class="flex gap-2 items-center" data-ref="page.settings.start-date.input-row">
+                        <input type="date"
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
+                            id="sdInput" value="" data-ref="page.settings.start-date.input">
+                        <button type="button"
+                            class="px-5 py-2.5 bg-brand text-white font-bold rounded-xl text-sm hover:bg-brand-hover whitespace-nowrap transition-colors"
+                            data-act="sd-save" data-ref="page.settings.start-date.save-btn">Change</button>
+                    </div>
+                </div>
+            
+                <!-- Font Size Card -->
+                <div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"
+                    data-ref="page.settings.font-size.card">
+                    <!-- ko component: { name: 'settings-card-header', params: fontSizeHeader } --><!-- /ko -->
+                    <div class="flex gap-2" id="fsBtns" data-ref="page.settings.font-size.buttons-row"
+                        data-bind="template: { name: 'settings-font-size-btn-template', foreach: fontSizeButtons }">
+                    </div>
+                </div>
+            
+                <!-- Reset DB Card -->
+                <div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"
+                    data-ref="page.settings.reset.card">
+                    <!-- ko component: { name: 'settings-card-header', params: resetDbHeader } --><!-- /ko -->
+                    <button type="button"
+                        class="w-full py-3 bg-gr-danger text-white font-bold rounded-xl text-sm hover:bg-red-600 transition-colors mt-2"
+                        data-act="reset-db" data-ref="page.settings.reset.btn">Reset</button>
+                </div>
+            
+                <!-- Storage Info -->
+                <!-- ko component: { name: 'settings-info-card', params: storageInfo } --><!-- /ko -->
+            </div>
+            
+            <!-- Bottom Navigation -->
+            <nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
+                id="settingsBottomNav" data-ref="page.settings.bottom-nav">
+                <button type="button"
+                    class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium text-brand py-1.5 relative cursor-pointer select-none transition-colors active"
+                    id="tabSettings" data-act="goto-settings" role="tab" aria-selected="true"
+                    data-ref="page.settings.tab">
+                    <app-icon params="name: 'gear'"></app-icon>
+                    <span>Settings</span>
+                </button>
+            </nav>
+        </script>
+        <script type="text/html" id="dashboard-header-template">
+            <header class="flex items-center justify-between text-brand text-xs font-semibold py-1 z-10"
+                data-ref="page.dashboard.header">
+                <div class="flex items-center gap-1.5 text-xs text-brand font-medium"
+                    data-ref="page.dashboard.header.location">
+                    <app-icon params="name: 'location-dot', color: 'text-brand', size: 'sm', dataRef: 'page.dashboard.header.location-icon'"></app-icon>
+                    <span id="dashLocationText" data-ref="page.dashboard.header.location-text"
+                        data-bind="html: locationText">Guntur &bull; Hanafi</span>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-sm"
+                    data-ref="page.dashboard.header.mosque-icon">
+                    <app-icon params="name: 'mosque'"></app-icon>
+                </div>
+            </header>
+        </script>
+        <script type="text/html" id="dashboard-clock-template">
+            <div class="dash-clock-card bg-white rounded-2xl p-4 border border-borderGrey flex items-center justify-between shadow-none relative overflow-hidden min-h-[96px]"
+                data-ref="page.dashboard.clock-card">
+                <div class="text-2xl text-brand/30" data-ref="page.dashboard.clock-card.left-icon">
+                    <app-icon params="name: 'mosque'"></app-icon>
+                </div>
+                <div class="dash-clock-wrap flex items-baseline justify-center" id="dashTime"
+                    data-ref="page.dashboard.clock-card.time">
+                    <span class="text-3xl font-bold tracking-tight text-brand font-mono"
+                        id="dashClockDigits" data-bind="text: digits">--:--:--</span>
+                    <span class="text-sm font-bold uppercase ml-1.5 text-brand"
+                        id="dashClockAmPm" data-bind="text: ampm">--</span>
+                </div>
+                <div class="text-2xl text-brand/30" data-ref="page.dashboard.clock-card.right-icon">
+                    <app-icon params="name: 'star-and-crescent'"></app-icon>
+                </div>
+            </div>
+        </script>
+        <script type="text/html" id="dashboard-timeline-item-template">
+            <div class="flex-1 flex flex-col items-center gap-1.5 text-center min-w-0"
+                data-bind="attr: { id: 'dashTimeline' + name, 'data-ref': 'page.dashboard.timeline.item.' + name.toLowerCase() }">
+                <div class="icon-box icon-box-md"
+                    data-bind="attr: { id: 'dashIconBox' + name, 'data-ref': 'page.dashboard.timeline.icon.' + name.toLowerCase() }, css: { 'icon-box-active': isActive }">
+                    <app-icon params="name: iconClass"></app-icon>
+                </div>
+                <div class="text-xs font-bold text-brand mt-1 truncate"
+                    data-bind="text: name, attr: { 'data-ref': 'page.dashboard.timeline.name.' + name.toLowerCase() }"></div>
+                <div class="text-[11px] text-gr-text font-medium"
+                    data-bind="text: time, attr: { id: 'dashTime' + name, 'data-ref': 'page.dashboard.timeline.time.' + name.toLowerCase() }">--:--</div>
+                <span class="dash-timeline-badge text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
+                    data-bind="text: statusText, attr: { id: 'dashBadge' + name, 'data-ref': 'page.dashboard.timeline.badge.' + name.toLowerCase() }, css: statusBadgeClass">Upcoming</span>
+            </div>
+        </script>
+        <script type="text/html" id="dashboard-timeline-template">
+            <div class="dash-timeline-card bg-white rounded-2xl p-4 border border-borderGrey flex flex-col gap-3 shadow-none"
+                data-ref="page.dashboard.timeline-card">
+                <div class="flex items-center justify-between gap-2"
+                    data-ref="page.dashboard.timeline.header">
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand"
+                        data-ref="page.dashboard.timeline.title" data-bind="text: title || 'Daily Prayer Timeline'">Daily Prayer Timeline</span>
+                    <div class="h-[1px] bg-borderGrey flex-1" data-ref="page.dashboard.timeline.line"></div>
+                    <div class="w-6 h-6 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-xs shrink-0"
+                        title="Daily Prayers" aria-hidden="true"
+                        data-ref="page.dashboard.timeline.alarm-icon">
+                        <app-icon params="name: 'bell'"></app-icon>
+                    </div>
+                </div>
+                <div class="flex justify-between items-stretch gap-1 w-full" id="dashTimelineNodes"
+                    data-ref="page.dashboard.timeline.nodes"
+                    data-bind="template: { name: 'dashboard-timeline-item-template', foreach: items }">
+                </div>
+            </div>
+        </script>
+        <script type="text/html" id="dashboard-nav-card-template">
+            <div class="dash-nav-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col items-center justify-between cursor-pointer hover:border-brand hover:shadow-sm transition-all min-h-[120px] relative shadow-none"
+                role="button" tabindex="0"
+                data-bind="attr: { 'data-act': action, 'data-ref': dataRef }">
+                <!-- ko if: hasBadge -->
+                <span class="dash-tracker-badge absolute top-2.5 right-2.5 text-[10.5px] font-bold leading-none px-2 py-0.5 rounded-full inline-flex items-center justify-center whitespace-nowrap z-[3] pointer-events-none bg-red-100 text-red-600 border border-red-300"
+                    data-bind="text: badgeText, attr: { id: badgeId, 'data-ref': badgeDataRef }, css: { 'd-none': !badgeVisible() }"></span>
+                <!-- /ko -->
+                <div class="icon-box icon-box-lg" data-bind="attr: { 'data-ref': iconDataRef }">
+                    <app-icon params="name: iconClass"></app-icon>
+                </div>
+                <div class="flex items-center justify-center gap-1 text-xs font-bold text-brand mt-2">
+                    <span class="text-xs font-bold text-brand"
+                        data-bind="text: title, attr: { 'data-ref': titleDataRef }"></span>
+                    <app-icon params="name: 'chevron-right'"></app-icon>
+                </div>
+            </div>
+        </script>
+        <script type="text/html" id="dashboard-divider-template">
+            <div class="flex items-center justify-center gap-2 py-3 w-full text-brand/30"
+                data-ref="page.dashboard.bottom-divider">
+                <div class="h-[1px] bg-borderGrey flex-1"></div>
+                <div class="text-xs text-brand/40 px-2"><app-icon params="name: 'star-and-crescent'"></app-icon></div>
+                <div class="h-[1px] bg-borderGrey flex-1"></div>
+            </div>
+        </script>
+        <script type="text/html" id="dashboard-page-template">
+            <!-- Dashboard / Home Page -->
+            <div id="dashboardPage" class="flex flex-col grow page">
+                <div class="grow overflow-auto p-0 relative" id="dashScroll">
+                    <div id="dashBody">
+                        <div class="p-2.5 pt-2 pb-3 relative flex flex-col gap-3.5 w-full min-h-full box-border"
+                            data-ref="page.dashboard.container">
+                            <!-- Background Islamic Geometric Watermark -->
+                            <div class="absolute top-0 left-0 right-0 h-[220px] pointer-events-none opacity-20 z-0 flex justify-between p-4"
+                                aria-hidden="true">
+                                <app-icon params="name: 'star-and-crescent', style: 'opacity: 0.15; font-size: 1.5rem;'"></app-icon>
+                                <app-icon params="name: 'star-and-crescent', style: 'opacity: 0.15; font-size: 1.5rem;'"></app-icon>
+                            </div>
+            
+                            <!-- Top Header Bar: Location & Mosque Silhouette -->
+                            <!-- ko component: { name: 'dashboard-header', params: header } --><!-- /ko -->
+            
+                            <!-- 1. Digital Clock Card -->
+                            <!-- ko component: { name: 'dashboard-clock', params: clock } --><!-- /ko -->
+            
+                            <!-- 2. Daily Prayer Timeline Card -->
+                            <!-- ko component: { name: 'dashboard-timeline', params: timeline } --><!-- /ko -->
+            
+                            <!-- 3. 2x2 Quick Navigation Cards Grid -->
+                            <div class="grid grid-cols-2 gap-3 w-full" data-ref="page.dashboard.nav-grid"
+                                data-bind="template: { name: 'dashboard-nav-card-template', foreach: navCards }">
+                            </div>
+            
+                            <!-- 4. Bottom Decorative Divider -->
+                            <!-- ko component: { name: 'dashboard-divider', params: {} } --><!-- /ko -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+    </div>
+
     <!-- Knockout.js Library (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js"></script>
 
@@ -2613,11 +2941,11 @@
     <script src="utilities/utility.js"></script>
     <script src="app.js"></script>
     <script src="navigation.js"></script>
-    <script src="prayer-tracking.js"></script>
+    <script src="prayer-tracking/prayer-tracking.js"></script>
     <script src="dashboard/dashboard.js"></script>
     <script src="settings/settings.js"></script>
-    <script src="tasbeeh.js"></script>
-    <script src="dua.js"></script>
+    <script src="tasbeeh/tasbeeh.js"></script>
+    <script src="duva/duva.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             if (window.DashboardApp && typeof window.DashboardApp.init === 'function') {

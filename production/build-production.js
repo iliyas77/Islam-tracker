@@ -19,21 +19,11 @@ const constantJsPath = path.join(ROOT, 'utilities', 'constant.js');
 const utilityJsPath = path.join(ROOT, 'utilities', 'utility.js');
 const appJsPath = path.join(ROOT, 'app.js');
 const navigationJsPath = path.join(ROOT, 'navigation.js');
-const prayerTrackingJsPath = fs.existsSync(path.join(ROOT, 'prayer-tracking', 'prayer-tracking.js'))
-    ? path.join(ROOT, 'prayer-tracking', 'prayer-tracking.js')
-    : path.join(ROOT, 'prayer-tracking.js');
-const dashboardJsPath = fs.existsSync(path.join(ROOT, 'dashboard', 'dashboard.js'))
-    ? path.join(ROOT, 'dashboard', 'dashboard.js')
-    : path.join(ROOT, 'dashboard.js');
-const settingsJsPath = fs.existsSync(path.join(ROOT, 'settings', 'settings.js'))
-    ? path.join(ROOT, 'settings', 'settings.js')
-    : path.join(ROOT, 'settings.js');
-const tasbeehJsPath = fs.existsSync(path.join(ROOT, 'tasbeeh', 'tasbeeh.js'))
-    ? path.join(ROOT, 'tasbeeh', 'tasbeeh.js')
-    : path.join(ROOT, 'tasbeeh.js');
-const duaJsPath = fs.existsSync(path.join(ROOT, 'duva', 'duva.js'))
-    ? path.join(ROOT, 'duva', 'duva.js')
-    : (fs.existsSync(path.join(ROOT, 'dua.js')) ? path.join(ROOT, 'dua.js') : path.join(ROOT, 'duva.js'));
+const prayerTrackingJsPath = path.join(ROOT, 'prayer-tracking', 'prayer-tracking.js');
+const dashboardJsPath = path.join(ROOT, 'dashboard', 'dashboard.js');
+const settingsJsPath = path.join(ROOT, 'settings', 'settings.js');
+const tasbeehJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh.js');
+const duaJsPath = path.join(ROOT, 'duva', 'duva.js');
 
 /**
  * Minify CSS content by removing comments and unnecessary whitespace

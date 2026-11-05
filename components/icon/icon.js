@@ -40,15 +40,11 @@
         'duotone': 'fa-duotone'
     };
 
-    var ICON_TEMPLATE =
-        '<!-- ko if: isSvg -->' +
-        '<svg data-bind="attr: { class: computedClass, style: computedStyle, viewBox: svgViewBox, \'aria-hidden\': ariaHidden, \'aria-label\': ariaLabel, role: role, id: id, \'data-ref\': dataRef }" fill="currentColor">' +
-            '<use data-bind="attr: { \'xlink:href\': svgHref, href: svgHref }"></use>' +
-        '</svg>' +
-        '<!-- /ko -->' +
-        '<!-- ko ifnot: isSvg -->' +
-        '<i data-bind="attr: { class: computedClass, style: computedStyle, \'aria-hidden\': ariaHidden, \'aria-label\': ariaLabel, role: role, id: id, \'data-ref\': dataRef }"></i>' +
-        '<!-- /ko -->';
+    // Template configuration referencing standalone components/icon/icon.html
+    var ICON_TEMPLATE_CONFIG = {
+        element: 'app-icon-template',
+        file: 'components/icon/icon.html'
+    };
 
     function IconViewModel(params) {
         params = params || {};
@@ -176,14 +172,14 @@
         if (!k.components.isRegistered('app-icon')) {
             k.components.register('app-icon', {
                 viewModel: IconViewModel,
-                template: ICON_TEMPLATE
+                template: ICON_TEMPLATE_CONFIG
             });
         }
 
         if (!k.components.isRegistered('icon')) {
             k.components.register('icon', {
                 viewModel: IconViewModel,
-                template: ICON_TEMPLATE
+                template: ICON_TEMPLATE_CONFIG
             });
         }
     }
@@ -195,7 +191,7 @@
 
     return {
         viewModel: IconViewModel,
-        template: ICON_TEMPLATE,
+        template: ICON_TEMPLATE_CONFIG,
         register: register
     };
 }));

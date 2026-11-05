@@ -257,6 +257,42 @@ function getActivePrayerInfo() {
     };
 }
 
+/* ---------- Universal Component Template Loader (Separate HTML files) ---------- */
+if (typeof ko !== 'undefined' && ko.components && ko.components.loaders) {
+    ko.components.loaders.unshift({
+        loadTemplate: function (name, templateConfig, callback) {
+            if (!templateConfig) return callback(null);
+
+            // 1. If element ID is provided and exists in DOM, let default loader handle it
+            if (templateConfig.element) {
+                var el = document.getElementById(templateConfig.element);
+                if (el) {
+                    return ko.components.defaultLoader.loadTemplate(name, { element: el }, callback);
+                }
+            }
+
+            // 2. If file path is provided, fetch external HTML file
+            var file = templateConfig.file || templateConfig.url;
+            if (file && typeof fetch === 'function') {
+                fetch(file)
+                    .then(function (res) {
+                        if (!res.ok) throw new Error('Failed to load ' + file);
+                        return res.text();
+                    })
+                    .then(function (html) {
+                        ko.components.defaultLoader.loadTemplate(name, html, callback);
+                    })
+                    .catch(function () {
+                        callback(null);
+                    });
+                return;
+            }
+
+            callback(null);
+        }
+    });
+}
+
 /* ---------- Global Components Registration ---------- */
 if (typeof ko !== 'undefined' && ko.components) {
     if (window.AppIcon && typeof window.AppIcon.register === 'function') {

@@ -54,157 +54,49 @@ var DASH_CLOCK_INTERVAL = DASH_CONSTANTS.CLOCK_INTERVAL_MS || 1000;
 var SCHOOL_NAMES = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.SCHOOL_NAMES) || { 1: 'Hanafi', 0: 'Shafi' };
 var dashTimer = null;
 
-/* ---------- Embedded Component Templates ---------- */
-var DASHBOARD_TEMPLATES = {
-    'dashboard-header':
-        '<header class="flex items-center justify-between text-brand text-xs font-semibold py-1 z-10" data-ref="page.dashboard.header">' +
-            '<div class="flex items-center gap-1.5 text-xs text-brand font-medium" data-ref="page.dashboard.header.location">' +
-                '<app-icon params="name: \'location-dot\', color: \'text-brand\', size: \'sm\', dataRef: \'page.dashboard.header.location-icon\'"></app-icon>' +
-                '<span id="dashLocationText" data-ref="page.dashboard.header.location-text" data-bind="html: locationText">Guntur &bull; Hanafi</span>' +
-            '</div>' +
-            '<div class="w-8 h-8 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-sm" data-ref="page.dashboard.header.mosque-icon">' +
-                '<app-icon params="name: \'mosque\'"></app-icon>' +
-            '</div>' +
-        '</header>',
-
-    'dashboard-clock':
-        '<div class="dash-clock-card bg-white rounded-2xl p-4 border border-borderGrey flex items-center justify-between shadow-none relative overflow-hidden min-h-[96px]" data-ref="page.dashboard.clock-card">' +
-            '<div class="text-2xl text-brand/30" data-ref="page.dashboard.clock-card.left-icon">' +
-                '<app-icon params="name: \'mosque\'"></app-icon>' +
-            '</div>' +
-            '<div class="dash-clock-wrap flex items-baseline justify-center" id="dashTime" data-ref="page.dashboard.clock-card.time">' +
-                '<span class="text-3xl font-bold tracking-tight text-brand font-mono" id="dashClockDigits" data-bind="text: digits">--:--:--</span>' +
-                '<span class="text-sm font-bold uppercase ml-1.5 text-brand" id="dashClockAmPm" data-bind="text: ampm">--</span>' +
-            '</div>' +
-            '<div class="text-2xl text-brand/30" data-ref="page.dashboard.clock-card.right-icon">' +
-                '<app-icon params="name: \'star-and-crescent\'"></app-icon>' +
-            '</div>' +
-        '</div>',
-
-    'dashboard-timeline-item':
-        '<div class="flex-1 flex flex-col items-center gap-1.5 text-center min-w-0" data-bind="attr: { id: \'dashTimeline\' + name, \'data-ref\': \'page.dashboard.timeline.item.\' + name.toLowerCase() }">' +
-            '<div class="icon-box icon-box-md" data-bind="attr: { id: \'dashIconBox\' + name, \'data-ref\': \'page.dashboard.timeline.icon.\' + name.toLowerCase() }, css: { \'icon-box-active\': isActive }">' +
-                '<app-icon params="name: iconClass"></app-icon>' +
-            '</div>' +
-            '<div class="text-xs font-bold text-brand mt-1 truncate" data-bind="text: name, attr: { \'data-ref\': \'page.dashboard.timeline.name.\' + name.toLowerCase() }"></div>' +
-            '<div class="text-[11px] text-gr-text font-medium" data-bind="text: time, attr: { id: \'dashTime\' + name, \'data-ref\': \'page.dashboard.timeline.time.\' + name.toLowerCase() }">--:--</div>' +
-            '<span class="dash-timeline-badge text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider" data-bind="text: statusText, attr: { id: \'dashBadge\' + name, \'data-ref\': \'page.dashboard.timeline.badge.\' + name.toLowerCase() }, css: statusBadgeClass">Upcoming</span>' +
-        '</div>',
-
-    'dashboard-timeline':
-        '<div class="dash-timeline-card bg-white rounded-2xl p-4 border border-borderGrey flex flex-col gap-3 shadow-none" data-ref="page.dashboard.timeline-card">' +
-            '<div class="flex items-center justify-between gap-2" data-ref="page.dashboard.timeline.header">' +
-                '<span class="text-xs font-bold uppercase tracking-wider text-brand" data-ref="page.dashboard.timeline.title" data-bind="text: title || \'Daily Prayer Timeline\'">Daily Prayer Timeline</span>' +
-                '<div class="h-[1px] bg-borderGrey flex-1" data-ref="page.dashboard.timeline.line"></div>' +
-                '<div class="w-6 h-6 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-xs shrink-0" title="Daily Prayers" aria-hidden="true" data-ref="page.dashboard.timeline.alarm-icon">' +
-                    '<app-icon params="name: \'bell\'"></app-icon>' +
-                '</div>' +
-            '</div>' +
-            '<div class="flex justify-between items-stretch gap-1 w-full" id="dashTimelineNodes" data-ref="page.dashboard.timeline.nodes" data-bind="template: { name: \'dashboard-timeline-item-template\', foreach: items }">' +
-            '</div>' +
-        '</div>',
-
-    'dashboard-nav-card':
-        '<div class="dash-nav-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col items-center justify-between cursor-pointer hover:border-brand hover:shadow-sm transition-all min-h-[120px] relative shadow-none" role="button" tabindex="0" data-bind="attr: { \'data-act\': action, \'data-ref\': dataRef }">' +
-            '<!-- ko if: hasBadge -->' +
-            '<span class="dash-tracker-badge absolute top-2.5 right-2.5 text-[10.5px] font-bold leading-none px-2 py-0.5 rounded-full inline-flex items-center justify-center whitespace-nowrap z-[3] pointer-events-none bg-red-100 text-red-600 border border-red-300" data-bind="text: badgeText, attr: { id: badgeId, \'data-ref\': badgeDataRef }, css: { \'d-none\': !badgeVisible() }"></span>' +
-            '<!-- /ko -->' +
-            '<div class="icon-box icon-box-lg" data-bind="attr: { \'data-ref\': iconDataRef }">' +
-                '<app-icon params="name: iconClass"></app-icon>' +
-            '</div>' +
-            '<div class="flex items-center justify-center gap-1 text-xs font-bold text-brand mt-2">' +
-                '<span class="text-xs font-bold text-brand" data-bind="text: title, attr: { \'data-ref\': titleDataRef }"></span>' +
-                '<app-icon params="name: \'chevron-right\'"></app-icon>' +
-            '</div>' +
-        '</div>',
-
-    'dashboard-divider':
-        '<div class="flex items-center justify-center gap-2 py-3 w-full text-brand/30" data-ref="page.dashboard.bottom-divider">' +
-            '<div class="h-[1px] bg-borderGrey flex-1"></div>' +
-            '<div class="text-xs text-brand/40 px-2"><app-icon params="name: \'star-and-crescent\'"></app-icon></div>' +
-            '<div class="h-[1px] bg-borderGrey flex-1"></div>' +
-        '</div>',
-
-    'dashboard-page':
-        '<div id="dashboardPage" class="flex flex-col grow page">' +
-            '<div class="grow overflow-auto p-0 relative" id="dashScroll">' +
-                '<div id="dashBody">' +
-                    '<div class="p-2.5 pt-2 pb-3 relative flex flex-col gap-3.5 w-full min-h-full box-border" data-ref="page.dashboard.container">' +
-                        '<div class="absolute top-0 left-0 right-0 h-[220px] pointer-events-none opacity-20 z-0 flex justify-between p-4" aria-hidden="true">' +
-                            '<app-icon params="name: \'star-and-crescent\', style: \'opacity: 0.15; font-size: 1.5rem;\'"></app-icon>' +
-                            '<app-icon params="name: \'star-and-crescent\', style: \'opacity: 0.15; font-size: 1.5rem;\'"></app-icon>' +
-                        '</div>' +
-                        '<!-- ko component: { name: \'dashboard-header\', params: header } --><!-- /ko -->' +
-                        '<!-- ko component: { name: \'dashboard-clock\', params: clock } --><!-- /ko -->' +
-                        '<!-- ko component: { name: \'dashboard-timeline\', params: timeline } --><!-- /ko -->' +
-                        '<div class="grid grid-cols-2 gap-3 w-full" data-ref="page.dashboard.nav-grid" data-bind="template: { name: \'dashboard-nav-card-template\', foreach: navCards }"></div>' +
-                        '<!-- ko component: { name: \'dashboard-divider\', params: {} } --><!-- /ko -->' +
-                    '</div>' +
-                '</div>' +
-            '</div>' +
-        '</div>'
-};
-
-/* ---------- Register Dashboard Knockout Components ---------- */
+/* ---------- Register Dashboard Knockout Components (Templates from separate HTML files) ---------- */
 function registerDashboardComponents() {
     if (typeof ko === 'undefined' || !ko.components) return;
-
-    function ensureScriptTemplate(id, html) {
-        if (!document.getElementById(id)) {
-            var script = document.createElement('script');
-            script.type = 'text/html';
-            script.id = id;
-            script.text = html;
-            document.head.appendChild(script);
-        }
-    }
-
-    ensureScriptTemplate('dashboard-header-template', DASHBOARD_TEMPLATES['dashboard-header']);
-    ensureScriptTemplate('dashboard-clock-template', DASHBOARD_TEMPLATES['dashboard-clock']);
-    ensureScriptTemplate('dashboard-timeline-item-template', DASHBOARD_TEMPLATES['dashboard-timeline-item']);
-    ensureScriptTemplate('dashboard-timeline-template', DASHBOARD_TEMPLATES['dashboard-timeline']);
-    ensureScriptTemplate('dashboard-nav-card-template', DASHBOARD_TEMPLATES['dashboard-nav-card']);
-    ensureScriptTemplate('dashboard-divider-template', DASHBOARD_TEMPLATES['dashboard-divider']);
 
     if (!ko.components.isRegistered('dashboard-header')) {
         ko.components.register('dashboard-header', {
             viewModel: function (params) { return params || {}; },
-            template: DASHBOARD_TEMPLATES['dashboard-header']
+            template: { element: 'dashboard-header-template', file: 'dashboard/templates/dashboard-header.html' }
         });
     }
 
     if (!ko.components.isRegistered('dashboard-clock')) {
         ko.components.register('dashboard-clock', {
             viewModel: function (params) { return params || {}; },
-            template: DASHBOARD_TEMPLATES['dashboard-clock']
+            template: { element: 'dashboard-clock-template', file: 'dashboard/templates/dashboard-clock.html' }
         });
     }
 
     if (!ko.components.isRegistered('dashboard-timeline-item')) {
         ko.components.register('dashboard-timeline-item', {
             viewModel: function (params) { return params || {}; },
-            template: DASHBOARD_TEMPLATES['dashboard-timeline-item']
+            template: { element: 'dashboard-timeline-item-template', file: 'dashboard/templates/dashboard-timeline-item.html' }
         });
     }
 
     if (!ko.components.isRegistered('dashboard-timeline')) {
         ko.components.register('dashboard-timeline', {
             viewModel: function (params) { return params || {}; },
-            template: DASHBOARD_TEMPLATES['dashboard-timeline']
+            template: { element: 'dashboard-timeline-template', file: 'dashboard/templates/dashboard-timeline.html' }
         });
     }
 
     if (!ko.components.isRegistered('dashboard-nav-card')) {
         ko.components.register('dashboard-nav-card', {
             viewModel: function (params) { return params || {}; },
-            template: DASHBOARD_TEMPLATES['dashboard-nav-card']
+            template: { element: 'dashboard-nav-card-template', file: 'dashboard/templates/dashboard-nav-card.html' }
         });
     }
 
     if (!ko.components.isRegistered('dashboard-divider')) {
         ko.components.register('dashboard-divider', {
             viewModel: function (params) { return params || {}; },
-            template: DASHBOARD_TEMPLATES['dashboard-divider']
+            template: { element: 'dashboard-divider-template', file: 'dashboard/templates/dashboard-divider.html' }
         });
     }
 
@@ -213,7 +105,7 @@ function registerDashboardComponents() {
             viewModel: function (params) {
                 return (params && params.viewModel) ? params.viewModel : (dashboardViewModel || params);
             },
-            template: DASHBOARD_TEMPLATES['dashboard-page']
+            template: { element: 'dashboard-page-template', file: 'dashboard/dashboard.html' }
         });
     }
 }

@@ -34,179 +34,9 @@ var SETTINGS_BUTTON_CLASSES = SETTINGS_CONSTANTS.BUTTON_CLASSES || {
 };
 var SETTINGS_STATUS_FALLBACK = SETTINGS_CONSTANTS.STATUS_FALLBACK || 'Offline';
 
-/* ---------- Embedded Component Templates ---------- */
-var SETTINGS_TEMPLATES = {
-    'settings-card-header':
-        '<div class="flex items-center gap-3 mb-3" data-bind="attr: { class: headerClass || \'flex items-center gap-3 mb-3\', \'data-ref\': headerDataRef }">' +
-            '<div class="icon-box icon-box-lg" data-bind="attr: { class: iconBoxClass, \'data-ref\': iconDataRef }">' +
-                '<!-- ko if: icon -->' +
-                '<app-icon params="name: icon"></app-icon>' +
-                '<!-- /ko -->' +
-                '<!-- ko if: iconText -->' +
-                '<!-- ko text: iconText --><!-- /ko -->' +
-                '<!-- /ko -->' +
-            '</div>' +
-            '<div class="grow" data-bind="attr: { \'data-ref\': infoDataRef }">' +
-                '<div data-bind="text: title, attr: { class: titleClass || \'font-bold text-sm\', \'data-ref\': titleDataRef }"></div>' +
-                '<!-- ko if: subtitle -->' +
-                '<div class="text-gr-textMuted text-xs" data-bind="text: subtitle, attr: { id: subtitleId, \'data-ref\': subtitleDataRef }"></div>' +
-                '<!-- /ko -->' +
-            '</div>' +
-            '<!-- ko if: showStatusBadge -->' +
-            '<span class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-gr-accent-soft text-gr-accent px-2"' +
-                ' data-bind="attr: { id: statusBadgeId, \'data-ref\': statusBadgeDataRef }">' +
-                '<app-icon params="name: \'circle-dot\', size: \'10px\', customClass: \'mr-1\'"></app-icon><span' +
-                    ' data-bind="text: statusText, attr: { id: statusTextId }">Offline</span>' +
-            '</span>' +
-            '<!-- /ko -->' +
-        '</div>',
-
-    'settings-city-option':
-        '<option data-bind="value: value, text: label, attr: { \'data-ref\': dataRef }"></option>',
-
-    'settings-font-size-btn':
-        '<button type="button"' +
-            ' data-bind="text: label, attr: { \'data-act\': \'font\', \'data-fs\': size, \'data-ref\': dataRef }, css: $parent.getFontSizeBtnClass ? $parent.getFontSizeBtnClass(size) : ($root.getFontSizeBtnClass ? $root.getFontSizeBtnClass(size) : \'\')">' +
-        '</button>',
-
-    'settings-info-card':
-        '<div class="rounded-2xl border border-borderGrey p-4 bg-brand-light flex flex-col shadow-none"' +
-            ' data-bind="attr: { \'data-ref\': cardDataRef }">' +
-            '<div class="flex items-center gap-3" data-bind="attr: { \'data-ref\': contentDataRef }">' +
-                '<div data-bind="attr: { class: iconBoxClass, \'data-ref\': iconDataRef }">' +
-                    '<app-icon params="name: icon"></app-icon>' +
-                '</div>' +
-                '<div class="text-xs text-brand leading-tight" data-bind="text: text, attr: { \'data-ref\': textDataRef }"></div>' +
-            '</div>' +
-        '</div>',
-
-    'settings-page':
-        '<!-- Settings Header -->' +
-        '<header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center gap-2 min-h-[44px]"' +
-            ' data-ref="page.settings.header">' +
-            '<button type="button"' +
-                ' class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"' +
-                ' data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.settings.back-btn">' +
-                '<app-icon params="name: \'arrow-left\', size: \'base\'"></app-icon>' +
-            '</button>' +
-            '<div class="grow min-w-0">' +
-                '<h5 class="font-bold text-base text-brand m-0 flex items-center gap-2">' +
-                    '<app-icon params="name: \'gear\', color: \'text-gr-accent\'"></app-icon>' +
-                    '<span>Settings</span>' +
-                '</h5>' +
-                '<div class="text-xs text-gr-textMuted mt-0.5">App preferences</div>' +
-            '</div>' +
-        '</header>' +
-        '<div class="grow overflow-auto p-2 pb-3" id="settingsBody" data-ref="page.settings.body">' +
-            '<!-- Prayer Times Location Card -->' +
-            '<div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"' +
-                ' data-ref="page.settings.prayer-times.card">' +
-                '<!-- ko component: { name: \'settings-card-header\', params: prayerTimesHeader } --><!-- /ko -->' +
-                '<div class="flex flex-wrap -mx-1 gap-2 mb-3" data-ref="page.settings.prayer-times.form-row">' +
-                    '<div class="w-full" data-ref="page.settings.prayer-times.city-col">' +
-                        '<label class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5"' +
-                            ' data-ref="page.settings.prayer-times.city-label">City (India)</label>' +
-                        '<select class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"' +
-                            ' id="ptCitySelect" data-ref="page.settings.prayer-times.city-select"' +
-                            ' data-bind="template: { name: \'settings-city-option-template\', foreach: cityOptions }">' +
-                        '</select>' +
-                    '</div>' +
-                    '<div class="w-full d-none" id="ptCustomCityWrap" data-ref="page.settings.prayer-times.custom-city-wrap">' +
-                        '<label class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5"' +
-                            ' data-ref="page.settings.prayer-times.custom-city-label">Custom City Name &amp; Country</label>' +
-                        '<div class="flex gap-2" data-ref="page.settings.prayer-times.custom-city-row">' +
-                            '<input type="text"' +
-                                ' class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"' +
-                                ' id="ptCustomCityInput" value="" placeholder="e.g. Guntur" data-ref="page.settings.prayer-times.custom-city-input">' +
-                            '<input type="text"' +
-                                ' class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"' +
-                                ' id="ptCountryInput" value="India" placeholder="Country" data-ref="page.settings.prayer-times.country-input">' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="w-full" data-ref="page.settings.prayer-times.school-col">' +
-                        '<label class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5"' +
-                            ' data-ref="page.settings.prayer-times.school-label">Juristic Method (Asr calculation)</label>' +
-                        '<select class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"' +
-                            ' id="ptSchoolSelect" data-ref="page.settings.prayer-times.school-select">' +
-                            '<option value="1">Hanafi (Standard in South Asia)</option>' +
-                            '<option value="0">Shafi / Maliki / Hanbali</option>' +
-                        '</select>' +
-                    '</div>' +
-                '</div>' +
-                '<button type="button"' +
-                    ' class="font-bold w-full py-3 text-sm rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors"' +
-                    ' data-act="pt-save" data-ref="page.settings.prayer-times.save-btn">' +
-                    '<app-icon params="name: \'rotate-left\', size: \'base\', customClass: \'mr-1\', dataRef: \'page.settings.prayer-times.save-icon\'"></app-icon>Sync &amp; Save Prayer Times' +
-                '</button>' +
-            '</div>' +
-
-            '<!-- Start Date Card -->' +
-            '<div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"' +
-                ' data-ref="page.settings.start-date.card">' +
-                '<!-- ko component: { name: \'settings-card-header\', params: startDateHeader } --><!-- /ko -->' +
-                '<div class="flex gap-2 items-center" data-ref="page.settings.start-date.input-row">' +
-                    '<input type="date"' +
-                        ' class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"' +
-                        ' id="sdInput" value="" data-ref="page.settings.start-date.input">' +
-                    '<button type="button"' +
-                        ' class="px-5 py-2.5 bg-brand text-white font-bold rounded-xl text-sm hover:bg-brand-hover whitespace-nowrap transition-colors"' +
-                        ' data-act="sd-save" data-ref="page.settings.start-date.save-btn">Change</button>' +
-                '</div>' +
-            '</div>' +
-
-            '<!-- Font Size Card -->' +
-            '<div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"' +
-                ' data-ref="page.settings.font-size.card">' +
-                '<!-- ko component: { name: \'settings-card-header\', params: fontSizeHeader } --><!-- /ko -->' +
-                '<div class="flex gap-2" id="fsBtns" data-ref="page.settings.font-size.buttons-row"' +
-                    ' data-bind="template: { name: \'settings-font-size-btn-template\', foreach: fontSizeButtons }">' +
-                '</div>' +
-            '</div>' +
-
-            '<!-- Reset DB Card -->' +
-            '<div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"' +
-                ' data-ref="page.settings.reset.card">' +
-                '<!-- ko component: { name: \'settings-card-header\', params: resetDbHeader } --><!-- /ko -->' +
-                '<button type="button"' +
-                    ' class="w-full py-3 bg-gr-danger text-white font-bold rounded-xl text-sm hover:bg-red-600 transition-colors mt-2"' +
-                    ' data-act="reset-db" data-ref="page.settings.reset.btn">Reset</button>' +
-            '</div>' +
-
-            '<!-- Storage Info -->' +
-            '<!-- ko component: { name: \'settings-info-card\', params: storageInfo } --><!-- /ko -->' +
-        '</div>' +
-
-        '<!-- Bottom Navigation -->' +
-        '<nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"' +
-            ' id="settingsBottomNav" data-ref="page.settings.bottom-nav">' +
-            '<button type="button"' +
-                ' class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium text-brand py-1.5 relative cursor-pointer select-none transition-colors active"' +
-                ' id="tabSettings" data-act="goto-settings" role="tab" aria-selected="true" data-ref="page.settings.tab">' +
-                '<app-icon params="name: \'gear\'"></app-icon>' +
-                '<span>Settings</span>' +
-            '</button>' +
-        '</nav>'
-};
-
-/* ---------- Component & Template Registration ---------- */
+/* ---------- Component Registration (Templates from separate HTML files) ---------- */
 function registerSettingsComponents() {
     if (typeof ko === 'undefined' || !ko.components) return;
-
-    // Helper to register Knockout script templates in DOM if not present
-    function ensureScriptTemplate(id, html) {
-        if (!document.getElementById(id)) {
-            var script = document.createElement('script');
-            script.type = 'text/html';
-            script.id = id;
-            script.text = html;
-            document.head.appendChild(script);
-        }
-    }
-
-    ensureScriptTemplate('settings-card-header-template', SETTINGS_TEMPLATES['settings-card-header']);
-    ensureScriptTemplate('settings-city-option-template', SETTINGS_TEMPLATES['settings-city-option']);
-    ensureScriptTemplate('settings-font-size-btn-template', SETTINGS_TEMPLATES['settings-font-size-btn']);
-    ensureScriptTemplate('settings-info-card-template', SETTINGS_TEMPLATES['settings-info-card']);
 
     // 1. Reusable Card Header Component
     if (!ko.components.isRegistered('settings-card-header')) {
@@ -214,7 +44,7 @@ function registerSettingsComponents() {
             viewModel: function (params) {
                 return (params && params.header) ? params.header : params;
             },
-            template: SETTINGS_TEMPLATES['settings-card-header']
+            template: { element: 'settings-card-header-template', file: 'settings/templates/settings-card-header.html' }
         });
     }
 
@@ -224,7 +54,7 @@ function registerSettingsComponents() {
             viewModel: function (params) {
                 return (params && params.button) ? params.button : params;
             },
-            template: SETTINGS_TEMPLATES['settings-font-size-btn']
+            template: { element: 'settings-font-size-btn-template', file: 'settings/templates/settings-font-size-btn.html' }
         });
     }
 
@@ -234,7 +64,7 @@ function registerSettingsComponents() {
             viewModel: function (params) {
                 return (params && params.info) ? params.info : params;
             },
-            template: SETTINGS_TEMPLATES['settings-info-card']
+            template: { element: 'settings-info-card-template', file: 'settings/templates/settings-info-card.html' }
         });
     }
 
@@ -244,7 +74,7 @@ function registerSettingsComponents() {
             viewModel: function (params) {
                 return (params && params.viewModel) ? params.viewModel : (settingsViewModel || params);
             },
-            template: SETTINGS_TEMPLATES['settings-page']
+            template: { element: 'settings-page-template', file: 'settings/settings.html' }
         });
     }
 }
