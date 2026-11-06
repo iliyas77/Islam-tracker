@@ -665,6 +665,13 @@ window.DuasApp = (function () {
         if (btmNav) btmNav.classList.add('d-none');
         if (fab) fab.classList.add('d-none');
 
+        if (duasViewModel && typeof duasViewModel.currentSubTab === 'function') {
+            duasViewModel.currentSubTab('detail');
+        }
+        if (typeof window !== 'undefined' && window.NavigationState && typeof window.NavigationState.duasSubTab === 'function') {
+            window.NavigationState.duasSubTab('detail');
+        }
+
         updateDetailUI();
     }
 
@@ -737,6 +744,13 @@ window.DuasApp = (function () {
     function switchTab(tab) {
         activeTab = tab || DUA_TABS.HOME;
 
+        if (typeof window !== 'undefined' && window.NavigationState && typeof window.NavigationState.duasSubTab === 'function') {
+            window.NavigationState.duasSubTab(activeTab);
+        }
+        if (duasViewModel && typeof duasViewModel.currentSubTab === 'function') {
+            duasViewModel.currentSubTab(activeTab);
+        }
+
         var subDetail = document.getElementById('duaSubDetail');
         if (subDetail) subDetail.classList.add('d-none');
 
@@ -798,10 +812,6 @@ window.DuasApp = (function () {
             renderList();
         } else {
             renderFavourites();
-        }
-
-        if (duasViewModel && typeof duasViewModel.currentSubTab === 'function') {
-            duasViewModel.currentSubTab(activeTab);
         }
     }
 

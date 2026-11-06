@@ -1195,6 +1195,9 @@ window.TasbeehCurrentApp = (function () {
             renderCurrentTab();
         }
 
+        if (window.NavigationState && typeof window.NavigationState.tasbeehSubTab === 'function') {
+            window.NavigationState.tasbeehSubTab(activeTab);
+        }
         if (tasbeehViewModel) {
             if (typeof tasbeehViewModel.currentSubTab === 'function') {
                 tasbeehViewModel.currentSubTab(activeTab);
@@ -1312,6 +1315,9 @@ window.TasbeehCurrentApp = (function () {
             renderCurrentTab();
         }
 
+        if (window.NavigationState && typeof window.NavigationState.tasbeehSubTab === 'function') {
+            window.NavigationState.tasbeehSubTab(activeTab);
+        }
         if (tasbeehViewModel) {
             if (typeof tasbeehViewModel.currentSubTab === 'function') {
                 tasbeehViewModel.currentSubTab(activeTab);

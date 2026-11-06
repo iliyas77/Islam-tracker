@@ -114,7 +114,8 @@ export function TrackerPageViewModel(params) {
         subtitle: (k && k.observable) ? k.observable('Select a period to begin') : '',
         showSubtitle: (k && k.observable) ? k.observable(false) : false,
         missedCount: self.missedCount,
-        hasMissed: self.hasMissed
+        hasMissed: self.hasMissed,
+        currentSubTab: self.currentSubTab
     };
 
     self.currentCard = (k && k.observable) ? k.observable(new PrayerTrackerCardViewModel({

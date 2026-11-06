@@ -1812,17 +1812,20 @@
             <!-- ko component: { name: 'prayer-header', params: header } --><!-- /ko -->
             
             <!-- Current Prayer Body -->
-            <div class="grow overflow-auto px-2 pt-2 pb-3" id="currentBody" data-ref="page.current.body">
+            <div class="grow overflow-auto px-2 pt-2 pb-3" id="currentBody" data-ref="page.current.body"
+                data-bind="visible: currentSubTab() === 'current'">
                 <!-- ko component: { name: 'prayer-tracker-card', params: currentCard } --><!-- /ko -->
             </div>
             
             <!-- Old Tracking Body -->
-            <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="oldBody" data-ref="page.old.body">
+            <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="oldBody" data-ref="page.old.body"
+                data-bind="visible: currentSubTab() === 'old'">
                 <!-- ko component: { name: 'prayer-tracker-card', params: oldCard } --><!-- /ko -->
             </div>
             
             <!-- Performance Body -->
-            <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="performanceBody" data-ref="page.performance.body">
+            <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="performanceBody" data-ref="page.performance.body"
+                data-bind="visible: currentSubTab() === 'performance'">
                 <div class="flex flex-col gap-3 pb-2" data-ref="page.performance.container">
                     <!-- Main Circular Stat Card -->
                     <!-- ko component: { name: 'prayer-perf-ring', params: performance.hero } --><!-- /ko -->
@@ -1875,7 +1878,8 @@
             </div>
             
             <!-- History Body -->
-            <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="historyBody" data-ref="page.history.body">
+            <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="historyBody" data-ref="page.history.body"
+                data-bind="visible: currentSubTab() === 'history'">
                 <!-- Empty State -->
                 <div class="text-center text-gr-textMuted py-8 px-4 bg-white border border-borderGrey rounded-2xl d-none flex flex-col items-center justify-center"
                     id="histEmptyState" data-ref="page.history.empty-state">
@@ -1943,7 +1947,8 @@
                         <button type="button"
                             class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative"
                             id="currentMissedBtn" data-act="missed-open" title="Missed Prayers"
-                            aria-label="Missed Prayers" data-ref="page.current.card.header.badge">
+                            aria-label="Missed Prayers" data-ref="page.current.card.header.badge"
+                            data-bind="visible: !currentSubTab || ko.unwrap(currentSubTab) === 'current'">
                             <app-icon params="name: 'triangle-exclamation', size: 'base', dataRef: 'page.current.card.header.badge-icon'"></app-icon>
                             <span class="inline-flex items-center justify-center absolute -top-1 -right-1 bg-gr-danger text-white text-[11px] font-bold min-w-[18px] h-[18px] px-1 rounded-full border-2 border-white leading-none z-[2] pointer-events-none"
                                 id="currentMissedBadge" data-ref="page.current.card.header.badge-count"
@@ -1952,13 +1957,15 @@
                         <button type="button"
                             class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
                             id="oldActionBtn" data-act="old-info" title="Period Summary" aria-label="Period Summary"
-                            data-ref="page.old.header.summary-btn page.old.card.header.summary-btn">
+                            data-ref="page.old.header.summary-btn page.old.card.header.summary-btn"
+                            data-bind="visible: ko.unwrap(currentSubTab) === 'old'">
                             <app-icon params="name: 'chart-simple', size: 'base'"></app-icon>
                         </button>
                         <button type="button"
                             class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
                             id="historyEmptyBtn" data-act="history-empty" title="Empty History"
-                            aria-label="Empty History" data-ref="page.history.header.empty-btn">
+                            aria-label="Empty History" data-ref="page.history.header.empty-btn"
+                            data-bind="visible: ko.unwrap(currentSubTab) === 'history'">
                             <app-icon params="name: 'trash-can', size: 'base'"></app-icon>
                         </button>
                     </div>
@@ -2302,7 +2309,8 @@
     <!-- ko component: { name: 'tasbeeh-header', params: header } --><!-- /ko -->
 
     <!-- Home Tab Body Container (Bookmarked Counters) -->
-    <div class="grow overflow-auto p-2 pb-5 relative" id="tbHomeBody" data-ref="page.tasbeeh.body.home">
+    <div class="grow overflow-auto p-2 pb-5 relative" id="tbHomeBody" data-ref="page.tasbeeh.body.home"
+        data-bind="visible: currentSubTab() === 'home'">
         <!-- Empty State (When no Dhikrs configured) -->
         <div class="border border-borderGrey p-4 text-center rounded-2xl bg-white mt-3 d-none shadow-none"
             id="tbHomeEmptyState" data-ref="page.tasbeeh.home.empty">
@@ -2382,7 +2390,8 @@
     </div>
 
     <!-- Current Month Body Container -->
-    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbCurrentBody" data-ref="page.tasbeeh.body.current">
+    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbCurrentBody" data-ref="page.tasbeeh.body.current"
+        data-bind="visible: currentSubTab() === 'current'">
         <div id="tbList" class="flex flex-col gap-3" data-ref="page.tasbeeh.list">
             <!-- Advance Banner -->
             <div class="border border-borderGrey p-3 text-center rounded-2xl bg-white d-none shadow-none"
@@ -2447,7 +2456,8 @@
     </div>
 
     <!-- Old Tracking (Previous Months) Body Container -->
-    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody" data-ref="page.tasbeeh.body.old">
+    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody" data-ref="page.tasbeeh.body.old"
+        data-bind="visible: currentSubTab() === 'old'">
         <!-- No Previous Months in Period -->
         <div class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"
             id="tbOldEmptyRange" data-ref="page.tasbeeh.old.empty-range">
@@ -2546,7 +2556,8 @@
     </div>
 
     <!-- History & Settings Body Container -->
-    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody" data-ref="page.tasbeeh.body.history">
+    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody" data-ref="page.tasbeeh.body.history"
+        data-bind="visible: currentSubTab() === 'history'">
         <div class="flex flex-col gap-3 pt-1 pb-4" id="tbHistoryContent" data-ref="page.tasbeeh.history.content">
             <!-- Progress Circle & Stats Component -->
             <!-- ko component: { name: 'tasbeeh-progress-circle', params: historyProgress } --><!-- /ko -->
@@ -2573,7 +2584,8 @@
     <!-- Shared Floating Action Button for Add Dhikr -->
     <button type="button"
         class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all d-none"
-        id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr">
+        id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr"
+        data-bind="visible: currentSubTab() === 'current' || currentSubTab() === 'old'">
         <app-icon params="name: 'plus', size: 'xl', dataRef: 'page.tasbeeh.header.add-icon'"></app-icon>
     </button>
 
@@ -2939,7 +2951,7 @@
         </div>
 
         <!-- Subview: Pinned (Home) -->
-        <div id="duaSubHome">
+        <div id="duaSubHome" data-bind="visible: currentSubTab() === 'home' || currentSubTab() === 'pinned'">
             <!-- Home Empty State -->
             <div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed d-none"
                 id="duaHomeEmptyState">
@@ -2967,7 +2979,7 @@
         </div>
 
         <!-- Subview: All Duas (List + Search) -->
-        <div id="duaSubAll" class="d-none">
+        <div id="duaSubAll" class="d-none" data-bind="visible: currentSubTab() === 'duas' || currentSubTab() === 'all'">
             <!-- Search Bar Component -->
             <!-- ko component: { name: 'duva-search-bar', params: search } --><!-- /ko -->
             <div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed d-none"
@@ -2980,7 +2992,7 @@
         </div>
 
         <!-- Subview: Favourites -->
-        <div id="duaSubFavs" class="d-none">
+        <div id="duaSubFavs" class="d-none" data-bind="visible: currentSubTab() === 'favourites' || currentSubTab() === 'favs'">
             <div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed d-none"
                 id="duaFavsEmptyState">No favourites yet.<br>Tap the ♡ icon on any dua to add it here.</div>
             <div class="flex flex-col gap-2" id="duaFavouritesList">
@@ -2991,7 +3003,7 @@
         </div>
 
         <!-- Subview: Detail Page -->
-        <div id="duaSubDetail" class="flex flex-col gap-3 d-none">
+        <div id="duaSubDetail" class="flex flex-col gap-3 d-none" data-bind="visible: currentSubTab() === 'detail'">
             <button type="button"
                 class="self-start mb-3 px-4 py-2 bg-white border border-borderGrey rounded-xl text-xs font-semibold text-brand cursor-pointer hover:bg-brand-light inline-flex items-center gap-1.5 transition-colors mb-2"
                 data-act="dua-detail-back">
@@ -3026,7 +3038,8 @@
         <!-- Floating Action Button for Add Dua -->
         <button type="button"
             class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
-            id="duaFabBtn" data-act="dua-open-add" title="Add New Dua">
+            id="duaFabBtn" data-act="dua-open-add" title="Add New Dua"
+            data-bind="visible: currentSubTab() !== 'detail'">
             <app-icon params="name: 'plus', size: 'xl'"></app-icon>
         </button>
     </div>

@@ -3,7 +3,8 @@
     <!-- ko component: { name: 'tasbeeh-header', params: header } --><!-- /ko -->
 
     <!-- Home Tab Body Container (Bookmarked Counters) -->
-    <div class="grow overflow-auto p-2 pb-5 relative" id="tbHomeBody" data-ref="page.tasbeeh.body.home">
+    <div class="grow overflow-auto p-2 pb-5 relative" id="tbHomeBody" data-ref="page.tasbeeh.body.home"
+        data-bind="visible: currentSubTab() === 'home'">
         <!-- Empty State (When no Dhikrs configured) -->
         <div class="border border-borderGrey p-4 text-center rounded-2xl bg-white mt-3 d-none shadow-none"
             id="tbHomeEmptyState" data-ref="page.tasbeeh.home.empty">
@@ -83,7 +84,8 @@
     </div>
 
     <!-- Current Month Body Container -->
-    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbCurrentBody" data-ref="page.tasbeeh.body.current">
+    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbCurrentBody" data-ref="page.tasbeeh.body.current"
+        data-bind="visible: currentSubTab() === 'current'">
         <div id="tbList" class="flex flex-col gap-3" data-ref="page.tasbeeh.list">
             <!-- Advance Banner -->
             <div class="border border-borderGrey p-3 text-center rounded-2xl bg-white d-none shadow-none"
@@ -148,7 +150,8 @@
     </div>
 
     <!-- Old Tracking (Previous Months) Body Container -->
-    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody" data-ref="page.tasbeeh.body.old">
+    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody" data-ref="page.tasbeeh.body.old"
+        data-bind="visible: currentSubTab() === 'old'">
         <!-- No Previous Months in Period -->
         <div class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"
             id="tbOldEmptyRange" data-ref="page.tasbeeh.old.empty-range">
@@ -247,7 +250,8 @@
     </div>
 
     <!-- History & Settings Body Container -->
-    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody" data-ref="page.tasbeeh.body.history">
+    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody" data-ref="page.tasbeeh.body.history"
+        data-bind="visible: currentSubTab() === 'history'">
         <div class="flex flex-col gap-3 pt-1 pb-4" id="tbHistoryContent" data-ref="page.tasbeeh.history.content">
             <!-- Progress Circle & Stats Component -->
             <!-- ko component: { name: 'tasbeeh-progress-circle', params: historyProgress } --><!-- /ko -->
@@ -274,7 +278,8 @@
     <!-- Shared Floating Action Button for Add Dhikr -->
     <button type="button"
         class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all d-none"
-        id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr">
+        id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr"
+        data-bind="visible: currentSubTab() === 'current' || currentSubTab() === 'old'">
         <app-icon params="name: 'plus', size: 'xl', dataRef: 'page.tasbeeh.header.add-icon'"></app-icon>
     </button>
 

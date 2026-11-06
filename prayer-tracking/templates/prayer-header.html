@@ -22,7 +22,8 @@
             <button type="button"
                 class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative"
                 id="currentMissedBtn" data-act="missed-open" title="Missed Prayers"
-                aria-label="Missed Prayers" data-ref="page.current.card.header.badge">
+                aria-label="Missed Prayers" data-ref="page.current.card.header.badge"
+                data-bind="visible: !currentSubTab || ko.unwrap(currentSubTab) === 'current'">
                 <app-icon params="name: 'triangle-exclamation', size: 'base', dataRef: 'page.current.card.header.badge-icon'"></app-icon>
                 <span class="inline-flex items-center justify-center absolute -top-1 -right-1 bg-gr-danger text-white text-[11px] font-bold min-w-[18px] h-[18px] px-1 rounded-full border-2 border-white leading-none z-[2] pointer-events-none"
                     id="currentMissedBadge" data-ref="page.current.card.header.badge-count"
@@ -31,13 +32,15 @@
             <button type="button"
                 class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
                 id="oldActionBtn" data-act="old-info" title="Period Summary" aria-label="Period Summary"
-                data-ref="page.old.header.summary-btn page.old.card.header.summary-btn">
+                data-ref="page.old.header.summary-btn page.old.card.header.summary-btn"
+                data-bind="visible: ko.unwrap(currentSubTab) === 'old'">
                 <app-icon params="name: 'chart-simple', size: 'base'"></app-icon>
             </button>
             <button type="button"
                 class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
                 id="historyEmptyBtn" data-act="history-empty" title="Empty History"
-                aria-label="Empty History" data-ref="page.history.header.empty-btn">
+                aria-label="Empty History" data-ref="page.history.header.empty-btn"
+                data-bind="visible: ko.unwrap(currentSubTab) === 'history'">
                 <app-icon params="name: 'trash-can', size: 'base'"></app-icon>
             </button>
         </div>

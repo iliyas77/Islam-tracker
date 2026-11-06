@@ -3,17 +3,20 @@
 <!-- ko component: { name: 'prayer-header', params: header } --><!-- /ko -->
 
 <!-- Current Prayer Body -->
-<div class="grow overflow-auto px-2 pt-2 pb-3" id="currentBody" data-ref="page.current.body">
+<div class="grow overflow-auto px-2 pt-2 pb-3" id="currentBody" data-ref="page.current.body"
+    data-bind="visible: currentSubTab() === 'current'">
     <!-- ko component: { name: 'prayer-tracker-card', params: currentCard } --><!-- /ko -->
 </div>
 
 <!-- Old Tracking Body -->
-<div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="oldBody" data-ref="page.old.body">
+<div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="oldBody" data-ref="page.old.body"
+    data-bind="visible: currentSubTab() === 'old'">
     <!-- ko component: { name: 'prayer-tracker-card', params: oldCard } --><!-- /ko -->
 </div>
 
 <!-- Performance Body -->
-<div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="performanceBody" data-ref="page.performance.body">
+<div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="performanceBody" data-ref="page.performance.body"
+    data-bind="visible: currentSubTab() === 'performance'">
     <div class="flex flex-col gap-3 pb-2" data-ref="page.performance.container">
         <!-- Main Circular Stat Card -->
         <!-- ko component: { name: 'prayer-perf-ring', params: performance.hero } --><!-- /ko -->
@@ -66,7 +69,8 @@
 </div>
 
 <!-- History Body -->
-<div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="historyBody" data-ref="page.history.body">
+<div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="historyBody" data-ref="page.history.body"
+    data-bind="visible: currentSubTab() === 'history'">
     <!-- Empty State -->
     <div class="text-center text-gr-textMuted py-8 px-4 bg-white border border-borderGrey rounded-2xl d-none flex flex-col items-center justify-center"
         id="histEmptyState" data-ref="page.history.empty-state">
