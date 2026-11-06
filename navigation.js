@@ -125,55 +125,68 @@ function syncTrackerDom(activeTab, subText) {
     }
 }
 
+var _isSwitchingTrackerSubTab = false;
 function switchTrackerSubTab(subTab) {
-    trackerSubTab = subTab || SUB_TABS.CURRENT;
-    if (typeof window !== 'undefined') {
-        window.trackerSubTab = trackerSubTab;
-    }
-    if (NavigationState && typeof NavigationState.trackerSubTab === 'function') {
-        NavigationState.trackerSubTab(trackerSubTab);
-    }
-
-    // Determine subtitle text for tracker header
-    var subText = '';
-    if (trackerSubTab === SUB_TABS.OLD) {
-        subText = 'Select a period to begin';
-    } else if (trackerSubTab === SUB_TABS.PERFORMANCE) {
-        var sdate = typeof rdSD === 'function' ? rdSD() : (typeof td === 'function' ? td() : '');
-        var totalDays = (typeof window.datesInRange === 'function' && typeof td === 'function') ? window.datesInRange(sdate, td()).length : 1;
-        subText = (typeof fr === 'function' && typeof td === 'function') ? (fr(sdate) + ' → ' + fr(td()) + ' (' + totalDays + (totalDays === 1 ? ' day' : ' days') + ')') : '';
-    } else if (trackerSubTab === SUB_TABS.HISTORY) {
-        var histEntries = typeof getPrayerHistory === 'function' ? getPrayerHistory() : [];
-        subText = 'Activity Log · ' + histEntries.length + (histEntries.length === 1 ? ' entry' : ' entries');
-    }
-
-    // Update Knockout Tracker ViewModel reactively
-    var vm = (typeof getTrackerViewModel === 'function') ? getTrackerViewModel() : (typeof window !== 'undefined' && window.getTrackerViewModel ? window.getTrackerViewModel() : null);
-    if (vm) {
-        if (typeof vm.currentSubTab === 'function') {
-            vm.currentSubTab(trackerSubTab);
+    if (_isSwitchingTrackerSubTab) return;
+    _isSwitchingTrackerSubTab = true;
+    try {
+        trackerSubTab = subTab || SUB_TABS.CURRENT;
+        if (typeof window !== 'undefined') {
+            window.trackerSubTab = trackerSubTab;
         }
-        if (vm.header) {
-            var hConfig = TRACKER_HEADER[trackerSubTab] || TRACKER_HEADER.current;
-            if (typeof vm.header.iconClass === 'function') vm.header.iconClass(hConfig.iconClass);
-            if (typeof vm.header.label === 'function') vm.header.label(hConfig.label);
-            if (typeof vm.header.showSubtitle === 'function') vm.header.showSubtitle(trackerSubTab !== SUB_TABS.CURRENT);
-            if (typeof vm.header.subtitle === 'function') vm.header.subtitle(subText);
+        if (NavigationState && typeof NavigationState.trackerSubTab === 'function') {
+            NavigationState.trackerSubTab(trackerSubTab);
         }
-    }
+        if (typeof window !== 'undefined' && window.location) {
+            var trackerHash = '#/tracker/' + trackerSubTab;
+            if (window.location.hash !== trackerHash) {
+                try { window.location.hash = trackerHash; } catch (_) {}
+            }
+        }
 
-    // Synchronize DOM elements (fallback & legacy test compatibility)
-    syncTrackerDom(trackerSubTab, subText);
+        // Determine subtitle text for tracker header
+        var subText = '';
+        if (trackerSubTab === SUB_TABS.OLD) {
+            subText = 'Select a period to begin';
+        } else if (trackerSubTab === SUB_TABS.PERFORMANCE) {
+            var sdate = typeof rdSD === 'function' ? rdSD() : (typeof td === 'function' ? td() : '');
+            var totalDays = (typeof window.datesInRange === 'function' && typeof td === 'function') ? window.datesInRange(sdate, td()).length : 1;
+            subText = (typeof fr === 'function' && typeof td === 'function') ? (fr(sdate) + ' → ' + fr(td()) + ' (' + totalDays + (totalDays === 1 ? ' day' : ' days') + ')') : '';
+        } else if (trackerSubTab === SUB_TABS.HISTORY) {
+            var histEntries = typeof getPrayerHistory === 'function' ? getPrayerHistory() : [];
+            subText = 'Activity Log · ' + histEntries.length + (histEntries.length === 1 ? ' entry' : ' entries');
+        }
 
-    // Trigger tab-specific renders
-    if (trackerSubTab === SUB_TABS.OLD) {
-        if (typeof rOT === 'function') rOT();
-    } else if (trackerSubTab === SUB_TABS.PERFORMANCE) {
-        if (typeof renderPerformanceTab === 'function') renderPerformanceTab();
-    } else if (trackerSubTab === SUB_TABS.HISTORY) {
-        if (typeof renderPrayerHistoryTab === 'function') renderPrayerHistoryTab();
-    } else {
-        if (typeof rn === 'function') rn();
+        // Update Knockout Tracker ViewModel reactively
+        var vm = (typeof getTrackerViewModel === 'function') ? getTrackerViewModel() : (typeof window !== 'undefined' && window.getTrackerViewModel ? window.getTrackerViewModel() : null);
+        if (vm) {
+            if (typeof vm.currentSubTab === 'function') {
+                vm.currentSubTab(trackerSubTab);
+            }
+            if (vm.header) {
+                var hConfig = TRACKER_HEADER[trackerSubTab] || TRACKER_HEADER.current;
+                if (typeof vm.header.iconClass === 'function') vm.header.iconClass(hConfig.iconClass);
+                if (typeof vm.header.label === 'function') vm.header.label(hConfig.label);
+                if (typeof vm.header.showSubtitle === 'function') vm.header.showSubtitle(trackerSubTab !== SUB_TABS.CURRENT);
+                if (typeof vm.header.subtitle === 'function') vm.header.subtitle(subText);
+            }
+        }
+
+        // Synchronize DOM elements (fallback & legacy test compatibility)
+        syncTrackerDom(trackerSubTab, subText);
+
+        // Trigger tab-specific renders
+        if (trackerSubTab === SUB_TABS.OLD) {
+            if (typeof rOT === 'function') rOT();
+        } else if (trackerSubTab === SUB_TABS.PERFORMANCE) {
+            if (typeof renderPerformanceTab === 'function') renderPerformanceTab();
+        } else if (trackerSubTab === SUB_TABS.HISTORY) {
+            if (typeof renderPrayerHistoryTab === 'function') renderPrayerHistoryTab();
+        } else {
+            if (typeof rn === 'function') rn();
+        }
+    } finally {
+        _isSwitchingTrackerSubTab = false;
     }
 }
 
@@ -195,78 +208,100 @@ function setNav(id) {
     el.appendChild(bar);
 }
 
+var _isShowingPage = false;
 function showPage(kind) {
-    if (NavigationState && typeof NavigationState.activePage === 'function') {
-        NavigationState.activePage(kind);
-    }
-    if (typeof window !== 'undefined') {
-        window.currentActivePage = kind;
-    }
-
-    PAGES.forEach(function (id) {
-        var el = $(id);
-        if (el) { el.classList.add('d-none'); el.classList.remove('flex'); }
-    });
-
-    var target = PAGE_MAP[kind] || null;
-
-    if (!target) return;
-
-    var el = $(target);
-    if (el) {
-        el.classList.remove('d-none');
-        el.classList.add('flex');
-    }
-
-    setNav(NAVS[kind] || 'navCur');
-
-    if (kind !== 'tasbeeh') {
-        var cv = $('tasbeehCounterView');
-        if (cv && !cv.classList.contains('d-none')) {
-            if (window.TasbeehApp && typeof window.TasbeehApp.closeCounter === 'function') {
-                window.TasbeehApp.closeCounter();
+    if (_isShowingPage) return;
+    _isShowingPage = true;
+    try {
+        if (NavigationState && typeof NavigationState.activePage === 'function') {
+            NavigationState.activePage(kind);
+        }
+        if (typeof window !== 'undefined') {
+            window.currentActivePage = kind;
+            if (window.location) {
+                var targetHash;
+                if (kind === 'current' || kind === 'old' || kind === 'performance' || kind === 'history') {
+                    targetHash = '#/tracker/' + kind;
+                } else if (kind === 'tracker') {
+                    targetHash = '#/tracker/' + (trackerSubTab || 'current');
+                } else {
+                    targetHash = '#/' + kind;
+                }
+                if (kind === 'tracker' && window.location.hash && window.location.hash.indexOf('#/tracker') === 0) {
+                    // hash is already pointing to tracker route/subtab
+                } else if (window.location.hash !== targetHash) {
+                    try { window.location.hash = targetHash; } catch (_) {}
+                }
             }
         }
-    }
 
-    if (kind === 'dashboard') {
-        if (typeof rDashboard === 'function') {
-            rDashboard();
-        } else if (window.rDashboard) {
-            window.rDashboard();
-        } else if (window.DashboardApp && typeof window.DashboardApp.render === 'function') {
-            window.DashboardApp.render();
+        PAGES.forEach(function (id) {
+            var el = $(id);
+            if (el) { el.classList.add('d-none'); el.classList.remove('flex'); }
+        });
+
+        var target = PAGE_MAP[kind] || null;
+
+        if (!target) return;
+
+        var el = $(target);
+        if (el) {
+            el.classList.remove('d-none');
+            el.classList.add('flex');
         }
-    } else if (kind === 'current') {
-        switchTrackerSubTab('current');
-    } else if (kind === 'old') {
-        switchTrackerSubTab('old');
-    } else if (kind === 'performance') {
-        switchTrackerSubTab('performance');
-    } else if (kind === 'history') {
-        switchTrackerSubTab('history');
-    } else if (kind === 'tracker') {
-        switchTrackerSubTab(trackerSubTab || 'current');
-    } else if (kind === 'settings') {
-        if (typeof rSET === 'function') rSET();
-    } else if (kind === 'tasbeeh') {
-        if (typeof initTasbeeh === 'function') {
-            initTasbeeh();
-        } else if (window.initTasbeeh) {
-            window.initTasbeeh();
+
+        setNav(NAVS[kind] || 'navCur');
+
+        if (kind !== 'tasbeeh') {
+            var cv = $('tasbeehCounterView');
+            if (cv && !cv.classList.contains('d-none')) {
+                if (window.TasbeehApp && typeof window.TasbeehApp.closeCounter === 'function') {
+                    window.TasbeehApp.closeCounter();
+                }
+            }
         }
-        if (window.TasbeehApp && typeof window.TasbeehApp.render === 'function') {
-            window.TasbeehApp.render();
+
+        if (kind === 'dashboard') {
+            if (typeof rDashboard === 'function') {
+                rDashboard();
+            } else if (window.rDashboard) {
+                window.rDashboard();
+            } else if (window.DashboardApp && typeof window.DashboardApp.render === 'function') {
+                window.DashboardApp.render();
+            }
+        } else if (kind === 'current') {
+            switchTrackerSubTab('current');
+        } else if (kind === 'old') {
+            switchTrackerSubTab('old');
+        } else if (kind === 'performance') {
+            switchTrackerSubTab('performance');
+        } else if (kind === 'history') {
+            switchTrackerSubTab('history');
+        } else if (kind === 'tracker') {
+            switchTrackerSubTab(trackerSubTab || 'current');
+        } else if (kind === 'settings') {
+            if (typeof rSET === 'function') rSET();
+        } else if (kind === 'tasbeeh') {
+            if (typeof initTasbeeh === 'function') {
+                initTasbeeh();
+            } else if (window.initTasbeeh) {
+                window.initTasbeeh();
+            }
+            if (window.TasbeehApp && typeof window.TasbeehApp.render === 'function') {
+                window.TasbeehApp.render();
+            }
+        } else if (kind === 'duas') {
+            if (typeof initDuas === 'function') {
+                initDuas();
+            } else if (window.initDuas) {
+                window.initDuas();
+            }
+            if (window.DuasApp && typeof window.DuasApp.render === 'function') {
+                window.DuasApp.render();
+            }
         }
-    } else if (kind === 'duas') {
-        if (typeof initDuas === 'function') {
-            initDuas();
-        } else if (window.initDuas) {
-            window.initDuas();
-        }
-        if (window.DuasApp && typeof window.DuasApp.render === 'function') {
-            window.DuasApp.render();
-        }
+    } finally {
+        _isShowingPage = false;
     }
 }
 

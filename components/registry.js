@@ -36,6 +36,7 @@ import {
     TasbeehPageTemplate,
     TasbeehHeaderTemplate,
     TasbeehCounterCardTemplate,
+    TasbeehCounterCardViewModel,
     TasbeehProgressCircleTemplate,
     TasbeehGoalSetterTemplate,
     TasbeehNavTabTemplate,
@@ -131,7 +132,7 @@ export function registerAllComponents() {
 
     // 5. Digital Tasbeeh Feature Components
     registerFeatureComponent('tasbeeh-header', function (p) { return p || {}; }, TasbeehHeaderTemplate);
-    registerFeatureComponent('tasbeeh-counter-card', function (p) { return p || {}; }, TasbeehCounterCardTemplate);
+    registerFeatureComponent('tasbeeh-counter-card', TasbeehCounterCardViewModel, TasbeehCounterCardTemplate);
     registerFeatureComponent('tasbeeh-progress-circle', function (p) { return p || {}; }, TasbeehProgressCircleTemplate);
     registerFeatureComponent('tasbeeh-goal-setter', function (p) { return p || {}; }, TasbeehGoalSetterTemplate);
     registerFeatureComponent('tasbeeh-nav-tab', function (p) { return p || {}; }, TasbeehNavTabTemplate);

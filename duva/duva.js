@@ -112,6 +112,12 @@ export function DuasPageViewModel(params) {
         placeholder: (k && k.observable) ? k.observable('Search by number, Surah, or keywords...') : 'Search by number, Surah, or keywords...'
     };
 
+    if (duaStore && k && k.isObservable(duaStore.searchQuery) && k.isObservable(self.search.query)) {
+        self.search.query.subscribe(function (val) {
+            duaStore.searchQuery(val);
+        });
+    }
+
     self.detail = {
         number: (k && k.observable) ? k.observable(1) : 1,
         surah: (k && k.observable) ? k.observable('') : '',
@@ -317,6 +323,9 @@ window.DuasApp = (function () {
             duasData.forEach(normalizeDua);
         }
         loadFavsAndPins();
+        if (window.DuasStore && typeof window.DuasStore.syncFrom === 'function') {
+            window.DuasStore.syncFrom(duasData, favourites, pins);
+        }
     }
 
     // ===== FETCH DATA =====
@@ -405,12 +414,21 @@ window.DuasApp = (function () {
     // ===== SAVE TO STORAGE =====
     function saveDuasToStorage() {
         localStorage.setItem(STORAGE_KEY_DUAS, JSON.stringify(duasData));
+        if (window.DuasStore && typeof window.DuasStore.allDuas === 'function') {
+            window.DuasStore.allDuas(duasData);
+        }
     }
     function saveFavouritesToStorage() {
         localStorage.setItem(STORAGE_KEY_FAVS, JSON.stringify(favourites));
+        if (window.DuasStore && typeof window.DuasStore.favourites === 'function') {
+            window.DuasStore.favourites(favourites);
+        }
     }
     function savePinsToStorage() {
         localStorage.setItem(STORAGE_KEY_PINS, JSON.stringify(pins));
+        if (window.DuasStore && typeof window.DuasStore.pins === 'function') {
+            window.DuasStore.pins(pins);
+        }
     }
 
     // ===== HTML ESCAPING =====

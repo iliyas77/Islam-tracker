@@ -3,11 +3,12 @@
    Path: services/tasbeeh-store.js
    Responsibilities:
      - Centralized Knockout reactive store for Digital Tasbeeh
-     - Observables: items, bookmarkedItems, currentTodoItems,
-       currentDoneItems, oldTodoItems, oldDoneItems, clearedMonths,
+     - Observables & pure computeds: items, bookmarkedItems,
+       currentTodoItems, currentDoneItems, currentDhikrsCount,
+       clearedMonths, clearedMonthsCount, dailyProgress,
        activeMonth, activeOldLabel
-     - Persistent synchronization with localStorage
-     - Seamless integration with TasbeehPageViewModel
+     - Persistent synchronization with localStorage via .subscribe()
+     - Seamless integration with TasbeehPageViewModel & TasbeehApp
    ============================================================ */
 'use strict';
 
@@ -48,10 +49,31 @@ function createObservableArray(initial) {
 }
 
 function createComputed(fn) {
-    if (_ko && typeof _ko.computed === 'function') {
-        return _ko.computed(fn);
+    var readFn = typeof fn === 'function' ? fn : (fn && fn.read);
+    var writeFn = (fn && typeof fn.write === 'function') ? fn.write : function () {};
+    if (_ko && typeof _ko.pureComputed === 'function') {
+        try {
+            return _ko.pureComputed({ read: readFn, write: writeFn });
+        } catch (_) {
+            return _ko.pureComputed(readFn);
+        }
     }
-    return function () { return fn(); };
+    if (_ko && typeof _ko.computed === 'function') {
+        try {
+            return _ko.computed({ read: readFn, write: writeFn });
+        } catch (_) {
+            return _ko.computed(readFn);
+        }
+    }
+    var comp = function (val) {
+        if (arguments.length > 0) {
+            writeFn(val);
+            return comp;
+        }
+        return readFn ? readFn() : undefined;
+    };
+    comp.__isComputed = true;
+    return comp;
 }
 
 function TasbeehStoreModel() {
@@ -69,27 +91,7 @@ function TasbeehStoreModel() {
     self.PERIOD_KEY = STORAGE_KEYS.PERIOD || 'app_tasbeeh_period';
     self.CAL_COMPLETION_KEY = STORAGE_KEYS.CAL_COMPLETIONS || 'app_tasbeeh_cal_completions';
 
-    // 1. Reactive Observables
-    self.items = createObservableArray([]);
-    self.bookmarkedItems = createObservableArray([]);
-    self.currentTodoItems = createObservableArray([]);
-    self.currentDoneItems = createObservableArray([]);
-    self.oldTodoItems = createObservableArray([]);
-    self.oldDoneItems = createObservableArray([]);
-
-    self.currentDhikrsCount = createComputed(function () {
-        return (self.currentTodoItems().length + self.currentDoneItems().length);
-    });
-
-    self.clearedMonths = createObservableArray([]);
-    self.clearedMonthsCount = createComputed(function () {
-        return self.clearedMonths().length;
-    });
-
-    self.activeMonth = createObservable('');
-    self.activeOldLabel = createObservable('All Cleared');
-
-    // 2. Storage Readers & Writers
+    // 1. Storage Readers
     function readStoredItems() {
         try {
             var raw = _win.localStorage ? _win.localStorage.getItem(self.STORAGE_KEY) : null;
@@ -122,7 +124,97 @@ function TasbeehStoreModel() {
         return typeof _win.getCurrentMonthKey === 'function' ? _win.getCurrentMonthKey() : new Date().toISOString().slice(0, 7);
     }
 
-    // 3. Synchronization & Actions
+    // 2. Reactive Observables
+    self.items = createObservableArray(readStoredItems());
+    self.bookmarkedItems = createObservableArray([]);
+    self.clearedMonths = createObservableArray(readStoredClearedMonths());
+    self.activeMonth = createObservable(readActiveMonth());
+    self.activeOldLabel = createObservable('All Cleared');
+
+    // 3. Pure Computeds (with safe write fallback for legacy imperative callers)
+    self.currentDhikrsCount = createComputed({
+        read: function () {
+            return self.items().length;
+        },
+        write: function () {}
+    });
+
+    self.clearedMonthsCount = createComputed({
+        read: function () {
+            return self.clearedMonths().length;
+        },
+        write: function () {}
+    });
+
+    self.currentTodoItems = createComputed({
+        read: function () {
+            var list = self.items() || [];
+            return list.filter(function (it) {
+                if (it.targetCount === 'infinite' || it.targetCount === '∞') return true;
+                var target = parseInt(it.targetCount, 10) || 0;
+                return (it.currentCount || 0) < target;
+            });
+        },
+        write: function () {}
+    });
+
+    self.currentDoneItems = createComputed({
+        read: function () {
+            var list = self.items() || [];
+            return list.filter(function (it) {
+                if (it.targetCount === 'infinite' || it.targetCount === '∞') return false;
+                var target = parseInt(it.targetCount, 10) || 0;
+                return target > 0 && (it.currentCount || 0) >= target;
+            });
+        },
+        write: function () {}
+    });
+
+    self.dailyProgress = createComputed({
+        read: function () {
+            var list = self.items() || [];
+            if (!list.length) return 0;
+            var validTargets = list.filter(function (it) {
+                return it.targetCount !== 'infinite' && it.targetCount !== '∞' && (parseInt(it.targetCount, 10) || 0) > 0;
+            });
+            if (!validTargets.length) return 0;
+            var done = validTargets.filter(function (it) {
+                var target = parseInt(it.targetCount, 10) || 0;
+                return (it.currentCount || 0) >= target;
+            }).length;
+            return Math.round((done / validTargets.length) * 100);
+        },
+        write: function () {}
+    });
+
+    // 4. Automated Reactive Persistence via .subscribe()
+    if (typeof self.items.subscribe === 'function') {
+        self.items.subscribe(function (val) {
+            if (_win.localStorage) {
+                try {
+                    _win.localStorage.setItem(self.STORAGE_KEY, JSON.stringify(val || []));
+                } catch (_) {}
+            }
+        });
+    }
+
+    if (typeof self.clearedMonths.subscribe === 'function') {
+        self.clearedMonths.subscribe(function (val) {
+            if (_win.localStorage) {
+                try {
+                    var p = {};
+                    var raw = _win.localStorage.getItem(self.PERIOD_KEY);
+                    if (raw) {
+                        try { p = JSON.parse(raw) || {}; } catch (_) {}
+                    }
+                    p.clearedMonths = val || [];
+                    _win.localStorage.setItem(self.PERIOD_KEY, JSON.stringify(p));
+                } catch (_) {}
+            }
+        });
+    }
+
+    // 5. Synchronization & Actions
     self.loadAll = function () {
         var items = readStoredItems();
         self.items(items);
@@ -175,11 +267,6 @@ function TasbeehStoreModel() {
         currentItems.push(newItem);
         self.items(currentItems);
 
-        if (_win.localStorage) {
-            try {
-                _win.localStorage.setItem(self.STORAGE_KEY, JSON.stringify(currentItems));
-            } catch (_) {}
-        }
         if (_win.TasbeehApp && typeof _win.TasbeehApp.setItems === 'function') {
             try { _win.TasbeehApp.setItems(currentItems); } catch (_) {}
         }
@@ -199,11 +286,6 @@ function TasbeehStoreModel() {
         }
         if (found) {
             self.items(currentItems);
-            if (_win.localStorage) {
-                try {
-                    _win.localStorage.setItem(self.STORAGE_KEY, JSON.stringify(currentItems));
-                } catch (_) {}
-            }
             if (_win.TasbeehApp && typeof _win.TasbeehApp.setItems === 'function') {
                 try { _win.TasbeehApp.setItems(currentItems); } catch (_) {}
             }
@@ -215,11 +297,6 @@ function TasbeehStoreModel() {
         if (!id) return;
         var filtered = self.items().filter(function (it) { return it.id !== id; });
         self.items(filtered);
-        if (_win.localStorage) {
-            try {
-                _win.localStorage.setItem(self.STORAGE_KEY, JSON.stringify(filtered));
-            } catch (_) {}
-        }
         if (_win.TasbeehApp && typeof _win.TasbeehApp.setItems === 'function') {
             try { _win.TasbeehApp.setItems(filtered); } catch (_) {}
         }

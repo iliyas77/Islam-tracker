@@ -201,18 +201,31 @@ export function SettingsViewModel() {
     });
     self.cityOptions = ko.observableArray(cityOpts);
 
+    var store = _win.SettingsStore || null;
     var initialCity = initialCfg.city || SETTINGS_DEFAULT_CONFIG.city;
     var isInitialPredefined = (INDIAN_CITIES || []).some(function (c) {
         return c.name.toLowerCase() === initialCity.toLowerCase();
     });
-    self.selectedCity = ko.observable(isInitialPredefined ? initialCity : CUSTOM_CITY_VALUE);
-    self.customCity = ko.observable(isInitialPredefined ? '' : initialCity);
-    self.country = ko.observable(initialCfg.country || SETTINGS_DEFAULT_CONFIG.country);
-    self.school = ko.observable(String(initialCfg.school !== undefined ? initialCfg.school : 1));
-    self.startDate = ko.observable(typeof rdSD === 'function' ? rdSD() : '');
-    self.isCustomCity = ko.pureComputed(function () {
-        return self.selectedCity() === CUSTOM_CITY_VALUE;
-    });
+    self.selectedCity = (store && ko.isObservable(store.selectedCity))
+        ? store.selectedCity
+        : ko.observable(isInitialPredefined ? initialCity : CUSTOM_CITY_VALUE);
+    self.customCity = (store && ko.isObservable(store.customCity))
+        ? store.customCity
+        : ko.observable(isInitialPredefined ? '' : initialCity);
+    self.country = (store && ko.isObservable(store.country))
+        ? store.country
+        : ko.observable(initialCfg.country || SETTINGS_DEFAULT_CONFIG.country);
+    self.school = (store && ko.isObservable(store.school))
+        ? store.school
+        : ko.observable(String(initialCfg.school !== undefined ? initialCfg.school : 1));
+    self.startDate = (store && ko.isObservable(store.startDate))
+        ? store.startDate
+        : ko.observable(typeof rdSD === 'function' ? rdSD() : '');
+    self.isCustomCity = (store && typeof store.isCustomCity === 'function')
+        ? store.isCustomCity
+        : ko.pureComputed(function () {
+            return self.selectedCity() === CUSTOM_CITY_VALUE;
+        });
 
     // 6. Font Size Buttons & context-mapped class resolver
     self.currentFontSize = ko.observable(initialFs);
@@ -259,7 +272,9 @@ export function SettingsViewModel() {
             alert('Please select or enter a city.');
             return;
         }
-        if (typeof setPrayerConfig === 'function') {
+        if (_win.SettingsStore && typeof _win.SettingsStore.savePrayerConfig === 'function') {
+            _win.SettingsStore.savePrayerConfig({ city: city, country: country, school: school });
+        } else if (typeof setPrayerConfig === 'function') {
             setPrayerConfig({ city: city, country: country, school: school });
         }
         if (typeof fetchPrayerTimings === 'function') {
@@ -284,6 +299,9 @@ export function SettingsViewModel() {
         if (!v) { alert('Please pick a date.'); return; }
         var formatted = typeof fr === 'function' ? fr(v) : v;
         if (!confirm('Save Current Start Date as ' + formatted + '?')) return;
+        if (_win.SettingsStore && typeof _win.SettingsStore.saveStartDate === 'function') {
+            _win.SettingsStore.saveStartDate(v);
+        }
         if (typeof wrSD === 'function') wrSD(v);
         if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
             _win.PrayerStore.sync();

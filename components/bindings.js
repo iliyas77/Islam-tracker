@@ -68,10 +68,33 @@ export const ModalBinding = {
         };
         window.addEventListener('keydown', onKeyDown);
 
+        // 5. Accessible Focus Trap
+        var onFocusTrap = function (e) {
+            if (e.key !== 'Tab') return;
+            var focusables = element.querySelectorAll('a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])');
+            if (!focusables || focusables.length === 0) return;
+            var first = focusables[0];
+            var last = focusables[focusables.length - 1];
+
+            if (e.shiftKey) {
+                if (document.activeElement === first) {
+                    last.focus();
+                    e.preventDefault();
+                }
+            } else {
+                if (document.activeElement === last) {
+                    first.focus();
+                    e.preventDefault();
+                }
+            }
+        };
+        element.addEventListener('keydown', onFocusTrap);
+
         // Clean up event listeners on element disposal
         k.utils.domNodeDisposal.addDisposeCallback(element, function () {
             element.removeEventListener('click', onBackdropClick);
             element.removeEventListener('click', onDismissClick);
+            element.removeEventListener('keydown', onFocusTrap);
             window.removeEventListener('keydown', onKeyDown);
         });
     },
@@ -80,15 +103,28 @@ export const ModalBinding = {
         var isOpen = !!k.unwrap(valueAccessor());
 
         if (isOpen) {
+            element.previousActiveElement = (typeof document !== 'undefined') ? document.activeElement : null;
             element.classList.remove('hidden', 'd-none');
             element.classList.add('active', 'show');
             element.style.display = 'flex';
             element.setAttribute('aria-hidden', 'false');
+
+            setTimeout(function () {
+                var firstInput = element.querySelector('input:not([type="hidden"]), select, textarea, button:not([data-bs-dismiss="modal"]):not(.btn-close)');
+                if (firstInput && typeof firstInput.focus === 'function') {
+                    firstInput.focus();
+                }
+            }, 50);
         } else {
             element.classList.remove('active', 'show');
             element.classList.add('hidden', 'd-none');
             element.style.display = 'none';
             element.setAttribute('aria-hidden', 'true');
+
+            if (element.previousActiveElement && typeof element.previousActiveElement.focus === 'function') {
+                element.previousActiveElement.focus();
+                element.previousActiveElement = null;
+            }
         }
     }
 };

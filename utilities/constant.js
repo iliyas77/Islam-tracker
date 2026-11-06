@@ -4,18 +4,18 @@
    All application constants across features are maintained here.
    ============================================================ */
 
-(function (window) {
+(function (globalObj) {
         'use strict';
 
-        const SUNRISE_ICON = '<app-icon params="name: \'cloud-sun\'"></app-icon>';
-        const SUN_ICON = '<app-icon params="name: \'sun\'"></app-icon>';
+        const SUNRISE_ICON = 'fa-solid fa-cloud-sun';
+        const SUN_ICON = 'fa-solid fa-sun';
 
         const PRAYER_ICONS = {
                 Fajr: SUNRISE_ICON,
                 Maghrib: SUNRISE_ICON,
                 Dhuhr: SUN_ICON,
                 Asr: SUN_ICON,
-                Isha: '<app-icon params="name: \'moon\'"></app-icon>'
+                Isha: 'fa-solid fa-moon'
         };
 
         const CONSTANTS = {
@@ -33,10 +33,10 @@
                         },
                         ICONS: PRAYER_ICONS,
                         CARD_ICONS: Object.assign({}, PRAYER_ICONS, {
-                                DoneCheck: '<app-icon params="name: \'circle-check\', size: \'icon-md\'"></app-icon>',
-                                DoneCheckSm: '<app-icon params="name: \'circle-check\', size: \'icon-sm\'"></app-icon>',
-                                Warning: '<app-icon params="name: \'triangle-exclamation\', size: \'icon-sm\'"></app-icon>',
-                                Calendar: '<app-icon params="name: \'calendar\', prefix: \'fa-regular\', size: \'icon-sm\'"></app-icon>'
+                                DoneCheck: 'fa-solid fa-circle-check',
+                                DoneCheckSm: 'fa-solid fa-circle-check',
+                                Warning: 'fa-solid fa-triangle-exclamation',
+                                Calendar: 'fa-regular fa-calendar-days'
                         }),
                         DEFAULT_CONFIG: {
                                 city: 'Guntur',
@@ -348,7 +348,20 @@
 				PINNED: '<app-icon params="name: \'thumbtack\'"></app-icon>',
 				UNPINNED: '<app-icon params="name: \'thumbtack\'"></app-icon>',
 				FAV: '<app-icon params="name: \'heart\', color: \'text-danger\'"></app-icon>',
-				UNFAV: '<app-icon params="name: \'heart\', prefix: \'fa-regular\'"></app-icon>'
+				UNFAV: '<app-icon params="name: \'heart\', prefix: \'fa-regular\'"></app-icon>',
+				// Knockout standard pure data metadata
+				NAMES: {
+					PINNED: 'thumbtack',
+					UNPINNED: 'thumbtack',
+					FAV: 'heart',
+					UNFAV: 'heart'
+				},
+				CLASSES: {
+					PINNED: 'fa-solid fa-thumbtack',
+					UNPINNED: 'fa-solid fa-thumbtack',
+					FAV: 'fa-solid fa-heart text-danger',
+					UNFAV: 'fa-regular fa-heart'
+				}
 			},
                         SEARCH_DEBOUNCE_MS: 80,
                         MAX_PINS: 2,
@@ -513,16 +526,68 @@
         };
 
         // Expose CONSTANTS object globally
-        window.CONSTANTS = CONSTANTS;
+        if (globalObj) {
+                globalObj.CONSTANTS = CONSTANTS;
 
-        // Feature-specific module aliases
-        window.PRAYER_CONSTANTS = CONSTANTS.PRAYER;
-        window.DASHBOARD_CONSTANTS = CONSTANTS.DASHBOARD;
-        window.TASBEEH_CONSTANTS = CONSTANTS.TASBEEH;
-        window.DUA_CONSTANTS = CONSTANTS.DUA;
-        window.DUAS_CONSTANTS = CONSTANTS.DUA;
-        window.SETTINGS_CONSTANTS = CONSTANTS.SETTINGS;
-        window.NAVIGATION_CONSTANTS = CONSTANTS.NAVIGATION;
-        window.COMMON_CONSTANTS = CONSTANTS.COMMON;
+                // Feature-specific module aliases
+                globalObj.PRAYER_CONSTANTS = CONSTANTS.PRAYER;
+                globalObj.DASHBOARD_CONSTANTS = CONSTANTS.DASHBOARD;
+                globalObj.TASBEEH_CONSTANTS = CONSTANTS.TASBEEH;
+                globalObj.DUA_CONSTANTS = CONSTANTS.DUA;
+                globalObj.DUAS_CONSTANTS = CONSTANTS.DUA;
+                globalObj.SETTINGS_CONSTANTS = CONSTANTS.SETTINGS;
+                globalObj.NAVIGATION_CONSTANTS = CONSTANTS.NAVIGATION;
+                globalObj.COMMON_CONSTANTS = CONSTANTS.COMMON;
+        }
 
-})(window);
+        if (typeof window !== 'undefined' && window !== globalObj) {
+                window.CONSTANTS = CONSTANTS;
+                window.PRAYER_CONSTANTS = CONSTANTS.PRAYER;
+                window.DASHBOARD_CONSTANTS = CONSTANTS.DASHBOARD;
+                window.TASBEEH_CONSTANTS = CONSTANTS.TASBEEH;
+                window.DUA_CONSTANTS = CONSTANTS.DUA;
+                window.DUAS_CONSTANTS = CONSTANTS.DUA;
+                window.SETTINGS_CONSTANTS = CONSTANTS.SETTINGS;
+                window.NAVIGATION_CONSTANTS = CONSTANTS.NAVIGATION;
+                window.COMMON_CONSTANTS = CONSTANTS.COMMON;
+        }
+
+})(typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {}));
+
+var _root = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var CONSTANTS = _root.CONSTANTS;
+var PRAYER_CONSTANTS = _root.PRAYER_CONSTANTS;
+var DASHBOARD_CONSTANTS = _root.DASHBOARD_CONSTANTS;
+var TASBEEH_CONSTANTS = _root.TASBEEH_CONSTANTS;
+var DUA_CONSTANTS = _root.DUA_CONSTANTS;
+var DUAS_CONSTANTS = _root.DUAS_CONSTANTS;
+var SETTINGS_CONSTANTS = _root.SETTINGS_CONSTANTS;
+var NAVIGATION_CONSTANTS = _root.NAVIGATION_CONSTANTS;
+var COMMON_CONSTANTS = _root.COMMON_CONSTANTS;
+
+if (typeof module !== 'undefined' && module.exports) {
+        module.exports = CONSTANTS;
+        module.exports.CONSTANTS = CONSTANTS;
+        module.exports.PRAYER_CONSTANTS = PRAYER_CONSTANTS;
+        module.exports.DASHBOARD_CONSTANTS = DASHBOARD_CONSTANTS;
+        module.exports.TASBEEH_CONSTANTS = TASBEEH_CONSTANTS;
+        module.exports.DUA_CONSTANTS = DUA_CONSTANTS;
+        module.exports.DUAS_CONSTANTS = DUAS_CONSTANTS;
+        module.exports.SETTINGS_CONSTANTS = SETTINGS_CONSTANTS;
+        module.exports.NAVIGATION_CONSTANTS = NAVIGATION_CONSTANTS;
+        module.exports.COMMON_CONSTANTS = COMMON_CONSTANTS;
+}
+
+export {
+        CONSTANTS,
+        PRAYER_CONSTANTS,
+        DASHBOARD_CONSTANTS,
+        TASBEEH_CONSTANTS,
+        DUA_CONSTANTS,
+        DUAS_CONSTANTS,
+        SETTINGS_CONSTANTS,
+        NAVIGATION_CONSTANTS,
+        COMMON_CONSTANTS
+};
+
+export default CONSTANTS;
