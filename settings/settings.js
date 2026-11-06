@@ -81,7 +81,10 @@ export function registerSettingsComponents(customKo) {
     if (!k.components.isRegistered('settings-page')) {
         k.components.register('settings-page', {
             viewModel: function (params) {
-                return (params && params.viewModel) ? params.viewModel : getSettingsViewModel();
+                if (params && params.viewModel) return params.viewModel;
+                if (params && params.fontSizes) return params;
+                if (params && params.settings) return params.settings;
+                return getSettingsViewModel();
             },
             template: SettingsPageTemplate
         });
@@ -216,11 +219,116 @@ export function SettingsViewModel() {
         return {
             size: sizeVal,
             label: labelStr,
-            dataRef: 'page.settings.font-size.' + refKey
+            dataRef: 'page.settings.font-size.' + refKey,
+            onClick: function (d, e) {
+                if (e && e.stopPropagation) e.stopPropagation();
+                if (typeof apFS === 'function') apFS(sizeVal);
+                if (typeof self.currentFontSize === 'function') self.currentFontSize(sizeVal);
+                if (typeof rSET === 'function') rSET();
+            }
         };
     });
 
-    // 7. Storage Info Card
+    // 7. Actions / MVVM Event Handlers
+    self.goHome = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (typeof showPage === 'function') showPage('dashboard');
+    };
+
+    self.savePrayerTimes = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        var sel = document.getElementById('ptCitySelect');
+        var city = '';
+        var country = 'India';
+        var customVal = SETTINGS_CONSTANTS.CUSTOM_CITY_VALUE || '__custom__';
+        if (sel) {
+            if (sel.value === customVal) {
+                var customInp = document.getElementById('ptCustomCityInput');
+                city = customInp ? customInp.value.trim() : '';
+                var countryInp = document.getElementById('ptCountryInput');
+                if (countryInp && countryInp.value.trim()) {
+                    country = countryInp.value.trim();
+                }
+            } else {
+                city = sel.value;
+            }
+        } else {
+            var cityEl = document.getElementById('ptCityInput');
+            city = cityEl ? cityEl.value.trim() : 'Guntur';
+        }
+        var schoolEl = document.getElementById('ptSchoolSelect');
+        var school = schoolEl ? parseInt(schoolEl.value, 10) : 1;
+        if (!city) {
+            alert('Please select or enter a city.');
+            return;
+        }
+        if (typeof setPrayerConfig === 'function') {
+            setPrayerConfig({ city: city, country: country, school: school });
+        }
+        if (typeof fetchPrayerTimings === 'function') {
+            var todayStr = typeof td === 'function' ? td() : '';
+            fetchPrayerTimings(todayStr, function (err) {
+                if (err) {
+                    alert('Saved settings, but live API connection failed: ' + err.message);
+                } else {
+                    alert('Prayer times synced successfully for ' + city + ', ' + country + '!');
+                }
+                if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
+                    _win.PrayerStore.sync();
+                }
+                rSET();
+            });
+        }
+    };
+
+    self.saveStartDate = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        var sdInput = document.getElementById('sdInput');
+        var v = sdInput ? sdInput.value : '';
+        if (!v) { alert('Please pick a date.'); return; }
+        var formatted = typeof fr === 'function' ? fr(v) : v;
+        if (!confirm('Save Current Start Date as ' + formatted + '?')) return;
+        if (typeof wrSD === 'function') wrSD(v);
+        if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
+            _win.PrayerStore.sync();
+        }
+        rSET();
+        if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+    };
+
+    self.resetDatabase = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (confirm('Delete ALL prayer records and cached prayer times?')) {
+            var k_const = window.K || (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS && window.CONSTANTS.PRAYER.STORAGE_KEYS.TRACKER_DATA) || 'tracker_records';
+            var ock_const = window.OCK || 'old_clean_records';
+            var ok_const = window.OK || 'old_records';
+            var lik_const = window.LIK || 'last_interaction_records';
+            var oik_const = window.OIK || 'old_interaction_records';
+            localStorage.removeItem(k_const);
+            localStorage.removeItem(ock_const);
+            localStorage.removeItem(ok_const);
+            localStorage.removeItem(lik_const);
+            localStorage.removeItem(oik_const);
+            if (typeof PHK !== 'undefined') localStorage.removeItem(PHK);
+            if (typeof clearPrayerHistory === 'function') clearPrayerHistory();
+            if (typeof PTK_CACHE !== 'undefined') localStorage.removeItem(PTK_CACHE);
+            if (typeof td === 'function') {
+                window.sd = td();
+            }
+            if (typeof ensureCurrentDateInitialized === 'function') ensureCurrentDateInitialized();
+            if (typeof fetchPrayerTimings === 'function' && typeof td === 'function') fetchPrayerTimings(td());
+            if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
+                _win.PrayerStore.sync();
+            }
+            rSET();
+            if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+            if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+                renderPrayerHistoryTab();
+            }
+        }
+    };
+
+    // 8. Storage Info Card
     self.storageInfo = {
         cardDataRef: 'page.settings.info.card',
         contentDataRef: 'page.settings.info.content',

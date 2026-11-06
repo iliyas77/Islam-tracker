@@ -529,6 +529,9 @@ function sr(d, r) {
         a[d] = cleaned;
     }
     LS.set(K, a);
+    if (typeof window !== 'undefined' && window.PrayerStore && typeof window.PrayerStore.sync === 'function') {
+        window.PrayerStore.sync();
+    }
 }
 
 function en(d) {

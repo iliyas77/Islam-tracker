@@ -40,19 +40,55 @@ var NAV_CLASSES = NAV_CONSTANTS.NAV_CLASSES || {
 
 var trackerSubTab = SUB_TABS.CURRENT;
 
-function switchTrackerSubTab(subTab) {
-    trackerSubTab = subTab || SUB_TABS.CURRENT;
-    if (typeof window !== 'undefined') {
-        window.trackerSubTab = trackerSubTab;
+var _ko = typeof ko !== 'undefined' ? ko : (typeof window !== 'undefined' ? window.ko : null);
+
+/* ---------- Reactive Navigation State ---------- */
+var NavigationState = {
+    activePage: (_ko && _ko.observable) ? _ko.observable('dashboard') : function () { return 'dashboard'; },
+    trackerSubTab: (_ko && _ko.observable) ? _ko.observable(SUB_TABS.CURRENT) : function () { return SUB_TABS.CURRENT; },
+    tasbeehSubTab: (_ko && _ko.observable) ? _ko.observable('home') : function () { return 'home'; },
+    duasSubTab: (_ko && _ko.observable) ? _ko.observable('home') : function () { return 'home'; },
+    navigateTo: function (page) {
+        showPage(page);
+    },
+    switchTrackerTab: function (tab) {
+        switchTrackerSubTab(tab);
+    },
+    switchTasbeehTab: function (tab) {
+        if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
+            window.TasbeehApp.switchTab(tab);
+        }
+    },
+    switchDuasTab: function (tab) {
+        if (window.DuasApp && typeof window.DuasApp.switchTab === 'function') {
+            window.DuasApp.switchTab(tab);
+        }
     }
-    var btnCur = $('tabTrackCurrent');
-    var btnOld = $('tabTrackOld');
-    var btnPerf = $('tabTrackPerformance');
-    var btnHist = $('tabTrackHistory');
-    var bodyCur = $('currentBody');
-    var bodyOld = $('oldBody');
-    var bodyPerf = $('performanceBody');
-    var bodyHist = $('historyBody');
+};
+
+/**
+ * Synchronize DOM elements for tracker subtabs (fallback & legacy compatibility)
+ */
+function syncTrackerDom(activeTab, subText) {
+    var tabs = [
+        { id: 'tabTrackCurrent', bodyId: 'currentBody', tab: SUB_TABS.CURRENT },
+        { id: 'tabTrackOld', bodyId: 'oldBody', tab: SUB_TABS.OLD },
+        { id: 'tabTrackPerformance', bodyId: 'performanceBody', tab: SUB_TABS.PERFORMANCE },
+        { id: 'tabTrackHistory', bodyId: 'historyBody', tab: SUB_TABS.HISTORY }
+    ];
+    tabs.forEach(function (item) {
+        var btn = $(item.id);
+        var body = $(item.bodyId);
+        var isActive = (item.tab === activeTab);
+        if (btn) {
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        }
+        if (body) {
+            body.classList.toggle('d-none', !isActive);
+        }
+    });
+
     var oldSub = $('oldSub');
     var oldActionBtn = $('oldActionBtn');
     var currentMissedBtn = $('currentMissedBtn');
@@ -60,166 +96,84 @@ function switchTrackerSubTab(subTab) {
     var headerIcon = $('trackerHeaderIcon');
     var headerLabel = $('trackerHeaderLabel');
     var trackerHeaderTitle = $('trackerHeaderTitle');
-    if (trackerHeaderTitle) trackerHeaderTitle.classList.remove('justify-center');
-    if (oldSub) oldSub.classList.remove('text-center');
-    if (headerIcon) headerIcon.classList.remove('d-none');
 
-    if (trackerSubTab === SUB_TABS.OLD) {
-        if (btnCur) {
-            btnCur.classList.remove('active');
-            btnCur.setAttribute('aria-selected', 'false');
+    if (trackerHeaderTitle) trackerHeaderTitle.classList.toggle('justify-center', activeTab === SUB_TABS.HISTORY);
+    if (oldSub) {
+        oldSub.classList.toggle('text-center', activeTab === SUB_TABS.HISTORY);
+        oldSub.classList.toggle('d-none', activeTab === SUB_TABS.CURRENT);
+        if (subText && activeTab !== SUB_TABS.CURRENT) {
+            oldSub.textContent = subText;
         }
-        if (btnOld) {
-            btnOld.classList.add('active');
-            btnOld.setAttribute('aria-selected', 'true');
-        }
-        if (btnPerf) {
-            btnPerf.classList.remove('active');
-            btnPerf.setAttribute('aria-selected', 'false');
-        }
-        if (btnHist) {
-            btnHist.classList.remove('active');
-            btnHist.setAttribute('aria-selected', 'false');
-        }
-        if (bodyCur) bodyCur.classList.add('d-none');
-        if (bodyOld) bodyOld.classList.remove('d-none');
-        if (bodyPerf) bodyPerf.classList.add('d-none');
-        if (bodyHist) bodyHist.classList.add('d-none');
-        if (oldSub) oldSub.classList.remove('d-none');
-        if (oldActionBtn) oldActionBtn.classList.remove('d-none');
-        if (currentMissedBtn) currentMissedBtn.classList.add('d-none');
-        if (historyEmptyBtn) historyEmptyBtn.classList.add('d-none');
-        if (headerIcon) {
-            if (window.Icon && typeof Icon.update === 'function') {
-                Icon.update(headerIcon, TRACKER_HEADER.old.iconClass);
-            } else {
-                headerIcon.className = TRACKER_HEADER.old.iconClass;
-            }
-        }
-        if (headerLabel) headerLabel.textContent = TRACKER_HEADER.old.label;
-        rOT();
-    } else if (trackerSubTab === SUB_TABS.PERFORMANCE) {
-        if (btnCur) {
-            btnCur.classList.remove('active');
-            btnCur.setAttribute('aria-selected', 'false');
-        }
-        if (btnOld) {
-            btnOld.classList.remove('active');
-            btnOld.setAttribute('aria-selected', 'false');
-        }
-        if (btnPerf) {
-            btnPerf.classList.add('active');
-            btnPerf.setAttribute('aria-selected', 'true');
-        }
-        if (btnHist) {
-            btnHist.classList.remove('active');
-            btnHist.setAttribute('aria-selected', 'false');
-        }
-        if (bodyCur) bodyCur.classList.add('d-none');
-        if (bodyOld) bodyOld.classList.add('d-none');
-        if (bodyPerf) bodyPerf.classList.remove('d-none');
-        if (bodyHist) bodyHist.classList.add('d-none');
-        if (oldSub) {
-            oldSub.classList.remove('d-none');
-            var sdate = typeof rdSD === 'function' ? rdSD() : td();
-            var totalDays = typeof window.datesInRange === 'function' ? window.datesInRange(sdate, td()).length : 1;
-            oldSub.textContent = fr(sdate) + ' → ' + fr(td()) + ' (' + totalDays + (totalDays === 1 ? ' day' : ' days') + ')';
-        }
-        if (oldActionBtn) oldActionBtn.classList.add('d-none');
-        if (currentMissedBtn) currentMissedBtn.classList.add('d-none');
-        if (historyEmptyBtn) historyEmptyBtn.classList.add('d-none');
-        if (headerIcon) {
-            var perfIcon = (TRACKER_HEADER.performance && TRACKER_HEADER.performance.iconClass) || 'chart-simple text-brand';
-            if (window.Icon && typeof Icon.update === 'function') {
-                Icon.update(headerIcon, perfIcon);
-            } else {
-                headerIcon.className = perfIcon;
-            }
-        }
-        if (headerLabel) {
-            headerLabel.textContent = (TRACKER_HEADER.performance && TRACKER_HEADER.performance.label) || 'Performance';
-        }
-        if (typeof renderPerformanceTab === 'function') {
-            renderPerformanceTab();
-        }
-    } else if (trackerSubTab === SUB_TABS.HISTORY) {
-        if (btnCur) {
-            btnCur.classList.remove('active');
-            btnCur.setAttribute('aria-selected', 'false');
-        }
-        if (btnOld) {
-            btnOld.classList.remove('active');
-            btnOld.setAttribute('aria-selected', 'false');
-        }
-        if (btnPerf) {
-            btnPerf.classList.remove('active');
-            btnPerf.setAttribute('aria-selected', 'false');
-        }
-        if (btnHist) {
-            btnHist.classList.add('active');
-            btnHist.setAttribute('aria-selected', 'true');
-        }
-        if (bodyCur) bodyCur.classList.add('d-none');
-        if (bodyOld) bodyOld.classList.add('d-none');
-        if (bodyPerf) bodyPerf.classList.add('d-none');
-        if (bodyHist) bodyHist.classList.remove('d-none');
-        if (oldSub) {
-            oldSub.classList.remove('d-none');
-            var histEntries = typeof getPrayerHistory === 'function' ? getPrayerHistory() : [];
-            oldSub.textContent = 'Activity Log · ' + histEntries.length + (histEntries.length === 1 ? ' entry' : ' entries');
-        }
-        if (oldActionBtn) oldActionBtn.classList.add('d-none');
-        if (currentMissedBtn) currentMissedBtn.classList.add('d-none');
-        if (historyEmptyBtn) historyEmptyBtn.classList.remove('d-none');
-        if (headerIcon) {
+    }
+    if (currentMissedBtn) currentMissedBtn.classList.toggle('d-none', activeTab !== SUB_TABS.CURRENT);
+    if (oldActionBtn) oldActionBtn.classList.toggle('d-none', activeTab !== SUB_TABS.OLD);
+    if (historyEmptyBtn) historyEmptyBtn.classList.toggle('d-none', activeTab !== SUB_TABS.HISTORY);
+
+    var hConfig = TRACKER_HEADER[activeTab] || TRACKER_HEADER.current;
+    if (headerLabel) headerLabel.textContent = hConfig.label;
+    if (headerIcon) {
+        if (activeTab === SUB_TABS.HISTORY) {
             headerIcon.classList.add('d-none');
-        }
-        if (headerLabel) {
-            headerLabel.textContent = (TRACKER_HEADER.history && TRACKER_HEADER.history.label) || 'History';
-        }
-        if (trackerHeaderTitle) {
-            trackerHeaderTitle.classList.add('justify-center');
-        }
-        if (oldSub) {
-            oldSub.classList.add('text-center');
-        }
-        if (typeof renderPrayerHistoryTab === 'function') {
-            renderPrayerHistoryTab();
-        }
-    } else {
-        if (btnCur) {
-            btnCur.classList.add('active');
-            btnCur.setAttribute('aria-selected', 'true');
-        }
-        if (btnOld) {
-            btnOld.classList.remove('active');
-            btnOld.setAttribute('aria-selected', 'false');
-        }
-        if (btnPerf) {
-            btnPerf.classList.remove('active');
-            btnPerf.setAttribute('aria-selected', 'false');
-        }
-        if (btnHist) {
-            btnHist.classList.remove('active');
-            btnHist.setAttribute('aria-selected', 'false');
-        }
-        if (bodyCur) bodyCur.classList.remove('d-none');
-        if (bodyOld) bodyOld.classList.add('d-none');
-        if (bodyPerf) bodyPerf.classList.add('d-none');
-        if (bodyHist) bodyHist.classList.add('d-none');
-        if (oldSub) oldSub.classList.add('d-none');
-        if (oldActionBtn) oldActionBtn.classList.add('d-none');
-        if (currentMissedBtn) currentMissedBtn.classList.remove('d-none');
-        if (historyEmptyBtn) historyEmptyBtn.classList.add('d-none');
-        if (headerIcon) {
+        } else {
+            headerIcon.classList.remove('d-none');
             if (window.Icon && typeof Icon.update === 'function') {
-                Icon.update(headerIcon, TRACKER_HEADER.current.iconClass);
+                Icon.update(headerIcon, hConfig.iconClass);
             } else {
-                headerIcon.className = TRACKER_HEADER.current.iconClass;
+                headerIcon.className = hConfig.iconClass;
             }
         }
-        if (headerLabel) headerLabel.textContent = TRACKER_HEADER.current.label;
-        rn();
+    }
+}
+
+function switchTrackerSubTab(subTab) {
+    trackerSubTab = subTab || SUB_TABS.CURRENT;
+    if (typeof window !== 'undefined') {
+        window.trackerSubTab = trackerSubTab;
+    }
+    if (NavigationState && typeof NavigationState.trackerSubTab === 'function') {
+        NavigationState.trackerSubTab(trackerSubTab);
+    }
+
+    // Determine subtitle text for tracker header
+    var subText = '';
+    if (trackerSubTab === SUB_TABS.OLD) {
+        subText = 'Select a period to begin';
+    } else if (trackerSubTab === SUB_TABS.PERFORMANCE) {
+        var sdate = typeof rdSD === 'function' ? rdSD() : (typeof td === 'function' ? td() : '');
+        var totalDays = (typeof window.datesInRange === 'function' && typeof td === 'function') ? window.datesInRange(sdate, td()).length : 1;
+        subText = (typeof fr === 'function' && typeof td === 'function') ? (fr(sdate) + ' → ' + fr(td()) + ' (' + totalDays + (totalDays === 1 ? ' day' : ' days') + ')') : '';
+    } else if (trackerSubTab === SUB_TABS.HISTORY) {
+        var histEntries = typeof getPrayerHistory === 'function' ? getPrayerHistory() : [];
+        subText = 'Activity Log · ' + histEntries.length + (histEntries.length === 1 ? ' entry' : ' entries');
+    }
+
+    // Update Knockout Tracker ViewModel reactively
+    var vm = (typeof getTrackerViewModel === 'function') ? getTrackerViewModel() : (typeof window !== 'undefined' && window.getTrackerViewModel ? window.getTrackerViewModel() : null);
+    if (vm) {
+        if (typeof vm.currentSubTab === 'function') {
+            vm.currentSubTab(trackerSubTab);
+        }
+        if (vm.header) {
+            var hConfig = TRACKER_HEADER[trackerSubTab] || TRACKER_HEADER.current;
+            if (typeof vm.header.iconClass === 'function') vm.header.iconClass(hConfig.iconClass);
+            if (typeof vm.header.label === 'function') vm.header.label(hConfig.label);
+            if (typeof vm.header.showSubtitle === 'function') vm.header.showSubtitle(trackerSubTab !== SUB_TABS.CURRENT);
+            if (typeof vm.header.subtitle === 'function') vm.header.subtitle(subText);
+        }
+    }
+
+    // Synchronize DOM elements (fallback & legacy test compatibility)
+    syncTrackerDom(trackerSubTab, subText);
+
+    // Trigger tab-specific renders
+    if (trackerSubTab === SUB_TABS.OLD) {
+        if (typeof rOT === 'function') rOT();
+    } else if (trackerSubTab === SUB_TABS.PERFORMANCE) {
+        if (typeof renderPerformanceTab === 'function') renderPerformanceTab();
+    } else if (trackerSubTab === SUB_TABS.HISTORY) {
+        if (typeof renderPrayerHistoryTab === 'function') renderPrayerHistoryTab();
+    } else {
+        if (typeof rn === 'function') rn();
     }
 }
 
@@ -242,6 +196,13 @@ function setNav(id) {
 }
 
 function showPage(kind) {
+    if (NavigationState && typeof NavigationState.activePage === 'function') {
+        NavigationState.activePage(kind);
+    }
+    if (typeof window !== 'undefined') {
+        window.currentActivePage = kind;
+    }
+
     PAGES.forEach(function (id) {
         var el = $(id);
         if (el) { el.classList.add('d-none'); el.classList.remove('flex'); }
@@ -287,7 +248,7 @@ function showPage(kind) {
     } else if (kind === 'tracker') {
         switchTrackerSubTab(trackerSubTab || 'current');
     } else if (kind === 'settings') {
-        rSET();
+        if (typeof rSET === 'function') rSET();
     } else if (kind === 'tasbeeh') {
         if (typeof initTasbeeh === 'function') {
             initTasbeeh();
@@ -315,4 +276,6 @@ if (typeof window !== 'undefined') {
     window.setNav = setNav;
     window.SUB_TABS = SUB_TABS;
     window.TRACKER_HEADER = TRACKER_HEADER;
+    window.NavigationState = NavigationState;
+    window.navigationService = NavigationState;
 }

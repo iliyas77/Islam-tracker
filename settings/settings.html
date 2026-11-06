@@ -3,7 +3,9 @@
     data-ref="page.settings.header">
     <button type="button"
         class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
-        data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.settings.back-btn">
+        data-act="go-home" title="Back to Home" aria-label="Back to Home"
+        data-bind="click: goHome"
+        data-ref="page.settings.back-btn">
         <app-icon params="name: 'arrow-left', size: 'base'"></app-icon>
     </button>
     <div class="grow min-w-0">
@@ -64,7 +66,8 @@
         </div>
         <button type="button"
             class="font-bold w-full py-3 text-sm rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors"
-            data-act="pt-save" data-ref="page.settings.prayer-times.save-btn">
+            data-act="pt-save" data-ref="page.settings.prayer-times.save-btn"
+            data-bind="click: savePrayerTimes">
             <app-icon params="name: 'rotate-left', size: 'base', customClass: 'mr-1', dataRef: 'page.settings.prayer-times.save-icon'"></app-icon>Sync &amp; Save Prayer Times
         </button>
     </div>
@@ -79,7 +82,8 @@
                 id="sdInput" value="" data-ref="page.settings.start-date.input">
             <button type="button"
                 class="px-5 py-2.5 bg-brand text-white font-bold rounded-xl text-sm hover:bg-brand-hover whitespace-nowrap transition-colors"
-                data-act="sd-save" data-ref="page.settings.start-date.save-btn">Change</button>
+                data-act="sd-save" data-ref="page.settings.start-date.save-btn"
+                data-bind="click: saveStartDate">Change</button>
         </div>
     </div>
 
@@ -98,7 +102,8 @@
         <!-- ko component: { name: 'settings-card-header', params: resetDbHeader } --><!-- /ko -->
         <button type="button"
             class="w-full py-3 bg-gr-danger text-white font-bold rounded-xl text-sm hover:bg-red-600 transition-colors mt-2"
-            data-act="reset-db" data-ref="page.settings.reset.btn">Reset</button>
+            data-act="reset-db" data-ref="page.settings.reset.btn"
+            data-bind="click: resetDatabase">Reset</button>
     </div>
 
     <!-- Storage Info -->

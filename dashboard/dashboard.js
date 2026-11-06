@@ -33,6 +33,7 @@ var dashLastCheckedDate = typeof td === 'function' ? td() : null;
 
 /* ---------- Dashboard Constants (Referenced from utilities/dashboard-constants.js) ---------- */
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
 var DASH_CONSTANTS = _win.DASHBOARD_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.DASHBOARD) || {};
 var PRAYER_CONSTANTS = _win.PRAYER_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER) || {};
 var DASH_STATUSES = DASH_CONSTANTS.STATUSES || { ACTIVE: 'active', PASSED: 'passed', NEXT: 'next', UPCOMING: 'upcoming' };
@@ -105,7 +106,10 @@ export function registerDashboardComponents(customKo) {
     if (!k.components.isRegistered('dashboard-page')) {
         k.components.register('dashboard-page', {
             viewModel: function (params) {
-                return (params && params.viewModel) ? params.viewModel : getDashboardViewModel();
+                if (params && params.viewModel) return params.viewModel;
+                if (params && params.timeline) return params;
+                if (params && params.dashboard) return params.dashboard;
+                return getDashboardViewModel();
             },
             template: DashboardPageTemplate
         });
@@ -165,8 +169,13 @@ export function DashboardViewModel() {
         ? getConsolidatedMissedCount()
         : (typeof tMT === 'function' ? tMT() : 0);
 
-    var trackerBadgeVisible = ko.observable(missedCount > 0);
-    var trackerBadgeText = ko.observable(missedCount > 0 ? (missedCount + ' missed') : '');
+    var store = _win.PrayerStore || null;
+    var trackerBadgeVisible = (store && _ko && typeof _ko.computed === 'function' && _ko.isObservable(store.missedCount))
+        ? _ko.computed(function () { return store.missedCount() > 0; })
+        : (_ko ? _ko.observable(missedCount > 0) : function () { return missedCount > 0; });
+    var trackerBadgeText = (store && _ko && typeof _ko.computed === 'function' && _ko.isObservable(store.missedCount))
+        ? _ko.computed(function () { return store.missedCount() > 0 ? (store.missedCount() + ' missed') : ''; })
+        : (_ko ? _ko.observable(missedCount > 0 ? (missedCount + ' missed') : '') : function () { return missedCount > 0 ? (missedCount + ' missed') : ''; });
 
     self.navCards = [
         {
@@ -180,7 +189,11 @@ export function DashboardViewModel() {
             badgeId: 'trackerMissedBadge',
             badgeDataRef: 'page.dashboard.card.tracker-missed-badge',
             badgeText: trackerBadgeText,
-            badgeVisible: trackerBadgeVisible
+            badgeVisible: trackerBadgeVisible,
+            onClick: function (d, e) {
+                if (e && e.stopPropagation) e.stopPropagation();
+                if (typeof showPage === 'function') showPage('tracker');
+            }
         },
         {
             title: 'Tasbeeh',
@@ -189,7 +202,11 @@ export function DashboardViewModel() {
             dataRef: 'page.dashboard.card.tasbeeh',
             iconDataRef: 'page.dashboard.card.tasbeeh-icon',
             titleDataRef: 'page.dashboard.card.tasbeeh-label',
-            hasBadge: false
+            hasBadge: false,
+            onClick: function (d, e) {
+                if (e && e.stopPropagation) e.stopPropagation();
+                if (typeof showPage === 'function') showPage('tasbeeh');
+            }
         },
         {
             title: 'Duas',
@@ -198,7 +215,11 @@ export function DashboardViewModel() {
             dataRef: 'page.dashboard.card.duas',
             iconDataRef: 'page.dashboard.card.duas-icon',
             titleDataRef: 'page.dashboard.card.duas-label',
-            hasBadge: false
+            hasBadge: false,
+            onClick: function (d, e) {
+                if (e && e.stopPropagation) e.stopPropagation();
+                if (typeof showPage === 'function') showPage('duas');
+            }
         },
         {
             title: 'Settings',
@@ -207,7 +228,11 @@ export function DashboardViewModel() {
             dataRef: 'page.dashboard.card.settings',
             iconDataRef: 'page.dashboard.card.settings-icon',
             titleDataRef: 'page.dashboard.card.settings-label',
-            hasBadge: false
+            hasBadge: false,
+            onClick: function (d, e) {
+                if (e && e.stopPropagation) e.stopPropagation();
+                if (typeof showPage === 'function') showPage('settings');
+            }
         }
     ];
 
@@ -237,11 +262,21 @@ export function DashboardViewModel() {
     };
 
     self.updateTrackerBadge = function () {
-        var totalMissed = typeof getConsolidatedMissedCount === 'function'
-            ? getConsolidatedMissedCount()
-            : (typeof tMT === 'function' ? tMT() : 0);
-        trackerBadgeVisible(totalMissed > 0);
-        trackerBadgeText(totalMissed > 0 ? (totalMissed + ' missed') : '');
+        var pStore = _win.PrayerStore || null;
+        if (pStore && typeof pStore.sync === 'function') {
+            pStore.sync();
+        }
+        var totalMissed = (pStore && _ko && _ko.isObservable(pStore.missedCount))
+            ? pStore.missedCount()
+            : (typeof getConsolidatedMissedCount === 'function'
+                ? getConsolidatedMissedCount()
+                : (typeof tMT === 'function' ? tMT() : 0));
+        if (typeof trackerBadgeVisible === 'function') {
+            trackerBadgeVisible(totalMissed > 0);
+        }
+        if (typeof trackerBadgeText === 'function') {
+            trackerBadgeText(totalMissed > 0 ? (totalMissed + ' missed') : '');
+        }
     };
 }
 

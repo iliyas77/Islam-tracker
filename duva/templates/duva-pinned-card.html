@@ -1,6 +1,6 @@
 <div class="pinned-dua-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col gap-2.5 border-l-4 border-l-brand relative cursor-pointer hover:bg-surfaceBg transition-all mb-3"
     data-act="dua-open-detail"
-    data-bind="attr: { 'data-idx': index, 'data-source': 'home' }">
+    data-bind="click: onOpenDetail, attr: { 'data-idx': index, 'data-source': 'home' }">
     <span class="pinned-badge absolute top-3.5 right-4 text-base inline-flex items-center justify-center text-pinAmber">
         <app-icon params="name: 'thumbtack'"></app-icon>
     </span>
