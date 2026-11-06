@@ -201,6 +201,19 @@ export function SettingsViewModel() {
     });
     self.cityOptions = ko.observableArray(cityOpts);
 
+    var initialCity = initialCfg.city || SETTINGS_DEFAULT_CONFIG.city;
+    var isInitialPredefined = (INDIAN_CITIES || []).some(function (c) {
+        return c.name.toLowerCase() === initialCity.toLowerCase();
+    });
+    self.selectedCity = ko.observable(isInitialPredefined ? initialCity : CUSTOM_CITY_VALUE);
+    self.customCity = ko.observable(isInitialPredefined ? '' : initialCity);
+    self.country = ko.observable(initialCfg.country || SETTINGS_DEFAULT_CONFIG.country);
+    self.school = ko.observable(String(initialCfg.school !== undefined ? initialCfg.school : 1));
+    self.startDate = ko.observable(typeof rdSD === 'function' ? rdSD() : '');
+    self.isCustomCity = ko.pureComputed(function () {
+        return self.selectedCity() === CUSTOM_CITY_VALUE;
+    });
+
     // 6. Font Size Buttons & context-mapped class resolver
     self.currentFontSize = ko.observable(initialFs);
     self.getFontSizeBtnClass = function (size) {
@@ -237,27 +250,11 @@ export function SettingsViewModel() {
 
     self.savePrayerTimes = function (d, e) {
         if (e && e.stopPropagation) e.stopPropagation();
-        var sel = document.getElementById('ptCitySelect');
-        var city = '';
-        var country = 'India';
-        var customVal = SETTINGS_CONSTANTS.CUSTOM_CITY_VALUE || '__custom__';
-        if (sel) {
-            if (sel.value === customVal) {
-                var customInp = document.getElementById('ptCustomCityInput');
-                city = customInp ? customInp.value.trim() : '';
-                var countryInp = document.getElementById('ptCountryInput');
-                if (countryInp && countryInp.value.trim()) {
-                    country = countryInp.value.trim();
-                }
-            } else {
-                city = sel.value;
-            }
-        } else {
-            var cityEl = document.getElementById('ptCityInput');
-            city = cityEl ? cityEl.value.trim() : 'Guntur';
-        }
-        var schoolEl = document.getElementById('ptSchoolSelect');
-        var school = schoolEl ? parseInt(schoolEl.value, 10) : 1;
+        var isCustom = self.isCustomCity();
+        var city = isCustom ? (self.customCity() || '').trim() : (self.selectedCity() || '');
+        var country = isCustom ? ((self.country() || '').trim() || 'India') : 'India';
+        var school = parseInt(self.school(), 10) || 1;
+
         if (!city) {
             alert('Please select or enter a city.');
             return;
@@ -283,8 +280,7 @@ export function SettingsViewModel() {
 
     self.saveStartDate = function (d, e) {
         if (e && e.stopPropagation) e.stopPropagation();
-        var sdInput = document.getElementById('sdInput');
-        var v = sdInput ? sdInput.value : '';
+        var v = (typeof self.startDate === 'function' ? self.startDate() : self.startDate) || '';
         if (!v) { alert('Please pick a date.'); return; }
         var formatted = typeof fr === 'function' ? fr(v) : v;
         if (!confirm('Save Current Start Date as ' + formatted + '?')) return;
@@ -376,102 +372,29 @@ function rSET() {
         if (ko.isObservable(settingsViewModel.currentFontSize)) {
             settingsViewModel.currentFontSize(fs);
         }
-    }
-
-    // 1. Update Prayer Times Location header info & status badge
-    var sub = $(SETTINGS_ELEMENT_IDS.LOCATION_SUBTITLE);
-    if (sub) {
-        sub.textContent = subtitleText;
-    }
-    var st = $(SETTINGS_ELEMENT_IDS.STATUS_TEXT);
-    if (st) {
-        st.textContent = statusText;
-    }
-
-    // 2. Determine if configured city is in predefined list
-    var isPredefined = false;
-    var targetCityLower = (cfg.city || '').toLowerCase();
-    for (var i = 0; i < INDIAN_CITIES.length; i++) {
-        if (INDIAN_CITIES[i].name.toLowerCase() === targetCityLower) {
-            isPredefined = true;
-            break;
+        if (ko.isObservable(settingsViewModel.startDate)) {
+            settingsViewModel.startDate(sdate);
         }
-    }
+        if (ko.isObservable(settingsViewModel.school)) {
+            settingsViewModel.school(String(cfg.school !== undefined ? cfg.school : 1));
+        }
 
-    // 3. Update City Select value and attach onchange listener
-    var sel = $(SETTINGS_ELEMENT_IDS.CITY_SELECT);
-    if (sel) {
-        if (isPredefined) {
-            for (var j = 0; j < sel.options.length; j++) {
-                if (sel.options[j].value.toLowerCase() === targetCityLower) {
-                    sel.selectedIndex = j;
-                    break;
-                }
+        var isPredefined = false;
+        var targetCityLower = (cfg.city || '').toLowerCase();
+        for (var i = 0; i < INDIAN_CITIES.length; i++) {
+            if (INDIAN_CITIES[i].name.toLowerCase() === targetCityLower) {
+                isPredefined = true;
+                break;
             }
-        } else {
-            sel.value = CUSTOM_CITY_VALUE;
         }
-
-        if (!sel._settingsListenerAttached) {
-            sel.onchange = function () {
-                var wrap = $(SETTINGS_ELEMENT_IDS.CUSTOM_CITY_WRAP);
-                if (wrap) {
-                    if (this.value === CUSTOM_CITY_VALUE) {
-                        wrap.classList.remove('d-none');
-                        var inp = $(SETTINGS_ELEMENT_IDS.CUSTOM_CITY_INPUT);
-                        if (inp) inp.focus();
-                    } else {
-                        wrap.classList.add('d-none');
-                    }
-                }
-            };
-            sel._settingsListenerAttached = true;
+        if (ko.isObservable(settingsViewModel.selectedCity)) {
+            settingsViewModel.selectedCity(isPredefined ? cfg.city : CUSTOM_CITY_VALUE);
         }
-    }
-
-    // 4. Update Custom City / Country inputs and container visibility
-    var wrap = $(SETTINGS_ELEMENT_IDS.CUSTOM_CITY_WRAP);
-    if (wrap) {
-        if (!isPredefined) {
-            wrap.classList.remove('d-none');
-        } else {
-            wrap.classList.add('d-none');
+        if (ko.isObservable(settingsViewModel.customCity)) {
+            settingsViewModel.customCity(isPredefined ? '' : (cfg.city || ''));
         }
-    }
-    var customInp = $(SETTINGS_ELEMENT_IDS.CUSTOM_CITY_INPUT);
-    if (customInp) {
-        customInp.value = isPredefined ? '' : (cfg.city || '');
-    }
-    var countryInp = $(SETTINGS_ELEMENT_IDS.COUNTRY_INPUT);
-    if (countryInp) {
-        countryInp.value = cfg.country || SETTINGS_DEFAULT_CONFIG.country;
-    }
-
-    // 5. Update Juristic Method (Asr school)
-    var schoolSel = $(SETTINGS_ELEMENT_IDS.SCHOOL_SELECT);
-    if (schoolSel) {
-        var schoolVal = cfg.school !== undefined ? cfg.school : (SETTINGS_CONSTANTS.SCHOOLS ? SETTINGS_CONSTANTS.SCHOOLS.HANAFI : 1);
-        schoolSel.value = String(schoolVal);
-    }
-
-    // 6. Update Start Date Input
-    var sdInput = $(SETTINGS_ELEMENT_IDS.START_DATE_INPUT);
-    if (sdInput) {
-        sdInput.value = sdate || '';
-        if (typeof td === 'function') {
-            sdInput.max = td();
-        }
-    }
-
-    // 7. Update Font Size button active states
-    var fsBtns = $(SETTINGS_ELEMENT_IDS.FONT_SIZE_BTNS);
-    if (fsBtns) {
-        var buttons = fsBtns.querySelectorAll('button[data-act="font"]');
-        for (var b = 0; b < buttons.length; b++) {
-            var btn = buttons[b];
-            var btnVal = parseFloat(btn.getAttribute('data-fs'));
-            var active = Math.abs(fs - btnVal) < 0.01;
-            btn.className = active ? SETTINGS_BUTTON_CLASSES.FONT_ACTIVE : SETTINGS_BUTTON_CLASSES.FONT_INACTIVE;
+        if (ko.isObservable(settingsViewModel.country)) {
+            settingsViewModel.country(cfg.country || SETTINGS_DEFAULT_CONFIG.country);
         }
     }
 }

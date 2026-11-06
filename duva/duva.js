@@ -452,14 +452,11 @@ window.DuasApp = (function () {
 
         var filteredData = getFilteredData();
         var vm = (typeof getDuasViewModel === 'function') ? getDuasViewModel() : null;
-        var hasKo = typeof ko !== 'undefined' && vm && typeof vm.filteredDuas === 'function';
 
         if (filteredData.length === 0) {
             if (emptyState) emptyState.classList.remove('d-none');
-            if (hasKo) {
+            if (vm && typeof vm.filteredDuas === 'function') {
                 vm.filteredDuas([]);
-            } else {
-                listView.innerHTML = '';
             }
             if (progressIndicator) progressIndicator.textContent = '0 duas';
             return;
@@ -496,20 +493,8 @@ window.DuasApp = (function () {
             };
         });
 
-        if (hasKo) {
+        if (vm && typeof vm.filteredDuas === 'function') {
             vm.filteredDuas(mapped);
-        } else {
-            listView.innerHTML = mapped.map(function (d) {
-                return '<div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2" data-act="dua-open-detail" data-idx="' + d.index + '" data-source="duas">' +
-                    '<div class="dua-item-number text-sm font-bold text-brand min-w-[36px]">#' + String(d.number).padStart(2, '0') + '</div>' +
-                    '<div class="dua-item-content flex-1 min-w-0">' +
-                    '  <div class="dua-item-surah text-sm font-semibold text-brand font-telugu truncate">' + escapeHtml(d.surah) + '</div>' +
-                    '  <div class="dua-item-preview text-xs text-gr-textMuted font-telugu truncate mt-0.5">' + escapeHtml(d.preview) + '</div>' +
-                    '</div>' +
-                    '<button type="button" class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all ' + (d.isPinned ? 'pinned text-pinAmber' : 'opacity-50') + '" data-act="dua-item-pin" data-idx="' + d.index + '" title="' + (d.isPinned ? 'Unpin' : 'Pin to Home') + '">' + (d.isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED) + '</button>' +
-                    '<button type="button" class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all" data-act="dua-item-fav" data-idx="' + d.index + '" title="Toggle favourite">' + (d.isFav ? DUA_ICONS.FAV : DUA_ICONS.UNFAV) + '</button>' +
-                    '</div>';
-            }).join('');
         }
 
         if (progressIndicator) progressIndicator.textContent = filteredData.length + ' duas';
@@ -526,14 +511,11 @@ window.DuasApp = (function () {
             return favourites.indexOf(idx) !== -1;
         });
         var vm = (typeof getDuasViewModel === 'function') ? getDuasViewModel() : null;
-        var hasKo = typeof ko !== 'undefined' && vm && typeof vm.favouriteDuas === 'function';
 
         if (favList.length === 0) {
             if (emptyState) emptyState.classList.remove('d-none');
-            if (hasKo) {
+            if (vm && typeof vm.favouriteDuas === 'function') {
                 vm.favouriteDuas([]);
-            } else {
-                favouritesList.innerHTML = '';
             }
             if (progressIndicator) progressIndicator.textContent = '0 favourites';
             return;
@@ -569,20 +551,8 @@ window.DuasApp = (function () {
             };
         });
 
-        if (hasKo) {
+        if (vm && typeof vm.favouriteDuas === 'function') {
             vm.favouriteDuas(mapped);
-        } else {
-            favouritesList.innerHTML = mapped.map(function (d) {
-                return '<div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2" data-act="dua-open-detail" data-idx="' + d.index + '" data-source="favourites">' +
-                    '<div class="dua-item-number text-sm font-bold text-brand min-w-[36px]">#' + String(d.number).padStart(2, '0') + '</div>' +
-                    '<div class="dua-item-content flex-1 min-w-0">' +
-                    '  <div class="dua-item-surah text-sm font-semibold text-brand font-telugu truncate">' + escapeHtml(d.surah) + '</div>' +
-                    '  <div class="dua-item-preview text-xs text-gr-textMuted font-telugu truncate mt-0.5">' + escapeHtml(d.preview) + '</div>' +
-                    '</div>' +
-                    '<button type="button" class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all ' + (d.isPinned ? 'pinned text-pinAmber' : 'opacity-50') + '" data-act="dua-item-pin" data-idx="' + d.index + '" title="' + (d.isPinned ? 'Unpin' : 'Pin to Home') + '">' + (d.isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED) + '</button>' +
-                    '<button type="button" class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all" data-act="dua-item-fav" data-idx="' + d.index + '" title="Remove from favourites">' + DUA_ICONS.FAV + '</button>' +
-                    '</div>';
-            }).join('');
         }
 
         if (progressIndicator) progressIndicator.textContent = favList.length + ' favourite' + (favList.length === 1 ? '' : 's');
@@ -598,15 +568,12 @@ window.DuasApp = (function () {
         if (!homeView) return;
 
         var vm = (typeof getDuasViewModel === 'function') ? getDuasViewModel() : null;
-        var hasKo = typeof ko !== 'undefined' && vm && typeof vm.pinnedDuas === 'function';
 
         if (pins.length === 0) {
             if (emptyState) emptyState.classList.remove('d-none');
             if (content) content.classList.add('d-none');
-            if (hasKo) {
+            if (vm && typeof vm.pinnedDuas === 'function') {
                 vm.pinnedDuas([]);
-            } else {
-                homeView.innerHTML = '';
             }
             if (progressIndicator) progressIndicator.textContent = '0 pinned';
             return;
@@ -634,18 +601,8 @@ window.DuasApp = (function () {
             };
         }).filter(Boolean);
 
-        if (hasKo) {
+        if (vm && typeof vm.pinnedDuas === 'function') {
             vm.pinnedDuas(mapped);
-        } else {
-            homeView.innerHTML = mapped.map(function (d) {
-                return '<div class="pinned-dua-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col gap-2.5 border-l-4 border-l-brand relative cursor-pointer hover:bg-surfaceBg transition-all mb-3" data-act="dua-open-detail" data-idx="' + d.index + '" data-source="home">' +
-                    '<span class="pinned-badge absolute top-3.5 right-4 text-base inline-flex items-center justify-center text-pinAmber">' + DRAWING_PIN_SVG + '</span>' +
-                    '<div class="pinned-dua-number text-sm font-bold text-brand">#' + String(d.number).padStart(2, '0') + '</div>' +
-                    '<div class="pinned-dua-surah text-base font-bold text-brand font-telugu pr-8">' + escapeHtml(d.surah) + '</div>' +
-                    '<div class="pinned-dua-text text-base text-gr-text leading-relaxed font-telugu">' + escapeHtml(d.uchcharana) + '</div>' +
-                    '<div class="pinned-dua-meaning text-sm text-gr-textMuted leading-relaxed font-telugu border-t border-dashed border-borderGrey pt-2.5">' + escapeHtml(d.ardham) + '</div>' +
-                    '</div>';
-            }).join('');
         }
 
         if (progressIndicator) progressIndicator.textContent = pins.length + ' pinned';

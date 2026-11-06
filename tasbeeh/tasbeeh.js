@@ -361,7 +361,6 @@ window.TasbeehHomeApp = (function () {
         var activeOldLabel = curOldMonth ? (window.TasbeehApp && window.TasbeehApp.formatMonthLabel ? window.TasbeehApp.formatMonthLabel(curOldMonth) : curOldMonth) : 'All Cleared';
 
         var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
-        var hasKo = typeof ko !== 'undefined' && vm && typeof vm.bookmarkedCounters === 'function';
 
         if (vm) {
             if (typeof vm.currentDhikrsCount === 'function') vm.currentDhikrsCount(items.length);
@@ -422,14 +421,8 @@ window.TasbeehHomeApp = (function () {
             });
         }
 
-        if (hasKo) {
+        if (vm && typeof vm.bookmarkedCounters === 'function') {
             vm.bookmarkedCounters(bmCards);
-        } else {
-            // Fallback for non-Knockout environments
-            var gridEl = getEl(ELEMENT_IDS.HOME_GRID || 'tbHomeGrid');
-            if (gridEl) {
-                gridEl.innerHTML = curHtml + oldHtml;
-            }
         }
 
         var curCountEl = getEl(ELEMENT_IDS.HOME_CURRENT_COUNT || 'tbHomeCurrentCount');
@@ -1189,7 +1182,6 @@ window.TasbeehCurrentApp = (function () {
         if (doneBadge) doneBadge.textContent = doneItems.length;
 
         var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
-        var hasKo = typeof ko !== 'undefined' && vm && typeof vm.currentTodoItems === 'function';
 
         function mapCurCard(item, isComplete) {
             var parts = curMonthKey.split('-');
@@ -1229,12 +1221,13 @@ window.TasbeehCurrentApp = (function () {
         var todoGrid = getEl(ELEMENT_IDS.CURRENT_TODO_GRID || 'tbCurrentTodoGrid');
         var doneGrid = getEl(ELEMENT_IDS.CURRENT_DONE_GRID || 'tbCurrentDoneGrid');
 
-        if (hasKo) {
-            vm.currentTodoItems(todoItems.map(function (it) { return mapCurCard(it, false); }));
-            vm.currentDoneItems(doneItems.map(function (it) { return mapCurCard(it, true); }));
-        } else {
-            if (todoGrid) todoGrid.innerHTML = todoCardsHtml;
-            if (doneGrid) doneGrid.innerHTML = doneCardsHtml;
+        if (vm) {
+            if (typeof vm.currentTodoItems === 'function') {
+                vm.currentTodoItems(todoItems.map(function (it) { return mapCurCard(it, false); }));
+            }
+            if (typeof vm.currentDoneItems === 'function') {
+                vm.currentDoneItems(doneItems.map(function (it) { return mapCurCard(it, true); }));
+            }
         }
 
         // Update Done collapse expansion state
@@ -2507,7 +2500,6 @@ window.TasbeehOldApp = (function () {
         if (doneBadge) doneBadge.textContent = doneOldItems.length;
 
         var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
-        var hasKo = typeof ko !== 'undefined' && vm && typeof vm.oldTodoItems === 'function';
 
         function mapOldCard(item, isComplete) {
             var isInfinite = item.targetCount === 'infinite';
@@ -2551,12 +2543,13 @@ window.TasbeehOldApp = (function () {
         var todoGrid = getEl(ELEMENT_IDS.OLD_TODO_GRID || 'tbOldTodoGrid');
         var doneGrid = getEl(ELEMENT_IDS.OLD_DONE_GRID || 'tbOldDoneGrid');
 
-        if (hasKo) {
-            vm.oldTodoItems(todoOldItems.map(function (it) { return mapOldCard(it, false); }));
-            vm.oldDoneItems(doneOldItems.map(function (it) { return mapOldCard(it, true); }));
-        } else {
-            if (todoGrid) todoGrid.innerHTML = todoOldCardsHtml;
-            if (doneGrid) doneGrid.innerHTML = doneOldCardsHtml;
+        if (vm) {
+            if (typeof vm.oldTodoItems === 'function') {
+                vm.oldTodoItems(todoOldItems.map(function (it) { return mapOldCard(it, false); }));
+            }
+            if (typeof vm.oldDoneItems === 'function') {
+                vm.oldDoneItems(doneOldItems.map(function (it) { return mapOldCard(it, true); }));
+            }
         }
 
         // Update Done collapse expansion state

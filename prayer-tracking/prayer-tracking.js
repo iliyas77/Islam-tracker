@@ -691,26 +691,75 @@ function rn() {
     var actionBtnAct = isToday ? 'select-all' : 'jump-today';
     var dateChipText = formatChipDate(sd);
 
-    var html = renderPrayerTrackerCard({
-        pagePrefix: 'page.current',
-        collapsePrefix: 'cur',
-        badgeText: actualMissedCount > 0 ? ('Missed (' + actualMissedCount + ')') : '',
-        badgeAct: missTotal > 0 ? 'missed-open' : '',
-        actionBtnText: actionBtnText,
-        actionBtnAct: actionBtnAct,
-        dateChipText: dateChipText,
-        dateChipAct: 'open-cal',
-        missedPrayers: missed,
-        upcomingPrayers: upcoming,
-        donePrayers: done,
-        timings: T,
-        currentPrayerName: curPrayerName,
-        toggleAct: 'toggle-cur',
-        date: sd
-    });
+    // Update Knockout ViewModel reactively
+    var vm = trackerViewModel || (typeof getTrackerViewModel === 'function' ? getTrackerViewModel() : null);
+    if (vm && vm.currentCard) {
+        var card = typeof vm.currentCard === 'function' ? vm.currentCard() : vm.currentCard;
+        if (card) {
+            var missedRowVms = missed.map(function (p) {
+                var isUp = upcoming.indexOf(p) !== -1;
+                var isCur = (p === curPrayerName);
+                return new PrayerRowViewModel({
+                    prayer: p,
+                    time: T[p] || '--:--',
+                    isDone: false,
+                    isUpcoming: isUp,
+                    isMissed: !isUp && !isCur,
+                    isCurrent: isCur,
+                    isStandard: !isUp && !isCur,
+                    prefix: 'page.current',
+                    actionAct: 'toggle-cur',
+                    date: sd,
+                    iconClass: PRAYER_CARD_ICONS[p] || 'fa-solid fa-mosque'
+                });
+            });
+            var doneRowVms = done.map(function (p) {
+                return new PrayerRowViewModel({
+                    prayer: p,
+                    time: T[p] || '--:--',
+                    isDone: true,
+                    isUpcoming: false,
+                    isMissed: false,
+                    isCurrent: false,
+                    isStandard: false,
+                    prefix: 'page.current',
+                    actionAct: 'toggle-cur',
+                    date: sd,
+                    iconClass: PRAYER_CARD_ICONS[p] || 'fa-solid fa-mosque'
+                });
+            });
+
+            if (typeof card.dateChipText === 'function') card.dateChipText(dateChipText);
+            if (typeof card.badgeText === 'function') card.badgeText(actualMissedCount > 0 ? ('Missed (' + actualMissedCount + ')') : '');
+            if (typeof card.badgeAct === 'function') card.badgeAct(missTotal > 0 ? 'missed-open' : '');
+            if (typeof card.actionBtnText === 'function') card.actionBtnText(actionBtnText);
+            if (typeof card.actionBtnAct === 'function') card.actionBtnAct(actionBtnAct);
+            if (typeof card.missedGroupTitle === 'function') card.missedGroupTitle('MISSED (' + missed.length + ')');
+            if (typeof card.missedRows === 'function') card.missedRows(missedRowVms);
+            if (typeof card.doneGroupTitle === 'function') card.doneGroupTitle('DONE (' + done.length + ')');
+            if (typeof card.doneRows === 'function') card.doneRows(doneRowVms);
+        }
+    }
 
     var currentBody = $('currentBody');
-    if (currentBody) {
+    if (currentBody && (!window.ko || !window.ko.dataFor(currentBody))) {
+        var html = renderPrayerTrackerCard({
+            pagePrefix: 'page.current',
+            collapsePrefix: 'cur',
+            badgeText: actualMissedCount > 0 ? ('Missed (' + actualMissedCount + ')') : '',
+            badgeAct: missTotal > 0 ? 'missed-open' : '',
+            actionBtnText: actionBtnText,
+            actionBtnAct: actionBtnAct,
+            dateChipText: dateChipText,
+            dateChipAct: 'open-cal',
+            missedPrayers: missed,
+            upcomingPrayers: upcoming,
+            donePrayers: done,
+            timings: T,
+            currentPrayerName: curPrayerName,
+            toggleAct: 'toggle-cur',
+            date: sd
+        });
         currentBody.innerHTML = html;
     }
 
@@ -1058,24 +1107,71 @@ function rOT() {
 
     var dateChipText = formatChipDate(curDate);
 
-    var html = renderPrayerTrackerCard({
-        pagePrefix: 'page.old',
-        collapsePrefix: 'old',
-        badgeText: '',
-        badgeAct: '',
-        dateChipText: dateChipText,
-        dateChipAct: 'old-open-cal',
-        missedPrayers: missed,
-        donePrayers: done,
-        timings: T,
-        currentPrayerName: null,
-        toggleAct: 'toggle-old',
-        date: curDate,
-        missedTitle: 'MISSED',
-        highlightMissed: true
-    });
+    // Update Knockout ViewModel reactively
+    var vm = trackerViewModel || (typeof getTrackerViewModel === 'function' ? getTrackerViewModel() : null);
+    if (vm && vm.oldCard) {
+        var card = typeof vm.oldCard === 'function' ? vm.oldCard() : vm.oldCard;
+        if (card) {
+            var oldMissedRowVms = missed.map(function (p) {
+                return new PrayerRowViewModel({
+                    prayer: p,
+                    time: T[p] || '--:--',
+                    isDone: false,
+                    isUpcoming: false,
+                    isMissed: true,
+                    isCurrent: false,
+                    isStandard: true,
+                    prefix: 'page.old',
+                    actionAct: 'toggle-old',
+                    date: curDate,
+                    iconClass: PRAYER_CARD_ICONS[p] || 'fa-solid fa-mosque'
+                });
+            });
+            var oldDoneRowVms = done.map(function (p) {
+                return new PrayerRowViewModel({
+                    prayer: p,
+                    time: T[p] || '--:--',
+                    isDone: true,
+                    isUpcoming: false,
+                    isMissed: false,
+                    isCurrent: false,
+                    isStandard: false,
+                    prefix: 'page.old',
+                    actionAct: 'toggle-old',
+                    date: curDate,
+                    iconClass: PRAYER_CARD_ICONS[p] || 'fa-solid fa-mosque'
+                });
+            });
 
-    lst.innerHTML = html;
+            if (typeof card.dateChipText === 'function') card.dateChipText(dateChipText);
+            if (typeof card.badgeText === 'function') card.badgeText('');
+            if (typeof card.actionBtnText === 'function') card.actionBtnText('');
+            if (typeof card.missedGroupTitle === 'function') card.missedGroupTitle('MISSED (' + missed.length + ')');
+            if (typeof card.missedRows === 'function') card.missedRows(oldMissedRowVms);
+            if (typeof card.doneGroupTitle === 'function') card.doneGroupTitle('DONE (' + done.length + ')');
+            if (typeof card.doneRows === 'function') card.doneRows(oldDoneRowVms);
+        }
+    }
+
+    if (lst && (!window.ko || !window.ko.dataFor(lst))) {
+        var html = renderPrayerTrackerCard({
+            pagePrefix: 'page.old',
+            collapsePrefix: 'old',
+            badgeText: '',
+            badgeAct: '',
+            dateChipText: dateChipText,
+            dateChipAct: 'old-open-cal',
+            missedPrayers: missed,
+            donePrayers: done,
+            timings: T,
+            currentPrayerName: null,
+            toggleAct: 'toggle-old',
+            date: curDate,
+            missedTitle: 'MISSED',
+            highlightMissed: true
+        });
+        lst.innerHTML = html;
+    }
 
     if (typeof updatePerformanceTab === 'function') {
         updatePerformanceTab();
@@ -1215,6 +1311,32 @@ if (typeof window !== 'undefined') {
         if (oldSub && typeof window.trackerSubTab !== 'undefined' && window.trackerSubTab === 'performance') {
             oldSub.classList.remove('d-none');
             oldSub.textContent = frFn(stats.startDate) + ' → ' + frFn(stats.endDate) + ' (' + stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days') + ')';
+        }
+
+        // Update Knockout Performance ViewModel observables
+        var vm = trackerViewModel || (typeof getTrackerViewModel === 'function' ? getTrackerViewModel() : null);
+        if (vm && vm.performance) {
+            var perf = vm.performance;
+            if (perf.hero) {
+                if (typeof perf.hero.dashArray === 'function') perf.hero.dashArray(stats.totalPercentage + ', 100');
+                if (typeof perf.hero.percentageText === 'function') perf.hero.percentageText(stats.totalPercentage + '%');
+                if (typeof perf.hero.totalCompleted === 'function') perf.hero.totalCompleted(stats.totalCompleted);
+                if (typeof perf.hero.totalPossible === 'function') perf.hero.totalPossible(stats.totalPossible);
+                if (typeof perf.hero.datePillText === 'function') {
+                    perf.hero.datePillText(stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days') + ' · ' + frFn(stats.startDate) + ' → ' + frFn(stats.endDate));
+                }
+            }
+            if (perf.stats) {
+                if (typeof perf.stats.completed === 'function') perf.stats.completed(stats.totalCompleted);
+                if (typeof perf.stats.missed === 'function') perf.stats.missed(stats.totalMissed);
+                if (typeof perf.stats.rate === 'function') perf.stats.rate(stats.totalPercentage + '%');
+            }
+            if (typeof perf.trackedDays === 'function') {
+                perf.trackedDays(stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days'));
+            }
+            if (typeof perf.footerLabel === 'function') {
+                perf.footerLabel('Tracking Start Date: ' + frFn(stats.startDate));
+            }
         }
 
         // Update Hero Card: Circular Progress Ring & Summary
@@ -1767,16 +1889,12 @@ if (typeof window !== 'undefined') {
         var list = typeof window.$ === 'function' ? window.$('histList') : document.getElementById('histList');
 
         var vm = (typeof getTrackerViewModel === 'function') ? getTrackerViewModel() : null;
-        var hasKo = typeof ko !== 'undefined' && vm && typeof vm.historyEntries === 'function';
-
         // Empty state
         if (totalCount === 0) {
             if (emptyState) emptyState.classList.remove('d-none');
             if (content) content.classList.add('d-none');
-            if (hasKo) {
+            if (vm && typeof vm.historyEntries === 'function') {
                 vm.historyEntries([]);
-            } else if (list) {
-                list.innerHTML = '';
             }
             return;
         }
@@ -1809,12 +1927,8 @@ if (typeof window !== 'undefined') {
             };
         });
 
-        if (hasKo) {
+        if (vm && typeof vm.historyEntries === 'function') {
             vm.historyEntries(mapped);
-        } else {
-            if (list) {
-                list.innerHTML = entries.map(renderHistoryEntryCard).join('');
-            }
         }
     }
 

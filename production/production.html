@@ -161,23 +161,27 @@ data-bind="click: goHome"><app-icon params="name: 'arrow-left', size: 'base'"></
 class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5">City (India)</label><select
 class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
 id="ptCitySelect"
-data-bind="template: { name: 'settings-city-option-template', foreach: cityOptions }"></select></div><div class="w-full d-none" id="ptCustomCityWrap"><label
+data-bind="value: selectedCity, template: { name: 'settings-city-option-template', foreach: cityOptions }"></select></div><div class="w-full" id="ptCustomCityWrap"
+data-bind="visible: isCustomCity"><label
 class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5">Custom City Name &amp;
 Country</label><div class="flex gap-2"><input type="text"
 class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-id="ptCustomCityInput" value="" placeholder="e.g. Guntur"><input type="text"
+id="ptCustomCityInput" placeholder="e.g. Guntur"
+data-bind="value: customCity, valueUpdate: 'afterkeydown'"><input type="text"
 class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-id="ptCountryInput" value="India" placeholder="Country"></div></div><div class="w-full"><label
+id="ptCountryInput" placeholder="Country"
+data-bind="value: country, valueUpdate: 'afterkeydown'"></div></div><div class="w-full"><label
 class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5">Juristic Method (Asr
 calculation)</label><select
 class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-id="ptSchoolSelect"><option value="1">Hanafi (Standard in South Asia)</option><option value="0">Shafi / Maliki / Hanbali</option></select></div></div><button type="button"
+id="ptSchoolSelect"
+data-bind="value: school"><option value="1">Hanafi (Standard in South Asia)</option><option value="0">Shafi / Maliki / Hanbali</option></select></div></div><button type="button"
 class="font-bold w-full py-3 text-sm rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors"
 data-act="pt-save"
 data-bind="click: savePrayerTimes"><app-icon params="name: 'rotate-left', size: 'base', customClass: 'mr-1', dataRef: 'page.settings.prayer-times.save-icon'"></app-icon>Sync &amp; Save Prayer Times
 </button></div><div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"><!-- ko component: { name: 'settings-card-header', params: startDateHeader } --><!-- /ko --><div class="flex gap-2 items-center"><input type="date"
 class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-id="sdInput" value=""><button type="button"
+id="sdInput" data-bind="value: startDate"><button type="button"
 class="px-5 py-2.5 bg-brand text-white font-bold rounded-xl text-sm hover:bg-brand-hover whitespace-nowrap transition-colors"
 data-act="sd-save"
 data-bind="click: saveStartDate">Change</button></div></div><div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"><!-- ko component: { name: 'settings-card-header', params: fontSizeHeader } --><!-- /ko --><div class="flex gap-2" id="fsBtns"
@@ -4013,6 +4017,18 @@ label: 'Other / Custom City...',
 dataRef: 'page.settings.prayer-times.city-option.custom'
 });
 self.cityOptions = ko.observableArray(cityOpts);
+var initialCity = initialCfg.city || SETTINGS_DEFAULT_CONFIG.city;
+var isInitialPredefined = (INDIAN_CITIES || []).some(function (c) {
+return c.name.toLowerCase() === initialCity.toLowerCase();
+});
+self.selectedCity = ko.observable(isInitialPredefined ? initialCity : CUSTOM_CITY_VALUE);
+self.customCity = ko.observable(isInitialPredefined ? '' : initialCity);
+self.country = ko.observable(initialCfg.country || SETTINGS_DEFAULT_CONFIG.country);
+self.school = ko.observable(String(initialCfg.school !== undefined ? initialCfg.school : 1));
+self.startDate = ko.observable(typeof rdSD === 'function' ? rdSD() : '');
+self.isCustomCity = ko.pureComputed(function () {
+return self.selectedCity() === CUSTOM_CITY_VALUE;
+});
 self.currentFontSize = ko.observable(initialFs);
 self.getFontSizeBtnClass = function (size) {
 var active = Math.abs(self.currentFontSize() - size) < 0.01;
@@ -4045,27 +4061,10 @@ if (typeof showPage === 'function') showPage('dashboard');
 };
 self.savePrayerTimes = function (d, e) {
 if (e && e.stopPropagation) e.stopPropagation();
-var sel = document.getElementById('ptCitySelect');
-var city = '';
-var country = 'India';
-var customVal = SETTINGS_CONSTANTS.CUSTOM_CITY_VALUE || '__custom__';
-if (sel) {
-if (sel.value === customVal) {
-var customInp = document.getElementById('ptCustomCityInput');
-city = customInp ? customInp.value.trim() : '';
-var countryInp = document.getElementById('ptCountryInput');
-if (countryInp && countryInp.value.trim()) {
-country = countryInp.value.trim();
-}
-} else {
-city = sel.value;
-}
-} else {
-var cityEl = document.getElementById('ptCityInput');
-city = cityEl ? cityEl.value.trim() : 'Guntur';
-}
-var schoolEl = document.getElementById('ptSchoolSelect');
-var school = schoolEl ? parseInt(schoolEl.value, 10) : 1;
+var isCustom = self.isCustomCity();
+var city = isCustom ? (self.customCity() || '').trim() : (self.selectedCity() || '');
+var country = isCustom ? ((self.country() || '').trim() || 'India') : 'India';
+var school = parseInt(self.school(), 10) || 1;
 if (!city) {
 alert('Please select or enter a city.');
 return;
@@ -4090,8 +4089,7 @@ rSET();
 };
 self.saveStartDate = function (d, e) {
 if (e && e.stopPropagation) e.stopPropagation();
-var sdInput = document.getElementById('sdInput');
-var v = sdInput ? sdInput.value : '';
+var v = (typeof self.startDate === 'function' ? self.startDate() : self.startDate) || '';
 if (!v) { alert('Please pick a date.'); return; }
 var formatted = typeof fr === 'function' ? fr(v) : v;
 if (!confirm('Save Current Start Date as ' + formatted + '?')) return;
@@ -4173,14 +4171,11 @@ settingsViewModel.prayerTimesHeader.statusText(statusText);
 if (ko.isObservable(settingsViewModel.currentFontSize)) {
 settingsViewModel.currentFontSize(fs);
 }
+if (ko.isObservable(settingsViewModel.startDate)) {
+settingsViewModel.startDate(sdate);
 }
-var sub = $(SETTINGS_ELEMENT_IDS.LOCATION_SUBTITLE);
-if (sub) {
-sub.textContent = subtitleText;
-}
-var st = $(SETTINGS_ELEMENT_IDS.STATUS_TEXT);
-if (st) {
-st.textContent = statusText;
+if (ko.isObservable(settingsViewModel.school)) {
+settingsViewModel.school(String(cfg.school !== undefined ? cfg.school : 1));
 }
 var isPredefined = false;
 var targetCityLower = (cfg.city || '').toLowerCase();
@@ -4190,70 +4185,14 @@ isPredefined = true;
 break;
 }
 }
-var sel = $(SETTINGS_ELEMENT_IDS.CITY_SELECT);
-if (sel) {
-if (isPredefined) {
-for (var j = 0; j < sel.options.length; j++) {
-if (sel.options[j].value.toLowerCase() === targetCityLower) {
-sel.selectedIndex = j;
-break;
+if (ko.isObservable(settingsViewModel.selectedCity)) {
+settingsViewModel.selectedCity(isPredefined ? cfg.city : CUSTOM_CITY_VALUE);
 }
+if (ko.isObservable(settingsViewModel.customCity)) {
+settingsViewModel.customCity(isPredefined ? '' : (cfg.city || ''));
 }
-} else {
-sel.value = CUSTOM_CITY_VALUE;
-}
-if (!sel._settingsListenerAttached) {
-sel.onchange = function () {
-var wrap = $(SETTINGS_ELEMENT_IDS.CUSTOM_CITY_WRAP);
-if (wrap) {
-if (this.value === CUSTOM_CITY_VALUE) {
-wrap.classList.remove('d-none');
-var inp = $(SETTINGS_ELEMENT_IDS.CUSTOM_CITY_INPUT);
-if (inp) inp.focus();
-} else {
-wrap.classList.add('d-none');
-}
-}
-};
-sel._settingsListenerAttached = true;
-}
-}
-var wrap = $(SETTINGS_ELEMENT_IDS.CUSTOM_CITY_WRAP);
-if (wrap) {
-if (!isPredefined) {
-wrap.classList.remove('d-none');
-} else {
-wrap.classList.add('d-none');
-}
-}
-var customInp = $(SETTINGS_ELEMENT_IDS.CUSTOM_CITY_INPUT);
-if (customInp) {
-customInp.value = isPredefined ? '' : (cfg.city || '');
-}
-var countryInp = $(SETTINGS_ELEMENT_IDS.COUNTRY_INPUT);
-if (countryInp) {
-countryInp.value = cfg.country || SETTINGS_DEFAULT_CONFIG.country;
-}
-var schoolSel = $(SETTINGS_ELEMENT_IDS.SCHOOL_SELECT);
-if (schoolSel) {
-var schoolVal = cfg.school !== undefined ? cfg.school : (SETTINGS_CONSTANTS.SCHOOLS ? SETTINGS_CONSTANTS.SCHOOLS.HANAFI : 1);
-schoolSel.value = String(schoolVal);
-}
-var sdInput = $(SETTINGS_ELEMENT_IDS.START_DATE_INPUT);
-if (sdInput) {
-sdInput.value = sdate || '';
-if (typeof td === 'function') {
-sdInput.max = td();
-}
-}
-var fsBtns = $(SETTINGS_ELEMENT_IDS.FONT_SIZE_BTNS);
-if (fsBtns) {
-var buttons = fsBtns.querySelectorAll('button[data-act="font"]');
-for (var b = 0; b < buttons.length; b++) {
-var btn = buttons[b];
-var btnVal = parseFloat(btn.getAttribute('data-fs'));
-var active = Math.abs(fs - btnVal) < 0.01;
-btn.className = active ? SETTINGS_BUTTON_CLASSES.FONT_ACTIVE : SETTINGS_BUTTON_CLASSES.FONT_INACTIVE;
+if (ko.isObservable(settingsViewModel.country)) {
+settingsViewModel.country(cfg.country || SETTINGS_DEFAULT_CONFIG.country);
 }
 }
 }
@@ -4881,6 +4820,55 @@ var badgeText = actualMissedCount > 0 ? ('Missed (' + actualMissedCount + ')') :
 var actionBtnText = isToday ? 'Select All' : 'Today';
 var actionBtnAct = isToday ? 'select-all' : 'jump-today';
 var dateChipText = formatChipDate(sd);
+var vm = trackerViewModel || (typeof getTrackerViewModel === 'function' ? getTrackerViewModel() : null);
+if (vm && vm.currentCard) {
+var card = typeof vm.currentCard === 'function' ? vm.currentCard() : vm.currentCard;
+if (card) {
+var missedRowVms = missed.map(function (p) {
+var isUp = upcoming.indexOf(p) !== -1;
+var isCur = (p === curPrayerName);
+return new PrayerRowViewModel({
+prayer: p,
+time: T[p] || '--:--',
+isDone: false,
+isUpcoming: isUp,
+isMissed: !isUp && !isCur,
+isCurrent: isCur,
+isStandard: !isUp && !isCur,
+prefix: 'page.current',
+actionAct: 'toggle-cur',
+date: sd,
+iconClass: PRAYER_CARD_ICONS[p] || 'fa-solid fa-mosque'
+});
+});
+var doneRowVms = done.map(function (p) {
+return new PrayerRowViewModel({
+prayer: p,
+time: T[p] || '--:--',
+isDone: true,
+isUpcoming: false,
+isMissed: false,
+isCurrent: false,
+isStandard: false,
+prefix: 'page.current',
+actionAct: 'toggle-cur',
+date: sd,
+iconClass: PRAYER_CARD_ICONS[p] || 'fa-solid fa-mosque'
+});
+});
+if (typeof card.dateChipText === 'function') card.dateChipText(dateChipText);
+if (typeof card.badgeText === 'function') card.badgeText(actualMissedCount > 0 ? ('Missed (' + actualMissedCount + ')') : '');
+if (typeof card.badgeAct === 'function') card.badgeAct(missTotal > 0 ? 'missed-open' : '');
+if (typeof card.actionBtnText === 'function') card.actionBtnText(actionBtnText);
+if (typeof card.actionBtnAct === 'function') card.actionBtnAct(actionBtnAct);
+if (typeof card.missedGroupTitle === 'function') card.missedGroupTitle('MISSED (' + missed.length + ')');
+if (typeof card.missedRows === 'function') card.missedRows(missedRowVms);
+if (typeof card.doneGroupTitle === 'function') card.doneGroupTitle('DONE (' + done.length + ')');
+if (typeof card.doneRows === 'function') card.doneRows(doneRowVms);
+}
+}
+var currentBody = $('currentBody');
+if (currentBody && (!window.ko || !window.ko.dataFor(currentBody))) {
 var html = renderPrayerTrackerCard({
 pagePrefix: 'page.current',
 collapsePrefix: 'cur',
@@ -4898,8 +4886,6 @@ currentPrayerName: curPrayerName,
 toggleAct: 'toggle-cur',
 date: sd
 });
-var currentBody = $('currentBody');
-if (currentBody) {
 currentBody.innerHTML = html;
 }
 updateCurrentMissedBadge();
@@ -5201,6 +5187,50 @@ var r = grO(curDate);
 var missed = P.filter(function (p) { return r[p] === true || r[p] === 'missed'; });
 var done = P.filter(function (p) { return r[p] !== true && r[p] !== 'missed'; });
 var dateChipText = formatChipDate(curDate);
+var vm = trackerViewModel || (typeof getTrackerViewModel === 'function' ? getTrackerViewModel() : null);
+if (vm && vm.oldCard) {
+var card = typeof vm.oldCard === 'function' ? vm.oldCard() : vm.oldCard;
+if (card) {
+var oldMissedRowVms = missed.map(function (p) {
+return new PrayerRowViewModel({
+prayer: p,
+time: T[p] || '--:--',
+isDone: false,
+isUpcoming: false,
+isMissed: true,
+isCurrent: false,
+isStandard: true,
+prefix: 'page.old',
+actionAct: 'toggle-old',
+date: curDate,
+iconClass: PRAYER_CARD_ICONS[p] || 'fa-solid fa-mosque'
+});
+});
+var oldDoneRowVms = done.map(function (p) {
+return new PrayerRowViewModel({
+prayer: p,
+time: T[p] || '--:--',
+isDone: true,
+isUpcoming: false,
+isMissed: false,
+isCurrent: false,
+isStandard: false,
+prefix: 'page.old',
+actionAct: 'toggle-old',
+date: curDate,
+iconClass: PRAYER_CARD_ICONS[p] || 'fa-solid fa-mosque'
+});
+});
+if (typeof card.dateChipText === 'function') card.dateChipText(dateChipText);
+if (typeof card.badgeText === 'function') card.badgeText('');
+if (typeof card.actionBtnText === 'function') card.actionBtnText('');
+if (typeof card.missedGroupTitle === 'function') card.missedGroupTitle('MISSED (' + missed.length + ')');
+if (typeof card.missedRows === 'function') card.missedRows(oldMissedRowVms);
+if (typeof card.doneGroupTitle === 'function') card.doneGroupTitle('DONE (' + done.length + ')');
+if (typeof card.doneRows === 'function') card.doneRows(oldDoneRowVms);
+}
+}
+if (lst && (!window.ko || !window.ko.dataFor(lst))) {
 var html = renderPrayerTrackerCard({
 pagePrefix: 'page.old',
 collapsePrefix: 'old',
@@ -5218,6 +5248,7 @@ missedTitle: 'MISSED',
 highlightMissed: true
 });
 lst.innerHTML = html;
+}
 if (typeof updatePerformanceTab === 'function') {
 updatePerformanceTab();
 }
@@ -5316,6 +5347,30 @@ var oldSub = typeof window.$ === 'function' ? window.$('oldSub') : document.getE
 if (oldSub && typeof window.trackerSubTab !== 'undefined' && window.trackerSubTab === 'performance') {
 oldSub.classList.remove('d-none');
 oldSub.textContent = frFn(stats.startDate) + ' → ' + frFn(stats.endDate) + ' (' + stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days') + ')';
+}
+var vm = trackerViewModel || (typeof getTrackerViewModel === 'function' ? getTrackerViewModel() : null);
+if (vm && vm.performance) {
+var perf = vm.performance;
+if (perf.hero) {
+if (typeof perf.hero.dashArray === 'function') perf.hero.dashArray(stats.totalPercentage + ', 100');
+if (typeof perf.hero.percentageText === 'function') perf.hero.percentageText(stats.totalPercentage + '%');
+if (typeof perf.hero.totalCompleted === 'function') perf.hero.totalCompleted(stats.totalCompleted);
+if (typeof perf.hero.totalPossible === 'function') perf.hero.totalPossible(stats.totalPossible);
+if (typeof perf.hero.datePillText === 'function') {
+perf.hero.datePillText(stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days') + ' · ' + frFn(stats.startDate) + ' → ' + frFn(stats.endDate));
+}
+}
+if (perf.stats) {
+if (typeof perf.stats.completed === 'function') perf.stats.completed(stats.totalCompleted);
+if (typeof perf.stats.missed === 'function') perf.stats.missed(stats.totalMissed);
+if (typeof perf.stats.rate === 'function') perf.stats.rate(stats.totalPercentage + '%');
+}
+if (typeof perf.trackedDays === 'function') {
+perf.trackedDays(stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days'));
+}
+if (typeof perf.footerLabel === 'function') {
+perf.footerLabel('Tracking Start Date: ' + frFn(stats.startDate));
+}
 }
 var ringVal = document.getElementById('perfRingVal');
 if (ringVal) {
@@ -5722,14 +5777,11 @@ var content = typeof window.$ === 'function' ? window.$('histContent') : documen
 var subtitleCount = typeof window.$ === 'function' ? window.$('histSubtitleCount') : document.getElementById('histSubtitleCount');
 var list = typeof window.$ === 'function' ? window.$('histList') : document.getElementById('histList');
 var vm = (typeof getTrackerViewModel === 'function') ? getTrackerViewModel() : null;
-var hasKo = typeof ko !== 'undefined' && vm && typeof vm.historyEntries === 'function';
 if (totalCount === 0) {
 if (emptyState) emptyState.classList.remove('d-none');
 if (content) content.classList.add('d-none');
-if (hasKo) {
+if (vm && typeof vm.historyEntries === 'function') {
 vm.historyEntries([]);
-} else if (list) {
-list.innerHTML = '';
 }
 return;
 }
@@ -5756,12 +5808,8 @@ exactTime: formatHistoryTimestamp(entry.timestamp),
 ago: formatTimeAgo(entry.timestamp)
 };
 });
-if (hasKo) {
+if (vm && typeof vm.historyEntries === 'function') {
 vm.historyEntries(mapped);
-} else {
-if (list) {
-list.innerHTML = entries.map(renderHistoryEntryCard).join('');
-}
 }
 }
 function init() {
@@ -6120,7 +6168,6 @@ var curOldMonth = (window.TasbeehOldApp && typeof window.TasbeehOldApp.getCurren
 : null;
 var activeOldLabel = curOldMonth ? (window.TasbeehApp && window.TasbeehApp.formatMonthLabel ? window.TasbeehApp.formatMonthLabel(curOldMonth) : curOldMonth) : 'All Cleared';
 var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
-var hasKo = typeof ko !== 'undefined' && vm && typeof vm.bookmarkedCounters === 'function';
 if (vm) {
 if (typeof vm.currentDhikrsCount === 'function') vm.currentDhikrsCount(items.length);
 if (typeof vm.clearedMonthsCount === 'function') vm.clearedMonthsCount(completedCount);
@@ -6178,13 +6225,8 @@ window.TasbeehApp.openEditModal(o.item.id);
 }
 });
 }
-if (hasKo) {
+if (vm && typeof vm.bookmarkedCounters === 'function') {
 vm.bookmarkedCounters(bmCards);
-} else {
-var gridEl = getEl(ELEMENT_IDS.HOME_GRID || 'tbHomeGrid');
-if (gridEl) {
-gridEl.innerHTML = curHtml + oldHtml;
-}
 }
 var curCountEl = getEl(ELEMENT_IDS.HOME_CURRENT_COUNT || 'tbHomeCurrentCount');
 if (curCountEl) {
@@ -6823,7 +6865,6 @@ if (todoBadge) todoBadge.textContent = todoItems.length;
 var doneBadge = getEl(ELEMENT_IDS.CURRENT_DONE_BADGE || 'tbCurrentDoneBadge');
 if (doneBadge) doneBadge.textContent = doneItems.length;
 var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
-var hasKo = typeof ko !== 'undefined' && vm && typeof vm.currentTodoItems === 'function';
 function mapCurCard(item, isComplete) {
 var parts = curMonthKey.split('-');
 var yr = parseInt(parts[0], 10);
@@ -6858,12 +6899,13 @@ window.TasbeehApp.openEditModal(item.id);
 }
 var todoGrid = getEl(ELEMENT_IDS.CURRENT_TODO_GRID || 'tbCurrentTodoGrid');
 var doneGrid = getEl(ELEMENT_IDS.CURRENT_DONE_GRID || 'tbCurrentDoneGrid');
-if (hasKo) {
+if (vm) {
+if (typeof vm.currentTodoItems === 'function') {
 vm.currentTodoItems(todoItems.map(function (it) { return mapCurCard(it, false); }));
+}
+if (typeof vm.currentDoneItems === 'function') {
 vm.currentDoneItems(doneItems.map(function (it) { return mapCurCard(it, true); }));
-} else {
-if (todoGrid) todoGrid.innerHTML = todoCardsHtml;
-if (doneGrid) doneGrid.innerHTML = doneCardsHtml;
+}
 }
 var doneToggle = getEl(ELEMENT_IDS.CURRENT_DONE_TOGGLE || 'tbCurrentDoneToggle');
 var doneList = getEl(ELEMENT_IDS.CURRENT_DONE_LIST || 'tbCurrentDoneList');
@@ -7921,7 +7963,6 @@ if (todoBadge) todoBadge.textContent = todoOldItems.length;
 var doneBadge = getEl(ELEMENT_IDS.OLD_DONE_BADGE || 'tbOldDoneBadge');
 if (doneBadge) doneBadge.textContent = doneOldItems.length;
 var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
-var hasKo = typeof ko !== 'undefined' && vm && typeof vm.oldTodoItems === 'function';
 function mapOldCard(item, isComplete) {
 var isInfinite = item.targetCount === 'infinite';
 var parts = curOldMonth.split('-');
@@ -7960,12 +8001,13 @@ window.TasbeehApp.openEditModal(item.id);
 }
 var todoGrid = getEl(ELEMENT_IDS.OLD_TODO_GRID || 'tbOldTodoGrid');
 var doneGrid = getEl(ELEMENT_IDS.OLD_DONE_GRID || 'tbOldDoneGrid');
-if (hasKo) {
+if (vm) {
+if (typeof vm.oldTodoItems === 'function') {
 vm.oldTodoItems(todoOldItems.map(function (it) { return mapOldCard(it, false); }));
+}
+if (typeof vm.oldDoneItems === 'function') {
 vm.oldDoneItems(doneOldItems.map(function (it) { return mapOldCard(it, true); }));
-} else {
-if (todoGrid) todoGrid.innerHTML = todoOldCardsHtml;
-if (doneGrid) doneGrid.innerHTML = doneOldCardsHtml;
+}
 }
 var doneToggle = getEl(ELEMENT_IDS.OLD_DONE_TOGGLE || 'tbOldDoneToggle');
 var doneList = getEl(ELEMENT_IDS.OLD_DONE_LIST || 'tbOldDoneList');
@@ -8872,13 +8914,10 @@ var progressIndicator = document.getElementById('duaProgressIndicator');
 if (!listView) return;
 var filteredData = getFilteredData();
 var vm = (typeof getDuasViewModel === 'function') ? getDuasViewModel() : null;
-var hasKo = typeof ko !== 'undefined' && vm && typeof vm.filteredDuas === 'function';
 if (filteredData.length === 0) {
 if (emptyState) emptyState.classList.remove('d-none');
-if (hasKo) {
+if (vm && typeof vm.filteredDuas === 'function') {
 vm.filteredDuas([]);
-} else {
-listView.innerHTML = '';
 }
 if (progressIndicator) progressIndicator.textContent = '0 duas';
 return;
@@ -8912,20 +8951,8 @@ if (window.DuasApp) window.DuasApp.toggleFavourite(realIndex);
 }
 };
 });
-if (hasKo) {
+if (vm && typeof vm.filteredDuas === 'function') {
 vm.filteredDuas(mapped);
-} else {
-listView.innerHTML = mapped.map(function (d) {
-return '<div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2" data-act="dua-open-detail" data-idx="' + d.index + '" data-source="duas">' +
-'<div class="dua-item-number text-sm font-bold text-brand min-w-[36px]">#' + String(d.number).padStart(2, '0') + '</div>' +
-'<div class="dua-item-content flex-1 min-w-0">' +
-'  <div class="dua-item-surah text-sm font-semibold text-brand font-telugu truncate">' + escapeHtml(d.surah) + '</div>' +
-'  <div class="dua-item-preview text-xs text-gr-textMuted font-telugu truncate mt-0.5">' + escapeHtml(d.preview) + '</div>' +
-'</div>' +
-'<button type="button" class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all ' + (d.isPinned ? 'pinned text-pinAmber' : 'opacity-50') + '" data-act="dua-item-pin" data-idx="' + d.index + '" title="' + (d.isPinned ? 'Unpin' : 'Pin to Home') + '">' + (d.isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED) + '</button>' +
-'<button type="button" class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all" data-act="dua-item-fav" data-idx="' + d.index + '" title="Toggle favourite">' + (d.isFav ? DUA_ICONS.FAV : DUA_ICONS.UNFAV) + '</button>' +
-'</div>';
-}).join('');
 }
 if (progressIndicator) progressIndicator.textContent = filteredData.length + ' duas';
 }
@@ -8938,13 +8965,10 @@ var favList = duasData.filter(function (_, idx) {
 return favourites.indexOf(idx) !== -1;
 });
 var vm = (typeof getDuasViewModel === 'function') ? getDuasViewModel() : null;
-var hasKo = typeof ko !== 'undefined' && vm && typeof vm.favouriteDuas === 'function';
 if (favList.length === 0) {
 if (emptyState) emptyState.classList.remove('d-none');
-if (hasKo) {
+if (vm && typeof vm.favouriteDuas === 'function') {
 vm.favouriteDuas([]);
-} else {
-favouritesList.innerHTML = '';
 }
 if (progressIndicator) progressIndicator.textContent = '0 favourites';
 return;
@@ -8977,20 +9001,8 @@ if (window.DuasApp) window.DuasApp.toggleFavourite(realIndex);
 }
 };
 });
-if (hasKo) {
+if (vm && typeof vm.favouriteDuas === 'function') {
 vm.favouriteDuas(mapped);
-} else {
-favouritesList.innerHTML = mapped.map(function (d) {
-return '<div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2" data-act="dua-open-detail" data-idx="' + d.index + '" data-source="favourites">' +
-'<div class="dua-item-number text-sm font-bold text-brand min-w-[36px]">#' + String(d.number).padStart(2, '0') + '</div>' +
-'<div class="dua-item-content flex-1 min-w-0">' +
-'  <div class="dua-item-surah text-sm font-semibold text-brand font-telugu truncate">' + escapeHtml(d.surah) + '</div>' +
-'  <div class="dua-item-preview text-xs text-gr-textMuted font-telugu truncate mt-0.5">' + escapeHtml(d.preview) + '</div>' +
-'</div>' +
-'<button type="button" class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all ' + (d.isPinned ? 'pinned text-pinAmber' : 'opacity-50') + '" data-act="dua-item-pin" data-idx="' + d.index + '" title="' + (d.isPinned ? 'Unpin' : 'Pin to Home') + '">' + (d.isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED) + '</button>' +
-'<button type="button" class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all" data-act="dua-item-fav" data-idx="' + d.index + '" title="Remove from favourites">' + DUA_ICONS.FAV + '</button>' +
-'</div>';
-}).join('');
 }
 if (progressIndicator) progressIndicator.textContent = favList.length + ' favourite' + (favList.length === 1 ? '' : 's');
 }
@@ -9002,14 +9014,11 @@ var titleCount = document.getElementById('duaHomeTitleCount');
 var progressIndicator = document.getElementById('duaProgressIndicator');
 if (!homeView) return;
 var vm = (typeof getDuasViewModel === 'function') ? getDuasViewModel() : null;
-var hasKo = typeof ko !== 'undefined' && vm && typeof vm.pinnedDuas === 'function';
 if (pins.length === 0) {
 if (emptyState) emptyState.classList.remove('d-none');
 if (content) content.classList.add('d-none');
-if (hasKo) {
+if (vm && typeof vm.pinnedDuas === 'function') {
 vm.pinnedDuas([]);
-} else {
-homeView.innerHTML = '';
 }
 if (progressIndicator) progressIndicator.textContent = '0 pinned';
 return;
@@ -9034,18 +9043,8 @@ if (window.DuasApp) window.DuasApp.openDetail(pinIndex, 'home');
 }
 };
 }).filter(Boolean);
-if (hasKo) {
+if (vm && typeof vm.pinnedDuas === 'function') {
 vm.pinnedDuas(mapped);
-} else {
-homeView.innerHTML = mapped.map(function (d) {
-return '<div class="pinned-dua-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col gap-2.5 border-l-4 border-l-brand relative cursor-pointer hover:bg-surfaceBg transition-all mb-3" data-act="dua-open-detail" data-idx="' + d.index + '" data-source="home">' +
-'<span class="pinned-badge absolute top-3.5 right-4 text-base inline-flex items-center justify-center text-pinAmber">' + DRAWING_PIN_SVG + '</span>' +
-'<div class="pinned-dua-number text-sm font-bold text-brand">#' + String(d.number).padStart(2, '0') + '</div>' +
-'<div class="pinned-dua-surah text-base font-bold text-brand font-telugu pr-8">' + escapeHtml(d.surah) + '</div>' +
-'<div class="pinned-dua-text text-base text-gr-text leading-relaxed font-telugu">' + escapeHtml(d.uchcharana) + '</div>' +
-'<div class="pinned-dua-meaning text-sm text-gr-textMuted leading-relaxed font-telugu border-t border-dashed border-borderGrey pt-2.5">' + escapeHtml(d.ardham) + '</div>' +
-'</div>';
-}).join('');
 }
 if (progressIndicator) progressIndicator.textContent = pins.length + ' pinned';
 }
