@@ -180,7 +180,11 @@ export function DashboardViewModel() {
             badgeId: 'trackerMissedBadge',
             badgeDataRef: 'page.dashboard.card.tracker-missed-badge',
             badgeText: trackerBadgeText,
-            badgeVisible: trackerBadgeVisible
+            badgeVisible: trackerBadgeVisible,
+            onClick: function (d, e) {
+                if (e && e.stopPropagation) e.stopPropagation();
+                if (typeof showPage === 'function') showPage('tracker');
+            }
         },
         {
             title: 'Tasbeeh',
@@ -189,7 +193,11 @@ export function DashboardViewModel() {
             dataRef: 'page.dashboard.card.tasbeeh',
             iconDataRef: 'page.dashboard.card.tasbeeh-icon',
             titleDataRef: 'page.dashboard.card.tasbeeh-label',
-            hasBadge: false
+            hasBadge: false,
+            onClick: function (d, e) {
+                if (e && e.stopPropagation) e.stopPropagation();
+                if (typeof showPage === 'function') showPage('tasbeeh');
+            }
         },
         {
             title: 'Duas',
@@ -198,7 +206,11 @@ export function DashboardViewModel() {
             dataRef: 'page.dashboard.card.duas',
             iconDataRef: 'page.dashboard.card.duas-icon',
             titleDataRef: 'page.dashboard.card.duas-label',
-            hasBadge: false
+            hasBadge: false,
+            onClick: function (d, e) {
+                if (e && e.stopPropagation) e.stopPropagation();
+                if (typeof showPage === 'function') showPage('duas');
+            }
         },
         {
             title: 'Settings',
@@ -207,7 +219,11 @@ export function DashboardViewModel() {
             dataRef: 'page.dashboard.card.settings',
             iconDataRef: 'page.dashboard.card.settings-icon',
             titleDataRef: 'page.dashboard.card.settings-label',
-            hasBadge: false
+            hasBadge: false,
+            onClick: function (d, e) {
+                if (e && e.stopPropagation) e.stopPropagation();
+                if (typeof showPage === 'function') showPage('settings');
+            }
         }
     ];
 

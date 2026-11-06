@@ -16,7 +16,8 @@
             <div>
                 <button type="button"
                     class="rounded-xl px-4 py-2 bg-brand text-white hover:bg-brand-hover transition-colors text-xs font-semibold cursor-pointer"
-                    data-act="switch-tb-current">
+                    data-act="switch-tb-current"
+                    data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }">
                     <app-icon params="name: 'plus', customClass: 'mr-1'"></app-icon> Add First Dhikr
                 </button>
             </div>
@@ -32,7 +33,8 @@
                 </div>
                 <button type="button"
                     class="px-3 py-1.5 inline-flex items-center gap-1 border border-brand bg-white text-brand hover:bg-brand-light transition-colors text-xs font-semibold rounded-xl cursor-pointer"
-                    data-act="switch-tb-current">
+                    data-act="switch-tb-current"
+                    data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }">
                     <span>All Dhikrs</span>
                     <app-icon params="name: 'chevron-right', size: 'text-[10px]'"></app-icon>
                 </button>
@@ -49,7 +51,8 @@
             <div class="grid grid-cols-2 gap-2 mt-1">
                 <div>
                     <div class="border border-borderGrey p-3 rounded-2xl bg-white h-full shadow-none cursor-pointer hover:border-brand transition-colors"
-                        role="button" tabindex="0" data-act="switch-tb-current">
+                        role="button" tabindex="0" data-act="switch-tb-current"
+                        data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }">
                         <div class="flex items-center justify-between mb-2">
                             <span class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand">CURRENT</span>
                             <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', size: 'sm'"></app-icon>
@@ -60,7 +63,8 @@
                 </div>
                 <div>
                     <div class="border border-borderGrey p-3 rounded-2xl bg-white h-full shadow-none cursor-pointer hover:border-brand transition-colors"
-                        role="button" tabindex="0" data-act="switch-tb-history">
+                        role="button" tabindex="0" data-act="switch-tb-history"
+                        data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('history'); }">
                         <div class="flex items-center justify-between mb-2">
                             <span class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700">HISTORY</span>
                             <app-icon params="name: 'gear', color: 'text-amber-600', size: 'sm'"></app-icon>
@@ -165,7 +169,8 @@
             </p>
             <button type="button"
                 class="px-4 py-2 rounded-xl font-bold mx-auto bg-brand text-white hover:bg-brand-hover transition-colors"
-                data-act="tb-open-settings">
+                data-act="tb-open-settings"
+                data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('history'); }">
                 <app-icon params="name: 'calendar-days', customClass: 'mr-2'"></app-icon> Adjust Start Date
             </button>
         </div>
@@ -183,12 +188,14 @@
             <div class="flex justify-center gap-2">
                 <button type="button"
                     class="rounded-full px-4 py-2 font-bold border border-brand bg-white text-brand hover:bg-brand-light transition-colors"
-                    data-act="tb-old-reopen">
+                    data-act="tb-old-reopen"
+                    data-bind="click: reopenLastMonth">
                     <app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reopen Last Month
                 </button>
                 <button type="button"
                     class="border rounded-full px-3 py-2 text-gr-textMuted text-xs bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors"
-                    data-act="tb-reset-all-completed">
+                    data-act="tb-reset-all-completed"
+                    data-bind="click: resetAllCompleted">
                     <app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Completed
                 </button>
             </div>
@@ -265,7 +272,8 @@
                     <h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6>
                     <button type="button"
                         class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 underline text-gr-danger text-decoration-none text-xs font-bold d-none"
-                        id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed">
+                        id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed"
+                        data-bind="click: resetAllCompleted">
                         <app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Cleared
                     </button>
                 </div>
@@ -279,7 +287,7 @@
     <button type="button"
         class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all d-none"
         id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr"
-        data-bind="visible: currentSubTab() === 'current' || currentSubTab() === 'old'">
+        data-bind="visible: currentSubTab() === 'current' || currentSubTab() === 'old', click: openAddModal">
         <app-icon params="name: 'plus', size: 'xl', dataRef: 'page.tasbeeh.header.add-icon'"></app-icon>
     </button>
 

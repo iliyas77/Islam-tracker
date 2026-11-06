@@ -4,7 +4,7 @@
     <header class="tracker-header pb-2.5 border-b border-borderGrey flex items-center justify-between gap-2"
         data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header' }">
         <button type="button" class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
-            data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DateChip', 'data-act': $data.dateChipAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-chip' }"
+            data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DateChip', 'data-act': $data.dateChipAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-chip' }, click: onDateChipClick"
             aria-label="Select date">
             <app-icon params="name: 'calendar-days', prefix: 'fa-regular', size: 'sm'"></app-icon>
             <span data-bind="text: $data.dateChipText, attr: { id: ($data.collapsePrefix || 'cur') + 'DateChipText', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-text' }"></span>
@@ -13,14 +13,14 @@
             data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'HeaderStatus', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.status' }">
             <!-- ko if: $data.badgeText -->
             <span class="badge badge-warning inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer"
-                data-bind="attr: { 'data-act': $data.badgeAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.badge' }">
+                data-bind="attr: { 'data-act': $data.badgeAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.badge' }, click: onBadgeClick">
                 <app-icon params="name: 'triangle-exclamation', size: 'xs'"></app-icon>
                 <span data-bind="text: $data.badgeText"></span>
             </span>
             <!-- /ko -->
             <!-- ko if: $data.actionBtnText -->
             <button type="button" class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 text-sm hover:underline"
-                data-bind="text: $data.actionBtnText, attr: { id: ($data.collapsePrefix || 'cur') + 'ActionBtn', 'data-act': $data.actionBtnAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.action-btn' }"></button>
+                data-bind="text: $data.actionBtnText, attr: { id: ($data.collapsePrefix || 'cur') + 'ActionBtn', 'data-act': $data.actionBtnAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.action-btn' }, click: onActionBtnClick"></button>
             <!-- /ko -->
         </div>
     </header>

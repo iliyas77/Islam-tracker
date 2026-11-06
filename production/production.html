@@ -153,10 +153,11 @@ class="w-9 h-9 rounded-xl flex items-center justify-center bg-brand-soft text-br
 data-bind="click: close" aria-label="Back"><i class="fa-solid fa-arrow-left text-base"></i></button><!-- /ko --><div class="grow min-w-0"><h5 class="bottom-sheet-title font-bold text-base text-brand flex items-center gap-2 m-0 mb-0"><!-- ko if: ko.unwrap(icon) --><i data-bind="attr: { class: ko.unwrap(icon), id: iconId }"></i><!-- /ko --><span data-bind="text: title, attr: { id: titleId }" class="truncate"></span></h5><!-- ko if: ko.unwrap(subtitle) --><div class="text-xs text-gr-textMuted mt-0.5 truncate" data-bind="text: subtitle, attr: { id: subId }"></div><!-- /ko --></div><!-- ko if: showCloseBtn --><button type="button" class="sheet-close-btn" data-bind="click: close" aria-label="Close">&times;</button><!-- /ko --></div><div class="bottom-sheet-body" data-bind="attr: { id: bodyId }"><!-- ko template: { nodes: $componentTemplateNodes } --><!-- /ko --></div></div></div><!-- /ko --></script><script type="text/html" id="settings-card-header-template"><div class="flex items-center gap-3 mb-3" data-bind="attr: { class: headerClass || 'flex items-center gap-3 mb-3', 'data-ref': headerDataRef }"><div class="icon-box icon-box-lg" data-bind="attr: { class: iconBoxClass, 'data-ref': iconDataRef }"><!-- ko if: icon --><app-icon params="name: icon"></app-icon><!-- /ko --><!-- ko if: iconText --><!-- ko text: iconText --><!-- /ko --><!-- /ko --></div><div class="grow" data-bind="attr: { 'data-ref': infoDataRef }"><div data-bind="text: title, attr: { class: titleClass || 'font-bold text-sm', 'data-ref': titleDataRef }"></div><!-- ko if: subtitle --><div class="text-gr-textMuted text-xs" data-bind="text: subtitle, attr: { id: subtitleId, 'data-ref': subtitleDataRef }"></div><!-- /ko --></div><!-- ko if: showStatusBadge --><span class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-gr-accent-soft text-gr-accent px-2"
 data-bind="attr: { id: statusBadgeId, 'data-ref': statusBadgeDataRef }"><app-icon params="name: 'circle-dot', size: '10px', customClass: 'mr-1'"></app-icon><span
 data-bind="text: statusText, attr: { id: statusTextId }">Offline</span></span><!-- /ko --></div></script><script type="text/html" id="settings-city-option-template"><option data-bind="value: value, text: label, attr: { 'data-ref': dataRef }"></option></script><script type="text/html" id="settings-font-size-btn-template"><button type="button"
-data-bind="text: label, attr: { 'data-act': 'font', 'data-fs': size, 'data-ref': dataRef }, css: $parent.getFontSizeBtnClass ? $parent.getFontSizeBtnClass(size) : ($root.getFontSizeBtnClass ? $root.getFontSizeBtnClass(size) : '')"></button></script><script type="text/html" id="settings-info-card-template"><div class="rounded-2xl border border-borderGrey p-4 bg-brand-light flex flex-col shadow-none"
+data-bind="text: label, click: onClick, attr: { 'data-act': 'font', 'data-fs': size, 'data-ref': dataRef }, css: $parent.getFontSizeBtnClass ? $parent.getFontSizeBtnClass(size) : ($root.getFontSizeBtnClass ? $root.getFontSizeBtnClass(size) : '')"></button></script><script type="text/html" id="settings-info-card-template"><div class="rounded-2xl border border-borderGrey p-4 bg-brand-light flex flex-col shadow-none"
 data-bind="attr: { 'data-ref': cardDataRef }"><div class="flex items-center gap-3" data-bind="attr: { 'data-ref': contentDataRef }"><div data-bind="attr: { class: iconBoxClass, 'data-ref': iconDataRef }"><app-icon params="name: icon"></app-icon></div><div class="text-xs text-brand leading-tight" data-bind="text: text, attr: { 'data-ref': textDataRef }"></div></div></div></script><script type="text/html" id="settings-page-template"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center gap-2 min-h-[44px]"><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
-data-act="go-home" title="Back to Home" aria-label="Back to Home"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="grow min-w-0"><h5 class="font-bold text-base text-brand m-0 flex items-center gap-2"><app-icon params="name: 'gear', color: 'text-gr-accent'"></app-icon><span>Settings</span></h5><div class="text-xs text-gr-textMuted mt-0.5">App preferences</div></div></header><div class="grow overflow-auto p-2 pb-3" id="settingsBody"><div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"><!-- ko component: { name: 'settings-card-header', params: prayerTimesHeader } --><!-- /ko --><div class="flex flex-wrap -mx-1 gap-2 mb-3"><div class="w-full"><label
+data-act="go-home" title="Back to Home" aria-label="Back to Home"
+data-bind="click: goHome"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="grow min-w-0"><h5 class="font-bold text-base text-brand m-0 flex items-center gap-2"><app-icon params="name: 'gear', color: 'text-gr-accent'"></app-icon><span>Settings</span></h5><div class="text-xs text-gr-textMuted mt-0.5">App preferences</div></div></header><div class="grow overflow-auto p-2 pb-3" id="settingsBody"><div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"><!-- ko component: { name: 'settings-card-header', params: prayerTimesHeader } --><!-- /ko --><div class="flex flex-wrap -mx-1 gap-2 mb-3"><div class="w-full"><label
 class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5">City (India)</label><select
 class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
 id="ptCitySelect"
@@ -172,15 +173,18 @@ calculation)</label><select
 class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
 id="ptSchoolSelect"><option value="1">Hanafi (Standard in South Asia)</option><option value="0">Shafi / Maliki / Hanbali</option></select></div></div><button type="button"
 class="font-bold w-full py-3 text-sm rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors"
-data-act="pt-save"><app-icon params="name: 'rotate-left', size: 'base', customClass: 'mr-1', dataRef: 'page.settings.prayer-times.save-icon'"></app-icon>Sync &amp; Save Prayer Times
+data-act="pt-save"
+data-bind="click: savePrayerTimes"><app-icon params="name: 'rotate-left', size: 'base', customClass: 'mr-1', dataRef: 'page.settings.prayer-times.save-icon'"></app-icon>Sync &amp; Save Prayer Times
 </button></div><div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"><!-- ko component: { name: 'settings-card-header', params: startDateHeader } --><!-- /ko --><div class="flex gap-2 items-center"><input type="date"
 class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
 id="sdInput" value=""><button type="button"
 class="px-5 py-2.5 bg-brand text-white font-bold rounded-xl text-sm hover:bg-brand-hover whitespace-nowrap transition-colors"
-data-act="sd-save">Change</button></div></div><div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"><!-- ko component: { name: 'settings-card-header', params: fontSizeHeader } --><!-- /ko --><div class="flex gap-2" id="fsBtns"
+data-act="sd-save"
+data-bind="click: saveStartDate">Change</button></div></div><div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"><!-- ko component: { name: 'settings-card-header', params: fontSizeHeader } --><!-- /ko --><div class="flex gap-2" id="fsBtns"
 data-bind="template: { name: 'settings-font-size-btn-template', foreach: fontSizeButtons }"></div></div><div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"><!-- ko component: { name: 'settings-card-header', params: resetDbHeader } --><!-- /ko --><button type="button"
 class="w-full py-3 bg-gr-danger text-white font-bold rounded-xl text-sm hover:bg-red-600 transition-colors mt-2"
-data-act="reset-db">Reset</button></div><!-- ko component: { name: 'settings-info-card', params: storageInfo } --><!-- /ko --></div><nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
+data-act="reset-db"
+data-bind="click: resetDatabase">Reset</button></div><!-- ko component: { name: 'settings-info-card', params: storageInfo } --><!-- /ko --></div><nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
 id="settingsBottomNav"><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium text-brand py-1.5 relative cursor-pointer select-none transition-colors active"
 id="tabSettings" data-act="goto-settings" role="tab" aria-selected="true"><app-icon params="name: 'gear'"></app-icon><span>Settings</span></button></nav></script><script type="text/html" id="dashboard-header-template"><header class="flex items-center justify-between text-brand text-xs font-semibold py-1 z-10"><div class="flex items-center gap-1.5 text-xs text-brand font-medium"><app-icon params="name: 'location-dot', color: 'text-brand', size: 'sm', dataRef: 'page.dashboard.header.location-icon'"></app-icon><span id="dashLocationText"
@@ -195,7 +199,7 @@ data-bind="text: statusText, attr: { id: 'dashBadge' + name, 'data-ref': 'page.d
 title="Daily Prayers" aria-hidden="true"><app-icon params="name: 'bell'"></app-icon></div></div><div class="flex justify-between items-stretch gap-1 w-full" id="dashTimelineNodes"
 data-bind="template: { name: 'dashboard-timeline-item-template', foreach: items }"></div></div></script><script type="text/html" id="dashboard-nav-card-template"><div class="dash-nav-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col items-center justify-between cursor-pointer hover:border-brand hover:shadow-sm transition-all min-h-[120px] relative shadow-none"
 role="button" tabindex="0"
-data-bind="attr: { 'data-act': action, 'data-ref': dataRef }"><!-- ko if: hasBadge --><span class="dash-tracker-badge absolute top-2.5 right-2.5 text-[10.5px] font-bold leading-none px-2 py-0.5 rounded-full inline-flex items-center justify-center whitespace-nowrap z-[3] pointer-events-none bg-red-100 text-red-600 border border-red-300"
+data-bind="attr: { 'data-act': action, 'data-ref': dataRef }, click: onClick"><!-- ko if: hasBadge --><span class="dash-tracker-badge absolute top-2.5 right-2.5 text-[10.5px] font-bold leading-none px-2 py-0.5 rounded-full inline-flex items-center justify-center whitespace-nowrap z-[3] pointer-events-none bg-red-100 text-red-600 border border-red-300"
 data-bind="text: badgeText, attr: { id: badgeId, 'data-ref': badgeDataRef }, css: { 'd-none': !badgeVisible() }"></span><!-- /ko --><div class="icon-box icon-box-lg" data-bind="attr: { 'data-ref': iconDataRef }"><app-icon params="name: iconClass"></app-icon></div><div class="flex items-center justify-center gap-1 text-xs font-bold text-brand mt-2"><span class="text-xs font-bold text-brand"
 data-bind="text: title, attr: { 'data-ref': titleDataRef }"></span><app-icon params="name: 'chevron-right'"></app-icon></div></div></script><script type="text/html" id="dashboard-divider-template"><div class="flex items-center justify-center gap-2 py-3 w-full text-brand/30"><div class="h-[1px] bg-borderGrey flex-1"></div><div class="text-xs text-brand/40 px-2"><app-icon params="name: 'star-and-crescent'"></app-icon></div><div class="h-[1px] bg-borderGrey flex-1"></div></div></script><script type="text/html" id="dashboard-page-template"><div class="grow overflow-auto p-0 relative" id="dashScroll"><div id="dashBody"><div class="p-2.5 pt-2 pb-3 relative flex flex-col gap-3.5 w-full min-h-full box-border"><div class="absolute top-0 left-0 right-0 h-[220px] pointer-events-none opacity-20 z-0 flex justify-between p-4"
 aria-hidden="true"><app-icon params="name: 'star-and-crescent', style: 'opacity: 0.15; font-size: 1.5rem;'"></app-icon><app-icon params="name: 'star-and-crescent', style: 'opacity: 0.15; font-size: 1.5rem;'"></app-icon></div><!-- ko component: { name: 'dashboard-header', params: header } --><!-- /ko --><!-- ko component: { name: 'dashboard-clock', params: clock } --><!-- /ko --><!-- ko component: { name: 'dashboard-timeline', params: timeline } --><!-- /ko --><div class="grid grid-cols-2 gap-3 w-full"
@@ -207,34 +211,36 @@ style="width: 40px; height: 40px;"><app-icon params="name: 'list-check', color: 
 Calculated from your start date configured in Settings up to today.
 </p><div class="flex justify-center"><button type="button"
 class="font-bold px-3 py-1.5 rounded-full text-xs bg-brand text-white hover:bg-brand-hover transition-colors rounded-lg"
-data-act="goto-settings"><app-icon params="name: 'gear', customClass: 'mr-1', size: '14px'"></app-icon> Adjust Start Date in Settings
+data-act="goto-settings"
+data-bind="click: goToSettings"><app-icon params="name: 'gear', customClass: 'mr-1', size: '14px'"></app-icon> Adjust Start Date in Settings
 </button></div></div></div></div><div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="historyBody"
 data-bind="visible: currentSubTab() === 'history'"><div class="text-center text-gr-textMuted py-8 px-4 bg-white border border-borderGrey rounded-2xl d-none flex flex-col items-center justify-center"
 id="histEmptyState"><div class="mb-3"><app-icon params="name: 'list-check', color: 'text-brand', size: '4xl', customClass: 'opacity-50'"></app-icon></div><h5 class="font-bold text-brand text-base mb-1">No Activity Yet</h5><p class="text-gr-textMuted text-xs mb-0">Whenever a prayer is marked as completed in Current or Old Tracking, its history entry will appear here.</p></div><div id="histContent" class="d-none"><div class="rounded-2xl p-3.5 bg-white border border-borderGrey mb-3"><div class="flex items-center justify-between"><div class="flex items-center gap-2.5 min-w-0"><div class="w-10 h-10 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0"><app-icon params="name: 'list-check', color: 'text-brand', size: 'lg'"></app-icon></div><div class="min-w-0"><h6 class="font-bold text-brand mb-0 text-sm leading-tight">Activity Log</h6><div class="text-gr-textMuted text-xs mt-0.5" id="histSubtitleCount" data-bind="text: historySubtitle">0 completed prayers</div></div></div><div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-borderGrey bg-surfaceBg text-xs text-gr-textMuted font-medium shrink-0"><app-icon params="name: 'clock', prefix: 'fa-regular', size: 'xs', customClass: 'shrink-0'"></app-icon><span>Latest first</span></div></div></div><div class="flex flex-col gap-1" id="histList" data-bind="foreach: historyEntries"><!-- ko component: { name: 'prayer-history-card', params: $data } --><!-- /ko --></div></div></div><!-- ko component: { name: 'prayer-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko --></script><script type="text/html" id="prayer-header-template"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"><div class="w-full flex items-center justify-between min-w-0 min-h-[44px]"><div class="flex items-center gap-2 min-w-0 grow"><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
-data-act="go-home" title="Back to Home" aria-label="Back to Home"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="min-w-0 grow"><h5 class="font-bold m-0 text-base text-brand flex items-center gap-2"
+data-act="go-home" title="Back to Home" aria-label="Back to Home"
+data-bind="click: goHome"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="min-w-0 grow"><h5 class="font-bold m-0 text-base text-brand flex items-center gap-2"
 id="trackerHeaderTitle"><app-icon params="id: 'trackerHeaderIcon', name: iconClass || 'fa-regular fa-calendar-days text-gr-accent'"></app-icon><span id="trackerHeaderLabel" data-bind="text: label || 'Current Prayer'">Current Prayer</span></h5><div id="oldSub" class="text-xs text-gr-textMuted mt-0.5"
 data-bind="text: subtitle || 'Select a period to begin', css: { 'd-none': !showSubtitle }">Select a period to begin</div></div></div><div class="flex items-center gap-2"><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative"
 id="currentMissedBtn" data-act="missed-open" title="Missed Prayers"
 aria-label="Missed Prayers"
-data-bind="visible: !currentSubTab || ko.unwrap(currentSubTab) === 'current'"><app-icon params="name: 'triangle-exclamation', size: 'base', dataRef: 'page.current.card.header.badge-icon'"></app-icon><span class="inline-flex items-center justify-center absolute -top-1 -right-1 bg-gr-danger text-white text-[11px] font-bold min-w-[18px] h-[18px] px-1 rounded-full border-2 border-white leading-none z-[2] pointer-events-none"
+data-bind="visible: !currentSubTab || ko.unwrap(currentSubTab) === 'current', click: openMissed"><app-icon params="name: 'triangle-exclamation', size: 'base', dataRef: 'page.current.card.header.badge-icon'"></app-icon><span class="inline-flex items-center justify-center absolute -top-1 -right-1 bg-gr-danger text-white text-[11px] font-bold min-w-[18px] h-[18px] px-1 rounded-full border-2 border-white leading-none z-[2] pointer-events-none"
 id="currentMissedBadge"
 data-bind="text: missedCount, css: { 'd-none': !hasMissed() }"></span></button><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
 id="oldActionBtn" data-act="old-info" title="Period Summary" aria-label="Period Summary"
-data-bind="visible: ko.unwrap(currentSubTab) === 'old'"><app-icon params="name: 'chart-simple', size: 'base'"></app-icon></button><button type="button"
+data-bind="visible: ko.unwrap(currentSubTab) === 'old', click: openPeriodInfo"><app-icon params="name: 'chart-simple', size: 'base'"></app-icon></button><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
 id="historyEmptyBtn" data-act="history-empty" title="Empty History"
 aria-label="Empty History"
-data-bind="visible: ko.unwrap(currentSubTab) === 'history'"><app-icon params="name: 'trash-can', size: 'base'"></app-icon></button></div></div></header></script><script type="text/html" id="prayer-tracker-card-template"><div class="prayer-tracker-card w-full max-w-[480px] bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col gap-3 shadow-none mx-auto"
+data-bind="visible: ko.unwrap(currentSubTab) === 'history', click: emptyHistory"><app-icon params="name: 'trash-can', size: 'base'"></app-icon></button></div></div></header></script><script type="text/html" id="prayer-tracker-card-template"><div class="prayer-tracker-card w-full max-w-[480px] bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col gap-3 shadow-none mx-auto"
 data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'TrackerCard', 'data-ref': ($data.pagePrefix || 'page.current') + '.card' }"><header class="tracker-header pb-2.5 border-b border-borderGrey flex items-center justify-between gap-2"
 data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header' }"><button type="button" class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
-data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DateChip', 'data-act': $data.dateChipAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-chip' }"
+data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DateChip', 'data-act': $data.dateChipAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-chip' }, click: onDateChipClick"
 aria-label="Select date"><app-icon params="name: 'calendar-days', prefix: 'fa-regular', size: 'sm'"></app-icon><span data-bind="text: $data.dateChipText, attr: { id: ($data.collapsePrefix || 'cur') + 'DateChipText', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-text' }"></span></button><div class="header-status flex items-center gap-2"
 data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'HeaderStatus', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.status' }"><!-- ko if: $data.badgeText --><span class="badge badge-warning inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer"
-data-bind="attr: { 'data-act': $data.badgeAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.badge' }"><app-icon params="name: 'triangle-exclamation', size: 'xs'"></app-icon><span data-bind="text: $data.badgeText"></span></span><!-- /ko --><!-- ko if: $data.actionBtnText --><button type="button" class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 text-sm hover:underline"
-data-bind="text: $data.actionBtnText, attr: { id: ($data.collapsePrefix || 'cur') + 'ActionBtn', 'data-act': $data.actionBtnAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.action-btn' }"></button><!-- /ko --></div></header><section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group' }"><button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
+data-bind="attr: { 'data-act': $data.badgeAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.badge' }, click: onBadgeClick"><app-icon params="name: 'triangle-exclamation', size: 'xs'"></app-icon><span data-bind="text: $data.badgeText"></span></span><!-- /ko --><!-- ko if: $data.actionBtnText --><button type="button" class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 text-sm hover:underline"
+data-bind="text: $data.actionBtnText, attr: { id: ($data.collapsePrefix || 'cur') + 'ActionBtn', 'data-act': $data.actionBtnAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.action-btn' }, click: onActionBtnClick"></button><!-- /ko --></div></header><section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group' }"><button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
 data-toggle="collapse"
 data-bind="attr: { 'data-target': '#' + ($data.collapsePrefix || 'cur') + 'MissedList', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.toggle' }"
 aria-expanded="true"><span class="section-title text-xs font-bold uppercase tracking-wider text-gr-text"
@@ -259,7 +265,7 @@ data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title
 data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span></div><time class="prayer-time text-xs text-gr-textMuted"
 data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time></div></div><button type="button"
 class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#D1E5DC] text-brand border-0 hover:bg-[#c2ded3] transition-colors cursor-pointer shrink-0 text-xs font-semibold"
-data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }"
+data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, click: onToggle"
 title="Tap to mark missed"><app-icon params="name: 'check', size: 'xs'"></app-icon> Done
 </button></li><!-- /ko --><!-- ko if: isUpcoming --><li class="prayer-row prayer-row-upcoming p-2.5 px-3 bg-surfaceBg border border-borderGrey rounded-xl flex items-center justify-between cursor-default transition-all gap-2.5 mb-1.5"
 data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }"><div class="prayer-meta flex items-center gap-2.5 min-w-0"
@@ -280,7 +286,7 @@ data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title
 data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span></div><time class="prayer-time text-xs text-gr-textMuted"
 data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time></div></div><button type="button"
 class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl bg-red-50 text-red-600 border border-red-200 hover:bg-red-500 hover:text-white transition-colors cursor-pointer shrink-0 text-xs font-semibold"
-data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }">Mark Done</button></li><!-- /ko --><!-- ko if: isStandard --><li class="prayer-row p-2.5 px-3 bg-white border rounded-xl flex items-center justify-between transition-all gap-2.5 mb-1.5"
+data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, click: onToggle">Mark Done</button></li><!-- /ko --><!-- ko if: isStandard --><li class="prayer-row p-2.5 px-3 bg-white border rounded-xl flex items-center justify-between transition-all gap-2.5 mb-1.5"
 data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }, css: isCurrent ? 'prayer-row-current bg-gradient-to-r from-activeLight to-white border-brand' : 'border-borderGrey hover:border-brand'"><div class="prayer-meta flex items-center gap-2.5 min-w-0"
 data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }"><div class="icon-box icon-box-md w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
 data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }, css: isCurrent ? 'icon-current bg-brand text-white' : 'bg-dash-mintBg text-brand'"><app-icon params="name: iconClass"></app-icon></div><div class="prayer-details flex flex-col gap-0.5 min-w-0"
@@ -289,7 +295,7 @@ data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title
 data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span></div><time class="prayer-time text-xs text-gr-textMuted"
 data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time></div></div><button type="button"
 class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl transition-colors cursor-pointer shrink-0 text-xs font-semibold"
-data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, css: isCurrent ? 'bg-brand text-white hover:bg-brand-hover' : 'bg-transparent border border-borderGrey text-brand hover:bg-brand-light'">Mark Done</button></li><!-- /ko --></script><script type="text/html" id="prayer-stat-card-template"><div class="grid grid-cols-3 gap-2"><div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center"><div class="text-gr-textMuted font-bold uppercase text-[10px] tracking-wider">COMPLETED</div><div class="font-bold text-xl text-brand mt-1.5 leading-none" id="perfCompletedStat"
+data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, css: isCurrent ? 'bg-brand text-white hover:bg-brand-hover' : 'bg-transparent border border-borderGrey text-brand hover:bg-brand-light', click: onToggle">Mark Done</button></li><!-- /ko --></script><script type="text/html" id="prayer-stat-card-template"><div class="grid grid-cols-3 gap-2"><div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center"><div class="text-gr-textMuted font-bold uppercase text-[10px] tracking-wider">COMPLETED</div><div class="font-bold text-xl text-brand mt-1.5 leading-none" id="perfCompletedStat"
 data-bind="text: completed">0</div><div class="text-gr-textMuted text-xs mt-1">prayers</div></div><div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center"><div class="text-gr-textMuted font-bold uppercase text-[10px] tracking-wider">MISSED</div><div class="font-bold text-xl text-gr-danger mt-1.5 leading-none" id="perfMissedStat"
 data-bind="text: missed">0</div><div class="text-gr-textMuted text-xs mt-1">prayers</div></div><div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center rounded-2xl shadow-none"><div class="text-gr-textMuted font-bold uppercase" style="font-size: 10px; letter-spacing: 0.5px;">SUCCESS</div><div class="font-bold text-xl text-brand mt-1.5 leading-none" id="perfRateStat"
 data-bind="text: rate">0%</div><div class="text-gr-textMuted text-xs mt-1">rate</div></div></div></script><script type="text/html" id="prayer-perf-ring-template"><div class="rounded-2xl p-4 bg-white border border-borderGrey flex flex-col gap-3"><div class="flex items-center justify-between"><div class="w-[88px] h-[88px] relative flex items-center justify-center shrink-0"><svg class="w-full h-full -rotate-90" viewBox="0 0 36 36"><path class="stroke-gray-200" stroke-width="3.5" fill="none"
@@ -306,16 +312,16 @@ id="perfDatePill" data-bind="text: datePillText || '0 days'">
 id="trackerBottomNav"><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
 id="tabTrackCurrent" data-act="switch-track-current" role="tab"
-data-bind="css: activeTab() === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'current' ? 'true' : 'false' }"><app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon><span>Current</span></button><button type="button"
+data-bind="css: activeTab() === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'current' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('current'); }"><app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon><span>Current</span></button><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
 id="tabTrackOld" data-act="switch-track-old" role="tab"
-data-bind="css: activeTab() === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'old' ? 'true' : 'false' }"><app-icon params="name: 'clock-rotate-left'"></app-icon><span>Old</span></button><button type="button"
+data-bind="css: activeTab() === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'old' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('old'); }"><app-icon params="name: 'clock-rotate-left'"></app-icon><span>Old</span></button><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
 id="tabTrackPerformance" data-act="switch-track-performance" role="tab"
-data-bind="css: activeTab() === 'performance' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'performance' ? 'true' : 'false' }"><app-icon params="name: 'chart-simple'"></app-icon><span>Performance</span></button><button type="button"
+data-bind="css: activeTab() === 'performance' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'performance' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('performance'); }"><app-icon params="name: 'chart-simple'"></app-icon><span>Performance</span></button><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
 id="tabTrackHistory" data-act="switch-track-history" role="tab"
-data-bind="css: activeTab() === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'history' ? 'true' : 'false' }"><app-icon params="name: 'list-check'"></app-icon><span>History</span></button></nav></script><script type="text/html" id="prayer-history-card-template"><div class="rounded-2xl p-4 bg-white border border-borderGrey mb-3 flex flex-col gap-3 shadow-none"
+data-bind="css: activeTab() === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'history' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('history'); }"><app-icon params="name: 'list-check'"></app-icon><span>History</span></button></nav></script><script type="text/html" id="prayer-history-card-template"><div class="rounded-2xl p-4 bg-white border border-borderGrey mb-3 flex flex-col gap-3 shadow-none"
 data-bind="attr: { 'data-ref': 'page.history.card.' + (id || '') }"><div class="flex items-center justify-between"><div class="flex items-center gap-2.5 min-w-0"><div class="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 44px; height: 44px;"
 data-bind="attr: { 'data-ref': 'page.history.item.avatar.' + (id || '') }"><app-icon params="name: iconName, size: '22px', color: 'text-brand'"></app-icon></div><div class="flex items-center gap-2 min-w-0"><h6 class="font-bold text-brand text-base mb-0 leading-none"
 data-bind="text: prayer, attr: { 'data-ref': 'page.history.item.prayer.' + (id || '') }"></h6><span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
@@ -324,12 +330,16 @@ Prayer Date: <strong class="text-brand font-bold" data-bind="text: formattedDate
 data-bind="visible: currentSubTab() === 'home'"><div class="border border-borderGrey p-4 text-center rounded-2xl bg-white mt-3 d-none shadow-none"
 id="tbHomeEmptyState"><div class="mb-3"><app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50'"></app-icon></div><h5 class="font-bold text-brand mb-1">No Dhikr Configured</h5><p class="text-gr-textMuted text-xs mb-3">Add your first recitation chant in the Current tab to begin tracking bookmarks.</p><div><button type="button"
 class="rounded-xl px-4 py-2 bg-brand text-white hover:bg-brand-hover transition-colors text-xs font-semibold cursor-pointer"
-data-act="switch-tb-current"><app-icon params="name: 'plus', customClass: 'mr-1'"></app-icon> Add First Dhikr
+data-act="switch-tb-current"
+data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }"><app-icon params="name: 'plus', customClass: 'mr-1'"></app-icon> Add First Dhikr
 </button></div></div><div class="flex flex-col gap-3 pt-1 pb-4" id="tbHomeContent"><div class="flex items-center justify-between px-1"><div><h6 class="font-bold text-brand mb-0 text-sm">Bookmarked Counters</h6><div class="text-gr-textMuted text-xs">Tap any bookmark to recount directly</div></div><button type="button"
 class="px-3 py-1.5 inline-flex items-center gap-1 border border-brand bg-white text-brand hover:bg-brand-light transition-colors text-xs font-semibold rounded-xl cursor-pointer"
-data-act="switch-tb-current"><span>All Dhikrs</span><app-icon params="name: 'chevron-right', size: 'text-[10px]'"></app-icon></button></div><div class="grid grid-cols-2 gap-3" id="tbHomeGrid"><!-- ko foreach: bookmarkedCounters --><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --><!-- /ko --></div><div class="grid grid-cols-2 gap-2 mt-1"><div><div class="border border-borderGrey p-3 rounded-2xl bg-white h-full shadow-none cursor-pointer hover:border-brand transition-colors"
-role="button" tabindex="0" data-act="switch-tb-current"><div class="flex items-center justify-between mb-2"><span class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand">CURRENT</span><app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', size: 'sm'"></app-icon></div><div class="font-bold text-brand text-lg leading-tight"><span id="tbHomeCurrentCount" data-bind="text: currentDhikrsCount">0</span><span class="text-xs font-normal text-gr-textMuted">Dhikrs</span></div><div class="text-gr-textMuted text-xs mt-1">Active in Current Month</div></div></div><div><div class="border border-borderGrey p-3 rounded-2xl bg-white h-full shadow-none cursor-pointer hover:border-brand transition-colors"
-role="button" tabindex="0" data-act="switch-tb-history"><div class="flex items-center justify-between mb-2"><span class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700">HISTORY</span><app-icon params="name: 'gear', color: 'text-amber-600', size: 'sm'"></app-icon></div><div class="font-bold text-brand text-lg leading-tight"><span id="tbHomeHistoryCount" data-bind="text: clearedMonthsCount">0</span><span class="text-xs font-normal text-gr-textMuted">Cleared</span></div><div class="text-gr-textMuted text-xs mt-1">Active: <span id="tbHomeActiveOldLabel" data-bind="text: activeOldLabel">All Cleared</span></div></div></div></div><div class="border border-borderGrey p-3 rounded-2xl bg-brand-soft shadow-none"><div class="flex items-start gap-2"><app-icon params="name: 'circle-info', color: 'text-brand', size: 'sm', customClass: 'mt-0.5'"></app-icon><div class="text-xs text-gr-text leading-relaxed">
+data-act="switch-tb-current"
+data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }"><span>All Dhikrs</span><app-icon params="name: 'chevron-right', size: 'text-[10px]'"></app-icon></button></div><div class="grid grid-cols-2 gap-3" id="tbHomeGrid"><!-- ko foreach: bookmarkedCounters --><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --><!-- /ko --></div><div class="grid grid-cols-2 gap-2 mt-1"><div><div class="border border-borderGrey p-3 rounded-2xl bg-white h-full shadow-none cursor-pointer hover:border-brand transition-colors"
+role="button" tabindex="0" data-act="switch-tb-current"
+data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }"><div class="flex items-center justify-between mb-2"><span class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand">CURRENT</span><app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', size: 'sm'"></app-icon></div><div class="font-bold text-brand text-lg leading-tight"><span id="tbHomeCurrentCount" data-bind="text: currentDhikrsCount">0</span><span class="text-xs font-normal text-gr-textMuted">Dhikrs</span></div><div class="text-gr-textMuted text-xs mt-1">Active in Current Month</div></div></div><div><div class="border border-borderGrey p-3 rounded-2xl bg-white h-full shadow-none cursor-pointer hover:border-brand transition-colors"
+role="button" tabindex="0" data-act="switch-tb-history"
+data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('history'); }"><div class="flex items-center justify-between mb-2"><span class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700">HISTORY</span><app-icon params="name: 'gear', color: 'text-amber-600', size: 'sm'"></app-icon></div><div class="font-bold text-brand text-lg leading-tight"><span id="tbHomeHistoryCount" data-bind="text: clearedMonthsCount">0</span><span class="text-xs font-normal text-gr-textMuted">Cleared</span></div><div class="text-gr-textMuted text-xs mt-1">Active: <span id="tbHomeActiveOldLabel" data-bind="text: activeOldLabel">All Cleared</span></div></div></div></div><div class="border border-borderGrey p-3 rounded-2xl bg-brand-soft shadow-none"><div class="flex items-start gap-2"><app-icon params="name: 'circle-info', color: 'text-brand', size: 'sm', customClass: 'mt-0.5'"></app-icon><div class="text-xs text-gr-text leading-relaxed">
 Whenever you open a Dhikr in <strong>Current</strong> or <strong>Old</strong> tracking, its bookmark updates automatically so you can continue where you left off.
 </div></div></div></div></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbCurrentBody"
 data-bind="visible: currentSubTab() === 'current'"><div id="tbList" class="flex flex-col gap-3"><div class="border border-borderGrey p-3 text-center rounded-2xl bg-white d-none shadow-none"
@@ -355,10 +365,12 @@ id="tbOldAllCompleted"><div class="mb-3"><app-icon params="name: 'circle-check',
 All previous months back to <span id="tbOldAllCompletedStart"></span> have been completed.
 </p><div class="flex justify-center gap-2"><button type="button"
 class="rounded-full px-4 py-2 font-bold border border-brand bg-white text-brand hover:bg-brand-light transition-colors"
-data-act="tb-old-reopen"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reopen Last Month
+data-act="tb-old-reopen"
+data-bind="click: reopenLastMonth"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reopen Last Month
 </button><button type="button"
 class="border rounded-full px-3 py-2 text-gr-textMuted text-xs bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors"
-data-act="tb-reset-all-completed"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Completed
+data-act="tb-reset-all-completed"
+data-bind="click: resetAllCompleted"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Completed
 </button></div></div><div class="d-none flex flex-col gap-3" id="tbOldContent"><div class="border border-borderGrey p-3 text-center rounded-2xl bg-white mb-3 d-none shadow-none"
 id="tbOldAdvanceBanner"><div class="text-brand font-bold mb-2"><app-icon params="name: 'circle-check', color: 'text-brand', customClass: 'mr-1'"></app-icon><span id="tbOldAdvanceBannerMsg">All targets are completed!</span></div><button type="button"
 class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg"
@@ -372,11 +384,12 @@ id="tbOldDoneToggle" data-toggle="collapse" data-target="#tbOldDoneList" aria-ex
 id="tbOldDoneBadge">0</span></button><div class="collapse show visible" id="tbOldDoneList" style="visibility: visible;"><div class="grid grid-cols-2 gap-3 mt-2" id="tbOldDoneGrid" data-bind="foreach: oldDoneItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div></section></div></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody"
 data-bind="visible: currentSubTab() === 'history'"><div class="flex flex-col gap-3 pt-1 pb-4" id="tbHistoryContent"><!-- ko component: { name: 'tasbeeh-progress-circle', params: historyProgress } --><!-- /ko --><!-- ko component: { name: 'tasbeeh-goal-setter', params: goalSetter } --><!-- /ko --><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center justify-between mb-2"><h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6><button type="button"
 class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 underline text-gr-danger text-decoration-none text-xs font-bold d-none"
-id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Cleared
+id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed"
+data-bind="click: resetAllCompleted"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Cleared
 </button></div><div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">Sequential monthly clearance advances backward month-by-month as dhikrs are completed.</div><div class="flex flex-col gap-2" id="tbHistoryList"></div></div></div></div><button type="button"
 class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all d-none"
 id="tbAddBtn" title="Add New Dhikr" aria-label="Add New Dhikr"
-data-bind="visible: currentSubTab() === 'current' || currentSubTab() === 'old'"><app-icon params="name: 'plus', size: 'xl', dataRef: 'page.tasbeeh.header.add-icon'"></app-icon></button><!-- ko component: { name: 'tasbeeh-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko --><div id="tasbeehCounterView" class="d-none flex-col grow tb-counter-overlay"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px] gap-2"><button type="button"
+data-bind="visible: currentSubTab() === 'current' || currentSubTab() === 'old', click: openAddModal"><app-icon params="name: 'plus', size: 'xl', dataRef: 'page.tasbeeh.header.add-icon'"></app-icon></button><!-- ko component: { name: 'tasbeeh-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko --><div id="tasbeehCounterView" class="d-none flex-col grow tb-counter-overlay"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px] gap-2"><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
 id="tbBtnBack" title="Back"><app-icon params="name: 'arrow-left', size: 'base', dataRef: 'page.tasbeeh.counter.back-icon'"></app-icon></button><div class="grow min-w-0 text-center"><h5 class="font-bold text-base text-brand m-0 flex items-center justify-center truncate mb-0"
 id="tbCounterTopTitle">Calendar Tracker</h5></div><button type="button"
@@ -389,12 +402,14 @@ class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex item
 id="tbCalNextMonth" title="Next month"><app-icon params="name: 'chevron-right'"></app-icon></button></div><div class="flex-1 px-3 pb-3"><div class="grid grid-cols-7 gap-1 mb-1.5"><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sun</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Mon</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Tue</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Wed</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Thu</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Fri</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sat</div></div><div class="grid grid-cols-7 gap-1.5" id="tbCalGrid"></div></div><div class="bg-white rounded-2xl border border-borderGrey p-3.5 flex items-center justify-around shadow-none mx-3 mb-3"
 id="tbCalSummary"><div class="flex flex-col items-center flex-1 gap-0.5"><span class="text-xl font-extrabold text-brand leading-tight" id="tbCalCompletedCount">0</span><span class="text-[10px] font-semibold text-gr-textMuted uppercase tracking-wider">Completed</span></div><div class="w-[1px] h-7 bg-borderGrey shrink-0"></div><div class="flex flex-col items-center flex-1 gap-0.5"><span class="text-xl font-extrabold text-brand leading-tight" id="tbCalRemainingCount">0</span><span class="text-[10px] font-semibold text-gr-textMuted uppercase tracking-wider">Remaining</span></div><div class="w-[1px] h-7 bg-borderGrey shrink-0"></div><div class="flex flex-col items-center flex-1 gap-0.5"><span class="text-xl font-extrabold text-brand leading-tight" id="tbCalProgressPct">0%</span><span class="text-[10px] font-semibold text-gr-textMuted uppercase tracking-wider">Progress</span></div></div></div></div></script><script type="text/html" id="tasbeeh-header-template"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"><div class="w-full flex items-center justify-between min-w-0 min-h-[44px]"><div class="flex items-center gap-2 min-w-0 grow"><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
-data-act="go-home" title="Back to Home" aria-label="Back to Home"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="min-w-0 grow"><h5 class="font-bold text-base text-brand m-0 flex items-center gap-2"><app-icon params="id: 'tbHeaderIcon', name: iconClass || 'fa-solid fa-house text-brand', dataRef: 'page.tasbeeh.header.icon'"></app-icon><span id="tbHeaderLabel" data-bind="text: title || 'Digital Tasbeeh'">Digital Tasbeeh</span></h5><div class="text-xs text-gr-textMuted mt-0.5" id="tbHeaderSub"
+data-act="go-home" title="Back to Home" aria-label="Back to Home"
+data-bind="click: goHome"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="min-w-0 grow"><h5 class="font-bold text-base text-brand m-0 flex items-center gap-2"><app-icon params="id: 'tbHeaderIcon', name: iconClass || 'fa-solid fa-house text-brand', dataRef: 'page.tasbeeh.header.icon'"></app-icon><span id="tbHeaderLabel" data-bind="text: title || 'Digital Tasbeeh'">Digital Tasbeeh</span></h5><div class="text-xs text-gr-textMuted mt-0.5" id="tbHeaderSub"
 data-bind="text: subtitle || 'Home · Bookmarks'">Home · Bookmarks</div></div></div></div></header></script><script type="text/html" id="tasbeeh-counter-card-template"><div class="tb-card bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer hover:border-brand min-h-[146px] select-none transition-all"
-data-bind="attr: { 'data-id': id, 'data-month': $data.month || null, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }"
+data-bind="attr: { 'data-id': id, 'data-month': $data.month || null, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: onCardClick"
 role="button" tabindex="0"><div class="tb-card-top flex items-start justify-between w-full"><div class="w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"><app-icon params="name: 'hands-praying'"></app-icon></div><div class="tb-card-actions flex items-center gap-1.5 shrink-0 ml-auto"><button type="button"
 class="tb-btn-edit w-8 h-8 rounded-lg bg-brand-light text-brand flex items-center justify-center cursor-pointer hover:bg-brand/20 active:scale-95 transition-all p-0"
-data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"><app-icon params="name: 'pencil', size: 'xs'"></app-icon></button><app-icon params="name: 'chevron-right', color: 'text-gr-textMuted', size: 'xs', customClass: 'ml-1'"></app-icon></div></div><div class="tb-card-body flex flex-col justify-end w-full mt-2.5 min-w-0"><h6 class="tb-card-title text-base font-bold text-brand leading-snug mb-1 truncate"
+data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
+data-bind="click: onEditClick"><app-icon params="name: 'pencil', size: 'xs'"></app-icon></button><app-icon params="name: 'chevron-right', color: 'text-gr-textMuted', size: 'xs', customClass: 'ml-1'"></app-icon></div></div><div class="tb-card-body flex flex-col justify-end w-full mt-2.5 min-w-0"><h6 class="tb-card-title text-base font-bold text-brand leading-snug mb-1 truncate"
 data-bind="text: title"></h6><div class="tb-card-meta flex flex-col gap-1 w-full"><div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight"><app-icon params="name: 'bullseye', color: 'text-gr-textMuted', size: 'xs'"></app-icon><span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Target: <span class="tb-val-num font-semibold text-brand ml-1" data-bind="text: targetCount"></span> / day</span></div><div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight"><app-icon params="name: 'circle-check', color: 'text-brand', size: 'xs'"></app-icon><span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs"><span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-brand text-white leading-none">Done</span><strong class="tb-val-done ml-1 font-bold text-brand" data-bind="text: completedDays"></strong></span></div><div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight"><app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-gr-textMuted', size: 'xs'"></app-icon><span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Total: <span class="tb-val-total text-gr-textMuted font-medium ml-1" data-bind="text: totalDays + ' days'"></span></span></div><!-- ko if: isTodayDone --><div class="tb-meta-row tb-meta-sub-row"><span class="text-brand font-bold flex items-center gap-1" style="font-size: 11px;"><app-icon params="name: 'circle-check', color: 'text-brand'"></app-icon> Today Completed
 </span></div><!-- /ko --></div></div></div></script><script type="text/html" id="tasbeeh-progress-circle-template"><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center justify-between mb-2"><div><h6 class="font-bold text-brand mb-0" style="font-size: 1.05rem;">Tracking Period & History</h6><div class="text-gr-textMuted text-xs">Configure timeline and view past monthly clearance</div></div><span class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-brand-light text-brand px-3 font-bold"
 id="tbHistPercentBadge" style="font-size: 11px;"
@@ -433,44 +448,52 @@ style="font-size: 13.5px;" data-act="tb-hist-reset" title="Reset Period Settings
 id="tasbeehBottomNav"><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
 id="tabTbHome" data-act="switch-tb-home" role="tab"
-data-bind="css: ko.unwrap($data.activeTab) === 'home' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'home' ? 'true' : 'false' }"><app-icon params="name: 'house'"></app-icon><span>Home</span></button><button type="button"
+data-bind="css: ko.unwrap($data.activeTab) === 'home' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'home' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('home'); }"><app-icon params="name: 'house'"></app-icon><span>Home</span></button><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
 id="tabTbCurrent" data-act="switch-tb-current" role="tab"
-data-bind="css: ko.unwrap($data.activeTab) === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'current' ? 'true' : 'false' }"><app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon><span>Current</span></button><button type="button"
+data-bind="css: ko.unwrap($data.activeTab) === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'current' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('current'); }"><app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon><span>Current</span></button><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
 id="tabTbOld" data-act="switch-tb-old" role="tab"
-data-bind="css: ko.unwrap($data.activeTab) === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'old' ? 'true' : 'false' }"><app-icon params="name: 'clock-rotate-left'"></app-icon><span>Old</span></button><button type="button"
+data-bind="css: ko.unwrap($data.activeTab) === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'old' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('old'); }"><app-icon params="name: 'clock-rotate-left'"></app-icon><span>Old</span></button><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
 id="tabTbHistory" data-act="switch-tb-history" role="tab"
-data-bind="css: ko.unwrap($data.activeTab) === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'history' ? 'true' : 'false' }"><app-icon params="name: 'gear'"></app-icon><span>History</span></button></nav></script><script type="text/html" id="duas-page-template"><!-- ko component: { name: 'duva-header', params: header } --><!-- /ko --><div class="grow overflow-auto p-3 relative pb-5" id="duasBody"><div class="text-center py-6 text-gr-textMuted py-4 d-none" id="duaLoadingState"><div class="w-5 h-5 border-2 border-brand border-t-transparent rounded-full animate-spin inline-block mb-2"
+data-bind="css: ko.unwrap($data.activeTab) === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'history' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('history'); }"><app-icon params="name: 'gear'"></app-icon><span>History</span></button></nav></script><script type="text/html" id="duas-page-template"><!-- ko component: { name: 'duva-header', params: header } --><!-- /ko --><div class="grow overflow-auto p-3 relative pb-5" id="duasBody"><div class="text-center py-6 text-gr-textMuted py-4 d-none" id="duaLoadingState"><div class="w-5 h-5 border-2 border-brand border-t-transparent rounded-full animate-spin inline-block mb-2"
 role="status"></div><div class="text-xs">Loading Duas...</div></div><div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed text-gr-danger py-4 d-none"
 id="duaErrorState"><div class="text-lg mb-2">⚠️</div><div class="font-bold mb-1">Failed to load Duas</div><div class="text-xs opacity-75 mb-3" id="duaErrorMessage"></div><button type="button"
 class="border border-brand bg-white text-brand hover:bg-brand-light transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
-data-act="dua-retry">Retry</button></div><div id="duaSubHome" data-bind="visible: currentSubTab() === 'home' || currentSubTab() === 'pinned'"><div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed d-none"
+data-act="dua-retry"
+data-bind="click: retry">Retry</button></div><div id="duaSubHome" data-bind="visible: currentSubTab() === 'home' || currentSubTab() === 'pinned'"><div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed d-none"
 id="duaHomeEmptyState"><span class="inline-flex items-center justify-center mb-2"><app-icon params="name: 'thumbtack'"></app-icon></span><br>
 No pinned duas yet.<br>
 Tap the pin icon on any dua to pin it here.<br><span class="text-xs opacity-75 mt-2 block">You can pin up to 2 duas for quick access.</span></div><div id="duaHomeContent" class="d-none"><div class="text-sm font-bold text-brand flex items-center gap-2 mb-2"><app-icon params="name: 'thumbtack'"></app-icon><span id="duaHomeTitleCount" data-bind="text: pinnedTitle">Your Pinned Duas (0/2)</span></div><div class="flex flex-col gap-2" id="duaHomeView"><!-- ko foreach: pinnedDuas --><!-- ko component: { name: 'duva-pinned-card', params: $data } --><!-- /ko --><!-- /ko --></div><div class="text-xs text-gr-textMuted flex items-center justify-center gap-1 mt-3 mt-2"><span>Tap the</span><app-icon params="name: 'thumbtack'"></app-icon><span>icon on a dua to unpin it, or pin another (max 2).</span></div></div></div><div id="duaSubAll" class="d-none" data-bind="visible: currentSubTab() === 'duas' || currentSubTab() === 'all'"><!-- ko component: { name: 'duva-search-bar', params: search } --><!-- /ko --><div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed d-none"
 id="duaListEmptyState">No duas match your search.</div><div class="flex flex-col gap-2" id="duaListView"><!-- ko foreach: filteredDuas --><!-- ko component: { name: 'duva-card', params: $data } --><!-- /ko --><!-- /ko --></div></div><div id="duaSubFavs" class="d-none" data-bind="visible: currentSubTab() === 'favourites' || currentSubTab() === 'favs'"><div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed d-none"
 id="duaFavsEmptyState">No favourites yet.<br>Tap the ♡ icon on any dua to add it here.</div><div class="flex flex-col gap-2" id="duaFavouritesList"><!-- ko foreach: favouriteDuas --><!-- ko component: { name: 'duva-card', params: $data } --><!-- /ko --><!-- /ko --></div></div><div id="duaSubDetail" class="flex flex-col gap-3 d-none" data-bind="visible: currentSubTab() === 'detail'"><button type="button"
 class="self-start mb-3 px-4 py-2 bg-white border border-borderGrey rounded-xl text-xs font-semibold text-brand cursor-pointer hover:bg-brand-light inline-flex items-center gap-1.5 transition-colors mb-2"
-data-act="dua-detail-back"><app-icon params="name: 'arrow-left', customClass: 'mr-1'"></app-icon> Back to list
+data-act="dua-detail-back"
+data-bind="click: goBack"><app-icon params="name: 'arrow-left', customClass: 'mr-1'"></app-icon> Back to list
 </button><!-- ko component: { name: 'duva-translation-toggle', params: detail } --><!-- /ko --><div class="flex items-center justify-between gap-2 mt-4"><button type="button"
 class="px-4 py-2.5 rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors font-semibold text-xs cursor-pointer inline-flex items-center justify-center"
-id="duaPrevBtn" data-act="dua-prev">Previous</button><div class="flex items-center gap-2"><button type="button"
+id="duaPrevBtn" data-act="dua-prev"
+data-bind="click: prevDua">Previous</button><div class="flex items-center gap-2"><button type="button"
 class="w-10 h-10 rounded-xl border border-borderGrey bg-white text-brand hover:bg-brand-light cursor-pointer text-base inline-flex items-center justify-center transition-colors"
-id="duaDetailFavBtn" data-act="dua-detail-toggle-fav" title="Toggle Favourite"><span id="duaDetailFavIcon"><app-icon params="name: 'heart', prefix: 'fa-regular'"></app-icon></span></button><button type="button"
+id="duaDetailFavBtn" data-act="dua-detail-toggle-fav" title="Toggle Favourite"
+data-bind="click: toggleFavCurrent"><span id="duaDetailFavIcon"><app-icon params="name: 'heart', prefix: 'fa-regular'"></app-icon></span></button><button type="button"
 class="w-10 h-10 rounded-xl border border-borderGrey bg-white text-brand hover:bg-brand-light cursor-pointer text-base inline-flex items-center justify-center transition-colors"
-id="duaDetailPinBtn" data-act="dua-detail-toggle-pin" title="Toggle Pin"><span id="duaDetailPinIcon"><app-icon params="name: 'thumbtack'"></app-icon></span></button></div><button type="button"
+id="duaDetailPinBtn" data-act="dua-detail-toggle-pin" title="Toggle Pin"
+data-bind="click: togglePinCurrent"><span id="duaDetailPinIcon"><app-icon params="name: 'thumbtack'"></app-icon></span></button></div><button type="button"
 class="px-4 py-2.5 rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors font-semibold text-xs cursor-pointer inline-flex items-center justify-center"
-id="duaNextBtn" data-act="dua-next">Next</button></div></div><button type="button"
+id="duaNextBtn" data-act="dua-next"
+data-bind="click: nextDua">Next</button></div></div><button type="button"
 class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
 id="duaFabBtn" data-act="dua-open-add" title="Add New Dua"
-data-bind="visible: currentSubTab() !== 'detail'"><app-icon params="name: 'plus', size: 'xl'"></app-icon></button></div><!-- ko component: { name: 'duva-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko --></script><script type="text/html" id="duva-header-template"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"><div class="w-full flex items-center justify-between min-w-0 min-h-[44px]"><div class="flex items-center gap-2 min-w-0 grow"><button type="button"
+data-bind="visible: currentSubTab() !== 'detail', click: openAdd"><app-icon params="name: 'plus', size: 'xl'"></app-icon></button></div><!-- ko component: { name: 'duva-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko --></script><script type="text/html" id="duva-header-template"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"><div class="w-full flex items-center justify-between min-w-0 min-h-[44px]"><div class="flex items-center gap-2 min-w-0 grow"><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
-data-act="go-home" title="Back to Home" aria-label="Back to Home"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="min-w-0 grow"><h5 class="font-bold text-base text-brand m-0 flex items-center gap-2" id="duasHeaderTitle"><app-icon params="name: iconClass || 'fa-solid fa-hands-praying text-brand'"></app-icon><span data-bind="text: title || 'Quran Duas'">Quran Duas</span></h5><div class="text-xs text-gr-textMuted mt-0.5" id="duaProgressIndicator"
+data-act="go-home" title="Back to Home" aria-label="Back to Home"
+data-bind="click: goHome"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="min-w-0 grow"><h5 class="font-bold text-base text-brand m-0 flex items-center gap-2" id="duasHeaderTitle"><app-icon params="name: iconClass || 'fa-solid fa-hands-praying text-brand'"></app-icon><span data-bind="text: title || 'Quran Duas'">Quran Duas</span></h5><div class="text-xs text-gr-textMuted mt-0.5" id="duaProgressIndicator"
 data-bind="text: progressText || '0 pinned'">0 pinned</div></div></div><div class="flex items-center gap-2 shrink-0"><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer"
-data-act="dua-open-admin" title="Admin Settings"><app-icon params="name: 'gear', size: 'base'"></app-icon></button></div></div></header></script><script type="text/html" id="duva-search-bar-template"><div class="relative mb-3"><input type="text" id="duaSearchInput"
+data-act="dua-open-admin" title="Admin Settings"
+data-bind="click: openAdmin"><app-icon params="name: 'gear', size: 'base'"></app-icon></button></div></div></header></script><script type="text/html" id="duva-search-bar-template"><div class="relative mb-3"><input type="text" id="duaSearchInput"
 class="rounded-xl border border-borderGrey pl-3 pr-5 py-2 w-full px-3.5 py-2.5 bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
 data-bind="value: query, valueUpdate: 'afterkeydown', attr: { placeholder: placeholder || 'Search by number, Surah, or keywords...' }"
 placeholder="Search by number, Surah, or keywords..."><button type="button" id="duaSearchClear"
@@ -480,30 +503,30 @@ id="duaBottomNav"><div class="flex w-full h-full items-center justify-around" id
 aria-label="Duas view"><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
 id="duaTabPinned" data-act="dua-switch-pinned" role="tab"
-data-bind="css: (ko.unwrap($data.activeTab) === 'pinned' || ko.unwrap($data.activeTab) === 'home') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'pinned' || ko.unwrap($data.activeTab) === 'home') ? 'true' : 'false' }"><span class="text-xl leading-none inline-flex items-center justify-center"><app-icon params="name: 'thumbtack'"></app-icon></span><span>Pinned</span></button><button type="button"
+data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('home'); }, css: (ko.unwrap($data.activeTab) === 'pinned' || ko.unwrap($data.activeTab) === 'home') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'pinned' || ko.unwrap($data.activeTab) === 'home') ? 'true' : 'false' }"><span class="text-xl leading-none inline-flex items-center justify-center"><app-icon params="name: 'thumbtack'"></app-icon></span><span>Pinned</span></button><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
 id="duaTabAll" data-act="dua-switch-all" role="tab"
-data-bind="css: (ko.unwrap($data.activeTab) === 'all' || ko.unwrap($data.activeTab) === 'duas') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'all' || ko.unwrap($data.activeTab) === 'duas') ? 'true' : 'false' }"><span class="text-xl leading-none inline-flex items-center justify-center"><app-icon params="name: 'book-quran'"></app-icon></span><span>All Duas</span></button><button type="button"
+data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('duas'); }, css: (ko.unwrap($data.activeTab) === 'all' || ko.unwrap($data.activeTab) === 'duas') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'all' || ko.unwrap($data.activeTab) === 'duas') ? 'true' : 'false' }"><span class="text-xl leading-none inline-flex items-center justify-center"><app-icon params="name: 'book-quran'"></app-icon></span><span>All Duas</span></button><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
 id="duaTabFavs" data-act="dua-switch-favs" role="tab"
-data-bind="css: (ko.unwrap($data.activeTab) === 'favourites' || ko.unwrap($data.activeTab) === 'favs') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'favourites' || ko.unwrap($data.activeTab) === 'favs') ? 'true' : 'false' }"><span class="text-xl leading-none inline-flex items-center justify-center"><app-icon params="name: 'bookmark'"></app-icon></span><span>Favourites</span></button></div></nav></script><script type="text/html" id="duva-pinned-card-template"><div class="pinned-dua-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col gap-2.5 border-l-4 border-l-brand relative cursor-pointer hover:bg-surfaceBg transition-all mb-3"
+data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('favourites'); }, css: (ko.unwrap($data.activeTab) === 'favourites' || ko.unwrap($data.activeTab) === 'favs') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'favourites' || ko.unwrap($data.activeTab) === 'favs') ? 'true' : 'false' }"><span class="text-xl leading-none inline-flex items-center justify-center"><app-icon params="name: 'bookmark'"></app-icon></span><span>Favourites</span></button></div></nav></script><script type="text/html" id="duva-pinned-card-template"><div class="pinned-dua-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col gap-2.5 border-l-4 border-l-brand relative cursor-pointer hover:bg-surfaceBg transition-all mb-3"
 data-act="dua-open-detail"
-data-bind="attr: { 'data-idx': index, 'data-source': 'home' }"><span class="pinned-badge absolute top-3.5 right-4 text-base inline-flex items-center justify-center text-pinAmber"><app-icon params="name: 'thumbtack'"></app-icon></span><div class="pinned-dua-number text-sm font-bold text-brand"
+data-bind="click: onOpenDetail, attr: { 'data-idx': index, 'data-source': 'home' }"><span class="pinned-badge absolute top-3.5 right-4 text-base inline-flex items-center justify-center text-pinAmber"><app-icon params="name: 'thumbtack'"></app-icon></span><div class="pinned-dua-number text-sm font-bold text-brand"
 data-bind="text: '#' + String(number).padStart(2, '0')">#01</div><div class="pinned-dua-surah text-base font-bold text-brand font-telugu pr-8"
 data-bind="text: surah"></div><div class="pinned-dua-uchcharana text-sm font-medium text-brand leading-relaxed font-telugu"
 data-bind="text: uchcharana"></div><div class="pinned-dua-ardham text-xs font-normal text-gr-text leading-relaxed font-telugu"
 data-bind="text: ardham"></div></div></script><script type="text/html" id="duva-card-template"><div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2"
 data-act="dua-open-detail"
-data-bind="attr: { 'data-idx': index, 'data-source': source || 'duas' }"><div class="dua-item-number text-sm font-bold text-brand min-w-[36px]"
+data-bind="click: onOpenDetail, attr: { 'data-idx': index, 'data-source': source || 'duas' }"><div class="dua-item-number text-sm font-bold text-brand min-w-[36px]"
 data-bind="text: '#' + String(number).padStart(2, '0')">#01</div><div class="dua-item-content flex-1 min-w-0"><div class="dua-item-surah text-sm font-semibold text-brand font-telugu truncate"
 data-bind="text: surah"></div><div class="dua-item-preview text-xs text-gr-textMuted font-telugu truncate mt-0.5"
 data-bind="text: preview"></div></div><button type="button"
 class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all"
 data-act="dua-item-pin"
-data-bind="attr: { 'data-idx': index, title: isPinned ? 'Unpin' : 'Pin to Home' }, css: isPinned ? 'pinned text-pinAmber' : 'opacity-50'"><app-icon params="name: 'thumbtack'"></app-icon></button><button type="button"
+data-bind="click: onTogglePin, attr: { 'data-idx': index, title: isPinned ? 'Unpin' : 'Pin to Home' }, css: isPinned ? 'pinned text-pinAmber' : 'opacity-50'"><app-icon params="name: 'thumbtack'"></app-icon></button><button type="button"
 class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all"
 data-act="dua-item-fav"
-data-bind="attr: { 'data-idx': index, title: isFav ? 'Remove from favourites' : 'Toggle favourite' }"><!-- ko if: isFav --><app-icon params="name: 'heart', color: 'text-heartRed'"></app-icon><!-- /ko --><!-- ko if: !isFav --><app-icon params="name: 'heart', prefix: 'fa-regular'"></app-icon><!-- /ko --></button></div></script><script type="text/html" id="duva-translation-toggle-template"><div class="bg-white border border-borderGrey rounded-2xl p-5 flex flex-col gap-4 border-l-4 border-l-brand shadow-none"><div class="flex items-center justify-between gap-3"><div class="text-3xl font-bold tracking-tight text-brand" id="duaDetailNumber"
+data-bind="click: onToggleFav, attr: { 'data-idx': index, title: isFav ? 'Remove from favourites' : 'Toggle favourite' }"><!-- ko if: isFav --><app-icon params="name: 'heart', color: 'text-heartRed'"></app-icon><!-- /ko --><!-- ko if: !isFav --><app-icon params="name: 'heart', prefix: 'fa-regular'"></app-icon><!-- /ko --></button></div></script><script type="text/html" id="duva-translation-toggle-template"><div class="bg-white border border-borderGrey rounded-2xl p-5 flex flex-col gap-4 border-l-4 border-l-brand shadow-none"><div class="flex items-center justify-between gap-3"><div class="text-3xl font-bold tracking-tight text-brand" id="duaDetailNumber"
 data-bind="text: '#' + String(ko.unwrap($data.number) || 1).padStart(2, '0')">#01</div><div class="text-base font-semibold text-brand font-telugu text-right" id="duaDetailSurah"
 data-bind="text: surah"></div></div><div><div class="text-[11px] font-bold tracking-wider uppercase text-gr-textMuted">Telugu Pronunciation</div><div class="text-base font-medium text-brand leading-relaxed font-telugu mt-1" id="duaDetailUchcharana"
 data-bind="text: uchcharana"></div></div><div><div class="text-[11px] font-bold tracking-wider uppercase text-gr-textMuted">Telugu Meaning</div><div class="text-sm font-normal text-gr-text leading-relaxed font-telugu mt-1" id="duaDetailArdham"
@@ -926,7 +949,11 @@ hasBadge: true,
 badgeId: 'trackerMissedBadge',
 badgeDataRef: 'page.dashboard.card.tracker-missed-badge',
 badgeText: trackerBadgeText,
-badgeVisible: trackerBadgeVisible
+badgeVisible: trackerBadgeVisible,
+onClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof showPage === 'function') showPage('tracker');
+}
 },
 {
 title: 'Tasbeeh',
@@ -935,7 +962,11 @@ iconClass: 'fa-solid fa-hands-praying',
 dataRef: 'page.dashboard.card.tasbeeh',
 iconDataRef: 'page.dashboard.card.tasbeeh-icon',
 titleDataRef: 'page.dashboard.card.tasbeeh-label',
-hasBadge: false
+hasBadge: false,
+onClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof showPage === 'function') showPage('tasbeeh');
+}
 },
 {
 title: 'Duas',
@@ -944,7 +975,11 @@ iconClass: 'fa-solid fa-hands-praying',
 dataRef: 'page.dashboard.card.duas',
 iconDataRef: 'page.dashboard.card.duas-icon',
 titleDataRef: 'page.dashboard.card.duas-label',
-hasBadge: false
+hasBadge: false,
+onClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof showPage === 'function') showPage('duas');
+}
 },
 {
 title: 'Settings',
@@ -953,7 +988,11 @@ iconClass: 'fa-solid fa-gear',
 dataRef: 'page.dashboard.card.settings',
 iconDataRef: 'page.dashboard.card.settings-icon',
 titleDataRef: 'page.dashboard.card.settings-label',
-hasBadge: false
+hasBadge: false,
+onClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof showPage === 'function') showPage('settings');
+}
 }
 ];
 self.updateClock = function () {
@@ -1379,9 +1418,100 @@ var refKey = labelStr.toLowerCase();
 return {
 size: sizeVal,
 label: labelStr,
-dataRef: 'page.settings.font-size.' + refKey
+dataRef: 'page.settings.font-size.' + refKey,
+onClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof apFS === 'function') apFS(sizeVal);
+if (typeof self.currentFontSize === 'function') self.currentFontSize(sizeVal);
+if (typeof rSET === 'function') rSET();
+}
 };
 });
+self.goHome = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof showPage === 'function') showPage('dashboard');
+};
+self.savePrayerTimes = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var sel = document.getElementById('ptCitySelect');
+var city = '';
+var country = 'India';
+var customVal = SETTINGS_CONSTANTS.CUSTOM_CITY_VALUE || '__custom__';
+if (sel) {
+if (sel.value === customVal) {
+var customInp = document.getElementById('ptCustomCityInput');
+city = customInp ? customInp.value.trim() : '';
+var countryInp = document.getElementById('ptCountryInput');
+if (countryInp && countryInp.value.trim()) {
+country = countryInp.value.trim();
+}
+} else {
+city = sel.value;
+}
+} else {
+var cityEl = document.getElementById('ptCityInput');
+city = cityEl ? cityEl.value.trim() : 'Guntur';
+}
+var schoolEl = document.getElementById('ptSchoolSelect');
+var school = schoolEl ? parseInt(schoolEl.value, 10) : 1;
+if (!city) {
+alert('Please select or enter a city.');
+return;
+}
+if (typeof setPrayerConfig === 'function') {
+setPrayerConfig({ city: city, country: country, school: school });
+}
+if (typeof fetchPrayerTimings === 'function') {
+var todayStr = typeof td === 'function' ? td() : '';
+fetchPrayerTimings(todayStr, function (err) {
+if (err) {
+alert('Saved settings, but live API connection failed: ' + err.message);
+} else {
+alert('Prayer times synced successfully for ' + city + ', ' + country + '!');
+}
+rSET();
+});
+}
+};
+self.saveStartDate = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var sdInput = document.getElementById('sdInput');
+var v = sdInput ? sdInput.value : '';
+if (!v) { alert('Please pick a date.'); return; }
+var formatted = typeof fr === 'function' ? fr(v) : v;
+if (!confirm('Save Current Start Date as ' + formatted + '?')) return;
+if (typeof wrSD === 'function') wrSD(v);
+rSET();
+if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+};
+self.resetDatabase = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (confirm('Delete ALL prayer records and cached prayer times?')) {
+var k_const = window.K || (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS && window.CONSTANTS.PRAYER.STORAGE_KEYS.TRACKER_DATA) || 'tracker_records';
+var ock_const = window.OCK || 'old_clean_records';
+var ok_const = window.OK || 'old_records';
+var lik_const = window.LIK || 'last_interaction_records';
+var oik_const = window.OIK || 'old_interaction_records';
+localStorage.removeItem(k_const);
+localStorage.removeItem(ock_const);
+localStorage.removeItem(ok_const);
+localStorage.removeItem(lik_const);
+localStorage.removeItem(oik_const);
+if (typeof PHK !== 'undefined') localStorage.removeItem(PHK);
+if (typeof clearPrayerHistory === 'function') clearPrayerHistory();
+if (typeof PTK_CACHE !== 'undefined') localStorage.removeItem(PTK_CACHE);
+if (typeof td === 'function') {
+window.sd = td();
+}
+if (typeof ensureCurrentDateInitialized === 'function') ensureCurrentDateInitialized();
+if (typeof fetchPrayerTimings === 'function' && typeof td === 'function') fetchPrayerTimings(td());
+rSET();
+if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+renderPrayerHistoryTab();
+}
+}
+};
 self.storageInfo = {
 cardDataRef: 'page.settings.info.card',
 contentDataRef: 'page.settings.info.content',
@@ -1589,6 +1719,59 @@ self.missedGroupTitle = (k && k.isObservable(p.missedGroupTitle)) ? p.missedGrou
 self.missedRows = (k && k.isObservable(p.missedRows)) ? p.missedRows : ((k && k.observableArray) ? k.observableArray(unwrap(p.missedRows, [])) : function () { return unwrap(p.missedRows, []); });
 self.doneGroupTitle = (k && k.isObservable(p.doneGroupTitle)) ? p.doneGroupTitle : ((k && k.observable) ? k.observable(unwrap(p.doneGroupTitle, 'DONE')) : unwrap(p.doneGroupTitle, 'DONE'));
 self.doneRows = (k && k.isObservable(p.doneRows)) ? p.doneRows : ((k && k.observableArray) ? k.observableArray(unwrap(p.doneRows, [])) : function () { return unwrap(p.doneRows, []); });
+self.onDateChipClick = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (self.dateChipAct === 'old-open-cal') {
+if (typeof openOldCal === 'function') openOldCal();
+} else {
+if (typeof openCal === 'function') openCal();
+}
+};
+self.onBadgeClick = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (self.badgeAct === 'jump-today') {
+if (typeof window !== 'undefined') window.sd = typeof td === 'function' ? td() : '';
+if (typeof rn === 'function') rn();
+}
+};
+self.onActionBtnClick = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (self.actionBtnAct === 'select-all') {
+var currSd = typeof window !== 'undefined' ? window.sd : (typeof td === 'function' ? td() : '');
+var c2 = typeof gr === 'function' ? gr(currSd) : {};
+var isToday = currSd === (typeof td === 'function' ? td() : '');
+var actionable = P.filter(function (x) {
+return !isToday || (typeof isPrayerUpcoming === 'function' && !isPrayerUpcoming(x, currSd));
+});
+var doneCount = actionable.filter(function (x) {
+return typeof isDonePrayer === 'function' ? isDonePrayer(x, currSd, c2) : (c2[x] === false);
+}).length;
+var willMarkDone = doneCount < actionable.length;
+var action = willMarkDone ? 'Done' : 'Missed';
+if (typeof confirm === 'function' && !confirm('Mark available prayers as ' + action + ' for ' + (typeof fr === 'function' ? fr(currSd) : currSd) + '?')) return;
+actionable.forEach(function (x) {
+var wasXDone = typeof isDonePrayer === 'function' ? isDonePrayer(x, currSd, c2) : (c2[x] === false);
+if (willMarkDone) {
+if (!wasXDone && typeof addPrayerHistoryEntry === 'function') {
+addPrayerHistoryEntry(x, 'Current', currSd);
+}
+} else {
+if (wasXDone && typeof removePrayerHistoryEntry === 'function') {
+removePrayerHistoryEntry(x, 'Current', currSd);
+}
+}
+c2[x] = willMarkDone ? false : true;
+});
+if (typeof sr === 'function') sr(currSd, c2);
+if (typeof rn === 'function') rn();
+if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+renderPrayerHistoryTab();
+}
+} else if (self.actionBtnAct === 'old-change-period') {
+if (typeof rPeriod === 'function') rPeriod();
+}
+};
 }
 function PrayerRowViewModel(params) {
 if (params instanceof PrayerRowViewModel) return params;
@@ -1606,6 +1789,81 @@ self.prefix = p.prefix || p.pagePrefix || 'page.tracker';
 self.actionAct = p.actionAct || '';
 self.date = p.date || '';
 self.iconClass = p.iconClass || 'fa-solid fa-mosque';
+self.onToggle = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (self.actionAct === 'toggle-cur') {
+var currSd = self.date || (typeof window !== 'undefined' ? window.sd : (typeof td === 'function' ? td() : ''));
+if (currSd === (typeof td === 'function' ? td() : '') && typeof isPrayerUpcoming === 'function' && isPrayerUpcoming(self.prayer, currSd)) {
+return;
+}
+var c1 = typeof gr === 'function' ? gr(currSd) : {};
+var wasDone = typeof isDonePrayer === 'function' ? isDonePrayer(self.prayer, currSd, c1) : (c1[self.prayer] === false);
+if (typeof confirm === 'function' && !confirm(wasDone
+? 'Mark ' + self.prayer + ' as Missed for ' + (typeof fr === 'function' ? fr(currSd) : currSd) + '?'
+: 'Mark ' + self.prayer + ' as Done for ' + (typeof fr === 'function' ? fr(currSd) : currSd) + '?')) return;
+c1[self.prayer] = wasDone ? true : false;
+if (wasDone) {
+if (typeof removePrayerHistoryEntry === 'function') {
+removePrayerHistoryEntry(self.prayer, 'Current', currSd);
+}
+} else {
+if (typeof addPrayerHistoryEntry === 'function') {
+addPrayerHistoryEntry(self.prayer, 'Current', currSd);
+}
+}
+if (typeof sr === 'function') sr(currSd, c1);
+if (typeof rn === 'function') rn();
+if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+renderPrayerHistoryTab();
+}
+} else if (self.actionAct === 'toggle-old') {
+var d2 = self.date;
+var p2 = self.prayer;
+var c3 = typeof grO === 'function' ? grO(d2) : {};
+var was2 = c3[p2] === true || c3[p2] === 'missed';
+if (typeof confirm === 'function' && !confirm(was2
+? 'Mark ' + p2 + ' as Done for ' + (typeof fr === 'function' ? fr(d2) : d2) + '?'
+: 'Mark ' + p2 + ' as Missed for ' + (typeof fr === 'function' ? fr(d2) : d2) + '?')) return;
+c3[p2] = !was2;
+if (was2) {
+if (typeof addPrayerHistoryEntry === 'function') {
+addPrayerHistoryEntry(p2, 'Old', d2);
+}
+} else {
+if (typeof removePrayerHistoryEntry === 'function') {
+removePrayerHistoryEntry(p2, 'Old', d2);
+}
+}
+if (typeof srO === 'function') srO(d2, c3);
+var o = typeof rdOK === 'function' ? rdOK() : null;
+var isDateComplete = !P.some(function (p) {
+return c3[p] === true || c3[p] === 'missed';
+});
+if (isDateComplete) {
+if (typeof shrinkOldPeriod === 'function') shrinkOldPeriod(d2);
+} else {
+if (o && d2 > o.end) {
+o.end = d2;
+if (typeof wrOK === 'function') wrOK(o);
+}
+if (typeof setOldSd === 'function') {
+setOldSd(d2);
+} else if (typeof oldSd !== 'undefined') {
+oldSd = d2;
+}
+}
+if (typeof rOT === 'function') rOT();
+var sheet2El = typeof $ === 'function' ? $('sheet2') : null;
+if (sheet2El && sheet2El.classList.contains('show') && typeof rOldInfo === 'function') {
+rOldInfo();
+}
+if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+renderPrayerHistoryTab();
+}
+}
+};
 }
 function getTrackerViewModel() {
 if (!trackerViewModel && typeof TrackerPageViewModel === 'function') {
@@ -1630,7 +1888,31 @@ subtitle: (k && k.observable) ? k.observable('Select a period to begin') : '',
 showSubtitle: (k && k.observable) ? k.observable(false) : false,
 missedCount: self.missedCount,
 hasMissed: self.hasMissed,
-currentSubTab: self.currentSubTab
+currentSubTab: self.currentSubTab,
+goHome: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof showPage === 'function') showPage('dashboard');
+},
+openMissed: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof rMS === 'function') rMS();
+},
+openPeriodInfo: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof rOldInfo === 'function') rOldInfo();
+},
+emptyHistory: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof emptyPrayerHistory === 'function') emptyPrayerHistory();
+}
+};
+self.goToSettings = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof showPage === 'function') showPage('settings');
+};
+self.switchTab = function (tab, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof switchTrackerSubTab === 'function') switchTrackerSubTab(tab);
 };
 self.currentCard = (k && k.observable) ? k.observable(new PrayerTrackerCardViewModel({
 collapsePrefix: 'cur',
@@ -2933,7 +3215,41 @@ self.currentSubTab = (k && k.observable) ? k.observable('home') : function () { 
 self.header = {
 title: (k && k.observable) ? k.observable('Digital Tasbeeh') : 'Digital Tasbeeh',
 subtitle: (k && k.observable) ? k.observable('Home · Bookmarks') : 'Home · Bookmarks',
-iconClass: (k && k.observable) ? k.observable('fa-solid fa-house text-brand') : 'fa-solid fa-house text-brand'
+iconClass: (k && k.observable) ? k.observable('fa-solid fa-house text-brand') : 'fa-solid fa-house text-brand',
+goHome: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof showPage === 'function') showPage('dashboard');
+}
+};
+self.switchTab = function (tab, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
+window.TasbeehApp.switchTab(tab);
+}
+};
+self.openAddModal = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.openAddModal === 'function') {
+window.TasbeehApp.openAddModal();
+}
+};
+self.reopenLastMonth = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.reopenLastMonth === 'function') {
+window.TasbeehApp.reopenLastMonth();
+}
+if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
+window.TasbeehHistoryApp.renderHistoryTab();
+}
+};
+self.resetAllCompleted = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.resetAllCompleted === 'function') {
+window.TasbeehApp.resetAllCompleted();
+}
+if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
+window.TasbeehHistoryApp.renderHistoryTab();
+}
 };
 self.currentDhikrsCount = (k && k.observable) ? k.observable(0) : 0;
 self.clearedMonthsCount = (k && k.observable) ? k.observable(0) : 0;
@@ -3160,7 +3476,19 @@ targetCount: c.targetDisplay,
 completedDays: c.completedDays,
 totalDays: c.totalDays,
 isComplete: c.completedDays >= c.totalDays,
-isTodayDone: c.isTodayDone
+isTodayDone: c.isTodayDone,
+onCardClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.openCounterView === 'function') {
+window.TasbeehApp.openCounterView(c.item.id);
+}
+},
+onEditClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.openEditModal === 'function') {
+window.TasbeehApp.openEditModal(c.item.id);
+}
+}
 });
 }
 if (bmData && bmData.old && bmData.old.item) {
@@ -3173,7 +3501,21 @@ targetCount: o.targetDisplay,
 completedDays: o.completedDays,
 totalDays: o.totalDays,
 isComplete: !!o.isDhikrDone,
-isTodayDone: false
+isTodayDone: false,
+onCardClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.openCounterFromHome === 'function') {
+window.TasbeehApp.openCounterFromHome(o.item.id, o.monthKey, 'old');
+} else if (window.TasbeehApp && typeof window.TasbeehApp.openCounterView === 'function') {
+window.TasbeehApp.openCounterView(o.item.id, o.monthKey);
+}
+},
+onEditClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.openEditModal === 'function') {
+window.TasbeehApp.openEditModal(o.item.id);
+}
+}
 });
 }
 if (hasKo) {
@@ -3839,7 +4181,19 @@ targetCount: targetDisplay,
 completedDays: completedDays,
 totalDays: totalDays,
 isComplete: !!isComplete,
-isTodayDone: isTodayDone
+isTodayDone: isTodayDone,
+onCardClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.openCounterView === 'function') {
+window.TasbeehApp.openCounterView(item.id);
+}
+},
+onEditClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.openEditModal === 'function') {
+window.TasbeehApp.openEditModal(item.id);
+}
+}
 };
 }
 var todoGrid = getEl(ELEMENT_IDS.CURRENT_TODO_GRID || 'tbCurrentTodoGrid');
@@ -4927,7 +5281,21 @@ targetCount: isInfinite ? '∞' : item.targetCount,
 completedDays: completedDays,
 totalDays: totalDays,
 isComplete: !!isComplete,
-isTodayDone: false
+isTodayDone: false,
+onCardClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.openCounterFromHome === 'function') {
+window.TasbeehApp.openCounterFromHome(item.id, curOldMonth, 'old');
+} else if (window.TasbeehApp && typeof window.TasbeehApp.openCounterView === 'function') {
+window.TasbeehApp.openCounterView(item.id, curOldMonth);
+}
+},
+onEditClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.openEditModal === 'function') {
+window.TasbeehApp.openEditModal(item.id);
+}
+}
 };
 }
 var todoGrid = getEl(ELEMENT_IDS.OLD_TODO_GRID || 'tbOldTodoGrid');
@@ -5486,7 +5854,65 @@ self.currentSubTab = (k && k.observable) ? k.observable('home') : function () { 
 self.header = {
 title: (k && k.observable) ? k.observable('Quran Duas') : 'Quran Duas',
 progressText: (k && k.observable) ? k.observable('0 pinned') : '0 pinned',
-iconClass: (k && k.observable) ? k.observable('fa-solid fa-hands-praying text-brand') : 'fa-solid fa-hands-praying text-brand'
+iconClass: (k && k.observable) ? k.observable('fa-solid fa-hands-praying text-brand') : 'fa-solid fa-hands-praying text-brand',
+goHome: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof showPage === 'function') showPage('dashboard');
+},
+openAdmin: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp && typeof window.DuasApp.openAdminModal === 'function') {
+window.DuasApp.openAdminModal();
+}
+}
+};
+self.switchTab = function (tab, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp && typeof window.DuasApp.switchTab === 'function') {
+window.DuasApp.switchTab(tab);
+}
+};
+self.goBack = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp && typeof window.DuasApp.goBack === 'function') {
+window.DuasApp.goBack();
+}
+};
+self.prevDua = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp && typeof window.DuasApp.changeDua === 'function') {
+window.DuasApp.changeDua(-1);
+}
+};
+self.nextDua = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp && typeof window.DuasApp.changeDua === 'function') {
+window.DuasApp.changeDua(1);
+}
+};
+self.toggleFavCurrent = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp && typeof window.DuasApp.toggleFavouriteCurrent === 'function') {
+window.DuasApp.toggleFavouriteCurrent();
+}
+};
+self.togglePinCurrent = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp && typeof window.DuasApp.togglePinCurrent === 'function') {
+window.DuasApp.togglePinCurrent();
+}
+};
+self.openAdd = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp && typeof window.DuasApp.openAddModal === 'function') {
+window.DuasApp.openAddModal();
+}
+};
+self.retry = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp && typeof window.DuasApp.fetchDuas === 'function') {
+window.DuasApp.fetchDuas();
+}
 };
 self.pinnedTitle = (k && k.observable) ? k.observable('Your Pinned Duas (0/2)') : 'Your Pinned Duas (0/2)';
 self.pinnedDuas = (k && k.observableArray) ? k.observableArray([]) : [];
@@ -5805,7 +6231,19 @@ number: dua.number,
 surah: surahLabel,
 preview: uchPreview,
 isPinned: isPinned,
-isFav: isFav
+isFav: isFav,
+onOpenDetail: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp) window.DuasApp.openDetail(realIndex, 'duas');
+},
+onTogglePin: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp) window.DuasApp.requestPin(realIndex);
+},
+onToggleFav: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp) window.DuasApp.toggleFavourite(realIndex);
+}
 };
 });
 if (hasKo) {
@@ -5858,7 +6296,19 @@ number: dua.number,
 surah: surahLabel,
 preview: uchPreview,
 isPinned: isPinned,
-isFav: true
+isFav: true,
+onOpenDetail: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp) window.DuasApp.openDetail(realIndex, 'favourites');
+},
+onTogglePin: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp) window.DuasApp.requestPin(realIndex);
+},
+onToggleFav: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp) window.DuasApp.toggleFavourite(realIndex);
+}
 };
 });
 if (hasKo) {
@@ -5911,7 +6361,11 @@ index: pinIndex,
 number: dua.number,
 surah: getSurah(dua),
 uchcharana: getUchcharana(dua),
-ardham: getArdham(dua)
+ardham: getArdham(dua),
+onOpenDetail: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.DuasApp) window.DuasApp.openDetail(pinIndex, 'home');
+}
 };
 }).filter(Boolean);
 if (hasKo) {

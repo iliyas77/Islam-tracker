@@ -37,7 +37,66 @@ export function DuasPageViewModel(params) {
     self.header = {
         title: (k && k.observable) ? k.observable('Quran Duas') : 'Quran Duas',
         progressText: (k && k.observable) ? k.observable('0 pinned') : '0 pinned',
-        iconClass: (k && k.observable) ? k.observable('fa-solid fa-hands-praying text-brand') : 'fa-solid fa-hands-praying text-brand'
+        iconClass: (k && k.observable) ? k.observable('fa-solid fa-hands-praying text-brand') : 'fa-solid fa-hands-praying text-brand',
+        goHome: function (d, e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            if (typeof showPage === 'function') showPage('dashboard');
+        },
+        openAdmin: function (d, e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            if (window.DuasApp && typeof window.DuasApp.openAdminModal === 'function') {
+                window.DuasApp.openAdminModal();
+            }
+        }
+    };
+
+    self.switchTab = function (tab, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (window.DuasApp && typeof window.DuasApp.switchTab === 'function') {
+            window.DuasApp.switchTab(tab);
+        }
+    };
+    self.goBack = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (window.DuasApp && typeof window.DuasApp.goBack === 'function') {
+            window.DuasApp.goBack();
+        }
+    };
+    self.prevDua = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (window.DuasApp && typeof window.DuasApp.changeDua === 'function') {
+            window.DuasApp.changeDua(-1);
+        }
+    };
+    self.nextDua = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (window.DuasApp && typeof window.DuasApp.changeDua === 'function') {
+            window.DuasApp.changeDua(1);
+        }
+    };
+    self.toggleFavCurrent = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (window.DuasApp && typeof window.DuasApp.toggleFavouriteCurrent === 'function') {
+            window.DuasApp.toggleFavouriteCurrent();
+        }
+    };
+    self.togglePinCurrent = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (window.DuasApp && typeof window.DuasApp.togglePinCurrent === 'function') {
+            window.DuasApp.togglePinCurrent();
+        }
+    };
+    self.openAdd = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (window.DuasApp && typeof window.DuasApp.openAddModal === 'function') {
+            window.DuasApp.openAddModal();
+        }
+    };
+    self.retry = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (window.DuasApp && typeof window.DuasApp.fetchDuas === 'function') {
+            window.DuasApp.fetchDuas();
+        }
     };
 
     self.pinnedTitle = (k && k.observable) ? k.observable('Your Pinned Duas (0/2)') : 'Your Pinned Duas (0/2)';
@@ -415,7 +474,19 @@ window.DuasApp = (function () {
                 surah: surahLabel,
                 preview: uchPreview,
                 isPinned: isPinned,
-                isFav: isFav
+                isFav: isFav,
+                onOpenDetail: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.DuasApp) window.DuasApp.openDetail(realIndex, 'duas');
+                },
+                onTogglePin: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.DuasApp) window.DuasApp.requestPin(realIndex);
+                },
+                onToggleFav: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.DuasApp) window.DuasApp.toggleFavourite(realIndex);
+                }
             };
         });
 
@@ -476,7 +547,19 @@ window.DuasApp = (function () {
                 surah: surahLabel,
                 preview: uchPreview,
                 isPinned: isPinned,
-                isFav: true
+                isFav: true,
+                onOpenDetail: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.DuasApp) window.DuasApp.openDetail(realIndex, 'favourites');
+                },
+                onTogglePin: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.DuasApp) window.DuasApp.requestPin(realIndex);
+                },
+                onToggleFav: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.DuasApp) window.DuasApp.toggleFavourite(realIndex);
+                }
             };
         });
 
@@ -537,7 +620,11 @@ window.DuasApp = (function () {
                 number: dua.number,
                 surah: getSurah(dua),
                 uchcharana: getUchcharana(dua),
-                ardham: getArdham(dua)
+                ardham: getArdham(dua),
+                onOpenDetail: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.DuasApp) window.DuasApp.openDetail(pinIndex, 'home');
+                }
             };
         }).filter(Boolean);
 

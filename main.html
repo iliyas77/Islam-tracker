@@ -1545,7 +1545,7 @@
         </script>
         <script type="text/html" id="settings-font-size-btn-template">
             <button type="button"
-                data-bind="text: label, attr: { 'data-act': 'font', 'data-fs': size, 'data-ref': dataRef }, css: $parent.getFontSizeBtnClass ? $parent.getFontSizeBtnClass(size) : ($root.getFontSizeBtnClass ? $root.getFontSizeBtnClass(size) : '')">
+                data-bind="text: label, click: onClick, attr: { 'data-act': 'font', 'data-fs': size, 'data-ref': dataRef }, css: $parent.getFontSizeBtnClass ? $parent.getFontSizeBtnClass(size) : ($root.getFontSizeBtnClass ? $root.getFontSizeBtnClass(size) : '')">
             </button>
         </script>
         <script type="text/html" id="settings-info-card-template">
@@ -1565,7 +1565,9 @@
                 data-ref="page.settings.header">
                 <button type="button"
                     class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
-                    data-act="go-home" title="Back to Home" aria-label="Back to Home" data-ref="page.settings.back-btn">
+                    data-act="go-home" title="Back to Home" aria-label="Back to Home"
+                    data-bind="click: goHome"
+                    data-ref="page.settings.back-btn">
                     <app-icon params="name: 'arrow-left', size: 'base'"></app-icon>
                 </button>
                 <div class="grow min-w-0">
@@ -1626,7 +1628,8 @@
                     </div>
                     <button type="button"
                         class="font-bold w-full py-3 text-sm rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors"
-                        data-act="pt-save" data-ref="page.settings.prayer-times.save-btn">
+                        data-act="pt-save" data-ref="page.settings.prayer-times.save-btn"
+                        data-bind="click: savePrayerTimes">
                         <app-icon params="name: 'rotate-left', size: 'base', customClass: 'mr-1', dataRef: 'page.settings.prayer-times.save-icon'"></app-icon>Sync &amp; Save Prayer Times
                     </button>
                 </div>
@@ -1641,7 +1644,8 @@
                             id="sdInput" value="" data-ref="page.settings.start-date.input">
                         <button type="button"
                             class="px-5 py-2.5 bg-brand text-white font-bold rounded-xl text-sm hover:bg-brand-hover whitespace-nowrap transition-colors"
-                            data-act="sd-save" data-ref="page.settings.start-date.save-btn">Change</button>
+                            data-act="sd-save" data-ref="page.settings.start-date.save-btn"
+                            data-bind="click: saveStartDate">Change</button>
                     </div>
                 </div>
             
@@ -1660,7 +1664,8 @@
                     <!-- ko component: { name: 'settings-card-header', params: resetDbHeader } --><!-- /ko -->
                     <button type="button"
                         class="w-full py-3 bg-gr-danger text-white font-bold rounded-xl text-sm hover:bg-red-600 transition-colors mt-2"
-                        data-act="reset-db" data-ref="page.settings.reset.btn">Reset</button>
+                        data-act="reset-db" data-ref="page.settings.reset.btn"
+                        data-bind="click: resetDatabase">Reset</button>
                 </div>
             
                 <!-- Storage Info -->
@@ -1750,7 +1755,7 @@
         <script type="text/html" id="dashboard-nav-card-template">
             <div class="dash-nav-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col items-center justify-between cursor-pointer hover:border-brand hover:shadow-sm transition-all min-h-[120px] relative shadow-none"
                 role="button" tabindex="0"
-                data-bind="attr: { 'data-act': action, 'data-ref': dataRef }">
+                data-bind="attr: { 'data-act': action, 'data-ref': dataRef }, click: onClick">
                 <!-- ko if: hasBadge -->
                 <span class="dash-tracker-badge absolute top-2.5 right-2.5 text-[10.5px] font-bold leading-none px-2 py-0.5 rounded-full inline-flex items-center justify-center whitespace-nowrap z-[3] pointer-events-none bg-red-100 text-red-600 border border-red-300"
                     data-bind="text: badgeText, attr: { id: badgeId, 'data-ref': badgeDataRef }, css: { 'd-none': !badgeVisible() }"></span>
@@ -1869,7 +1874,8 @@
                         <div class="flex justify-center">
                             <button type="button"
                                 class="font-bold px-3 py-1.5 rounded-full text-xs bg-brand text-white hover:bg-brand-hover transition-colors rounded-lg"
-                                data-act="goto-settings" data-ref="page.performance.goto-settings-btn">
+                                data-act="goto-settings" data-ref="page.performance.goto-settings-btn"
+                                data-bind="click: goToSettings">
                                 <app-icon params="name: 'gear', customClass: 'mr-1', size: '14px'"></app-icon> Adjust Start Date in Settings
                             </button>
                         </div>
@@ -1930,6 +1936,7 @@
                         <button type="button"
                             class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
                             data-act="go-home" title="Back to Home" aria-label="Back to Home"
+                            data-bind="click: goHome"
                             data-ref="page.tracker.back-btn">
                             <app-icon params="name: 'arrow-left', size: 'base'"></app-icon>
                         </button>
@@ -1948,7 +1955,7 @@
                             class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative"
                             id="currentMissedBtn" data-act="missed-open" title="Missed Prayers"
                             aria-label="Missed Prayers" data-ref="page.current.card.header.badge"
-                            data-bind="visible: !currentSubTab || ko.unwrap(currentSubTab) === 'current'">
+                            data-bind="visible: !currentSubTab || ko.unwrap(currentSubTab) === 'current', click: openMissed">
                             <app-icon params="name: 'triangle-exclamation', size: 'base', dataRef: 'page.current.card.header.badge-icon'"></app-icon>
                             <span class="inline-flex items-center justify-center absolute -top-1 -right-1 bg-gr-danger text-white text-[11px] font-bold min-w-[18px] h-[18px] px-1 rounded-full border-2 border-white leading-none z-[2] pointer-events-none"
                                 id="currentMissedBadge" data-ref="page.current.card.header.badge-count"
@@ -1958,14 +1965,14 @@
                             class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
                             id="oldActionBtn" data-act="old-info" title="Period Summary" aria-label="Period Summary"
                             data-ref="page.old.header.summary-btn page.old.card.header.summary-btn"
-                            data-bind="visible: ko.unwrap(currentSubTab) === 'old'">
+                            data-bind="visible: ko.unwrap(currentSubTab) === 'old', click: openPeriodInfo">
                             <app-icon params="name: 'chart-simple', size: 'base'"></app-icon>
                         </button>
                         <button type="button"
                             class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
                             id="historyEmptyBtn" data-act="history-empty" title="Empty History"
                             aria-label="Empty History" data-ref="page.history.header.empty-btn"
-                            data-bind="visible: ko.unwrap(currentSubTab) === 'history'">
+                            data-bind="visible: ko.unwrap(currentSubTab) === 'history', click: emptyHistory">
                             <app-icon params="name: 'trash-can', size: 'base'"></app-icon>
                         </button>
                     </div>
@@ -1979,7 +1986,7 @@
                 <header class="tracker-header pb-2.5 border-b border-borderGrey flex items-center justify-between gap-2"
                     data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header' }">
                     <button type="button" class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
-                        data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DateChip', 'data-act': $data.dateChipAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-chip' }"
+                        data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DateChip', 'data-act': $data.dateChipAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-chip' }, click: onDateChipClick"
                         aria-label="Select date">
                         <app-icon params="name: 'calendar-days', prefix: 'fa-regular', size: 'sm'"></app-icon>
                         <span data-bind="text: $data.dateChipText, attr: { id: ($data.collapsePrefix || 'cur') + 'DateChipText', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-text' }"></span>
@@ -1988,14 +1995,14 @@
                         data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'HeaderStatus', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.status' }">
                         <!-- ko if: $data.badgeText -->
                         <span class="badge badge-warning inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer"
-                            data-bind="attr: { 'data-act': $data.badgeAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.badge' }">
+                            data-bind="attr: { 'data-act': $data.badgeAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.badge' }, click: onBadgeClick">
                             <app-icon params="name: 'triangle-exclamation', size: 'xs'"></app-icon>
                             <span data-bind="text: $data.badgeText"></span>
                         </span>
                         <!-- /ko -->
                         <!-- ko if: $data.actionBtnText -->
                         <button type="button" class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 text-sm hover:underline"
-                            data-bind="text: $data.actionBtnText, attr: { id: ($data.collapsePrefix || 'cur') + 'ActionBtn', 'data-act': $data.actionBtnAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.action-btn' }"></button>
+                            data-bind="text: $data.actionBtnText, attr: { id: ($data.collapsePrefix || 'cur') + 'ActionBtn', 'data-act': $data.actionBtnAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.action-btn' }, click: onActionBtnClick"></button>
                         <!-- /ko -->
                     </div>
                 </header>
@@ -2076,7 +2083,7 @@
                 </div>
                 <button type="button"
                     class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#D1E5DC] text-brand border-0 hover:bg-[#c2ded3] transition-colors cursor-pointer shrink-0 text-xs font-semibold"
-                    data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }"
+                    data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, click: onToggle"
                     title="Tap to mark missed">
                     <app-icon params="name: 'check', size: 'xs'"></app-icon> Done
                 </button>
@@ -2132,7 +2139,7 @@
                 </div>
                 <button type="button"
                     class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl bg-red-50 text-red-600 border border-red-200 hover:bg-red-500 hover:text-white transition-colors cursor-pointer shrink-0 text-xs font-semibold"
-                    data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }">Mark Done</button>
+                    data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, click: onToggle">Mark Done</button>
             </li>
             <!-- /ko -->
             
@@ -2158,7 +2165,7 @@
                 </div>
                 <button type="button"
                     class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl transition-colors cursor-pointer shrink-0 text-xs font-semibold"
-                    data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, css: isCurrent ? 'bg-brand text-white hover:bg-brand-hover' : 'bg-transparent border border-borderGrey text-brand hover:bg-brand-light'">Mark Done</button>
+                    data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, css: isCurrent ? 'bg-brand text-white hover:bg-brand-hover' : 'bg-transparent border border-borderGrey text-brand hover:bg-brand-light', click: onToggle">Mark Done</button>
             </li>
             <!-- /ko -->
         </script>
@@ -2239,7 +2246,7 @@
                 <button type="button"
                     class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
                     id="tabTrackCurrent" data-act="switch-track-current" role="tab"
-                    data-bind="css: activeTab() === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'current' ? 'true' : 'false' }"
+                    data-bind="css: activeTab() === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'current' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('current'); }"
                     data-ref="page.tracker.tab-current">
                     <app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon>
                     <span>Current</span>
@@ -2247,7 +2254,7 @@
                 <button type="button"
                     class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
                     id="tabTrackOld" data-act="switch-track-old" role="tab"
-                    data-bind="css: activeTab() === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'old' ? 'true' : 'false' }"
+                    data-bind="css: activeTab() === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'old' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('old'); }"
                     data-ref="page.tracker.tab-old">
                     <app-icon params="name: 'clock-rotate-left'"></app-icon>
                     <span>Old</span>
@@ -2255,7 +2262,7 @@
                 <button type="button"
                     class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
                     id="tabTrackPerformance" data-act="switch-track-performance" role="tab"
-                    data-bind="css: activeTab() === 'performance' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'performance' ? 'true' : 'false' }"
+                    data-bind="css: activeTab() === 'performance' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'performance' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('performance'); }"
                     data-ref="page.tracker.tab-performance">
                     <app-icon params="name: 'chart-simple'"></app-icon>
                     <span>Performance</span>
@@ -2263,7 +2270,7 @@
                 <button type="button"
                     class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
                     id="tabTrackHistory" data-act="switch-track-history" role="tab"
-                    data-bind="css: activeTab() === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'history' ? 'true' : 'false' }"
+                    data-bind="css: activeTab() === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'history' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('history'); }"
                     data-ref="page.tracker.tab-history">
                     <app-icon params="name: 'list-check'"></app-icon>
                     <span>History</span>
@@ -2322,7 +2329,8 @@
             <div>
                 <button type="button"
                     class="rounded-xl px-4 py-2 bg-brand text-white hover:bg-brand-hover transition-colors text-xs font-semibold cursor-pointer"
-                    data-act="switch-tb-current">
+                    data-act="switch-tb-current"
+                    data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }">
                     <app-icon params="name: 'plus', customClass: 'mr-1'"></app-icon> Add First Dhikr
                 </button>
             </div>
@@ -2338,7 +2346,8 @@
                 </div>
                 <button type="button"
                     class="px-3 py-1.5 inline-flex items-center gap-1 border border-brand bg-white text-brand hover:bg-brand-light transition-colors text-xs font-semibold rounded-xl cursor-pointer"
-                    data-act="switch-tb-current">
+                    data-act="switch-tb-current"
+                    data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }">
                     <span>All Dhikrs</span>
                     <app-icon params="name: 'chevron-right', size: 'text-[10px]'"></app-icon>
                 </button>
@@ -2355,7 +2364,8 @@
             <div class="grid grid-cols-2 gap-2 mt-1">
                 <div>
                     <div class="border border-borderGrey p-3 rounded-2xl bg-white h-full shadow-none cursor-pointer hover:border-brand transition-colors"
-                        role="button" tabindex="0" data-act="switch-tb-current">
+                        role="button" tabindex="0" data-act="switch-tb-current"
+                        data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }">
                         <div class="flex items-center justify-between mb-2">
                             <span class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand">CURRENT</span>
                             <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', size: 'sm'"></app-icon>
@@ -2366,7 +2376,8 @@
                 </div>
                 <div>
                     <div class="border border-borderGrey p-3 rounded-2xl bg-white h-full shadow-none cursor-pointer hover:border-brand transition-colors"
-                        role="button" tabindex="0" data-act="switch-tb-history">
+                        role="button" tabindex="0" data-act="switch-tb-history"
+                        data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('history'); }">
                         <div class="flex items-center justify-between mb-2">
                             <span class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700">HISTORY</span>
                             <app-icon params="name: 'gear', color: 'text-amber-600', size: 'sm'"></app-icon>
@@ -2489,12 +2500,14 @@
             <div class="flex justify-center gap-2">
                 <button type="button"
                     class="rounded-full px-4 py-2 font-bold border border-brand bg-white text-brand hover:bg-brand-light transition-colors"
-                    data-act="tb-old-reopen">
+                    data-act="tb-old-reopen"
+                    data-bind="click: reopenLastMonth">
                     <app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reopen Last Month
                 </button>
                 <button type="button"
                     class="border rounded-full px-3 py-2 text-gr-textMuted text-xs bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors"
-                    data-act="tb-reset-all-completed">
+                    data-act="tb-reset-all-completed"
+                    data-bind="click: resetAllCompleted">
                     <app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Completed
                 </button>
             </div>
@@ -2571,7 +2584,8 @@
                     <h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6>
                     <button type="button"
                         class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 underline text-gr-danger text-decoration-none text-xs font-bold d-none"
-                        id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed">
+                        id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed"
+                        data-bind="click: resetAllCompleted">
                         <app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Cleared
                     </button>
                 </div>
@@ -2585,7 +2599,7 @@
     <button type="button"
         class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all d-none"
         id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr"
-        data-bind="visible: currentSubTab() === 'current' || currentSubTab() === 'old'">
+        data-bind="visible: currentSubTab() === 'current' || currentSubTab() === 'old', click: openAddModal">
         <app-icon params="name: 'plus', size: 'xl', dataRef: 'page.tasbeeh.header.add-icon'"></app-icon>
     </button>
 
@@ -2685,6 +2699,7 @@
             <button type="button"
                 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
                 data-act="go-home" title="Back to Home" aria-label="Back to Home"
+                data-bind="click: goHome"
                 data-ref="page.tasbeeh.back-btn">
                 <app-icon params="name: 'arrow-left', size: 'base'"></app-icon>
             </button>
@@ -2707,7 +2722,7 @@
         </script>
         <script type="text/html" id="tasbeeh-counter-card-template">
 <div class="tb-card bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer hover:border-brand min-h-[146px] select-none transition-all"
-    data-bind="attr: { 'data-id': id, 'data-month': $data.month || null, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }"
+    data-bind="attr: { 'data-id': id, 'data-month': $data.month || null, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: onCardClick"
     role="button" tabindex="0">
     <div class="tb-card-top flex items-start justify-between w-full">
         <div class="w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
@@ -2718,6 +2733,7 @@
             <button type="button"
                 class="tb-btn-edit w-8 h-8 rounded-lg bg-brand-light text-brand flex items-center justify-center cursor-pointer hover:bg-brand/20 active:scale-95 transition-all p-0"
                 data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
+                data-bind="click: onEditClick"
                 data-ref="page.tasbeeh.card.edit-btn">
                 <app-icon params="name: 'pencil', size: 'xs'"></app-icon>
             </button>
@@ -2893,7 +2909,7 @@
     <button type="button"
         class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
         id="tabTbHome" data-act="switch-tb-home" role="tab"
-        data-bind="css: ko.unwrap($data.activeTab) === 'home' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'home' ? 'true' : 'false' }"
+        data-bind="css: ko.unwrap($data.activeTab) === 'home' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'home' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('home'); }"
         data-ref="page.tasbeeh.tab-home">
         <app-icon params="name: 'house'"></app-icon>
         <span>Home</span>
@@ -2901,7 +2917,7 @@
     <button type="button"
         class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
         id="tabTbCurrent" data-act="switch-tb-current" role="tab"
-        data-bind="css: ko.unwrap($data.activeTab) === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'current' ? 'true' : 'false' }"
+        data-bind="css: ko.unwrap($data.activeTab) === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'current' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('current'); }"
         data-ref="page.tasbeeh.tab-current">
         <app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon>
         <span>Current</span>
@@ -2909,7 +2925,7 @@
     <button type="button"
         class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
         id="tabTbOld" data-act="switch-tb-old" role="tab"
-        data-bind="css: ko.unwrap($data.activeTab) === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'old' ? 'true' : 'false' }"
+        data-bind="css: ko.unwrap($data.activeTab) === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'old' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('old'); }"
         data-ref="page.tasbeeh.tab-old">
         <app-icon params="name: 'clock-rotate-left'"></app-icon>
         <span>Old</span>
@@ -2917,7 +2933,7 @@
     <button type="button"
         class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
         id="tabTbHistory" data-act="switch-tb-history" role="tab"
-        data-bind="css: ko.unwrap($data.activeTab) === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'history' ? 'true' : 'false' }"
+        data-bind="css: ko.unwrap($data.activeTab) === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'history' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('history'); }"
         data-ref="page.tasbeeh.tab-history">
         <app-icon params="name: 'gear'"></app-icon>
         <span>History</span>
@@ -2947,7 +2963,8 @@
             <div class="text-xs opacity-75 mb-3" id="duaErrorMessage"></div>
             <button type="button"
                 class="border border-brand bg-white text-brand hover:bg-brand-light transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
-                data-act="dua-retry">Retry</button>
+                data-act="dua-retry"
+                data-bind="click: retry">Retry</button>
         </div>
 
         <!-- Subview: Pinned (Home) -->
@@ -3006,7 +3023,8 @@
         <div id="duaSubDetail" class="flex flex-col gap-3 d-none" data-bind="visible: currentSubTab() === 'detail'">
             <button type="button"
                 class="self-start mb-3 px-4 py-2 bg-white border border-borderGrey rounded-xl text-xs font-semibold text-brand cursor-pointer hover:bg-brand-light inline-flex items-center gap-1.5 transition-colors mb-2"
-                data-act="dua-detail-back">
+                data-act="dua-detail-back"
+                data-bind="click: goBack">
                 <app-icon params="name: 'arrow-left', customClass: 'mr-1'"></app-icon> Back to list
             </button>
 
@@ -3016,22 +3034,26 @@
             <div class="flex items-center justify-between gap-2 mt-4">
                 <button type="button"
                     class="px-4 py-2.5 rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors font-semibold text-xs cursor-pointer inline-flex items-center justify-center"
-                    id="duaPrevBtn" data-act="dua-prev">Previous</button>
+                    id="duaPrevBtn" data-act="dua-prev"
+                    data-bind="click: prevDua">Previous</button>
                 <div class="flex items-center gap-2">
                     <button type="button"
                         class="w-10 h-10 rounded-xl border border-borderGrey bg-white text-brand hover:bg-brand-light cursor-pointer text-base inline-flex items-center justify-center transition-colors"
-                        id="duaDetailFavBtn" data-act="dua-detail-toggle-fav" title="Toggle Favourite">
+                        id="duaDetailFavBtn" data-act="dua-detail-toggle-fav" title="Toggle Favourite"
+                        data-bind="click: toggleFavCurrent">
                         <span id="duaDetailFavIcon"><app-icon params="name: 'heart', prefix: 'fa-regular'"></app-icon></span>
                     </button>
                     <button type="button"
                         class="w-10 h-10 rounded-xl border border-borderGrey bg-white text-brand hover:bg-brand-light cursor-pointer text-base inline-flex items-center justify-center transition-colors"
-                        id="duaDetailPinBtn" data-act="dua-detail-toggle-pin" title="Toggle Pin">
+                        id="duaDetailPinBtn" data-act="dua-detail-toggle-pin" title="Toggle Pin"
+                        data-bind="click: togglePinCurrent">
                         <span id="duaDetailPinIcon"><app-icon params="name: 'thumbtack'"></app-icon></span>
                     </button>
                 </div>
                 <button type="button"
                     class="px-4 py-2.5 rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors font-semibold text-xs cursor-pointer inline-flex items-center justify-center"
-                    id="duaNextBtn" data-act="dua-next">Next</button>
+                    id="duaNextBtn" data-act="dua-next"
+                    data-bind="click: nextDua">Next</button>
             </div>
         </div>
 
@@ -3039,7 +3061,7 @@
         <button type="button"
             class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
             id="duaFabBtn" data-act="dua-open-add" title="Add New Dua"
-            data-bind="visible: currentSubTab() !== 'detail'">
+            data-bind="visible: currentSubTab() !== 'detail', click: openAdd">
             <app-icon params="name: 'plus', size: 'xl'"></app-icon>
         </button>
     </div>
@@ -3057,6 +3079,7 @@
             <button type="button"
                 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
                 data-act="go-home" title="Back to Home" aria-label="Back to Home"
+                data-bind="click: goHome"
                 data-ref="page.duas.back-btn">
                 <app-icon params="name: 'arrow-left', size: 'base'"></app-icon>
             </button>
@@ -3072,7 +3095,8 @@
         <div class="flex items-center gap-2 shrink-0">
             <button type="button"
                 class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer"
-                data-act="dua-open-admin" title="Admin Settings">
+                data-act="dua-open-admin" title="Admin Settings"
+                data-bind="click: openAdmin">
                 <app-icon params="name: 'gear', size: 'base'"></app-icon>
             </button>
         </div>
@@ -3102,7 +3126,7 @@
         <button type="button"
             class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
             id="duaTabPinned" data-act="dua-switch-pinned" role="tab"
-            data-bind="css: (ko.unwrap($data.activeTab) === 'pinned' || ko.unwrap($data.activeTab) === 'home') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'pinned' || ko.unwrap($data.activeTab) === 'home') ? 'true' : 'false' }"
+            data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('home'); }, css: (ko.unwrap($data.activeTab) === 'pinned' || ko.unwrap($data.activeTab) === 'home') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'pinned' || ko.unwrap($data.activeTab) === 'home') ? 'true' : 'false' }"
             data-ref="page.duas.tab-pinned">
             <span class="text-xl leading-none inline-flex items-center justify-center">
                 <app-icon params="name: 'thumbtack'"></app-icon>
@@ -3112,7 +3136,7 @@
         <button type="button"
             class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
             id="duaTabAll" data-act="dua-switch-all" role="tab"
-            data-bind="css: (ko.unwrap($data.activeTab) === 'all' || ko.unwrap($data.activeTab) === 'duas') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'all' || ko.unwrap($data.activeTab) === 'duas') ? 'true' : 'false' }"
+            data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('duas'); }, css: (ko.unwrap($data.activeTab) === 'all' || ko.unwrap($data.activeTab) === 'duas') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'all' || ko.unwrap($data.activeTab) === 'duas') ? 'true' : 'false' }"
             data-ref="page.duas.tab-all">
             <span class="text-xl leading-none inline-flex items-center justify-center">
                 <app-icon params="name: 'book-quran'"></app-icon>
@@ -3122,7 +3146,7 @@
         <button type="button"
             class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
             id="duaTabFavs" data-act="dua-switch-favs" role="tab"
-            data-bind="css: (ko.unwrap($data.activeTab) === 'favourites' || ko.unwrap($data.activeTab) === 'favs') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'favourites' || ko.unwrap($data.activeTab) === 'favs') ? 'true' : 'false' }"
+            data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('favourites'); }, css: (ko.unwrap($data.activeTab) === 'favourites' || ko.unwrap($data.activeTab) === 'favs') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'favourites' || ko.unwrap($data.activeTab) === 'favs') ? 'true' : 'false' }"
             data-ref="page.duas.tab-favs">
             <span class="text-xl leading-none inline-flex items-center justify-center">
                 <app-icon params="name: 'bookmark'"></app-icon>
@@ -3137,7 +3161,7 @@
         <script type="text/html" id="duva-pinned-card-template">
 <div class="pinned-dua-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col gap-2.5 border-l-4 border-l-brand relative cursor-pointer hover:bg-surfaceBg transition-all mb-3"
     data-act="dua-open-detail"
-    data-bind="attr: { 'data-idx': index, 'data-source': 'home' }">
+    data-bind="click: onOpenDetail, attr: { 'data-idx': index, 'data-source': 'home' }">
     <span class="pinned-badge absolute top-3.5 right-4 text-base inline-flex items-center justify-center text-pinAmber">
         <app-icon params="name: 'thumbtack'"></app-icon>
     </span>
@@ -3156,7 +3180,7 @@
         <script type="text/html" id="duva-card-template">
 <div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2"
     data-act="dua-open-detail"
-    data-bind="attr: { 'data-idx': index, 'data-source': source || 'duas' }">
+    data-bind="click: onOpenDetail, attr: { 'data-idx': index, 'data-source': source || 'duas' }">
     <div class="dua-item-number text-sm font-bold text-brand min-w-[36px]"
         data-bind="text: '#' + String(number).padStart(2, '0')">#01</div>
     <div class="dua-item-content flex-1 min-w-0">
@@ -3168,13 +3192,13 @@
     <button type="button"
         class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all"
         data-act="dua-item-pin"
-        data-bind="attr: { 'data-idx': index, title: isPinned ? 'Unpin' : 'Pin to Home' }, css: isPinned ? 'pinned text-pinAmber' : 'opacity-50'">
+        data-bind="click: onTogglePin, attr: { 'data-idx': index, title: isPinned ? 'Unpin' : 'Pin to Home' }, css: isPinned ? 'pinned text-pinAmber' : 'opacity-50'">
         <app-icon params="name: 'thumbtack'"></app-icon>
     </button>
     <button type="button"
         class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all"
         data-act="dua-item-fav"
-        data-bind="attr: { 'data-idx': index, title: isFav ? 'Remove from favourites' : 'Toggle favourite' }">
+        data-bind="click: onToggleFav, attr: { 'data-idx': index, title: isFav ? 'Remove from favourites' : 'Toggle favourite' }">
         <!-- ko if: isFav -->
         <app-icon params="name: 'heart', color: 'text-heartRed'"></app-icon>
         <!-- /ko -->

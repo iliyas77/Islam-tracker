@@ -68,6 +68,60 @@ export function PrayerTrackerCardViewModel(params) {
     self.missedRows = (k && k.isObservable(p.missedRows)) ? p.missedRows : ((k && k.observableArray) ? k.observableArray(unwrap(p.missedRows, [])) : function () { return unwrap(p.missedRows, []); });
     self.doneGroupTitle = (k && k.isObservable(p.doneGroupTitle)) ? p.doneGroupTitle : ((k && k.observable) ? k.observable(unwrap(p.doneGroupTitle, 'DONE')) : unwrap(p.doneGroupTitle, 'DONE'));
     self.doneRows = (k && k.isObservable(p.doneRows)) ? p.doneRows : ((k && k.observableArray) ? k.observableArray(unwrap(p.doneRows, [])) : function () { return unwrap(p.doneRows, []); });
+
+    self.onDateChipClick = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (self.dateChipAct === 'old-open-cal') {
+            if (typeof openOldCal === 'function') openOldCal();
+        } else {
+            if (typeof openCal === 'function') openCal();
+        }
+    };
+    self.onBadgeClick = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (self.badgeAct === 'jump-today') {
+            if (typeof window !== 'undefined') window.sd = typeof td === 'function' ? td() : '';
+            if (typeof rn === 'function') rn();
+        }
+    };
+    self.onActionBtnClick = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (self.actionBtnAct === 'select-all') {
+            var currSd = typeof window !== 'undefined' ? window.sd : (typeof td === 'function' ? td() : '');
+            var c2 = typeof gr === 'function' ? gr(currSd) : {};
+            var isToday = currSd === (typeof td === 'function' ? td() : '');
+            var actionable = P.filter(function (x) {
+                return !isToday || (typeof isPrayerUpcoming === 'function' && !isPrayerUpcoming(x, currSd));
+            });
+            var doneCount = actionable.filter(function (x) {
+                return typeof isDonePrayer === 'function' ? isDonePrayer(x, currSd, c2) : (c2[x] === false);
+            }).length;
+            var willMarkDone = doneCount < actionable.length;
+            var action = willMarkDone ? 'Done' : 'Missed';
+            if (typeof confirm === 'function' && !confirm('Mark available prayers as ' + action + ' for ' + (typeof fr === 'function' ? fr(currSd) : currSd) + '?')) return;
+            actionable.forEach(function (x) {
+                var wasXDone = typeof isDonePrayer === 'function' ? isDonePrayer(x, currSd, c2) : (c2[x] === false);
+                if (willMarkDone) {
+                    if (!wasXDone && typeof addPrayerHistoryEntry === 'function') {
+                        addPrayerHistoryEntry(x, 'Current', currSd);
+                    }
+                } else {
+                    if (wasXDone && typeof removePrayerHistoryEntry === 'function') {
+                        removePrayerHistoryEntry(x, 'Current', currSd);
+                    }
+                }
+                c2[x] = willMarkDone ? false : true;
+            });
+            if (typeof sr === 'function') sr(currSd, c2);
+            if (typeof rn === 'function') rn();
+            if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+            if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+                renderPrayerHistoryTab();
+            }
+        } else if (self.actionBtnAct === 'old-change-period') {
+            if (typeof rPeriod === 'function') rPeriod();
+        }
+    };
 }
 
 export function PrayerRowViewModel(params) {
@@ -86,6 +140,84 @@ export function PrayerRowViewModel(params) {
     self.actionAct = p.actionAct || '';
     self.date = p.date || '';
     self.iconClass = p.iconClass || 'fa-solid fa-mosque';
+
+    self.onToggle = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (self.actionAct === 'toggle-cur') {
+            var currSd = self.date || (typeof window !== 'undefined' ? window.sd : (typeof td === 'function' ? td() : ''));
+            if (currSd === (typeof td === 'function' ? td() : '') && typeof isPrayerUpcoming === 'function' && isPrayerUpcoming(self.prayer, currSd)) {
+                return;
+            }
+            var c1 = typeof gr === 'function' ? gr(currSd) : {};
+            var wasDone = typeof isDonePrayer === 'function' ? isDonePrayer(self.prayer, currSd, c1) : (c1[self.prayer] === false);
+            if (typeof confirm === 'function' && !confirm(wasDone
+                ? 'Mark ' + self.prayer + ' as Missed for ' + (typeof fr === 'function' ? fr(currSd) : currSd) + '?'
+                : 'Mark ' + self.prayer + ' as Done for ' + (typeof fr === 'function' ? fr(currSd) : currSd) + '?')) return;
+            c1[self.prayer] = wasDone ? true : false;
+            if (wasDone) {
+                if (typeof removePrayerHistoryEntry === 'function') {
+                    removePrayerHistoryEntry(self.prayer, 'Current', currSd);
+                }
+            } else {
+                if (typeof addPrayerHistoryEntry === 'function') {
+                    addPrayerHistoryEntry(self.prayer, 'Current', currSd);
+                }
+            }
+            if (typeof sr === 'function') sr(currSd, c1);
+            if (typeof rn === 'function') rn();
+            if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+            if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+                renderPrayerHistoryTab();
+            }
+        } else if (self.actionAct === 'toggle-old') {
+            var d2 = self.date;
+            var p2 = self.prayer;
+            var c3 = typeof grO === 'function' ? grO(d2) : {};
+            var was2 = c3[p2] === true || c3[p2] === 'missed';
+            if (typeof confirm === 'function' && !confirm(was2
+                ? 'Mark ' + p2 + ' as Done for ' + (typeof fr === 'function' ? fr(d2) : d2) + '?'
+                : 'Mark ' + p2 + ' as Missed for ' + (typeof fr === 'function' ? fr(d2) : d2) + '?')) return;
+            c3[p2] = !was2;
+            if (was2) {
+                if (typeof addPrayerHistoryEntry === 'function') {
+                    addPrayerHistoryEntry(p2, 'Old', d2);
+                }
+            } else {
+                if (typeof removePrayerHistoryEntry === 'function') {
+                    removePrayerHistoryEntry(p2, 'Old', d2);
+                }
+            }
+            if (typeof srO === 'function') srO(d2, c3);
+
+            var o = typeof rdOK === 'function' ? rdOK() : null;
+            var isDateComplete = !P.some(function (p) {
+                return c3[p] === true || c3[p] === 'missed';
+            });
+
+            if (isDateComplete) {
+                if (typeof shrinkOldPeriod === 'function') shrinkOldPeriod(d2);
+            } else {
+                if (o && d2 > o.end) {
+                    o.end = d2;
+                    if (typeof wrOK === 'function') wrOK(o);
+                }
+                if (typeof setOldSd === 'function') {
+                    setOldSd(d2);
+                } else if (typeof oldSd !== 'undefined') {
+                    oldSd = d2;
+                }
+            }
+            if (typeof rOT === 'function') rOT();
+            var sheet2El = typeof $ === 'function' ? $('sheet2') : null;
+            if (sheet2El && sheet2El.classList.contains('show') && typeof rOldInfo === 'function') {
+                rOldInfo();
+            }
+            if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+            if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+                renderPrayerHistoryTab();
+            }
+        }
+    };
 }
 
 export function getTrackerViewModel() {
@@ -115,7 +247,32 @@ export function TrackerPageViewModel(params) {
         showSubtitle: (k && k.observable) ? k.observable(false) : false,
         missedCount: self.missedCount,
         hasMissed: self.hasMissed,
-        currentSubTab: self.currentSubTab
+        currentSubTab: self.currentSubTab,
+        goHome: function (d, e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            if (typeof showPage === 'function') showPage('dashboard');
+        },
+        openMissed: function (d, e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            if (typeof rMS === 'function') rMS();
+        },
+        openPeriodInfo: function (d, e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            if (typeof rOldInfo === 'function') rOldInfo();
+        },
+        emptyHistory: function (d, e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            if (typeof emptyPrayerHistory === 'function') emptyPrayerHistory();
+        }
+    };
+
+    self.goToSettings = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (typeof showPage === 'function') showPage('settings');
+    };
+    self.switchTab = function (tab, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (typeof switchTrackerSubTab === 'function') switchTrackerSubTab(tab);
     };
 
     self.currentCard = (k && k.observable) ? k.observable(new PrayerTrackerCardViewModel({

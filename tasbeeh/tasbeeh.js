@@ -51,7 +51,45 @@ export function TasbeehPageViewModel(params) {
     self.header = {
         title: (k && k.observable) ? k.observable('Digital Tasbeeh') : 'Digital Tasbeeh',
         subtitle: (k && k.observable) ? k.observable('Home · Bookmarks') : 'Home · Bookmarks',
-        iconClass: (k && k.observable) ? k.observable('fa-solid fa-house text-brand') : 'fa-solid fa-house text-brand'
+        iconClass: (k && k.observable) ? k.observable('fa-solid fa-house text-brand') : 'fa-solid fa-house text-brand',
+        goHome: function (d, e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            if (typeof showPage === 'function') showPage('dashboard');
+        }
+    };
+
+    self.switchTab = function (tab, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
+            window.TasbeehApp.switchTab(tab);
+        }
+    };
+
+    self.openAddModal = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (window.TasbeehApp && typeof window.TasbeehApp.openAddModal === 'function') {
+            window.TasbeehApp.openAddModal();
+        }
+    };
+
+    self.reopenLastMonth = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (window.TasbeehApp && typeof window.TasbeehApp.reopenLastMonth === 'function') {
+            window.TasbeehApp.reopenLastMonth();
+        }
+        if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
+            window.TasbeehHistoryApp.renderHistoryTab();
+        }
+    };
+
+    self.resetAllCompleted = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (window.TasbeehApp && typeof window.TasbeehApp.resetAllCompleted === 'function') {
+            window.TasbeehApp.resetAllCompleted();
+        }
+        if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
+            window.TasbeehHistoryApp.renderHistoryTab();
+        }
     };
 
     self.currentDhikrsCount = (k && k.observable) ? k.observable(0) : 0;
@@ -320,7 +358,19 @@ window.TasbeehHomeApp = (function () {
                 completedDays: c.completedDays,
                 totalDays: c.totalDays,
                 isComplete: c.completedDays >= c.totalDays,
-                isTodayDone: c.isTodayDone
+                isTodayDone: c.isTodayDone,
+                onCardClick: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.TasbeehApp && typeof window.TasbeehApp.openCounterView === 'function') {
+                        window.TasbeehApp.openCounterView(c.item.id);
+                    }
+                },
+                onEditClick: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.TasbeehApp && typeof window.TasbeehApp.openEditModal === 'function') {
+                        window.TasbeehApp.openEditModal(c.item.id);
+                    }
+                }
             });
         }
         if (bmData && bmData.old && bmData.old.item) {
@@ -333,7 +383,21 @@ window.TasbeehHomeApp = (function () {
                 completedDays: o.completedDays,
                 totalDays: o.totalDays,
                 isComplete: !!o.isDhikrDone,
-                isTodayDone: false
+                isTodayDone: false,
+                onCardClick: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.TasbeehApp && typeof window.TasbeehApp.openCounterFromHome === 'function') {
+                        window.TasbeehApp.openCounterFromHome(o.item.id, o.monthKey, 'old');
+                    } else if (window.TasbeehApp && typeof window.TasbeehApp.openCounterView === 'function') {
+                        window.TasbeehApp.openCounterView(o.item.id, o.monthKey);
+                    }
+                },
+                onEditClick: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.TasbeehApp && typeof window.TasbeehApp.openEditModal === 'function') {
+                        window.TasbeehApp.openEditModal(o.item.id);
+                    }
+                }
             });
         }
 
@@ -1124,7 +1188,19 @@ window.TasbeehCurrentApp = (function () {
                 completedDays: completedDays,
                 totalDays: totalDays,
                 isComplete: !!isComplete,
-                isTodayDone: isTodayDone
+                isTodayDone: isTodayDone,
+                onCardClick: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.TasbeehApp && typeof window.TasbeehApp.openCounterView === 'function') {
+                        window.TasbeehApp.openCounterView(item.id);
+                    }
+                },
+                onEditClick: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.TasbeehApp && typeof window.TasbeehApp.openEditModal === 'function') {
+                        window.TasbeehApp.openEditModal(item.id);
+                    }
+                }
             };
         }
 
@@ -2432,7 +2508,21 @@ window.TasbeehOldApp = (function () {
                 completedDays: completedDays,
                 totalDays: totalDays,
                 isComplete: !!isComplete,
-                isTodayDone: false
+                isTodayDone: false,
+                onCardClick: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.TasbeehApp && typeof window.TasbeehApp.openCounterFromHome === 'function') {
+                        window.TasbeehApp.openCounterFromHome(item.id, curOldMonth, 'old');
+                    } else if (window.TasbeehApp && typeof window.TasbeehApp.openCounterView === 'function') {
+                        window.TasbeehApp.openCounterView(item.id, curOldMonth);
+                    }
+                },
+                onEditClick: function (d, e) {
+                    if (e && e.stopPropagation) e.stopPropagation();
+                    if (window.TasbeehApp && typeof window.TasbeehApp.openEditModal === 'function') {
+                        window.TasbeehApp.openEditModal(item.id);
+                    }
+                }
             };
         }
 
