@@ -1,0 +1,35 @@
+<div class="rounded-2xl p-4 bg-white border border-borderGrey mb-3 flex flex-col gap-3 shadow-none"
+    data-bind="attr: { 'data-ref': 'page.history.card.' + (id || '') }">
+  <!-- Row 1: Prayer Icon + Name + Badge (Left) and Completed (Right) -->
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-2.5 min-w-0">
+      <div class="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 44px; height: 44px;"
+          data-bind="attr: { 'data-ref': 'page.history.item.avatar.' + (id || '') }">
+        <app-icon params="name: iconName, size: '22px', color: 'text-brand'"></app-icon>
+      </div>
+      <div class="flex items-center gap-2 min-w-0">
+        <h6 class="font-bold text-brand text-base mb-0 leading-none"
+            data-bind="text: prayer, attr: { 'data-ref': 'page.history.item.prayer.' + (id || '') }"></h6>
+        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
+            data-bind="text: type, attr: { 'data-ref': 'page.history.item.type.' + (id || '') }, css: isCurrent ? 'bg-brand-light text-brand border border-brand/20' : 'bg-amber-50 text-amber-700 border border-amber-200'"></span>
+      </div>
+    </div>
+    <span class="flex items-center gap-1.5 text-brand text-xs font-bold shrink-0">
+      <app-icon params="name: 'circle-check', size: '14px', color: 'text-brand'"></app-icon>
+      <span>Completed</span>
+    </span>
+  </div>
+  <!-- Row 2: Prayer Date -->
+  <div class="text-gr-textMuted text-xs" data-bind="attr: { 'data-ref': 'page.history.item.date.' + (id || '') }">
+    Prayer Date: <strong class="text-brand font-bold" data-bind="text: formattedDate"></strong>
+  </div>
+  <!-- Row 3: Completed exact time (Left) & Relative time (Right) -->
+  <div class="flex items-center justify-between text-gr-textMuted text-xs">
+    <div class="flex items-center gap-1.5" data-bind="attr: { 'data-ref': 'page.history.item.time.' + (id || '') }">
+      <app-icon params="name: 'clock', prefix: 'fa-regular', size: '12px'"></app-icon>
+      <span>Completed: <span class="text-brand font-medium" data-bind="text: exactTime"></span></span>
+    </div>
+    <span class="text-gr-textMuted" data-bind="text: ago"></span>
+  </div>
+</div>
+

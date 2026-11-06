@@ -111,7 +111,9 @@
                         id="tbCurrentTodoBadge">0</span>
                 </button>
                 <div class="collapse show visible" id="tbCurrentTodoList" style="visibility: visible;">
-                    <div class="grid grid-cols-2 gap-3 mt-2" id="tbCurrentTodoGrid"></div>
+                    <div class="grid grid-cols-2 gap-3 mt-2" id="tbCurrentTodoGrid" data-bind="foreach: currentTodoItems">
+                        <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
+                    </div>
                 </div>
             </section>
 
@@ -128,7 +130,9 @@
                         id="tbCurrentDoneBadge">0</span>
                 </button>
                 <div class="collapse show visible" id="tbCurrentDoneList" style="visibility: visible;">
-                    <div class="grid grid-cols-2 gap-3 mt-2" id="tbCurrentDoneGrid"></div>
+                    <div class="grid grid-cols-2 gap-3 mt-2" id="tbCurrentDoneGrid" data-bind="foreach: currentDoneItems">
+                        <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
+                    </div>
                 </div>
             </section>
         </div>
@@ -215,7 +219,9 @@
                         id="tbOldTodoBadge">0</span>
                 </button>
                 <div class="collapse show visible" id="tbOldTodoList" style="visibility: visible;">
-                    <div class="grid grid-cols-2 gap-3 mt-2" id="tbOldTodoGrid"></div>
+                    <div class="grid grid-cols-2 gap-3 mt-2" id="tbOldTodoGrid" data-bind="foreach: oldTodoItems">
+                        <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
+                    </div>
                 </div>
             </section>
 
@@ -232,7 +238,9 @@
                         id="tbOldDoneBadge">0</span>
                 </button>
                 <div class="collapse show visible" id="tbOldDoneList" style="visibility: visible;">
-                    <div class="grid grid-cols-2 gap-3 mt-2" id="tbOldDoneGrid"></div>
+                    <div class="grid grid-cols-2 gap-3 mt-2" id="tbOldDoneGrid" data-bind="foreach: oldDoneItems">
+                        <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
+                    </div>
                 </div>
             </section>
         </div>

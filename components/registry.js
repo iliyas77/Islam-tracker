@@ -28,6 +28,7 @@ import {
     PrayerStatCardTemplate,
     PrayerPerfRingTemplate,
     PrayerNavTabTemplate,
+    PrayerHistoryCardTemplate,
     getTrackerViewModel
 } from '../prayer-tracking/prayer-tracking.js';
 import {
@@ -111,6 +112,7 @@ export function registerAllComponents() {
     registerFeatureComponent('prayer-stat-card', function (p) { return p || {}; }, PrayerStatCardTemplate);
     registerFeatureComponent('prayer-perf-ring', function (p) { return p || {}; }, PrayerPerfRingTemplate);
     registerFeatureComponent('prayer-nav-tab', function (p) { return p || {}; }, PrayerNavTabTemplate);
+    registerFeatureComponent('prayer-history-card', function (p) { return p || {}; }, PrayerHistoryCardTemplate);
     registerFeatureComponent('tracker-page', function (p) {
         return (p && p.viewModel) ? p.viewModel : getTrackerViewModel();
     }, TrackerPageTemplate);

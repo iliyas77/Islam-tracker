@@ -206,7 +206,7 @@ Calculated from your start date configured in Settings up to today.
 class="font-bold px-3 py-1.5 rounded-full text-xs bg-brand text-white hover:bg-brand-hover transition-colors rounded-lg"
 data-act="goto-settings"><app-icon params="name: 'gear', customClass: 'mr-1', size: '14px'"></app-icon> Adjust Start Date in Settings
 </button></div></div></div></div><div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="historyBody"><div class="text-center text-gr-textMuted py-8 px-4 bg-white border border-borderGrey rounded-2xl d-none flex flex-col items-center justify-center"
-id="histEmptyState"><div class="mb-3"><app-icon params="name: 'list-check', color: 'text-brand', size: '4xl', customClass: 'opacity-50'"></app-icon></div><h5 class="font-bold text-brand text-base mb-1">No Activity Yet</h5><p class="text-gr-textMuted text-xs mb-0">Whenever a prayer is marked as completed in Current or Old Tracking, its history entry will appear here.</p></div><div id="histContent" class="d-none"><div class="rounded-2xl p-3.5 bg-white border border-borderGrey mb-3"><div class="flex items-center justify-between"><div class="flex items-center gap-2.5 min-w-0"><div class="w-10 h-10 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0"><app-icon params="name: 'list-check', color: 'text-brand', size: 'lg'"></app-icon></div><div class="min-w-0"><h6 class="font-bold text-brand mb-0 text-sm leading-tight">Activity Log</h6><div class="text-gr-textMuted text-xs mt-0.5" id="histSubtitleCount" data-bind="text: historySubtitle">0 completed prayers</div></div></div><div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-borderGrey bg-surfaceBg text-xs text-gr-textMuted font-medium shrink-0"><app-icon params="name: 'clock', prefix: 'fa-regular', size: 'xs', customClass: 'shrink-0'"></app-icon><span>Latest first</span></div></div></div><div class="flex flex-col gap-1" id="histList"></div></div></div><!-- ko component: { name: 'prayer-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko --></script><script type="text/html" id="prayer-header-template"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"><div class="w-full flex items-center justify-between min-w-0 min-h-[44px]"><div class="flex items-center gap-2 min-w-0 grow"><button type="button"
+id="histEmptyState"><div class="mb-3"><app-icon params="name: 'list-check', color: 'text-brand', size: '4xl', customClass: 'opacity-50'"></app-icon></div><h5 class="font-bold text-brand text-base mb-1">No Activity Yet</h5><p class="text-gr-textMuted text-xs mb-0">Whenever a prayer is marked as completed in Current or Old Tracking, its history entry will appear here.</p></div><div id="histContent" class="d-none"><div class="rounded-2xl p-3.5 bg-white border border-borderGrey mb-3"><div class="flex items-center justify-between"><div class="flex items-center gap-2.5 min-w-0"><div class="w-10 h-10 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0"><app-icon params="name: 'list-check', color: 'text-brand', size: 'lg'"></app-icon></div><div class="min-w-0"><h6 class="font-bold text-brand mb-0 text-sm leading-tight">Activity Log</h6><div class="text-gr-textMuted text-xs mt-0.5" id="histSubtitleCount" data-bind="text: historySubtitle">0 completed prayers</div></div></div><div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-borderGrey bg-surfaceBg text-xs text-gr-textMuted font-medium shrink-0"><app-icon params="name: 'clock', prefix: 'fa-regular', size: 'xs', customClass: 'shrink-0'"></app-icon><span>Latest first</span></div></div></div><div class="flex flex-col gap-1" id="histList" data-bind="foreach: historyEntries"><!-- ko component: { name: 'prayer-history-card', params: $data } --><!-- /ko --></div></div></div><!-- ko component: { name: 'prayer-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko --></script><script type="text/html" id="prayer-header-template"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"><div class="w-full flex items-center justify-between min-w-0 min-h-[44px]"><div class="flex items-center gap-2 min-w-0 grow"><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
 data-act="go-home" title="Back to Home" aria-label="Back to Home"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="min-w-0 grow"><h5 class="font-bold m-0 text-base text-brand flex items-center gap-2"
 id="trackerHeaderTitle"><app-icon params="id: 'trackerHeaderIcon', name: iconClass || 'fa-regular fa-calendar-days text-gr-accent'"></app-icon><span id="trackerHeaderLabel" data-bind="text: label || 'Current Prayer'">Current Prayer</span></h5><div id="oldSub" class="text-xs text-gr-textMuted mt-0.5"
@@ -308,7 +308,12 @@ id="tabTrackPerformance" data-act="switch-track-performance" role="tab"
 data-bind="css: activeTab() === 'performance' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'performance' ? 'true' : 'false' }"><app-icon params="name: 'chart-simple'"></app-icon><span>Performance</span></button><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
 id="tabTrackHistory" data-act="switch-track-history" role="tab"
-data-bind="css: activeTab() === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'history' ? 'true' : 'false' }"><app-icon params="name: 'list-check'"></app-icon><span>History</span></button></nav></script><script type="text/html" id="tasbeeh-page-template"><!-- ko component: { name: 'tasbeeh-header', params: header } --><!-- /ko --><div class="grow overflow-auto p-2 pb-5 relative" id="tbHomeBody"><div class="border border-borderGrey p-4 text-center rounded-2xl bg-white mt-3 d-none shadow-none"
+data-bind="css: activeTab() === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'history' ? 'true' : 'false' }"><app-icon params="name: 'list-check'"></app-icon><span>History</span></button></nav></script><script type="text/html" id="prayer-history-card-template"><div class="rounded-2xl p-4 bg-white border border-borderGrey mb-3 flex flex-col gap-3 shadow-none"
+data-bind="attr: { 'data-ref': 'page.history.card.' + (id || '') }"><div class="flex items-center justify-between"><div class="flex items-center gap-2.5 min-w-0"><div class="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 44px; height: 44px;"
+data-bind="attr: { 'data-ref': 'page.history.item.avatar.' + (id || '') }"><app-icon params="name: iconName, size: '22px', color: 'text-brand'"></app-icon></div><div class="flex items-center gap-2 min-w-0"><h6 class="font-bold text-brand text-base mb-0 leading-none"
+data-bind="text: prayer, attr: { 'data-ref': 'page.history.item.prayer.' + (id || '') }"></h6><span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
+data-bind="text: type, attr: { 'data-ref': 'page.history.item.type.' + (id || '') }, css: isCurrent ? 'bg-brand-light text-brand border border-brand/20' : 'bg-amber-50 text-amber-700 border border-amber-200'"></span></div></div><span class="flex items-center gap-1.5 text-brand text-xs font-bold shrink-0"><app-icon params="name: 'circle-check', size: '14px', color: 'text-brand'"></app-icon><span>Completed</span></span></div><div class="text-gr-textMuted text-xs" data-bind="attr: { 'data-ref': 'page.history.item.date.' + (id || '') }">
+Prayer Date: <strong class="text-brand font-bold" data-bind="text: formattedDate"></strong></div><div class="flex items-center justify-between text-gr-textMuted text-xs"><div class="flex items-center gap-1.5" data-bind="attr: { 'data-ref': 'page.history.item.time.' + (id || '') }"><app-icon params="name: 'clock', prefix: 'fa-regular', size: '12px'"></app-icon><span>Completed: <span class="text-brand font-medium" data-bind="text: exactTime"></span></span></div><span class="text-gr-textMuted" data-bind="text: ago"></span></div></div></script><script type="text/html" id="tasbeeh-page-template"><!-- ko component: { name: 'tasbeeh-header', params: header } --><!-- /ko --><div class="grow overflow-auto p-2 pb-5 relative" id="tbHomeBody"><div class="border border-borderGrey p-4 text-center rounded-2xl bg-white mt-3 d-none shadow-none"
 id="tbHomeEmptyState"><div class="mb-3"><app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50'"></app-icon></div><h5 class="font-bold text-brand mb-1">No Dhikr Configured</h5><p class="text-gr-textMuted text-xs mb-3">Add your first recitation chant in the Current tab to begin tracking bookmarks.</p><div><button type="button"
 class="rounded-xl px-4 py-2 bg-brand text-white hover:bg-brand-hover transition-colors text-xs font-semibold cursor-pointer"
 data-act="switch-tb-current"><app-icon params="name: 'plus', customClass: 'mr-1'"></app-icon> Add First Dhikr
@@ -325,10 +330,10 @@ data-act="tb-current-advance"><app-icon params="name: 'arrow-right', customClass
 </button></div><section class="mb-3 flex flex-col gap-2" id="tbCurrentTodoGroup"><button type="button"
 class="group-toggle py-1 flex items-center justify-between w-full cursor-pointer select-none text-gr-text gap-2"
 data-toggle="collapse" data-target="#tbCurrentTodoList" aria-expanded="true"><span class="text-xs transition-transform duration-200 inline-block"><app-icon params="name: 'chevron-down'"></app-icon></span><span class="font-bold text-xs uppercase tracking-wider text-gr-text">To Do</span><span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand ml-1.5"
-id="tbCurrentTodoBadge">0</span></button><div class="collapse show visible" id="tbCurrentTodoList" style="visibility: visible;"><div class="grid grid-cols-2 gap-3 mt-2" id="tbCurrentTodoGrid"></div></div></section><section class="mb-3 flex flex-col gap-2" id="tbCurrentDoneGroup"><button type="button"
+id="tbCurrentTodoBadge">0</span></button><div class="collapse show visible" id="tbCurrentTodoList" style="visibility: visible;"><div class="grid grid-cols-2 gap-3 mt-2" id="tbCurrentTodoGrid" data-bind="foreach: currentTodoItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div></section><section class="mb-3 flex flex-col gap-2" id="tbCurrentDoneGroup"><button type="button"
 class="group-toggle py-1 flex items-center justify-between w-full cursor-pointer select-none text-gr-text gap-2"
 id="tbCurrentDoneToggle" data-toggle="collapse" data-target="#tbCurrentDoneList" aria-expanded="true"><span class="text-xs transition-transform duration-200 inline-block"><app-icon params="name: 'chevron-right'"></app-icon></span><span class="font-bold text-xs uppercase tracking-wider text-gr-accent">COMPLETED</span><span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand ml-1.5"
-id="tbCurrentDoneBadge">0</span></button><div class="collapse show visible" id="tbCurrentDoneList" style="visibility: visible;"><div class="grid grid-cols-2 gap-3 mt-2" id="tbCurrentDoneGrid"></div></div></section></div><div id="tbEmptyState" class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"><div class="mb-3"><app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50', dataRef: 'page.tasbeeh.empty-state.icon'"></app-icon></div><h5 class="font-bold text-brand mb-1">No Dhikr Yet</h5><p class="text-gr-textMuted text-xs mb-0">Tap “+” below to add your first chant and begin counting.</p></div></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody"><div class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"
+id="tbCurrentDoneBadge">0</span></button><div class="collapse show visible" id="tbCurrentDoneList" style="visibility: visible;"><div class="grid grid-cols-2 gap-3 mt-2" id="tbCurrentDoneGrid" data-bind="foreach: currentDoneItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div></section></div><div id="tbEmptyState" class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"><div class="mb-3"><app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50', dataRef: 'page.tasbeeh.empty-state.icon'"></app-icon></div><h5 class="font-bold text-brand mb-1">No Dhikr Yet</h5><p class="text-gr-textMuted text-xs mb-0">Tap “+” below to add your first chant and begin counting.</p></div></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody"><div class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"
 id="tbOldEmptyRange"><div class="mb-3"><app-icon params="name: 'calendar-xmark', color: 'text-gr-warning', size: '4xl', customClass: 'opacity-75'"></app-icon></div><h5 class="font-bold text-brand mb-2">No Previous Months in Period</h5><p class="text-gr-textMuted text-xs mb-3">
 Your tracking start date is <strong id="tbOldEmptyRangeStart"></strong>, which falls in or after the current period.<br>
 The Old tab displays previous completed months prior to <strong id="tbOldEmptyRangeCur"></strong>.
@@ -351,10 +356,10 @@ data-act="tb-old-advance"><app-icon params="name: 'arrow-left', customClass: 'mr
 </button></div><section class="mb-3 flex flex-col gap-2" id="tbOldTodoGroup"><button type="button"
 class="group-toggle py-1 flex items-center justify-between w-full cursor-pointer select-none text-gr-text gap-2"
 data-toggle="collapse" data-target="#tbOldTodoList" aria-expanded="true"><span class="text-xs transition-transform duration-200 inline-block"><app-icon params="name: 'chevron-down'"></app-icon></span><span class="font-bold text-xs uppercase tracking-wider text-gr-text">To Do</span><span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand ml-1.5"
-id="tbOldTodoBadge">0</span></button><div class="collapse show visible" id="tbOldTodoList" style="visibility: visible;"><div class="grid grid-cols-2 gap-3 mt-2" id="tbOldTodoGrid"></div></div></section><section class="mb-3 flex flex-col gap-2" id="tbOldDoneGroup"><button type="button"
+id="tbOldTodoBadge">0</span></button><div class="collapse show visible" id="tbOldTodoList" style="visibility: visible;"><div class="grid grid-cols-2 gap-3 mt-2" id="tbOldTodoGrid" data-bind="foreach: oldTodoItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div></section><section class="mb-3 flex flex-col gap-2" id="tbOldDoneGroup"><button type="button"
 class="group-toggle py-1 flex items-center justify-between w-full cursor-pointer select-none text-gr-text gap-2"
 id="tbOldDoneToggle" data-toggle="collapse" data-target="#tbOldDoneList" aria-expanded="true"><span class="text-xs transition-transform duration-200 inline-block"><app-icon params="name: 'chevron-right'"></app-icon></span><span class="font-bold text-xs uppercase tracking-wider text-gr-accent">COMPLETED</span><span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand ml-1.5"
-id="tbOldDoneBadge">0</span></button><div class="collapse show visible" id="tbOldDoneList" style="visibility: visible;"><div class="grid grid-cols-2 gap-3 mt-2" id="tbOldDoneGrid"></div></div></section></div></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody"><div class="flex flex-col gap-3 pt-1 pb-4" id="tbHistoryContent"><!-- ko component: { name: 'tasbeeh-progress-circle', params: historyProgress } --><!-- /ko --><!-- ko component: { name: 'tasbeeh-goal-setter', params: goalSetter } --><!-- /ko --><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center justify-between mb-2"><h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6><button type="button"
+id="tbOldDoneBadge">0</span></button><div class="collapse show visible" id="tbOldDoneList" style="visibility: visible;"><div class="grid grid-cols-2 gap-3 mt-2" id="tbOldDoneGrid" data-bind="foreach: oldDoneItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div></section></div></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody"><div class="flex flex-col gap-3 pt-1 pb-4" id="tbHistoryContent"><!-- ko component: { name: 'tasbeeh-progress-circle', params: historyProgress } --><!-- /ko --><!-- ko component: { name: 'tasbeeh-goal-setter', params: goalSetter } --><!-- /ko --><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center justify-between mb-2"><h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6><button type="button"
 class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 underline text-gr-danger text-decoration-none text-xs font-bold d-none"
 id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Cleared
 </button></div><div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">Sequential monthly clearance advances backward month-by-month as dhikrs are completed.</div><div class="flex flex-col gap-2" id="tbHistoryList"></div></div></div></div><button type="button"
@@ -374,7 +379,7 @@ id="tbCalSummary"><div class="flex flex-col items-center flex-1 gap-0.5"><span c
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
 data-act="go-home" title="Back to Home" aria-label="Back to Home"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="min-w-0 grow"><h5 class="font-bold text-base text-brand m-0 flex items-center gap-2"><app-icon params="id: 'tbHeaderIcon', name: iconClass || 'fa-solid fa-house text-brand', dataRef: 'page.tasbeeh.header.icon'"></app-icon><span id="tbHeaderLabel" data-bind="text: title || 'Digital Tasbeeh'">Digital Tasbeeh</span></h5><div class="text-xs text-gr-textMuted mt-0.5" id="tbHeaderSub"
 data-bind="text: subtitle || 'Home · Bookmarks'">Home · Bookmarks</div></div></div></div></header></script><script type="text/html" id="tasbeeh-counter-card-template"><div class="tb-card bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer hover:border-brand min-h-[146px] select-none transition-all"
-data-bind="attr: { 'data-id': id, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }"
+data-bind="attr: { 'data-id': id, 'data-month': $data.month || null, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }"
 role="button" tabindex="0"><div class="tb-card-top flex items-start justify-between w-full"><div class="w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"><app-icon params="name: 'hands-praying'"></app-icon></div><div class="tb-card-actions flex items-center gap-1.5 shrink-0 ml-auto"><button type="button"
 class="tb-btn-edit w-8 h-8 rounded-lg bg-brand-light text-brand flex items-center justify-center cursor-pointer hover:bg-brand/20 active:scale-95 transition-all p-0"
 data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"><app-icon params="name: 'pencil', size: 'xs'"></app-icon></button><app-icon params="name: 'chevron-right', color: 'text-gr-textMuted', size: 'xs', customClass: 'ml-1'"></app-icon></div></div><div class="tb-card-body flex flex-col justify-end w-full mt-2.5 min-w-0"><h6 class="tb-card-title text-base font-bold text-brand leading-snug mb-1 truncate"
@@ -1543,6 +1548,7 @@ const PrayerRowTemplate = { element: 'prayer-row-template', file: 'prayer-tracki
 const PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'prayer-tracking/templates/prayer-stat-card.html' };
 const PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'prayer-tracking/templates/prayer-perf-ring.html' };
 const PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'prayer-tracking/templates/prayer-nav-tab.html' };
+const PrayerHistoryCardTemplate = { element: 'prayer-history-card-template', file: 'prayer-tracking/templates/prayer-history-card.html' };
 var trackerViewModel = null;
 function PrayerTrackerCardViewModel(params) {
 if (params instanceof PrayerTrackerCardViewModel) {
@@ -1647,6 +1653,7 @@ trackedDays: (k && k.observable) ? k.observable('0 days') : '0 days',
 footerLabel: (k && k.observable) ? k.observable('Tracking Start Date: --') : ''
 };
 self.historySubtitle = (k && k.observable) ? k.observable('0 completed prayers') : '0 completed prayers';
+self.historyEntries = (k && k.observableArray) ? k.observableArray([]) : [];
 }
 function registerPrayerTrackingComponents(customKo) {
 var k = customKo || (typeof ko !== 'undefined' ? ko : (typeof window !== 'undefined' ? window.ko : null));
@@ -1655,6 +1662,12 @@ if (!k.components.isRegistered('prayer-header')) {
 k.components.register('prayer-header', {
 viewModel: function (params) { return params || {}; },
 template: PrayerHeaderTemplate
+});
+}
+if (!k.components.isRegistered('prayer-history-card')) {
+k.components.register('prayer-history-card', {
+viewModel: function (params) { return params || {}; },
+template: PrayerHistoryCardTemplate
 });
 }
 if (!k.components.isRegistered('prayer-tracker-card')) {
@@ -2772,20 +2785,47 @@ var emptyState = typeof window.$ === 'function' ? window.$('histEmptyState') : d
 var content = typeof window.$ === 'function' ? window.$('histContent') : document.getElementById('histContent');
 var subtitleCount = typeof window.$ === 'function' ? window.$('histSubtitleCount') : document.getElementById('histSubtitleCount');
 var list = typeof window.$ === 'function' ? window.$('histList') : document.getElementById('histList');
+var vm = (typeof getTrackerViewModel === 'function') ? getTrackerViewModel() : null;
+var hasKo = typeof ko !== 'undefined' && vm && typeof vm.historyEntries === 'function';
 if (totalCount === 0) {
 if (emptyState) emptyState.classList.remove('d-none');
 if (content) content.classList.add('d-none');
+if (hasKo) {
+vm.historyEntries([]);
+} else if (list) {
+list.innerHTML = '';
+}
 return;
 }
 if (emptyState) emptyState.classList.add('d-none');
 if (content) content.classList.remove('d-none');
 var currentCount = entries.filter(function (e) { return e.type === 'Current'; }).length;
 var oldCount = entries.filter(function (e) { return e.type === 'Old'; }).length;
+var subText = totalCount + ' completed ' + (totalCount === 1 ? 'prayer' : 'prayers') + ' (' + currentCount + ' Current, ' + oldCount + ' Old)';
 if (subtitleCount) {
-subtitleCount.textContent = totalCount + ' completed ' + (totalCount === 1 ? 'prayer' : 'prayers') + ' (' + currentCount + ' Current, ' + oldCount + ' Old)';
+subtitleCount.textContent = subText;
 }
+if (vm && typeof vm.historySubtitle === 'function') {
+vm.historySubtitle(subText);
+}
+var mapped = entries.map(function (entry) {
+return {
+id: entry.id,
+prayer: entry.prayer,
+iconName: (entry.prayer || '').toLowerCase(),
+type: entry.type,
+isCurrent: entry.type === 'Current',
+formattedDate: formatPrayerDate(entry.date),
+exactTime: formatHistoryTimestamp(entry.timestamp),
+ago: formatTimeAgo(entry.timestamp)
+};
+});
+if (hasKo) {
+vm.historyEntries(mapped);
+} else {
 if (list) {
 list.innerHTML = entries.map(renderHistoryEntryCard).join('');
+}
 }
 }
 function init() {
@@ -2885,6 +2925,10 @@ self.currentDhikrsCount = (k && k.observable) ? k.observable(0) : 0;
 self.clearedMonthsCount = (k && k.observable) ? k.observable(0) : 0;
 self.activeOldLabel = (k && k.observable) ? k.observable('All Cleared') : 'All Cleared';
 self.bookmarkedCounters = (k && k.observableArray) ? k.observableArray([]) : [];
+self.currentTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
+self.currentDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
+self.oldTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
+self.oldDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
 self.historyProgress = {
 percentCleared: (k && k.observable) ? k.observable(0) : 0,
 totalMonths: (k && k.observable) ? k.observable(0) : 0,
@@ -3085,9 +3129,46 @@ var curOldMonth = (window.TasbeehOldApp && typeof window.TasbeehOldApp.getCurren
 ? window.TasbeehOldApp.getCurrentOldMonth()
 : null;
 var activeOldLabel = curOldMonth ? (window.TasbeehApp && window.TasbeehApp.formatMonthLabel ? window.TasbeehApp.formatMonthLabel(curOldMonth) : curOldMonth) : 'All Cleared';
+var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+var hasKo = typeof ko !== 'undefined' && vm && typeof vm.bookmarkedCounters === 'function';
+if (vm) {
+if (typeof vm.currentDhikrsCount === 'function') vm.currentDhikrsCount(items.length);
+if (typeof vm.clearedMonthsCount === 'function') vm.clearedMonthsCount(completedCount);
+if (typeof vm.activeOldLabel === 'function') vm.activeOldLabel(activeOldLabel);
+}
+var bmCards = [];
+if (bmData && bmData.current && bmData.current.item) {
+var c = bmData.current;
+bmCards.push({
+id: c.item.id,
+title: c.item.title,
+targetCount: c.targetDisplay,
+completedDays: c.completedDays,
+totalDays: c.totalDays,
+isComplete: c.completedDays >= c.totalDays,
+isTodayDone: c.isTodayDone
+});
+}
+if (bmData && bmData.old && bmData.old.item) {
+var o = bmData.old;
+bmCards.push({
+id: o.item.id,
+title: o.item.title,
+month: o.monthKey,
+targetCount: o.targetDisplay,
+completedDays: o.completedDays,
+totalDays: o.totalDays,
+isComplete: !!o.isDhikrDone,
+isTodayDone: false
+});
+}
+if (hasKo) {
+vm.bookmarkedCounters(bmCards);
+} else {
 var gridEl = getEl(ELEMENT_IDS.HOME_GRID || 'tbHomeGrid');
 if (gridEl) {
 gridEl.innerHTML = curHtml + oldHtml;
+}
 }
 var curCountEl = getEl(ELEMENT_IDS.HOME_CURRENT_COUNT || 'tbHomeCurrentCount');
 if (curCountEl) {
@@ -3725,10 +3806,37 @@ var todoBadge = getEl(ELEMENT_IDS.CURRENT_TODO_BADGE || 'tbCurrentTodoBadge');
 if (todoBadge) todoBadge.textContent = todoItems.length;
 var doneBadge = getEl(ELEMENT_IDS.CURRENT_DONE_BADGE || 'tbCurrentDoneBadge');
 if (doneBadge) doneBadge.textContent = doneItems.length;
+var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+var hasKo = typeof ko !== 'undefined' && vm && typeof vm.currentTodoItems === 'function';
+function mapCurCard(item, isComplete) {
+var parts = curMonthKey.split('-');
+var yr = parseInt(parts[0], 10);
+var mo = parseInt(parts[1], 10) - 1;
+var totalDays = getDaysInMonth(yr, mo);
+var completedDays = getCompletedDaysInMonth(item.id, yr, mo);
+var isTodayInCurMonth = (td().slice(0, 7) === curMonthKey);
+var isTodayDone = isTodayInCurMonth ? isDayCompleted(item.id, td()) : false;
+var isInfinite = item.targetCount === 'infinite';
+var targetDisplay = isInfinite ? '∞' : item.targetCount;
+return {
+id: item.id,
+title: item.title,
+targetCount: targetDisplay,
+completedDays: completedDays,
+totalDays: totalDays,
+isComplete: !!isComplete,
+isTodayDone: isTodayDone
+};
+}
 var todoGrid = getEl(ELEMENT_IDS.CURRENT_TODO_GRID || 'tbCurrentTodoGrid');
-if (todoGrid) todoGrid.innerHTML = todoCardsHtml;
 var doneGrid = getEl(ELEMENT_IDS.CURRENT_DONE_GRID || 'tbCurrentDoneGrid');
+if (hasKo) {
+vm.currentTodoItems(todoItems.map(function (it) { return mapCurCard(it, false); }));
+vm.currentDoneItems(doneItems.map(function (it) { return mapCurCard(it, true); }));
+} else {
+if (todoGrid) todoGrid.innerHTML = todoCardsHtml;
 if (doneGrid) doneGrid.innerHTML = doneCardsHtml;
+}
 var doneToggle = getEl(ELEMENT_IDS.CURRENT_DONE_TOGGLE || 'tbCurrentDoneToggle');
 var doneList = getEl(ELEMENT_IDS.CURRENT_DONE_LIST || 'tbCurrentDoneList');
 if (doneToggle) {
@@ -4778,10 +4886,39 @@ var todoBadge = getEl(ELEMENT_IDS.OLD_TODO_BADGE || 'tbOldTodoBadge');
 if (todoBadge) todoBadge.textContent = todoOldItems.length;
 var doneBadge = getEl(ELEMENT_IDS.OLD_DONE_BADGE || 'tbOldDoneBadge');
 if (doneBadge) doneBadge.textContent = doneOldItems.length;
+var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+var hasKo = typeof ko !== 'undefined' && vm && typeof vm.oldTodoItems === 'function';
+function mapOldCard(item, isComplete) {
+var isInfinite = item.targetCount === 'infinite';
+var parts = curOldMonth.split('-');
+var yr = parseInt(parts[0], 10);
+var mo = parseInt(parts[1], 10) - 1;
+var totalDays = (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getDaysInMonth === 'function')
+? window.TasbeehCurrentApp.getDaysInMonth(yr, mo)
+: new Date(yr, mo + 1, 0).getDate();
+var completedDays = (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getCompletedDaysInMonth === 'function')
+? window.TasbeehCurrentApp.getCompletedDaysInMonth(item.id, yr, mo)
+: 0;
+return {
+id: item.id,
+title: item.title,
+month: curOldMonth,
+targetCount: isInfinite ? '∞' : item.targetCount,
+completedDays: completedDays,
+totalDays: totalDays,
+isComplete: !!isComplete,
+isTodayDone: false
+};
+}
 var todoGrid = getEl(ELEMENT_IDS.OLD_TODO_GRID || 'tbOldTodoGrid');
-if (todoGrid) todoGrid.innerHTML = todoOldCardsHtml;
 var doneGrid = getEl(ELEMENT_IDS.OLD_DONE_GRID || 'tbOldDoneGrid');
+if (hasKo) {
+vm.oldTodoItems(todoOldItems.map(function (it) { return mapOldCard(it, false); }));
+vm.oldDoneItems(doneOldItems.map(function (it) { return mapOldCard(it, true); }));
+} else {
+if (todoGrid) todoGrid.innerHTML = todoOldCardsHtml;
 if (doneGrid) doneGrid.innerHTML = doneOldCardsHtml;
+}
 var doneToggle = getEl(ELEMENT_IDS.OLD_DONE_TOGGLE || 'tbOldDoneToggle');
 var doneList = getEl(ELEMENT_IDS.OLD_DONE_LIST || 'tbOldDoneList');
 if (doneToggle) {
@@ -5601,7 +5738,7 @@ return String(str)
 }
 function getFilteredData() {
 var searchInput = document.getElementById('duaSearchInput');
-var query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+var query = (searchInput && searchInput.value) ? searchInput.value.trim().toLowerCase() : '';
 if (query === '') return duasData.slice();
 return duasData.filter(function (d) {
 var surah = getSurah(d).toLowerCase();
@@ -5622,29 +5759,50 @@ var emptyState = document.getElementById('duaListEmptyState');
 var progressIndicator = document.getElementById('duaProgressIndicator');
 if (!listView) return;
 var filteredData = getFilteredData();
+var vm = (typeof getDuasViewModel === 'function') ? getDuasViewModel() : null;
+var hasKo = typeof ko !== 'undefined' && vm && typeof vm.filteredDuas === 'function';
 if (filteredData.length === 0) {
 if (emptyState) emptyState.classList.remove('d-none');
+if (hasKo) {
+vm.filteredDuas([]);
+} else {
 listView.innerHTML = '';
+}
 if (progressIndicator) progressIndicator.textContent = '0 duas';
 return;
 }
 if (emptyState) emptyState.classList.add('d-none');
-listView.innerHTML = filteredData.map(function (dua) {
+var mapped = filteredData.map(function (dua) {
 var realIndex = duasData.indexOf(dua);
 var isFav = favourites.indexOf(realIndex) !== -1;
 var isPinned = pins.indexOf(realIndex) !== -1;
 var surahLabel = getSurah(dua);
 var uchPreview = getUchcharana(dua);
-return '<div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2" data-act="dua-open-detail" data-idx="' + realIndex + '" data-source="duas">' +
-'<div class="dua-item-number text-sm font-bold text-brand min-w-[36px]">#' + String(dua.number).padStart(2, '0') + '</div>' +
+return {
+index: realIndex,
+source: 'duas',
+number: dua.number,
+surah: surahLabel,
+preview: uchPreview,
+isPinned: isPinned,
+isFav: isFav
+};
+});
+if (hasKo) {
+vm.filteredDuas(mapped);
+} else {
+listView.innerHTML = mapped.map(function (d) {
+return '<div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2" data-act="dua-open-detail" data-idx="' + d.index + '" data-source="duas">' +
+'<div class="dua-item-number text-sm font-bold text-brand min-w-[36px]">#' + String(d.number).padStart(2, '0') + '</div>' +
 '<div class="dua-item-content flex-1 min-w-0">' +
-'  <div class="dua-item-surah text-sm font-semibold text-brand font-telugu truncate">' + escapeHtml(surahLabel) + '</div>' +
-'  <div class="dua-item-preview text-xs text-gr-textMuted font-telugu truncate mt-0.5">' + escapeHtml(uchPreview) + '</div>' +
+'  <div class="dua-item-surah text-sm font-semibold text-brand font-telugu truncate">' + escapeHtml(d.surah) + '</div>' +
+'  <div class="dua-item-preview text-xs text-gr-textMuted font-telugu truncate mt-0.5">' + escapeHtml(d.preview) + '</div>' +
 '</div>' +
-'<button type="button" class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all ' + (isPinned ? 'pinned text-pinAmber' : 'opacity-50') + '" data-act="dua-item-pin" data-idx="' + realIndex + '" title="' + (isPinned ? 'Unpin' : 'Pin to Home') + '">' + (isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED) + '</button>' +
-'<button type="button" class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all" data-act="dua-item-fav" data-idx="' + realIndex + '" title="Toggle favourite">' + (isFav ? DUA_ICONS.FAV : DUA_ICONS.UNFAV) + '</button>' +
+'<button type="button" class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all ' + (d.isPinned ? 'pinned text-pinAmber' : 'opacity-50') + '" data-act="dua-item-pin" data-idx="' + d.index + '" title="' + (d.isPinned ? 'Unpin' : 'Pin to Home') + '">' + (d.isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED) + '</button>' +
+'<button type="button" class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all" data-act="dua-item-fav" data-idx="' + d.index + '" title="Toggle favourite">' + (d.isFav ? DUA_ICONS.FAV : DUA_ICONS.UNFAV) + '</button>' +
 '</div>';
 }).join('');
+}
 if (progressIndicator) progressIndicator.textContent = filteredData.length + ' duas';
 }
 function renderFavourites() {
@@ -5655,28 +5813,49 @@ if (!favouritesList) return;
 var favList = duasData.filter(function (_, idx) {
 return favourites.indexOf(idx) !== -1;
 });
+var vm = (typeof getDuasViewModel === 'function') ? getDuasViewModel() : null;
+var hasKo = typeof ko !== 'undefined' && vm && typeof vm.favouriteDuas === 'function';
 if (favList.length === 0) {
 if (emptyState) emptyState.classList.remove('d-none');
+if (hasKo) {
+vm.favouriteDuas([]);
+} else {
 favouritesList.innerHTML = '';
+}
 if (progressIndicator) progressIndicator.textContent = '0 favourites';
 return;
 }
 if (emptyState) emptyState.classList.add('d-none');
-favouritesList.innerHTML = favList.map(function (dua) {
+var mapped = favList.map(function (dua) {
 var realIndex = duasData.indexOf(dua);
 var isPinned = pins.indexOf(realIndex) !== -1;
 var surahLabel = getSurah(dua);
 var uchPreview = getUchcharana(dua);
-return '<div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2" data-act="dua-open-detail" data-idx="' + realIndex + '" data-source="favourites">' +
-'<div class="dua-item-number text-sm font-bold text-brand min-w-[36px]">#' + String(dua.number).padStart(2, '0') + '</div>' +
+return {
+index: realIndex,
+source: 'favourites',
+number: dua.number,
+surah: surahLabel,
+preview: uchPreview,
+isPinned: isPinned,
+isFav: true
+};
+});
+if (hasKo) {
+vm.favouriteDuas(mapped);
+} else {
+favouritesList.innerHTML = mapped.map(function (d) {
+return '<div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2" data-act="dua-open-detail" data-idx="' + d.index + '" data-source="favourites">' +
+'<div class="dua-item-number text-sm font-bold text-brand min-w-[36px]">#' + String(d.number).padStart(2, '0') + '</div>' +
 '<div class="dua-item-content flex-1 min-w-0">' +
-'  <div class="dua-item-surah text-sm font-semibold text-brand font-telugu truncate">' + escapeHtml(surahLabel) + '</div>' +
-'  <div class="dua-item-preview text-xs text-gr-textMuted font-telugu truncate mt-0.5">' + escapeHtml(uchPreview) + '</div>' +
+'  <div class="dua-item-surah text-sm font-semibold text-brand font-telugu truncate">' + escapeHtml(d.surah) + '</div>' +
+'  <div class="dua-item-preview text-xs text-gr-textMuted font-telugu truncate mt-0.5">' + escapeHtml(d.preview) + '</div>' +
 '</div>' +
-'<button type="button" class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all ' + (isPinned ? 'pinned text-pinAmber' : 'opacity-50') + '" data-act="dua-item-pin" data-idx="' + realIndex + '" title="' + (isPinned ? 'Unpin' : 'Pin to Home') + '">' + (isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED) + '</button>' +
-'<button type="button" class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all" data-act="dua-item-fav" data-idx="' + realIndex + '" title="Remove from favourites">' + DUA_ICONS.FAV + '</button>' +
+'<button type="button" class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all ' + (d.isPinned ? 'pinned text-pinAmber' : 'opacity-50') + '" data-act="dua-item-pin" data-idx="' + d.index + '" title="' + (d.isPinned ? 'Unpin' : 'Pin to Home') + '">' + (d.isPinned ? DUA_ICONS.PINNED : DUA_ICONS.UNPINNED) + '</button>' +
+'<button type="button" class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all" data-act="dua-item-fav" data-idx="' + d.index + '" title="Remove from favourites">' + DUA_ICONS.FAV + '</button>' +
 '</div>';
 }).join('');
+}
 if (progressIndicator) progressIndicator.textContent = favList.length + ' favourite' + (favList.length === 1 ? '' : 's');
 }
 function renderHome() {
@@ -5686,30 +5865,48 @@ var content = document.getElementById('duaHomeContent');
 var titleCount = document.getElementById('duaHomeTitleCount');
 var progressIndicator = document.getElementById('duaProgressIndicator');
 if (!homeView) return;
+var vm = (typeof getDuasViewModel === 'function') ? getDuasViewModel() : null;
+var hasKo = typeof ko !== 'undefined' && vm && typeof vm.pinnedDuas === 'function';
 if (pins.length === 0) {
 if (emptyState) emptyState.classList.remove('d-none');
 if (content) content.classList.add('d-none');
+if (hasKo) {
+vm.pinnedDuas([]);
+} else {
 homeView.innerHTML = '';
+}
 if (progressIndicator) progressIndicator.textContent = '0 pinned';
 return;
 }
 if (emptyState) emptyState.classList.add('d-none');
 if (content) content.classList.remove('d-none');
-if (titleCount) titleCount.textContent = 'Your Pinned Duas (' + pins.length + '/' + MAX_PINS + ')';
-homeView.innerHTML = pins.map(function (pinIndex) {
+var titleText = 'Your Pinned Duas (' + pins.length + '/' + MAX_PINS + ')';
+if (titleCount) titleCount.textContent = titleText;
+if (vm && typeof vm.pinnedTitle === 'function') vm.pinnedTitle(titleText);
+var mapped = pins.map(function (pinIndex) {
 var dua = duasData[pinIndex];
-if (!dua) return '';
-var surahLabel = getSurah(dua);
-var uch = getUchcharana(dua);
-var ard = getArdham(dua);
-return '<div class="pinned-dua-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col gap-2.5 border-l-4 border-l-brand relative cursor-pointer hover:bg-surfaceBg transition-all mb-3" data-act="dua-open-detail" data-idx="' + pinIndex + '" data-source="home">' +
+if (!dua) return null;
+return {
+index: pinIndex,
+number: dua.number,
+surah: getSurah(dua),
+uchcharana: getUchcharana(dua),
+ardham: getArdham(dua)
+};
+}).filter(Boolean);
+if (hasKo) {
+vm.pinnedDuas(mapped);
+} else {
+homeView.innerHTML = mapped.map(function (d) {
+return '<div class="pinned-dua-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col gap-2.5 border-l-4 border-l-brand relative cursor-pointer hover:bg-surfaceBg transition-all mb-3" data-act="dua-open-detail" data-idx="' + d.index + '" data-source="home">' +
 '<span class="pinned-badge absolute top-3.5 right-4 text-base inline-flex items-center justify-center text-pinAmber">' + DRAWING_PIN_SVG + '</span>' +
-'<div class="pinned-dua-number text-sm font-bold text-brand">#' + String(dua.number).padStart(2, '0') + '</div>' +
-'<div class="pinned-dua-surah text-base font-bold text-brand font-telugu pr-8">' + escapeHtml(surahLabel) + '</div>' +
-'<div class="pinned-dua-text text-base text-gr-text leading-relaxed font-telugu">' + escapeHtml(uch) + '</div>' +
-'<div class="pinned-dua-meaning text-sm text-gr-textMuted leading-relaxed font-telugu border-t border-dashed border-borderGrey pt-2.5">' + escapeHtml(ard) + '</div>' +
+'<div class="pinned-dua-number text-sm font-bold text-brand">#' + String(d.number).padStart(2, '0') + '</div>' +
+'<div class="pinned-dua-surah text-base font-bold text-brand font-telugu pr-8">' + escapeHtml(d.surah) + '</div>' +
+'<div class="pinned-dua-text text-base text-gr-text leading-relaxed font-telugu">' + escapeHtml(d.uchcharana) + '</div>' +
+'<div class="pinned-dua-meaning text-sm text-gr-textMuted leading-relaxed font-telugu border-t border-dashed border-borderGrey pt-2.5">' + escapeHtml(d.ardham) + '</div>' +
 '</div>';
 }).join('');
+}
 if (progressIndicator) progressIndicator.textContent = pins.length + ' pinned';
 }
 function toggleFavourite(index) {
@@ -6193,6 +6390,7 @@ registerFeatureComponent('prayer-row', PrayerRowViewModel, PrayerRowTemplate);
 registerFeatureComponent('prayer-stat-card', function (p) { return p || {}; }, PrayerStatCardTemplate);
 registerFeatureComponent('prayer-perf-ring', function (p) { return p || {}; }, PrayerPerfRingTemplate);
 registerFeatureComponent('prayer-nav-tab', function (p) { return p || {}; }, PrayerNavTabTemplate);
+registerFeatureComponent('prayer-history-card', function (p) { return p || {}; }, PrayerHistoryCardTemplate);
 registerFeatureComponent('tracker-page', function (p) {
 return (p && p.viewModel) ? p.viewModel : getTrackerViewModel();
 }, TrackerPageTemplate);

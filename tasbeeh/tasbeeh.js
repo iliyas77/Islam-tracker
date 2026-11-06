@@ -59,6 +59,11 @@ export function TasbeehPageViewModel(params) {
     self.activeOldLabel = (k && k.observable) ? k.observable('All Cleared') : 'All Cleared';
     self.bookmarkedCounters = (k && k.observableArray) ? k.observableArray([]) : [];
 
+    self.currentTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
+    self.currentDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
+    self.oldTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
+    self.oldDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
+
     self.historyProgress = {
         percentCleared: (k && k.observable) ? k.observable(0) : 0,
         totalMonths: (k && k.observable) ? k.observable(0) : 0,
@@ -296,10 +301,50 @@ window.TasbeehHomeApp = (function () {
             : null;
         var activeOldLabel = curOldMonth ? (window.TasbeehApp && window.TasbeehApp.formatMonthLabel ? window.TasbeehApp.formatMonthLabel(curOldMonth) : curOldMonth) : 'All Cleared';
 
-        // Update dynamic content elements
-        var gridEl = getEl(ELEMENT_IDS.HOME_GRID || 'tbHomeGrid');
-        if (gridEl) {
-            gridEl.innerHTML = curHtml + oldHtml;
+        var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+        var hasKo = typeof ko !== 'undefined' && vm && typeof vm.bookmarkedCounters === 'function';
+
+        if (vm) {
+            if (typeof vm.currentDhikrsCount === 'function') vm.currentDhikrsCount(items.length);
+            if (typeof vm.clearedMonthsCount === 'function') vm.clearedMonthsCount(completedCount);
+            if (typeof vm.activeOldLabel === 'function') vm.activeOldLabel(activeOldLabel);
+        }
+
+        var bmCards = [];
+        if (bmData && bmData.current && bmData.current.item) {
+            var c = bmData.current;
+            bmCards.push({
+                id: c.item.id,
+                title: c.item.title,
+                targetCount: c.targetDisplay,
+                completedDays: c.completedDays,
+                totalDays: c.totalDays,
+                isComplete: c.completedDays >= c.totalDays,
+                isTodayDone: c.isTodayDone
+            });
+        }
+        if (bmData && bmData.old && bmData.old.item) {
+            var o = bmData.old;
+            bmCards.push({
+                id: o.item.id,
+                title: o.item.title,
+                month: o.monthKey,
+                targetCount: o.targetDisplay,
+                completedDays: o.completedDays,
+                totalDays: o.totalDays,
+                isComplete: !!o.isDhikrDone,
+                isTodayDone: false
+            });
+        }
+
+        if (hasKo) {
+            vm.bookmarkedCounters(bmCards);
+        } else {
+            // Fallback for non-Knockout environments
+            var gridEl = getEl(ELEMENT_IDS.HOME_GRID || 'tbHomeGrid');
+            if (gridEl) {
+                gridEl.innerHTML = curHtml + oldHtml;
+            }
         }
 
         var curCountEl = getEl(ELEMENT_IDS.HOME_CURRENT_COUNT || 'tbHomeCurrentCount');
@@ -1058,12 +1103,42 @@ window.TasbeehCurrentApp = (function () {
         var doneBadge = getEl(ELEMENT_IDS.CURRENT_DONE_BADGE || 'tbCurrentDoneBadge');
         if (doneBadge) doneBadge.textContent = doneItems.length;
 
+        var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+        var hasKo = typeof ko !== 'undefined' && vm && typeof vm.currentTodoItems === 'function';
+
+        function mapCurCard(item, isComplete) {
+            var parts = curMonthKey.split('-');
+            var yr = parseInt(parts[0], 10);
+            var mo = parseInt(parts[1], 10) - 1;
+            var totalDays = getDaysInMonth(yr, mo);
+            var completedDays = getCompletedDaysInMonth(item.id, yr, mo);
+            var isTodayInCurMonth = (td().slice(0, 7) === curMonthKey);
+            var isTodayDone = isTodayInCurMonth ? isDayCompleted(item.id, td()) : false;
+            var isInfinite = item.targetCount === 'infinite';
+            var targetDisplay = isInfinite ? '∞' : item.targetCount;
+
+            return {
+                id: item.id,
+                title: item.title,
+                targetCount: targetDisplay,
+                completedDays: completedDays,
+                totalDays: totalDays,
+                isComplete: !!isComplete,
+                isTodayDone: isTodayDone
+            };
+        }
+
         // Populate grids
         var todoGrid = getEl(ELEMENT_IDS.CURRENT_TODO_GRID || 'tbCurrentTodoGrid');
-        if (todoGrid) todoGrid.innerHTML = todoCardsHtml;
-
         var doneGrid = getEl(ELEMENT_IDS.CURRENT_DONE_GRID || 'tbCurrentDoneGrid');
-        if (doneGrid) doneGrid.innerHTML = doneCardsHtml;
+
+        if (hasKo) {
+            vm.currentTodoItems(todoItems.map(function (it) { return mapCurCard(it, false); }));
+            vm.currentDoneItems(doneItems.map(function (it) { return mapCurCard(it, true); }));
+        } else {
+            if (todoGrid) todoGrid.innerHTML = todoCardsHtml;
+            if (doneGrid) doneGrid.innerHTML = doneCardsHtml;
+        }
 
         // Update Done collapse expansion state
         var doneToggle = getEl(ELEMENT_IDS.CURRENT_DONE_TOGGLE || 'tbCurrentDoneToggle');
@@ -2328,12 +2403,44 @@ window.TasbeehOldApp = (function () {
         var doneBadge = getEl(ELEMENT_IDS.OLD_DONE_BADGE || 'tbOldDoneBadge');
         if (doneBadge) doneBadge.textContent = doneOldItems.length;
 
+        var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+        var hasKo = typeof ko !== 'undefined' && vm && typeof vm.oldTodoItems === 'function';
+
+        function mapOldCard(item, isComplete) {
+            var isInfinite = item.targetCount === 'infinite';
+            var parts = curOldMonth.split('-');
+            var yr = parseInt(parts[0], 10);
+            var mo = parseInt(parts[1], 10) - 1;
+            var totalDays = (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getDaysInMonth === 'function')
+                ? window.TasbeehCurrentApp.getDaysInMonth(yr, mo)
+                : new Date(yr, mo + 1, 0).getDate();
+            var completedDays = (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getCompletedDaysInMonth === 'function')
+                ? window.TasbeehCurrentApp.getCompletedDaysInMonth(item.id, yr, mo)
+                : 0;
+
+            return {
+                id: item.id,
+                title: item.title,
+                month: curOldMonth,
+                targetCount: isInfinite ? '∞' : item.targetCount,
+                completedDays: completedDays,
+                totalDays: totalDays,
+                isComplete: !!isComplete,
+                isTodayDone: false
+            };
+        }
+
         // Populate grids
         var todoGrid = getEl(ELEMENT_IDS.OLD_TODO_GRID || 'tbOldTodoGrid');
-        if (todoGrid) todoGrid.innerHTML = todoOldCardsHtml;
-
         var doneGrid = getEl(ELEMENT_IDS.OLD_DONE_GRID || 'tbOldDoneGrid');
-        if (doneGrid) doneGrid.innerHTML = doneOldCardsHtml;
+
+        if (hasKo) {
+            vm.oldTodoItems(todoOldItems.map(function (it) { return mapOldCard(it, false); }));
+            vm.oldDoneItems(doneOldItems.map(function (it) { return mapOldCard(it, true); }));
+        } else {
+            if (todoGrid) todoGrid.innerHTML = todoOldCardsHtml;
+            if (doneGrid) doneGrid.innerHTML = doneOldCardsHtml;
+        }
 
         // Update Done collapse expansion state
         var doneToggle = getEl(ELEMENT_IDS.OLD_DONE_TOGGLE || 'tbOldDoneToggle');

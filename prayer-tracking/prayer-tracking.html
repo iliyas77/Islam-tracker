@@ -100,7 +100,9 @@
         </div>
 
         <!-- Entries List Container -->
-        <div class="flex flex-col gap-1" id="histList" data-ref="page.history.list"></div>
+        <div class="flex flex-col gap-1" id="histList" data-ref="page.history.list" data-bind="foreach: historyEntries">
+            <!-- ko component: { name: 'prayer-history-card', params: $data } --><!-- /ko -->
+        </div>
     </div>
 </div>
 

@@ -35,6 +35,7 @@ export const PrayerRowTemplate = { element: 'prayer-row-template', file: 'prayer
 export const PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'prayer-tracking/templates/prayer-stat-card.html' };
 export const PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'prayer-tracking/templates/prayer-perf-ring.html' };
 export const PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'prayer-tracking/templates/prayer-nav-tab.html' };
+export const PrayerHistoryCardTemplate = { element: 'prayer-history-card-template', file: 'prayer-tracking/templates/prayer-history-card.html' };
 
 /* ---------- Knockout ViewModel & Component Registration ---------- */
 var trackerViewModel = null;
@@ -154,6 +155,7 @@ export function TrackerPageViewModel(params) {
     };
 
     self.historySubtitle = (k && k.observable) ? k.observable('0 completed prayers') : '0 completed prayers';
+    self.historyEntries = (k && k.observableArray) ? k.observableArray([]) : [];
 }
 
 export function registerPrayerTrackingComponents(customKo) {
@@ -164,6 +166,13 @@ export function registerPrayerTrackingComponents(customKo) {
         k.components.register('prayer-header', {
             viewModel: function (params) { return params || {}; },
             template: PrayerHeaderTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('prayer-history-card')) {
+        k.components.register('prayer-history-card', {
+            viewModel: function (params) { return params || {}; },
+            template: PrayerHistoryCardTemplate
         });
     }
 
@@ -1580,10 +1589,18 @@ if (typeof window !== 'undefined') {
         var subtitleCount = typeof window.$ === 'function' ? window.$('histSubtitleCount') : document.getElementById('histSubtitleCount');
         var list = typeof window.$ === 'function' ? window.$('histList') : document.getElementById('histList');
 
+        var vm = (typeof getTrackerViewModel === 'function') ? getTrackerViewModel() : null;
+        var hasKo = typeof ko !== 'undefined' && vm && typeof vm.historyEntries === 'function';
+
         // Empty state
         if (totalCount === 0) {
             if (emptyState) emptyState.classList.remove('d-none');
             if (content) content.classList.add('d-none');
+            if (hasKo) {
+                vm.historyEntries([]);
+            } else if (list) {
+                list.innerHTML = '';
+            }
             return;
         }
 
@@ -1594,12 +1611,33 @@ if (typeof window !== 'undefined') {
         var currentCount = entries.filter(function (e) { return e.type === 'Current'; }).length;
         var oldCount = entries.filter(function (e) { return e.type === 'Old'; }).length;
 
+        var subText = totalCount + ' completed ' + (totalCount === 1 ? 'prayer' : 'prayers') + ' (' + currentCount + ' Current, ' + oldCount + ' Old)';
         if (subtitleCount) {
-            subtitleCount.textContent = totalCount + ' completed ' + (totalCount === 1 ? 'prayer' : 'prayers') + ' (' + currentCount + ' Current, ' + oldCount + ' Old)';
+            subtitleCount.textContent = subText;
+        }
+        if (vm && typeof vm.historySubtitle === 'function') {
+            vm.historySubtitle(subText);
         }
 
-        if (list) {
-            list.innerHTML = entries.map(renderHistoryEntryCard).join('');
+        var mapped = entries.map(function (entry) {
+            return {
+                id: entry.id,
+                prayer: entry.prayer,
+                iconName: (entry.prayer || '').toLowerCase(),
+                type: entry.type,
+                isCurrent: entry.type === 'Current',
+                formattedDate: formatPrayerDate(entry.date),
+                exactTime: formatHistoryTimestamp(entry.timestamp),
+                ago: formatTimeAgo(entry.timestamp)
+            };
+        });
+
+        if (hasKo) {
+            vm.historyEntries(mapped);
+        } else {
+            if (list) {
+                list.innerHTML = entries.map(renderHistoryEntryCard).join('');
+            }
         }
     }
 
