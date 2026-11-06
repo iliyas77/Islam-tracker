@@ -29,6 +29,7 @@ const duaJsPath = path.join(ROOT, 'duva', 'duva.js');
 const prayerStoreJsPath = path.join(ROOT, 'services', 'prayer-store.js');
 const tasbeehStoreJsPath = path.join(ROOT, 'services', 'tasbeeh-store.js');
 const duasStoreJsPath = path.join(ROOT, 'services', 'duas-store.js');
+const appViewModelJsPath = path.join(ROOT, 'services', 'app-view-model.js');
 
 /**
  * Minify CSS content by removing comments and unnecessary whitespace
@@ -109,7 +110,8 @@ function buildProduction() {
         const prayerStoreJs = fs.existsSync(prayerStoreJsPath) ? fs.readFileSync(prayerStoreJsPath, 'utf8') : '';
         const tasbeehStoreJs = fs.existsSync(tasbeehStoreJsPath) ? fs.readFileSync(tasbeehStoreJsPath, 'utf8') : '';
         const duasStoreJs = fs.existsSync(duasStoreJsPath) ? fs.readFileSync(duasStoreJsPath, 'utf8') : '';
-        const combinedJs = iconJs + '\n' + bottomSheetJs + '\n' + constantJs + '\n' + utilityJs + '\n' + prayerStoreJs + '\n' + tasbeehStoreJs + '\n' + duasStoreJs + '\n' + dashboardJs + '\n' + settingsJs + '\n' + prayerTrackingJs + '\n' + tasbeehJs + '\n' + duaJs + '\n' + registryJs + '\n' + appJs + '\n' + navigationJs;
+        const appViewModelJs = fs.existsSync(appViewModelJsPath) ? fs.readFileSync(appViewModelJsPath, 'utf8') : '';
+        const combinedJs = iconJs + '\n' + bottomSheetJs + '\n' + constantJs + '\n' + utilityJs + '\n' + prayerStoreJs + '\n' + tasbeehStoreJs + '\n' + duasStoreJs + '\n' + dashboardJs + '\n' + settingsJs + '\n' + prayerTrackingJs + '\n' + tasbeehJs + '\n' + duaJs + '\n' + registryJs + '\n' + appJs + '\n' + navigationJs + '\n' + appViewModelJs;
         const minifiedJs = minifyJs(combinedJs);
 
         // Replace script src tags with minified inlined script block
@@ -122,6 +124,7 @@ function buildProduction() {
         html = html.replace(/<script[^>]*src="services\/prayer-store\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="services\/tasbeeh-store\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="services\/duas-store\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="services\/app-view-model\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="navigation\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="(?:prayer-tracking\/)?prayer-tracking\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="(?:dashboard\/)?dashboard\.js"[^>]*><\/script>/g, '');

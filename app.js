@@ -363,8 +363,14 @@ document.addEventListener('DOMContentLoaded', function () {
             window.AppBottomSheet.register(ko);
         }
     }
+    if (typeof initApp === 'function') {
+        initApp();
+    } else if (typeof window !== 'undefined' && window.initApp) {
+        window.initApp();
+    }
+
     var sheet2El = document.getElementById('sheet2Wrapper');
-    if (sheet2El && typeof ko !== 'undefined') {
+    if (sheet2El && typeof ko !== 'undefined' && !ko.dataFor(sheet2El)) {
         ko.applyBindings({
             sheet2IsOpen: sheet2IsOpen,
             sheet2Title: sheet2Title,

@@ -169,7 +169,10 @@ export function registerDuasComponents(customKo) {
     if (!k.components.isRegistered('duas-page')) {
         k.components.register('duas-page', {
             viewModel: function (params) {
-                return (params && params.viewModel) ? params.viewModel : getDuasViewModel();
+                if (params && params.viewModel) return params.viewModel;
+                if (params && params.currentDua) return params;
+                if (params && params.duas) return params.duas;
+                return getDuasViewModel();
             },
             template: DuasPageTemplate
         });

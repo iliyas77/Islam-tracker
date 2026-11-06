@@ -106,7 +106,10 @@ export function registerDashboardComponents(customKo) {
     if (!k.components.isRegistered('dashboard-page')) {
         k.components.register('dashboard-page', {
             viewModel: function (params) {
-                return (params && params.viewModel) ? params.viewModel : getDashboardViewModel();
+                if (params && params.viewModel) return params.viewModel;
+                if (params && params.timeline) return params;
+                if (params && params.dashboard) return params.dashboard;
+                return getDashboardViewModel();
             },
             template: DashboardPageTemplate
         });

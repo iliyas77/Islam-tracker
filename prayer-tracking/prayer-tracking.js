@@ -379,7 +379,10 @@ export function registerPrayerTrackingComponents(customKo) {
     if (!k.components.isRegistered('tracker-page')) {
         k.components.register('tracker-page', {
             viewModel: function (params) {
-                return (params && params.viewModel) ? params.viewModel : getTrackerViewModel();
+                if (params && params.viewModel) return params.viewModel;
+                if (params && params.header && params.subTabs) return params;
+                if (params && params.tracker) return params.tracker;
+                return getTrackerViewModel();
             },
             template: TrackerPageTemplate
         });

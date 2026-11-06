@@ -67,8 +67,9 @@ export function registerFeatureComponent(name, viewModel, template) {
         return;
     }
 
+    componentRegistry.set(name, { viewModel, template });
+
     if (k.components.isRegistered(name)) {
-        console.warn(`Component [${name}] is already registered.`);
         return;
     }
 
@@ -76,8 +77,6 @@ export function registerFeatureComponent(name, viewModel, template) {
         viewModel: viewModel,
         template: template
     });
-
-    componentRegistry.set(name, { viewModel, template });
 }
 
 // Bulk registration function for app bootstrap
@@ -94,7 +93,10 @@ export function registerAllComponents() {
     registerFeatureComponent('dashboard-nav-card', function (p) { return p || {}; }, DashboardNavCardTemplate);
     registerFeatureComponent('dashboard-divider', function (p) { return p || {}; }, DashboardDividerTemplate);
     registerFeatureComponent('dashboard-page', function (p) {
-        return (p && p.viewModel) ? p.viewModel : getDashboardViewModel();
+        if (p && p.viewModel) return p.viewModel;
+        if (p && p.timeline) return p;
+        if (p && p.dashboard) return p.dashboard;
+        return getDashboardViewModel();
     }, DashboardPageTemplate);
 
     // 3. Settings Feature Components
@@ -102,7 +104,10 @@ export function registerAllComponents() {
     registerFeatureComponent('settings-font-size-btn', function (p) { return (p && p.button) ? p.button : p; }, SettingsFontSizeBtnTemplate);
     registerFeatureComponent('settings-info-card', function (p) { return (p && p.info) ? p.info : p; }, SettingsInfoCardTemplate);
     registerFeatureComponent('settings-page', function (p) {
-        return (p && p.viewModel) ? p.viewModel : getSettingsViewModel();
+        if (p && p.viewModel) return p.viewModel;
+        if (p && p.fontSizes) return p;
+        if (p && p.settings) return p.settings;
+        return getSettingsViewModel();
     }, SettingsPageTemplate);
 
     // 4. Prayer Tracking Feature Components
@@ -114,7 +119,10 @@ export function registerAllComponents() {
     registerFeatureComponent('prayer-nav-tab', function (p) { return p || {}; }, PrayerNavTabTemplate);
     registerFeatureComponent('prayer-history-card', function (p) { return p || {}; }, PrayerHistoryCardTemplate);
     registerFeatureComponent('tracker-page', function (p) {
-        return (p && p.viewModel) ? p.viewModel : getTrackerViewModel();
+        if (p && p.viewModel) return p.viewModel;
+        if (p && p.header && p.subTabs) return p;
+        if (p && p.tracker) return p.tracker;
+        return getTrackerViewModel();
     }, TrackerPageTemplate);
 
     // 5. Digital Tasbeeh Feature Components
@@ -124,7 +132,10 @@ export function registerAllComponents() {
     registerFeatureComponent('tasbeeh-goal-setter', function (p) { return p || {}; }, TasbeehGoalSetterTemplate);
     registerFeatureComponent('tasbeeh-nav-tab', function (p) { return p || {}; }, TasbeehNavTabTemplate);
     registerFeatureComponent('tasbeeh-page', function (p) {
-        return (p && p.viewModel) ? p.viewModel : getTasbeehViewModel();
+        if (p && p.viewModel) return p.viewModel;
+        if (p && p.subTabs) return p;
+        if (p && p.tasbeeh) return p.tasbeeh;
+        return getTasbeehViewModel();
     }, TasbeehPageTemplate);
 
     // 6. Quran Duas Feature Components
@@ -135,7 +146,10 @@ export function registerAllComponents() {
     registerFeatureComponent('duva-card', function (p) { return p || {}; }, DuvaCardTemplate);
     registerFeatureComponent('duva-translation-toggle', function (p) { return (p && p.detail) ? p.detail : p; }, DuvaTranslationToggleTemplate);
     registerFeatureComponent('duas-page', function (p) {
-        return (p && p.viewModel) ? p.viewModel : getDuasViewModel();
+        if (p && p.viewModel) return p.viewModel;
+        if (p && p.currentDua) return p;
+        if (p && p.duas) return p.duas;
+        return getDuasViewModel();
     }, DuasPageTemplate);
 
     console.info(`Successfully registered ${componentRegistry.size} global components.`);

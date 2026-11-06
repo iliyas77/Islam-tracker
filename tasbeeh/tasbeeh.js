@@ -175,7 +175,10 @@ export function registerTasbeehComponents(customKo) {
     if (!k.components.isRegistered('tasbeeh-page')) {
         k.components.register('tasbeeh-page', {
             viewModel: function (params) {
-                return (params && params.viewModel) ? params.viewModel : getTasbeehViewModel();
+                if (params && params.viewModel) return params.viewModel;
+                if (params && params.subTabs) return params;
+                if (params && params.tasbeeh) return params.tasbeeh;
+                return getTasbeehViewModel();
             },
             template: TasbeehPageTemplate
         });

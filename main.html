@@ -945,27 +945,27 @@
 
         <!-- Dashboard / Home Page -->
         <div id="dashboardPage" class="flex flex-col grow page" data-ref="page.dashboard"
-            data-bind="component: { name: 'dashboard-page', params: $data }">
+            data-bind="component: { name: 'dashboard-page', params: dashboard }, css: { 'd-none': !isDashboardVisible(), 'flex': isDashboardVisible() }">
         </div>
 
         <!-- Prayer Tracker Page (Combined Current, Old, Performance, History) -->
         <div id="trackerPage" class="d-none flex-col grow page" data-ref="page.tracker"
-            data-bind="component: { name: 'tracker-page', params: $data }">
+            data-bind="component: { name: 'tracker-page', params: tracker }, css: { 'd-none': !isTrackerVisible(), 'flex': isTrackerVisible() }">
         </div>
 
         <!-- Settings Page -->
         <div id="settingsPage" class="d-none flex-col grow page" data-ref="page.settings"
-            data-bind="component: { name: 'settings-page', params: $data }">
+            data-bind="component: { name: 'settings-page', params: settings }, css: { 'd-none': !isSettingsVisible(), 'flex': isSettingsVisible() }">
         </div>
 
         <!-- Digital Tasbeeh Page -->
         <div id="tasbeehPage" class="d-none flex-col grow page" data-ref="page.tasbeeh"
-            data-bind="component: { name: 'tasbeeh-page', params: $data }">
+            data-bind="component: { name: 'tasbeeh-page', params: tasbeeh }, css: { 'd-none': !isTasbeehVisible(), 'flex': isTasbeehVisible() }">
         </div>
 
         <!-- Quran Duas Page -->
         <div id="duasPage" class="d-none flex-col grow page" data-ref="page.duas"
-            data-bind="component: { name: 'duas-page', params: $data }">
+            data-bind="component: { name: 'duas-page', params: duas }, css: { 'd-none': !isDuasVisible(), 'flex': isDuasVisible() }">
         </div>
 
         <!-- Layered Bottom Sheet (Missed Prayers / Period Info / Set Period) -->
@@ -3246,15 +3246,26 @@
     <script src="services/duas-store.js"></script>
     <script src="app.js"></script>
     <script src="navigation.js"></script>
+    <script src="services/app-view-model.js"></script>
 
     <!-- Global Components (Knockout.js Component Registry) -->
     <script type="module">
         import { registerAllComponents } from './components/registry.js';
         registerAllComponents();
+        if (typeof initApp === 'function') {
+            initApp();
+        } else if (window.initApp) {
+            window.initApp();
+        }
     </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            if (typeof initApp === 'function') {
+                initApp();
+            } else if (window.initApp) {
+                window.initApp();
+            }
             if (window.DashboardApp && typeof window.DashboardApp.init === 'function') {
                 window.DashboardApp.init();
             }

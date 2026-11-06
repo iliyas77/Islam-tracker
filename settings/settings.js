@@ -81,7 +81,10 @@ export function registerSettingsComponents(customKo) {
     if (!k.components.isRegistered('settings-page')) {
         k.components.register('settings-page', {
             viewModel: function (params) {
-                return (params && params.viewModel) ? params.viewModel : getSettingsViewModel();
+                if (params && params.viewModel) return params.viewModel;
+                if (params && params.fontSizes) return params;
+                if (params && params.settings) return params.settings;
+                return getSettingsViewModel();
             },
             template: SettingsPageTemplate
         });
