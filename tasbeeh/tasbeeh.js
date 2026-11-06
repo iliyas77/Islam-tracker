@@ -92,15 +92,33 @@ export function TasbeehPageViewModel(params) {
         }
     };
 
-    self.currentDhikrsCount = (k && k.observable) ? k.observable(0) : 0;
-    self.clearedMonthsCount = (k && k.observable) ? k.observable(0) : 0;
-    self.activeOldLabel = (k && k.observable) ? k.observable('All Cleared') : 'All Cleared';
-    self.bookmarkedCounters = (k && k.observableArray) ? k.observableArray([]) : [];
+    var tbStore = _win.TasbeehStore || null;
 
-    self.currentTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
-    self.currentDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
-    self.oldTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
-    self.oldDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
+    self.currentDhikrsCount = (tbStore && k && k.isObservable(tbStore.currentDhikrsCount))
+        ? tbStore.currentDhikrsCount
+        : ((k && k.observable) ? k.observable(0) : 0);
+    self.clearedMonthsCount = (tbStore && k && k.isObservable(tbStore.clearedMonthsCount))
+        ? tbStore.clearedMonthsCount
+        : ((k && k.observable) ? k.observable(0) : 0);
+    self.activeOldLabel = (tbStore && k && k.isObservable(tbStore.activeOldLabel))
+        ? tbStore.activeOldLabel
+        : ((k && k.observable) ? k.observable('All Cleared') : 'All Cleared');
+    self.bookmarkedCounters = (tbStore && k && k.isObservable(tbStore.bookmarkedItems))
+        ? tbStore.bookmarkedItems
+        : ((k && k.observableArray) ? k.observableArray([]) : []);
+
+    self.currentTodoItems = (tbStore && k && k.isObservable(tbStore.currentTodoItems))
+        ? tbStore.currentTodoItems
+        : ((k && k.observableArray) ? k.observableArray([]) : []);
+    self.currentDoneItems = (tbStore && k && k.isObservable(tbStore.currentDoneItems))
+        ? tbStore.currentDoneItems
+        : ((k && k.observableArray) ? k.observableArray([]) : []);
+    self.oldTodoItems = (tbStore && k && k.isObservable(tbStore.oldTodoItems))
+        ? tbStore.oldTodoItems
+        : ((k && k.observableArray) ? k.observableArray([]) : []);
+    self.oldDoneItems = (tbStore && k && k.isObservable(tbStore.oldDoneItems))
+        ? tbStore.oldDoneItems
+        : ((k && k.observableArray) ? k.observableArray([]) : []);
 
     self.historyProgress = {
         percentCleared: (k && k.observable) ? k.observable(0) : 0,

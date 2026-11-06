@@ -33,6 +33,7 @@ var dashLastCheckedDate = typeof td === 'function' ? td() : null;
 
 /* ---------- Dashboard Constants (Referenced from utilities/dashboard-constants.js) ---------- */
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
 var DASH_CONSTANTS = _win.DASHBOARD_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.DASHBOARD) || {};
 var PRAYER_CONSTANTS = _win.PRAYER_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER) || {};
 var DASH_STATUSES = DASH_CONSTANTS.STATUSES || { ACTIVE: 'active', PASSED: 'passed', NEXT: 'next', UPCOMING: 'upcoming' };
@@ -165,8 +166,13 @@ export function DashboardViewModel() {
         ? getConsolidatedMissedCount()
         : (typeof tMT === 'function' ? tMT() : 0);
 
-    var trackerBadgeVisible = ko.observable(missedCount > 0);
-    var trackerBadgeText = ko.observable(missedCount > 0 ? (missedCount + ' missed') : '');
+    var store = _win.PrayerStore || null;
+    var trackerBadgeVisible = (store && _ko && typeof _ko.computed === 'function' && _ko.isObservable(store.missedCount))
+        ? _ko.computed(function () { return store.missedCount() > 0; })
+        : (_ko ? _ko.observable(missedCount > 0) : function () { return missedCount > 0; });
+    var trackerBadgeText = (store && _ko && typeof _ko.computed === 'function' && _ko.isObservable(store.missedCount))
+        ? _ko.computed(function () { return store.missedCount() > 0 ? (store.missedCount() + ' missed') : ''; })
+        : (_ko ? _ko.observable(missedCount > 0 ? (missedCount + ' missed') : '') : function () { return missedCount > 0 ? (missedCount + ' missed') : ''; });
 
     self.navCards = [
         {
@@ -253,11 +259,21 @@ export function DashboardViewModel() {
     };
 
     self.updateTrackerBadge = function () {
-        var totalMissed = typeof getConsolidatedMissedCount === 'function'
-            ? getConsolidatedMissedCount()
-            : (typeof tMT === 'function' ? tMT() : 0);
-        trackerBadgeVisible(totalMissed > 0);
-        trackerBadgeText(totalMissed > 0 ? (totalMissed + ' missed') : '');
+        var pStore = _win.PrayerStore || null;
+        if (pStore && typeof pStore.sync === 'function') {
+            pStore.sync();
+        }
+        var totalMissed = (pStore && _ko && _ko.isObservable(pStore.missedCount))
+            ? pStore.missedCount()
+            : (typeof getConsolidatedMissedCount === 'function'
+                ? getConsolidatedMissedCount()
+                : (typeof tMT === 'function' ? tMT() : 0));
+        if (typeof trackerBadgeVisible === 'function') {
+            trackerBadgeVisible(totalMissed > 0);
+        }
+        if (typeof trackerBadgeText === 'function') {
+            trackerBadgeText(totalMissed > 0 ? (totalMissed + ' missed') : '');
+        }
     };
 }
 

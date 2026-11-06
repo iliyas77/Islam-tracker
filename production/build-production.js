@@ -26,6 +26,9 @@ const dashboardJsPath = path.join(ROOT, 'dashboard', 'dashboard.js');
 const settingsJsPath = path.join(ROOT, 'settings', 'settings.js');
 const tasbeehJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh.js');
 const duaJsPath = path.join(ROOT, 'duva', 'duva.js');
+const prayerStoreJsPath = path.join(ROOT, 'services', 'prayer-store.js');
+const tasbeehStoreJsPath = path.join(ROOT, 'services', 'tasbeeh-store.js');
+const duasStoreJsPath = path.join(ROOT, 'services', 'duas-store.js');
 
 /**
  * Minify CSS content by removing comments and unnecessary whitespace
@@ -103,7 +106,10 @@ function buildProduction() {
         const settingsJs = fs.existsSync(settingsJsPath) ? fs.readFileSync(settingsJsPath, 'utf8') : '';
         const tasbeehJs = fs.existsSync(tasbeehJsPath) ? fs.readFileSync(tasbeehJsPath, 'utf8') : '';
         const duaJs = fs.existsSync(duaJsPath) ? fs.readFileSync(duaJsPath, 'utf8') : '';
-        const combinedJs = iconJs + '\n' + bottomSheetJs + '\n' + dashboardJs + '\n' + settingsJs + '\n' + prayerTrackingJs + '\n' + tasbeehJs + '\n' + duaJs + '\n' + registryJs + '\n' + constantJs + '\n' + utilityJs + '\n' + appJs + '\n' + navigationJs;
+        const prayerStoreJs = fs.existsSync(prayerStoreJsPath) ? fs.readFileSync(prayerStoreJsPath, 'utf8') : '';
+        const tasbeehStoreJs = fs.existsSync(tasbeehStoreJsPath) ? fs.readFileSync(tasbeehStoreJsPath, 'utf8') : '';
+        const duasStoreJs = fs.existsSync(duasStoreJsPath) ? fs.readFileSync(duasStoreJsPath, 'utf8') : '';
+        const combinedJs = iconJs + '\n' + bottomSheetJs + '\n' + constantJs + '\n' + utilityJs + '\n' + prayerStoreJs + '\n' + tasbeehStoreJs + '\n' + duasStoreJs + '\n' + dashboardJs + '\n' + settingsJs + '\n' + prayerTrackingJs + '\n' + tasbeehJs + '\n' + duaJs + '\n' + registryJs + '\n' + appJs + '\n' + navigationJs;
         const minifiedJs = minifyJs(combinedJs);
 
         // Replace script src tags with minified inlined script block
@@ -113,6 +119,9 @@ function buildProduction() {
         html = html.replace(/<script\s+type="module"[^>]*>[\s\S]*?registerAllComponents[\s\S]*?<\/script>/g, '');
         html = html.replace(/<script[^>]*src="utilities\/constant\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="utilities\/utility\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="services\/prayer-store\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="services\/tasbeeh-store\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="services\/duas-store\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="navigation\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="(?:prayer-tracking\/)?prayer-tracking\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="(?:dashboard\/)?dashboard\.js"[^>]*><\/script>/g, '');

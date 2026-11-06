@@ -234,11 +234,18 @@ export function TrackerPageViewModel(params) {
 
     self.currentSubTab = (k && k.observable) ? k.observable(_win.trackerSubTab || 'current') : function () { return 'current'; };
 
-    var initialMissed = typeof tMT === 'function' ? tMT() : 0;
-    self.missedCount = (k && k.observable) ? k.observable(initialMissed) : function () { return 0; };
-    self.hasMissed = (k && k.pureComputed) ? k.pureComputed(function () {
-        return (typeof self.missedCount === 'function' ? self.missedCount() : self.missedCount) > 0;
-    }) : function () { return false; };
+    var store = _win.PrayerStore || null;
+    var initialMissed = (store && k && k.isObservable(store.missedCount))
+        ? store.missedCount()
+        : (typeof tMT === 'function' ? tMT() : 0);
+    self.missedCount = (store && k && k.isObservable(store.missedCount))
+        ? store.missedCount
+        : ((k && k.observable) ? k.observable(initialMissed) : function () { return 0; });
+    self.hasMissed = (store && k && typeof store.hasMissed === 'function')
+        ? store.hasMissed
+        : ((k && k.pureComputed) ? k.pureComputed(function () {
+            return (typeof self.missedCount === 'function' ? self.missedCount() : self.missedCount) > 0;
+        }) : function () { return false; });
 
     self.header = {
         iconClass: (k && k.observable) ? k.observable('fa-regular fa-calendar-days text-gr-accent') : 'fa-regular fa-calendar-days text-gr-accent',
@@ -714,6 +721,12 @@ function updateCurrentMissedBadge() {
     var totalMissed = typeof getConsolidatedMissedCount === 'function'
         ? getConsolidatedMissedCount()
         : 0;
+    if (_win.PrayerStore && typeof _win.PrayerStore.missedCount === 'function') {
+        _win.PrayerStore.missedCount(totalMissed);
+    }
+    if (trackerViewModel && typeof trackerViewModel.missedCount === 'function' && trackerViewModel.missedCount !== (_win.PrayerStore && _win.PrayerStore.missedCount)) {
+        trackerViewModel.missedCount(totalMissed);
+    }
     var missedBtn = $('currentMissedBtn');
     var missedBadge = $('currentMissedBadge');
     if (missedBadge) {
@@ -733,6 +746,9 @@ function updateCurrentMissedBadge() {
 function go(d) {
     if (d > td()) d = td();
     sd = d;
+    if (_win.PrayerStore && typeof _win.PrayerStore.selectedDate === 'function') {
+        _win.PrayerStore.selectedDate(d);
+    }
     if (typeof fetchPrayerTimings === 'function') {
         fetchPrayerTimings(sd, function () { rn(); });
     }

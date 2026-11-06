@@ -99,7 +99,10 @@ export function DuasPageViewModel(params) {
         }
     };
 
-    self.pinnedTitle = (k && k.observable) ? k.observable('Your Pinned Duas (0/2)') : 'Your Pinned Duas (0/2)';
+    var duaStore = _win.DuasStore || null;
+    self.pinnedTitle = (duaStore && k && k.isObservable(duaStore.pinnedTitle))
+        ? duaStore.pinnedTitle
+        : ((k && k.observable) ? k.observable('Your Pinned Duas (0/2)') : 'Your Pinned Duas (0/2)');
     self.pinnedDuas = (k && k.observableArray) ? k.observableArray([]) : [];
     self.filteredDuas = (k && k.observableArray) ? k.observableArray([]) : [];
     self.favouriteDuas = (k && k.observableArray) ? k.observableArray([]) : [];

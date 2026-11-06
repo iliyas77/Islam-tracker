@@ -270,6 +270,9 @@ export function SettingsViewModel() {
                 } else {
                     alert('Prayer times synced successfully for ' + city + ', ' + country + '!');
                 }
+                if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
+                    _win.PrayerStore.sync();
+                }
                 rSET();
             });
         }
@@ -283,6 +286,9 @@ export function SettingsViewModel() {
         var formatted = typeof fr === 'function' ? fr(v) : v;
         if (!confirm('Save Current Start Date as ' + formatted + '?')) return;
         if (typeof wrSD === 'function') wrSD(v);
+        if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
+            _win.PrayerStore.sync();
+        }
         rSET();
         if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
     };
@@ -308,6 +314,9 @@ export function SettingsViewModel() {
             }
             if (typeof ensureCurrentDateInitialized === 'function') ensureCurrentDateInitialized();
             if (typeof fetchPrayerTimings === 'function' && typeof td === 'function') fetchPrayerTimings(td());
+            if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
+                _win.PrayerStore.sync();
+            }
             rSET();
             if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
             if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {

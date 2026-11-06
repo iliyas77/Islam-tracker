@@ -801,6 +801,2421 @@ module.exports.BottomSheetViewModel = BottomSheetViewModel;
 module.exports.BottomSheetTemplate = BottomSheetTemplate;
 module.exports.default = AppBottomSheet;
 }
+(function (window) {
+'use strict';
+const SUNRISE_ICON = '<app-icon params="name: \'cloud-sun\'"></app-icon>';
+const SUN_ICON = '<app-icon params="name: \'sun\'"></app-icon>';
+const PRAYER_ICONS = {
+Fajr: SUNRISE_ICON,
+Maghrib: SUNRISE_ICON,
+Dhuhr: SUN_ICON,
+Asr: SUN_ICON,
+Isha: '<app-icon params="name: \'moon\'"></app-icon>'
+};
+const CONSTANTS = {
+PRAYER: {
+NAMES: ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'],
+DEFAULT_TIMINGS: {
+Fajr: '04:49 AM',
+Dhuhr: '11:54 AM',
+Asr: '04:10 PM',
+Maghrib: '05:47 PM',
+Isha: '06:59 PM'
+},
+ICONS: PRAYER_ICONS,
+CARD_ICONS: Object.assign({}, PRAYER_ICONS, {
+DoneCheck: '<app-icon params="name: \'circle-check\', size: \'icon-md\'"></app-icon>',
+DoneCheckSm: '<app-icon params="name: \'circle-check\', size: \'icon-sm\'"></app-icon>',
+Warning: '<app-icon params="name: \'triangle-exclamation\', size: \'icon-sm\'"></app-icon>',
+Calendar: '<app-icon params="name: \'calendar\', prefix: \'fa-regular\', size: \'icon-sm\'"></app-icon>'
+}),
+DEFAULT_CONFIG: {
+city: 'Guntur',
+country: 'India',
+method: 1, // University of Islamic Sciences, Karachi
+school: 1  // 1 = Hanafi, 0 = Shafi
+},
+API: {
+TIMINGS_BY_CITY: 'https://api.aladhan.com/v1/timingsByCity/'
+},
+SCHOOLS: {
+HANAFI: 1,
+SHAFI: 0
+},
+SCHOOL_NAMES: {
+1: 'Hanafi',
+0: 'Shafi'
+},
+STATUS: {
+LIVE: 'live',
+CACHED: 'cached',
+OFFLINE: 'offline'
+},
+STATUS_LABELS: {
+live: 'Live',
+cached: 'Cached',
+offline: 'Offline'
+},
+SHEETS: {
+MISSED_PRAYERS: {
+iconClass: 'clipboard-list text-gr-accent',
+title: 'Missed Prayers',
+sub: 'From previous days (today excluded)'
+},
+PERIOD_INFO: {
+iconClass: 'circle-info text-brand',
+title: 'Period Info'
+},
+SET_OLD_PERIOD: {
+iconClass: 'clock-rotate-left text-warning',
+title: 'Set Old Period',
+sub: ''
+}
+},
+STORAGE_KEYS: {
+TRACKER_DATA: 'namazTrackerData',
+OLD_DATA: 'namazOldData',
+HISTORY: 'namazPrayerHistory',
+FONT_SIZE: 'namazFontSize',
+START_DATE: 'namazStartDate',
+OLD_PERIOD: 'namazOldPeriod',
+TIMINGS_CACHE: 'namazPrayerTimingsCache',
+CONFIG: 'namazPrayerConfig',
+LAST_INIT_DATE: 'namazLastInitDate',
+OLD_INIT: 'namazOldPeriodInitialized'
+},
+ELEMENT_IDS: {
+PAGE: 'trackerPage',
+HEADER_TITLE: 'trackerHeaderTitle',
+HEADER_ICON: 'trackerHeaderIcon',
+HEADER_LABEL: 'trackerHeaderLabel',
+OLD_SUB: 'oldSub',
+CURRENT_MISSED_BTN: 'currentMissedBtn',
+CURRENT_MISSED_BADGE: 'currentMissedBadge',
+OLD_ACTION_BTN: 'oldActionBtn',
+HISTORY_EMPTY_BTN: 'historyEmptyBtn',
+CURRENT_BODY: 'currentBody',
+OLD_BODY: 'oldBody',
+PERFORMANCE_BODY: 'performanceBody',
+HISTORY_BODY: 'historyBody',
+TAB_CURRENT: 'tabTrackCurrent',
+TAB_OLD: 'tabTrackOld',
+TAB_PERFORMANCE: 'tabTrackPerformance',
+TAB_HISTORY: 'tabTrackHistory',
+SHEET2: 'sheet2',
+SHEET2_ICON: 'sheet2Icon',
+SHEET2_TITLE: 'sheet2Title',
+SHEET2_SUB: 'sheet2Sub',
+SHEET2_BODY: 'sheet2Body',
+PERF_RING_VAL: 'perfRingVal',
+PERF_HERO_PERCENTAGE: 'perfHeroPercentage',
+PERF_TOTAL_COMPLETED: 'perfTotalCompleted',
+PERF_TOTAL_POSSIBLE: 'perfTotalPossible',
+PERF_DATE_PILL: 'perfDatePill',
+PERF_COMPLETED_STAT: 'perfCompletedStat',
+PERF_MISSED_STAT: 'perfMissedStat',
+PERF_RATE_STAT: 'perfRateStat',
+PERF_TRACKED_DAYS: 'perfTrackedDays',
+PERF_BREAKDOWN_LIST: 'perfBreakdownList',
+PERF_FOOTER_LABEL: 'perfFooterLabel',
+PERF_FOOTER_DESC: 'perfFooterDesc',
+HIST_EMPTY_STATE: 'histEmptyState',
+HIST_CONTENT: 'histContent',
+HIST_SUBTITLE_COUNT: 'histSubtitleCount',
+HIST_LIST: 'histList'
+}
+},
+DASHBOARD: {
+POLLING_INTERVAL_MS: 30000,
+ELEMENT_IDS: {
+BODY: 'dashBody',
+SCROLL: 'dashScroll',
+LOCATION_TEXT: 'dashLocationText',
+TIME: 'dashTime',
+CLOCK_DIGITS: 'dashClockDigits',
+CLOCK_AMPM: 'dashClockAmPm',
+TIMELINE_NODES: 'dashTimelineNodes',
+TRACKER_MISSED_BADGE: 'trackerMissedBadge'
+},
+STATUSES: {
+ACTIVE: 'active',
+PASSED: 'passed',
+NEXT: 'next',
+UPCOMING: 'upcoming'
+},
+STATUS_BADGES: {
+active: { className: 'badge-active', text: 'Active' },
+passed: { className: 'badge-passed', text: 'Passed' },
+next: { className: 'badge-next', text: 'Next' },
+upcoming: { className: 'badge-upcoming', text: 'Upcoming' }
+},
+CLOCK_INTERVAL_MS: 1000
+},
+TASBEEH: {
+DEFAULT_TARGET: 33,
+ELEMENT_IDS: {
+PAGE: 'tasbeehPage',
+HEADER_ICON: 'tbHeaderIcon',
+HEADER_LABEL: 'tbHeaderLabel',
+HEADER_SUB: 'tbHeaderSub',
+ADD_BTN: 'tbAddBtn',
+TAB_HOME: 'tabTbHome',
+TAB_CURRENT: 'tabTbCurrent',
+TAB_OLD: 'tabTbOld',
+TAB_HISTORY: 'tabTbHistory',
+HOME_BODY: 'tbHomeBody',
+HOME_EMPTY_STATE: 'tbHomeEmptyState',
+HOME_CONTENT: 'tbHomeContent',
+HOME_GRID: 'tbHomeGrid',
+HOME_CURRENT_COUNT: 'tbHomeCurrentCount',
+HOME_HISTORY_COUNT: 'tbHomeHistoryCount',
+HOME_ACTIVE_OLD_LABEL: 'tbHomeActiveOldLabel',
+CURRENT_BODY: 'tbCurrentBody',
+CURRENT_LIST: 'tbList',
+CURRENT_EMPTY_STATE: 'tbEmptyState',
+CURRENT_TODO_GROUP: 'tbCurrentTodoGroup',
+CURRENT_TODO_LIST: 'tbCurrentTodoList',
+CURRENT_TODO_GRID: 'tbCurrentTodoGrid',
+CURRENT_TODO_BADGE: 'tbCurrentTodoBadge',
+CURRENT_DONE_GROUP: 'tbCurrentDoneGroup',
+CURRENT_DONE_LIST: 'tbCurrentDoneList',
+CURRENT_DONE_GRID: 'tbCurrentDoneGrid',
+CURRENT_DONE_BADGE: 'tbCurrentDoneBadge',
+CURRENT_DONE_TOGGLE: 'tbCurrentDoneToggle',
+CURRENT_ADVANCE_BANNER: 'tbCurrentAdvanceBanner',
+CURRENT_ADVANCE_BANNER_TEXT: 'tbCurrentAdvanceBannerText',
+OLD_BODY: 'tbOldBody',
+OLD_EMPTY_RANGE: 'tbOldEmptyRange',
+OLD_EMPTY_RANGE_START: 'tbOldEmptyRangeStart',
+OLD_EMPTY_RANGE_CUR: 'tbOldEmptyRangeCur',
+OLD_ALL_COMPLETED: 'tbOldAllCompleted',
+OLD_ALL_COMPLETED_START: 'tbOldAllCompletedStart',
+OLD_CONTENT: 'tbOldContent',
+OLD_ADVANCE_BANNER: 'tbOldAdvanceBanner',
+OLD_ADVANCE_BANNER_MSG: 'tbOldAdvanceBannerMsg',
+OLD_TODO_GRID: 'tbOldTodoGrid',
+OLD_TODO_BADGE: 'tbOldTodoBadge',
+OLD_DONE_LIST: 'tbOldDoneList',
+OLD_DONE_GRID: 'tbOldDoneGrid',
+OLD_DONE_BADGE: 'tbOldDoneBadge',
+OLD_DONE_TOGGLE: 'tbOldDoneToggle',
+HISTORY_BODY: 'tbHistoryBody',
+HISTORY_CONTENT: 'tbHistoryContent',
+HIST_PERCENT_BADGE: 'tbHistPercentBadge',
+HIST_PROGRESS_BAR: 'tbHistProgressBar',
+HIST_TOTAL_MONTHS: 'tbHistTotalMonths',
+HIST_CLEARED_MONTHS: 'tbHistClearedMonths',
+HIST_PENDING_MONTHS: 'tbHistPendingMonths',
+HIST_PERIOD_START: 'tbHistPeriodStart',
+HIST_PERIOD_END: 'tbHistPeriodEnd',
+HIST_RESET_COMPLETED_BTN: 'tbHistResetCompletedBtn',
+HISTORY_LIST: 'tbHistoryList'
+},
+DATA_ACTS: {
+SWITCH_HOME: 'switch-tb-home',
+SWITCH_CURRENT: 'switch-tb-current',
+SWITCH_OLD: 'switch-tb-old',
+SWITCH_HISTORY: 'switch-tb-history',
+OPEN_BOOKMARK: 'tb-open-bookmark',
+CURRENT_ADVANCE: 'tb-current-advance',
+OLD_ADVANCE: 'tb-old-advance',
+OLD_REOPEN: 'tb-old-reopen',
+RESET_ALL_COMPLETED: 'tb-reset-all-completed',
+OPEN_SETTINGS: 'tb-open-settings',
+HIST_PRESET: 'tb-hist-preset',
+HIST_SAVE: 'tb-hist-save',
+HIST_RESET: 'tb-hist-reset',
+EDIT_DHIKR: 'tb-edit'
+},
+STORAGE_KEYS: {
+DATA: 'app_tasbeeh_data',
+DAY: 'app_tasbeeh_day',
+PERIOD: 'app_tasbeeh_period',
+CURRENT_PERIOD: 'app_tasbeeh_current_period',
+BOOKMARK_CURRENT: 'app_tasbeeh_bookmark_current',
+BOOKMARK_OLD: 'app_tasbeeh_bookmark_old',
+CAL_COMPLETIONS: 'app_tasbeeh_cal_completions'
+},
+TABS: {
+HOME: 'home',
+CURRENT: 'current',
+OLD: 'old',
+HISTORY: 'history'
+},
+TAB_HEADERS: {
+home: {
+iconClass: 'fa-solid fa-house text-brand',
+label: 'Digital Tasbeeh',
+sub: 'Home · Bookmarks'
+},
+current: {
+iconClass: 'fa-regular fa-calendar-days text-brand',
+label: 'Digital Tasbeeh'
+},
+old: {
+iconClass: 'fa-solid fa-clock-rotate-left text-gr-warning',
+label: 'Old Tasbeeh'
+},
+history: {
+iconClass: 'fa-solid fa-gear text-gr-accent',
+label: 'Tasbeeh History',
+sub: 'Period & Settings'
+}
+},
+PERIOD_PRESETS: {
+THIS_YEAR: 'this-year',
+LAST_6_MONTHS: '6-months',
+LAST_1_YEAR: '1-year'
+},
+DEFAULT_PRESETS: [
+{ title: 'SubhanAllah', targetCount: 33, targetCycles: 3 },
+{ title: 'Alhamdulillah', targetCount: 33, targetCycles: 3 },
+{ title: 'Allahu Akbar', targetCount: 34, targetCycles: 3 },
+{ title: 'Astaghfirullah', targetCount: 100, targetCycles: 1 }
+]
+},
+DUA: {
+ELEMENT_IDS: {
+PAGE: 'duasPage',
+HEADER_TITLE: 'duasHeaderTitle',
+PROGRESS_INDICATOR: 'duaProgressIndicator',
+BODY: 'duasBody',
+SUB_HOME: 'duaSubHome',
+HOME_VIEW: 'duaHomeView',
+SUB_ALL: 'duaSubAll',
+SEARCH_INPUT: 'duaSearchInput',
+SEARCH_CLEAR: 'duaSearchClear',
+LIST_VIEW: 'duaListView',
+SUB_FAVS: 'duaSubFavs',
+FAVOURITES_LIST: 'duaFavouritesList',
+SUB_DETAIL: 'duaSubDetail',
+DETAIL_NUMBER: 'duaDetailNumber',
+DETAIL_SURAH: 'duaDetailSurah',
+DETAIL_UCHCHARANA: 'duaDetailUchcharana',
+DETAIL_ARDHAM: 'duaDetailArdham',
+DETAIL_FAV_BTN: 'duaDetailFavBtn',
+DETAIL_FAV_ICON: 'duaDetailFavIcon',
+DETAIL_PIN_BTN: 'duaDetailPinBtn',
+DETAIL_PIN_ICON: 'duaDetailPinIcon',
+FAB_BTN: 'duaFabBtn',
+TAB_PINNED: 'duaTabPinned',
+TAB_ALL: 'duaTabAll',
+TAB_FAVS: 'duaTabFavs',
+ADD_MODAL: 'duaAddModal',
+ADMIN_MODAL: 'duaAdminModal',
+HOME_EMPTY_STATE: 'duaHomeEmptyState',
+HOME_CONTENT: 'duaHomeContent',
+HOME_TITLE_COUNT: 'duaHomeTitleCount',
+LIST_EMPTY_STATE: 'duaListEmptyState',
+FAVS_EMPTY_STATE: 'duaFavsEmptyState',
+LOADING_STATE: 'duaLoadingState',
+ERROR_STATE: 'duaErrorState',
+ERROR_MESSAGE: 'duaErrorMessage',
+ADMIN_EMPTY_STATE: 'duaAdminEmptyState'
+},
+STORAGE_KEYS: {
+DATA: 'quranDuas_data',
+FAVS: 'quranDuas_favourites',
+PINS: 'quranDuas_pins'
+},
+TABS: {
+HOME: 'home',
+DUAS: 'duas',
+FAVOURITES: 'favourites'
+},
+ICONS: {
+PINNED: '<app-icon params="name: \'thumbtack\'"></app-icon>',
+UNPINNED: '<app-icon params="name: \'thumbtack\'"></app-icon>',
+FAV: '<app-icon params="name: \'heart\', color: \'text-danger\'"></app-icon>',
+UNFAV: '<app-icon params="name: \'heart\', prefix: \'fa-regular\'"></app-icon>'
+},
+SEARCH_DEBOUNCE_MS: 80,
+MAX_PINS: 2,
+API_URL: 'https://raw.githubusercontent.com/iliyas77/data.github.io/main/duas.json',
+fetchDuas: function () {
+return fetch('https://raw.githubusercontent.com/iliyas77/data.github.io/main/duas.json')
+.then(function (response) {
+if (!response.ok) throw new Error('HTTP ' + response.status);
+return response.json();
+});
+}
+},
+SETTINGS: {
+CUSTOM_CITY_VALUE: '__custom__',
+BASE_FONT_SIZE_PX: 16,
+DEFAULT_FONT_SIZE: 1,
+DEFAULT_CONFIG: {
+city: 'Guntur',
+country: 'India',
+school: 1
+},
+ELEMENT_IDS: {
+LOCATION_SUBTITLE: 'ptLocationSubtitle',
+STATUS_TEXT: 'ptStatusText',
+STATUS_BADGE: 'ptStatusBadge',
+CITY_SELECT: 'ptCitySelect',
+CUSTOM_CITY_WRAP: 'ptCustomCityWrap',
+CUSTOM_CITY_INPUT: 'ptCustomCityInput',
+COUNTRY_INPUT: 'ptCountryInput',
+SCHOOL_SELECT: 'ptSchoolSelect',
+START_DATE_INPUT: 'sdInput',
+FONT_SIZE_BTNS: 'fsBtns'
+},
+BUTTON_CLASSES: {
+FONT_ACTIVE: 'flex-1 py-3 font-bold rounded-xl text-sm bg-brand text-white border border-brand transition-all cursor-pointer',
+FONT_INACTIVE: 'flex-1 py-3 font-bold rounded-xl text-sm bg-surfaceBg text-brand border border-borderGrey hover:bg-brand-light transition-all cursor-pointer'
+},
+SCHOOLS: {
+HANAFI: 1,
+SHAFI: 0
+},
+STATUS_FALLBACK: 'Offline',
+INDIAN_CITIES: [
+{ name: 'Guntur', state: 'Andhra Pradesh' },
+{ name: 'Vijayawada', state: 'Andhra Pradesh' },
+{ name: 'Visakhapatnam', state: 'Andhra Pradesh' },
+{ name: 'Tirupati', state: 'Andhra Pradesh' },
+{ name: 'Kurnool', state: 'Andhra Pradesh' },
+{ name: 'Nellore', state: 'Andhra Pradesh' },
+{ name: 'Delhi', state: 'National Capital Region' },
+{ name: 'Hyderabad', state: 'Telangana' },
+{ name: 'Bengaluru', state: 'Karnataka' },
+{ name: 'Mumbai', state: 'Maharashtra' },
+{ name: 'Chennai', state: 'Tamil Nadu' },
+{ name: 'Kolkata', state: 'West Bengal' },
+{ name: 'Ahmedabad', state: 'Gujarat' },
+{ name: 'Lucknow', state: 'Uttar Pradesh' },
+{ name: 'Pune', state: 'Maharashtra' },
+{ name: 'Jaipur', state: 'Rajasthan' },
+{ name: 'Bhopal', state: 'Madhya Pradesh' },
+{ name: 'Patna', state: 'Bihar' },
+{ name: 'Srinagar', state: 'Jammu & Kashmir' },
+{ name: 'Kozhikode', state: 'Kerala' },
+{ name: 'Kochi', state: 'Kerala' },
+{ name: 'Indore', state: 'Madhya Pradesh' },
+{ name: 'Nagpur', state: 'Maharashtra' },
+{ name: 'Kanpur', state: 'Uttar Pradesh' },
+{ name: 'Surat', state: 'Gujarat' },
+{ name: 'Aurangabad', state: 'Maharashtra' },
+{ name: 'Chandigarh', state: 'Punjab/Haryana' }
+],
+FONT_SIZE_OPTIONS: [
+{ v: 0.9, l: 'Small' },
+{ v: 1, l: 'Medium' },
+{ v: 1.15, l: 'Large' }
+]
+},
+NAVIGATION: {
+PAGES: ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage'],
+NAVS: {
+dashboard: 'navHome',
+tracker: 'navCur',
+current: 'navCur',
+old: 'navCur',
+performance: 'navCur',
+settings: 'navSet',
+tasbeeh: 'navTasbeeh',
+duas: 'navDuas'
+},
+SUB_TABS: {
+CURRENT: 'current',
+OLD: 'old',
+PERFORMANCE: 'performance',
+HISTORY: 'history'
+},
+PAGE_MAP: {
+dashboard: 'dashboardPage',
+tracker: 'trackerPage',
+current: 'trackerPage',
+old: 'trackerPage',
+performance: 'trackerPage',
+history: 'trackerPage',
+settings: 'settingsPage',
+tasbeeh: 'tasbeehPage',
+duas: 'duasPage'
+},
+TRACKER_HEADER: {
+current: {
+iconClass: 'fa-regular fa-calendar-days text-gr-accent',
+label: 'Current Prayer'
+},
+old: {
+iconClass: 'fa-solid fa-clock-rotate-left text-gr-warning',
+label: 'Old Tracking'
+},
+performance: {
+iconClass: 'fa-solid fa-chart-simple text-brand',
+label: 'Performance'
+},
+history: {
+iconClass: 'fa-solid fa-list-check text-brand',
+label: 'History'
+}
+},
+NAV_CLASSES: {
+ACTIVE: 'text-brand',
+INACTIVE: 'text-secondary',
+BAR: 'bg-brand rounded-pill nav-active-bar'
+}
+},
+COMMON: {
+TOAST_DURATION_MS: 2200,
+RIPPLE_DURATION_MS: 620,
+MS_PER_DAY: 864e5,
+MONTH_NAMES: [
+'January', 'February', 'March', 'April', 'May', 'June',
+'July', 'August', 'September', 'October', 'November', 'December'
+]
+}
+};
+CONSTANTS.DUAS = CONSTANTS.DUA;
+CONSTANTS.DATE = {
+MONTH_NAMES: CONSTANTS.COMMON.MONTH_NAMES
+};
+window.CONSTANTS = CONSTANTS;
+window.PRAYER_CONSTANTS = CONSTANTS.PRAYER;
+window.DASHBOARD_CONSTANTS = CONSTANTS.DASHBOARD;
+window.TASBEEH_CONSTANTS = CONSTANTS.TASBEEH;
+window.DUA_CONSTANTS = CONSTANTS.DUA;
+window.DUAS_CONSTANTS = CONSTANTS.DUA;
+window.SETTINGS_CONSTANTS = CONSTANTS.SETTINGS;
+window.NAVIGATION_CONSTANTS = CONSTANTS.NAVIGATION;
+window.COMMON_CONSTANTS = CONSTANTS.COMMON;
+})(window);
+var PRAYER_KEYS = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS) || {};
+var LIK = PRAYER_KEYS.LAST_INIT_DATE || window.LIK || 'namazLastInitDate';
+var OIK = PRAYER_KEYS.OLD_INIT || window.OIK || 'namazOldPeriodInitialized';
+var COMMON_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.COMMON) || {};
+var TOAST_DURATION_MS = COMMON_CONSTANTS.TOAST_DURATION_MS || 2200;
+var RIPPLE_DURATION_MS = COMMON_CONSTANTS.RIPPLE_DURATION_MS || 620;
+var MS_PER_DAY = COMMON_CONSTANTS.MS_PER_DAY || 864e5;
+var BASE_FONT_SIZE_PX = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window.CONSTANTS.SETTINGS.BASE_FONT_SIZE_PX) || 16;
+var DEFAULT_FONT_SIZE = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window.CONSTANTS.SETTINGS.DEFAULT_FONT_SIZE) || 1;
+var CUSTOM_CITY_VALUE = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window.CONSTANTS.SETTINGS.CUSTOM_CITY_VALUE) || '__custom__';
+var FA_ICON_MAP = {
+'fajr': 'fa-solid fa-cloud-sun',
+'dhuhr': 'fa-solid fa-sun',
+'asr': 'fa-solid fa-sun',
+'maghrib': 'fa-solid fa-cloud-sun',
+'isha': 'fa-solid fa-moon',
+'mosque': 'fa-solid fa-mosque',
+'tracker': 'fa-solid fa-calendar-check',
+'misbaha': 'fa-solid fa-hands-praying',
+'duas': 'fa-solid fa-hands-praying',
+'settings': 'fa-solid fa-gear',
+'gear': 'fa-solid fa-gear',
+'chevron-right': 'fa-solid fa-chevron-right',
+'chevron-left': 'fa-solid fa-chevron-left',
+'tb-chevron': 'fa-solid fa-chevron-right',
+'tb-pencil': 'fa-solid fa-pencil',
+'pencil': 'fa-solid fa-pencil',
+'tb-target': 'fa-solid fa-bullseye',
+'tb-check-circle': 'fa-solid fa-circle-check',
+'check': 'fa-solid fa-check',
+'circle-check': 'fa-solid fa-circle-check',
+'circle-dot': 'fa-solid fa-circle-dot',
+'circle-exclamation': 'fa-solid fa-circle-exclamation',
+'circle-info': 'fa-solid fa-circle-info',
+'circle-xmark': 'fa-solid fa-circle-xmark',
+'triangle-exclamation': 'fa-solid fa-triangle-exclamation',
+'warning': 'fa-solid fa-triangle-exclamation',
+'done-check': 'fa-solid fa-check',
+'done-check-sm': 'fa-solid fa-check',
+'list-check': 'fa-solid fa-list-check',
+'clock': 'fa-regular fa-clock',
+'clock-rotate-left': 'fa-solid fa-clock-rotate-left',
+'rotate-left': 'fa-solid fa-rotate-left',
+'arrow-rotate-left': 'fa-solid fa-rotate-left',
+'arrow-right': 'fa-solid fa-arrow-right',
+'play': 'fa-solid fa-play',
+'plus': 'fa-solid fa-plus',
+'calendar-card': 'fa-regular fa-calendar-days',
+'calendar-days': 'fa-regular fa-calendar-days',
+'calendar-xmark': 'fa-regular fa-calendar-xmark',
+'location-dot': 'fa-solid fa-location-dot',
+'thumbtack': 'fa-solid fa-thumbtack',
+'book-quran': 'fa-solid fa-book-quran',
+'bookmark': 'fa-solid fa-bookmark',
+'heart': 'fa-solid fa-heart',
+'house': 'fa-solid fa-house',
+'hand-holding-heart': 'fa-solid fa-hand-holding-heart',
+'hands-praying': 'fa-solid fa-hands-praying',
+'bell': 'fa-solid fa-bell',
+'chart-simple': 'fa-solid fa-chart-simple',
+'trash-can': 'fa-solid fa-trash-can'
+};
+function renderIcon(nameOrOpts, maybeSize, maybeColor, maybeClass) {
+if (!nameOrOpts) return '';
+var name = '';
+var size = '';
+var color = '';
+var className = '';
+if (typeof nameOrOpts === 'object') {
+name = nameOrOpts.name || '';
+size = nameOrOpts.size || '';
+color = nameOrOpts.color || '';
+className = nameOrOpts.className || '';
+} else {
+name = String(nameOrOpts);
+size = maybeSize || '';
+color = maybeColor || '';
+className = maybeClass || '';
+}
+if (name.trim().startsWith('<')) return name;
+var key = name.toLowerCase().trim();
+var faClass = FA_ICON_MAP[key] || (key.startsWith('fa-') ? key : ('fa-solid fa-' + key));
+var classes = [faClass];
+if (color) classes.push(color);
+if (className) classes.push(className);
+if (typeof size === 'string' && (size.startsWith('fs-') || size.startsWith('text-'))) {
+classes.push(size);
+}
+var style = '';
+if (typeof size === 'number') {
+style = ' style="font-size: ' + size + 'px;"';
+} else if (typeof size === 'string' && size && !size.startsWith('fs-') && !size.startsWith('text-')) {
+style = ' style="font-size: ' + size + ';"';
+}
+return '<i class="' + classes.join(' ') + '"' + style + '></i>';
+}
+window.renderIcon = renderIcon;
+window.Icon = {
+render: renderIcon,
+update: function (el, nameOrOpts, maybeSize, maybeColor, maybeClass) {
+if (!el) return null;
+var name = '';
+var color = '';
+var className = '';
+var size = '';
+if (typeof nameOrOpts === 'object' && nameOrOpts !== null) {
+name = nameOrOpts.name || '';
+size = nameOrOpts.size || '';
+color = nameOrOpts.color || '';
+className = nameOrOpts.className || '';
+} else if (typeof nameOrOpts === 'string') {
+var parts = nameOrOpts.trim().split(/\s+/);
+name = parts[0] || '';
+if (parts.length > 1) {
+color = parts.slice(1).join(' ');
+}
+}
+if (maybeSize) size = maybeSize;
+if (maybeColor) color = maybeColor;
+if (maybeClass) className = maybeClass;
+var key = name.toLowerCase().trim();
+var faClass = FA_ICON_MAP[key] || (key.startsWith('fa-') ? key : ('fa-solid fa-' + key));
+var classes = [faClass];
+if (color) classes.push(color);
+if (className) classes.push(className);
+if (typeof size === 'string' && (size.startsWith('fs-') || size.startsWith('text-'))) {
+classes.push(size);
+}
+el.className = classes.join(' ');
+if (typeof size === 'number') {
+el.style.fontSize = size + 'px';
+} else if (typeof size === 'string' && size && !size.startsWith('fs-') && !size.startsWith('text-')) {
+el.style.fontSize = size;
+}
+return el;
+}
+};
+function $(id) { return document.getElementById(id); }
+function getEl(id) { return document.getElementById(id); }
+function pad2(n) { return String(n).padStart(2, '0'); }
+function escHtml(str) {
+if (!str) return '';
+return String(str)
+.replace(/&/g, '&amp;')
+.replace(/</g, '&lt;')
+.replace(/>/g, '&gt;')
+.replace(/"/g, '&quot;')
+.replace(/'/g, '&#39;');
+}
+var escapeHtml = escHtml;
+if (typeof window !== 'undefined') {
+window.escHtml = escHtml;
+window.escapeHtml = escapeHtml;
+}
+function clamp(val, min, max) {
+return Math.min(max, Math.max(min, val));
+}
+function td() {
+var d = new Date();
+return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+}
+function todayKey() {
+return new Date().toDateString();
+}
+function fr(ds) {
+if (!ds) return '';
+return new Date(ds + 'T00:00:00').toLocaleDateString(undefined,
+{ weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+}
+function formatDate(ds) {
+return fr(ds);
+}
+function getCurrentMonthKey() {
+var d = new Date();
+return d.getFullYear() + '-' + pad2(d.getMonth() + 1);
+}
+function normalizeMonthKey(val) {
+if (!val) return '';
+var m = String(val).match(/^(\d{4})-(\d{1,2})/);
+if (!m) return '';
+return m[1] + '-' + pad2(parseInt(m[2], 10));
+}
+function getPrevMonthKey(mKey) {
+if (!mKey) return '';
+var parts = mKey.split('-');
+var yr = parseInt(parts[0], 10);
+var mo = parseInt(parts[1], 10);
+mo -= 1;
+if (mo === 0) {
+mo = 12;
+yr -= 1;
+}
+return yr + '-' + pad2(mo);
+}
+function getNextMonthKey(mKey) {
+if (!mKey) return '';
+var parts = mKey.split('-');
+var yr = parseInt(parts[0], 10);
+var mo = parseInt(parts[1], 10);
+mo += 1;
+if (mo > 12) {
+mo = 1;
+yr += 1;
+}
+return yr + '-' + pad2(mo);
+}
+function formatMonthLabel(mKey) {
+if (!mKey) return '';
+var parts = mKey.split('-');
+if (parts.length < 2) return mKey;
+var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, 1);
+return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+}
+function getPreviousMonthsList(startDate, endDate) {
+if (!startDate) return [];
+var sParts = startDate.split('-');
+var sY = parseInt(sParts[0], 10);
+var sM = parseInt(sParts[1], 10);
+var now = new Date();
+var curY = now.getFullYear();
+var curM = now.getMonth() + 1; // 1-12
+var endLimitY = curY;
+var endLimitM = curM - 1;
+if (endLimitM === 0) {
+endLimitM = 12;
+endLimitY -= 1;
+}
+if (endDate) {
+var eParts = endDate.split('-');
+var eY = parseInt(eParts[0], 10);
+var eM = parseInt(eParts[1], 10);
+if (eY < endLimitY || (eY === endLimitY && eM < endLimitM)) {
+endLimitY = eY;
+endLimitM = eM;
+}
+}
+var list = [];
+var y = endLimitY;
+var m = endLimitM;
+while (y > sY || (y === sY && m >= sM)) {
+list.push(y + '-' + pad2(m));
+m--;
+if (m === 0) {
+m = 12;
+y--;
+}
+}
+return list; // Most recent month first (e.g. ['2026-09', '2026-08', ...])
+}
+function friendly(ds) {
+var today = td();
+var d1 = new Date(today + 'T00:00:00');
+var d2 = new Date(ds + 'T00:00:00');
+var diff = Math.round((d1 - d2) / MS_PER_DAY);
+if (diff === 0) return 'Today';
+if (diff === 1) return 'Yesterday';
+if (diff === 2) return 'Day Before Yesterday';
+return diff + ' Days Ago';
+}
+function uid(prefix) {
+prefix = prefix || 'tb_';
+return prefix + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+var _globalToastTimer = null;
+function showToast(message, duration, toastId) {
+var el = document.getElementById(toastId || 'tbToast');
+if (!el) return;
+duration = duration || TOAST_DURATION_MS;
+el.textContent = message;
+el.classList.remove('d-none');
+el.classList.add('show');
+if (_globalToastTimer) clearTimeout(_globalToastTimer);
+_globalToastTimer = setTimeout(function () {
+el.classList.remove('show');
+setTimeout(function () { el.classList.add('d-none'); }, 200);
+}, duration);
+}
+if (typeof window !== 'undefined') {
+window.$ = $;
+window.getEl = getEl;
+window.pad2 = pad2;
+window.clamp = clamp;
+window.td = td;
+window.todayKey = todayKey;
+window.fr = fr;
+window.formatDate = formatDate;
+window.getCurrentMonthKey = getCurrentMonthKey;
+window.normalizeMonthKey = normalizeMonthKey;
+window.getPrevMonthKey = getPrevMonthKey;
+window.getNextMonthKey = getNextMonthKey;
+window.formatMonthLabel = formatMonthLabel;
+window.getPreviousMonthsList = getPreviousMonthsList;
+window.friendly = friendly;
+window.uid = uid;
+window.showToast = showToast;
+window.tMT = tMT;
+window.mBD = mBD;
+window.getTodayMissedCount = getTodayMissedCount;
+window.getConsolidatedMissedCount = getConsolidatedMissedCount;
+window.rd = rd;
+window.gr = gr;
+window.sr = sr;
+window.en = en;
+window.rdOC = rdOC;
+window.grO = grO;
+window.srO = srO;
+window.isDonePrayer = isDonePrayer;
+window.isPrayerUpcoming = isPrayerUpcoming;
+window.ensureCurrentDateInitialized = ensureCurrentDateInitialized;
+window.migratePrayerData = migratePrayerData;
+window.rdOK = rdOK;
+window.wrOK = wrOK;
+window.ensureAllOldMissed = ensureAllOldMissed;
+window.shrinkOldPeriod = shrinkOldPeriod;
+window.currentOldDate = currentOldDate;
+window.datesInRange = datesInRange;
+window.prevDate = prevDate;
+}
+function parseTimeToMin(timeStr) {
+if (!timeStr) return -1;
+var clean = timeStr.trim().split(' ');
+if (!clean[0]) return -1;
+var parts = clean[0].split(':');
+var h = parseInt(parts[0], 10);
+var m = parseInt(parts[1], 10);
+if (isNaN(h) || isNaN(m)) return -1;
+var ap = clean[1] || 'AM';
+if (ap === 'PM' && h < 12) h += 12;
+if (ap === 'AM' && h === 12) h = 0;
+return h * 60 + m;
+}
+function isPrayerUpcoming(prayerName, dateStr) {
+var today = td();
+if (dateStr && dateStr !== today) return false;
+var now = new Date();
+var nowMin = now.getHours() * 60 + now.getMinutes();
+var pTime = T[prayerName];
+if (!pTime) return false;
+var pMin = parseTimeToMin(pTime);
+if (pMin === -1) return false;
+return nowMin < pMin;
+}
+function isDonePrayer(p, dateStr, r) {
+if (!r) {
+var d = dateStr || (typeof sd !== 'undefined' ? sd : td());
+r = gr(d);
+}
+if (!r) return false;
+if (r[p] === false || r[p] === 'done') return true;
+if (r[p] === true || r[p] === 'missed') return false;
+if (dateStr && !rd()[dateStr]) {
+return true;
+}
+return false;
+}
+var LS = {
+get: function (k) {
+try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; }
+},
+set: function (k, v) {
+localStorage.setItem(k, JSON.stringify(v));
+}
+};
+function migratePrayerData() {
+try {
+var curData = LS.get(K);
+if (curData && typeof curData === 'object') {
+var curChanged = false;
+Object.keys(curData).forEach(function (d) {
+var rec = curData[d];
+if (rec && typeof rec === 'object') {
+var cleaned = {};
+var hasMissed = false;
+P.forEach(function (p) {
+var val = (rec[p] === true || rec[p] === 'missed');
+cleaned[p] = val;
+if (val) hasMissed = true;
+});
+if (!hasMissed) {
+delete curData[d];
+curChanged = true;
+} else {
+curData[d] = cleaned;
+curChanged = true;
+}
+}
+});
+if (curChanged) {
+LS.set(K, curData);
+}
+}
+var oldData = LS.get(OCK);
+if (oldData && typeof oldData === 'object') {
+var oldChanged = false;
+Object.keys(oldData).forEach(function (d) {
+var rec = oldData[d];
+if (rec && typeof rec === 'object') {
+var cleaned = {};
+var hasMissed = false;
+P.forEach(function (p) {
+var val = (rec[p] === true || rec[p] === 'missed');
+cleaned[p] = val;
+if (val) hasMissed = true;
+});
+if (!hasMissed) {
+delete oldData[d];
+oldChanged = true;
+} else {
+oldData[d] = cleaned;
+oldChanged = true;
+}
+}
+});
+if (oldChanged) {
+LS.set(OCK, oldData);
+}
+}
+} catch (e) {
+console.error('Migration error:', e);
+}
+}
+function ensureCurrentDateInitialized() {
+var today = td();
+var lastInit = localStorage.getItem(LIK);
+var a = rd();
+if (lastInit !== today) {
+if (!a[today]) {
+var initialPrayers = {};
+P.forEach(function (p) {
+initialPrayers[p] = true;
+});
+a[today] = initialPrayers;
+LS.set(K, a);
+}
+localStorage.setItem(LIK, today);
+}
+}
+function rd() { return LS.get(K) || {}; }
+function gr(d) {
+if (d === td() && localStorage.getItem(LIK) !== td()) {
+ensureCurrentDateInitialized();
+}
+var a = rd();
+var r = a[d];
+var out = {};
+if (r) {
+P.forEach(function (p) {
+out[p] = (r[p] === true || r[p] === 'missed');
+});
+} else {
+P.forEach(function (p) {
+out[p] = false;
+});
+}
+return out;
+}
+function sr(d, r) {
+var a = rd();
+var cleaned = {};
+var hasMissed = false;
+P.forEach(function (p) {
+var val = (r && (r[p] === true || r[p] === 'missed'));
+cleaned[p] = val;
+if (val) hasMissed = true;
+});
+if (!hasMissed) {
+delete a[d];
+} else {
+a[d] = cleaned;
+}
+LS.set(K, a);
+if (typeof window !== 'undefined' && window.PrayerStore && typeof window.PrayerStore.sync === 'function') {
+window.PrayerStore.sync();
+}
+}
+function en(d) {
+return gr(d);
+}
+function rdOC() { return LS.get(OCK) || {}; }
+function grO(d) {
+var a = rdOC();
+var r = a[d];
+var out = {};
+if (r) {
+P.forEach(function (p) {
+out[p] = (r[p] === true || r[p] === 'missed');
+});
+} else {
+P.forEach(function (p) {
+out[p] = false;
+});
+}
+return out;
+}
+function srO(d, r) {
+var a = rdOC();
+var cleaned = {};
+var hasMissed = false;
+P.forEach(function (p) {
+var val = (r && (r[p] === true || r[p] === 'missed'));
+cleaned[p] = val;
+if (val) hasMissed = true;
+});
+if (!hasMissed) {
+delete a[d];
+} else {
+a[d] = cleaned;
+}
+LS.set(OCK, a);
+}
+function mBD() {
+var a = rd();
+var today = td();
+return Object.keys(a).sort()
+.filter(function (d) { return d < today; })
+.map(function (d) {
+return {
+date: d,
+prayers: P.filter(function (p) {
+return a[d][p] === true || a[d][p] === 'missed';
+})
+};
+})
+.filter(function (x) { return x.prayers.length > 0; });
+}
+function tMT() {
+var a = rd();
+var today = td();
+var t = 0;
+Object.keys(a).forEach(function (d) {
+if (d >= today) return;
+P.forEach(function (p) {
+if (a[d][p] === true || a[d][p] === 'missed') t++;
+});
+});
+return t;
+}
+function getTodayMissedCount() {
+var today = td();
+var r = gr(today);
+var curActive = typeof getActivePrayerInfo === 'function' ? getActivePrayerInfo() : null;
+var curPrayerName = curActive ? curActive.name : null;
+return P.filter(function (p) {
+if (typeof isDonePrayer === 'function' ? isDonePrayer(p, today, r) : (r && r[p] === false)) return false;
+if (typeof isPrayerUpcoming === 'function' && isPrayerUpcoming(p, today)) return false;
+if (curPrayerName && curPrayerName === p) return false;
+return true;
+}).length;
+}
+function getConsolidatedMissedCount() {
+return tMT() + getTodayMissedCount();
+}
+function datesInRange(s, e) {
+var out = [];
+var d = new Date(s + 'T00:00:00');
+var end = new Date(e + 'T00:00:00');
+while (d <= end) {
+out.push(d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()));
+d.setDate(d.getDate() + 1);
+}
+return out;
+}
+function prevDate(ds) {
+var d = new Date(ds + 'T00:00:00');
+d.setDate(d.getDate() - 1);
+return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+}
+function rdOK() { return LS.get(OK) || null; }
+function wrOK(o) { LS.set(OK, o); }
+function ensureAllOldMissed() {
+var o = rdOK();
+if (!o || o.end < o.start) return;
+if (!o.created) {
+o.created = Date.now();
+o.initialEnd = o.end;
+wrOK(o);
+}
+var initKey = localStorage.getItem(OIK);
+var expectedKey = String(o.created);
+var a = rdOC();
+var isDbEmpty = Object.keys(a).length === 0;
+if (initKey !== expectedKey || isDbEmpty) {
+var rangeEnd = o.initialEnd || o.end;
+var dates = datesInRange(o.start, rangeEnd);
+var changed = false;
+dates.forEach(function (d) {
+if (!a[d]) {
+a[d] = {};
+P.forEach(function (p) {
+a[d][p] = true;
+});
+changed = true;
+} else {
+P.forEach(function (p) {
+if (!(p in a[d])) {
+a[d][p] = true;
+changed = true;
+}
+});
+}
+});
+localStorage.setItem(OIK, expectedKey);
+if (changed) LS.set(OCK, a);
+}
+}
+function currentOldDate() {
+var o = rdOK();
+if (!o || o.end < o.start) return null;
+var dates = datesInRange(o.start, o.end).slice().reverse();
+var a = rdOC();
+for (var i = 0; i < dates.length; i++) {
+var d = dates[i];
+var r = a[d] || {};
+if (P.filter(function (p) { return r[p] === true || r[p] === 'missed'; }).length > 0) return d;
+}
+return null;
+}
+function shrinkOldPeriod(completedDate) {
+var o = rdOK();
+if (!o) return;
+var curEnd = o.end;
+var changed = false;
+while (curEnd >= o.start) {
+var rEnd = grO(curEnd);
+var anyMissed = P.some(function (p) {
+return rEnd[p] === true || rEnd[p] === 'missed';
+});
+if (!anyMissed) {
+curEnd = prevDate(curEnd);
+changed = true;
+} else {
+break;
+}
+}
+if (changed) {
+o.end = curEnd;
+wrOK(o);
+}
+var nextTarget = completedDate ? prevDate(completedDate) : curEnd;
+if (curEnd >= o.start && nextTarget > curEnd) {
+nextTarget = curEnd;
+}
+if (typeof setOldSd === 'function') {
+setOldSd(nextTarget);
+} else if (typeof oldSd !== 'undefined') {
+oldSd = nextTarget;
+}
+}
+function rdFS() {
+var v = parseFloat(localStorage.getItem(FK));
+return v && v > 0 ? v : DEFAULT_FONT_SIZE;
+}
+function apFS(v) {
+document.documentElement.style.fontSize = (BASE_FONT_SIZE_PX * v) + 'px';
+document.body.style.fontSize = (BASE_FONT_SIZE_PX * v) + 'px';
+localStorage.setItem(FK, String(v));
+}
+function rdSD() { return localStorage.getItem(SK) || td(); }
+function wrSD(v) { localStorage.setItem(SK, v); }
+function openCal() {
+var dp = $('dp');
+if (dp.showPicker) {
+try { dp.showPicker(); return; } catch (e) { }
+}
+dp.focus();
+dp.click();
+}
+function handleClick(e) {
+var t = e.target.closest('[data-act]');
+if (!t) return;
+var act = t.dataset.act;
+if (act === 'toggle-cur') {
+var p = t.dataset.p;
+if (sd === td() && typeof isPrayerUpcoming === 'function' && isPrayerUpcoming(p, sd)) {
+return;
+}
+var c1 = gr(sd);
+var wasDone = typeof isDonePrayer === 'function' ? isDonePrayer(p, sd, c1) : (c1[p] === false);
+if (!confirm(wasDone
+? 'Mark ' + p + ' as Missed for ' + fr(sd) + '?'
+: 'Mark ' + p + ' as Done for ' + fr(sd) + '?')) return;
+c1[p] = wasDone ? true : false;
+if (wasDone) {
+if (typeof removePrayerHistoryEntry === 'function') {
+removePrayerHistoryEntry(p, 'Current', sd);
+}
+} else {
+if (typeof addPrayerHistoryEntry === 'function') {
+addPrayerHistoryEntry(p, 'Current', sd);
+}
+}
+sr(sd, c1);
+rn();
+if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+renderPrayerHistoryTab();
+}
+} else if (act === 'select-all') {
+var c2 = gr(sd);
+var isToday = sd === td();
+var actionable = P.filter(function (x) {
+return !isToday || (typeof isPrayerUpcoming === 'function' && !isPrayerUpcoming(x, sd));
+});
+var doneCount = actionable.filter(function (x) {
+return typeof isDonePrayer === 'function' ? isDonePrayer(x, sd, c2) : (c2[x] === false);
+}).length;
+var willMarkDone = doneCount < actionable.length;
+var action = willMarkDone ? 'Done' : 'Missed';
+if (!confirm('Mark available prayers as ' + action + ' for ' + fr(sd) + '?')) return;
+actionable.forEach(function (x) {
+var wasXDone = typeof isDonePrayer === 'function' ? isDonePrayer(x, sd, c2) : (c2[x] === false);
+if (willMarkDone) {
+if (!wasXDone && typeof addPrayerHistoryEntry === 'function') {
+addPrayerHistoryEntry(x, 'Current', sd);
+}
+} else {
+if (wasXDone && typeof removePrayerHistoryEntry === 'function') {
+removePrayerHistoryEntry(x, 'Current', sd);
+}
+}
+c2[x] = willMarkDone ? false : true;
+});
+sr(sd, c2);
+rn();
+if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+renderPrayerHistoryTab();
+}
+} else if (act === 'jump-today') {
+sd = td();
+if (typeof fetchPrayerTimings === 'function') {
+fetchPrayerTimings(sd, function () { rn(); });
+}
+rn();
+} else if (act === 'missed-open') {
+rMS();
+} else if (act === 'old-open-cal') {
+if (typeof openOldCal === 'function') openOldCal();
+} else if (act === 'open-cal') {
+if (typeof trackerSubTab !== 'undefined' && trackerSubTab === 'old') {
+if (typeof openOldCal === 'function') openOldCal();
+} else {
+openCal();
+}
+} else if (act === 'old-info') {
+rOldInfo();
+} else if (act === 'toggle-old') {
+var p2 = t.dataset.p, d2 = t.dataset.d;
+var c3 = grO(d2);
+var was2 = c3[p2] === true || c3[p2] === 'missed';
+if (!confirm(was2
+? 'Mark ' + p2 + ' as Done for ' + fr(d2) + '?'
+: 'Mark ' + p2 + ' as Missed for ' + fr(d2) + '?')) return;
+c3[p2] = !was2;
+if (was2) {
+if (typeof addPrayerHistoryEntry === 'function') {
+addPrayerHistoryEntry(p2, 'Old', d2);
+}
+} else {
+if (typeof removePrayerHistoryEntry === 'function') {
+removePrayerHistoryEntry(p2, 'Old', d2);
+}
+}
+srO(d2, c3);
+var o = rdOK();
+var isDateComplete = !P.some(function (p) {
+return c3[p] === true || c3[p] === 'missed';
+});
+if (isDateComplete) {
+shrinkOldPeriod(d2);
+} else {
+if (o && d2 > o.end) {
+o.end = d2;
+wrOK(o);
+}
+if (typeof setOldSd === 'function') {
+setOldSd(d2);
+} else if (typeof oldSd !== 'undefined') {
+oldSd = d2;
+}
+}
+rOT();
+if ($('sheet2') && $('sheet2').classList.contains('show') && typeof rOldInfo === 'function') {
+rOldInfo();
+}
+if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+renderPrayerHistoryTab();
+}
+} else if (act === 'old-change-period') {
+rPeriod();
+} else if (act === 'jump') {
+sd = t.dataset.d;
+sheet2BS.hide();
+if (typeof fetchPrayerTimings === 'function') {
+fetchPrayerTimings(sd, function () { rn(); });
+}
+setTimeout(function () { showPage('current'); }, 350);
+} else if (act === 'font') {
+apFS(parseFloat(t.dataset.fs));
+rSET();
+} else if (act === 'pt-save') {
+var sel = $('ptCitySelect');
+var city = '';
+var country = 'India';
+if (sel) {
+if (sel.value === CUSTOM_CITY_VALUE) {
+var customInp = $('ptCustomCityInput');
+city = customInp ? customInp.value.trim() : '';
+var countryInp = $('ptCountryInput');
+if (countryInp && countryInp.value.trim()) {
+country = countryInp.value.trim();
+}
+} else {
+city = sel.value;
+}
+} else {
+var cityEl = $('ptCityInput');
+city = cityEl ? cityEl.value.trim() : 'Guntur';
+}
+var schoolEl = $('ptSchoolSelect');
+var school = schoolEl ? parseInt(schoolEl.value, 10) : 1;
+if (!city) {
+alert('Please select or enter a city.');
+return;
+}
+if (typeof setPrayerConfig === 'function') {
+setPrayerConfig({ city: city, country: country, school: school });
+}
+if (typeof fetchPrayerTimings === 'function') {
+fetchPrayerTimings(td(), function (err) {
+if (err) {
+alert('Saved settings, but live API connection failed: ' + err.message);
+} else {
+alert('Prayer times synced successfully for ' + city + ', ' + country + '!');
+}
+rSET();
+});
+}
+} else if (act === 'sd-save') {
+var v = $('sdInput').value;
+if (!v) { alert('Please pick a date.'); return; }
+if (!confirm('Save Current Start Date as ' + fr(v) + '?')) return;
+wrSD(v);
+rSET();
+if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+} else if (act === 'old-save') {
+var s = $('oldStart').value, en2 = $('oldEnd').value;
+if (!s || !en2) { alert('Please pick both start and end dates.'); return; }
+if (en2 < s) { alert('End date must be after start date.'); return; }
+if (!confirm('Save Old Tracking Period from ' + fr(s) + ' to ' + fr(en2) + '?')) return;
+wrOK({ start: s, end: en2, initialEnd: en2, created: Date.now() });
+localStorage.removeItem(OIK);
+ensureAllOldMissed();
+if (typeof setOldSd === 'function') setOldSd(en2);
+sheet2BS.hide();
+rOT();
+if ($('sheet2') && $('sheet2').classList.contains('show') && typeof rOldInfo === 'function') {
+rOldInfo();
+}
+if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+} else if (act === 'old-clear') {
+if (confirm('Clear the saved Old Tracking period and all its data?')) {
+localStorage.removeItem(OK);
+localStorage.removeItem(OCK);
+localStorage.removeItem(OIK);
+if (typeof clearPrayerHistoryByType === 'function') {
+clearPrayerHistoryByType('Old');
+}
+if (typeof setOldSd === 'function') setOldSd(null);
+sheet2BS.hide();
+rOT();
+if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+renderPrayerHistoryTab();
+}
+}
+} else if (act === 'reset-db') {
+if (confirm('Delete ALL prayer records and cached prayer times?')) {
+localStorage.removeItem(K);
+localStorage.removeItem(OCK);
+localStorage.removeItem(OK);
+localStorage.removeItem(LIK);
+localStorage.removeItem(OIK);
+if (typeof PHK !== 'undefined') localStorage.removeItem(PHK);
+if (typeof clearPrayerHistory === 'function') clearPrayerHistory();
+if (typeof PTK_CACHE !== 'undefined') localStorage.removeItem(PTK_CACHE);
+sd = td();
+ensureCurrentDateInitialized();
+if (typeof fetchPrayerTimings === 'function') fetchPrayerTimings(td());
+rSET();
+if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
+if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
+renderPrayerHistoryTab();
+}
+}
+} else if (act === 'go-home') {
+showPage('dashboard');
+} else if (act === 'goto-cur') {
+showPage('current');
+} else if (act === 'goto-tracker') {
+showPage('tracker');
+} else if (act === 'goto-old') {
+showPage('old');
+} else if (act === 'switch-track-current') {
+switchTrackerSubTab('current');
+} else if (act === 'switch-track-old') {
+switchTrackerSubTab('old');
+} else if (act === 'switch-track-performance') {
+switchTrackerSubTab('performance');
+} else if (act === 'switch-track-history') {
+switchTrackerSubTab('history');
+} else if (act === 'history-empty') {
+if (typeof emptyPrayerHistory === 'function') {
+emptyPrayerHistory();
+}
+} else if (act === 'goto-settings') {
+showPage('settings');
+} else if (act === 'goto-tasbeeh') {
+showPage('tasbeeh');
+} else if (act === 'tb-open-bookmark') {
+var bmId = t.dataset.id;
+var bmMonth = t.dataset.month || null;
+var bmType = t.dataset.type || (bmMonth ? 'old' : 'current');
+if (window.TasbeehApp && typeof window.TasbeehApp.openCounterFromHome === 'function') {
+window.TasbeehApp.openCounterFromHome(bmId, bmMonth, bmType);
+}
+} else if (act === 'switch-tb-home') {
+if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
+window.TasbeehApp.switchTab('home');
+}
+} else if (act === 'switch-tb-current') {
+if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
+window.TasbeehApp.switchTab('current');
+}
+} else if (act === 'switch-tb-old') {
+if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
+window.TasbeehApp.switchTab('old');
+}
+} else if (act === 'switch-tb-history') {
+if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
+window.TasbeehApp.switchTab('history');
+}
+} else if (act === 'tb-hist-save') {
+if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.saveHistoryPeriod === 'function') {
+window.TasbeehHistoryApp.saveHistoryPeriod();
+}
+} else if (act === 'tb-hist-reset') {
+if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.resetHistoryPeriod === 'function') {
+window.TasbeehHistoryApp.resetHistoryPeriod();
+}
+} else if (act === 'tb-hist-preset') {
+var presetType = t.dataset.preset;
+if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.applyPreset === 'function') {
+window.TasbeehHistoryApp.applyPreset(presetType);
+}
+} else if (act === 'tb-open-settings' || act === 'tb-change-period') {
+if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
+window.TasbeehApp.switchTab('history');
+} else if (window.TasbeehApp && typeof window.TasbeehApp.openPeriodModal === 'function') {
+window.TasbeehApp.openPeriodModal();
+}
+} else if (act === 'tb-old-reopen') {
+if (window.TasbeehApp && typeof window.TasbeehApp.reopenLastMonth === 'function') {
+window.TasbeehApp.reopenLastMonth();
+}
+if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
+window.TasbeehHistoryApp.renderHistoryTab();
+}
+} else if (act === 'tb-reset-all-completed') {
+if (window.TasbeehApp && typeof window.TasbeehApp.resetAllCompleted === 'function') {
+window.TasbeehApp.resetAllCompleted();
+}
+if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
+window.TasbeehHistoryApp.renderHistoryTab();
+}
+} else if (act === 'goto-duas') {
+showPage('duas');
+} else if (act === 'dua-switch-pinned') {
+if (window.DuasApp) window.DuasApp.switchTab('home');
+} else if (act === 'dua-switch-all') {
+if (window.DuasApp) window.DuasApp.switchTab('duas');
+} else if (act === 'dua-switch-favs') {
+if (window.DuasApp) window.DuasApp.switchTab('favourites');
+} else if (act === 'dua-open-detail') {
+if (window.DuasApp) {
+var idx = parseInt(t.dataset.idx, 10);
+var src = t.dataset.source || 'home';
+window.DuasApp.openDetail(idx, src);
+}
+} else if (act === 'dua-detail-back') {
+if (window.DuasApp) window.DuasApp.goBack();
+} else if (act === 'dua-prev') {
+if (window.DuasApp) window.DuasApp.changeDua(-1);
+} else if (act === 'dua-next') {
+if (window.DuasApp) window.DuasApp.changeDua(1);
+} else if (act === 'dua-detail-toggle-fav') {
+if (window.DuasApp) window.DuasApp.toggleFavouriteCurrent();
+} else if (act === 'dua-detail-toggle-pin') {
+if (window.DuasApp) window.DuasApp.togglePinCurrent();
+} else if (act === 'dua-item-pin') {
+if (window.DuasApp) {
+var idx = parseInt(t.dataset.idx, 10);
+window.DuasApp.requestPin(idx);
+}
+} else if (act === 'dua-item-fav') {
+if (window.DuasApp) {
+var idx = parseInt(t.dataset.idx, 10);
+window.DuasApp.toggleFavourite(idx);
+}
+} else if (act === 'dua-open-add') {
+if (window.DuasApp) window.DuasApp.openAddModal();
+} else if (act === 'dua-close-add') {
+if (window.DuasApp) window.DuasApp.closeAddModal();
+} else if (act === 'dua-save-new') {
+if (window.DuasApp) window.DuasApp.saveNewDua();
+} else if (act === 'dua-open-admin') {
+if (window.DuasApp) window.DuasApp.openAdminModal();
+} else if (act === 'dua-close-admin') {
+if (window.DuasApp) window.DuasApp.closeAdminModal();
+} else if (act === 'dua-reset-all') {
+if (window.DuasApp) window.DuasApp.resetAllData();
+} else if (act === 'dua-close-pin-confirm') {
+if (window.DuasApp) window.DuasApp.closePinConfirm();
+} else if (act === 'dua-replace-pin') {
+if (window.DuasApp) {
+var oldIdx = parseInt(t.dataset.oldIdx, 10);
+window.DuasApp.replacePin(oldIdx);
+}
+} else if (act === 'dua-del') {
+if (window.DuasApp) {
+var delIdx = parseInt(t.dataset.idx, 10);
+window.DuasApp.deleteDua(delIdx);
+}
+} else if (act === 'dua-retry') {
+if (window.DuasApp && typeof window.DuasApp.fetchDuas === 'function') {
+window.DuasApp.fetchDuas();
+}
+}
+}
+document.addEventListener('click', handleClick);
+(function (window) {
+'use strict';
+function Modal(element, options) {
+this.element = typeof element === 'string' ? document.querySelector(element) : element;
+this.options = options || {};
+if (this.element) {
+this.element._uiModal = this;
+}
+}
+Modal.prototype.show = function () {
+if (!this.element) return;
+var el = this.element;
+el.style.display = 'flex';
+void el.offsetWidth;
+el.classList.add('show');
+el.setAttribute('aria-hidden', 'false');
+document.body.classList.add('modal-open');
+try {
+el.dispatchEvent(new CustomEvent('shown.bs.modal', { bubbles: true }));
+el.dispatchEvent(new CustomEvent('shown', { bubbles: true }));
+} catch (_) {}
+};
+Modal.prototype.hide = function () {
+if (!this.element) return;
+var el = this.element;
+el.classList.remove('show');
+el.setAttribute('aria-hidden', 'true');
+setTimeout(function () {
+if (!el.classList.contains('show')) {
+el.style.display = 'none';
+}
+}, 220);
+if (!document.querySelector('.modal.show') && !document.querySelector('.offcanvas.show')) {
+document.body.classList.remove('modal-open');
+}
+try {
+el.dispatchEvent(new CustomEvent('hidden.bs.modal', { bubbles: true }));
+el.dispatchEvent(new CustomEvent('hidden', { bubbles: true }));
+} catch (_) {}
+};
+Modal.prototype.toggle = function () {
+if (!this.element) return;
+if (this.element.classList.contains('show')) {
+this.hide();
+} else {
+this.show();
+}
+};
+Modal.getInstance = function (element) {
+var el = typeof element === 'string' ? document.querySelector(element) : element;
+return el ? el._uiModal || null : null;
+};
+Modal.getOrCreateInstance = function (element, options) {
+return Modal.getInstance(element) || new Modal(element, options);
+};
+function getOrCreateOffcanvasBackdrop() {
+var bd = document.getElementById('uiOffcanvasBackdrop');
+if (!bd) {
+bd = document.createElement('div');
+bd.id = 'uiOffcanvasBackdrop';
+bd.className = 'offcanvas-backdrop';
+document.body.appendChild(bd);
+bd.addEventListener('click', function () {
+var openSheet = document.querySelector('.offcanvas.show');
+if (openSheet) {
+var instance = Offcanvas.getInstance(openSheet);
+if (instance) instance.hide();
+else openSheet.classList.remove('show');
+}
+});
+}
+return bd;
+}
+function Offcanvas(element, options) {
+this.element = typeof element === 'string' ? document.querySelector(element) : element;
+this.options = options || {};
+if (this.element) {
+this.element._uiOffcanvas = this;
+}
+}
+Offcanvas.prototype.show = function () {
+if (!this.element) return;
+var bd = getOrCreateOffcanvasBackdrop();
+void bd.offsetWidth;
+bd.classList.add('show');
+this.element.classList.add('show');
+this.element.setAttribute('aria-modal', 'true');
+this.element.setAttribute('role', 'dialog');
+this.element.removeAttribute('aria-hidden');
+document.body.classList.add('modal-open');
+try {
+this.element.dispatchEvent(new CustomEvent('shown.bs.offcanvas', { bubbles: true }));
+this.element.dispatchEvent(new CustomEvent('shown', { bubbles: true }));
+} catch (_) {}
+};
+Offcanvas.prototype.hide = function () {
+if (!this.element) return;
+this.element.classList.remove('show');
+this.element.setAttribute('aria-hidden', 'true');
+var bd = document.getElementById('uiOffcanvasBackdrop');
+if (bd) bd.classList.remove('show');
+if (!document.querySelector('.modal.show') && !document.querySelector('.offcanvas.show')) {
+document.body.classList.remove('modal-open');
+}
+try {
+this.element.dispatchEvent(new CustomEvent('hidden.bs.offcanvas', { bubbles: true }));
+this.element.dispatchEvent(new CustomEvent('hidden', { bubbles: true }));
+} catch (_) {}
+};
+Offcanvas.prototype.toggle = function () {
+if (!this.element) return;
+if (this.element.classList.contains('show')) {
+this.hide();
+} else {
+this.show();
+}
+};
+Offcanvas.getInstance = function (element) {
+var el = typeof element === 'string' ? document.querySelector(element) : element;
+return el ? el._uiOffcanvas || null : null;
+};
+Offcanvas.getOrCreateInstance = function (element, options) {
+return Offcanvas.getInstance(element) || new Offcanvas(element, options);
+};
+function Collapse(element, options) {
+this.element = typeof element === 'string' ? document.querySelector(element) : element;
+this.options = options || {};
+if (this.element) {
+this.element._uiCollapse = this;
+}
+}
+Collapse.prototype.show = function () {
+if (!this.element) return;
+this.element.classList.add('show');
+try {
+this.element.dispatchEvent(new CustomEvent('shown.bs.collapse', { bubbles: true }));
+this.element.dispatchEvent(new CustomEvent('shown', { bubbles: true }));
+} catch (_) {}
+};
+Collapse.prototype.hide = function () {
+if (!this.element) return;
+this.element.classList.remove('show');
+try {
+this.element.dispatchEvent(new CustomEvent('hidden.bs.collapse', { bubbles: true }));
+this.element.dispatchEvent(new CustomEvent('hidden', { bubbles: true }));
+} catch (_) {}
+};
+Collapse.prototype.toggle = function () {
+if (!this.element) return;
+if (this.element.classList.contains('show')) {
+this.hide();
+} else {
+this.show();
+}
+};
+Collapse.getInstance = function (element) {
+var el = typeof element === 'string' ? document.querySelector(element) : element;
+return el ? el._uiCollapse || null : null;
+};
+Collapse.getOrCreateInstance = function (element, options) {
+return Collapse.getInstance(element) || new Collapse(element, options);
+};
+document.addEventListener('click', function (e) {
+var dismissModalBtn = e.target.closest('[data-bs-dismiss="modal"], [data-dismiss="modal"]');
+if (dismissModalBtn) {
+var modal = dismissModalBtn.closest('.modal');
+if (modal) {
+var inst = Modal.getOrCreateInstance(modal);
+inst.hide();
+}
+return;
+}
+var dismissOffcanvasBtn = e.target.closest('[data-bs-dismiss="offcanvas"], [data-dismiss="offcanvas"]');
+if (dismissOffcanvasBtn) {
+var offcanvas = dismissOffcanvasBtn.closest('.offcanvas');
+if (offcanvas) {
+var offInst = Offcanvas.getOrCreateInstance(offcanvas);
+offInst.hide();
+}
+return;
+}
+var toggleCollapseBtn = e.target.closest('[data-bs-toggle="collapse"], [data-toggle="collapse"]');
+if (toggleCollapseBtn) {
+e.preventDefault();
+var targetSelector = toggleCollapseBtn.getAttribute('data-bs-target') ||
+toggleCollapseBtn.getAttribute('data-target') ||
+toggleCollapseBtn.getAttribute('href');
+if (targetSelector) {
+var targetEl = document.querySelector(targetSelector);
+if (targetEl) {
+var isExpanded = targetEl.classList.toggle('show');
+toggleCollapseBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+if (isExpanded) {
+toggleCollapseBtn.classList.remove('collapsed');
+} else {
+toggleCollapseBtn.classList.add('collapsed');
+}
+try {
+targetEl.dispatchEvent(new CustomEvent(isExpanded ? 'shown.bs.collapse' : 'hidden.bs.collapse', { bubbles: true }));
+} catch (_) {}
+}
+}
+return;
+}
+if (e.target.classList.contains('modal')) {
+var mInst = Modal.getInstance(e.target);
+if (mInst) mInst.hide();
+else e.target.classList.remove('show');
+}
+});
+document.addEventListener('keydown', function (e) {
+if (e.key === 'Escape' || e.keyCode === 27) {
+var openModal = document.querySelector('.modal.show');
+if (openModal) {
+var mInst = Modal.getInstance(openModal);
+if (mInst) mInst.hide();
+else openModal.classList.remove('show');
+return;
+}
+var openOffcanvas = document.querySelector('.offcanvas.show');
+if (openOffcanvas) {
+var oInst = Offcanvas.getInstance(openOffcanvas);
+if (oInst) oInst.hide();
+else openOffcanvas.classList.remove('show');
+}
+}
+});
+window.UIModal = Modal;
+window.UIOffcanvas = Offcanvas;
+window.UICollapse = Collapse;
+window.bootstrap = {
+Modal: Modal,
+Offcanvas: Offcanvas,
+Collapse: Collapse
+};
+})(window);
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+function createObservable(initial) {
+if (_ko && typeof _ko.observable === 'function') {
+return _ko.observable(initial);
+}
+var val = initial;
+function obs(newVal) {
+if (arguments.length > 0) {
+val = newVal;
+return obs;
+}
+return val;
+}
+obs.__isObservable = true;
+return obs;
+}
+function createObservableArray(initial) {
+if (_ko && typeof _ko.observableArray === 'function') {
+return _ko.observableArray(initial);
+}
+var arr = Array.isArray(initial) ? initial.slice() : [];
+function obs(newVal) {
+if (arguments.length > 0) {
+arr = newVal;
+return obs;
+}
+return arr;
+}
+obs.__isObservable = true;
+obs.push = function () { return arr.push.apply(arr, arguments); };
+return obs;
+}
+function createComputed(fn) {
+if (_ko && typeof _ko.computed === 'function') {
+return _ko.computed(fn);
+}
+return function () { return fn(); };
+}
+function PrayerStoreModel() {
+var self = this;
+var CONSTANTS = _win.CONSTANTS || {};
+var PRAYER_CONSTANTS = (_win.PRAYER_CONSTANTS || CONSTANTS.PRAYER) || {};
+var STORAGE_KEYS = PRAYER_CONSTANTS.STORAGE_KEYS || {};
+self.K = STORAGE_KEYS.TRACKER_DATA || _win.K || 'namazTrackerData';
+self.OK = STORAGE_KEYS.OLD_PERIOD || _win.OK || 'namazOldPeriod';
+self.OCK = STORAGE_KEYS.OLD_DATA || _win.OCK || 'namazOldData';
+self.PHK = STORAGE_KEYS.HISTORY || _win.PHK || 'namazPrayerHistory';
+self.PTK_CACHE = STORAGE_KEYS.TIMINGS_CACHE || _win.PTK_CACHE || 'namazPrayerTimingsCache';
+self.CONFIG_KEY = STORAGE_KEYS.CONFIG || 'namazPrayerConfig';
+self.START_DATE_KEY = STORAGE_KEYS.START_DATE || _win.SDK || 'namazStartDate';
+function getToday() {
+return typeof _win.td === 'function' ? _win.td() : new Date().toISOString().split('T')[0];
+}
+function readStoredRecords() {
+if (typeof _win.rdK === 'function') return _win.rdK() || {};
+try {
+var raw = _win.localStorage ? _win.localStorage.getItem(self.K) : null;
+return raw ? JSON.parse(raw) : {};
+} catch (e) {
+return {};
+}
+}
+function readStoredOldPeriod() {
+if (typeof _win.rdOK === 'function') return _win.rdOK();
+try {
+var raw = _win.localStorage ? _win.localStorage.getItem(self.OK) : null;
+return raw ? JSON.parse(raw) : null;
+} catch (e) {
+return null;
+}
+}
+function readStoredOldRecords() {
+if (typeof _win.rdOC === 'function') return _win.rdOC() || {};
+try {
+var raw = _win.localStorage ? _win.localStorage.getItem(self.OCK) : null;
+return raw ? JSON.parse(raw) : {};
+} catch (e) {
+return {};
+}
+}
+function readStoredHistory() {
+if (typeof _win.rdPH === 'function') return _win.rdPH() || [];
+try {
+var raw = _win.localStorage ? _win.localStorage.getItem(self.PHK) : null;
+return raw ? JSON.parse(raw) : [];
+} catch (e) {
+return [];
+}
+}
+function readStoredTimings() {
+if (typeof _win.rdTC === 'function') return _win.rdTC();
+try {
+var raw = _win.localStorage ? _win.localStorage.getItem(self.PTK_CACHE) : null;
+if (raw) {
+var parsed = JSON.parse(raw);
+var today = getToday();
+if (parsed && parsed.date === today && parsed.timings) return parsed.timings;
+}
+} catch (e) {}
+return (_win.T || (PRAYER_CONSTANTS.DEFAULT_TIMINGS || {}));
+}
+function computeMissedCount() {
+if (typeof _win.getConsolidatedMissedCount === 'function') return _win.getConsolidatedMissedCount();
+if (typeof _win.tMT === 'function') return _win.tMT();
+return 0;
+}
+function readConfig() {
+if (typeof _win.getPrayerConfig === 'function') return _win.getPrayerConfig();
+return { city: 'Guntur', country: 'India', school: 1 };
+}
+var initialToday = getToday();
+var initialDate = _win.sd || initialToday;
+self.selectedDate = createObservable(initialDate);
+self.today = createObservable(initialToday);
+self.isToday = createComputed(function () {
+return self.selectedDate() === self.today();
+});
+self.formattedDate = createComputed(function () {
+var d = self.selectedDate();
+return typeof _win.fr === 'function' ? _win.fr(d) : d;
+});
+self.trackerRecords = createObservable(readStoredRecords());
+self.missedCount = createObservable(computeMissedCount());
+self.hasMissed = createComputed(function () {
+return self.missedCount() > 0;
+});
+self.prayerTimings = createObservable(readStoredTimings());
+self.prayerTimingsStatus = createObservable(_win.prayerTimingsStatus || 'offline');
+self.prayerConfig = createObservable(readConfig());
+self.oldPeriod = createObservable(readStoredOldPeriod());
+self.oldRecords = createObservable(readStoredOldRecords());
+self.historyEntries = createObservableArray(readStoredHistory());
+self.currentDayRecord = createComputed(function () {
+var recs = self.trackerRecords() || {};
+var d = self.selectedDate();
+return recs[d] || {};
+});
+self.selectDate = function (dateStr) {
+if (!dateStr) return;
+self.selectedDate(dateStr);
+if (typeof _win !== 'undefined') {
+_win.sd = dateStr;
+}
+if (typeof _win.rn === 'function') {
+_win.rn();
+}
+};
+self.jumpToToday = function () {
+self.selectDate(self.today());
+};
+self.getRecord = function (dateStr) {
+var d = dateStr || self.selectedDate();
+var recs = self.trackerRecords() || {};
+return recs[d] || {};
+};
+self.setPrayerStatus = function (prayerName, dateStr, isDone) {
+var d = dateStr || self.selectedDate();
+var recs = Object.assign({}, self.trackerRecords() || {});
+var dayRec = Object.assign({}, recs[d] || {});
+var wasDone = dayRec[prayerName] === false;
+dayRec[prayerName] = isDone ? false : true;
+recs[d] = dayRec;
+self.trackerRecords(recs);
+if (_win.localStorage) {
+try {
+_win.localStorage.setItem(self.K, JSON.stringify(recs));
+} catch (e) {}
+}
+if (isDone && !wasDone) {
+if (typeof _win.addPrayerHistoryEntry === 'function') {
+_win.addPrayerHistoryEntry(prayerName, 'Current', d);
+}
+} else if (!isDone && wasDone) {
+if (typeof _win.removePrayerHistoryEntry === 'function') {
+_win.removePrayerHistoryEntry(prayerName, 'Current', d);
+}
+}
+self.missedCount(computeMissedCount());
+if (typeof _win.updatePerformanceTab === 'function') {
+_win.updatePerformanceTab();
+}
+if (typeof _win.rn === 'function') {
+_win.rn();
+}
+};
+self.togglePrayerStatus = function (prayerName, dateStr) {
+var d = dateStr || self.selectedDate();
+var rec = self.getRecord(d);
+var wasDone = typeof _win.isDonePrayer === 'function'
+? _win.isDonePrayer(prayerName, d, rec)
+: (rec[prayerName] === false);
+var isDone = !wasDone;
+self.setPrayerStatus(prayerName, d, isDone);
+};
+self.selectAll = function (dateStr, markDone) {
+var d = dateStr || self.selectedDate();
+var recs = Object.assign({}, self.trackerRecords() || {});
+var dayRec = Object.assign({}, recs[d] || {});
+var prayers = PRAYER_CONSTANTS.NAMES || _win.P || ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+prayers.forEach(function (p) {
+var wasDone = dayRec[p] === false;
+dayRec[p] = markDone ? false : true;
+if (markDone && !wasDone) {
+if (typeof _win.addPrayerHistoryEntry === 'function') _win.addPrayerHistoryEntry(p, 'Current', d);
+} else if (!markDone && wasDone) {
+if (typeof _win.removePrayerHistoryEntry === 'function') _win.removePrayerHistoryEntry(p, 'Current', d);
+}
+});
+recs[d] = dayRec;
+self.trackerRecords(recs);
+if (_win.localStorage) {
+try {
+_win.localStorage.setItem(self.K, JSON.stringify(recs));
+} catch (e) {}
+}
+self.missedCount(computeMissedCount());
+if (typeof _win.updatePerformanceTab === 'function') _win.updatePerformanceTab();
+if (typeof _win.rn === 'function') _win.rn();
+};
+self.setTimings = function (timings, status) {
+if (timings) self.prayerTimings(timings);
+if (status) self.prayerTimingsStatus(status);
+};
+self.sync = function () {
+self.today(getToday());
+if (_win.sd) self.selectedDate(_win.sd);
+self.trackerRecords(readStoredRecords());
+self.missedCount(computeMissedCount());
+self.oldPeriod(readStoredOldPeriod());
+self.oldRecords(readStoredOldRecords());
+self.historyEntries(readStoredHistory());
+self.prayerConfig(readConfig());
+};
+}
+const PrayerStore = new PrayerStoreModel();
+if (typeof window !== 'undefined') {
+window.PrayerStore = PrayerStore;
+}
+if (typeof module !== 'undefined' && module.exports) {
+module.exports = { PrayerStore: PrayerStore };
+}
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+function createObservable(initial) {
+if (_ko && typeof _ko.observable === 'function') {
+return _ko.observable(initial);
+}
+var val = initial;
+function obs(newVal) {
+if (arguments.length > 0) {
+val = newVal;
+return obs;
+}
+return val;
+}
+obs.__isObservable = true;
+return obs;
+}
+function createObservableArray(initial) {
+if (_ko && typeof _ko.observableArray === 'function') {
+return _ko.observableArray(initial);
+}
+var arr = Array.isArray(initial) ? initial.slice() : [];
+function obs(newVal) {
+if (arguments.length > 0) {
+arr = newVal;
+return obs;
+}
+return arr;
+}
+obs.__isObservable = true;
+obs.push = function () { return arr.push.apply(arr, arguments); };
+return obs;
+}
+function createComputed(fn) {
+if (_ko && typeof _ko.computed === 'function') {
+return _ko.computed(fn);
+}
+return function () { return fn(); };
+}
+function TasbeehStoreModel() {
+var self = this;
+var CONSTANTS = _win.CONSTANTS || {};
+var TASBEEH_CONSTANTS = (_win.TASBEEH_CONSTANTS || CONSTANTS.TASBEEH) || {};
+var STORAGE_KEYS = TASBEEH_CONSTANTS.STORAGE_KEYS || {};
+self.STORAGE_KEY = STORAGE_KEYS.DATA || 'app_tasbeeh_data';
+self.DAY_KEY = STORAGE_KEYS.DAY || 'app_tasbeeh_day';
+self.BM_CUR_KEY = STORAGE_KEYS.BOOKMARK_CURRENT || 'app_tasbeeh_bookmark_current';
+self.BM_OLD_KEY = STORAGE_KEYS.BOOKMARK_OLD || 'app_tasbeeh_bookmark_old';
+self.CURRENT_PERIOD_KEY = STORAGE_KEYS.CURRENT_PERIOD || 'app_tasbeeh_current_period';
+self.PERIOD_KEY = STORAGE_KEYS.PERIOD || 'app_tasbeeh_period';
+self.CAL_COMPLETION_KEY = STORAGE_KEYS.CAL_COMPLETIONS || 'app_tasbeeh_cal_completions';
+self.items = createObservableArray([]);
+self.bookmarkedItems = createObservableArray([]);
+self.currentTodoItems = createObservableArray([]);
+self.currentDoneItems = createObservableArray([]);
+self.oldTodoItems = createObservableArray([]);
+self.oldDoneItems = createObservableArray([]);
+self.currentDhikrsCount = createComputed(function () {
+return (self.currentTodoItems().length + self.currentDoneItems().length);
+});
+self.clearedMonths = createObservableArray([]);
+self.clearedMonthsCount = createComputed(function () {
+return self.clearedMonths().length;
+});
+self.activeMonth = createObservable('');
+self.activeOldLabel = createObservable('All Cleared');
+function readStoredItems() {
+try {
+var raw = _win.localStorage ? _win.localStorage.getItem(self.STORAGE_KEY) : null;
+if (raw) {
+var parsed = JSON.parse(raw);
+if (Array.isArray(parsed)) return parsed;
+}
+} catch (_) {}
+if (_win.TasbeehApp && typeof _win.TasbeehApp.getItems === 'function') {
+return _win.TasbeehApp.getItems() || [];
+}
+return [];
+}
+function readStoredClearedMonths() {
+try {
+var raw = _win.localStorage ? _win.localStorage.getItem(self.PERIOD_KEY) : null;
+if (raw) {
+var p = JSON.parse(raw);
+if (p && Array.isArray(p.clearedMonths)) return p.clearedMonths;
+}
+} catch (_) {}
+return [];
+}
+function readActiveMonth() {
+if (_win.TasbeehApp && typeof _win.TasbeehApp.getCurrentTrackingMonth === 'function') {
+return _win.TasbeehApp.getCurrentTrackingMonth();
+}
+return typeof _win.getCurrentMonthKey === 'function' ? _win.getCurrentMonthKey() : new Date().toISOString().slice(0, 7);
+}
+self.loadAll = function () {
+var items = readStoredItems();
+self.items(items);
+self.clearedMonths(readStoredClearedMonths());
+self.activeMonth(readActiveMonth());
+if (_win.TasbeehApp && typeof _win.TasbeehApp.getBookmarkedChants === 'function') {
+try {
+var bms = _win.TasbeehApp.getBookmarkedChants();
+var bmList = [];
+if (bms && bms.current && bms.current.item) {
+bmList.push(bms.current);
+}
+if (bms && bms.old && bms.old.item) {
+bmList.push(bms.old);
+}
+self.bookmarkedItems(bmList);
+} catch (_) {}
+}
+};
+self.sync = function () {
+self.loadAll();
+if (_win.TasbeehApp && typeof _win.TasbeehApp.renderCurrentList === 'function') {
+try { _win.TasbeehApp.renderCurrentList(); } catch (_) {}
+}
+if (_win.TasbeehHomeApp && typeof _win.TasbeehHomeApp.render === 'function') {
+try { _win.TasbeehHomeApp.render(); } catch (_) {}
+}
+if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.render === 'function') {
+try { _win.TasbeehOldApp.render(); } catch (_) {}
+}
+if (_win.TasbeehHistoryApp && typeof _win.TasbeehHistoryApp.renderHistoryTab === 'function') {
+try { _win.TasbeehHistoryApp.renderHistoryTab(); } catch (_) {}
+}
+};
+self.addDhikr = function (title, targetCount) {
+if (!title || !title.trim()) return;
+var currentItems = self.items().slice();
+var newItem = {
+id: 'chant_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+title: title.trim(),
+targetCount: (targetCount === 'infinite' || targetCount === '∞') ? 'infinite' : (parseInt(targetCount, 10) || 100),
+currentCount: 0,
+totalCountToday: 0,
+completions: {},
+dailyCounts: {}
+};
+currentItems.push(newItem);
+self.items(currentItems);
+if (_win.localStorage) {
+try {
+_win.localStorage.setItem(self.STORAGE_KEY, JSON.stringify(currentItems));
+} catch (_) {}
+}
+if (_win.TasbeehApp && typeof _win.TasbeehApp.setItems === 'function') {
+try { _win.TasbeehApp.setItems(currentItems); } catch (_) {}
+}
+self.sync();
+};
+self.updateDhikr = function (id, updates) {
+if (!id || !updates) return;
+var currentItems = self.items().slice();
+var found = false;
+for (var i = 0; i < currentItems.length; i++) {
+if (currentItems[i].id === id) {
+Object.assign(currentItems[i], updates);
+found = true;
+break;
+}
+}
+if (found) {
+self.items(currentItems);
+if (_win.localStorage) {
+try {
+_win.localStorage.setItem(self.STORAGE_KEY, JSON.stringify(currentItems));
+} catch (_) {}
+}
+if (_win.TasbeehApp && typeof _win.TasbeehApp.setItems === 'function') {
+try { _win.TasbeehApp.setItems(currentItems); } catch (_) {}
+}
+self.sync();
+}
+};
+self.deleteDhikr = function (id) {
+if (!id) return;
+var filtered = self.items().filter(function (it) { return it.id !== id; });
+self.items(filtered);
+if (_win.localStorage) {
+try {
+_win.localStorage.setItem(self.STORAGE_KEY, JSON.stringify(filtered));
+} catch (_) {}
+}
+if (_win.TasbeehApp && typeof _win.TasbeehApp.setItems === 'function') {
+try { _win.TasbeehApp.setItems(filtered); } catch (_) {}
+}
+self.sync();
+};
+self.reopenLastMonth = function () {
+if (_win.TasbeehApp && typeof _win.TasbeehApp.reopenLastMonth === 'function') {
+_win.TasbeehApp.reopenLastMonth();
+}
+self.sync();
+};
+self.resetAllCompleted = function () {
+if (_win.TasbeehApp && typeof _win.TasbeehApp.resetAllCompleted === 'function') {
+_win.TasbeehApp.resetAllCompleted();
+}
+self.sync();
+};
+self.loadAll();
+}
+const TasbeehStore = new TasbeehStoreModel();
+if (typeof window !== 'undefined') {
+window.TasbeehStore = TasbeehStore;
+}
+if (typeof module !== 'undefined' && module.exports) {
+module.exports = { TasbeehStore: TasbeehStore };
+}
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+function createObservable(initial) {
+if (_ko && typeof _ko.observable === 'function') {
+return _ko.observable(initial);
+}
+var val = initial;
+function obs(newVal) {
+if (arguments.length > 0) {
+val = newVal;
+return obs;
+}
+return val;
+}
+obs.__isObservable = true;
+return obs;
+}
+function createObservableArray(initial) {
+if (_ko && typeof _ko.observableArray === 'function') {
+return _ko.observableArray(initial);
+}
+var arr = Array.isArray(initial) ? initial.slice() : [];
+function obs(newVal) {
+if (arguments.length > 0) {
+arr = newVal;
+return obs;
+}
+return arr;
+}
+obs.__isObservable = true;
+obs.push = function () { return arr.push.apply(arr, arguments); };
+return obs;
+}
+function createComputed(fn) {
+if (_ko && typeof _ko.computed === 'function') {
+return _ko.computed(fn);
+}
+return function () { return fn(); };
+}
+function DuasStoreModel() {
+var self = this;
+var CONSTANTS = _win.CONSTANTS || {};
+var DUA_CONSTANTS = (_win.DUA_CONSTANTS || CONSTANTS.DUA || CONSTANTS.DUAS) || {};
+var STORAGE_KEYS = DUA_CONSTANTS.STORAGE_KEYS || {};
+self.STORAGE_KEY_DUAS = STORAGE_KEYS.DATA || 'quranDuas_data';
+self.STORAGE_KEY_FAVS = STORAGE_KEYS.FAVS || 'quranDuas_favourites';
+self.STORAGE_KEY_PINS = STORAGE_KEYS.PINS || 'quranDuas_pins';
+self.MAX_PINS = typeof DUA_CONSTANTS.MAX_PINS === 'number' ? DUA_CONSTANTS.MAX_PINS : 2;
+self.API_URL = DUA_CONSTANTS.API_URL || 'https://raw.githubusercontent.com/iliyas77/data.github.io/main/duas.json';
+self.allDuas = createObservableArray([]);
+self.pins = createObservableArray([]);
+self.favourites = createObservableArray([]);
+self.searchQuery = createObservable('');
+self.isLoading = createObservable(false);
+self.loadError = createObservable(null);
+self.currentIndex = createObservable(0);
+self.pinnedTitle = createComputed(function () {
+var count = self.pins().length;
+return 'Your Pinned Duas (' + count + '/' + self.MAX_PINS + ')';
+});
+self.currentDua = createComputed(function () {
+var list = self.allDuas();
+var idx = self.currentIndex();
+return (list && list[idx]) ? list[idx] : null;
+});
+self.isCurrentFav = createComputed(function () {
+var favs = self.favourites();
+var idx = self.currentIndex();
+return favs.indexOf(idx) !== -1;
+});
+self.isCurrentPinned = createComputed(function () {
+var p = self.pins();
+var idx = self.currentIndex();
+return p.indexOf(idx) !== -1;
+});
+self.loadFromStorage = function () {
+try {
+var rawDuas = _win.localStorage ? _win.localStorage.getItem(self.STORAGE_KEY_DUAS) : null;
+if (rawDuas) {
+var d = JSON.parse(rawDuas);
+if (Array.isArray(d)) self.allDuas(d);
+}
+var rawFavs = _win.localStorage ? _win.localStorage.getItem(self.STORAGE_KEY_FAVS) : null;
+if (rawFavs) {
+var f = JSON.parse(rawFavs);
+if (Array.isArray(f)) self.favourites(f);
+}
+var rawPins = _win.localStorage ? _win.localStorage.getItem(self.STORAGE_KEY_PINS) : null;
+if (rawPins) {
+var p = JSON.parse(rawPins);
+if (Array.isArray(p)) self.pins(p);
+}
+} catch (_) {}
+};
+self.saveToStorage = function () {
+if (!_win.localStorage) return;
+try {
+_win.localStorage.setItem(self.STORAGE_KEY_DUAS, JSON.stringify(self.allDuas()));
+_win.localStorage.setItem(self.STORAGE_KEY_FAVS, JSON.stringify(self.favourites()));
+_win.localStorage.setItem(self.STORAGE_KEY_PINS, JSON.stringify(self.pins()));
+} catch (_) {}
+};
+self.fetchDuas = function () {
+self.isLoading(true);
+self.loadError(null);
+if (typeof fetch === 'function') {
+return fetch(self.API_URL)
+.then(function (res) {
+if (!res.ok) throw new Error('HTTP ' + res.status);
+return res.json();
+})
+.then(function (data) {
+self.isLoading(false);
+if (Array.isArray(data)) {
+self.allDuas(data);
+self.saveToStorage();
+}
+if (_win.DuasApp && typeof _win.DuasApp.refreshAllViews === 'function') {
+_win.DuasApp.refreshAllViews();
+}
+return data;
+})
+.catch(function (err) {
+self.isLoading(false);
+self.loadError(err && err.message ? err.message : 'Failed to load Duas');
+self.loadFromStorage();
+return self.allDuas();
+});
+} else {
+self.loadFromStorage();
+self.isLoading(false);
+return Promise.resolve(self.allDuas());
+}
+};
+self.togglePin = function (index) {
+var currentPins = self.pins().slice();
+var pos = currentPins.indexOf(index);
+if (pos !== -1) {
+currentPins.splice(pos, 1);
+} else {
+if (currentPins.length >= self.MAX_PINS) {
+if (_win.DuasApp && typeof _win.DuasApp.showPinLimitModal === 'function') {
+_win.DuasApp.showPinLimitModal(index);
+return;
+}
+currentPins.shift(); // FIFO unpin if modal not available
+}
+currentPins.push(index);
+}
+self.pins(currentPins);
+self.saveToStorage();
+if (_win.DuasApp && typeof _win.DuasApp.refreshAllViews === 'function') {
+_win.DuasApp.refreshAllViews();
+}
+};
+self.toggleFavourite = function (index) {
+var currentFavs = self.favourites().slice();
+var pos = currentFavs.indexOf(index);
+if (pos !== -1) {
+currentFavs.splice(pos, 1);
+} else {
+currentFavs.push(index);
+}
+self.favourites(currentFavs);
+self.saveToStorage();
+if (_win.DuasApp && typeof _win.DuasApp.refreshAllViews === 'function') {
+_win.DuasApp.refreshAllViews();
+}
+};
+self.setCurrentIndex = function (index) {
+var total = self.allDuas().length;
+if (total === 0) return;
+var validIndex = Math.max(0, Math.min(total - 1, index));
+self.currentIndex(validIndex);
+};
+self.nextDua = function () {
+var total = self.allDuas().length;
+if (total === 0) return;
+self.setCurrentIndex((self.currentIndex() + 1) % total);
+};
+self.prevDua = function () {
+var total = self.allDuas().length;
+if (total === 0) return;
+self.setCurrentIndex((self.currentIndex() - 1 + total) % total);
+};
+self.togglePinCurrent = function () {
+self.togglePin(self.currentIndex());
+};
+self.toggleFavouriteCurrent = function () {
+self.toggleFavourite(self.currentIndex());
+};
+self.loadFromStorage();
+}
+const DuasStore = new DuasStoreModel();
+if (typeof window !== 'undefined') {
+window.DuasStore = DuasStore;
+}
+if (typeof module !== 'undefined' && module.exports) {
+module.exports = { DuasStore: DuasStore };
+}
 'use strict';
 function dashLiveHeaderTime() {
 var now = new Date();
@@ -826,6 +3241,7 @@ return h * 60 + m;
 var dashCurrentActivePrayer = null;
 var dashLastCheckedDate = typeof td === 'function' ? td() : null;
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
 var DASH_CONSTANTS = _win.DASHBOARD_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.DASHBOARD) || {};
 var PRAYER_CONSTANTS = _win.PRAYER_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER) || {};
 var DASH_STATUSES = DASH_CONSTANTS.STATUSES || { ACTIVE: 'active', PASSED: 'passed', NEXT: 'next', UPCOMING: 'upcoming' };
@@ -935,8 +3351,13 @@ items: ko.observableArray(prayerItems)
 var missedCount = (typeof getConsolidatedMissedCount === 'function')
 ? getConsolidatedMissedCount()
 : (typeof tMT === 'function' ? tMT() : 0);
-var trackerBadgeVisible = ko.observable(missedCount > 0);
-var trackerBadgeText = ko.observable(missedCount > 0 ? (missedCount + ' missed') : '');
+var store = _win.PrayerStore || null;
+var trackerBadgeVisible = (store && _ko && typeof _ko.computed === 'function' && _ko.isObservable(store.missedCount))
+? _ko.computed(function () { return store.missedCount() > 0; })
+: (_ko ? _ko.observable(missedCount > 0) : function () { return missedCount > 0; });
+var trackerBadgeText = (store && _ko && typeof _ko.computed === 'function' && _ko.isObservable(store.missedCount))
+? _ko.computed(function () { return store.missedCount() > 0 ? (store.missedCount() + ' missed') : ''; })
+: (_ko ? _ko.observable(missedCount > 0 ? (missedCount + ' missed') : '') : function () { return missedCount > 0 ? (missedCount + ' missed') : ''; });
 self.navCards = [
 {
 title: 'Tracker',
@@ -1018,11 +3439,21 @@ item.isActive(isActive);
 });
 };
 self.updateTrackerBadge = function () {
-var totalMissed = typeof getConsolidatedMissedCount === 'function'
+var pStore = _win.PrayerStore || null;
+if (pStore && typeof pStore.sync === 'function') {
+pStore.sync();
+}
+var totalMissed = (pStore && _ko && _ko.isObservable(pStore.missedCount))
+? pStore.missedCount()
+: (typeof getConsolidatedMissedCount === 'function'
 ? getConsolidatedMissedCount()
-: (typeof tMT === 'function' ? tMT() : 0);
+: (typeof tMT === 'function' ? tMT() : 0));
+if (typeof trackerBadgeVisible === 'function') {
 trackerBadgeVisible(totalMissed > 0);
+}
+if (typeof trackerBadgeText === 'function') {
 trackerBadgeText(totalMissed > 0 ? (totalMissed + ' missed') : '');
+}
 };
 }
 function dashTick() {
@@ -1469,6 +3900,9 @@ alert('Saved settings, but live API connection failed: ' + err.message);
 } else {
 alert('Prayer times synced successfully for ' + city + ', ' + country + '!');
 }
+if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
+_win.PrayerStore.sync();
+}
 rSET();
 });
 }
@@ -1481,6 +3915,9 @@ if (!v) { alert('Please pick a date.'); return; }
 var formatted = typeof fr === 'function' ? fr(v) : v;
 if (!confirm('Save Current Start Date as ' + formatted + '?')) return;
 if (typeof wrSD === 'function') wrSD(v);
+if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
+_win.PrayerStore.sync();
+}
 rSET();
 if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
 };
@@ -1505,6 +3942,9 @@ window.sd = td();
 }
 if (typeof ensureCurrentDateInitialized === 'function') ensureCurrentDateInitialized();
 if (typeof fetchPrayerTimings === 'function' && typeof td === 'function') fetchPrayerTimings(td());
+if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
+_win.PrayerStore.sync();
+}
 rSET();
 if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
 if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
@@ -1876,11 +4316,18 @@ params = params || {};
 var self = this;
 var k = typeof ko !== 'undefined' ? ko : (typeof window !== 'undefined' ? window.ko : null);
 self.currentSubTab = (k && k.observable) ? k.observable(_win.trackerSubTab || 'current') : function () { return 'current'; };
-var initialMissed = typeof tMT === 'function' ? tMT() : 0;
-self.missedCount = (k && k.observable) ? k.observable(initialMissed) : function () { return 0; };
-self.hasMissed = (k && k.pureComputed) ? k.pureComputed(function () {
+var store = _win.PrayerStore || null;
+var initialMissed = (store && k && k.isObservable(store.missedCount))
+? store.missedCount()
+: (typeof tMT === 'function' ? tMT() : 0);
+self.missedCount = (store && k && k.isObservable(store.missedCount))
+? store.missedCount
+: ((k && k.observable) ? k.observable(initialMissed) : function () { return 0; });
+self.hasMissed = (store && k && typeof store.hasMissed === 'function')
+? store.hasMissed
+: ((k && k.pureComputed) ? k.pureComputed(function () {
 return (typeof self.missedCount === 'function' ? self.missedCount() : self.missedCount) > 0;
-}) : function () { return false; };
+}) : function () { return false; });
 self.header = {
 iconClass: (k && k.observable) ? k.observable('fa-regular fa-calendar-days text-gr-accent') : 'fa-regular fa-calendar-days text-gr-accent',
 label: (k && k.observable) ? k.observable('Current Prayer') : 'Current Prayer',
@@ -2280,6 +4727,12 @@ function updateCurrentMissedBadge() {
 var totalMissed = typeof getConsolidatedMissedCount === 'function'
 ? getConsolidatedMissedCount()
 : 0;
+if (_win.PrayerStore && typeof _win.PrayerStore.missedCount === 'function') {
+_win.PrayerStore.missedCount(totalMissed);
+}
+if (trackerViewModel && typeof trackerViewModel.missedCount === 'function' && trackerViewModel.missedCount !== (_win.PrayerStore && _win.PrayerStore.missedCount)) {
+trackerViewModel.missedCount(totalMissed);
+}
 var missedBtn = $('currentMissedBtn');
 var missedBadge = $('currentMissedBadge');
 if (missedBadge) {
@@ -2298,6 +4751,9 @@ missedBtn.title = totalMissed > 0 ? ('Missed Prayers (' + totalMissed + ')') : '
 function go(d) {
 if (d > td()) d = td();
 sd = d;
+if (_win.PrayerStore && typeof _win.PrayerStore.selectedDate === 'function') {
+_win.PrayerStore.selectedDate(d);
+}
 if (typeof fetchPrayerTimings === 'function') {
 fetchPrayerTimings(sd, function () { rn(); });
 }
@@ -3251,14 +5707,31 @@ if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab
 window.TasbeehHistoryApp.renderHistoryTab();
 }
 };
-self.currentDhikrsCount = (k && k.observable) ? k.observable(0) : 0;
-self.clearedMonthsCount = (k && k.observable) ? k.observable(0) : 0;
-self.activeOldLabel = (k && k.observable) ? k.observable('All Cleared') : 'All Cleared';
-self.bookmarkedCounters = (k && k.observableArray) ? k.observableArray([]) : [];
-self.currentTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
-self.currentDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
-self.oldTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
-self.oldDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
+var tbStore = _win.TasbeehStore || null;
+self.currentDhikrsCount = (tbStore && k && k.isObservable(tbStore.currentDhikrsCount))
+? tbStore.currentDhikrsCount
+: ((k && k.observable) ? k.observable(0) : 0);
+self.clearedMonthsCount = (tbStore && k && k.isObservable(tbStore.clearedMonthsCount))
+? tbStore.clearedMonthsCount
+: ((k && k.observable) ? k.observable(0) : 0);
+self.activeOldLabel = (tbStore && k && k.isObservable(tbStore.activeOldLabel))
+? tbStore.activeOldLabel
+: ((k && k.observable) ? k.observable('All Cleared') : 'All Cleared');
+self.bookmarkedCounters = (tbStore && k && k.isObservable(tbStore.bookmarkedItems))
+? tbStore.bookmarkedItems
+: ((k && k.observableArray) ? k.observableArray([]) : []);
+self.currentTodoItems = (tbStore && k && k.isObservable(tbStore.currentTodoItems))
+? tbStore.currentTodoItems
+: ((k && k.observableArray) ? k.observableArray([]) : []);
+self.currentDoneItems = (tbStore && k && k.isObservable(tbStore.currentDoneItems))
+? tbStore.currentDoneItems
+: ((k && k.observableArray) ? k.observableArray([]) : []);
+self.oldTodoItems = (tbStore && k && k.isObservable(tbStore.oldTodoItems))
+? tbStore.oldTodoItems
+: ((k && k.observableArray) ? k.observableArray([]) : []);
+self.oldDoneItems = (tbStore && k && k.isObservable(tbStore.oldDoneItems))
+? tbStore.oldDoneItems
+: ((k && k.observableArray) ? k.observableArray([]) : []);
 self.historyProgress = {
 percentCleared: (k && k.observable) ? k.observable(0) : 0,
 totalMonths: (k && k.observable) ? k.observable(0) : 0,
@@ -5914,7 +8387,10 @@ if (window.DuasApp && typeof window.DuasApp.fetchDuas === 'function') {
 window.DuasApp.fetchDuas();
 }
 };
-self.pinnedTitle = (k && k.observable) ? k.observable('Your Pinned Duas (0/2)') : 'Your Pinned Duas (0/2)';
+var duaStore = _win.DuasStore || null;
+self.pinnedTitle = (duaStore && k && k.isObservable(duaStore.pinnedTitle))
+? duaStore.pinnedTitle
+: ((k && k.observable) ? k.observable('Your Pinned Duas (0/2)') : 'Your Pinned Duas (0/2)');
 self.pinnedDuas = (k && k.observableArray) ? k.observableArray([]) : [];
 self.filteredDuas = (k && k.observableArray) ? k.observableArray([]) : [];
 self.favouriteDuas = (k && k.observableArray) ? k.observableArray([]) : [];
@@ -6901,1761 +9377,6 @@ window.componentRegistry = componentRegistry;
 window.registerFeatureComponent = registerFeatureComponent;
 window.registerAllComponents = registerAllComponents;
 }
-(function (window) {
-'use strict';
-const SUNRISE_ICON = '<app-icon params="name: \'cloud-sun\'"></app-icon>';
-const SUN_ICON = '<app-icon params="name: \'sun\'"></app-icon>';
-const PRAYER_ICONS = {
-Fajr: SUNRISE_ICON,
-Maghrib: SUNRISE_ICON,
-Dhuhr: SUN_ICON,
-Asr: SUN_ICON,
-Isha: '<app-icon params="name: \'moon\'"></app-icon>'
-};
-const CONSTANTS = {
-PRAYER: {
-NAMES: ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'],
-DEFAULT_TIMINGS: {
-Fajr: '04:49 AM',
-Dhuhr: '11:54 AM',
-Asr: '04:10 PM',
-Maghrib: '05:47 PM',
-Isha: '06:59 PM'
-},
-ICONS: PRAYER_ICONS,
-CARD_ICONS: Object.assign({}, PRAYER_ICONS, {
-DoneCheck: '<app-icon params="name: \'circle-check\', size: \'icon-md\'"></app-icon>',
-DoneCheckSm: '<app-icon params="name: \'circle-check\', size: \'icon-sm\'"></app-icon>',
-Warning: '<app-icon params="name: \'triangle-exclamation\', size: \'icon-sm\'"></app-icon>',
-Calendar: '<app-icon params="name: \'calendar\', prefix: \'fa-regular\', size: \'icon-sm\'"></app-icon>'
-}),
-DEFAULT_CONFIG: {
-city: 'Guntur',
-country: 'India',
-method: 1, // University of Islamic Sciences, Karachi
-school: 1  // 1 = Hanafi, 0 = Shafi
-},
-API: {
-TIMINGS_BY_CITY: 'https://api.aladhan.com/v1/timingsByCity/'
-},
-SCHOOLS: {
-HANAFI: 1,
-SHAFI: 0
-},
-SCHOOL_NAMES: {
-1: 'Hanafi',
-0: 'Shafi'
-},
-STATUS: {
-LIVE: 'live',
-CACHED: 'cached',
-OFFLINE: 'offline'
-},
-STATUS_LABELS: {
-live: 'Live',
-cached: 'Cached',
-offline: 'Offline'
-},
-SHEETS: {
-MISSED_PRAYERS: {
-iconClass: 'clipboard-list text-gr-accent',
-title: 'Missed Prayers',
-sub: 'From previous days (today excluded)'
-},
-PERIOD_INFO: {
-iconClass: 'circle-info text-brand',
-title: 'Period Info'
-},
-SET_OLD_PERIOD: {
-iconClass: 'clock-rotate-left text-warning',
-title: 'Set Old Period',
-sub: ''
-}
-},
-STORAGE_KEYS: {
-TRACKER_DATA: 'namazTrackerData',
-OLD_DATA: 'namazOldData',
-HISTORY: 'namazPrayerHistory',
-FONT_SIZE: 'namazFontSize',
-START_DATE: 'namazStartDate',
-OLD_PERIOD: 'namazOldPeriod',
-TIMINGS_CACHE: 'namazPrayerTimingsCache',
-CONFIG: 'namazPrayerConfig',
-LAST_INIT_DATE: 'namazLastInitDate',
-OLD_INIT: 'namazOldPeriodInitialized'
-},
-ELEMENT_IDS: {
-PAGE: 'trackerPage',
-HEADER_TITLE: 'trackerHeaderTitle',
-HEADER_ICON: 'trackerHeaderIcon',
-HEADER_LABEL: 'trackerHeaderLabel',
-OLD_SUB: 'oldSub',
-CURRENT_MISSED_BTN: 'currentMissedBtn',
-CURRENT_MISSED_BADGE: 'currentMissedBadge',
-OLD_ACTION_BTN: 'oldActionBtn',
-HISTORY_EMPTY_BTN: 'historyEmptyBtn',
-CURRENT_BODY: 'currentBody',
-OLD_BODY: 'oldBody',
-PERFORMANCE_BODY: 'performanceBody',
-HISTORY_BODY: 'historyBody',
-TAB_CURRENT: 'tabTrackCurrent',
-TAB_OLD: 'tabTrackOld',
-TAB_PERFORMANCE: 'tabTrackPerformance',
-TAB_HISTORY: 'tabTrackHistory',
-SHEET2: 'sheet2',
-SHEET2_ICON: 'sheet2Icon',
-SHEET2_TITLE: 'sheet2Title',
-SHEET2_SUB: 'sheet2Sub',
-SHEET2_BODY: 'sheet2Body',
-PERF_RING_VAL: 'perfRingVal',
-PERF_HERO_PERCENTAGE: 'perfHeroPercentage',
-PERF_TOTAL_COMPLETED: 'perfTotalCompleted',
-PERF_TOTAL_POSSIBLE: 'perfTotalPossible',
-PERF_DATE_PILL: 'perfDatePill',
-PERF_COMPLETED_STAT: 'perfCompletedStat',
-PERF_MISSED_STAT: 'perfMissedStat',
-PERF_RATE_STAT: 'perfRateStat',
-PERF_TRACKED_DAYS: 'perfTrackedDays',
-PERF_BREAKDOWN_LIST: 'perfBreakdownList',
-PERF_FOOTER_LABEL: 'perfFooterLabel',
-PERF_FOOTER_DESC: 'perfFooterDesc',
-HIST_EMPTY_STATE: 'histEmptyState',
-HIST_CONTENT: 'histContent',
-HIST_SUBTITLE_COUNT: 'histSubtitleCount',
-HIST_LIST: 'histList'
-}
-},
-DASHBOARD: {
-POLLING_INTERVAL_MS: 30000,
-ELEMENT_IDS: {
-BODY: 'dashBody',
-SCROLL: 'dashScroll',
-LOCATION_TEXT: 'dashLocationText',
-TIME: 'dashTime',
-CLOCK_DIGITS: 'dashClockDigits',
-CLOCK_AMPM: 'dashClockAmPm',
-TIMELINE_NODES: 'dashTimelineNodes',
-TRACKER_MISSED_BADGE: 'trackerMissedBadge'
-},
-STATUSES: {
-ACTIVE: 'active',
-PASSED: 'passed',
-NEXT: 'next',
-UPCOMING: 'upcoming'
-},
-STATUS_BADGES: {
-active: { className: 'badge-active', text: 'Active' },
-passed: { className: 'badge-passed', text: 'Passed' },
-next: { className: 'badge-next', text: 'Next' },
-upcoming: { className: 'badge-upcoming', text: 'Upcoming' }
-},
-CLOCK_INTERVAL_MS: 1000
-},
-TASBEEH: {
-DEFAULT_TARGET: 33,
-ELEMENT_IDS: {
-PAGE: 'tasbeehPage',
-HEADER_ICON: 'tbHeaderIcon',
-HEADER_LABEL: 'tbHeaderLabel',
-HEADER_SUB: 'tbHeaderSub',
-ADD_BTN: 'tbAddBtn',
-TAB_HOME: 'tabTbHome',
-TAB_CURRENT: 'tabTbCurrent',
-TAB_OLD: 'tabTbOld',
-TAB_HISTORY: 'tabTbHistory',
-HOME_BODY: 'tbHomeBody',
-HOME_EMPTY_STATE: 'tbHomeEmptyState',
-HOME_CONTENT: 'tbHomeContent',
-HOME_GRID: 'tbHomeGrid',
-HOME_CURRENT_COUNT: 'tbHomeCurrentCount',
-HOME_HISTORY_COUNT: 'tbHomeHistoryCount',
-HOME_ACTIVE_OLD_LABEL: 'tbHomeActiveOldLabel',
-CURRENT_BODY: 'tbCurrentBody',
-CURRENT_LIST: 'tbList',
-CURRENT_EMPTY_STATE: 'tbEmptyState',
-CURRENT_TODO_GROUP: 'tbCurrentTodoGroup',
-CURRENT_TODO_LIST: 'tbCurrentTodoList',
-CURRENT_TODO_GRID: 'tbCurrentTodoGrid',
-CURRENT_TODO_BADGE: 'tbCurrentTodoBadge',
-CURRENT_DONE_GROUP: 'tbCurrentDoneGroup',
-CURRENT_DONE_LIST: 'tbCurrentDoneList',
-CURRENT_DONE_GRID: 'tbCurrentDoneGrid',
-CURRENT_DONE_BADGE: 'tbCurrentDoneBadge',
-CURRENT_DONE_TOGGLE: 'tbCurrentDoneToggle',
-CURRENT_ADVANCE_BANNER: 'tbCurrentAdvanceBanner',
-CURRENT_ADVANCE_BANNER_TEXT: 'tbCurrentAdvanceBannerText',
-OLD_BODY: 'tbOldBody',
-OLD_EMPTY_RANGE: 'tbOldEmptyRange',
-OLD_EMPTY_RANGE_START: 'tbOldEmptyRangeStart',
-OLD_EMPTY_RANGE_CUR: 'tbOldEmptyRangeCur',
-OLD_ALL_COMPLETED: 'tbOldAllCompleted',
-OLD_ALL_COMPLETED_START: 'tbOldAllCompletedStart',
-OLD_CONTENT: 'tbOldContent',
-OLD_ADVANCE_BANNER: 'tbOldAdvanceBanner',
-OLD_ADVANCE_BANNER_MSG: 'tbOldAdvanceBannerMsg',
-OLD_TODO_GRID: 'tbOldTodoGrid',
-OLD_TODO_BADGE: 'tbOldTodoBadge',
-OLD_DONE_LIST: 'tbOldDoneList',
-OLD_DONE_GRID: 'tbOldDoneGrid',
-OLD_DONE_BADGE: 'tbOldDoneBadge',
-OLD_DONE_TOGGLE: 'tbOldDoneToggle',
-HISTORY_BODY: 'tbHistoryBody',
-HISTORY_CONTENT: 'tbHistoryContent',
-HIST_PERCENT_BADGE: 'tbHistPercentBadge',
-HIST_PROGRESS_BAR: 'tbHistProgressBar',
-HIST_TOTAL_MONTHS: 'tbHistTotalMonths',
-HIST_CLEARED_MONTHS: 'tbHistClearedMonths',
-HIST_PENDING_MONTHS: 'tbHistPendingMonths',
-HIST_PERIOD_START: 'tbHistPeriodStart',
-HIST_PERIOD_END: 'tbHistPeriodEnd',
-HIST_RESET_COMPLETED_BTN: 'tbHistResetCompletedBtn',
-HISTORY_LIST: 'tbHistoryList'
-},
-DATA_ACTS: {
-SWITCH_HOME: 'switch-tb-home',
-SWITCH_CURRENT: 'switch-tb-current',
-SWITCH_OLD: 'switch-tb-old',
-SWITCH_HISTORY: 'switch-tb-history',
-OPEN_BOOKMARK: 'tb-open-bookmark',
-CURRENT_ADVANCE: 'tb-current-advance',
-OLD_ADVANCE: 'tb-old-advance',
-OLD_REOPEN: 'tb-old-reopen',
-RESET_ALL_COMPLETED: 'tb-reset-all-completed',
-OPEN_SETTINGS: 'tb-open-settings',
-HIST_PRESET: 'tb-hist-preset',
-HIST_SAVE: 'tb-hist-save',
-HIST_RESET: 'tb-hist-reset',
-EDIT_DHIKR: 'tb-edit'
-},
-STORAGE_KEYS: {
-DATA: 'app_tasbeeh_data',
-DAY: 'app_tasbeeh_day',
-PERIOD: 'app_tasbeeh_period',
-CURRENT_PERIOD: 'app_tasbeeh_current_period',
-BOOKMARK_CURRENT: 'app_tasbeeh_bookmark_current',
-BOOKMARK_OLD: 'app_tasbeeh_bookmark_old',
-CAL_COMPLETIONS: 'app_tasbeeh_cal_completions'
-},
-TABS: {
-HOME: 'home',
-CURRENT: 'current',
-OLD: 'old',
-HISTORY: 'history'
-},
-TAB_HEADERS: {
-home: {
-iconClass: 'fa-solid fa-house text-brand',
-label: 'Digital Tasbeeh',
-sub: 'Home · Bookmarks'
-},
-current: {
-iconClass: 'fa-regular fa-calendar-days text-brand',
-label: 'Digital Tasbeeh'
-},
-old: {
-iconClass: 'fa-solid fa-clock-rotate-left text-gr-warning',
-label: 'Old Tasbeeh'
-},
-history: {
-iconClass: 'fa-solid fa-gear text-gr-accent',
-label: 'Tasbeeh History',
-sub: 'Period & Settings'
-}
-},
-PERIOD_PRESETS: {
-THIS_YEAR: 'this-year',
-LAST_6_MONTHS: '6-months',
-LAST_1_YEAR: '1-year'
-},
-DEFAULT_PRESETS: [
-{ title: 'SubhanAllah', targetCount: 33, targetCycles: 3 },
-{ title: 'Alhamdulillah', targetCount: 33, targetCycles: 3 },
-{ title: 'Allahu Akbar', targetCount: 34, targetCycles: 3 },
-{ title: 'Astaghfirullah', targetCount: 100, targetCycles: 1 }
-]
-},
-DUA: {
-ELEMENT_IDS: {
-PAGE: 'duasPage',
-HEADER_TITLE: 'duasHeaderTitle',
-PROGRESS_INDICATOR: 'duaProgressIndicator',
-BODY: 'duasBody',
-SUB_HOME: 'duaSubHome',
-HOME_VIEW: 'duaHomeView',
-SUB_ALL: 'duaSubAll',
-SEARCH_INPUT: 'duaSearchInput',
-SEARCH_CLEAR: 'duaSearchClear',
-LIST_VIEW: 'duaListView',
-SUB_FAVS: 'duaSubFavs',
-FAVOURITES_LIST: 'duaFavouritesList',
-SUB_DETAIL: 'duaSubDetail',
-DETAIL_NUMBER: 'duaDetailNumber',
-DETAIL_SURAH: 'duaDetailSurah',
-DETAIL_UCHCHARANA: 'duaDetailUchcharana',
-DETAIL_ARDHAM: 'duaDetailArdham',
-DETAIL_FAV_BTN: 'duaDetailFavBtn',
-DETAIL_FAV_ICON: 'duaDetailFavIcon',
-DETAIL_PIN_BTN: 'duaDetailPinBtn',
-DETAIL_PIN_ICON: 'duaDetailPinIcon',
-FAB_BTN: 'duaFabBtn',
-TAB_PINNED: 'duaTabPinned',
-TAB_ALL: 'duaTabAll',
-TAB_FAVS: 'duaTabFavs',
-ADD_MODAL: 'duaAddModal',
-ADMIN_MODAL: 'duaAdminModal',
-HOME_EMPTY_STATE: 'duaHomeEmptyState',
-HOME_CONTENT: 'duaHomeContent',
-HOME_TITLE_COUNT: 'duaHomeTitleCount',
-LIST_EMPTY_STATE: 'duaListEmptyState',
-FAVS_EMPTY_STATE: 'duaFavsEmptyState',
-LOADING_STATE: 'duaLoadingState',
-ERROR_STATE: 'duaErrorState',
-ERROR_MESSAGE: 'duaErrorMessage',
-ADMIN_EMPTY_STATE: 'duaAdminEmptyState'
-},
-STORAGE_KEYS: {
-DATA: 'quranDuas_data',
-FAVS: 'quranDuas_favourites',
-PINS: 'quranDuas_pins'
-},
-TABS: {
-HOME: 'home',
-DUAS: 'duas',
-FAVOURITES: 'favourites'
-},
-ICONS: {
-PINNED: '<app-icon params="name: \'thumbtack\'"></app-icon>',
-UNPINNED: '<app-icon params="name: \'thumbtack\'"></app-icon>',
-FAV: '<app-icon params="name: \'heart\', color: \'text-danger\'"></app-icon>',
-UNFAV: '<app-icon params="name: \'heart\', prefix: \'fa-regular\'"></app-icon>'
-},
-SEARCH_DEBOUNCE_MS: 80,
-MAX_PINS: 2,
-API_URL: 'https://raw.githubusercontent.com/iliyas77/data.github.io/main/duas.json',
-fetchDuas: function () {
-return fetch('https://raw.githubusercontent.com/iliyas77/data.github.io/main/duas.json')
-.then(function (response) {
-if (!response.ok) throw new Error('HTTP ' + response.status);
-return response.json();
-});
-}
-},
-SETTINGS: {
-CUSTOM_CITY_VALUE: '__custom__',
-BASE_FONT_SIZE_PX: 16,
-DEFAULT_FONT_SIZE: 1,
-DEFAULT_CONFIG: {
-city: 'Guntur',
-country: 'India',
-school: 1
-},
-ELEMENT_IDS: {
-LOCATION_SUBTITLE: 'ptLocationSubtitle',
-STATUS_TEXT: 'ptStatusText',
-STATUS_BADGE: 'ptStatusBadge',
-CITY_SELECT: 'ptCitySelect',
-CUSTOM_CITY_WRAP: 'ptCustomCityWrap',
-CUSTOM_CITY_INPUT: 'ptCustomCityInput',
-COUNTRY_INPUT: 'ptCountryInput',
-SCHOOL_SELECT: 'ptSchoolSelect',
-START_DATE_INPUT: 'sdInput',
-FONT_SIZE_BTNS: 'fsBtns'
-},
-BUTTON_CLASSES: {
-FONT_ACTIVE: 'flex-1 py-3 font-bold rounded-xl text-sm bg-brand text-white border border-brand transition-all cursor-pointer',
-FONT_INACTIVE: 'flex-1 py-3 font-bold rounded-xl text-sm bg-surfaceBg text-brand border border-borderGrey hover:bg-brand-light transition-all cursor-pointer'
-},
-SCHOOLS: {
-HANAFI: 1,
-SHAFI: 0
-},
-STATUS_FALLBACK: 'Offline',
-INDIAN_CITIES: [
-{ name: 'Guntur', state: 'Andhra Pradesh' },
-{ name: 'Vijayawada', state: 'Andhra Pradesh' },
-{ name: 'Visakhapatnam', state: 'Andhra Pradesh' },
-{ name: 'Tirupati', state: 'Andhra Pradesh' },
-{ name: 'Kurnool', state: 'Andhra Pradesh' },
-{ name: 'Nellore', state: 'Andhra Pradesh' },
-{ name: 'Delhi', state: 'National Capital Region' },
-{ name: 'Hyderabad', state: 'Telangana' },
-{ name: 'Bengaluru', state: 'Karnataka' },
-{ name: 'Mumbai', state: 'Maharashtra' },
-{ name: 'Chennai', state: 'Tamil Nadu' },
-{ name: 'Kolkata', state: 'West Bengal' },
-{ name: 'Ahmedabad', state: 'Gujarat' },
-{ name: 'Lucknow', state: 'Uttar Pradesh' },
-{ name: 'Pune', state: 'Maharashtra' },
-{ name: 'Jaipur', state: 'Rajasthan' },
-{ name: 'Bhopal', state: 'Madhya Pradesh' },
-{ name: 'Patna', state: 'Bihar' },
-{ name: 'Srinagar', state: 'Jammu & Kashmir' },
-{ name: 'Kozhikode', state: 'Kerala' },
-{ name: 'Kochi', state: 'Kerala' },
-{ name: 'Indore', state: 'Madhya Pradesh' },
-{ name: 'Nagpur', state: 'Maharashtra' },
-{ name: 'Kanpur', state: 'Uttar Pradesh' },
-{ name: 'Surat', state: 'Gujarat' },
-{ name: 'Aurangabad', state: 'Maharashtra' },
-{ name: 'Chandigarh', state: 'Punjab/Haryana' }
-],
-FONT_SIZE_OPTIONS: [
-{ v: 0.9, l: 'Small' },
-{ v: 1, l: 'Medium' },
-{ v: 1.15, l: 'Large' }
-]
-},
-NAVIGATION: {
-PAGES: ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage'],
-NAVS: {
-dashboard: 'navHome',
-tracker: 'navCur',
-current: 'navCur',
-old: 'navCur',
-performance: 'navCur',
-settings: 'navSet',
-tasbeeh: 'navTasbeeh',
-duas: 'navDuas'
-},
-SUB_TABS: {
-CURRENT: 'current',
-OLD: 'old',
-PERFORMANCE: 'performance',
-HISTORY: 'history'
-},
-PAGE_MAP: {
-dashboard: 'dashboardPage',
-tracker: 'trackerPage',
-current: 'trackerPage',
-old: 'trackerPage',
-performance: 'trackerPage',
-history: 'trackerPage',
-settings: 'settingsPage',
-tasbeeh: 'tasbeehPage',
-duas: 'duasPage'
-},
-TRACKER_HEADER: {
-current: {
-iconClass: 'fa-regular fa-calendar-days text-gr-accent',
-label: 'Current Prayer'
-},
-old: {
-iconClass: 'fa-solid fa-clock-rotate-left text-gr-warning',
-label: 'Old Tracking'
-},
-performance: {
-iconClass: 'fa-solid fa-chart-simple text-brand',
-label: 'Performance'
-},
-history: {
-iconClass: 'fa-solid fa-list-check text-brand',
-label: 'History'
-}
-},
-NAV_CLASSES: {
-ACTIVE: 'text-brand',
-INACTIVE: 'text-secondary',
-BAR: 'bg-brand rounded-pill nav-active-bar'
-}
-},
-COMMON: {
-TOAST_DURATION_MS: 2200,
-RIPPLE_DURATION_MS: 620,
-MS_PER_DAY: 864e5,
-MONTH_NAMES: [
-'January', 'February', 'March', 'April', 'May', 'June',
-'July', 'August', 'September', 'October', 'November', 'December'
-]
-}
-};
-CONSTANTS.DUAS = CONSTANTS.DUA;
-CONSTANTS.DATE = {
-MONTH_NAMES: CONSTANTS.COMMON.MONTH_NAMES
-};
-window.CONSTANTS = CONSTANTS;
-window.PRAYER_CONSTANTS = CONSTANTS.PRAYER;
-window.DASHBOARD_CONSTANTS = CONSTANTS.DASHBOARD;
-window.TASBEEH_CONSTANTS = CONSTANTS.TASBEEH;
-window.DUA_CONSTANTS = CONSTANTS.DUA;
-window.DUAS_CONSTANTS = CONSTANTS.DUA;
-window.SETTINGS_CONSTANTS = CONSTANTS.SETTINGS;
-window.NAVIGATION_CONSTANTS = CONSTANTS.NAVIGATION;
-window.COMMON_CONSTANTS = CONSTANTS.COMMON;
-})(window);
-var PRAYER_KEYS = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS) || {};
-var LIK = PRAYER_KEYS.LAST_INIT_DATE || window.LIK || 'namazLastInitDate';
-var OIK = PRAYER_KEYS.OLD_INIT || window.OIK || 'namazOldPeriodInitialized';
-var COMMON_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.COMMON) || {};
-var TOAST_DURATION_MS = COMMON_CONSTANTS.TOAST_DURATION_MS || 2200;
-var RIPPLE_DURATION_MS = COMMON_CONSTANTS.RIPPLE_DURATION_MS || 620;
-var MS_PER_DAY = COMMON_CONSTANTS.MS_PER_DAY || 864e5;
-var BASE_FONT_SIZE_PX = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window.CONSTANTS.SETTINGS.BASE_FONT_SIZE_PX) || 16;
-var DEFAULT_FONT_SIZE = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window.CONSTANTS.SETTINGS.DEFAULT_FONT_SIZE) || 1;
-var CUSTOM_CITY_VALUE = (window.CONSTANTS && window.CONSTANTS.SETTINGS && window.CONSTANTS.SETTINGS.CUSTOM_CITY_VALUE) || '__custom__';
-var FA_ICON_MAP = {
-'fajr': 'fa-solid fa-cloud-sun',
-'dhuhr': 'fa-solid fa-sun',
-'asr': 'fa-solid fa-sun',
-'maghrib': 'fa-solid fa-cloud-sun',
-'isha': 'fa-solid fa-moon',
-'mosque': 'fa-solid fa-mosque',
-'tracker': 'fa-solid fa-calendar-check',
-'misbaha': 'fa-solid fa-hands-praying',
-'duas': 'fa-solid fa-hands-praying',
-'settings': 'fa-solid fa-gear',
-'gear': 'fa-solid fa-gear',
-'chevron-right': 'fa-solid fa-chevron-right',
-'chevron-left': 'fa-solid fa-chevron-left',
-'tb-chevron': 'fa-solid fa-chevron-right',
-'tb-pencil': 'fa-solid fa-pencil',
-'pencil': 'fa-solid fa-pencil',
-'tb-target': 'fa-solid fa-bullseye',
-'tb-check-circle': 'fa-solid fa-circle-check',
-'check': 'fa-solid fa-check',
-'circle-check': 'fa-solid fa-circle-check',
-'circle-dot': 'fa-solid fa-circle-dot',
-'circle-exclamation': 'fa-solid fa-circle-exclamation',
-'circle-info': 'fa-solid fa-circle-info',
-'circle-xmark': 'fa-solid fa-circle-xmark',
-'triangle-exclamation': 'fa-solid fa-triangle-exclamation',
-'warning': 'fa-solid fa-triangle-exclamation',
-'done-check': 'fa-solid fa-check',
-'done-check-sm': 'fa-solid fa-check',
-'list-check': 'fa-solid fa-list-check',
-'clock': 'fa-regular fa-clock',
-'clock-rotate-left': 'fa-solid fa-clock-rotate-left',
-'rotate-left': 'fa-solid fa-rotate-left',
-'arrow-rotate-left': 'fa-solid fa-rotate-left',
-'arrow-right': 'fa-solid fa-arrow-right',
-'play': 'fa-solid fa-play',
-'plus': 'fa-solid fa-plus',
-'calendar-card': 'fa-regular fa-calendar-days',
-'calendar-days': 'fa-regular fa-calendar-days',
-'calendar-xmark': 'fa-regular fa-calendar-xmark',
-'location-dot': 'fa-solid fa-location-dot',
-'thumbtack': 'fa-solid fa-thumbtack',
-'book-quran': 'fa-solid fa-book-quran',
-'bookmark': 'fa-solid fa-bookmark',
-'heart': 'fa-solid fa-heart',
-'house': 'fa-solid fa-house',
-'hand-holding-heart': 'fa-solid fa-hand-holding-heart',
-'hands-praying': 'fa-solid fa-hands-praying',
-'bell': 'fa-solid fa-bell',
-'chart-simple': 'fa-solid fa-chart-simple',
-'trash-can': 'fa-solid fa-trash-can'
-};
-function renderIcon(nameOrOpts, maybeSize, maybeColor, maybeClass) {
-if (!nameOrOpts) return '';
-var name = '';
-var size = '';
-var color = '';
-var className = '';
-if (typeof nameOrOpts === 'object') {
-name = nameOrOpts.name || '';
-size = nameOrOpts.size || '';
-color = nameOrOpts.color || '';
-className = nameOrOpts.className || '';
-} else {
-name = String(nameOrOpts);
-size = maybeSize || '';
-color = maybeColor || '';
-className = maybeClass || '';
-}
-if (name.trim().startsWith('<')) return name;
-var key = name.toLowerCase().trim();
-var faClass = FA_ICON_MAP[key] || (key.startsWith('fa-') ? key : ('fa-solid fa-' + key));
-var classes = [faClass];
-if (color) classes.push(color);
-if (className) classes.push(className);
-if (typeof size === 'string' && (size.startsWith('fs-') || size.startsWith('text-'))) {
-classes.push(size);
-}
-var style = '';
-if (typeof size === 'number') {
-style = ' style="font-size: ' + size + 'px;"';
-} else if (typeof size === 'string' && size && !size.startsWith('fs-') && !size.startsWith('text-')) {
-style = ' style="font-size: ' + size + ';"';
-}
-return '<i class="' + classes.join(' ') + '"' + style + '></i>';
-}
-window.renderIcon = renderIcon;
-window.Icon = {
-render: renderIcon,
-update: function (el, nameOrOpts, maybeSize, maybeColor, maybeClass) {
-if (!el) return null;
-var name = '';
-var color = '';
-var className = '';
-var size = '';
-if (typeof nameOrOpts === 'object' && nameOrOpts !== null) {
-name = nameOrOpts.name || '';
-size = nameOrOpts.size || '';
-color = nameOrOpts.color || '';
-className = nameOrOpts.className || '';
-} else if (typeof nameOrOpts === 'string') {
-var parts = nameOrOpts.trim().split(/\s+/);
-name = parts[0] || '';
-if (parts.length > 1) {
-color = parts.slice(1).join(' ');
-}
-}
-if (maybeSize) size = maybeSize;
-if (maybeColor) color = maybeColor;
-if (maybeClass) className = maybeClass;
-var key = name.toLowerCase().trim();
-var faClass = FA_ICON_MAP[key] || (key.startsWith('fa-') ? key : ('fa-solid fa-' + key));
-var classes = [faClass];
-if (color) classes.push(color);
-if (className) classes.push(className);
-if (typeof size === 'string' && (size.startsWith('fs-') || size.startsWith('text-'))) {
-classes.push(size);
-}
-el.className = classes.join(' ');
-if (typeof size === 'number') {
-el.style.fontSize = size + 'px';
-} else if (typeof size === 'string' && size && !size.startsWith('fs-') && !size.startsWith('text-')) {
-el.style.fontSize = size;
-}
-return el;
-}
-};
-function $(id) { return document.getElementById(id); }
-function getEl(id) { return document.getElementById(id); }
-function pad2(n) { return String(n).padStart(2, '0'); }
-function escHtml(str) {
-if (!str) return '';
-return String(str)
-.replace(/&/g, '&amp;')
-.replace(/</g, '&lt;')
-.replace(/>/g, '&gt;')
-.replace(/"/g, '&quot;')
-.replace(/'/g, '&#39;');
-}
-var escapeHtml = escHtml;
-if (typeof window !== 'undefined') {
-window.escHtml = escHtml;
-window.escapeHtml = escapeHtml;
-}
-function clamp(val, min, max) {
-return Math.min(max, Math.max(min, val));
-}
-function td() {
-var d = new Date();
-return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
-}
-function todayKey() {
-return new Date().toDateString();
-}
-function fr(ds) {
-if (!ds) return '';
-return new Date(ds + 'T00:00:00').toLocaleDateString(undefined,
-{ weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
-}
-function formatDate(ds) {
-return fr(ds);
-}
-function getCurrentMonthKey() {
-var d = new Date();
-return d.getFullYear() + '-' + pad2(d.getMonth() + 1);
-}
-function normalizeMonthKey(val) {
-if (!val) return '';
-var m = String(val).match(/^(\d{4})-(\d{1,2})/);
-if (!m) return '';
-return m[1] + '-' + pad2(parseInt(m[2], 10));
-}
-function getPrevMonthKey(mKey) {
-if (!mKey) return '';
-var parts = mKey.split('-');
-var yr = parseInt(parts[0], 10);
-var mo = parseInt(parts[1], 10);
-mo -= 1;
-if (mo === 0) {
-mo = 12;
-yr -= 1;
-}
-return yr + '-' + pad2(mo);
-}
-function getNextMonthKey(mKey) {
-if (!mKey) return '';
-var parts = mKey.split('-');
-var yr = parseInt(parts[0], 10);
-var mo = parseInt(parts[1], 10);
-mo += 1;
-if (mo > 12) {
-mo = 1;
-yr += 1;
-}
-return yr + '-' + pad2(mo);
-}
-function formatMonthLabel(mKey) {
-if (!mKey) return '';
-var parts = mKey.split('-');
-if (parts.length < 2) return mKey;
-var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, 1);
-return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
-}
-function getPreviousMonthsList(startDate, endDate) {
-if (!startDate) return [];
-var sParts = startDate.split('-');
-var sY = parseInt(sParts[0], 10);
-var sM = parseInt(sParts[1], 10);
-var now = new Date();
-var curY = now.getFullYear();
-var curM = now.getMonth() + 1; // 1-12
-var endLimitY = curY;
-var endLimitM = curM - 1;
-if (endLimitM === 0) {
-endLimitM = 12;
-endLimitY -= 1;
-}
-if (endDate) {
-var eParts = endDate.split('-');
-var eY = parseInt(eParts[0], 10);
-var eM = parseInt(eParts[1], 10);
-if (eY < endLimitY || (eY === endLimitY && eM < endLimitM)) {
-endLimitY = eY;
-endLimitM = eM;
-}
-}
-var list = [];
-var y = endLimitY;
-var m = endLimitM;
-while (y > sY || (y === sY && m >= sM)) {
-list.push(y + '-' + pad2(m));
-m--;
-if (m === 0) {
-m = 12;
-y--;
-}
-}
-return list; // Most recent month first (e.g. ['2026-09', '2026-08', ...])
-}
-function friendly(ds) {
-var today = td();
-var d1 = new Date(today + 'T00:00:00');
-var d2 = new Date(ds + 'T00:00:00');
-var diff = Math.round((d1 - d2) / MS_PER_DAY);
-if (diff === 0) return 'Today';
-if (diff === 1) return 'Yesterday';
-if (diff === 2) return 'Day Before Yesterday';
-return diff + ' Days Ago';
-}
-function uid(prefix) {
-prefix = prefix || 'tb_';
-return prefix + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-}
-var _globalToastTimer = null;
-function showToast(message, duration, toastId) {
-var el = document.getElementById(toastId || 'tbToast');
-if (!el) return;
-duration = duration || TOAST_DURATION_MS;
-el.textContent = message;
-el.classList.remove('d-none');
-el.classList.add('show');
-if (_globalToastTimer) clearTimeout(_globalToastTimer);
-_globalToastTimer = setTimeout(function () {
-el.classList.remove('show');
-setTimeout(function () { el.classList.add('d-none'); }, 200);
-}, duration);
-}
-if (typeof window !== 'undefined') {
-window.$ = $;
-window.getEl = getEl;
-window.pad2 = pad2;
-window.clamp = clamp;
-window.td = td;
-window.todayKey = todayKey;
-window.fr = fr;
-window.formatDate = formatDate;
-window.getCurrentMonthKey = getCurrentMonthKey;
-window.normalizeMonthKey = normalizeMonthKey;
-window.getPrevMonthKey = getPrevMonthKey;
-window.getNextMonthKey = getNextMonthKey;
-window.formatMonthLabel = formatMonthLabel;
-window.getPreviousMonthsList = getPreviousMonthsList;
-window.friendly = friendly;
-window.uid = uid;
-window.showToast = showToast;
-window.tMT = tMT;
-window.mBD = mBD;
-window.getTodayMissedCount = getTodayMissedCount;
-window.getConsolidatedMissedCount = getConsolidatedMissedCount;
-window.rd = rd;
-window.gr = gr;
-window.sr = sr;
-window.en = en;
-window.rdOC = rdOC;
-window.grO = grO;
-window.srO = srO;
-window.isDonePrayer = isDonePrayer;
-window.isPrayerUpcoming = isPrayerUpcoming;
-window.ensureCurrentDateInitialized = ensureCurrentDateInitialized;
-window.migratePrayerData = migratePrayerData;
-window.rdOK = rdOK;
-window.wrOK = wrOK;
-window.ensureAllOldMissed = ensureAllOldMissed;
-window.shrinkOldPeriod = shrinkOldPeriod;
-window.currentOldDate = currentOldDate;
-window.datesInRange = datesInRange;
-window.prevDate = prevDate;
-}
-function parseTimeToMin(timeStr) {
-if (!timeStr) return -1;
-var clean = timeStr.trim().split(' ');
-if (!clean[0]) return -1;
-var parts = clean[0].split(':');
-var h = parseInt(parts[0], 10);
-var m = parseInt(parts[1], 10);
-if (isNaN(h) || isNaN(m)) return -1;
-var ap = clean[1] || 'AM';
-if (ap === 'PM' && h < 12) h += 12;
-if (ap === 'AM' && h === 12) h = 0;
-return h * 60 + m;
-}
-function isPrayerUpcoming(prayerName, dateStr) {
-var today = td();
-if (dateStr && dateStr !== today) return false;
-var now = new Date();
-var nowMin = now.getHours() * 60 + now.getMinutes();
-var pTime = T[prayerName];
-if (!pTime) return false;
-var pMin = parseTimeToMin(pTime);
-if (pMin === -1) return false;
-return nowMin < pMin;
-}
-function isDonePrayer(p, dateStr, r) {
-if (!r) {
-var d = dateStr || (typeof sd !== 'undefined' ? sd : td());
-r = gr(d);
-}
-if (!r) return false;
-if (r[p] === false || r[p] === 'done') return true;
-if (r[p] === true || r[p] === 'missed') return false;
-if (dateStr && !rd()[dateStr]) {
-return true;
-}
-return false;
-}
-var LS = {
-get: function (k) {
-try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; }
-},
-set: function (k, v) {
-localStorage.setItem(k, JSON.stringify(v));
-}
-};
-function migratePrayerData() {
-try {
-var curData = LS.get(K);
-if (curData && typeof curData === 'object') {
-var curChanged = false;
-Object.keys(curData).forEach(function (d) {
-var rec = curData[d];
-if (rec && typeof rec === 'object') {
-var cleaned = {};
-var hasMissed = false;
-P.forEach(function (p) {
-var val = (rec[p] === true || rec[p] === 'missed');
-cleaned[p] = val;
-if (val) hasMissed = true;
-});
-if (!hasMissed) {
-delete curData[d];
-curChanged = true;
-} else {
-curData[d] = cleaned;
-curChanged = true;
-}
-}
-});
-if (curChanged) {
-LS.set(K, curData);
-}
-}
-var oldData = LS.get(OCK);
-if (oldData && typeof oldData === 'object') {
-var oldChanged = false;
-Object.keys(oldData).forEach(function (d) {
-var rec = oldData[d];
-if (rec && typeof rec === 'object') {
-var cleaned = {};
-var hasMissed = false;
-P.forEach(function (p) {
-var val = (rec[p] === true || rec[p] === 'missed');
-cleaned[p] = val;
-if (val) hasMissed = true;
-});
-if (!hasMissed) {
-delete oldData[d];
-oldChanged = true;
-} else {
-oldData[d] = cleaned;
-oldChanged = true;
-}
-}
-});
-if (oldChanged) {
-LS.set(OCK, oldData);
-}
-}
-} catch (e) {
-console.error('Migration error:', e);
-}
-}
-function ensureCurrentDateInitialized() {
-var today = td();
-var lastInit = localStorage.getItem(LIK);
-var a = rd();
-if (lastInit !== today) {
-if (!a[today]) {
-var initialPrayers = {};
-P.forEach(function (p) {
-initialPrayers[p] = true;
-});
-a[today] = initialPrayers;
-LS.set(K, a);
-}
-localStorage.setItem(LIK, today);
-}
-}
-function rd() { return LS.get(K) || {}; }
-function gr(d) {
-if (d === td() && localStorage.getItem(LIK) !== td()) {
-ensureCurrentDateInitialized();
-}
-var a = rd();
-var r = a[d];
-var out = {};
-if (r) {
-P.forEach(function (p) {
-out[p] = (r[p] === true || r[p] === 'missed');
-});
-} else {
-P.forEach(function (p) {
-out[p] = false;
-});
-}
-return out;
-}
-function sr(d, r) {
-var a = rd();
-var cleaned = {};
-var hasMissed = false;
-P.forEach(function (p) {
-var val = (r && (r[p] === true || r[p] === 'missed'));
-cleaned[p] = val;
-if (val) hasMissed = true;
-});
-if (!hasMissed) {
-delete a[d];
-} else {
-a[d] = cleaned;
-}
-LS.set(K, a);
-}
-function en(d) {
-return gr(d);
-}
-function rdOC() { return LS.get(OCK) || {}; }
-function grO(d) {
-var a = rdOC();
-var r = a[d];
-var out = {};
-if (r) {
-P.forEach(function (p) {
-out[p] = (r[p] === true || r[p] === 'missed');
-});
-} else {
-P.forEach(function (p) {
-out[p] = false;
-});
-}
-return out;
-}
-function srO(d, r) {
-var a = rdOC();
-var cleaned = {};
-var hasMissed = false;
-P.forEach(function (p) {
-var val = (r && (r[p] === true || r[p] === 'missed'));
-cleaned[p] = val;
-if (val) hasMissed = true;
-});
-if (!hasMissed) {
-delete a[d];
-} else {
-a[d] = cleaned;
-}
-LS.set(OCK, a);
-}
-function mBD() {
-var a = rd();
-var today = td();
-return Object.keys(a).sort()
-.filter(function (d) { return d < today; })
-.map(function (d) {
-return {
-date: d,
-prayers: P.filter(function (p) {
-return a[d][p] === true || a[d][p] === 'missed';
-})
-};
-})
-.filter(function (x) { return x.prayers.length > 0; });
-}
-function tMT() {
-var a = rd();
-var today = td();
-var t = 0;
-Object.keys(a).forEach(function (d) {
-if (d >= today) return;
-P.forEach(function (p) {
-if (a[d][p] === true || a[d][p] === 'missed') t++;
-});
-});
-return t;
-}
-function getTodayMissedCount() {
-var today = td();
-var r = gr(today);
-var curActive = typeof getActivePrayerInfo === 'function' ? getActivePrayerInfo() : null;
-var curPrayerName = curActive ? curActive.name : null;
-return P.filter(function (p) {
-if (typeof isDonePrayer === 'function' ? isDonePrayer(p, today, r) : (r && r[p] === false)) return false;
-if (typeof isPrayerUpcoming === 'function' && isPrayerUpcoming(p, today)) return false;
-if (curPrayerName && curPrayerName === p) return false;
-return true;
-}).length;
-}
-function getConsolidatedMissedCount() {
-return tMT() + getTodayMissedCount();
-}
-function datesInRange(s, e) {
-var out = [];
-var d = new Date(s + 'T00:00:00');
-var end = new Date(e + 'T00:00:00');
-while (d <= end) {
-out.push(d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()));
-d.setDate(d.getDate() + 1);
-}
-return out;
-}
-function prevDate(ds) {
-var d = new Date(ds + 'T00:00:00');
-d.setDate(d.getDate() - 1);
-return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
-}
-function rdOK() { return LS.get(OK) || null; }
-function wrOK(o) { LS.set(OK, o); }
-function ensureAllOldMissed() {
-var o = rdOK();
-if (!o || o.end < o.start) return;
-if (!o.created) {
-o.created = Date.now();
-o.initialEnd = o.end;
-wrOK(o);
-}
-var initKey = localStorage.getItem(OIK);
-var expectedKey = String(o.created);
-var a = rdOC();
-var isDbEmpty = Object.keys(a).length === 0;
-if (initKey !== expectedKey || isDbEmpty) {
-var rangeEnd = o.initialEnd || o.end;
-var dates = datesInRange(o.start, rangeEnd);
-var changed = false;
-dates.forEach(function (d) {
-if (!a[d]) {
-a[d] = {};
-P.forEach(function (p) {
-a[d][p] = true;
-});
-changed = true;
-} else {
-P.forEach(function (p) {
-if (!(p in a[d])) {
-a[d][p] = true;
-changed = true;
-}
-});
-}
-});
-localStorage.setItem(OIK, expectedKey);
-if (changed) LS.set(OCK, a);
-}
-}
-function currentOldDate() {
-var o = rdOK();
-if (!o || o.end < o.start) return null;
-var dates = datesInRange(o.start, o.end).slice().reverse();
-var a = rdOC();
-for (var i = 0; i < dates.length; i++) {
-var d = dates[i];
-var r = a[d] || {};
-if (P.filter(function (p) { return r[p] === true || r[p] === 'missed'; }).length > 0) return d;
-}
-return null;
-}
-function shrinkOldPeriod(completedDate) {
-var o = rdOK();
-if (!o) return;
-var curEnd = o.end;
-var changed = false;
-while (curEnd >= o.start) {
-var rEnd = grO(curEnd);
-var anyMissed = P.some(function (p) {
-return rEnd[p] === true || rEnd[p] === 'missed';
-});
-if (!anyMissed) {
-curEnd = prevDate(curEnd);
-changed = true;
-} else {
-break;
-}
-}
-if (changed) {
-o.end = curEnd;
-wrOK(o);
-}
-var nextTarget = completedDate ? prevDate(completedDate) : curEnd;
-if (curEnd >= o.start && nextTarget > curEnd) {
-nextTarget = curEnd;
-}
-if (typeof setOldSd === 'function') {
-setOldSd(nextTarget);
-} else if (typeof oldSd !== 'undefined') {
-oldSd = nextTarget;
-}
-}
-function rdFS() {
-var v = parseFloat(localStorage.getItem(FK));
-return v && v > 0 ? v : DEFAULT_FONT_SIZE;
-}
-function apFS(v) {
-document.documentElement.style.fontSize = (BASE_FONT_SIZE_PX * v) + 'px';
-document.body.style.fontSize = (BASE_FONT_SIZE_PX * v) + 'px';
-localStorage.setItem(FK, String(v));
-}
-function rdSD() { return localStorage.getItem(SK) || td(); }
-function wrSD(v) { localStorage.setItem(SK, v); }
-function openCal() {
-var dp = $('dp');
-if (dp.showPicker) {
-try { dp.showPicker(); return; } catch (e) { }
-}
-dp.focus();
-dp.click();
-}
-function handleClick(e) {
-var t = e.target.closest('[data-act]');
-if (!t) return;
-var act = t.dataset.act;
-if (act === 'toggle-cur') {
-var p = t.dataset.p;
-if (sd === td() && typeof isPrayerUpcoming === 'function' && isPrayerUpcoming(p, sd)) {
-return;
-}
-var c1 = gr(sd);
-var wasDone = typeof isDonePrayer === 'function' ? isDonePrayer(p, sd, c1) : (c1[p] === false);
-if (!confirm(wasDone
-? 'Mark ' + p + ' as Missed for ' + fr(sd) + '?'
-: 'Mark ' + p + ' as Done for ' + fr(sd) + '?')) return;
-c1[p] = wasDone ? true : false;
-if (wasDone) {
-if (typeof removePrayerHistoryEntry === 'function') {
-removePrayerHistoryEntry(p, 'Current', sd);
-}
-} else {
-if (typeof addPrayerHistoryEntry === 'function') {
-addPrayerHistoryEntry(p, 'Current', sd);
-}
-}
-sr(sd, c1);
-rn();
-if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
-if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
-renderPrayerHistoryTab();
-}
-} else if (act === 'select-all') {
-var c2 = gr(sd);
-var isToday = sd === td();
-var actionable = P.filter(function (x) {
-return !isToday || (typeof isPrayerUpcoming === 'function' && !isPrayerUpcoming(x, sd));
-});
-var doneCount = actionable.filter(function (x) {
-return typeof isDonePrayer === 'function' ? isDonePrayer(x, sd, c2) : (c2[x] === false);
-}).length;
-var willMarkDone = doneCount < actionable.length;
-var action = willMarkDone ? 'Done' : 'Missed';
-if (!confirm('Mark available prayers as ' + action + ' for ' + fr(sd) + '?')) return;
-actionable.forEach(function (x) {
-var wasXDone = typeof isDonePrayer === 'function' ? isDonePrayer(x, sd, c2) : (c2[x] === false);
-if (willMarkDone) {
-if (!wasXDone && typeof addPrayerHistoryEntry === 'function') {
-addPrayerHistoryEntry(x, 'Current', sd);
-}
-} else {
-if (wasXDone && typeof removePrayerHistoryEntry === 'function') {
-removePrayerHistoryEntry(x, 'Current', sd);
-}
-}
-c2[x] = willMarkDone ? false : true;
-});
-sr(sd, c2);
-rn();
-if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
-if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
-renderPrayerHistoryTab();
-}
-} else if (act === 'jump-today') {
-sd = td();
-if (typeof fetchPrayerTimings === 'function') {
-fetchPrayerTimings(sd, function () { rn(); });
-}
-rn();
-} else if (act === 'missed-open') {
-rMS();
-} else if (act === 'old-open-cal') {
-if (typeof openOldCal === 'function') openOldCal();
-} else if (act === 'open-cal') {
-if (typeof trackerSubTab !== 'undefined' && trackerSubTab === 'old') {
-if (typeof openOldCal === 'function') openOldCal();
-} else {
-openCal();
-}
-} else if (act === 'old-info') {
-rOldInfo();
-} else if (act === 'toggle-old') {
-var p2 = t.dataset.p, d2 = t.dataset.d;
-var c3 = grO(d2);
-var was2 = c3[p2] === true || c3[p2] === 'missed';
-if (!confirm(was2
-? 'Mark ' + p2 + ' as Done for ' + fr(d2) + '?'
-: 'Mark ' + p2 + ' as Missed for ' + fr(d2) + '?')) return;
-c3[p2] = !was2;
-if (was2) {
-if (typeof addPrayerHistoryEntry === 'function') {
-addPrayerHistoryEntry(p2, 'Old', d2);
-}
-} else {
-if (typeof removePrayerHistoryEntry === 'function') {
-removePrayerHistoryEntry(p2, 'Old', d2);
-}
-}
-srO(d2, c3);
-var o = rdOK();
-var isDateComplete = !P.some(function (p) {
-return c3[p] === true || c3[p] === 'missed';
-});
-if (isDateComplete) {
-shrinkOldPeriod(d2);
-} else {
-if (o && d2 > o.end) {
-o.end = d2;
-wrOK(o);
-}
-if (typeof setOldSd === 'function') {
-setOldSd(d2);
-} else if (typeof oldSd !== 'undefined') {
-oldSd = d2;
-}
-}
-rOT();
-if ($('sheet2') && $('sheet2').classList.contains('show') && typeof rOldInfo === 'function') {
-rOldInfo();
-}
-if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
-if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
-renderPrayerHistoryTab();
-}
-} else if (act === 'old-change-period') {
-rPeriod();
-} else if (act === 'jump') {
-sd = t.dataset.d;
-sheet2BS.hide();
-if (typeof fetchPrayerTimings === 'function') {
-fetchPrayerTimings(sd, function () { rn(); });
-}
-setTimeout(function () { showPage('current'); }, 350);
-} else if (act === 'font') {
-apFS(parseFloat(t.dataset.fs));
-rSET();
-} else if (act === 'pt-save') {
-var sel = $('ptCitySelect');
-var city = '';
-var country = 'India';
-if (sel) {
-if (sel.value === CUSTOM_CITY_VALUE) {
-var customInp = $('ptCustomCityInput');
-city = customInp ? customInp.value.trim() : '';
-var countryInp = $('ptCountryInput');
-if (countryInp && countryInp.value.trim()) {
-country = countryInp.value.trim();
-}
-} else {
-city = sel.value;
-}
-} else {
-var cityEl = $('ptCityInput');
-city = cityEl ? cityEl.value.trim() : 'Guntur';
-}
-var schoolEl = $('ptSchoolSelect');
-var school = schoolEl ? parseInt(schoolEl.value, 10) : 1;
-if (!city) {
-alert('Please select or enter a city.');
-return;
-}
-if (typeof setPrayerConfig === 'function') {
-setPrayerConfig({ city: city, country: country, school: school });
-}
-if (typeof fetchPrayerTimings === 'function') {
-fetchPrayerTimings(td(), function (err) {
-if (err) {
-alert('Saved settings, but live API connection failed: ' + err.message);
-} else {
-alert('Prayer times synced successfully for ' + city + ', ' + country + '!');
-}
-rSET();
-});
-}
-} else if (act === 'sd-save') {
-var v = $('sdInput').value;
-if (!v) { alert('Please pick a date.'); return; }
-if (!confirm('Save Current Start Date as ' + fr(v) + '?')) return;
-wrSD(v);
-rSET();
-if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
-} else if (act === 'old-save') {
-var s = $('oldStart').value, en2 = $('oldEnd').value;
-if (!s || !en2) { alert('Please pick both start and end dates.'); return; }
-if (en2 < s) { alert('End date must be after start date.'); return; }
-if (!confirm('Save Old Tracking Period from ' + fr(s) + ' to ' + fr(en2) + '?')) return;
-wrOK({ start: s, end: en2, initialEnd: en2, created: Date.now() });
-localStorage.removeItem(OIK);
-ensureAllOldMissed();
-if (typeof setOldSd === 'function') setOldSd(en2);
-sheet2BS.hide();
-rOT();
-if ($('sheet2') && $('sheet2').classList.contains('show') && typeof rOldInfo === 'function') {
-rOldInfo();
-}
-if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
-} else if (act === 'old-clear') {
-if (confirm('Clear the saved Old Tracking period and all its data?')) {
-localStorage.removeItem(OK);
-localStorage.removeItem(OCK);
-localStorage.removeItem(OIK);
-if (typeof clearPrayerHistoryByType === 'function') {
-clearPrayerHistoryByType('Old');
-}
-if (typeof setOldSd === 'function') setOldSd(null);
-sheet2BS.hide();
-rOT();
-if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
-if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
-renderPrayerHistoryTab();
-}
-}
-} else if (act === 'reset-db') {
-if (confirm('Delete ALL prayer records and cached prayer times?')) {
-localStorage.removeItem(K);
-localStorage.removeItem(OCK);
-localStorage.removeItem(OK);
-localStorage.removeItem(LIK);
-localStorage.removeItem(OIK);
-if (typeof PHK !== 'undefined') localStorage.removeItem(PHK);
-if (typeof clearPrayerHistory === 'function') clearPrayerHistory();
-if (typeof PTK_CACHE !== 'undefined') localStorage.removeItem(PTK_CACHE);
-sd = td();
-ensureCurrentDateInitialized();
-if (typeof fetchPrayerTimings === 'function') fetchPrayerTimings(td());
-rSET();
-if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
-if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
-renderPrayerHistoryTab();
-}
-}
-} else if (act === 'go-home') {
-showPage('dashboard');
-} else if (act === 'goto-cur') {
-showPage('current');
-} else if (act === 'goto-tracker') {
-showPage('tracker');
-} else if (act === 'goto-old') {
-showPage('old');
-} else if (act === 'switch-track-current') {
-switchTrackerSubTab('current');
-} else if (act === 'switch-track-old') {
-switchTrackerSubTab('old');
-} else if (act === 'switch-track-performance') {
-switchTrackerSubTab('performance');
-} else if (act === 'switch-track-history') {
-switchTrackerSubTab('history');
-} else if (act === 'history-empty') {
-if (typeof emptyPrayerHistory === 'function') {
-emptyPrayerHistory();
-}
-} else if (act === 'goto-settings') {
-showPage('settings');
-} else if (act === 'goto-tasbeeh') {
-showPage('tasbeeh');
-} else if (act === 'tb-open-bookmark') {
-var bmId = t.dataset.id;
-var bmMonth = t.dataset.month || null;
-var bmType = t.dataset.type || (bmMonth ? 'old' : 'current');
-if (window.TasbeehApp && typeof window.TasbeehApp.openCounterFromHome === 'function') {
-window.TasbeehApp.openCounterFromHome(bmId, bmMonth, bmType);
-}
-} else if (act === 'switch-tb-home') {
-if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
-window.TasbeehApp.switchTab('home');
-}
-} else if (act === 'switch-tb-current') {
-if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
-window.TasbeehApp.switchTab('current');
-}
-} else if (act === 'switch-tb-old') {
-if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
-window.TasbeehApp.switchTab('old');
-}
-} else if (act === 'switch-tb-history') {
-if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
-window.TasbeehApp.switchTab('history');
-}
-} else if (act === 'tb-hist-save') {
-if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.saveHistoryPeriod === 'function') {
-window.TasbeehHistoryApp.saveHistoryPeriod();
-}
-} else if (act === 'tb-hist-reset') {
-if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.resetHistoryPeriod === 'function') {
-window.TasbeehHistoryApp.resetHistoryPeriod();
-}
-} else if (act === 'tb-hist-preset') {
-var presetType = t.dataset.preset;
-if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.applyPreset === 'function') {
-window.TasbeehHistoryApp.applyPreset(presetType);
-}
-} else if (act === 'tb-open-settings' || act === 'tb-change-period') {
-if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
-window.TasbeehApp.switchTab('history');
-} else if (window.TasbeehApp && typeof window.TasbeehApp.openPeriodModal === 'function') {
-window.TasbeehApp.openPeriodModal();
-}
-} else if (act === 'tb-old-reopen') {
-if (window.TasbeehApp && typeof window.TasbeehApp.reopenLastMonth === 'function') {
-window.TasbeehApp.reopenLastMonth();
-}
-if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
-window.TasbeehHistoryApp.renderHistoryTab();
-}
-} else if (act === 'tb-reset-all-completed') {
-if (window.TasbeehApp && typeof window.TasbeehApp.resetAllCompleted === 'function') {
-window.TasbeehApp.resetAllCompleted();
-}
-if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
-window.TasbeehHistoryApp.renderHistoryTab();
-}
-} else if (act === 'goto-duas') {
-showPage('duas');
-} else if (act === 'dua-switch-pinned') {
-if (window.DuasApp) window.DuasApp.switchTab('home');
-} else if (act === 'dua-switch-all') {
-if (window.DuasApp) window.DuasApp.switchTab('duas');
-} else if (act === 'dua-switch-favs') {
-if (window.DuasApp) window.DuasApp.switchTab('favourites');
-} else if (act === 'dua-open-detail') {
-if (window.DuasApp) {
-var idx = parseInt(t.dataset.idx, 10);
-var src = t.dataset.source || 'home';
-window.DuasApp.openDetail(idx, src);
-}
-} else if (act === 'dua-detail-back') {
-if (window.DuasApp) window.DuasApp.goBack();
-} else if (act === 'dua-prev') {
-if (window.DuasApp) window.DuasApp.changeDua(-1);
-} else if (act === 'dua-next') {
-if (window.DuasApp) window.DuasApp.changeDua(1);
-} else if (act === 'dua-detail-toggle-fav') {
-if (window.DuasApp) window.DuasApp.toggleFavouriteCurrent();
-} else if (act === 'dua-detail-toggle-pin') {
-if (window.DuasApp) window.DuasApp.togglePinCurrent();
-} else if (act === 'dua-item-pin') {
-if (window.DuasApp) {
-var idx = parseInt(t.dataset.idx, 10);
-window.DuasApp.requestPin(idx);
-}
-} else if (act === 'dua-item-fav') {
-if (window.DuasApp) {
-var idx = parseInt(t.dataset.idx, 10);
-window.DuasApp.toggleFavourite(idx);
-}
-} else if (act === 'dua-open-add') {
-if (window.DuasApp) window.DuasApp.openAddModal();
-} else if (act === 'dua-close-add') {
-if (window.DuasApp) window.DuasApp.closeAddModal();
-} else if (act === 'dua-save-new') {
-if (window.DuasApp) window.DuasApp.saveNewDua();
-} else if (act === 'dua-open-admin') {
-if (window.DuasApp) window.DuasApp.openAdminModal();
-} else if (act === 'dua-close-admin') {
-if (window.DuasApp) window.DuasApp.closeAdminModal();
-} else if (act === 'dua-reset-all') {
-if (window.DuasApp) window.DuasApp.resetAllData();
-} else if (act === 'dua-close-pin-confirm') {
-if (window.DuasApp) window.DuasApp.closePinConfirm();
-} else if (act === 'dua-replace-pin') {
-if (window.DuasApp) {
-var oldIdx = parseInt(t.dataset.oldIdx, 10);
-window.DuasApp.replacePin(oldIdx);
-}
-} else if (act === 'dua-del') {
-if (window.DuasApp) {
-var delIdx = parseInt(t.dataset.idx, 10);
-window.DuasApp.deleteDua(delIdx);
-}
-} else if (act === 'dua-retry') {
-if (window.DuasApp && typeof window.DuasApp.fetchDuas === 'function') {
-window.DuasApp.fetchDuas();
-}
-}
-}
-document.addEventListener('click', handleClick);
-(function (window) {
-'use strict';
-function Modal(element, options) {
-this.element = typeof element === 'string' ? document.querySelector(element) : element;
-this.options = options || {};
-if (this.element) {
-this.element._uiModal = this;
-}
-}
-Modal.prototype.show = function () {
-if (!this.element) return;
-var el = this.element;
-el.style.display = 'flex';
-void el.offsetWidth;
-el.classList.add('show');
-el.setAttribute('aria-hidden', 'false');
-document.body.classList.add('modal-open');
-try {
-el.dispatchEvent(new CustomEvent('shown.bs.modal', { bubbles: true }));
-el.dispatchEvent(new CustomEvent('shown', { bubbles: true }));
-} catch (_) {}
-};
-Modal.prototype.hide = function () {
-if (!this.element) return;
-var el = this.element;
-el.classList.remove('show');
-el.setAttribute('aria-hidden', 'true');
-setTimeout(function () {
-if (!el.classList.contains('show')) {
-el.style.display = 'none';
-}
-}, 220);
-if (!document.querySelector('.modal.show') && !document.querySelector('.offcanvas.show')) {
-document.body.classList.remove('modal-open');
-}
-try {
-el.dispatchEvent(new CustomEvent('hidden.bs.modal', { bubbles: true }));
-el.dispatchEvent(new CustomEvent('hidden', { bubbles: true }));
-} catch (_) {}
-};
-Modal.prototype.toggle = function () {
-if (!this.element) return;
-if (this.element.classList.contains('show')) {
-this.hide();
-} else {
-this.show();
-}
-};
-Modal.getInstance = function (element) {
-var el = typeof element === 'string' ? document.querySelector(element) : element;
-return el ? el._uiModal || null : null;
-};
-Modal.getOrCreateInstance = function (element, options) {
-return Modal.getInstance(element) || new Modal(element, options);
-};
-function getOrCreateOffcanvasBackdrop() {
-var bd = document.getElementById('uiOffcanvasBackdrop');
-if (!bd) {
-bd = document.createElement('div');
-bd.id = 'uiOffcanvasBackdrop';
-bd.className = 'offcanvas-backdrop';
-document.body.appendChild(bd);
-bd.addEventListener('click', function () {
-var openSheet = document.querySelector('.offcanvas.show');
-if (openSheet) {
-var instance = Offcanvas.getInstance(openSheet);
-if (instance) instance.hide();
-else openSheet.classList.remove('show');
-}
-});
-}
-return bd;
-}
-function Offcanvas(element, options) {
-this.element = typeof element === 'string' ? document.querySelector(element) : element;
-this.options = options || {};
-if (this.element) {
-this.element._uiOffcanvas = this;
-}
-}
-Offcanvas.prototype.show = function () {
-if (!this.element) return;
-var bd = getOrCreateOffcanvasBackdrop();
-void bd.offsetWidth;
-bd.classList.add('show');
-this.element.classList.add('show');
-this.element.setAttribute('aria-modal', 'true');
-this.element.setAttribute('role', 'dialog');
-this.element.removeAttribute('aria-hidden');
-document.body.classList.add('modal-open');
-try {
-this.element.dispatchEvent(new CustomEvent('shown.bs.offcanvas', { bubbles: true }));
-this.element.dispatchEvent(new CustomEvent('shown', { bubbles: true }));
-} catch (_) {}
-};
-Offcanvas.prototype.hide = function () {
-if (!this.element) return;
-this.element.classList.remove('show');
-this.element.setAttribute('aria-hidden', 'true');
-var bd = document.getElementById('uiOffcanvasBackdrop');
-if (bd) bd.classList.remove('show');
-if (!document.querySelector('.modal.show') && !document.querySelector('.offcanvas.show')) {
-document.body.classList.remove('modal-open');
-}
-try {
-this.element.dispatchEvent(new CustomEvent('hidden.bs.offcanvas', { bubbles: true }));
-this.element.dispatchEvent(new CustomEvent('hidden', { bubbles: true }));
-} catch (_) {}
-};
-Offcanvas.prototype.toggle = function () {
-if (!this.element) return;
-if (this.element.classList.contains('show')) {
-this.hide();
-} else {
-this.show();
-}
-};
-Offcanvas.getInstance = function (element) {
-var el = typeof element === 'string' ? document.querySelector(element) : element;
-return el ? el._uiOffcanvas || null : null;
-};
-Offcanvas.getOrCreateInstance = function (element, options) {
-return Offcanvas.getInstance(element) || new Offcanvas(element, options);
-};
-function Collapse(element, options) {
-this.element = typeof element === 'string' ? document.querySelector(element) : element;
-this.options = options || {};
-if (this.element) {
-this.element._uiCollapse = this;
-}
-}
-Collapse.prototype.show = function () {
-if (!this.element) return;
-this.element.classList.add('show');
-try {
-this.element.dispatchEvent(new CustomEvent('shown.bs.collapse', { bubbles: true }));
-this.element.dispatchEvent(new CustomEvent('shown', { bubbles: true }));
-} catch (_) {}
-};
-Collapse.prototype.hide = function () {
-if (!this.element) return;
-this.element.classList.remove('show');
-try {
-this.element.dispatchEvent(new CustomEvent('hidden.bs.collapse', { bubbles: true }));
-this.element.dispatchEvent(new CustomEvent('hidden', { bubbles: true }));
-} catch (_) {}
-};
-Collapse.prototype.toggle = function () {
-if (!this.element) return;
-if (this.element.classList.contains('show')) {
-this.hide();
-} else {
-this.show();
-}
-};
-Collapse.getInstance = function (element) {
-var el = typeof element === 'string' ? document.querySelector(element) : element;
-return el ? el._uiCollapse || null : null;
-};
-Collapse.getOrCreateInstance = function (element, options) {
-return Collapse.getInstance(element) || new Collapse(element, options);
-};
-document.addEventListener('click', function (e) {
-var dismissModalBtn = e.target.closest('[data-bs-dismiss="modal"], [data-dismiss="modal"]');
-if (dismissModalBtn) {
-var modal = dismissModalBtn.closest('.modal');
-if (modal) {
-var inst = Modal.getOrCreateInstance(modal);
-inst.hide();
-}
-return;
-}
-var dismissOffcanvasBtn = e.target.closest('[data-bs-dismiss="offcanvas"], [data-dismiss="offcanvas"]');
-if (dismissOffcanvasBtn) {
-var offcanvas = dismissOffcanvasBtn.closest('.offcanvas');
-if (offcanvas) {
-var offInst = Offcanvas.getOrCreateInstance(offcanvas);
-offInst.hide();
-}
-return;
-}
-var toggleCollapseBtn = e.target.closest('[data-bs-toggle="collapse"], [data-toggle="collapse"]');
-if (toggleCollapseBtn) {
-e.preventDefault();
-var targetSelector = toggleCollapseBtn.getAttribute('data-bs-target') ||
-toggleCollapseBtn.getAttribute('data-target') ||
-toggleCollapseBtn.getAttribute('href');
-if (targetSelector) {
-var targetEl = document.querySelector(targetSelector);
-if (targetEl) {
-var isExpanded = targetEl.classList.toggle('show');
-toggleCollapseBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
-if (isExpanded) {
-toggleCollapseBtn.classList.remove('collapsed');
-} else {
-toggleCollapseBtn.classList.add('collapsed');
-}
-try {
-targetEl.dispatchEvent(new CustomEvent(isExpanded ? 'shown.bs.collapse' : 'hidden.bs.collapse', { bubbles: true }));
-} catch (_) {}
-}
-}
-return;
-}
-if (e.target.classList.contains('modal')) {
-var mInst = Modal.getInstance(e.target);
-if (mInst) mInst.hide();
-else e.target.classList.remove('show');
-}
-});
-document.addEventListener('keydown', function (e) {
-if (e.key === 'Escape' || e.keyCode === 27) {
-var openModal = document.querySelector('.modal.show');
-if (openModal) {
-var mInst = Modal.getInstance(openModal);
-if (mInst) mInst.hide();
-else openModal.classList.remove('show');
-return;
-}
-var openOffcanvas = document.querySelector('.offcanvas.show');
-if (openOffcanvas) {
-var oInst = Offcanvas.getInstance(openOffcanvas);
-if (oInst) oInst.hide();
-else openOffcanvas.classList.remove('show');
-}
-}
-});
-window.UIModal = Modal;
-window.UIOffcanvas = Offcanvas;
-window.UICollapse = Collapse;
-window.bootstrap = {
-Modal: Modal,
-Offcanvas: Offcanvas,
-Collapse: Collapse
-};
-})(window);
 var PRAYER_CONSTANTS = window.PRAYER_CONSTANTS || (window.CONSTANTS && window.CONSTANTS.PRAYER) || {};
 var P = PRAYER_CONSTANTS.NAMES || window.P || ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
 window.P = P;
