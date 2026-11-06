@@ -182,7 +182,7 @@ export function registerDuasComponents(customKo) {
 export function initDuas() {
     registerDuasComponents();
     var el = document.getElementById('duasPage');
-    if (el && typeof ko !== 'undefined') {
+    if (!document.getElementById('app') && el && typeof ko !== 'undefined') {
         var vm = getDuasViewModel();
         if (!ko.dataFor(el)) {
             ko.applyBindings(vm, el);
@@ -1065,7 +1065,7 @@ window.DuasApp = (function () {
     // ===== INIT & RENDER =====
     function init() {
         var pageEl = document.getElementById('duasPage');
-        if (pageEl && typeof ko !== 'undefined') {
+        if (!document.getElementById('app') && pageEl && typeof ko !== 'undefined') {
             registerDuasComponents();
             var vm = (typeof getDuasViewModel === 'function') ? getDuasViewModel() : null;
             if (vm && !ko.dataFor(pageEl)) {

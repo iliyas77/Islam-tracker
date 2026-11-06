@@ -3241,22 +3241,19 @@
 
     <script src="utilities/constant.js"></script>
     <script src="utilities/utility.js"></script>
-    <script src="services/prayer-store.js"></script>
-    <script src="services/tasbeeh-store.js"></script>
-    <script src="services/duas-store.js"></script>
+    <script type="module" src="services/prayer-store.js"></script>
+    <script type="module" src="services/tasbeeh-store.js"></script>
+    <script type="module" src="services/duas-store.js"></script>
     <script src="app.js"></script>
     <script src="navigation.js"></script>
-    <script src="services/app-view-model.js"></script>
+    <script type="module" src="services/app-view-model.js"></script>
 
-    <!-- Global Components (Knockout.js Component Registry) -->
+    <!-- Global Components & Custom Bindings Registry -->
     <script type="module">
         import { registerAllComponents } from './components/registry.js';
+        import { initApp } from './services/app-view-model.js';
         registerAllComponents();
-        if (typeof initApp === 'function') {
-            initApp();
-        } else if (window.initApp) {
-            window.initApp();
-        }
+        initApp();
     </script>
 
     <script>

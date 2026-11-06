@@ -14,6 +14,7 @@ const ROOT = path.join(BUILD_DIR, '..');
 const OUT_FILE = path.join(BUILD_DIR, 'production.html');
 
 const htmlPath = path.join(ROOT, 'main.html');
+const bindingsJsPath = path.join(ROOT, 'components', 'bindings.js');
 const iconJsPath = path.join(ROOT, 'components', 'icon', 'icon.js');
 const bottomSheetJsPath = path.join(ROOT, 'components', 'bottom-sheet', 'bottom-sheet.js');
 const registryJsPath = path.join(ROOT, 'components', 'registry.js');
@@ -95,6 +96,7 @@ function buildProduction() {
         html = html.replace(/<link[^>]*href="css\/[^"]*"[^>]*\/?>/g, '');
 
         // 2. Combine and Minify JS
+        const bindingsJs = fs.existsSync(bindingsJsPath) ? fs.readFileSync(bindingsJsPath, 'utf8') : '';
         const iconJs = fs.existsSync(iconJsPath) ? fs.readFileSync(iconJsPath, 'utf8') : '';
         const bottomSheetJs = fs.existsSync(bottomSheetJsPath) ? fs.readFileSync(bottomSheetJsPath, 'utf8') : '';
         const registryJs = fs.existsSync(registryJsPath) ? fs.readFileSync(registryJsPath, 'utf8') : '';
@@ -111,14 +113,15 @@ function buildProduction() {
         const tasbeehStoreJs = fs.existsSync(tasbeehStoreJsPath) ? fs.readFileSync(tasbeehStoreJsPath, 'utf8') : '';
         const duasStoreJs = fs.existsSync(duasStoreJsPath) ? fs.readFileSync(duasStoreJsPath, 'utf8') : '';
         const appViewModelJs = fs.existsSync(appViewModelJsPath) ? fs.readFileSync(appViewModelJsPath, 'utf8') : '';
-        const combinedJs = iconJs + '\n' + bottomSheetJs + '\n' + constantJs + '\n' + utilityJs + '\n' + prayerStoreJs + '\n' + tasbeehStoreJs + '\n' + duasStoreJs + '\n' + dashboardJs + '\n' + settingsJs + '\n' + prayerTrackingJs + '\n' + tasbeehJs + '\n' + duaJs + '\n' + registryJs + '\n' + appJs + '\n' + navigationJs + '\n' + appViewModelJs;
+        const combinedJs = bindingsJs + '\n' + iconJs + '\n' + bottomSheetJs + '\n' + constantJs + '\n' + utilityJs + '\n' + prayerStoreJs + '\n' + tasbeehStoreJs + '\n' + duasStoreJs + '\n' + dashboardJs + '\n' + settingsJs + '\n' + prayerTrackingJs + '\n' + tasbeehJs + '\n' + duaJs + '\n' + registryJs + '\n' + appJs + '\n' + navigationJs + '\n' + appViewModelJs;
         const minifiedJs = minifyJs(combinedJs);
 
         // Replace script src tags with minified inlined script block
+        html = html.replace(/<script[^>]*src="components\/bindings\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="components\/icon\/icon\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="components\/bottom-sheet\/bottom-sheet\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="components\/registry\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script\s+type="module"[^>]*>[\s\S]*?registerAllComponents[\s\S]*?<\/script>/g, '');
+        html = html.replace(/<script\s+type="module"(?![^>]*src=)[^>]*>[\s\S]*?registerAllComponents[\s\S]*?<\/script>/g, '');
         html = html.replace(/<script[^>]*src="utilities\/constant\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="utilities\/utility\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="services\/prayer-store\.js"[^>]*><\/script>/g, '');

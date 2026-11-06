@@ -188,7 +188,7 @@ export function registerTasbeehComponents(customKo) {
 export function initTasbeeh() {
     registerTasbeehComponents();
     var el = document.getElementById('tasbeehPage');
-    if (el && typeof ko !== 'undefined') {
+    if (!document.getElementById('app') && el && typeof ko !== 'undefined') {
         var vm = getTasbeehViewModel();
         if (!ko.dataFor(el)) {
             ko.applyBindings(vm, el);
@@ -2052,7 +2052,7 @@ window.TasbeehCurrentApp = (function () {
     /* ---------- Public API ---------- */
     function init() {
         var pageEl = document.getElementById('tasbeehPage');
-        if (pageEl && typeof ko !== 'undefined') {
+        if (!document.getElementById('app') && pageEl && typeof ko !== 'undefined') {
             registerTasbeehComponents();
             var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
             if (vm && !ko.dataFor(pageEl)) {

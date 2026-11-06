@@ -1,4 +1,5 @@
 // components/registry.js
+import { registerCustomBindings } from './bindings.js';
 import { IconViewModel, IconTemplate } from './icon/icon.js';
 import { BottomSheetViewModel, BottomSheetTemplate } from './bottom-sheet/bottom-sheet.js';
 import {
@@ -81,6 +82,9 @@ export function registerFeatureComponent(name, viewModel, template) {
 
 // Bulk registration function for app bootstrap
 export function registerAllComponents() {
+    // 0. Register Custom Binding Handlers
+    registerCustomBindings();
+
     // 1. Core UI Components
     registerFeatureComponent('app-icon', IconViewModel, IconTemplate);
     registerFeatureComponent('app-bottom-sheet', BottomSheetViewModel, BottomSheetTemplate);

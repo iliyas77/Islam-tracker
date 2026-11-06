@@ -6,6 +6,10 @@
 
 'use strict';
 
+import { PrayerStore } from './prayer-store.js';
+import { TasbeehStore } from './tasbeeh-store.js';
+import { DuasStore } from './duas-store.js';
+
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
 
@@ -57,9 +61,9 @@ export function AppViewModel() {
     };
 
     // 2. Reactive Domain Stores
-    self.prayerStore = _win.PrayerStore || null;
-    self.tasbeehStore = _win.TasbeehStore || null;
-    self.duasStore = _win.DuasStore || null;
+    self.prayerStore = (typeof PrayerStore !== 'undefined' ? PrayerStore : null) || _win.PrayerStore || null;
+    self.tasbeehStore = (typeof TasbeehStore !== 'undefined' ? TasbeehStore : null) || _win.TasbeehStore || null;
+    self.duasStore = (typeof DuasStore !== 'undefined' ? DuasStore : null) || _win.DuasStore || null;
 
     // 3. Child Feature ViewModels (singletons)
     self.getDashboard = function () {

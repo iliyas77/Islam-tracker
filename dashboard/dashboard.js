@@ -489,7 +489,7 @@ function rDashboard() {
 export function initDashboard() {
     registerDashboardComponents();
     var el = document.getElementById('dashboardPage');
-    if (el && typeof ko !== 'undefined') {
+    if (!document.getElementById('app') && el && typeof ko !== 'undefined') {
         var vm = getDashboardViewModel();
         if (!ko.dataFor(el)) {
             ko.applyBindings(vm, el);

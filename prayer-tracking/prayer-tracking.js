@@ -392,7 +392,7 @@ export function registerPrayerTrackingComponents(customKo) {
 export function initTracker() {
     registerPrayerTrackingComponents();
     var el = document.getElementById('trackerPage');
-    if (el && typeof ko !== 'undefined') {
+    if (!document.getElementById('app') && el && typeof ko !== 'undefined') {
         var vm = getTrackerViewModel();
         if (!ko.dataFor(el)) {
             ko.applyBindings(vm, el);

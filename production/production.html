@@ -531,6 +531,181 @@ data-bind="text: '#' + String(ko.unwrap($data.number) || 1).padStart(2, '0')">#0
 data-bind="text: surah"></div></div><div><div class="text-[11px] font-bold tracking-wider uppercase text-gr-textMuted">Telugu Pronunciation</div><div class="text-base font-medium text-brand leading-relaxed font-telugu mt-1" id="duaDetailUchcharana"
 data-bind="text: uchcharana"></div></div><div><div class="text-[11px] font-bold tracking-wider uppercase text-gr-textMuted">Telugu Meaning</div><div class="text-sm font-normal text-gr-text leading-relaxed font-telugu mt-1" id="duaDetailArdham"
 data-bind="text: ardham"></div></div></div></script></div><script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js"></script><script>'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+const ModalBinding = {
+init: function (element, valueAccessor) {
+var k = typeof ko !== 'undefined' ? ko : _ko;
+var value = valueAccessor();
+element.setAttribute('role', 'dialog');
+element.setAttribute('aria-modal', 'true');
+var onBackdropClick = function (e) {
+if (e.target === element) {
+if (k.isWriteableObservable(value)) {
+value(false);
+} else if (typeof value === 'function') {
+value(false);
+}
+}
+};
+element.addEventListener('click', onBackdropClick);
+var onDismissClick = function (e) {
+var closeBtn = e.target.closest('[data-bs-dismiss="modal"], [data-modal-close], .btn-close');
+if (closeBtn) {
+if (k.isWriteableObservable(value)) {
+value(false);
+} else if (typeof value === 'function') {
+value(false);
+}
+}
+};
+element.addEventListener('click', onDismissClick);
+var onKeyDown = function (e) {
+if (e.key === 'Escape' || e.keyCode === 27) {
+var isOpen = k.unwrap(valueAccessor());
+if (isOpen) {
+if (k.isWriteableObservable(value)) {
+value(false);
+} else if (typeof value === 'function') {
+value(false);
+}
+}
+}
+};
+window.addEventListener('keydown', onKeyDown);
+k.utils.domNodeDisposal.addDisposeCallback(element, function () {
+element.removeEventListener('click', onBackdropClick);
+element.removeEventListener('click', onDismissClick);
+window.removeEventListener('keydown', onKeyDown);
+});
+},
+update: function (element, valueAccessor) {
+var k = typeof ko !== 'undefined' ? ko : _ko;
+var isOpen = !!k.unwrap(valueAccessor());
+if (isOpen) {
+element.classList.remove('hidden', 'd-none');
+element.classList.add('active', 'show');
+element.style.display = 'flex';
+element.setAttribute('aria-hidden', 'false');
+} else {
+element.classList.remove('active', 'show');
+element.classList.add('hidden', 'd-none');
+element.style.display = 'none';
+element.setAttribute('aria-hidden', 'true');
+}
+}
+};
+const DatePickerBinding = {
+init: function (element, valueAccessor, allBindings) {
+var k = typeof ko !== 'undefined' ? ko : _ko;
+var value = valueAccessor();
+var targetInputId = allBindings.get('targetInput') || 'dp';
+var onClick = function (e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var input = document.getElementById(targetInputId);
+if (input) {
+if (typeof input.showPicker === 'function') {
+try {
+input.showPicker();
+} catch (_) {
+input.click();
+}
+} else {
+input.click();
+}
+}
+};
+element.addEventListener('click', onClick);
+var input = document.getElementById(targetInputId);
+if (input) {
+var onInputChange = function (e) {
+var newDate = e.target.value;
+if (newDate) {
+if (k.isWriteableObservable(value)) {
+value(newDate);
+} else if (typeof value === 'function') {
+value(newDate);
+}
+}
+};
+input.addEventListener('change', onInputChange);
+k.utils.domNodeDisposal.addDisposeCallback(element, function () {
+input.removeEventListener('change', onInputChange);
+});
+}
+k.utils.domNodeDisposal.addDisposeCallback(element, function () {
+element.removeEventListener('click', onClick);
+});
+}
+};
+const RippleBinding = {
+init: function (element) {
+var onPointerDown = function (e) {
+var rect = element.getBoundingClientRect();
+var ripple = document.createElement('span');
+var size = Math.max(rect.width, rect.height);
+var x = e.clientX - rect.left - size / 2;
+var y = e.clientY - rect.top - size / 2;
+ripple.style.position = 'absolute';
+ripple.style.borderRadius = '50%';
+ripple.style.width = size + 'px';
+ripple.style.height = size + 'px';
+ripple.style.left = x + 'px';
+ripple.style.top = y + 'px';
+ripple.style.pointerEvents = 'none';
+ripple.style.backgroundColor = 'rgba(18, 61, 46, 0.15)';
+ripple.style.transform = 'scale(0)';
+ripple.style.transition = 'transform 0.4s ease-out, opacity 0.4s ease-out';
+ripple.className = 'touch-ripple-effect';
+var prevPos = window.getComputedStyle(element).position;
+if (prevPos === 'static') {
+element.style.position = 'relative';
+}
+element.style.overflow = 'hidden';
+element.appendChild(ripple);
+requestAnimationFrame(function () {
+ripple.style.transform = 'scale(2.5)';
+ripple.style.opacity = '0';
+});
+setTimeout(function () {
+if (ripple.parentNode) {
+ripple.parentNode.removeChild(ripple);
+}
+}, 450);
+};
+element.addEventListener('pointerdown', onPointerDown);
+var k = typeof ko !== 'undefined' ? ko : _ko;
+if (k && k.utils && k.utils.domNodeDisposal) {
+k.utils.domNodeDisposal.addDisposeCallback(element, function () {
+element.removeEventListener('pointerdown', onPointerDown);
+});
+}
+}
+};
+function registerCustomBindings(customKo) {
+var k = customKo || (typeof ko !== 'undefined' ? ko : _win.ko);
+if (!k || !k.bindingHandlers) {
+console.warn('Knockout not available. Skipping custom binding registration.');
+return;
+}
+if (!k.bindingHandlers.modal) {
+k.bindingHandlers.modal = ModalBinding;
+}
+if (!k.bindingHandlers.datePicker) {
+k.bindingHandlers.datePicker = DatePickerBinding;
+}
+if (!k.bindingHandlers.ripple) {
+k.bindingHandlers.ripple = RippleBinding;
+}
+console.info('Successfully registered Knockout custom bindings: modal, datePicker, ripple.');
+}
+if (typeof window !== 'undefined') {
+window.registerCustomBindings = registerCustomBindings;
+window.ModalBinding = ModalBinding;
+window.DatePickerBinding = DatePickerBinding;
+window.RippleBinding = RippleBinding;
+}
+'use strict';
 var SIZE_MAP = {
 'xs': 'text-xs',
 'sm': 'text-sm',
@@ -3642,7 +3817,7 @@ startDashClock();
 function initDashboard() {
 registerDashboardComponents();
 var el = document.getElementById('dashboardPage');
-if (el && typeof ko !== 'undefined') {
+if (!document.getElementById('app') && el && typeof ko !== 'undefined') {
 var vm = getDashboardViewModel();
 if (!ko.dataFor(el)) {
 ko.applyBindings(vm, el);
@@ -3972,7 +4147,7 @@ function initSettings() {
 if (typeof ko === 'undefined') return;
 registerSettingsComponents();
 var el = document.getElementById('settingsPage');
-if (!el) return;
+if (!el || document.getElementById('app')) return;
 var vm = getSettingsViewModel();
 if (!ko.dataFor(el)) {
 ko.applyBindings(vm, el);
@@ -4464,7 +4639,7 @@ template: TrackerPageTemplate
 function initTracker() {
 registerPrayerTrackingComponents();
 var el = document.getElementById('trackerPage');
-if (el && typeof ko !== 'undefined') {
+if (!document.getElementById('app') && el && typeof ko !== 'undefined') {
 var vm = getTrackerViewModel();
 if (!ko.dataFor(el)) {
 ko.applyBindings(vm, el);
@@ -5800,7 +5975,7 @@ template: TasbeehPageTemplate
 function initTasbeeh() {
 registerTasbeehComponents();
 var el = document.getElementById('tasbeehPage');
-if (el && typeof ko !== 'undefined') {
+if (!document.getElementById('app') && el && typeof ko !== 'undefined') {
 var vm = getTasbeehViewModel();
 if (!ko.dataFor(el)) {
 ko.applyBindings(vm, el);
@@ -7369,7 +7544,7 @@ navigateMonth(1);
 }
 function init() {
 var pageEl = document.getElementById('tasbeehPage');
-if (pageEl && typeof ko !== 'undefined') {
+if (!document.getElementById('app') && pageEl && typeof ko !== 'undefined') {
 registerTasbeehComponents();
 var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
 if (vm && !ko.dataFor(pageEl)) {
@@ -8471,7 +8646,7 @@ template: DuasPageTemplate
 function initDuas() {
 registerDuasComponents();
 var el = document.getElementById('duasPage');
-if (el && typeof ko !== 'undefined') {
+if (!document.getElementById('app') && el && typeof ko !== 'undefined') {
 var vm = getDuasViewModel();
 if (!ko.dataFor(el)) {
 ko.applyBindings(vm, el);
@@ -9216,7 +9391,7 @@ fetchDuas().then(doReset);
 }
 function init() {
 var pageEl = document.getElementById('duasPage');
-if (pageEl && typeof ko !== 'undefined') {
+if (!document.getElementById('app') && pageEl && typeof ko !== 'undefined') {
 registerDuasComponents();
 var vm = (typeof getDuasViewModel === 'function') ? getDuasViewModel() : null;
 if (vm && !ko.dataFor(pageEl)) {
@@ -9340,6 +9515,7 @@ template: template
 });
 }
 function registerAllComponents() {
+registerCustomBindings();
 registerFeatureComponent('app-icon', IconViewModel, IconTemplate);
 registerFeatureComponent('app-bottom-sheet', BottomSheetViewModel, BottomSheetTemplate);
 registerFeatureComponent('dashboard-header', function (p) { return p || {}; }, DashboardHeaderTemplate);
@@ -9728,7 +9904,7 @@ initApp();
 window.initApp();
 }
 var sheet2El = document.getElementById('sheet2Wrapper');
-if (sheet2El && typeof ko !== 'undefined' && !ko.dataFor(sheet2El)) {
+if (!document.getElementById('app') && sheet2El && typeof ko !== 'undefined' && !ko.dataFor(sheet2El)) {
 ko.applyBindings({
 sheet2IsOpen: sheet2IsOpen,
 sheet2Title: sheet2Title,
@@ -10092,9 +10268,9 @@ self.nav.navigateTo(page);
 self.activePage(page);
 }
 };
-self.prayerStore = _win.PrayerStore || null;
-self.tasbeehStore = _win.TasbeehStore || null;
-self.duasStore = _win.DuasStore || null;
+self.prayerStore = (typeof PrayerStore !== 'undefined' ? PrayerStore : null) || _win.PrayerStore || null;
+self.tasbeehStore = (typeof TasbeehStore !== 'undefined' ? TasbeehStore : null) || _win.TasbeehStore || null;
+self.duasStore = (typeof DuasStore !== 'undefined' ? DuasStore : null) || _win.DuasStore || null;
 self.getDashboard = function () {
 if (typeof _win.getDashboardViewModel === 'function') return _win.getDashboardViewModel();
 return _win.dashboardViewModel || null;

@@ -345,7 +345,7 @@ export function initSettings() {
     registerSettingsComponents();
 
     var el = document.getElementById('settingsPage');
-    if (!el) return;
+    if (!el || document.getElementById('app')) return;
 
     var vm = getSettingsViewModel();
     if (!ko.dataFor(el)) {
