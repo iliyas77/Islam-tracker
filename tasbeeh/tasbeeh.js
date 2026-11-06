@@ -4,6 +4,148 @@
    Consolidated Module (Home, Current, Old, History)
    ============================================================ */
 
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+if (typeof window === 'undefined') {
+    globalThis.window = _win;
+}
+
+function escHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+if (typeof window !== 'undefined') {
+    window.escHtml = escHtml;
+}
+
+/* ---------- Digital Tasbeeh Component Templates ---------- */
+export const TasbeehPageTemplate = { element: 'tasbeeh-page-template', file: 'tasbeeh/tasbeeh.html' };
+export const TasbeehHeaderTemplate = { element: 'tasbeeh-header-template', file: 'tasbeeh/templates/tasbeeh-header.html' };
+export const TasbeehCounterCardTemplate = { element: 'tasbeeh-counter-card-template', file: 'tasbeeh/templates/tasbeeh-counter-card.html' };
+export const TasbeehProgressCircleTemplate = { element: 'tasbeeh-progress-circle-template', file: 'tasbeeh/templates/tasbeeh-progress-circle.html' };
+export const TasbeehGoalSetterTemplate = { element: 'tasbeeh-goal-setter-template', file: 'tasbeeh/templates/tasbeeh-goal-setter.html' };
+export const TasbeehNavTabTemplate = { element: 'tasbeeh-nav-tab-template', file: 'tasbeeh/templates/tasbeeh-nav-tab.html' };
+
+/* ---------- Knockout ViewModel & Component Registration ---------- */
+var tasbeehViewModel = null;
+
+export function getTasbeehViewModel() {
+    if (!tasbeehViewModel && typeof TasbeehPageViewModel === 'function') {
+        tasbeehViewModel = new TasbeehPageViewModel();
+    }
+    return tasbeehViewModel;
+}
+
+export function TasbeehPageViewModel(params) {
+    params = params || {};
+    var self = this;
+    var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+
+    self.currentSubTab = (k && k.observable) ? k.observable('home') : function () { return 'home'; };
+
+    self.header = {
+        title: (k && k.observable) ? k.observable('Digital Tasbeeh') : 'Digital Tasbeeh',
+        subtitle: (k && k.observable) ? k.observable('Home · Bookmarks') : 'Home · Bookmarks',
+        iconClass: (k && k.observable) ? k.observable('fa-solid fa-house text-brand') : 'fa-solid fa-house text-brand'
+    };
+
+    self.currentDhikrsCount = (k && k.observable) ? k.observable(0) : 0;
+    self.clearedMonthsCount = (k && k.observable) ? k.observable(0) : 0;
+    self.activeOldLabel = (k && k.observable) ? k.observable('All Cleared') : 'All Cleared';
+    self.bookmarkedCounters = (k && k.observableArray) ? k.observableArray([]) : [];
+
+    self.historyProgress = {
+        percentCleared: (k && k.observable) ? k.observable(0) : 0,
+        totalMonths: (k && k.observable) ? k.observable(0) : 0,
+        clearedMonths: (k && k.observable) ? k.observable(0) : 0,
+        pendingMonths: (k && k.observable) ? k.observable(0) : 0
+    };
+
+    self.goalSetter = {
+        startDate: (k && k.observable) ? k.observable('') : '',
+        endDate: (k && k.observable) ? k.observable('') : ''
+    };
+}
+
+export function registerTasbeehComponents(customKo) {
+    var k = customKo || (typeof ko !== 'undefined' ? ko : (_win.ko || null));
+    if (!k || !k.components) return;
+
+    if (!k.components.isRegistered('tasbeeh-header')) {
+        k.components.register('tasbeeh-header', {
+            viewModel: function (params) { return params || {}; },
+            template: TasbeehHeaderTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('tasbeeh-counter-card')) {
+        k.components.register('tasbeeh-counter-card', {
+            viewModel: function (params) { return params || {}; },
+            template: TasbeehCounterCardTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('tasbeeh-progress-circle')) {
+        k.components.register('tasbeeh-progress-circle', {
+            viewModel: function (params) { return params || {}; },
+            template: TasbeehProgressCircleTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('tasbeeh-goal-setter')) {
+        k.components.register('tasbeeh-goal-setter', {
+            viewModel: function (params) { return params || {}; },
+            template: TasbeehGoalSetterTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('tasbeeh-nav-tab')) {
+        k.components.register('tasbeeh-nav-tab', {
+            viewModel: function (params) { return params || {}; },
+            template: TasbeehNavTabTemplate
+        });
+    }
+
+    if (!k.components.isRegistered('tasbeeh-page')) {
+        k.components.register('tasbeeh-page', {
+            viewModel: function (params) {
+                return (params && params.viewModel) ? params.viewModel : getTasbeehViewModel();
+            },
+            template: TasbeehPageTemplate
+        });
+    }
+}
+
+export function initTasbeeh() {
+    registerTasbeehComponents();
+    var el = document.getElementById('tasbeehPage');
+    if (el && typeof ko !== 'undefined') {
+        var vm = getTasbeehViewModel();
+        if (!ko.dataFor(el)) {
+            ko.applyBindings(vm, el);
+        }
+    }
+    if (_win.TasbeehHomeApp && typeof _win.TasbeehHomeApp.init === 'function') {
+        _win.TasbeehHomeApp.init();
+    }
+    if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.init === 'function') {
+        _win.TasbeehOldApp.init();
+    }
+    if (_win.TasbeehHistoryApp && typeof _win.TasbeehHistoryApp.init === 'function') {
+        _win.TasbeehHistoryApp.init();
+    }
+    if (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.init === 'function') {
+        _win.TasbeehCurrentApp.init();
+    } else if (_win.TasbeehApp && typeof _win.TasbeehApp.init === 'function' && _win.TasbeehApp.init !== initTasbeeh) {
+        _win.TasbeehApp.init();
+    }
+}
+
 /* ============================================================
    Nur Prayer — Digital Tasbeeh: Home Tab Module
    Submodule: Tasbeeh Home Tab
@@ -15,7 +157,7 @@
 'use strict';
 
 window.TasbeehHomeApp = (function () {
-    var TASBEEH_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.TASBEEH) || {};
+    var TASBEEH_CONSTANTS = window.TASBEEH_CONSTANTS || (window.CONSTANTS && window.CONSTANTS.TASBEEH) || {};
     var ELEMENT_IDS = TASBEEH_CONSTANTS.ELEMENT_IDS || {};
 
     function getEl(id) {
@@ -207,8 +349,8 @@ window.TasbeehHomeApp = (function () {
 'use strict';
 
 window.TasbeehCurrentApp = (function () {
-    /* ---------- Constants & Presets (Referenced from utilities/constant.js) ---------- */
-    var TASBEEH_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.TASBEEH) || {};
+    /* ---------- Constants & Presets (Referenced from utilities/tasbeeh-constants.js) ---------- */
+    var TASBEEH_CONSTANTS = window.TASBEEH_CONSTANTS || (window.CONSTANTS && window.CONSTANTS.TASBEEH) || {};
     var ELEMENT_IDS = TASBEEH_CONSTANTS.ELEMENT_IDS || {};
     var STORAGE_KEYS = TASBEEH_CONSTANTS.STORAGE_KEYS || {};
     var STORAGE_KEY = STORAGE_KEYS.DATA || 'app_tasbeeh_data';
@@ -226,7 +368,17 @@ window.TasbeehCurrentApp = (function () {
     };
     var counterOpenedFrom = null;
 
-    var DEFAULT_PRESETS = [
+    function escHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    var DEFAULT_PRESETS = TASBEEH_CONSTANTS.DEFAULT_PRESETS || [
         { title: 'SubhanAllah', targetCount: 33 },
         { title: 'Alhamdulillah', targetCount: 33 },
         { title: 'Allahu Akbar', targetCount: 34 },
@@ -582,10 +734,11 @@ window.TasbeehCurrentApp = (function () {
 
     /* ---------- Storage Layer ---------- */
     function normalizeItem(raw) {
+        var defTarget = TASBEEH_CONSTANTS.DEFAULT_TARGET || 33;
         var norm = {
             id: raw.id || uid(),
             title: raw.title || 'Dhikr',
-            targetCount: raw.targetCount === 'infinite' ? 'infinite' : clamp(parseInt(raw.targetCount, 10) || 33, 1, 9999),
+            targetCount: raw.targetCount === 'infinite' ? 'infinite' : clamp(parseInt(raw.targetCount, 10) || defTarget, 1, 9999),
             icon: raw.icon || 'ring',
             updatedAt: raw.updatedAt || Date.now(),
             dailyHistory: (raw.dailyHistory && typeof raw.dailyHistory === 'object') ? Object.assign({}, raw.dailyHistory) : {},
@@ -646,6 +799,9 @@ window.TasbeehCurrentApp = (function () {
     }
 
     function getItems() {
+        if (!items || items.length === 0) {
+            items = loadItems();
+        }
         return items;
     }
 
@@ -932,6 +1088,22 @@ window.TasbeehCurrentApp = (function () {
 
     /* ---------- Tab Navigation & Rendering ---------- */
     function render() {
+        var pageEl = document.getElementById('tasbeehPage');
+        if (pageEl && typeof ko !== 'undefined' && !ko.dataFor(pageEl)) {
+            initTasbeeh();
+        }
+
+        var isDomReady = (activeTab === 'home' && getEl(ELEMENT_IDS.HOME_BODY || 'tbHomeBody')) ||
+                         (activeTab === 'old' && getEl(ELEMENT_IDS.OLD_BODY || 'tbOldBody')) ||
+                         (activeTab === 'history' && getEl(ELEMENT_IDS.HISTORY_BODY || 'tbHistoryBody')) ||
+                         (activeTab === 'current' && getEl(ELEMENT_IDS.CURRENT_LIST || 'tbList'));
+        if (!isDomReady) {
+            setTimeout(function () {
+                render();
+            }, 30);
+            return;
+        }
+
         if (activeTab === 'home') {
             if (window.TasbeehHomeApp && typeof window.TasbeehHomeApp.renderHomeTab === 'function') {
                 window.TasbeehHomeApp.renderHomeTab();
@@ -946,6 +1118,20 @@ window.TasbeehCurrentApp = (function () {
             }
         } else {
             renderCurrentTab();
+        }
+
+        if (tasbeehViewModel) {
+            if (typeof tasbeehViewModel.currentSubTab === 'function') {
+                tasbeehViewModel.currentSubTab(activeTab);
+            }
+            if (tasbeehViewModel.header && TAB_HEADERS && TAB_HEADERS[activeTab]) {
+                var th = TAB_HEADERS[activeTab];
+                if (typeof tasbeehViewModel.header.title === 'function') tasbeehViewModel.header.title(th.label);
+                if (typeof tasbeehViewModel.header.subtitle === 'function') {
+                    tasbeehViewModel.header.subtitle(activeTab === TABS.CURRENT ? formatMonthLabel(getCurrentTrackingMonth()) : th.sub);
+                }
+                if (typeof tasbeehViewModel.header.iconClass === 'function') tasbeehViewModel.header.iconClass(th.iconClass);
+            }
         }
     }
 
@@ -1049,6 +1235,20 @@ window.TasbeehCurrentApp = (function () {
             if (sub) sub.textContent = formatMonthLabel(getCurrentTrackingMonth());
 
             renderCurrentTab();
+        }
+
+        if (tasbeehViewModel) {
+            if (typeof tasbeehViewModel.currentSubTab === 'function') {
+                tasbeehViewModel.currentSubTab(activeTab);
+            }
+            if (tasbeehViewModel.header && TAB_HEADERS && TAB_HEADERS[activeTab]) {
+                var th = TAB_HEADERS[activeTab];
+                if (typeof tasbeehViewModel.header.title === 'function') tasbeehViewModel.header.title(th.label);
+                if (typeof tasbeehViewModel.header.subtitle === 'function') {
+                    tasbeehViewModel.header.subtitle(activeTab === TABS.CURRENT ? formatMonthLabel(getCurrentTrackingMonth()) : th.sub);
+                }
+                if (typeof tasbeehViewModel.header.iconClass === 'function') tasbeehViewModel.header.iconClass(th.iconClass);
+            }
         }
     }
 
@@ -1367,7 +1567,7 @@ window.TasbeehCurrentApp = (function () {
         countMode = (item && item.targetCount === 'infinite') ? 'infinite' : 'finite';
         var formCount = getEl('tbFormCount');
         if (formCount) {
-            formCount.value = (item && item.targetCount !== 'infinite') ? item.targetCount : 33;
+            formCount.value = (item && item.targetCount !== 'infinite') ? item.targetCount : (TASBEEH_CONSTANTS.DEFAULT_TARGET || 33);
             formCount.disabled = (countMode === 'infinite');
         }
 
@@ -1673,6 +1873,14 @@ window.TasbeehCurrentApp = (function () {
 
     /* ---------- Public API ---------- */
     function init() {
+        var pageEl = document.getElementById('tasbeehPage');
+        if (pageEl && typeof ko !== 'undefined') {
+            registerTasbeehComponents();
+            var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+            if (vm && !ko.dataFor(pageEl)) {
+                ko.applyBindings(vm, pageEl);
+            }
+        }
         items = loadItems();
         loadCalCompletions();
         loadCurrentPeriod();
@@ -1739,8 +1947,8 @@ window.TasbeehApp = window.TasbeehCurrentApp;
 'use strict';
 
 window.TasbeehOldApp = (function () {
-    /* ---------- Constants (Referenced from utilities/constant.js) ---------- */
-    var TASBEEH_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.TASBEEH) || {};
+    /* ---------- Constants (Referenced from utilities/tasbeeh-constants.js) ---------- */
+    var TASBEEH_CONSTANTS = window.TASBEEH_CONSTANTS || (window.CONSTANTS && window.CONSTANTS.TASBEEH) || {};
     var ELEMENT_IDS = TASBEEH_CONSTANTS.ELEMENT_IDS || {};
     var PERIOD_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.PERIOD) || 'app_tasbeeh_period';
     var PERIOD_PRESETS = TASBEEH_CONSTANTS.PERIOD_PRESETS || {
@@ -1753,10 +1961,23 @@ window.TasbeehOldApp = (function () {
     var currentOldMonthKey = null; // Currently active / displayed old month
     var periodModalInstance = null;
 
+    function escHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
     /* ---------- Data Access Bridges ---------- */
     function getItems() {
         if (window.TasbeehCurrentApp && typeof window.TasbeehCurrentApp.getItems === 'function') {
             return window.TasbeehCurrentApp.getItems();
+        }
+        if (window.TasbeehApp && typeof window.TasbeehApp.getItems === 'function') {
+            return window.TasbeehApp.getItems();
         }
         return [];
     }
@@ -2434,7 +2655,7 @@ window.TasbeehOldApp = (function () {
 'use strict';
 
 window.TasbeehHistoryApp = (function () {
-    var TASBEEH_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.TASBEEH) || {};
+    var TASBEEH_CONSTANTS = window.TASBEEH_CONSTANTS || (window.CONSTANTS && window.CONSTANTS.TASBEEH) || {};
     var ELEMENT_IDS = TASBEEH_CONSTANTS.ELEMENT_IDS || {};
     var PERIOD_KEY = (TASBEEH_CONSTANTS.STORAGE_KEYS && TASBEEH_CONSTANTS.STORAGE_KEYS.PERIOD) || 'app_tasbeeh_period';
     var PERIOD_PRESETS = TASBEEH_CONSTANTS.PERIOD_PRESETS || {
@@ -2731,3 +2952,35 @@ window.TasbeehHistoryApp = (function () {
 if (typeof window !== 'undefined' && window.TasbeehApp && window.TasbeehHomeApp) {
     window.TasbeehApp.renderHomeTab = window.TasbeehHomeApp.renderHomeTab;
 }
+
+export {
+    tasbeehViewModel,
+    escHtml
+};
+
+if (typeof window !== 'undefined') {
+    window.TasbeehPageViewModel = TasbeehPageViewModel;
+    window.getTasbeehViewModel = getTasbeehViewModel;
+    window.initTasbeeh = initTasbeeh;
+    window.registerTasbeehComponents = registerTasbeehComponents;
+    window.escHtml = escHtml;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        TasbeehPageTemplate: TasbeehPageTemplate,
+        TasbeehHeaderTemplate: TasbeehHeaderTemplate,
+        TasbeehCounterCardTemplate: TasbeehCounterCardTemplate,
+        TasbeehProgressCircleTemplate: TasbeehProgressCircleTemplate,
+        TasbeehGoalSetterTemplate: TasbeehGoalSetterTemplate,
+        TasbeehNavTabTemplate: TasbeehNavTabTemplate,
+        TasbeehPageViewModel: TasbeehPageViewModel,
+        getTasbeehViewModel: getTasbeehViewModel,
+        initTasbeeh: initTasbeeh,
+        registerTasbeehComponents: registerTasbeehComponents,
+        escHtml: escHtml
+    };
+    module.exports.default = (typeof window !== 'undefined' ? window.TasbeehApp : null);
+}
+
+export default (typeof window !== 'undefined' ? window.TasbeehApp : null);

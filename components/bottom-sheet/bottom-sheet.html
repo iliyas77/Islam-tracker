@@ -1,0 +1,34 @@
+<!-- Reusable Global Bottom Sheet Component Template -->
+<!-- ko if: ko.unwrap(isOpen) -->
+<div class="bottom-sheet-backdrop" data-bind="click: closeOnBackdrop" role="dialog" aria-modal="true" data-ref="component.bottom-sheet.backdrop">
+    <div class="bottom-sheet-card show" data-bind="click: stopPropagation, attr: { id: cardId }" data-ref="component.bottom-sheet.card">
+        <div class="bottom-sheet-header" data-ref="component.bottom-sheet.header">
+            <!-- ko if: showBackBtn -->
+            <button type="button"
+                class="w-9 h-9 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer mr-1"
+                data-bind="click: close" aria-label="Back" data-ref="component.bottom-sheet.back-btn">
+                <i class="fa-solid fa-arrow-left text-base"></i>
+            </button>
+            <!-- /ko -->
+            <div class="grow min-w-0">
+                <h5 class="bottom-sheet-title font-bold text-base text-brand flex items-center gap-2 m-0 mb-0">
+                    <!-- ko if: ko.unwrap(icon) -->
+                    <i data-bind="attr: { class: ko.unwrap(icon), id: iconId }"></i>
+                    <!-- /ko -->
+                    <span data-bind="text: title, attr: { id: titleId }" class="truncate"></span>
+                </h5>
+                <!-- ko if: ko.unwrap(subtitle) -->
+                <div class="text-xs text-gr-textMuted mt-0.5 truncate" data-bind="text: subtitle, attr: { id: subId }"></div>
+                <!-- /ko -->
+            </div>
+            <!-- ko if: showCloseBtn -->
+            <button type="button" class="sheet-close-btn" data-bind="click: close" aria-label="Close" data-ref="component.bottom-sheet.close-btn">&times;</button>
+            <!-- /ko -->
+        </div>
+        <div class="bottom-sheet-body" data-bind="attr: { id: bodyId }" data-ref="component.bottom-sheet.body">
+            <!-- This injects whatever custom content you put inside the component tag -->
+            <!-- ko template: { nodes: $componentTemplateNodes } --><!-- /ko -->
+        </div>
+    </div>
+</div>
+<!-- /ko -->

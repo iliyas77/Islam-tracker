@@ -22,43 +22,29 @@ var FA_ICON_MAP = {
     'asr': 'fa-solid fa-sun',
     'maghrib': 'fa-solid fa-cloud-sun',
     'isha': 'fa-solid fa-moon',
-    'sunrise': 'fa-solid fa-mountain-sun',
-    'sunset': 'fa-solid fa-cloud-sun',
     'mosque': 'fa-solid fa-mosque',
-    'rub-el-hizb': 'fa-solid fa-star-and-crescent',
     'tracker': 'fa-solid fa-calendar-check',
     'misbaha': 'fa-solid fa-hands-praying',
     'duas': 'fa-solid fa-hands-praying',
-    'duas-icon': 'fa-solid fa-hands-praying',
     'settings': 'fa-solid fa-gear',
-    'settings-gear': 'fa-solid fa-gear',
     'gear': 'fa-solid fa-gear',
-    'dash-chevron': 'fa-solid fa-chevron-right',
-    'chevron': 'fa-solid fa-chevron-right',
     'chevron-right': 'fa-solid fa-chevron-right',
     'chevron-left': 'fa-solid fa-chevron-left',
     'tb-chevron': 'fa-solid fa-chevron-right',
     'tb-pencil': 'fa-solid fa-pencil',
     'pencil': 'fa-solid fa-pencil',
-    'pen': 'fa-solid fa-pencil',
     'tb-target': 'fa-solid fa-bullseye',
-    'target': 'fa-solid fa-bullseye',
     'tb-check-circle': 'fa-solid fa-circle-check',
     'check': 'fa-solid fa-check',
-    'check-circle': 'fa-solid fa-circle-check',
     'circle-check': 'fa-solid fa-circle-check',
     'circle-dot': 'fa-solid fa-circle-dot',
     'circle-exclamation': 'fa-solid fa-circle-exclamation',
     'circle-info': 'fa-solid fa-circle-info',
     'circle-xmark': 'fa-solid fa-circle-xmark',
-    'xmark': 'fa-solid fa-xmark',
     'triangle-exclamation': 'fa-solid fa-triangle-exclamation',
     'warning': 'fa-solid fa-triangle-exclamation',
-    'donecheck': 'fa-solid fa-check',
     'done-check': 'fa-solid fa-check',
-    'donechecksm': 'fa-solid fa-check',
     'done-check-sm': 'fa-solid fa-check',
-    'clipboard-list': 'fa-solid fa-list-check',
     'list-check': 'fa-solid fa-list-check',
     'clock': 'fa-regular fa-clock',
     'clock-rotate-left': 'fa-solid fa-clock-rotate-left',
@@ -67,28 +53,17 @@ var FA_ICON_MAP = {
     'arrow-right': 'fa-solid fa-arrow-right',
     'play': 'fa-solid fa-play',
     'plus': 'fa-solid fa-plus',
-    'trash': 'fa-solid fa-trash-can',
-    'calendar': 'fa-regular fa-calendar-days',
     'calendar-card': 'fa-regular fa-calendar-days',
     'calendar-days': 'fa-regular fa-calendar-days',
     'calendar-xmark': 'fa-regular fa-calendar-xmark',
-    'file-lines': 'fa-regular fa-file-lines',
     'location-dot': 'fa-solid fa-location-dot',
-    'star': 'fa-solid fa-star',
-    'drawing-pin': 'fa-solid fa-thumbtack',
     'thumbtack': 'fa-solid fa-thumbtack',
-    'book': 'fa-solid fa-book-quran',
     'book-quran': 'fa-solid fa-book-quran',
-    'all-bookmark': 'fa-solid fa-bookmark',
     'bookmark': 'fa-solid fa-bookmark',
     'heart': 'fa-solid fa-heart',
-    'heart-outline': 'fa-regular fa-heart',
     'house': 'fa-solid fa-house',
-    'info': 'fa-solid fa-circle-info',
-    'hashtag': 'fa-solid fa-hashtag',
     'hand-holding-heart': 'fa-solid fa-hand-holding-heart',
     'hands-praying': 'fa-solid fa-hands-praying',
-    'timeline-alarm': 'fa-solid fa-bell',
     'bell': 'fa-solid fa-bell',
     'chart-simple': 'fa-solid fa-chart-simple',
     'trash-can': 'fa-solid fa-trash-can'
@@ -182,6 +157,21 @@ function $(id) { return document.getElementById(id); }
 function getEl(id) { return document.getElementById(id); }
 function pad2(n) { return String(n).padStart(2, '0'); }
 
+function escHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+var escapeHtml = escHtml;
+if (typeof window !== 'undefined') {
+    window.escHtml = escHtml;
+    window.escapeHtml = escapeHtml;
+}
+
 function clamp(val, min, max) {
     return Math.min(max, Math.max(min, val));
 }
@@ -251,12 +241,6 @@ function formatMonthLabel(mKey) {
     return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
 }
 
-function getPreviousMonthEnd() {
-    var now = new Date();
-    var lastDayPrev = new Date(now.getFullYear(), now.getMonth(), 0);
-    return lastDayPrev.getFullYear() + '-' + pad2(lastDayPrev.getMonth() + 1) + '-' + pad2(lastDayPrev.getDate());
-}
-
 function getPreviousMonthsList(startDate, endDate) {
     if (!startDate) return [];
     var sParts = startDate.split('-');
@@ -311,46 +295,9 @@ function friendly(ds) {
     return diff + ' Days Ago';
 }
 
-function dashDate() {
-    return new Date().toLocaleDateString(undefined,
-        { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-}
-
-function esc(s) {
-    return String(s).replace(/[&<>"']/g, function (m) {
-        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
-    });
-}
-
-function escHtml(str) {
-    return esc(str);
-}
-
 function uid(prefix) {
     prefix = prefix || 'tb_';
     return prefix + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-}
-
-function vibrate(pattern) {
-    if (typeof navigator !== 'undefined' && navigator.vibrate) {
-        try { navigator.vibrate(pattern); } catch (_) {}
-    }
-}
-
-function createRipple(e, container) {
-    if (!container || !e) return;
-    var rect = container.getBoundingClientRect();
-    var size = Math.max(rect.width, rect.height);
-    var ripple = document.createElement('span');
-    ripple.className = 'tb-ripple';
-    ripple.style.width = size + 'px';
-    ripple.style.height = size + 'px';
-    var clientX = (e.clientX !== undefined) ? e.clientX : ((e.touches && e.touches[0] && e.touches[0].clientX) || (rect.left + size / 2));
-    var clientY = (e.clientY !== undefined) ? e.clientY : ((e.touches && e.touches[0] && e.touches[0].clientY) || (rect.top + size / 2));
-    ripple.style.left = (clientX - rect.left - size / 2) + 'px';
-    ripple.style.top = (clientY - rect.top - size / 2) + 'px';
-    container.appendChild(ripple);
-    setTimeout(function () { ripple.remove(); }, RIPPLE_DURATION_MS);
 }
 
 var _globalToastTimer = null;
@@ -382,15 +329,9 @@ if (typeof window !== 'undefined') {
     window.getPrevMonthKey = getPrevMonthKey;
     window.getNextMonthKey = getNextMonthKey;
     window.formatMonthLabel = formatMonthLabel;
-    window.getPreviousMonthEnd = getPreviousMonthEnd;
     window.getPreviousMonthsList = getPreviousMonthsList;
     window.friendly = friendly;
-    window.dashDate = dashDate;
-    window.esc = esc;
-    window.escHtml = escHtml;
     window.uid = uid;
-    window.vibrate = vibrate;
-    window.createRipple = createRipple;
     window.showToast = showToast;
     window.tMT = tMT;
     window.mBD = mBD;

@@ -15,6 +15,8 @@ const OUT_FILE = path.join(BUILD_DIR, 'production.html');
 
 const htmlPath = path.join(ROOT, 'main.html');
 const iconJsPath = path.join(ROOT, 'components', 'icon', 'icon.js');
+const bottomSheetJsPath = path.join(ROOT, 'components', 'bottom-sheet', 'bottom-sheet.js');
+const registryJsPath = path.join(ROOT, 'components', 'registry.js');
 const constantJsPath = path.join(ROOT, 'utilities', 'constant.js');
 const utilityJsPath = path.join(ROOT, 'utilities', 'utility.js');
 const appJsPath = path.join(ROOT, 'app.js');
@@ -44,6 +46,13 @@ function minifyJs(js) {
     return js
         .replace(/\/\*[\s\S]*?\*\//g, '') // Remove block comments
         .replace(/^\s*\/\/.*/gm, '') // Remove single-line comments
+        .replace(/^\s*import\s+[^;]+;/gm, '') // Remove import statements
+        .replace(/^\s*export\s+default\s+[^;]+;/gm, '') // Remove export default
+        .replace(/^\s*export\s+const\s+/gm, 'const ') // Strip export from const
+        .replace(/^\s*export\s+let\s+/gm, 'let ') // Strip export from let
+        .replace(/^\s*export\s+var\s+/gm, 'var ') // Strip export from var
+        .replace(/^\s*export\s+function\s+/gm, 'function ') // Strip export from function
+        .replace(/^\s*export\s*\{[^}]*\};?/gm, '') // Strip export { ... }
         .replace(/\n\s*\n/g, '\n') // Remove consecutive blank lines
         .trim();
 }
@@ -83,6 +92,8 @@ function buildProduction() {
 
         // 2. Combine and Minify JS
         const iconJs = fs.existsSync(iconJsPath) ? fs.readFileSync(iconJsPath, 'utf8') : '';
+        const bottomSheetJs = fs.existsSync(bottomSheetJsPath) ? fs.readFileSync(bottomSheetJsPath, 'utf8') : '';
+        const registryJs = fs.existsSync(registryJsPath) ? fs.readFileSync(registryJsPath, 'utf8') : '';
         const constantJs = fs.existsSync(constantJsPath) ? fs.readFileSync(constantJsPath, 'utf8') : '';
         const utilityJs = fs.existsSync(utilityJsPath) ? fs.readFileSync(utilityJsPath, 'utf8') : '';
         const appJs = fs.existsSync(appJsPath) ? fs.readFileSync(appJsPath, 'utf8') : '';
@@ -92,11 +103,14 @@ function buildProduction() {
         const settingsJs = fs.existsSync(settingsJsPath) ? fs.readFileSync(settingsJsPath, 'utf8') : '';
         const tasbeehJs = fs.existsSync(tasbeehJsPath) ? fs.readFileSync(tasbeehJsPath, 'utf8') : '';
         const duaJs = fs.existsSync(duaJsPath) ? fs.readFileSync(duaJsPath, 'utf8') : '';
-        const combinedJs = iconJs + '\n' + constantJs + '\n' + utilityJs + '\n' + appJs + '\n' + navigationJs + '\n' + prayerTrackingJs + '\n' + dashboardJs + '\n' + settingsJs + '\n' + tasbeehJs + '\n' + duaJs;
+        const combinedJs = iconJs + '\n' + bottomSheetJs + '\n' + dashboardJs + '\n' + settingsJs + '\n' + prayerTrackingJs + '\n' + tasbeehJs + '\n' + duaJs + '\n' + registryJs + '\n' + constantJs + '\n' + utilityJs + '\n' + appJs + '\n' + navigationJs;
         const minifiedJs = minifyJs(combinedJs);
 
         // Replace script src tags with minified inlined script block
         html = html.replace(/<script[^>]*src="components\/icon\/icon\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="components\/bottom-sheet\/bottom-sheet\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="components\/registry\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script\s+type="module"[^>]*>[\s\S]*?registerAllComponents[\s\S]*?<\/script>/g, '');
         html = html.replace(/<script[^>]*src="utilities\/constant\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="utilities\/utility\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="navigation\.js"[^>]*><\/script>/g, '');

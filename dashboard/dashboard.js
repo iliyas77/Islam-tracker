@@ -14,16 +14,6 @@ function dashLiveHeaderTime() {
     return pad2(hh) + ':' + pad2(now.getMinutes()) + ' ' + ap;
 }
 
-function dashBigTimeHtml() {
-    var now = new Date();
-    var h = now.getHours();
-    var ap = h >= 12 ? 'PM' : 'AM';
-    var hh = h % 12;
-    if (hh === 0) hh = 12;
-    return '<span class="dash-clock-digits">' + pad2(hh) + ':' + pad2(now.getMinutes()) + ':' + pad2(now.getSeconds()) + '</span>' +
-        '<span class="dash-clock-ampm">' + ap + '</span>';
-}
-
 function parseTimeToMin(timeStr) {
     if (!timeStr) return -1;
     var clean = timeStr.trim().split(' ');
@@ -41,8 +31,10 @@ function parseTimeToMin(timeStr) {
 var dashCurrentActivePrayer = null;
 var dashLastCheckedDate = typeof td === 'function' ? td() : null;
 
-/* ---------- Dashboard Constants ---------- */
-var DASH_CONSTANTS = (window.CONSTANTS && window.CONSTANTS.DASHBOARD) || {};
+/* ---------- Dashboard Constants (Referenced from utilities/dashboard-constants.js) ---------- */
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var DASH_CONSTANTS = _win.DASHBOARD_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.DASHBOARD) || {};
+var PRAYER_CONSTANTS = _win.PRAYER_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER) || {};
 var DASH_STATUSES = DASH_CONSTANTS.STATUSES || { ACTIVE: 'active', PASSED: 'passed', NEXT: 'next', UPCOMING: 'upcoming' };
 var DASH_STATUS_BADGES = DASH_CONSTANTS.STATUS_BADGES || {
     active: { className: 'badge-active', text: 'Active' },
@@ -51,61 +43,71 @@ var DASH_STATUS_BADGES = DASH_CONSTANTS.STATUS_BADGES || {
     upcoming: { className: 'badge-upcoming', text: 'Upcoming' }
 };
 var DASH_CLOCK_INTERVAL = DASH_CONSTANTS.CLOCK_INTERVAL_MS || 1000;
-var SCHOOL_NAMES = (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.SCHOOL_NAMES) || { 1: 'Hanafi', 0: 'Shafi' };
+var SCHOOL_NAMES = PRAYER_CONSTANTS.SCHOOL_NAMES || { 1: 'Hanafi', 0: 'Shafi' };
 var dashTimer = null;
 
-/* ---------- Register Dashboard Knockout Components (Templates from separate HTML files) ---------- */
-function registerDashboardComponents() {
-    if (typeof ko === 'undefined' || !ko.components) return;
+/* ---------- Dashboard Component Templates ---------- */
+export const DashboardHeaderTemplate = { element: 'dashboard-header-template', file: 'dashboard/templates/dashboard-header.html' };
+export const DashboardClockTemplate = { element: 'dashboard-clock-template', file: 'dashboard/templates/dashboard-clock.html' };
+export const DashboardTimelineItemTemplate = { element: 'dashboard-timeline-item-template', file: 'dashboard/templates/dashboard-timeline-item.html' };
+export const DashboardTimelineTemplate = { element: 'dashboard-timeline-template', file: 'dashboard/templates/dashboard-timeline.html' };
+export const DashboardNavCardTemplate = { element: 'dashboard-nav-card-template', file: 'dashboard/templates/dashboard-nav-card.html' };
+export const DashboardDividerTemplate = { element: 'dashboard-divider-template', file: 'dashboard/templates/dashboard-divider.html' };
+export const DashboardPageTemplate = { element: 'dashboard-page-template', file: 'dashboard/dashboard.html' };
 
-    if (!ko.components.isRegistered('dashboard-header')) {
-        ko.components.register('dashboard-header', {
+/* ---------- Register Dashboard Knockout Components ---------- */
+export function registerDashboardComponents(customKo) {
+    var k = customKo || (typeof ko !== 'undefined' ? ko : (typeof window !== 'undefined' ? window.ko : null));
+    if (!k || !k.components) return;
+
+    if (!k.components.isRegistered('dashboard-header')) {
+        k.components.register('dashboard-header', {
             viewModel: function (params) { return params || {}; },
-            template: { element: 'dashboard-header-template', file: 'dashboard/templates/dashboard-header.html' }
+            template: DashboardHeaderTemplate
         });
     }
 
-    if (!ko.components.isRegistered('dashboard-clock')) {
-        ko.components.register('dashboard-clock', {
+    if (!k.components.isRegistered('dashboard-clock')) {
+        k.components.register('dashboard-clock', {
             viewModel: function (params) { return params || {}; },
-            template: { element: 'dashboard-clock-template', file: 'dashboard/templates/dashboard-clock.html' }
+            template: DashboardClockTemplate
         });
     }
 
-    if (!ko.components.isRegistered('dashboard-timeline-item')) {
-        ko.components.register('dashboard-timeline-item', {
+    if (!k.components.isRegistered('dashboard-timeline-item')) {
+        k.components.register('dashboard-timeline-item', {
             viewModel: function (params) { return params || {}; },
-            template: { element: 'dashboard-timeline-item-template', file: 'dashboard/templates/dashboard-timeline-item.html' }
+            template: DashboardTimelineItemTemplate
         });
     }
 
-    if (!ko.components.isRegistered('dashboard-timeline')) {
-        ko.components.register('dashboard-timeline', {
+    if (!k.components.isRegistered('dashboard-timeline')) {
+        k.components.register('dashboard-timeline', {
             viewModel: function (params) { return params || {}; },
-            template: { element: 'dashboard-timeline-template', file: 'dashboard/templates/dashboard-timeline.html' }
+            template: DashboardTimelineTemplate
         });
     }
 
-    if (!ko.components.isRegistered('dashboard-nav-card')) {
-        ko.components.register('dashboard-nav-card', {
+    if (!k.components.isRegistered('dashboard-nav-card')) {
+        k.components.register('dashboard-nav-card', {
             viewModel: function (params) { return params || {}; },
-            template: { element: 'dashboard-nav-card-template', file: 'dashboard/templates/dashboard-nav-card.html' }
+            template: DashboardNavCardTemplate
         });
     }
 
-    if (!ko.components.isRegistered('dashboard-divider')) {
-        ko.components.register('dashboard-divider', {
+    if (!k.components.isRegistered('dashboard-divider')) {
+        k.components.register('dashboard-divider', {
             viewModel: function (params) { return params || {}; },
-            template: { element: 'dashboard-divider-template', file: 'dashboard/templates/dashboard-divider.html' }
+            template: DashboardDividerTemplate
         });
     }
 
-    if (!ko.components.isRegistered('dashboard-page')) {
-        ko.components.register('dashboard-page', {
+    if (!k.components.isRegistered('dashboard-page')) {
+        k.components.register('dashboard-page', {
             viewModel: function (params) {
-                return (params && params.viewModel) ? params.viewModel : (dashboardViewModel || params);
+                return (params && params.viewModel) ? params.viewModel : getDashboardViewModel();
             },
-            template: { element: 'dashboard-page-template', file: 'dashboard/dashboard.html' }
+            template: DashboardPageTemplate
         });
     }
 }
@@ -113,7 +115,14 @@ function registerDashboardComponents() {
 /* ---------- Dashboard ViewModel ---------- */
 var dashboardViewModel = null;
 
-function DashboardViewModel() {
+export function getDashboardViewModel() {
+    if (!dashboardViewModel && typeof DashboardViewModel === 'function') {
+        dashboardViewModel = new DashboardViewModel();
+    }
+    return dashboardViewModel;
+}
+
+export function DashboardViewModel() {
     var self = this;
 
     var cfg = typeof getPrayerConfig === 'function' ? getPrayerConfig() : { city: 'Guntur', school: 1 };
@@ -382,6 +391,10 @@ function rDashboard() {
     var cfg = typeof getPrayerConfig === 'function' ? getPrayerConfig() : { city: 'Guntur', school: 1 };
     var locText = cfg.city + ' &bull; ' + (SCHOOL_NAMES[cfg.school] || 'Hanafi');
 
+    if (!dashboardViewModel && typeof initDashboard === 'function') {
+        initDashboard();
+    }
+
     if (dashboardViewModel) {
         dashboardViewModel.header.locationText(locText);
         dashboardViewModel.updateTimeline();
@@ -438,33 +451,48 @@ function rDashboard() {
     startDashClock();
 }
 
-function initDashboard() {
+export function initDashboard() {
     registerDashboardComponents();
     var el = document.getElementById('dashboardPage');
-    if (el && !dashboardViewModel && typeof ko !== 'undefined') {
-        dashboardViewModel = new DashboardViewModel();
-        ko.applyBindings(dashboardViewModel, el);
+    if (el && typeof ko !== 'undefined') {
+        var vm = getDashboardViewModel();
+        if (!ko.dataFor(el)) {
+            ko.applyBindings(vm, el);
+        }
     }
 }
 
+export { rDashboard, dashboardViewModel };
+
+const DashboardApp = {
+    init: initDashboard,
+    render: rDashboard,
+    registerComponents: registerDashboardComponents,
+    getViewModel: getDashboardViewModel
+};
+
 if (typeof window !== 'undefined') {
-    window.DashboardApp = {
-        init: initDashboard,
-        render: rDashboard,
-        registerComponents: registerDashboardComponents
-    };
+    window.DashboardApp = DashboardApp;
     window.rDashboard = rDashboard;
+    window.initDashboard = initDashboard;
     window.startDashClock = startDashClock;
     window.dashTick = dashTick;
     window.getTimelinePrayerStatuses = getTimelinePrayerStatuses;
     window.getActivePrayerInfo = getActivePrayerInfo;
+    window.DashboardViewModel = DashboardViewModel;
+    window.getDashboardViewModel = getDashboardViewModel;
 }
 
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         initDashboard: initDashboard,
         rDashboard: rDashboard,
-        registerDashboardComponents: registerDashboardComponents
+        registerDashboardComponents: registerDashboardComponents,
+        DashboardViewModel: DashboardViewModel,
+        getDashboardViewModel: getDashboardViewModel
     };
+    module.exports.default = DashboardApp;
 }
+
+export default DashboardApp;
 

@@ -1,7 +1,7 @@
 <div class="bg-white border border-borderGrey rounded-2xl p-5 flex flex-col gap-4 border-l-4 border-l-brand shadow-none">
     <div class="flex items-center justify-between gap-3">
         <div class="text-3xl font-bold tracking-tight text-brand" id="duaDetailNumber"
-            data-bind="text: '#' + String(number).padStart(2, '0')">#01</div>
+            data-bind="text: '#' + String(ko.unwrap($data.number) || 1).padStart(2, '0')">#01</div>
         <div class="text-base font-semibold text-brand font-telugu text-right" id="duaDetailSurah"
             data-bind="text: surah"></div>
     </div>

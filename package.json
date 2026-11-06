@@ -1,7 +1,7 @@
 {
-  "name": "money-monitor",
+  "name": "nur-prayer",
   "version": "1.0.0",
-  "description": "Money Monitor Web Application",
+  "description": "Nur Prayer Tracking Web Application",
   "main": "production/production.html",
   "scripts": {
     "build": "node production/build-production.js"
