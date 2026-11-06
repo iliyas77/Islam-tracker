@@ -44,7 +44,11 @@ export function IconViewModel(params) {
     var k = typeof ko !== 'undefined' ? ko : (typeof window !== 'undefined' ? window.ko : null);
 
     function unwrap(val) {
-        return (k && k.isObservable(val)) ? val() : val;
+        try {
+            return (k && k.isObservable(val)) ? val() : val;
+        } catch (_) {
+            return val;
+        }
     }
 
     function pureComputed(fn) {
@@ -52,113 +56,179 @@ export function IconViewModel(params) {
     }
 
     self.isSvg = pureComputed(function () {
-        var raw = unwrap(params.type) || unwrap(params.isSvg) || unwrap(params.svg);
-        return !!(raw === 'svg' || raw === true || unwrap(params.svgHref));
+        try {
+            var raw = unwrap(params.type) || unwrap(params.isSvg) || unwrap(params.svg);
+            return !!(raw === 'svg' || raw === true || unwrap(params.svgHref));
+        } catch (_) {
+            return false;
+        }
     });
 
     self.svgHref = pureComputed(function () {
-        return unwrap(params.svgHref) || unwrap(params.href) || '';
+        try {
+            return unwrap(params.svgHref) || unwrap(params.href) || '';
+        } catch (_) {
+            return '';
+        }
     });
 
     self.svgViewBox = pureComputed(function () {
-        return unwrap(params.viewBox) || '0 0 24 24';
+        try {
+            return unwrap(params.viewBox) || '0 0 24 24';
+        } catch (_) {
+            return '0 0 24 24';
+        }
     });
 
     self.id = pureComputed(function () {
-        return unwrap(params.id) || null;
+        try {
+            return unwrap(params.id) || null;
+        } catch (_) {
+            return null;
+        }
     });
 
     self.dataRef = pureComputed(function () {
-        return unwrap(params.dataRef || params['data-ref']) || null;
+        try {
+            return unwrap(params.dataRef || params['data-ref']) || null;
+        } catch (_) {
+            return null;
+        }
     });
 
     self.ariaLabel = pureComputed(function () {
-        return unwrap(params.ariaLabel || params.label || params['aria-label']) || null;
+        try {
+            return unwrap(params.ariaLabel || params.label || params['aria-label']) || null;
+        } catch (_) {
+            return null;
+        }
     });
 
     self.role = pureComputed(function () {
-        return self.ariaLabel() ? 'img' : null;
+        try {
+            return self.ariaLabel() ? 'img' : null;
+        } catch (_) {
+            return null;
+        }
     });
 
     self.ariaHidden = pureComputed(function () {
-        var explicit = unwrap(params.ariaHidden || params['aria-hidden']);
-        if (explicit !== undefined && explicit !== null) {
-            return String(explicit);
+        try {
+            var explicit = unwrap(params.ariaHidden || params['aria-hidden']);
+            if (explicit !== undefined && explicit !== null) {
+                return String(explicit);
+            }
+            return self.ariaLabel() ? 'false' : 'true';
+        } catch (_) {
+            return 'true';
         }
-        return self.ariaLabel() ? 'false' : 'true';
     });
 
     self.computedClass = pureComputed(function () {
-        var rawName = unwrap(params.name) || unwrap(params.icon) || '';
-        var rawPrefix = unwrap(params.prefix) || 'fa-solid';
-        var size = unwrap(params.size) || '';
-        var color = unwrap(params.color) || '';
-        var customClass = unwrap(params.customClass || params['class']) || '';
+        try {
+            var rawName = unwrap(params.name) || unwrap(params.icon) || '';
+            var rawPrefix = unwrap(params.prefix) || 'fa-solid';
+            var size = unwrap(params.size) || '';
+            var color = unwrap(params.color) || '';
+            var customClass = unwrap(params.customClass || params['class']) || '';
 
-        var classes = [];
+            var classes = [];
 
-        // Resolve prefix
-        var resolvedPrefix = PREFIX_MAP[rawPrefix] || rawPrefix;
+            // Resolve prefix
+            var resolvedPrefix = PREFIX_MAP[rawPrefix] || rawPrefix;
 
-        // Resolve name
-        if (rawName) {
-            if (rawName.indexOf('fa-solid') !== -1 || rawName.indexOf('fa-regular') !== -1 || rawName.indexOf('fa-brands') !== -1) {
-                classes.push(rawName);
-            } else if (rawName.indexOf('fa-') === 0) {
-                classes.push(resolvedPrefix);
-                classes.push(rawName);
-            } else {
-                classes.push(resolvedPrefix);
-                classes.push('fa-' + rawName);
+            // Resolve name
+            if (rawName && typeof rawName === 'string') {
+                // Strip any nested HTML tags if passed like <app-icon params="name: '...'"></app-icon> or <i class="...">
+                if (rawName.indexOf('<') !== -1) {
+                    var m = rawName.match(/name:\s*['"]([^'"]+)['"]/);
+                    if (m) {
+                        rawName = m[1];
+                    } else {
+                        var m2 = rawName.match(/class=['"][^'"]*fa-([a-z0-9-]+)[^'"]*['"]/);
+                        if (m2) rawName = m2[1];
+                    }
+                }
+
+                var globalObj = (typeof window !== 'undefined' && window) || (typeof globalThis !== 'undefined' && globalThis) || {};
+                var iconMap = (globalObj && globalObj.FA_ICON_MAP) || {
+                    'fajr': 'fa-solid fa-cloud-sun',
+                    'dhuhr': 'fa-solid fa-sun',
+                    'asr': 'fa-solid fa-sun',
+                    'maghrib': 'fa-solid fa-cloud-sun',
+                    'isha': 'fa-solid fa-moon'
+                };
+                var lower = rawName.toLowerCase().trim();
+                if (iconMap[lower]) {
+                    rawName = iconMap[lower];
+                }
+
+                if (rawName.indexOf('fa-solid') !== -1 || rawName.indexOf('fa-regular') !== -1 || rawName.indexOf('fa-brands') !== -1) {
+                    classes.push(rawName);
+                } else if (rawName.indexOf('fa-') === 0) {
+                    classes.push(resolvedPrefix);
+                    classes.push(rawName);
+                } else {
+                    classes.push(resolvedPrefix);
+                    classes.push('fa-' + rawName);
+                }
             }
-        }
 
-        // Resolve size
-        if (size) {
-            if (SIZE_MAP[size]) {
-                classes.push(SIZE_MAP[size]);
-            } else if (typeof size === 'string' && (size.indexOf('text-') === 0 || size.indexOf('icon-') === 0)) {
-                classes.push(size);
+            // Resolve size
+            if (size) {
+                if (SIZE_MAP[size]) {
+                    classes.push(SIZE_MAP[size]);
+                } else if (typeof size === 'string' && (size.indexOf('text-') === 0 || size.indexOf('icon-') === 0)) {
+                    classes.push(size);
+                }
             }
-        }
 
-        // Resolve color (if Tailwind CSS class)
-        if (color && typeof color === 'string' && (color.indexOf('text-') === 0 || color.indexOf('text[') === 0)) {
-            classes.push(color);
-        }
+            // Resolve color (if Tailwind CSS class)
+            if (color && typeof color === 'string' && (color.indexOf('text-') === 0 || color.indexOf('text[') === 0)) {
+                classes.push(color);
+            }
 
-        // Resolve customClass
-        if (customClass) {
-            classes.push(customClass);
-        }
+            // Resolve customClass
+            if (customClass) {
+                classes.push(customClass);
+            }
 
-        return classes.join(' ').trim();
+            return classes.join(' ').trim();
+        } catch (err) {
+            console.error('Error in IconViewModel computedClass:', err);
+            return 'fa-solid fa-circle-question';
+        }
     });
 
     self.computedStyle = pureComputed(function () {
-        var rawStyle = unwrap(params.style);
-        var color = unwrap(params.color);
-        var size = unwrap(params.size);
+        try {
+            var rawStyle = unwrap(params.style);
+            var color = unwrap(params.color);
+            var size = unwrap(params.size);
 
-        var styles = [];
+            var styles = [];
 
-        if (typeof rawStyle === 'string' && rawStyle.trim()) {
-            styles.push(rawStyle.trim().replace(/;?$/, ';'));
+            if (typeof rawStyle === 'string' && rawStyle.trim()) {
+                styles.push(rawStyle.trim().replace(/;?$/, ';'));
+            }
+
+            // Color as hex/rgb/var
+            if (color && typeof color === 'string' && (color.indexOf('#') === 0 || color.indexOf('rgb') === 0 || color.indexOf('var(') === 0)) {
+                styles.push('color: ' + color + ';');
+            }
+
+            // Sizing as px/rem/em/number
+            if (typeof size === 'number') {
+                styles.push('font-size: ' + size + 'px;');
+            } else if (typeof size === 'string' && (size.indexOf('px') !== -1 || size.indexOf('rem') !== -1 || size.indexOf('em') !== -1) && size.indexOf('text-') === -1) {
+                styles.push('font-size: ' + size + ';');
+            }
+
+            return styles.length ? styles.join(' ') : null;
+        } catch (err) {
+            console.error('Error in IconViewModel computedStyle:', err);
+            return null;
         }
-
-        // Color as hex/rgb/var
-        if (color && typeof color === 'string' && (color.indexOf('#') === 0 || color.indexOf('rgb') === 0 || color.indexOf('var(') === 0)) {
-            styles.push('color: ' + color + ';');
-        }
-
-        // Sizing as px/rem/em/number
-        if (typeof size === 'number') {
-            styles.push('font-size: ' + size + 'px;');
-        } else if (typeof size === 'string' && (size.indexOf('px') !== -1 || size.indexOf('rem') !== -1 || size.indexOf('em') !== -1) && size.indexOf('text-') === -1) {
-            styles.push('font-size: ' + size + ';');
-        }
-
-        return styles.length ? styles.join(' ') : null;
     });
 }
 

@@ -6,7 +6,7 @@
         </div>
         <span class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-brand-light text-brand px-3 font-bold"
             id="tbHistPercentBadge" style="font-size: 11px;"
-            data-bind="text: percentCleared + '% Cleared'">
+            data-bind="text: (ko.unwrap(percentCleared) || 0) + '% Cleared'">
             0% Cleared
         </span>
     </div>
@@ -15,7 +15,7 @@
     <div class="mb-3 w-full bg-gray-100 rounded-full overflow-hidden" style="height: 6px;">
         <div class="bg-brand rounded-full w-full bg-gray-100 overflow-hidden h-full transition-all duration-300"
             id="tbHistProgressBar" role="progressbar"
-            data-bind="style: { width: percentCleared + '%' }, attr: { 'aria-valuenow': percentCleared }"
+            data-bind="style: { width: (ko.unwrap(percentCleared) || 0) + '%' }, attr: { 'aria-valuenow': ko.unwrap(percentCleared) || 0 }"
             style="width: 0%;" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
 

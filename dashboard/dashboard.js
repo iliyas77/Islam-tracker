@@ -165,17 +165,22 @@ export function DashboardViewModel() {
         items: ko.observableArray(prayerItems)
     };
 
-    var missedCount = (typeof getConsolidatedMissedCount === 'function')
-        ? getConsolidatedMissedCount()
-        : (typeof tMT === 'function' ? tMT() : 0);
+    var missedCount = (_win.PrayerStore && typeof _win.PrayerStore.missedCount === 'function')
+        ? _win.PrayerStore.missedCount()
+        : ((typeof getConsolidatedMissedCount === 'function')
+            ? getConsolidatedMissedCount()
+            : (typeof tMT === 'function' ? tMT() : 0));
 
     var store = _win.PrayerStore || null;
-    var trackerBadgeVisible = (store && _ko && typeof _ko.computed === 'function' && _ko.isObservable(store.missedCount))
-        ? _ko.computed(function () { return store.missedCount() > 0; })
-        : (_ko ? _ko.observable(missedCount > 0) : function () { return missedCount > 0; });
-    var trackerBadgeText = (store && _ko && typeof _ko.computed === 'function' && _ko.isObservable(store.missedCount))
-        ? _ko.computed(function () { return store.missedCount() > 0 ? (store.missedCount() + ' missed') : ''; })
-        : (_ko ? _ko.observable(missedCount > 0 ? (missedCount + ' missed') : '') : function () { return missedCount > 0 ? (missedCount + ' missed') : ''; });
+    var trackerBadgeVisible = _ko ? _ko.observable(missedCount > 0) : function () { return missedCount > 0; };
+    var trackerBadgeText = _ko ? _ko.observable(missedCount > 0 ? (missedCount + ' missed') : '') : function () { return missedCount > 0 ? (missedCount + ' missed') : ''; };
+
+    if (store && _ko && typeof store.missedCount === 'function' && typeof store.missedCount.subscribe === 'function') {
+        store.missedCount.subscribe(function (val) {
+            if (typeof trackerBadgeVisible === 'function') trackerBadgeVisible(val > 0);
+            if (typeof trackerBadgeText === 'function') trackerBadgeText(val > 0 ? (val + ' missed') : '');
+        });
+    }
 
     self.navCards = [
         {
@@ -271,12 +276,23 @@ export function DashboardViewModel() {
             : (typeof getConsolidatedMissedCount === 'function'
                 ? getConsolidatedMissedCount()
                 : (typeof tMT === 'function' ? tMT() : 0));
-        if (typeof trackerBadgeVisible === 'function') {
-            trackerBadgeVisible(totalMissed > 0);
-        }
-        if (typeof trackerBadgeText === 'function') {
-            trackerBadgeText(totalMissed > 0 ? (totalMissed + ' missed') : '');
-        }
+        var canWrite = function (obs) {
+            if (!obs || typeof obs !== 'function') return false;
+            if (_ko && typeof _ko.isWriteableObservable === 'function') {
+                return _ko.isWriteableObservable(obs);
+            }
+            return true;
+        };
+        try {
+            if (canWrite(trackerBadgeVisible)) {
+                trackerBadgeVisible(totalMissed > 0);
+            }
+        } catch (_) {}
+        try {
+            if (canWrite(trackerBadgeText)) {
+                trackerBadgeText(totalMissed > 0 ? (totalMissed + ' missed') : '');
+            }
+        } catch (_) {}
     };
 }
 
@@ -468,9 +484,11 @@ function rDashboard() {
         }
     });
 
-    var totalMissed = typeof getConsolidatedMissedCount === 'function'
-        ? getConsolidatedMissedCount()
-        : (typeof tMT === 'function' ? tMT() : 0);
+    var totalMissed = (typeof PrayerStore !== 'undefined' && PrayerStore && typeof PrayerStore.missedCount === 'function')
+        ? PrayerStore.missedCount()
+        : (typeof getConsolidatedMissedCount === 'function'
+            ? getConsolidatedMissedCount()
+            : (typeof tMT === 'function' ? tMT() : 0));
     var hasMissed = totalMissed > 0;
     var trackerBadgeEl = $('trackerMissedBadge');
     if (trackerBadgeEl) {
@@ -489,7 +507,7 @@ function rDashboard() {
 export function initDashboard() {
     registerDashboardComponents();
     var el = document.getElementById('dashboardPage');
-    if (el && typeof ko !== 'undefined') {
+    if (!document.getElementById('app') && el && typeof ko !== 'undefined') {
         var vm = getDashboardViewModel();
         if (!ko.dataFor(el)) {
             ko.applyBindings(vm, el);

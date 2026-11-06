@@ -177,6 +177,9 @@ function clamp(val, min, max) {
 }
 
 function td() {
+    if (typeof window !== 'undefined' && window.PrayerStore && typeof window.PrayerStore.today === 'function') {
+        return window.PrayerStore.today();
+    }
     var d = new Date();
     return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
 }
@@ -493,6 +496,9 @@ function ensureCurrentDateInitialized() {
 function rd() { return LS.get(K) || {}; }
 
 function gr(d) {
+    if (typeof window !== 'undefined' && window.PrayerStore && typeof window.PrayerStore.getRecord === 'function') {
+        return window.PrayerStore.getRecord(d);
+    }
     if (d === td() && localStorage.getItem(LIK) !== td()) {
         ensureCurrentDateInitialized();
     }
@@ -513,6 +519,10 @@ function gr(d) {
 }
 
 function sr(d, r) {
+    if (typeof window !== 'undefined' && window.PrayerStore && typeof window.PrayerStore.setRecord === 'function') {
+        window.PrayerStore.setRecord(d, r);
+        return;
+    }
     var a = rd();
     var cleaned = {};
     var hasMissed = false;
@@ -595,6 +605,9 @@ function mBD() {
 }
 
 function tMT() {
+    if (typeof window !== 'undefined' && window.PrayerStore && typeof window.PrayerStore.missedCount === 'function') {
+        return window.PrayerStore.missedCount();
+    }
     var a = rd();
     var today = td();
     var t = 0;
@@ -621,6 +634,9 @@ function getTodayMissedCount() {
 }
 
 function getConsolidatedMissedCount() {
+    if (typeof window !== 'undefined' && window.PrayerStore && typeof window.PrayerStore.missedCount === 'function') {
+        return window.PrayerStore.missedCount();
+    }
     return tMT() + getTodayMissedCount();
 }
 

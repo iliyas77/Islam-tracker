@@ -1,5 +1,5 @@
 <div class="tb-card bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer hover:border-brand min-h-[146px] select-none transition-all"
-    data-bind="attr: { 'data-id': id, 'data-month': $data.month || null, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: onCardClick"
+    data-bind="attr: { 'data-id': id, 'data-month': $data.month || null, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': $data.isComplete || $data.isCompleted }, click: onCardClick"
     role="button" tabindex="0">
     <div class="tb-card-top flex items-start justify-between w-full">
         <div class="w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
@@ -34,9 +34,9 @@
             </div>
             <div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">
                 <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-gr-textMuted', size: 'xs'"></app-icon>
-                <span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Total: <span class="tb-val-total text-gr-textMuted font-medium ml-1" data-bind="text: totalDays + ' days'"></span></span>
+                <span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Total: <span class="tb-val-total text-gr-textMuted font-medium ml-1" data-bind="text: ($data.totalDays || 30) + ' days'"></span></span>
             </div>
-            <!-- ko if: isTodayDone -->
+            <!-- ko if: $data.isTodayDone -->
             <div class="tb-meta-row tb-meta-sub-row">
                 <span class="text-brand font-bold flex items-center gap-1" style="font-size: 11px;">
                     <app-icon params="name: 'circle-check', color: 'text-brand'"></app-icon> Today Completed

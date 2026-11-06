@@ -31,10 +31,11 @@
                 <select
                     class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
                     id="ptCitySelect" data-ref="page.settings.prayer-times.city-select"
-                    data-bind="template: { name: 'settings-city-option-template', foreach: cityOptions }">
+                    data-bind="value: selectedCity, template: { name: 'settings-city-option-template', foreach: cityOptions }">
                 </select>
             </div>
-            <div class="w-full d-none" id="ptCustomCityWrap"
+            <div class="w-full" id="ptCustomCityWrap"
+                data-bind="visible: isCustomCity"
                 data-ref="page.settings.prayer-times.custom-city-wrap">
                 <label
                     class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5"
@@ -43,11 +44,13 @@
                 <div class="flex gap-2" data-ref="page.settings.prayer-times.custom-city-row">
                     <input type="text"
                         class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                        id="ptCustomCityInput" value="" placeholder="e.g. Guntur"
+                        id="ptCustomCityInput" placeholder="e.g. Guntur"
+                        data-bind="value: customCity, valueUpdate: 'afterkeydown'"
                         data-ref="page.settings.prayer-times.custom-city-input">
                     <input type="text"
                         class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                        id="ptCountryInput" value="India" placeholder="Country"
+                        id="ptCountryInput" placeholder="Country"
+                        data-bind="value: country, valueUpdate: 'afterkeydown'"
                         data-ref="page.settings.prayer-times.country-input">
                 </div>
             </div>
@@ -58,7 +61,8 @@
                     calculation)</label>
                 <select
                     class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                    id="ptSchoolSelect" data-ref="page.settings.prayer-times.school-select">
+                    id="ptSchoolSelect" data-ref="page.settings.prayer-times.school-select"
+                    data-bind="value: school">
                     <option value="1">Hanafi (Standard in South Asia)</option>
                     <option value="0">Shafi / Maliki / Hanbali</option>
                 </select>
@@ -79,7 +83,7 @@
         <div class="flex gap-2 items-center" data-ref="page.settings.start-date.input-row">
             <input type="date"
                 class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                id="sdInput" value="" data-ref="page.settings.start-date.input">
+                id="sdInput" data-bind="value: startDate" data-ref="page.settings.start-date.input">
             <button type="button"
                 class="px-5 py-2.5 bg-brand text-white font-bold rounded-xl text-sm hover:bg-brand-hover whitespace-nowrap transition-colors"
                 data-act="sd-save" data-ref="page.settings.start-date.save-btn"

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bgFav" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#123D2E" />
+      <stop offset="100%" stop-color="#0A241B" />
+    </linearGradient>
+    <linearGradient id="goldFav" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCE181" />
+      <stop offset="100%" stop-color="#E0BA55" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bgFav)" />
+  <path d="M 36 17 A 15 15 0 1 0 44 43 A 12.5 12.5 0 1 1 36 17 Z" fill="url(#goldFav)" />
+  <circle cx="38" cy="27" r="3.5" fill="url(#goldFav)" />
+</svg>
+

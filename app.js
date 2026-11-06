@@ -370,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     var sheet2El = document.getElementById('sheet2Wrapper');
-    if (sheet2El && typeof ko !== 'undefined' && !ko.dataFor(sheet2El)) {
+    if (!document.getElementById('app') && sheet2El && typeof ko !== 'undefined' && !ko.dataFor(sheet2El)) {
         ko.applyBindings({
             sheet2IsOpen: sheet2IsOpen,
             sheet2Title: sheet2Title,

@@ -4,7 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Nur Prayer</title>
+    <title>Nur Prayer — Prayer Tracker, Tasbeeh & Duas</title>
+    <!-- PWA & Mobile Web App Meta -->
+    <meta name="description" content="Modern Islamic prayer tracker, Qaza missed prayer calculation, digital tasbeeh with monthly calendar clearance, and Quranic Duas with Telugu transliteration.">
+    <meta name="theme-color" content="#123D2E">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Nur Prayer">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -12,6 +21,11 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         crossorigin="anonymous">
+    <script>
+        if (window.location.protocol === 'file:') {
+            console.warn('[Nur Prayer] Running via file:// protocol. ES modules and Service Worker require HTTP/HTTPS (run "npm start") or use the standalone distribution in "production/production.html".');
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
         @theme {
@@ -943,30 +957,33 @@
     <div class="w-full max-w-[480px] h-screen h-[100dvh] mx-auto overflow-hidden relative bg-white flex flex-col font-sans text-brand p-0"
         id="app">
 
-        <!-- Dashboard / Home Page -->
-        <div id="dashboardPage" class="flex flex-col grow page" data-ref="page.dashboard"
-            data-bind="component: { name: 'dashboard-page', params: dashboard }, css: { 'd-none': !isDashboardVisible(), 'flex': isDashboardVisible() }">
-        </div>
+        <!-- Declarative Main Routing View Container -->
+        <main class="flex flex-col grow overflow-hidden relative" id="appMain" data-ref="app.main">
+            <!-- Dashboard / Home Page -->
+            <div id="dashboardPage" class="flex flex-col grow page" data-ref="page.dashboard"
+                data-bind="component: { name: 'dashboard-page', params: dashboard }, css: { 'd-none': !isDashboardVisible(), 'flex': isDashboardVisible() }">
+            </div>
 
-        <!-- Prayer Tracker Page (Combined Current, Old, Performance, History) -->
-        <div id="trackerPage" class="d-none flex-col grow page" data-ref="page.tracker"
-            data-bind="component: { name: 'tracker-page', params: tracker }, css: { 'd-none': !isTrackerVisible(), 'flex': isTrackerVisible() }">
-        </div>
+            <!-- Prayer Tracker Page (Combined Current, Old, Performance, History) -->
+            <div id="trackerPage" class="d-none flex-col grow page" data-ref="page.tracker"
+                data-bind="component: { name: 'tracker-page', params: tracker }, css: { 'd-none': !isTrackerVisible(), 'flex': isTrackerVisible() }">
+            </div>
 
-        <!-- Settings Page -->
-        <div id="settingsPage" class="d-none flex-col grow page" data-ref="page.settings"
-            data-bind="component: { name: 'settings-page', params: settings }, css: { 'd-none': !isSettingsVisible(), 'flex': isSettingsVisible() }">
-        </div>
+            <!-- Settings Page -->
+            <div id="settingsPage" class="d-none flex-col grow page" data-ref="page.settings"
+                data-bind="component: { name: 'settings-page', params: settings }, css: { 'd-none': !isSettingsVisible(), 'flex': isSettingsVisible() }">
+            </div>
 
-        <!-- Digital Tasbeeh Page -->
-        <div id="tasbeehPage" class="d-none flex-col grow page" data-ref="page.tasbeeh"
-            data-bind="component: { name: 'tasbeeh-page', params: tasbeeh }, css: { 'd-none': !isTasbeehVisible(), 'flex': isTasbeehVisible() }">
-        </div>
+            <!-- Digital Tasbeeh Page -->
+            <div id="tasbeehPage" class="d-none flex-col grow page" data-ref="page.tasbeeh"
+                data-bind="component: { name: 'tasbeeh-page', params: tasbeeh }, css: { 'd-none': !isTasbeehVisible(), 'flex': isTasbeehVisible() }">
+            </div>
 
-        <!-- Quran Duas Page -->
-        <div id="duasPage" class="d-none flex-col grow page" data-ref="page.duas"
-            data-bind="component: { name: 'duas-page', params: duas }, css: { 'd-none': !isDuasVisible(), 'flex': isDuasVisible() }">
-        </div>
+            <!-- Quran Duas Page -->
+            <div id="duasPage" class="d-none flex-col grow page" data-ref="page.duas"
+                data-bind="component: { name: 'duas-page', params: duas }, css: { 'd-none': !isDuasVisible(), 'flex': isDuasVisible() }">
+            </div>
+        </main>
 
         <!-- Layered Bottom Sheet (Missed Prayers / Period Info / Set Period) -->
         <div id="sheet2Wrapper">
@@ -1103,14 +1120,14 @@
 
         <!-- Add Dua Modal -->
         <div class="fixed inset-0 z-[1095] hidden overflow-y-auto bg-black/45 items-center justify-center p-4 backdrop-blur-[2px]"
-            id="duaAddModal">
+            id="duaAddModal" role="dialog" aria-modal="true" aria-labelledby="duaAddModalTitle">
             <div
                 class="relative flex flex-col w-full max-w-[500px] bg-white rounded-2xl border border-borderGrey p-5 shadow-xl max-h-[90vh] overflow-y-auto">
                 <div class="flex items-center justify-between pb-3 border-b border-borderGrey mb-4 shrink-0">
-                    <div class="text-base font-bold text-brand m-0">➕ Add New Dua</div>
+                    <div class="text-base font-bold text-brand m-0" id="duaAddModalTitle">➕ Add New Dua</div>
                     <button type="button"
                         class="w-8 h-8 rounded-lg text-gr-textMuted hover:bg-brand-light flex items-center justify-center text-lg cursor-pointer transition-colors"
-                        data-act="dua-close-add">✕</button>
+                        data-act="dua-close-add" aria-label="Close">✕</button>
                 </div>
 
                 <div class="flex flex-col gap-1.5 mb-3.5">
@@ -1151,17 +1168,17 @@
 
         <!-- Pin Confirmation Modal -->
         <div class="fixed inset-0 z-[1095] hidden overflow-y-auto bg-black/45 items-center justify-center p-4 backdrop-blur-[2px]"
-            id="duaPinConfirmModal">
+            id="duaPinConfirmModal" role="dialog" aria-modal="true" aria-labelledby="duaPinConfirmModalTitle">
             <div
                 class="relative flex flex-col w-full max-w-[500px] bg-white rounded-2xl border border-borderGrey p-5 shadow-xl max-h-[90vh] overflow-y-auto">
                 <div class="flex items-center justify-between pb-3 border-b border-borderGrey mb-4 shrink-0">
-                    <div class="text-base font-bold text-brand m-0 flex items-center gap-2">
+                    <div class="text-base font-bold text-brand m-0 flex items-center gap-2" id="duaPinConfirmModalTitle">
                         <i class="fa-solid fa-thumbtack"></i>
                         <span>Pin Limit Reached</span>
                     </div>
                     <button type="button"
                         class="w-8 h-8 rounded-lg text-gr-textMuted hover:bg-brand-light flex items-center justify-center text-lg cursor-pointer transition-colors"
-                        data-act="dua-close-pin-confirm">✕</button>
+                        data-act="dua-close-pin-confirm" aria-label="Close">✕</button>
                 </div>
 
                 <p class="text-gr-text text-xs mb-2">
@@ -1182,14 +1199,14 @@
 
         <!-- Admin Modal -->
         <div class="fixed inset-0 z-[1095] hidden overflow-y-auto bg-black/45 items-center justify-center p-4 backdrop-blur-[2px]"
-            id="duaAdminModal">
+            id="duaAdminModal" role="dialog" aria-modal="true" aria-labelledby="duaAdminModalTitle">
             <div
                 class="relative flex flex-col w-full max-w-[500px] bg-white rounded-2xl border border-borderGrey p-5 shadow-xl max-h-[90vh] overflow-y-auto">
                 <div class="flex items-center justify-between pb-3 border-b border-borderGrey mb-4 shrink-0">
-                    <div class="text-base font-bold text-brand m-0">⚙️ Admin Panel</div>
+                    <div class="text-base font-bold text-brand m-0" id="duaAdminModalTitle">⚙️ Admin Panel</div>
                     <button type="button"
                         class="w-8 h-8 rounded-lg text-gr-textMuted hover:bg-brand-light flex items-center justify-center text-lg cursor-pointer transition-colors"
-                        data-act="dua-close-admin">✕</button>
+                        data-act="dua-close-admin" aria-label="Close">✕</button>
                 </div>
 
                 <div id="duaAdminListSection">
@@ -1214,7 +1231,7 @@
          ============================================================ -->
     <!-- Add / Edit Dhikr Modal -->
     <div class="modal fixed inset-0 z-[1100] hidden w-full h-full overflow-y-auto bg-black/45 backdrop-blur-[2px] transition-opacity"
-        id="tasbeehModal" tabindex="-1" data-ref="component.modal.tasbeeh">
+        id="tasbeehModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="tbModalTitle" data-ref="component.modal.tasbeeh">
         <div class="modal-dialog relative w-auto m-4 pointer-events-none max-w-[440px] mx-auto min-h-[calc(100%-2rem)] flex items-center justify-center"
             data-ref="component.modal.tasbeeh.dialog">
             <div class="modal-content relative flex flex-col w-full pointer-events-auto bg-white rounded-2xl border border-borderGrey shadow-2xl p-4"
@@ -1228,8 +1245,8 @@
                     <h5 class="modal-title font-bold text-lg grow mb-0" id="tbModalTitle"
                         data-ref="component.modal.tasbeeh.title">Add New Dhikr</h5>
                     <button type="button"
-                        class="w-4 h-4 opacity-50 hover:opacity-75 cursor-pointer ml-auto w-8 h-8 rounded-lg text-gr-textMuted hover:bg-gray-100 flex items-center justify-center"
-                        data-bs-dismiss="modal" data-ref="component.modal.tasbeeh.close-btn"></button>
+                        class="w-8 h-8 rounded-lg text-gr-textMuted hover:bg-gray-100 flex items-center justify-center ml-auto cursor-pointer"
+                        data-bs-dismiss="modal" aria-label="Close" data-ref="component.modal.tasbeeh.close-btn"><i class="fa-solid fa-xmark"></i></button>
                 </div>
                 <div class="modal-body pt-3 px-4" data-ref="component.modal.tasbeeh.body">
                     <!-- Chant Title -->
@@ -1298,7 +1315,7 @@
 
     <!-- Tasbeeh Day Status Change Confirmation Modal -->
     <div class="modal fixed inset-0 z-[1100] hidden w-full h-full overflow-y-auto bg-black/45 backdrop-blur-[2px] transition-opacity"
-        id="tasbeehConfirmModal" tabindex="-1" aria-hidden="true" data-ref="component.modal.tasbeeh-confirm">
+        id="tasbeehConfirmModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="tbConfirmModalTitle" data-ref="component.modal.tasbeeh-confirm">
         <div class="modal-dialog relative w-auto m-4 pointer-events-none max-w-[380px] mx-auto min-h-[calc(100%-2rem)] flex items-center justify-center"
             data-ref="component.modal.tasbeeh-confirm.dialog">
             <div class="modal-content relative flex flex-col w-full pointer-events-auto bg-white rounded-2xl border border-borderGrey shadow-2xl p-4"
@@ -1313,8 +1330,8 @@
                     <h5 class="modal-title font-bold text-base grow mb-0" id="tbConfirmModalTitle"
                         data-ref="component.modal.tasbeeh-confirm.title">Change Day Status</h5>
                     <button type="button"
-                        class="w-4 h-4 opacity-50 hover:opacity-75 cursor-pointer ml-auto w-8 h-8 rounded-lg text-gr-textMuted hover:bg-gray-100 flex items-center justify-center"
-                        data-bs-dismiss="modal" data-ref="component.modal.tasbeeh-confirm.close-btn"></button>
+                        class="w-8 h-8 rounded-lg text-gr-textMuted hover:bg-gray-100 flex items-center justify-center ml-auto cursor-pointer"
+                        data-bs-dismiss="modal" aria-label="Close" data-ref="component.modal.tasbeeh-confirm.close-btn"><i class="fa-solid fa-xmark"></i></button>
                 </div>
                 <div class="modal-body px-3 pt-2 text-center" data-ref="component.modal.tasbeeh-confirm.body">
                     <p class="text-gr-textMuted text-xs mb-3" id="tbConfirmModalMsg">
@@ -1339,7 +1356,7 @@
 
     <!-- Tasbeeh Period Settings Modal -->
     <div class="modal fixed inset-0 z-[1100] hidden w-full h-full overflow-y-auto bg-black/45 backdrop-blur-[2px] transition-opacity"
-        id="tasbeehPeriodModal" tabindex="-1" data-ref="component.modal.tasbeeh-period"
+        id="tasbeehPeriodModal" tabindex="-1" role="dialog" aria-modal="true" data-ref="component.modal.tasbeeh-period"
         aria-labelledby="tbPeriodModalTitle" aria-hidden="true">
         <div class="modal-dialog relative w-auto m-4 pointer-events-none max-w-[440px] mx-auto min-h-[calc(100%-2rem)] flex items-center justify-center"
             data-ref="component.modal.tasbeeh-period.dialog">
@@ -1355,8 +1372,8 @@
                         <div class="text-gr-textMuted text-xs">Configure tracking timeline</div>
                     </div>
                     <button type="button"
-                        class="w-4 h-4 opacity-50 hover:opacity-75 cursor-pointer ml-auto w-8 h-8 rounded-lg text-gr-textMuted hover:bg-gray-100 flex items-center justify-center"
-                        data-bs-dismiss="modal"></button>
+                        class="w-8 h-8 rounded-lg text-gr-textMuted hover:bg-gray-100 flex items-center justify-center ml-auto cursor-pointer"
+                        data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
                 </div>
                 <div class="modal-body pt-3 px-4">
                     <div class="border border-borderGrey p-3 rounded-2xl bg-brand-light mb-3 bg-white shadow-none">
@@ -1593,10 +1610,11 @@
                             <select
                                 class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
                                 id="ptCitySelect" data-ref="page.settings.prayer-times.city-select"
-                                data-bind="template: { name: 'settings-city-option-template', foreach: cityOptions }">
+                                data-bind="value: selectedCity, template: { name: 'settings-city-option-template', foreach: cityOptions }">
                             </select>
                         </div>
-                        <div class="w-full d-none" id="ptCustomCityWrap"
+                        <div class="w-full" id="ptCustomCityWrap"
+                            data-bind="visible: isCustomCity"
                             data-ref="page.settings.prayer-times.custom-city-wrap">
                             <label
                                 class="text-gr-textMuted text-xs font-bold mb-1 block font-semibold text-brand mb-1.5"
@@ -1605,11 +1623,13 @@
                             <div class="flex gap-2" data-ref="page.settings.prayer-times.custom-city-row">
                                 <input type="text"
                                     class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                                    id="ptCustomCityInput" value="" placeholder="e.g. Guntur"
+                                    id="ptCustomCityInput" placeholder="e.g. Guntur"
+                                    data-bind="value: customCity, valueUpdate: 'afterkeydown'"
                                     data-ref="page.settings.prayer-times.custom-city-input">
                                 <input type="text"
                                     class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                                    id="ptCountryInput" value="India" placeholder="Country"
+                                    id="ptCountryInput" placeholder="Country"
+                                    data-bind="value: country, valueUpdate: 'afterkeydown'"
                                     data-ref="page.settings.prayer-times.country-input">
                             </div>
                         </div>
@@ -1620,7 +1640,8 @@
                                 calculation)</label>
                             <select
                                 class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                                id="ptSchoolSelect" data-ref="page.settings.prayer-times.school-select">
+                                id="ptSchoolSelect" data-ref="page.settings.prayer-times.school-select"
+                                data-bind="value: school">
                                 <option value="1">Hanafi (Standard in South Asia)</option>
                                 <option value="0">Shafi / Maliki / Hanbali</option>
                             </select>
@@ -1641,7 +1662,7 @@
                     <div class="flex gap-2 items-center" data-ref="page.settings.start-date.input-row">
                         <input type="date"
                             class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                            id="sdInput" value="" data-ref="page.settings.start-date.input">
+                            id="sdInput" data-bind="value: startDate" data-ref="page.settings.start-date.input">
                         <button type="button"
                             class="px-5 py-2.5 bg-brand text-white font-bold rounded-xl text-sm hover:bg-brand-hover whitespace-nowrap transition-colors"
                             data-act="sd-save" data-ref="page.settings.start-date.save-btn"
@@ -2722,7 +2743,7 @@
         </script>
         <script type="text/html" id="tasbeeh-counter-card-template">
 <div class="tb-card bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer hover:border-brand min-h-[146px] select-none transition-all"
-    data-bind="attr: { 'data-id': id, 'data-month': $data.month || null, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: onCardClick"
+    data-bind="attr: { 'data-id': id, 'data-month': $data.month || null, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': $data.isComplete || $data.isCompleted }, click: onCardClick"
     role="button" tabindex="0">
     <div class="tb-card-top flex items-start justify-between w-full">
         <div class="w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
@@ -2757,9 +2778,9 @@
             </div>
             <div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">
                 <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-gr-textMuted', size: 'xs'"></app-icon>
-                <span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Total: <span class="tb-val-total text-gr-textMuted font-medium ml-1" data-bind="text: totalDays + ' days'"></span></span>
+                <span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Total: <span class="tb-val-total text-gr-textMuted font-medium ml-1" data-bind="text: ($data.totalDays || 30) + ' days'"></span></span>
             </div>
-            <!-- ko if: isTodayDone -->
+            <!-- ko if: $data.isTodayDone -->
             <div class="tb-meta-row tb-meta-sub-row">
                 <span class="text-brand font-bold flex items-center gap-1" style="font-size: 11px;">
                     <app-icon params="name: 'circle-check', color: 'text-brand'"></app-icon> Today Completed
@@ -2781,7 +2802,7 @@
         </div>
         <span class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-brand-light text-brand px-3 font-bold"
             id="tbHistPercentBadge" style="font-size: 11px;"
-            data-bind="text: percentCleared + '% Cleared'">
+            data-bind="text: (ko.unwrap(percentCleared) || 0) + '% Cleared'">
             0% Cleared
         </span>
     </div>
@@ -2790,7 +2811,7 @@
     <div class="mb-3 w-full bg-gray-100 rounded-full overflow-hidden" style="height: 6px;">
         <div class="bg-brand rounded-full w-full bg-gray-100 overflow-hidden h-full transition-all duration-300"
             id="tbHistProgressBar" role="progressbar"
-            data-bind="style: { width: percentCleared + '%' }, attr: { 'aria-valuenow': percentCleared }"
+            data-bind="style: { width: (ko.unwrap(percentCleared) || 0) + '%' }, attr: { 'aria-valuenow': ko.unwrap(percentCleared) || 0 }"
             style="width: 0%;" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
 
@@ -3241,22 +3262,21 @@
 
     <script src="utilities/constant.js"></script>
     <script src="utilities/utility.js"></script>
-    <script src="services/prayer-store.js"></script>
-    <script src="services/tasbeeh-store.js"></script>
-    <script src="services/duas-store.js"></script>
+    <script type="module" src="services/prayer-store.js"></script>
+    <script type="module" src="services/tasbeeh-store.js"></script>
+    <script type="module" src="services/duas-store.js"></script>
+    <script type="module" src="services/settings-store.js"></script>
+    <script type="module" src="services/router.js"></script>
     <script src="app.js"></script>
     <script src="navigation.js"></script>
-    <script src="services/app-view-model.js"></script>
+    <script type="module" src="services/app-view-model.js"></script>
 
-    <!-- Global Components (Knockout.js Component Registry) -->
+    <!-- Global Components & Custom Bindings Registry -->
     <script type="module">
         import { registerAllComponents } from './components/registry.js';
+        import { initApp } from './services/app-view-model.js';
         registerAllComponents();
-        if (typeof initApp === 'function') {
-            initApp();
-        } else if (window.initApp) {
-            window.initApp();
-        }
+        initApp();
     </script>
 
     <script>
@@ -3305,6 +3325,19 @@
                 window.PrayerHistoryApp.init();
             }
         });
+
+        // Progressive Web App (PWA) Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(function (reg) {
+                        console.info('[PWA] Service Worker registered with scope:', reg.scope);
+                    })
+                    .catch(function (err) {
+                        console.warn('[PWA] Service Worker registration failed:', err);
+                    });
+            });
+        }
     </script>
 </body>
 

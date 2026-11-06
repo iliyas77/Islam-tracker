@@ -3,11 +3,12 @@
    Path: services/duas-store.js
    Responsibilities:
      - Centralized Knockout reactive store for Quran Duas
-     - Observables: allDuas, pins, favourites, searchQuery,
-       isLoading, loadError, currentIndex, currentDua
-     - Pinned & favourite computed collections
-     - Synchronization with localStorage & remote JSON API
-     - Integration with DuasPageViewModel
+     - Observables & pure computeds: allDuas, pins, favourites,
+       searchQuery, currentIndex, currentDua, isCurrentFav,
+       isCurrentPinned, pinnedTitle, filteredDuas, favouriteDuas,
+       pinnedDuas, isLoading, loadError
+     - Persistent synchronization with localStorage via .subscribe()
+     - Integration with DuasPageViewModel & DuasApp
    ============================================================ */
 'use strict';
 
@@ -48,10 +49,31 @@ function createObservableArray(initial) {
 }
 
 function createComputed(fn) {
-    if (_ko && typeof _ko.computed === 'function') {
-        return _ko.computed(fn);
+    var readFn = typeof fn === 'function' ? fn : (fn && fn.read);
+    var writeFn = (fn && typeof fn.write === 'function') ? fn.write : function () {};
+    if (_ko && typeof _ko.pureComputed === 'function') {
+        try {
+            return _ko.pureComputed({ read: readFn, write: writeFn });
+        } catch (_) {
+            return _ko.pureComputed(readFn);
+        }
     }
-    return function () { return fn(); };
+    if (_ko && typeof _ko.computed === 'function') {
+        try {
+            return _ko.computed({ read: readFn, write: writeFn });
+        } catch (_) {
+            return _ko.computed(readFn);
+        }
+    }
+    var comp = function (val) {
+        if (arguments.length > 0) {
+            writeFn(val);
+            return comp;
+        }
+        return readFn ? readFn() : undefined;
+    };
+    comp.__isComputed = true;
+    return comp;
 }
 
 function DuasStoreModel() {
@@ -67,15 +89,50 @@ function DuasStoreModel() {
     self.MAX_PINS = typeof DUA_CONSTANTS.MAX_PINS === 'number' ? DUA_CONSTANTS.MAX_PINS : 2;
     self.API_URL = DUA_CONSTANTS.API_URL || 'https://raw.githubusercontent.com/iliyas77/data.github.io/main/duas.json';
 
-    // 1. Reactive Observables
-    self.allDuas = createObservableArray([]);
-    self.pins = createObservableArray([]);
-    self.favourites = createObservableArray([]);
+    // 1. Initial Storage Readers
+    function readStoredDuas() {
+        try {
+            var raw = _win.localStorage ? _win.localStorage.getItem(self.STORAGE_KEY_DUAS) : null;
+            if (raw) {
+                var d = JSON.parse(raw);
+                if (Array.isArray(d)) return d;
+            }
+        } catch (_) {}
+        return [];
+    }
+
+    function readStoredFavs() {
+        try {
+            var raw = _win.localStorage ? _win.localStorage.getItem(self.STORAGE_KEY_FAVS) : null;
+            if (raw) {
+                var f = JSON.parse(raw);
+                if (Array.isArray(f)) return f;
+            }
+        } catch (_) {}
+        return [];
+    }
+
+    function readStoredPins() {
+        try {
+            var raw = _win.localStorage ? _win.localStorage.getItem(self.STORAGE_KEY_PINS) : null;
+            if (raw) {
+                var p = JSON.parse(raw);
+                if (Array.isArray(p)) return p;
+            }
+        } catch (_) {}
+        return [];
+    }
+
+    // 2. Reactive Observables
+    self.allDuas = createObservableArray(readStoredDuas());
+    self.pins = createObservableArray(readStoredPins());
+    self.favourites = createObservableArray(readStoredFavs());
     self.searchQuery = createObservable('');
     self.isLoading = createObservable(false);
     self.loadError = createObservable(null);
     self.currentIndex = createObservable(0);
 
+    // 3. Pure Computeds
     self.pinnedTitle = createComputed(function () {
         var count = self.pins().length;
         return 'Your Pinned Duas (' + count + '/' + self.MAX_PINS + ')';
@@ -99,37 +156,84 @@ function DuasStoreModel() {
         return p.indexOf(idx) !== -1;
     });
 
-    // 2. Storage Helpers
+    self.filteredDuas = createComputed(function () {
+        var q = (self.searchQuery() || '').trim().toLowerCase();
+        var list = self.allDuas() || [];
+        if (!q) return list;
+        return list.filter(function (d) {
+            var num = String(d.number || d.id || '');
+            var surah = String(d.surah || d.surah_name || '').toLowerCase();
+            var ayat = String(d.ayat_number || '').toLowerCase();
+            var uch = String(d.uchcharana || d.telugu_uchcharana || '').toLowerCase();
+            var ard = String(d.ardham || d.telugu_ardham || '').toLowerCase();
+            return (num === q) ||
+                (surah.indexOf(q) !== -1) ||
+                (ayat.indexOf(q) !== -1) ||
+                (uch.indexOf(q) !== -1) ||
+                (ard.indexOf(q) !== -1);
+        });
+    });
+
+    self.favouriteDuas = createComputed(function () {
+        var favs = self.favourites() || [];
+        var list = self.allDuas() || [];
+        return favs.map(function (idx) {
+            return list[idx];
+        }).filter(Boolean);
+    });
+
+    self.pinnedDuas = createComputed(function () {
+        var p = self.pins() || [];
+        var list = self.allDuas() || [];
+        return p.map(function (idx) {
+            return list[idx];
+        }).filter(Boolean);
+    });
+
+    // 4. Automated Reactive Persistence via .subscribe()
+    if (typeof self.allDuas.subscribe === 'function') {
+        self.allDuas.subscribe(function (val) {
+            if (_win.localStorage) {
+                try {
+                    _win.localStorage.setItem(self.STORAGE_KEY_DUAS, JSON.stringify(val || []));
+                } catch (_) {}
+            }
+        });
+    }
+
+    if (typeof self.favourites.subscribe === 'function') {
+        self.favourites.subscribe(function (val) {
+            if (_win.localStorage) {
+                try {
+                    _win.localStorage.setItem(self.STORAGE_KEY_FAVS, JSON.stringify(val || []));
+                } catch (_) {}
+            }
+        });
+    }
+
+    if (typeof self.pins.subscribe === 'function') {
+        self.pins.subscribe(function (val) {
+            if (_win.localStorage) {
+                try {
+                    _win.localStorage.setItem(self.STORAGE_KEY_PINS, JSON.stringify(val || []));
+                } catch (_) {}
+            }
+        });
+    }
+
+    // 5. Actions
     self.loadFromStorage = function () {
-        try {
-            var rawDuas = _win.localStorage ? _win.localStorage.getItem(self.STORAGE_KEY_DUAS) : null;
-            if (rawDuas) {
-                var d = JSON.parse(rawDuas);
-                if (Array.isArray(d)) self.allDuas(d);
-            }
-            var rawFavs = _win.localStorage ? _win.localStorage.getItem(self.STORAGE_KEY_FAVS) : null;
-            if (rawFavs) {
-                var f = JSON.parse(rawFavs);
-                if (Array.isArray(f)) self.favourites(f);
-            }
-            var rawPins = _win.localStorage ? _win.localStorage.getItem(self.STORAGE_KEY_PINS) : null;
-            if (rawPins) {
-                var p = JSON.parse(rawPins);
-                if (Array.isArray(p)) self.pins(p);
-            }
-        } catch (_) {}
+        self.allDuas(readStoredDuas());
+        self.favourites(readStoredFavs());
+        self.pins(readStoredPins());
     };
 
-    self.saveToStorage = function () {
-        if (!_win.localStorage) return;
-        try {
-            _win.localStorage.setItem(self.STORAGE_KEY_DUAS, JSON.stringify(self.allDuas()));
-            _win.localStorage.setItem(self.STORAGE_KEY_FAVS, JSON.stringify(self.favourites()));
-            _win.localStorage.setItem(self.STORAGE_KEY_PINS, JSON.stringify(self.pins()));
-        } catch (_) {}
+    self.syncFrom = function (duas, favs, pns) {
+        if (Array.isArray(duas)) self.allDuas(duas);
+        if (Array.isArray(favs)) self.favourites(favs);
+        if (Array.isArray(pns)) self.pins(pns);
     };
 
-    // 3. Actions
     self.fetchDuas = function () {
         self.isLoading(true);
         self.loadError(null);
@@ -144,7 +248,6 @@ function DuasStoreModel() {
                     self.isLoading(false);
                     if (Array.isArray(data)) {
                         self.allDuas(data);
-                        self.saveToStorage();
                     }
                     if (_win.DuasApp && typeof _win.DuasApp.refreshAllViews === 'function') {
                         _win.DuasApp.refreshAllViews();
@@ -180,7 +283,6 @@ function DuasStoreModel() {
             currentPins.push(index);
         }
         self.pins(currentPins);
-        self.saveToStorage();
         if (_win.DuasApp && typeof _win.DuasApp.refreshAllViews === 'function') {
             _win.DuasApp.refreshAllViews();
         }
@@ -195,7 +297,6 @@ function DuasStoreModel() {
             currentFavs.push(index);
         }
         self.favourites(currentFavs);
-        self.saveToStorage();
         if (_win.DuasApp && typeof _win.DuasApp.refreshAllViews === 'function') {
             _win.DuasApp.refreshAllViews();
         }
@@ -228,7 +329,7 @@ function DuasStoreModel() {
         self.toggleFavourite(self.currentIndex());
     };
 
-    // Auto initialize from storage
+    // Auto load initially
     self.loadFromStorage();
 }
 
@@ -240,4 +341,3 @@ if (typeof window !== 'undefined') {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { DuasStore: DuasStore };
 }
-

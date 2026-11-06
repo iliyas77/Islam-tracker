@@ -2,9 +2,13 @@
   "name": "nur-prayer",
   "version": "1.0.0",
   "description": "Nur Prayer Tracking Web Application",
+  "type": "module",
   "main": "production/production.html",
   "scripts": {
-    "build": "node production/build-production.js"
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "node production/build-production.js",
+    "test": "node tests/run-all-tests.js"
   },
   "keywords": [],
   "author": "",
