@@ -85,6 +85,24 @@ export function TasbeehCounterCardViewModel(params) {
 /* ---------- Knockout ViewModel & Component Registration ---------- */
 var tasbeehViewModel = null;
 
+export function switchCurrentTab(tabName) {
+    var todoTab = document.getElementById('tabTbCurrentTodo'), doneTab = document.getElementById('tabTbCurrentDone');
+    var todoList = document.getElementById('tbCurrentTodoList'), doneList = document.getElementById('tbCurrentDoneList');
+    var todoBadge = document.getElementById('tbCurrentTodoBadge'), doneBadge = document.getElementById('tbCurrentDoneBadge');
+    var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+    if (vm && typeof vm.currentActiveTab === 'function') vm.currentActiveTab(tabName);
+    var isTodo = tabName === 'todo';
+    if (todoList) { todoList.classList.toggle('d-none', !isTodo); todoList.classList.toggle('hidden', !isTodo); }
+    if (doneList) { doneList.classList.toggle('d-none', isTodo); doneList.classList.toggle('hidden', isTodo); }
+    var actCls = 'flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-brand text-brand font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none';
+    var inactCls = 'flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-transparent text-gr-textMuted font-semibold text-xs uppercase tracking-wider hover:text-gr-text transition-colors cursor-pointer select-none';
+    if (todoTab) { todoTab.setAttribute('aria-selected', isTodo ? 'true' : 'false'); todoTab.className = isTodo ? actCls : inactCls; }
+    if (doneTab) { doneTab.setAttribute('aria-selected', !isTodo ? 'true' : 'false'); doneTab.className = !isTodo ? actCls : inactCls; }
+    if (todoBadge) todoBadge.className = isTodo ? 'text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand' : 'text-xs font-bold px-2 py-0.5 rounded-full bg-surfaceBg text-gr-textMuted border border-borderGrey';
+    if (doneBadge) doneBadge.className = !isTodo ? 'text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand' : 'text-xs font-bold px-2 py-0.5 rounded-full bg-surfaceBg text-gr-textMuted border border-borderGrey';
+}
+_win.switchCurrentTab = switchCurrentTab;
+
 export function getTasbeehViewModel() {
     if (!tasbeehViewModel && typeof TasbeehPageViewModel === 'function') {
         tasbeehViewModel = new TasbeehPageViewModel();
@@ -97,12 +115,33 @@ export function TasbeehPageViewModel(params) {
     var self = this;
     var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
 
-    self.currentSubTab = (k && k.observable) ? k.observable('home') : function () { return 'home'; };
+    self.currentSubTab = (k && k.observable) ? k.observable('current') : function () { return 'current'; };
+    self.currentActiveTab = (k && k.observable) ? k.observable('todo') : function () { return 'todo'; };
+    self.switchCurrentTab = function (tab, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (k && k.isObservable(self.currentActiveTab)) {
+            self.currentActiveTab(tab);
+        }
+        if (typeof _win.switchCurrentTab === 'function') {
+            _win.switchCurrentTab(tab);
+        }
+    };
+
+    self.oldActiveTab = (k && k.observable) ? k.observable('todo') : function () { return 'todo'; };
+    self.switchOldTab = function (tab, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (k && k.isObservable(self.oldActiveTab)) {
+            self.oldActiveTab(tab);
+        }
+        if (typeof _win.switchOldTab === 'function') {
+            _win.switchOldTab(tab);
+        }
+    };
 
     self.header = {
         title: (k && k.observable) ? k.observable('Digital Tasbeeh') : 'Digital Tasbeeh',
-        subtitle: (k && k.observable) ? k.observable('Home · Bookmarks') : 'Home · Bookmarks',
-        iconClass: (k && k.observable) ? k.observable('fa-solid fa-house text-brand') : 'fa-solid fa-house text-brand',
+        subtitle: (k && k.observable) ? k.observable('') : '',
+        iconClass: (k && k.observable) ? k.observable('fa-solid fa-calendar text-brand') : 'fa-solid fa-calendar text-brand',
         goHome: function (d, e) {
             if (e && e.stopPropagation) e.stopPropagation();
             if (typeof showPage === 'function') showPage('dashboard');
@@ -113,6 +152,15 @@ export function TasbeehPageViewModel(params) {
         if (e && e.stopPropagation) e.stopPropagation();
         if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
             window.TasbeehApp.switchTab(tab);
+        }
+    };
+
+    self.closeCounter = function (d, e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        if (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.closeCounter === 'function') {
+            _win.TasbeehCurrentApp.closeCounter();
+        } else if (_win.TasbeehApp && typeof _win.TasbeehApp.closeCounter === 'function') {
+            _win.TasbeehApp.closeCounter();
         }
     };
 
@@ -154,22 +202,11 @@ export function TasbeehPageViewModel(params) {
     self.activeOldLabel = (tbStore && k && k.isObservable(tbStore.activeOldLabel))
         ? tbStore.activeOldLabel
         : ((k && k.observable) ? k.observable('All Cleared') : 'All Cleared');
-    self.bookmarkedCounters = (tbStore && k && k.isObservable(tbStore.bookmarkedItems))
-        ? tbStore.bookmarkedItems
-        : ((k && k.observableArray) ? k.observableArray([]) : []);
 
-    self.currentTodoItems = (tbStore && k && k.isObservable(tbStore.currentTodoItems))
-        ? tbStore.currentTodoItems
-        : ((k && k.observableArray) ? k.observableArray([]) : []);
-    self.currentDoneItems = (tbStore && k && k.isObservable(tbStore.currentDoneItems))
-        ? tbStore.currentDoneItems
-        : ((k && k.observableArray) ? k.observableArray([]) : []);
-    self.oldTodoItems = (tbStore && k && k.isObservable(tbStore.oldTodoItems))
-        ? tbStore.oldTodoItems
-        : ((k && k.observableArray) ? k.observableArray([]) : []);
-    self.oldDoneItems = (tbStore && k && k.isObservable(tbStore.oldDoneItems))
-        ? tbStore.oldDoneItems
-        : ((k && k.observableArray) ? k.observableArray([]) : []);
+    self.currentTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
+    self.currentDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
+    self.oldTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
+    self.oldDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
 
     self.historyProgress = {
         percentCleared: (k && k.observable) ? k.observable(0) : 0,
@@ -244,9 +281,6 @@ export function initTasbeeh() {
         if (!ko.dataFor(el)) {
             ko.applyBindings(vm, el);
         }
-    }
-    if (_win.TasbeehHomeApp && typeof _win.TasbeehHomeApp.init === 'function') {
-        _win.TasbeehHomeApp.init();
     }
     if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.init === 'function') {
         _win.TasbeehOldApp.init();

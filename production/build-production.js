@@ -49,10 +49,9 @@ const tasbeehModelJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-model.js');
 const tasbeehCalJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-calendar.js');
 const tasbeehModalJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-modal.js');
 const tasbeehPeriodJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-period.js');
-const tasbeehOldJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-old.js');
-const tasbeehHistJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-history.js');
-const tasbeehHomeJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-home.js');
-const tasbeehCurJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-current.js');
+const tasbeehOldJsPath = path.join(ROOT, 'tasbeeh', 'old', 'old.js');
+const tasbeehHistJsPath = path.join(ROOT, 'tasbeeh', 'history', 'history.js');
+const tasbeehCurJsPath = path.join(ROOT, 'tasbeeh', 'current', 'current.js');
 const tasbeehJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh.js');
 
 /**
@@ -153,7 +152,6 @@ function buildProduction() {
         const tasbeehPeriodJs = readFile(tasbeehPeriodJsPath);
         const tasbeehOldJs = readFile(tasbeehOldJsPath);
         const tasbeehHistJs = readFile(tasbeehHistJsPath);
-        const tasbeehHomeJs = readFile(tasbeehHomeJsPath);
         const tasbeehCurJs = readFile(tasbeehCurJsPath);
         const tasbeehJs = readFile(tasbeehJsPath);
 
@@ -188,7 +186,6 @@ function buildProduction() {
             tasbeehPeriodJs,
             tasbeehOldJs,
             tasbeehHistJs,
-            tasbeehHomeJs,
             tasbeehCurJs,
             tasbeehJs,
             duaJs,

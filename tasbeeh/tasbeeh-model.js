@@ -19,7 +19,7 @@ export var BM_CUR_KEY = STORAGE_KEYS.BOOKMARK_CURRENT || 'app_tasbeeh_bookmark_c
 export var BM_OLD_KEY = STORAGE_KEYS.BOOKMARK_OLD || 'app_tasbeeh_bookmark_old';
 export var CURRENT_PERIOD_KEY = STORAGE_KEYS.CURRENT_PERIOD || 'app_tasbeeh_current_period';
 export var CAL_COMPLETION_KEY = STORAGE_KEYS.CAL_COMPLETIONS || 'app_tasbeeh_cal_completions';
-export var TABS = TASBEEH_CONSTANTS.TABS || { HOME: 'home', CURRENT: 'current', OLD: 'old', HISTORY: 'history' };
+export var TABS = TASBEEH_CONSTANTS.TABS || { CURRENT: 'current', OLD: 'old', HISTORY: 'history' };
 
 export var DEFAULT_PRESETS = TASBEEH_CONSTANTS.DEFAULT_PRESETS || [
     { title: 'SubhanAllah', targetCount: 33 },
@@ -165,6 +165,10 @@ export function setDayCompleted(calCompletions, items, itemId, dateStr, complete
             delete item.dailyHistory[dateStr];
         }
 
+        if (dateStr === todayKey()) {
+            item.currentCount = completed ? targetNum : 0;
+        }
+
         item.monthlyHistory = item.monthlyHistory || {};
         item.monthlyHistory[monthKey] = completedDays * targetNum;
         item.updatedAt = Date.now();
@@ -286,109 +290,5 @@ export function isMonthFullyCompleted(calCompletions, items, mKey) {
         var completedDays = getCompletedDaysInMonth(calCompletions, it.id, yr, mo);
         return completedDays >= totalDays;
     });
-}
-
-/* ---------- Bookmark Storage & Retrieval ---------- */
-export function getBookmark(type) {
-    var key = type === 'old' ? BM_OLD_KEY : BM_CUR_KEY;
-    try {
-        var raw = localStorage.getItem(key);
-        if (!raw) return null;
-        if (raw.charAt(0) === '{') {
-            return JSON.parse(raw);
-        }
-        return { id: raw };
-    } catch (_) {
-        return null;
-    }
-}
-
-export function setBookmark(type, id, monthKey) {
-    if (!id) return;
-    var key = type === 'old' ? BM_OLD_KEY : BM_CUR_KEY;
-    try {
-        if (type === 'old') {
-            localStorage.setItem(key, JSON.stringify({ id: id, month: monthKey || null }));
-        } else {
-            localStorage.setItem(key, JSON.stringify({ id: id }));
-        }
-    } catch (_) { }
-}
-
-export function getBookmarkedChants(items, calCompletions) {
-    if (!items || items.length === 0) {
-        items = loadItems();
-    }
-    var tdStr = typeof _win.td === 'function' ? _win.td() : todayKey();
-    var curMonthKey = getCurrentTrackingMonth();
-    var curParts = curMonthKey.split('-');
-    var curYear = parseInt(curParts[0], 10);
-    var curMonth = parseInt(curParts[1], 10) - 1;
-    var curTotalDays = getDaysInMonth(curYear, curMonth);
-
-    var curBm = getBookmark('current');
-    var curItem = null;
-    if (curBm && curBm.id) {
-        for (var i = 0; i < items.length; i++) {
-            if (items[i].id === curBm.id) { curItem = items[i]; break; }
-        }
-    }
-    if (!curItem && items.length > 0) {
-        curItem = items[0];
-        setBookmark('current', curItem.id);
-    }
-
-    var curCompletedDays = curItem ? getCompletedDaysInMonth(calCompletions, curItem.id, curYear, curMonth) : 0;
-    var curTargetDisplay = curItem ? (curItem.targetCount === 'infinite' ? '∞' : curItem.targetCount) : '—';
-    var isTodayInCurMonth = (tdStr.slice(0, 7) === curMonthKey);
-    var curIsTodayDone = (curItem && isTodayInCurMonth) ? isDayCompleted(calCompletions, curItem.id, tdStr) : false;
-    var curMonthName = typeof _win.formatMonthLabel === 'function' ? _win.formatMonthLabel(curMonthKey) : curMonthKey;
-
-    var oldBm = getBookmark('old');
-    var oldItem = null;
-    var oldMonthKey = (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.getCurrentOldMonth === 'function')
-        ? _win.TasbeehOldApp.getCurrentOldMonth()
-        : (oldBm ? oldBm.month : null);
-
-    if (oldBm && oldBm.id) {
-        for (var j = 0; j < items.length; j++) {
-            if (items[j].id === oldBm.id) { oldItem = items[j]; break; }
-        }
-    }
-    if (!oldItem && items.length > 0) {
-        oldItem = items.length > 1 ? items[1] : items[0];
-    }
-
-    var oldYear = curYear;
-    var oldMonth = curMonth - 1;
-    if (oldMonthKey) {
-        var p = oldMonthKey.split('-');
-        oldYear = parseInt(p[0], 10);
-        oldMonth = parseInt(p[1], 10) - 1;
-    }
-    var oldTotalDays = getDaysInMonth(oldYear, oldMonth);
-    var oldCompletedDays = (oldItem && oldMonthKey) ? getCompletedDaysInMonth(calCompletions, oldItem.id, oldYear, oldMonth) : 0;
-    var oldTargetDisplay = oldItem ? (oldItem.targetCount === 'infinite' ? '∞' : oldItem.targetCount) : '—';
-    var oldMonthName = oldMonthKey ? (typeof _win.formatMonthLabel === 'function' ? _win.formatMonthLabel(oldMonthKey) : oldMonthKey) : 'All Completed';
-
-    return {
-        current: curItem ? {
-            item: curItem,
-            monthKey: curMonthKey,
-            monthName: curMonthName,
-            completedDays: curCompletedDays,
-            totalDays: curTotalDays,
-            targetDisplay: curTargetDisplay,
-            isTodayDone: curIsTodayDone
-        } : null,
-        old: oldItem ? {
-            item: oldItem,
-            monthKey: oldMonthKey,
-            monthName: oldMonthName,
-            completedDays: oldCompletedDays,
-            totalDays: oldTotalDays,
-            targetDisplay: oldTargetDisplay
-        } : null
-    };
 }
 

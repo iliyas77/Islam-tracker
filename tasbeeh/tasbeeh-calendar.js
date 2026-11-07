@@ -259,17 +259,6 @@ export function renderCalendar(state) {
         targetLabel.textContent = isInfinite ? 'Target: ∞ / day' : ('Target: ' + item.targetCount + ' / day');
     }
 
-    var remaining = Math.max(0, totalDays - completedCount);
-    var pct = totalDays > 0 ? Math.round((completedCount / totalDays) * 100) : 0;
-
-    var completedEl = getEl('tbCalCompletedCount');
-    var remainingEl = getEl('tbCalRemainingCount');
-    var pctEl = getEl('tbCalProgressPct');
-
-    if (completedEl) completedEl.textContent = completedCount;
-    if (remainingEl) remainingEl.textContent = remaining;
-    if (pctEl) pctEl.textContent = pct + '%';
-
     var activeMKey = state.counterMonthKey || getCurrentTrackingMonth();
     var isOldTracking = !!state.counterMonthKey;
     var isFullyDone = isMonthFullyCompleted(state.calCompletions, state.items, activeMKey);
@@ -332,11 +321,15 @@ export function handleCalendarDayClick(state, dateStr) {
             setDayCompleted(state.calCompletions, state.items, item.id, dateStr, false);
             animateCell(dateStr);
             renderCalendar(state);
+            if (typeof state.renderCurrentTab === 'function') state.renderCurrentTab();
+            if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.renderOldTab === 'function') _win.TasbeehOldApp.renderOldTab();
         });
     } else {
         setDayCompleted(state.calCompletions, state.items, item.id, dateStr, true);
         animateCell(dateStr);
         renderCalendar(state);
+        if (typeof state.renderCurrentTab === 'function') state.renderCurrentTab();
+        if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.renderOldTab === 'function') _win.TasbeehOldApp.renderOldTab();
 
         var activeMKey = state.counterMonthKey || getCurrentTrackingMonth();
         if (isMonthFullyCompleted(state.calCompletions, state.items, activeMKey)) {
@@ -358,6 +351,8 @@ export function confirmDayStatusChange(state) {
         setDayCompleted(state.calCompletions, state.items, item.id, pendingToggleDate, false);
         animateCell(pendingToggleDate);
         renderCalendar(state);
+        if (typeof state.renderCurrentTab === 'function') state.renderCurrentTab();
+        if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.renderOldTab === 'function') _win.TasbeehOldApp.renderOldTab();
     }
     if (confirmModalInstance) {
         confirmModalInstance.hide();

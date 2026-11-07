@@ -241,9 +241,6 @@ function TasbeehStoreModel() {
         if (_win.TasbeehApp && typeof _win.TasbeehApp.renderCurrentList === 'function') {
             try { _win.TasbeehApp.renderCurrentList(); } catch (_) {}
         }
-        if (_win.TasbeehHomeApp && typeof _win.TasbeehHomeApp.render === 'function') {
-            try { _win.TasbeehHomeApp.render(); } catch (_) {}
-        }
         if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.render === 'function') {
             try { _win.TasbeehOldApp.render(); } catch (_) {}
         }

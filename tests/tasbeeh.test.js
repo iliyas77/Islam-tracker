@@ -101,7 +101,7 @@ export async function runTasbeehTests() {
     assert.strictEqual(isSeptDone, true, 'September should be fully completed');
 
     // 4. TasbeehCounterCardViewModel robustness
-    const { TasbeehCounterCardViewModel } = await import(path.join(ROOT, 'tasbeeh', 'tasbeeh-view-model.js'));
+    const { TasbeehCounterCardViewModel, TasbeehPageViewModel } = await import(path.join(ROOT, 'tasbeeh', 'tasbeeh-view-model.js'));
     const cardVm = new TasbeehCounterCardViewModel({ id: 't1', title: 'Test Dhikr' });
     assert.strictEqual(cardVm.id, 't1');
     assert.strictEqual(cardVm.title, 'Test Dhikr');
@@ -110,5 +110,23 @@ export async function runTasbeehTests() {
     assert.strictEqual(typeof cardVm.onCardClick, 'function');
     assert.strictEqual(typeof cardVm.onEditClick, 'function');
 
-    console.log('  ✔ TasbeehStore: Items, progress computeds, month completion, and card VM passed');
+    // 5. Current Tab Observable Arrays & Completion Transition
+    const pageVm = new TasbeehPageViewModel();
+    assert(Array.isArray(pageVm.currentTodoItems()), 'currentTodoItems must be an array observable');
+    assert(Array.isArray(pageVm.currentDoneItems()), 'currentDoneItems must be an array observable');
+
+    // Initially simulate 2 To Do items and 0 Completed items
+    pageVm.currentTodoItems([{ id: 'c1', title: 'SubhanAllah' }, { id: 'c2', title: 'Alhamdulillah' }]);
+    pageVm.currentDoneItems([]);
+    assert.strictEqual(pageVm.currentTodoItems().length, 2);
+    assert.strictEqual(pageVm.currentDoneItems().length, 0);
+
+    // Marking item c1 as completed moves it from To Do to Completed tab
+    pageVm.currentTodoItems([{ id: 'c2', title: 'Alhamdulillah' }]);
+    pageVm.currentDoneItems([{ id: 'c1', title: 'SubhanAllah', isComplete: true }]);
+    assert.strictEqual(pageVm.currentTodoItems().length, 1);
+    assert.strictEqual(pageVm.currentDoneItems().length, 1);
+    assert.strictEqual(pageVm.currentDoneItems()[0].id, 'c1');
+
+    console.log('  ✔ TasbeehStore: Items, progress computeds, month completion, card VM, and current tab completion passed');
 }
