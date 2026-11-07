@@ -21,6 +21,7 @@ const htmlPath = path.join(ROOT, 'main.html');
 const bindingsJsPath = path.join(ROOT, 'components', 'bindings.js');
 const iconJsPath = path.join(ROOT, 'components', 'icon', 'icon.js');
 const bottomSheetJsPath = path.join(ROOT, 'components', 'bottom-sheet', 'bottom-sheet.js');
+const tabsJsPath = path.join(ROOT, 'components', 'tabs', 'tabs.js');
 const registryJsPath = path.join(ROOT, 'components', 'registry.js');
 const constantJsPath = path.join(ROOT, 'utilities', 'constant.js');
 const utilityJsPath = path.join(ROOT, 'utilities', 'utility.js');
@@ -44,15 +45,35 @@ const prayerTrackerVmJsPath = path.join(ROOT, 'prayer-tracking', 'tracker-view-m
 const prayerTrackingJsPath = path.join(ROOT, 'prayer-tracking', 'prayer-tracking.js');
 
 // Tasbeeh decomposed submodules
+const tasbeehServiceJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-service.js');
 const tasbeehVmJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-view-model.js');
 const tasbeehModelJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-model.js');
 const tasbeehCalJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-calendar.js');
 const tasbeehModalJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-modal.js');
 const tasbeehPeriodJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-period.js');
-const tasbeehOldJsPath = path.join(ROOT, 'tasbeeh', 'old', 'old.js');
-const tasbeehHistJsPath = path.join(ROOT, 'tasbeeh', 'history', 'history.js');
-const tasbeehCurJsPath = path.join(ROOT, 'tasbeeh', 'current', 'current.js');
+const tasbeehOldJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-old', 'tasbeeh-old.js');
+const tasbeehHistJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-history', 'tasbeeh-history.js');
+const tasbeehCurJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-current', 'tasbeeh-current.js');
+const tasbeehRegistrationJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-registration.js');
 const tasbeehJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh.js');
+
+// Modular Current submodules
+const tasbeehCurCardJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-current', 'tasbeeh-current-card', 'tasbeeh-current-card.js');
+const tasbeehCurFeedJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-current', 'tasbeeh-current-feed', 'tasbeeh-current-feed.js');
+const tasbeehCurFormJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-current', 'tasbeeh-current-form', 'tasbeeh-current-form.js');
+const tasbeehCurPageJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-current', 'tasbeeh-current-page', 'tasbeeh-current-page.js');
+
+// Modular Old submodules
+const tasbeehOldCardJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-old', 'tasbeeh-old-card', 'tasbeeh-old-card.js');
+const tasbeehOldFeedJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-old', 'tasbeeh-old-feed', 'tasbeeh-old-feed.js');
+const tasbeehOldFormJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-old', 'tasbeeh-old-form', 'tasbeeh-old-form.js');
+const tasbeehOldPageJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-old', 'tasbeeh-old-page', 'tasbeeh-old-page.js');
+
+// Modular History submodules
+const tasbeehHistCardJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-history', 'tasbeeh-history-card', 'tasbeeh-history-card.js');
+const tasbeehHistFeedJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-history', 'tasbeeh-history-feed', 'tasbeeh-history-feed.js');
+const tasbeehHistFormJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-history', 'tasbeeh-history-form', 'tasbeeh-history-form.js');
+const tasbeehHistPageJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-history', 'tasbeeh-history-page', 'tasbeeh-history-page.js');
 
 /**
  * Minify CSS content by removing comments and unnecessary whitespace
@@ -127,6 +148,7 @@ function buildProduction() {
         const bindingsJs = readFile(bindingsJsPath);
         const iconJs = readFile(iconJsPath);
         const bottomSheetJs = readFile(bottomSheetJsPath);
+        const tabsJs = readFile(tabsJsPath);
         const constantJs = readFile(constantJsPath);
         const utilityJs = readFile(utilityJsPath);
         const prayerStoreJs = readFile(prayerStoreJsPath);
@@ -145,14 +167,35 @@ function buildProduction() {
         const prayerTrackingJs = readFile(prayerTrackingJsPath);
 
         // Tasbeeh submodules
-        const tasbeehVmJs = readFile(tasbeehVmJsPath);
+        const tasbeehServiceJs = readFile(tasbeehServiceJsPath);
         const tasbeehModelJs = readFile(tasbeehModelJsPath);
         const tasbeehCalJs = readFile(tasbeehCalJsPath);
         const tasbeehModalJs = readFile(tasbeehModalJsPath);
         const tasbeehPeriodJs = readFile(tasbeehPeriodJsPath);
+
+        // Modular Current submodules
+        const tasbeehCurCardJs = readFile(tasbeehCurCardJsPath);
+        const tasbeehCurFeedJs = readFile(tasbeehCurFeedJsPath);
+        const tasbeehCurFormJs = readFile(tasbeehCurFormJsPath);
+        const tasbeehCurPageJs = readFile(tasbeehCurPageJsPath);
+
+        // Modular Old submodules
+        const tasbeehOldCardJs = readFile(tasbeehOldCardJsPath);
+        const tasbeehOldFeedJs = readFile(tasbeehOldFeedJsPath);
+        const tasbeehOldFormJs = readFile(tasbeehOldFormJsPath);
+        const tasbeehOldPageJs = readFile(tasbeehOldPageJsPath);
+
+        // Modular History submodules
+        const tasbeehHistCardJs = readFile(tasbeehHistCardJsPath);
+        const tasbeehHistFeedJs = readFile(tasbeehHistFeedJsPath);
+        const tasbeehHistFormJs = readFile(tasbeehHistFormJsPath);
+        const tasbeehHistPageJs = readFile(tasbeehHistPageJsPath);
+
+        const tasbeehVmJs = readFile(tasbeehVmJsPath);
         const tasbeehOldJs = readFile(tasbeehOldJsPath);
         const tasbeehHistJs = readFile(tasbeehHistJsPath);
         const tasbeehCurJs = readFile(tasbeehCurJsPath);
+        const tasbeehRegistrationJs = readFile(tasbeehRegistrationJsPath);
         const tasbeehJs = readFile(tasbeehJsPath);
 
         const duaJs = readFile(duaJsPath);
@@ -165,6 +208,7 @@ function buildProduction() {
             bindingsJs,
             iconJs,
             bottomSheetJs,
+            tabsJs,
             constantJs,
             utilityJs,
             prayerStoreJs,
@@ -179,15 +223,29 @@ function buildProduction() {
             prayerHistJs,
             prayerTrackerVmJs,
             prayerTrackingJs,
-            tasbeehVmJs,
             tasbeehModelJs,
+            tasbeehServiceJs,
             tasbeehCalJs,
             tasbeehModalJs,
             tasbeehPeriodJs,
+            tasbeehCurCardJs,
+            tasbeehCurFeedJs,
+            tasbeehCurFormJs,
+            tasbeehCurPageJs,
+            tasbeehOldCardJs,
+            tasbeehOldFeedJs,
+            tasbeehOldFormJs,
+            tasbeehOldPageJs,
+            tasbeehHistCardJs,
+            tasbeehHistFeedJs,
+            tasbeehHistFormJs,
+            tasbeehHistPageJs,
+            tasbeehVmJs,
             tasbeehOldJs,
             tasbeehHistJs,
             tasbeehCurJs,
             tasbeehJs,
+            tasbeehRegistrationJs,
             duaJs,
             registryJs,
             appJs,

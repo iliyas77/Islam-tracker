@@ -1,0 +1,113 @@
+<!-- ============================================================
+   Nur Prayer — Reusable Tabs Component (Knockout.js Template)
+   Path: components/tabs/tabs.html
+   Supports variants: 'underline' (default), 'bottom-nav', 'pills'
+   ============================================================ -->
+
+<!-- ko if: variant() === 'underline' -->
+<div class="flex border-b border-borderGrey bg-white sticky top-0 z-20"
+    role="tablist"
+    data-bind="attr: { 'aria-label': ariaLabel, 'id': containerId, 'data-ref': dataRef }, css: customClass">
+    <!-- ko foreach: tabs -->
+    <button type="button" role="tab"
+        class="flex-1 py-3 flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
+        data-bind="
+            attr: {
+                'id': elementId,
+                'aria-selected': $parent.isActive($data) ? 'true' : 'false',
+                'data-act': dataAct,
+                'data-ref': dataRef,
+                'disabled': disabled
+            },
+            css: $parent.getUnderlineTabClass($data),
+            click: function(d, e) { $parent.selectTab($data, e); }
+        ">
+        <!-- ko if: icon -->
+        <app-icon params="name: icon, prefix: iconPrefix, customClass: iconClass"></app-icon>
+        <!-- /ko -->
+        <span data-bind="text: label"></span>
+        <!-- ko if: hasBadge -->
+        <span class="text-xs font-bold px-2 py-0.5 rounded-full"
+            data-bind="
+                attr: { 'id': badgeId },
+                css: $parent.getBadgeClass($data),
+                text: badgeValue
+            "></span>
+        <!-- /ko -->
+    </button>
+    <!-- /ko -->
+</div>
+<!-- /ko -->
+
+<!-- ko if: variant() === 'bottom-nav' || variant() === 'nav' -->
+<nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
+    role="tablist"
+    data-bind="attr: { 'aria-label': ariaLabel, 'id': containerId, 'data-ref': dataRef }, css: customClass">
+    <!-- ko foreach: tabs -->
+    <button type="button" role="tab"
+        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
+        data-bind="
+            attr: {
+                'id': elementId,
+                'aria-selected': $parent.isActive($data) ? 'true' : 'false',
+                'data-act': dataAct,
+                'data-ref': dataRef,
+                'disabled': disabled
+            },
+            css: $parent.getNavTabClass($data),
+            click: function(d, e) { $parent.selectTab($data, e); }
+        ">
+        <!-- ko if: icon -->
+        <span class="text-xl leading-none inline-flex items-center justify-center">
+            <app-icon params="name: icon, prefix: iconPrefix, customClass: iconClass"></app-icon>
+        </span>
+        <!-- /ko -->
+        <span data-bind="text: label"></span>
+        <!-- ko if: hasBadge -->
+        <span class="text-xs font-bold px-1.5 py-0.2 rounded-full absolute top-1 right-2"
+            data-bind="
+                attr: { 'id': badgeId },
+                css: $parent.getBadgeClass($data),
+                text: badgeValue
+            "></span>
+        <!-- /ko -->
+    </button>
+    <!-- /ko -->
+</nav>
+<!-- /ko -->
+
+<!-- ko if: variant() === 'pills' || variant() === 'segment' -->
+<div class="inline-flex p-1 bg-surfaceBg rounded-xl border border-borderGrey gap-1"
+    role="tablist"
+    data-bind="attr: { 'aria-label': ariaLabel, 'id': containerId, 'data-ref': dataRef }, css: customClass">
+    <!-- ko foreach: tabs -->
+    <button type="button" role="tab"
+        class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer select-none flex items-center gap-1.5"
+        data-bind="
+            attr: {
+                'id': elementId,
+                'aria-selected': $parent.isActive($data) ? 'true' : 'false',
+                'data-act': dataAct,
+                'data-ref': dataRef,
+                'disabled': disabled
+            },
+            css: $parent.getPillTabClass($data),
+            click: function(d, e) { $parent.selectTab($data, e); }
+        ">
+        <!-- ko if: icon -->
+        <app-icon params="name: icon, prefix: iconPrefix, customClass: iconClass"></app-icon>
+        <!-- /ko -->
+        <span data-bind="text: label"></span>
+        <!-- ko if: hasBadge -->
+        <span class="text-xs font-bold px-1.5 py-0.2 rounded-full ml-1"
+            data-bind="
+                attr: { 'id': badgeId },
+                css: $parent.getBadgeClass($data),
+                text: badgeValue
+            "></span>
+        <!-- /ko -->
+    </button>
+    <!-- /ko -->
+</div>
+<!-- /ko -->
+

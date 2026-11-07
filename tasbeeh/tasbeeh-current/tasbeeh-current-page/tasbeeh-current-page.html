@@ -1,0 +1,74 @@
+<div id="tasbeehCounterView" class="flex flex-col grow tb-counter-overlay" data-ref="page.tasbeeh.counter">
+    <header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px] gap-2"
+        data-ref="page.tasbeeh.counter.header">
+        <button type="button"
+            class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
+            id="tbBtnBack" data-act="tb-back" data-bind="click: onBack" data-ref="page.tasbeeh.counter.back-btn" title="Back">
+            <app-icon params="name: 'arrow-left', size: 'base', dataRef: 'page.tasbeeh.counter.back-icon'"></app-icon>
+        </button>
+        <div class="grow min-w-0 text-center" data-ref="page.tasbeeh.counter.header-center">
+            <h5 class="font-bold text-base text-brand m-0 flex items-center justify-center truncate mb-0"
+                id="tbCounterTopTitle" data-ref="page.tasbeeh.counter.header-title">Calendar Tracker</h5>
+        </div>
+        <div class="w-10 h-10 shrink-0" aria-hidden="true"></div>
+    </header>
+
+    <div class="grow flex flex-col overflow-auto" data-ref="page.tasbeeh.counter.body">
+        <!-- Dhikr Title & Target Info -->
+        <div class="text-center w-full pt-3 pb-2 px-3" data-ref="page.tasbeeh.counter.chant-info">
+            <h4 class="font-bold text-brand mb-1 truncate" id="tbCounterTitle"
+                data-ref="page.tasbeeh.counter.chant-title"
+                data-bind="text: itemTitle">—</h4>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-surfaceBg border border-borderGrey rounded-full text-xs font-semibold text-brand"
+                id="tbCalTargetPill">
+                <app-icon params="name: 'bullseye'"></app-icon>
+                <span id="tbCalTargetLabel" data-bind="text: targetLabel">Target: 100 / day</span>
+            </div>
+        </div>
+
+        <!-- Month Navigation -->
+        <div class="flex items-center justify-between px-3 py-2" id="tbCalMonthNav">
+            <button type="button"
+                class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
+                id="tbCalPrevMonth" title="Previous month"
+                data-bind="click: prevMonth, style: { opacity: canPrev() ? '1' : '0.2', pointerEvents: canPrev() ? 'auto' : 'none' }">
+                <app-icon params="name: 'chevron-left'"></app-icon>
+            </button>
+            <div class="font-bold text-base text-brand text-center tracking-wide flex-1" id="tbCalMonthLabel"
+                data-bind="text: monthLabel">October 2026</div>
+            <button type="button"
+                class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
+                id="tbCalNextMonth" title="Next month"
+                data-bind="click: nextMonth, style: { opacity: canNext() ? '1' : '0.2', pointerEvents: canNext() ? 'auto' : 'none' }, css: { 'border-brand text-brand': isMonthDone }">
+                <app-icon params="name: 'chevron-right'"></app-icon>
+            </button>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div class="flex-1 px-3 pb-3">
+            <div class="grid grid-cols-7 gap-1 mb-1.5">
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sun</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Mon</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Tue</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Wed</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Thu</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Fri</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sat</div>
+            </div>
+            <div class="grid grid-cols-7 gap-1.5" id="tbCalGrid" data-bind="foreach: calendarCells">
+                <!-- ko if: isEmpty -->
+                <div class="tb-cal-cell tb-cal-empty aspect-square rounded-xl bg-transparent border-0" aria-hidden="true"></div>
+                <!-- /ko -->
+                <!-- ko ifnot: isEmpty -->
+                <div class="tb-cal-cell aspect-square rounded-xl flex items-center justify-center cursor-pointer border-2 border-transparent bg-white relative select-none transition-all hover:border-brand"
+                    data-bind="attr: { 'data-date': dateStr, 'aria-label': dayNumber + ' ' + (isCompleted() ? 'Completed' : 'Pending') }, css: { 'tb-cal-done': isCompleted, 'tb-cal-today': isToday }, click: $parent.toggleDay"
+                    role="button" tabindex="0">
+                    <span class="tb-cal-date text-lg font-bold text-brand leading-none inline-flex items-center justify-center"
+                        data-bind="text: dayNumber"></span>
+                </div>
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+</div>
+

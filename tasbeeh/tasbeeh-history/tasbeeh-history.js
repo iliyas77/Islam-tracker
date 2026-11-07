@@ -12,40 +12,32 @@
 import {
     loadPeriod,
     savePeriod,
-    PERIOD_PRESETS
-} from '../tasbeeh-period.js';
-import { escHtml } from '../tasbeeh-view-model.js';
+    PERIOD_PRESETS,
+    pad2,
+    td,
+    showToast,
+    renderIcon,
+    escHtml,
+    calculateHistoryStats,
+    getCurrentOldMonth,
+    formatMonthLabel,
+    getNextMonthKey
+} from '../tasbeeh-service.js';
+
+// Re-export History modular components
+export * from './tasbeeh-history-card/tasbeeh-history-card.js';
+export * from './tasbeeh-history-feed/tasbeeh-history-feed.js';
+export * from './tasbeeh-history-form/tasbeeh-history-form.js';
+export * from './tasbeeh-history-page/tasbeeh-history-page.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var TASBEEH_CONSTANTS = _win.TASBEEH_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.TASBEEH) || {};
 var ELEMENT_IDS = TASBEEH_CONSTANTS.ELEMENT_IDS || {};
 
 function getEl(id) {
+    if (typeof document === 'undefined') return null;
     return document.getElementById(id);
 }
-
-var pad2 = function (n) {
-    if (typeof _win.pad2 === 'function' && _win.pad2 !== pad2) return _win.pad2(n);
-    return n < 10 ? '0' + n : '' + n;
-};
-
-var td = function () {
-    if (typeof _win.td === 'function' && _win.td !== td) return _win.td();
-    return new Date().toISOString().slice(0, 10);
-};
-
-function showToast(msg, duration) {
-    if (_win.TasbeehApp && typeof _win.TasbeehApp.showToast === 'function') {
-        _win.TasbeehApp.showToast(msg, duration);
-    } else if (typeof _win.showToast === 'function') {
-        _win.showToast(msg, duration);
-    }
-}
-
-var renderIcon = function (opt) {
-    if (typeof _win.renderIcon === 'function' && _win.renderIcon !== renderIcon) return _win.renderIcon(opt);
-    return '';
-};
 
 /* ---------- Render History Tab ---------- */
 export function renderHistoryTab() {
@@ -53,28 +45,18 @@ export function renderHistoryTab() {
     if (!body) return;
 
     var period = loadPeriod();
+    var curOldMonth = typeof getCurrentOldMonth === 'function' ? getCurrentOldMonth() : ((period && period.startDate && period.endDate && period.endDate >= period.startDate) ? period.endDate : null);
     var maxEnd = period.initialEnd || period.endDate;
-    var allOldMonths = typeof _win.getPreviousMonthsList === 'function'
-        ? _win.getPreviousMonthsList(period.startDate, maxEnd)
-        : [];
-
-    var curOldMonth = (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.getCurrentOldMonth === 'function')
-        ? _win.TasbeehOldApp.getCurrentOldMonth()
-        : (period.endDate >= period.startDate ? period.endDate : null);
-
-    var totalMonthsCount = allOldMonths.length;
-    var completedCount = 0;
-    allOldMonths.forEach(function (m) {
-        if (m > period.endDate || period.endDate < period.startDate) {
-            completedCount++;
-        }
-    });
-    var pendingCount = Math.max(0, totalMonthsCount - completedCount - (curOldMonth ? 1 : 0));
-    var percent = totalMonthsCount > 0 ? Math.round((completedCount / totalMonthsCount) * 100) : 0;
+    var stats = calculateHistoryStats(period, curOldMonth);
+    var allOldMonths = stats.allOldMonths;
+    var totalMonthsCount = stats.totalMonths;
+    var completedCount = stats.clearedMonths;
+    var pendingCount = stats.pendingMonths;
+    var percent = stats.percentCleared;
 
     var reopenTargetMonth = null;
     if (period.endDate < maxEnd) {
-        reopenTargetMonth = typeof _win.getNextMonthKey === 'function' ? _win.getNextMonthKey(period.endDate) : null;
+        reopenTargetMonth = typeof _win.getNextMonthKey === 'function' ? _win.getNextMonthKey(period.endDate) : (typeof getNextMonthKey === 'function' ? getNextMonthKey(period.endDate) : null);
     }
 
     var monthsListHtml = '';
@@ -88,7 +70,7 @@ export function renderHistoryTab() {
         monthsListHtml = allOldMonths.map(function (mKey, idx) {
             var isCompleted = (mKey > period.endDate) || (period.endDate < period.startDate);
             var isActive = (mKey === curOldMonth);
-            var monthLabel = typeof _win.formatMonthLabel === 'function' ? _win.formatMonthLabel(mKey) : mKey;
+            var monthLabel = typeof _win.formatMonthLabel === 'function' ? _win.formatMonthLabel(mKey) : (typeof formatMonthLabel === 'function' ? formatMonthLabel(mKey) : mKey);
 
             var badgeClass = isCompleted ? 'bg-brand-light text-brand border border-brand-subtle'
                 : (isActive ? 'bg-brand text-white border-0'

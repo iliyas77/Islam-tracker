@@ -2,6 +2,7 @@
 import { registerCustomBindings } from './bindings.js';
 import { IconViewModel, IconTemplate } from './icon/icon.js';
 import { BottomSheetViewModel, BottomSheetTemplate } from './bottom-sheet/bottom-sheet.js';
+import { TabsViewModel, TabsTemplate } from './tabs/tabs.js';
 import {
     DashboardHeaderTemplate,
     DashboardClockTemplate,
@@ -32,16 +33,7 @@ import {
     PrayerHistoryCardTemplate,
     getTrackerViewModel
 } from '../prayer-tracking/prayer-tracking.js';
-import {
-    TasbeehPageTemplate,
-    TasbeehHeaderTemplate,
-    TasbeehCounterCardTemplate,
-    TasbeehCounterCardViewModel,
-    TasbeehProgressCircleTemplate,
-    TasbeehGoalSetterTemplate,
-    TasbeehNavTabTemplate,
-    getTasbeehViewModel
-} from '../tasbeeh/tasbeeh.js';
+import { registerTasbeehComponents } from '../tasbeeh/tasbeeh-registration.js';
 import {
     DuasPageTemplate,
     DuvaHeaderTemplate,
@@ -89,6 +81,7 @@ export function registerAllComponents() {
     // 1. Core UI Components
     registerFeatureComponent('app-icon', IconViewModel, IconTemplate);
     registerFeatureComponent('app-bottom-sheet', BottomSheetViewModel, BottomSheetTemplate);
+    registerFeatureComponent('app-tabs', TabsViewModel, TabsTemplate);
 
     // 2. Dashboard Feature Components
     registerFeatureComponent('dashboard-header', function (p) { return p || {}; }, DashboardHeaderTemplate);
@@ -130,18 +123,8 @@ export function registerAllComponents() {
         return getTrackerViewModel();
     }, TrackerPageTemplate);
 
-    // 5. Digital Tasbeeh Feature Components
-    registerFeatureComponent('tasbeeh-header', function (p) { return p || {}; }, TasbeehHeaderTemplate);
-    registerFeatureComponent('tasbeeh-counter-card', TasbeehCounterCardViewModel, TasbeehCounterCardTemplate);
-    registerFeatureComponent('tasbeeh-progress-circle', function (p) { return p || {}; }, TasbeehProgressCircleTemplate);
-    registerFeatureComponent('tasbeeh-goal-setter', function (p) { return p || {}; }, TasbeehGoalSetterTemplate);
-    registerFeatureComponent('tasbeeh-nav-tab', function (p) { return p || {}; }, TasbeehNavTabTemplate);
-    registerFeatureComponent('tasbeeh-page', function (p) {
-        if (p && p.viewModel) return p.viewModel;
-        if (p && p.subTabs) return p;
-        if (p && p.tasbeeh) return p.tasbeeh;
-        return getTasbeehViewModel();
-    }, TasbeehPageTemplate);
+    // 5. Digital Tasbeeh Feature Components (Centralized in tasbeeh-registration.js)
+    registerTasbeehComponents();
 
     // 6. Quran Duas Feature Components
     registerFeatureComponent('duva-header', function (p) { return p || {}; }, DuvaHeaderTemplate);

@@ -1536,6 +1536,117 @@
             </div>
             <!-- /ko -->
         </script>
+        <script type="text/html" id="app-tabs-template">
+<!-- ko if: variant() === 'underline' -->
+<div class="flex border-b border-borderGrey bg-white sticky top-0 z-20"
+    role="tablist"
+    data-bind="attr: { 'aria-label': ariaLabel, 'id': containerId, 'data-ref': dataRef }, css: customClass">
+    <!-- ko foreach: tabs -->
+    <button type="button" role="tab"
+        class="flex-1 py-3 flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
+        data-bind="
+            attr: {
+                'id': elementId,
+                'aria-selected': $parent.isActive($data) ? 'true' : 'false',
+                'data-act': dataAct,
+                'data-ref': dataRef,
+                'disabled': disabled
+            },
+            css: $parent.getUnderlineTabClass($data),
+            click: function(d, e) { $parent.selectTab($data, e); }
+        ">
+        <!-- ko if: icon -->
+        <app-icon params="name: icon, prefix: iconPrefix, customClass: iconClass"></app-icon>
+        <!-- /ko -->
+        <span data-bind="text: label"></span>
+        <!-- ko if: hasBadge -->
+        <span class="text-xs font-bold px-2 py-0.5 rounded-full"
+            data-bind="
+                attr: { 'id': badgeId },
+                css: $parent.getBadgeClass($data),
+                text: badgeValue
+            "></span>
+        <!-- /ko -->
+    </button>
+    <!-- /ko -->
+</div>
+<!-- /ko -->
+
+<!-- ko if: variant() === 'bottom-nav' || variant() === 'nav' -->
+<nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
+    role="tablist"
+    data-bind="attr: { 'aria-label': ariaLabel, 'id': containerId, 'data-ref': dataRef }, css: customClass">
+    <!-- ko foreach: tabs -->
+    <button type="button" role="tab"
+        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
+        data-bind="
+            attr: {
+                'id': elementId,
+                'aria-selected': $parent.isActive($data) ? 'true' : 'false',
+                'data-act': dataAct,
+                'data-ref': dataRef,
+                'disabled': disabled
+            },
+            css: $parent.getNavTabClass($data),
+            click: function(d, e) { $parent.selectTab($data, e); }
+        ">
+        <!-- ko if: icon -->
+        <span class="text-xl leading-none inline-flex items-center justify-center">
+            <app-icon params="name: icon, prefix: iconPrefix, customClass: iconClass"></app-icon>
+        </span>
+        <!-- /ko -->
+        <span data-bind="text: label"></span>
+        <!-- ko if: hasBadge -->
+        <span class="text-xs font-bold px-1.5 py-0.2 rounded-full absolute top-1 right-2"
+            data-bind="
+                attr: { 'id': badgeId },
+                css: $parent.getBadgeClass($data),
+                text: badgeValue
+            "></span>
+        <!-- /ko -->
+    </button>
+    <!-- /ko -->
+</nav>
+<!-- /ko -->
+
+<!-- ko if: variant() === 'pills' || variant() === 'segment' -->
+<div class="inline-flex p-1 bg-surfaceBg rounded-xl border border-borderGrey gap-1"
+    role="tablist"
+    data-bind="attr: { 'aria-label': ariaLabel, 'id': containerId, 'data-ref': dataRef }, css: customClass">
+    <!-- ko foreach: tabs -->
+    <button type="button" role="tab"
+        class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer select-none flex items-center gap-1.5"
+        data-bind="
+            attr: {
+                'id': elementId,
+                'aria-selected': $parent.isActive($data) ? 'true' : 'false',
+                'data-act': dataAct,
+                'data-ref': dataRef,
+                'disabled': disabled
+            },
+            css: $parent.getPillTabClass($data),
+            click: function(d, e) { $parent.selectTab($data, e); }
+        ">
+        <!-- ko if: icon -->
+        <app-icon params="name: icon, prefix: iconPrefix, customClass: iconClass"></app-icon>
+        <!-- /ko -->
+        <span data-bind="text: label"></span>
+        <!-- ko if: hasBadge -->
+        <span class="text-xs font-bold px-1.5 py-0.2 rounded-full ml-1"
+            data-bind="
+                attr: { 'id': badgeId },
+                css: $parent.getBadgeClass($data),
+                text: badgeValue
+            "></span>
+        <!-- /ko -->
+    </button>
+    <!-- /ko -->
+</div>
+<!-- /ko -->
+        </script>
+        <script type="text/html" id="tabs-template">
+<!-- ko template: { name: 'app-tabs-template' } --><!-- /ko -->
+        </script>
         <script type="text/html" id="settings-card-header-template">
             <div class="flex items-center gap-3 mb-3" data-bind="attr: { class: headerClass || 'flex items-center gap-3 mb-3', 'data-ref': headerDataRef }">
                 <div class="icon-box icon-box-lg" data-bind="attr: { class: iconBoxClass, 'data-ref': iconDataRef }">
@@ -2266,41 +2377,23 @@
             </div>
         </script>
         <script type="text/html" id="prayer-nav-tab-template">
-            <nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
-                id="trackerBottomNav" data-ref="page.tracker.bottom-nav">
-                <button type="button"
-                    class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-                    id="tabTrackCurrent" data-act="switch-track-current" role="tab"
-                    data-bind="css: activeTab() === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'current' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('current'); }"
-                    data-ref="page.tracker.tab-current">
-                    <app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon>
-                    <span>Current</span>
-                </button>
-                <button type="button"
-                    class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-                    id="tabTrackOld" data-act="switch-track-old" role="tab"
-                    data-bind="css: activeTab() === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'old' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('old'); }"
-                    data-ref="page.tracker.tab-old">
-                    <app-icon params="name: 'clock-rotate-left'"></app-icon>
-                    <span>Old</span>
-                </button>
-                <button type="button"
-                    class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-                    id="tabTrackPerformance" data-act="switch-track-performance" role="tab"
-                    data-bind="css: activeTab() === 'performance' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'performance' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('performance'); }"
-                    data-ref="page.tracker.tab-performance">
-                    <app-icon params="name: 'chart-simple'"></app-icon>
-                    <span>Performance</span>
-                </button>
-                <button type="button"
-                    class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-                    id="tabTrackHistory" data-act="switch-track-history" role="tab"
-                    data-bind="css: activeTab() === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'history' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('history'); }"
-                    data-ref="page.tracker.tab-history">
-                    <app-icon params="name: 'list-check'"></app-icon>
-                    <span>History</span>
-                </button>
-            </nav>
+<!-- ko component: {
+    name: 'app-tabs',
+    params: {
+        variant: 'bottom-nav',
+        containerId: 'trackerBottomNav',
+        dataRef: 'page.tracker.bottom-nav',
+        ariaLabel: 'Prayer Tracker Navigation Tabs',
+        activeTab: activeTab,
+        onTabChange: function(tabId) { if (typeof switchTrackerSubTab === 'function') switchTrackerSubTab(tabId); },
+        tabs: [
+            { id: 'current', label: 'Current', icon: 'calendar-days', iconPrefix: 'fa-regular', elementId: 'tabTrackCurrent', dataAct: 'switch-track-current', dataRef: 'page.tracker.tab-current' },
+            { id: 'old', label: 'Old', icon: 'clock-rotate-left', elementId: 'tabTrackOld', dataAct: 'switch-track-old', dataRef: 'page.tracker.tab-old' },
+            { id: 'performance', label: 'Performance', icon: 'chart-simple', elementId: 'tabTrackPerformance', dataAct: 'switch-track-performance', dataRef: 'page.tracker.tab-performance' },
+            { id: 'history', label: 'History', icon: 'list-check', elementId: 'tabTrackHistory', dataAct: 'switch-track-history', dataRef: 'page.tracker.tab-history' }
+        ]
+    }
+} --><!-- /ko -->
         </script>
         <script type="text/html" id="prayer-history-card-template">
 <div class="rounded-2xl p-4 bg-white border border-borderGrey mb-3 flex flex-col gap-3 shadow-none"
@@ -2338,269 +2431,51 @@
         <script type="text/html" id="tasbeeh-page-template">
 <!-- Digital Tasbeeh Page Template Content -->
 <!-- Header Component -->
-    <!-- ko component: { name: 'tasbeeh-header', params: header } --><!-- /ko -->
+<!-- ko component: { name: 'tasbeeh-header', params: header } --><!-- /ko -->
 
-    <!-- Current Month Body Container -->
-    <div class="grow overflow-auto p-2 pb-5 relative" id="tbCurrentBody" data-ref="page.tasbeeh.body.current"
-        data-bind="visible: currentSubTab() === 'current'">
-        <div id="tbList" class="flex flex-col gap-3" data-ref="page.tasbeeh.list">
-            <!-- Advance Banner -->
-            <div class="border border-borderGrey p-3 text-center rounded-2xl bg-white d-none shadow-none"
-                id="tbCurrentAdvanceBanner">
-                <app-icon params="name: 'circle-check', color: 'text-brand', size: 'xl', customClass: 'mb-2'"></app-icon>
-                <div class="font-bold text-brand" id="tbCurrentAdvanceBannerText">All Dhikrs for this month Completed!</div>
-                <div class="text-gr-textMuted text-xs mb-3">All daily targets for this month have been achieved.</div>
-                <button type="button"
-                    class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
-                    data-act="tb-current-advance">
-                    <app-icon params="name: 'arrow-right', customClass: 'mr-1'"></app-icon> Finalize & Advance to Next Month
-                </button>
-            </div>
-
-            <!-- Current Tabs Navigation -->
-            <div class="flex border-b border-borderGrey bg-white sticky top-0 z-20" role="tablist" aria-label="Current Tasbeeh Status Tabs">
-                <!-- To Do Tab -->
-                <button type="button" id="tabTbCurrentTodo" role="tab" aria-selected="true" aria-controls="tbCurrentTodoList"
-                    class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-brand text-brand font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
-                    data-bind="click: function(d,e){ switchCurrentTab('todo', e); }, css: currentActiveTab() === 'todo' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'">
-                    <span>TO DO</span>
-                    <span id="tbCurrentTodoBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
-                        data-bind="css: currentActiveTab() === 'todo' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: currentTodoItems().length">0</span>
-                </button>
-                <!-- Completed Tab -->
-                <button type="button" id="tabTbCurrentDone" role="tab" aria-selected="false" aria-controls="tbCurrentDoneList"
-                    class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-transparent text-gr-textMuted font-semibold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
-                    data-bind="click: function(d,e){ switchCurrentTab('completed', e); }, css: currentActiveTab() === 'completed' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'">
-                    <span>COMPLETED</span>
-                    <span id="tbCurrentDoneBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
-                        data-bind="css: currentActiveTab() === 'completed' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: currentDoneItems().length">0</span>
-                </button>
-            </div>
-
-            <!-- TO DO LIST -->
-            <div id="tbCurrentTodoList" role="tabpanel" aria-labelledby="tabTbCurrentTodo" class="mt-2 space-y-3"
-                data-bind="visible: currentActiveTab() === 'todo'">
-                <div class="flex flex-col gap-3" id="tbCurrentTodoGrid" data-bind="foreach: currentTodoItems">
-                    <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
-                </div>
-            </div>
-
-            <!-- COMPLETED LIST -->
-            <div id="tbCurrentDoneList" role="tabpanel" aria-labelledby="tabTbCurrentDone" class="mt-2 space-y-3 d-none hidden"
-                data-bind="visible: currentActiveTab() === 'completed'">
-                <div class="flex flex-col gap-3" id="tbCurrentDoneGrid" data-bind="foreach: currentDoneItems">
-                    <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
-                </div>
-            </div>
-        </div>
-
-        <div id="tbEmptyState" class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"
-            data-ref="page.tasbeeh.empty-state">
-            <div class="mb-3" data-ref="page.tasbeeh.empty-state.icon-wrap">
-                <app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50', dataRef: 'page.tasbeeh.empty-state.icon'"></app-icon>
-            </div>
-            <h5 class="font-bold text-brand mb-1" data-ref="page.tasbeeh.empty-state.title">No Dhikr Yet</h5>
-            <p class="text-gr-textMuted text-xs mb-0" data-ref="page.tasbeeh.empty-state.text">Tap “+” below to add your first chant and begin counting.</p>
-        </div>
-    </div>
-
-    <!-- Old Tracking (Previous Months) Body Container -->
-    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody" data-ref="page.tasbeeh.body.old"
-        data-bind="visible: currentSubTab() === 'old'">
-        <!-- No Previous Months in Period -->
-        <div class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"
-            id="tbOldEmptyRange" data-ref="page.tasbeeh.old.empty-range">
-            <div class="mb-3">
-                <app-icon params="name: 'calendar-xmark', color: 'text-gr-warning', size: '4xl', customClass: 'opacity-75'"></app-icon>
-            </div>
-            <h5 class="font-bold text-brand mb-2">No Previous Months in Period</h5>
-            <p class="text-gr-textMuted text-xs mb-3">
-                Your tracking start date is <strong id="tbOldEmptyRangeStart"></strong>, which falls in or after the current period.<br>
-                The Old tab displays previous completed months prior to <strong id="tbOldEmptyRangeCur"></strong>.
-            </p>
-            <button type="button"
-                class="px-4 py-2 rounded-xl font-bold mx-auto bg-brand text-white hover:bg-brand-hover transition-colors"
-                data-act="tb-open-settings">
-                <app-icon params="name: 'calendar-days', customClass: 'mr-2'"></app-icon> Adjust Start Date
-            </button>
-        </div>
-
-        <!-- All Previous Months Completed -->
-        <div class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"
-            id="tbOldAllCompleted" data-ref="page.tasbeeh.old.all-completed">
-            <div class="mb-3">
-                <app-icon params="name: 'circle-check', color: 'text-brand', size: '4xl'"></app-icon>
-            </div>
-            <h5 class="font-bold text-brand mb-2">All Previous Months Completed!</h5>
-            <p class="text-gr-textMuted text-xs mb-3">
-                All previous months back to <span id="tbOldAllCompletedStart"></span> have been completed.
-            </p>
-            <div class="flex justify-center gap-2">
-                <button type="button"
-                    class="rounded-full px-4 py-2 font-bold border border-brand bg-white text-brand hover:bg-brand-light transition-colors"
-                    data-act="tb-old-reopen"
-                    data-bind="click: reopenLastMonth">
-                    <app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reopen Last Month
-                </button>
-                <button type="button"
-                    class="border rounded-full px-3 py-2 text-gr-textMuted text-xs bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors"
-                    data-act="tb-reset-all-completed"
-                    data-bind="click: resetAllCompleted">
-                    <app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Completed
-                </button>
-            </div>
-        </div>
-
-        <!-- Active Old Month Content -->
-        <div class="d-none flex flex-col gap-3" id="tbOldContent" data-ref="page.tasbeeh.old.content">
-            <!-- Advance Month Banner -->
-            <div class="border border-borderGrey p-3 text-center rounded-2xl bg-white mb-3 d-none shadow-none"
-                id="tbOldAdvanceBanner" data-ref="page.tasbeeh.old.advance-banner">
-                <div class="text-brand font-bold mb-2">
-                    <app-icon params="name: 'circle-check', color: 'text-brand', customClass: 'mr-1'"></app-icon> <span id="tbOldAdvanceBannerMsg">All targets are completed!</span>
-                </div>
-                <button type="button"
-                    class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg"
-                    data-act="tb-old-advance">
-                    <app-icon params="name: 'arrow-left', customClass: 'mr-1'"></app-icon> Finalize & Move to Previous Month
-                </button>
-            </div>
-
-            <!-- Old Tabs Navigation -->
-            <div class="flex border-b border-borderGrey bg-white sticky top-0 z-20" role="tablist" aria-label="Old Tasbeeh Status Tabs">
-                <!-- To Do Tab -->
-                <button type="button" id="tabTbOldTodo" role="tab" aria-selected="true" aria-controls="tbOldTodoList"
-                    class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-brand text-brand font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
-                    data-bind="click: function(d,e){ switchOldTab('todo', e); }, css: oldActiveTab() === 'todo' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'">
-                    <span>TO DO</span>
-                    <span id="tbOldTodoBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
-                        data-bind="css: oldActiveTab() === 'todo' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: oldTodoItems().length">0</span>
-                </button>
-                <!-- Completed Tab -->
-                <button type="button" id="tabTbOldDone" role="tab" aria-selected="false" aria-controls="tbOldDoneList"
-                    class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-transparent text-gr-textMuted font-semibold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
-                    data-bind="click: function(d,e){ switchOldTab('completed', e); }, css: oldActiveTab() === 'completed' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'">
-                    <span>COMPLETED</span>
-                    <span id="tbOldDoneBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
-                        data-bind="css: oldActiveTab() === 'completed' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: oldDoneItems().length">0</span>
-                </button>
-            </div>
-
-            <!-- TO DO LIST -->
-            <div id="tbOldTodoList" role="tabpanel" aria-labelledby="tabTbOldTodo" class="mt-2 space-y-3"
-                data-bind="visible: oldActiveTab() === 'todo'">
-                <div class="flex flex-col gap-3" id="tbOldTodoGrid" data-bind="foreach: oldTodoItems">
-                    <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
-                </div>
-            </div>
-
-            <!-- COMPLETED LIST -->
-            <div id="tbOldDoneList" role="tabpanel" aria-labelledby="tabTbOldDone" class="mt-2 space-y-3 d-none hidden"
-                data-bind="visible: oldActiveTab() === 'completed'">
-                <div class="flex flex-col gap-3" id="tbOldDoneGrid" data-bind="foreach: oldDoneItems">
-                    <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- History & Settings Body Container -->
-    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody" data-ref="page.tasbeeh.body.history"
-        data-bind="visible: currentSubTab() === 'history'">
-        <div class="flex flex-col gap-3 pt-1 pb-4" id="tbHistoryContent" data-ref="page.tasbeeh.history.content">
-            <!-- Progress Circle & Stats Component -->
-            <!-- ko component: { name: 'tasbeeh-progress-circle', params: historyProgress } --><!-- /ko -->
-
-            <!-- Goal & Period Setter Component -->
-            <!-- ko component: { name: 'tasbeeh-goal-setter', params: goalSetter } --><!-- /ko -->
-
-            <!-- Monthly Clearance Breakdown -->
-            <div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none">
-                <div class="flex items-center justify-between mb-2">
-                    <h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6>
-                    <button type="button"
-                        class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 underline text-gr-danger text-decoration-none text-xs font-bold d-none"
-                        id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed"
-                        data-bind="click: resetAllCompleted">
-                        <app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Cleared
-                    </button>
-                </div>
-                <div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">Sequential monthly clearance advances backward month-by-month as dhikrs are completed.</div>
-                <div class="flex flex-col gap-2" id="tbHistoryList"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Shared Floating Action Button for Add Dhikr -->
-    <button type="button"
-        class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
-        id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr"
-        data-bind="visible: currentSubTab() === 'current' || currentSubTab() === 'old', click: openAddModal">
-        <app-icon params="name: 'plus', size: 'xl', dataRef: 'page.tasbeeh.header.add-icon'"></app-icon>
-    </button>
-
-    <!-- Bottom Navigation Component -->
-    <!-- ko component: { name: 'tasbeeh-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko -->
-
-<!-- Full-screen Tasbeeh Calendar Tracker View Overlay -->
-<div id="tasbeehCounterView" class="d-none flex-col grow tb-counter-overlay" data-ref="page.tasbeeh.counter">
-    <header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px] gap-2"
-        data-ref="page.tasbeeh.counter.header">
-        <button type="button"
-            class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
-            id="tbBtnBack" data-act="tb-back" data-bind="click: closeCounter" data-ref="page.tasbeeh.counter.back-btn" title="Back">
-            <app-icon params="name: 'arrow-left', size: 'base', dataRef: 'page.tasbeeh.counter.back-icon'"></app-icon>
-        </button>
-        <div class="grow min-w-0 text-center" data-ref="page.tasbeeh.counter.header-center">
-            <h5 class="font-bold text-base text-brand m-0 flex items-center justify-center truncate mb-0"
-                id="tbCounterTopTitle" data-ref="page.tasbeeh.counter.header-title">Calendar Tracker</h5>
-        </div>
-        <div class="w-10 h-10 shrink-0" aria-hidden="true"></div>
-    </header>
-
-    <div class="grow flex flex-col overflow-auto" data-ref="page.tasbeeh.counter.body">
-        <!-- Dhikr Title & Target Info -->
-        <div class="text-center w-full pt-3 pb-2 px-3" data-ref="page.tasbeeh.counter.chant-info">
-            <h4 class="font-bold text-brand mb-1 truncate" id="tbCounterTitle"
-                data-ref="page.tasbeeh.counter.chant-title">—</h4>
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-surfaceBg border border-borderGrey rounded-full text-xs font-semibold text-brand"
-                id="tbCalTargetPill">
-                <app-icon params="name: 'bullseye'"></app-icon>
-                <span id="tbCalTargetLabel">Target: 100 / day</span>
-            </div>
-        </div>
-
-        <!-- Month Navigation -->
-        <div class="flex items-center justify-between px-3 py-2" id="tbCalMonthNav">
-            <button type="button"
-                class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
-                id="tbCalPrevMonth" title="Previous month">
-                <app-icon params="name: 'chevron-left'"></app-icon>
-            </button>
-            <div class="font-bold text-base text-brand text-center tracking-wide flex-1" id="tbCalMonthLabel">October 2026</div>
-            <button type="button"
-                class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
-                id="tbCalNextMonth" title="Next month">
-                <app-icon params="name: 'chevron-right'"></app-icon>
-            </button>
-        </div>
-
-        <!-- Calendar Grid -->
-        <div class="flex-1 px-3 pb-3">
-            <div class="grid grid-cols-7 gap-1 mb-1.5">
-                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sun</div>
-                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Mon</div>
-                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Tue</div>
-                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Wed</div>
-                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Thu</div>
-                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Fri</div>
-                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sat</div>
-            </div>
-            <div class="grid grid-cols-7 gap-1.5" id="tbCalGrid"></div>
-        </div>
-    </div>
+<!-- Current Month Section -->
+<div class="grow overflow-auto p-2 pb-5 relative" id="tbCurrentBody" data-ref="page.tasbeeh.body.current"
+    data-bind="visible: currentSubTab() === 'current' && !isCalendarOpen()">
+    <!-- ko component: { name: 'tasbeeh-current-feed', params: currentFeedParams } --><!-- /ko -->
 </div>
 
+<!-- Old Tracking (Previous Months) Body Container -->
+<div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody" data-ref="page.tasbeeh.body.old"
+    data-bind="visible: currentSubTab() === 'old' && !isCalendarOpen()">
+    <!-- ko component: { name: 'tasbeeh-old-feed', params: oldFeedParams } --><!-- /ko -->
+</div>
+
+<!-- History & Settings Body Container -->
+<div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody" data-ref="page.tasbeeh.body.history"
+    data-bind="visible: currentSubTab() === 'history' && !isCalendarOpen()">
+    <!-- ko component: { name: 'tasbeeh-history-page', params: historyPageParams } --><!-- /ko -->
+</div>
+
+<!-- Current Calendar Tracker Detail Screen -->
+<!-- ko if: currentSubTab() === 'current' && isCalendarOpen() -->
+    <!-- ko component: { name: 'tasbeeh-current-page', params: currentCalendarParams } --><!-- /ko -->
+<!-- /ko -->
+
+<!-- Old Calendar Tracker Detail Screen -->
+<!-- ko if: currentSubTab() === 'old' && isCalendarOpen() -->
+    <!-- ko component: { name: 'tasbeeh-old-page', params: oldCalendarParams } --><!-- /ko -->
+<!-- /ko -->
+
+<!-- Add / Edit Dhikr Form Component -->
+<!-- ko component: { name: 'tasbeeh-current-form', params: currentFormParams } --><!-- /ko -->
+
+<!-- Shared Floating Action Button for Add Dhikr -->
+<button type="button"
+    class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
+    id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr"
+    data-bind="visible: (currentSubTab() === 'current' || currentSubTab() === 'old') && !isCalendarOpen(), click: openAddModal">
+    <app-icon params="name: 'plus', size: 'xl', dataRef: 'page.tasbeeh.header.add-icon'"></app-icon>
+</button>
+
+<!-- Bottom Navigation Component -->
+<!-- ko ifnot: isCalendarOpen -->
+<!-- ko component: { name: 'tasbeeh-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko -->
+<!-- /ko -->
 
         </script>
         <script type="text/html" id="tasbeeh-header-template">
@@ -2729,122 +2604,800 @@
         </div>
     </div>
 </div>
+        </script>
+        <script type="text/html" id="tasbeeh-nav-tab-template">
+<!-- ko component: {
+    name: 'app-tabs',
+    params: {
+        variant: 'bottom-nav',
+        containerId: 'tasbeehBottomNav',
+        dataRef: 'page.tasbeeh.bottom-nav',
+        ariaLabel: 'Tasbeeh Navigation Tabs',
+        activeTab: $data.activeTab,
+        onTabChange: function(tabId) { if (window.TasbeehApp && window.TasbeehApp.switchTab) window.TasbeehApp.switchTab(tabId); },
+        tabs: [
+            { id: 'current', label: 'Current', icon: 'calendar-days', iconPrefix: 'fa-regular', elementId: 'tabTbCurrent', dataAct: 'switch-tb-current', dataRef: 'page.tasbeeh.tab-current' },
+            { id: 'old', label: 'Old', icon: 'clock-rotate-left', elementId: 'tabTbOld', dataAct: 'switch-tb-old', dataRef: 'page.tasbeeh.tab-old' },
+            { id: 'history', label: 'History', icon: 'gear', elementId: 'tabTbHistory', dataAct: 'switch-tb-history', dataRef: 'page.tasbeeh.tab-history' }
+        ]
+    }
+} --><!-- /ko -->
+        </script>
+                <script type="text/html" id="tasbeeh-current-card-template">
+<div class="tb-card bg-white border border-gray-200 rounded-3xl p-4 sm:p-5 flex flex-row gap-4 items-center cursor-pointer hover:border-gray-300 select-none transition-all w-full shadow-none"
+    data-bind="attr: { 'data-id': id, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: onCardClick"
+    role="button" tabindex="0">
+    <!-- Left: Icon -->
+    <div class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-2xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center text-2xl shrink-0 leading-none select-none overflow-hidden"
+        data-ref="page.tasbeeh.card.icon">
+        <app-icon params="name: 'hands-praying'"></app-icon>
+    </div>
 
+    <!-- Middle: Data & Info -->
+    <div class="flex-1 min-w-0 flex flex-col justify-center gap-1.5" data-ref="page.tasbeeh.card.info">
+        <h6 class="tb-card-title text-[17px] font-bold text-gray-900 leading-tight m-0 truncate"
+            data-bind="text: title" data-ref="page.tasbeeh.card.title"></h6>
+        <div class="tb-card-meta flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 font-medium" data-ref="page.tasbeeh.card.meta">
+            <span class="tb-meta-row inline-flex items-center gap-1.5">
+                <app-icon params="name: 'bullseye', color: 'text-gray-400', size: 'xs'"></app-icon>
+                <span>Target: <strong class="tb-val-num font-bold text-gray-900" data-bind="text: targetDisplay"></strong> <span class="text-gray-500">/day</span></span>
+            </span>
+            <span class="tb-meta-row inline-flex items-center gap-1.5">
+                <app-icon params="name: 'calendar', prefix: 'fa-regular', color: 'text-gray-400', size: 'xs'"></app-icon>
+                <span>Total: <span class="tb-val-total text-gray-600 font-medium" data-bind="text: totalDaysText"></span></span>
+            </span>
+        </div>
+        <div class="flex items-center gap-2.5 mt-1">
+            <div class="inline-flex items-center gap-1.5 bg-[#094E3A] text-white text-xs font-semibold px-3 py-1 rounded-full shrink-0 leading-none shadow-none">
+                <app-icon params="name: 'check', size: 'xs', customClass: 'text-[10px]'"></app-icon>
+                <span>Done</span>
+            </div>
+            <span class="tb-val-done text-lg font-bold text-gray-900 leading-none" data-bind="text: completedDays"></span>
+            <!-- ko if: isTodayDone -->
+            <span class="text-[#094E3A] font-bold inline-flex items-center gap-1 text-[11px] ml-2">
+                <app-icon params="name: 'circle-check', color: 'text-[#094E3A]', size: 'xs'"></app-icon> Today Completed
+            </span>
+            <!-- /ko -->
+        </div>
+    </div>
+
+    <!-- Right: Actions (Edit at top, Chevron at bottom) -->
+    <div class="tb-card-actions flex flex-col items-center justify-between self-stretch shrink-0 py-0.5 pl-1" data-ref="page.tasbeeh.card.actions">
+        <button type="button"
+            class="tb-btn-edit w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200/80 flex items-center justify-center text-gray-600 cursor-pointer active:scale-95 transition-all p-0"
+            data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
+            data-bind="click: onEditClick"
+            data-ref="page.tasbeeh.card.edit-btn">
+            <app-icon params="name: 'pencil', size: 'xs'"></app-icon>
+        </button>
+        <div class="text-gray-300 flex items-center justify-center">
+            <app-icon params="name: 'chevron-right', size: 'xs'"></app-icon>
+        </div>
+    </div>
+</div>
 
         </script>
-        <script type="text/html" id="tasbeeh-goal-setter-template">
+        <script type="text/html" id="tasbeeh-current-feed-template">
+<div class="flex flex-col gap-3" id="tbList" data-ref="page.tasbeeh.list">
+    <!-- Advance Banner -->
+    <div class="border border-borderGrey p-3 text-center rounded-2xl bg-white shadow-none"
+        id="tbCurrentAdvanceBanner"
+        data-bind="visible: isMonthCompleted">
+        <app-icon params="name: 'circle-check', color: 'text-brand', size: 'xl', customClass: 'mb-2'"></app-icon>
+        <div class="font-bold text-brand" id="tbCurrentAdvanceBannerText">All Dhikrs for this month Completed!</div>
+        <div class="text-gr-textMuted text-xs mb-3">All daily targets for this month have been achieved.</div>
+        <button type="button"
+            class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
+            data-act="tb-current-advance"
+            data-bind="click: onAdvanceMonth">
+            <app-icon params="name: 'arrow-right', customClass: 'mr-1'"></app-icon> Finalize & Advance to Next Month
+        </button>
+    </div>
+
+    <!-- Empty State -->
+    <div id="tbEmptyState" class="border border-borderGrey p-4 text-center rounded-2xl bg-white shadow-none"
+        data-ref="page.tasbeeh.empty-state"
+        data-bind="visible: isEmpty">
+        <div class="mb-3" data-ref="page.tasbeeh.empty-state.icon-wrap">
+            <app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50', dataRef: 'page.tasbeeh.empty-state.icon'"></app-icon>
+        </div>
+        <h5 class="font-bold text-brand mb-1" data-ref="page.tasbeeh.empty-state.title">No Dhikr Yet</h5>
+        <p class="text-gr-textMuted text-xs mb-0" data-ref="page.tasbeeh.empty-state.text">Tap “+” below to add your first chant and begin counting.</p>
+    </div>
+
+    <!-- Current Tabs Navigation (When not empty) -->
+    <!-- ko ifnot: isEmpty -->
+    <!-- ko component: { name: 'app-tabs', params: statusTabsParams } --><!-- /ko -->
+
+    <!-- TO DO LIST -->
+    <div id="tbCurrentTodoList" role="tabpanel" aria-labelledby="tabTbCurrentTodo" class="mt-2 space-y-3"
+        data-bind="visible: activeTab() === 'todo'">
+        <!-- ko if: todoItems().length === 0 -->
+        <div id="tbCurrentTodoEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2">
+            <div class="mb-2">
+                <app-icon params="name: 'circle-check', color: 'text-brand', size: '2xl'"></app-icon>
+            </div>
+            <h6 class="font-bold text-brand text-sm mb-1">All Done for Today!</h6>
+            <p class="text-gr-textMuted text-xs mb-0">You have completed all daily Dhikr targets. Check the Completed tab to view them.</p>
+        </div>
+        <!-- /ko -->
+        <div class="flex flex-col gap-3" id="tbCurrentTodoGrid" data-bind="foreach: todoItems">
+            <!-- ko component: { name: 'tasbeeh-current-card', params: { item: $data, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
+        </div>
+    </div>
+
+    <!-- COMPLETED LIST -->
+    <div id="tbCurrentDoneList" role="tabpanel" aria-labelledby="tabTbCurrentDone" class="mt-2 space-y-3"
+        data-bind="visible: activeTab() === 'completed'">
+        <!-- ko if: doneItems().length === 0 -->
+        <div id="tbCurrentDoneEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2">
+            <div class="mb-2">
+                <app-icon params="name: 'circle-check', color: 'text-gr-textMuted', size: '2xl', customClass: 'opacity-40'"></app-icon>
+            </div>
+            <h6 class="font-bold text-gray-700 text-sm mb-1">No Completed Dhikrs Yet</h6>
+            <p class="text-gr-textMuted text-xs mb-0">Complete today's target for any Dhikr to see it listed here.</p>
+        </div>
+        <!-- /ko -->
+        <div class="flex flex-col gap-3" id="tbCurrentDoneGrid" data-bind="foreach: doneItems">
+            <!-- ko component: { name: 'tasbeeh-current-card', params: { item: $data, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
+        </div>
+    </div>
+    <!-- /ko -->
+</div>
+
+        </script>
+        <script type="text/html" id="tasbeeh-current-form-template">
+<!-- ko if: isOpen -->
+<div class="modal fixed inset-0 z-[1100] w-full h-full overflow-y-auto bg-black/45 backdrop-blur-[2px] transition-opacity flex items-center justify-center p-4"
+    id="tasbeehModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="tbModalTitle" data-ref="component.modal.tasbeeh"
+    data-bind="click: handleBackdropClick">
+    <div class="modal-dialog relative w-auto m-4 pointer-events-none max-w-[440px] w-full mx-auto min-h-[calc(100%-2rem)] flex items-center justify-center"
+        data-ref="component.modal.tasbeeh.dialog">
+        <div class="modal-content relative flex flex-col w-full pointer-events-auto bg-white rounded-2xl border border-borderGrey shadow-2xl p-4"
+            data-ref="component.modal.tasbeeh.content"
+            data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); }">
+            <!-- Header -->
+            <div class="modal-header border-0 pb-0 flex items-center gap-3 pt-4 px-4"
+                data-ref="component.modal.tasbeeh.header">
+                <span class="icon-box icon-box-lg" data-ref="component.modal.tasbeeh.badge">
+                    <i class="fa-solid fa-hand-holding-heart text-brand text-xl"
+                        data-ref="component.modal.tasbeeh.badge-icon"></i>
+                </span>
+                <h5 class="modal-title font-bold text-lg grow mb-0" id="tbModalTitle"
+                    data-ref="component.modal.tasbeeh.title"
+                    data-bind="text: isEditMode() ? 'Edit Dhikr' : 'Add New Dhikr'">Add New Dhikr</h5>
+                <button type="button"
+                    class="w-8 h-8 rounded-lg text-gr-textMuted hover:bg-gray-100 flex items-center justify-center ml-auto cursor-pointer"
+                    aria-label="Close" data-ref="component.modal.tasbeeh.close-btn"
+                    data-bind="click: close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body pt-3 px-4" data-ref="component.modal.tasbeeh.body">
+                <!-- Chant Title -->
+                <div class="mb-3" data-ref="component.modal.tasbeeh.title-group">
+                    <label class="font-bold mb-2 block text-xs font-semibold text-brand mb-1.5" for="tbFormTitle"
+                        data-ref="component.modal.tasbeeh.title-label">Chant Title</label>
+                    <div class="relative flex items-center rounded-xl border border-borderGrey bg-white focus-within:border-brand overflow-hidden"
+                        data-ref="component.modal.tasbeeh.title-field">
+                        <span class="w-10 h-10 flex items-center justify-center text-gr-textMuted shrink-0"
+                            data-ref="component.modal.tasbeeh.title-field-icon">
+                            <i class="fa-regular fa-file-lines text-base"></i>
+                        </span>
+                        <input type="text"
+                            class="border-0 pl-3 text-sm w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand focus:outline-none focus:border-brand transition-colors"
+                            id="tbFormTitle" placeholder="e.g. SubhanAllah" maxlength="40"
+                            data-ref="component.modal.tasbeeh.title-input"
+                            data-bind="value: title, valueUpdate: 'afterkeydown'">
+                    </div>
+                </div>
+
+                <!-- Target Count with Chips -->
+                <div class="mb-3" data-ref="component.modal.tasbeeh.count-group">
+                    <label class="font-bold mb-2 block text-xs font-semibold text-brand mb-1.5"
+                        data-ref="component.modal.tasbeeh.count-label">Daily Target Count</label>
+                    <div class="flex gap-2 mb-2" id="tbCountChips" data-ref="component.modal.tasbeeh.count-chips">
+                        <button type="button"
+                            class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+                            data-count="33" data-ref="component.modal.tasbeeh.chip-33"
+                            data-bind="click: function(){ selectChip(33); }, css: { 'bg-brand text-white border-brand': !isInfinite() && targetCount() == 33 }">33</button>
+                        <button type="button"
+                            class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+                            data-count="99" data-ref="component.modal.tasbeeh.chip-99"
+                            data-bind="click: function(){ selectChip(99); }, css: { 'bg-brand text-white border-brand': !isInfinite() && targetCount() == 99 }">99</button>
+                        <button type="button"
+                            class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+                            data-count="100" data-ref="component.modal.tasbeeh.chip-100"
+                            data-bind="click: function(){ selectChip(100); }, css: { 'bg-brand text-white border-brand': !isInfinite() && targetCount() == 100 }">100</button>
+                        <button type="button"
+                            class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+                            data-count="infinite" data-ref="component.modal.tasbeeh.chip-inf"
+                            data-bind="click: function(){ selectChip('infinite'); }, css: { 'bg-brand text-white border-brand': isInfinite() }">∞</button>
+                    </div>
+                    <div class="relative flex items-center rounded-xl border border-borderGrey bg-white focus-within:border-brand overflow-hidden"
+                        data-ref="component.modal.tasbeeh.count-field">
+                        <span class="w-10 h-10 flex items-center justify-center text-gr-textMuted shrink-0"
+                            data-ref="component.modal.tasbeeh.count-field-icon">
+                            <i class="fa-solid fa-hashtag text-base"></i>
+                        </span>
+                        <input type="number"
+                            class="border-0 pl-3 text-sm w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand focus:outline-none focus:border-brand transition-colors disabled:opacity-50 disabled:bg-gray-100"
+                            id="tbFormCount" placeholder="33" min="1" max="9999"
+                            data-ref="component.modal.tasbeeh.count-input"
+                            data-bind="value: targetCount, enable: !isInfinite(), valueUpdate: 'afterkeydown'">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer border-0 pt-2 pb-4 px-4 flex gap-2" data-ref="component.modal.tasbeeh.footer">
+                <!-- ko if: isEditMode -->
+                <button type="button"
+                    class="text-gr-danger border rounded-xl py-3 px-3 shrink-0 bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors cursor-pointer"
+                    id="tbModalDelBtn" title="Delete Dhikr" aria-label="Delete Dhikr"
+                    data-ref="component.modal.tasbeeh.del-btn"
+                    data-bind="click: deleteItem">
+                    <i class="fa-solid fa-trash-can text-base"></i>
+                </button>
+                <!-- /ko -->
+                <button type="button"
+                    class="border font-bold flex-1 py-3 rounded-xl text-base bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors cursor-pointer"
+                    data-ref="component.modal.tasbeeh.cancel-btn"
+                    data-bind="click: close">Cancel</button>
+                <button type="button"
+                    class="flex-1 py-3 rounded-xl text-base bg-brand text-white hover:bg-brand-hover transition-colors font-bold cursor-pointer"
+                    id="tbModalSaveBtn" data-ref="component.modal.tasbeeh.save-btn"
+                    data-bind="click: save">Save Dhikr</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /ko -->
+
+        </script>
+        <script type="text/html" id="tasbeeh-current-page-template">
+<div id="tasbeehCounterView" class="flex flex-col grow tb-counter-overlay" data-ref="page.tasbeeh.counter">
+    <header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px] gap-2"
+        data-ref="page.tasbeeh.counter.header">
+        <button type="button"
+            class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
+            id="tbBtnBack" data-act="tb-back" data-bind="click: onBack" data-ref="page.tasbeeh.counter.back-btn" title="Back">
+            <app-icon params="name: 'arrow-left', size: 'base', dataRef: 'page.tasbeeh.counter.back-icon'"></app-icon>
+        </button>
+        <div class="grow min-w-0 text-center" data-ref="page.tasbeeh.counter.header-center">
+            <h5 class="font-bold text-base text-brand m-0 flex items-center justify-center truncate mb-0"
+                id="tbCounterTopTitle" data-ref="page.tasbeeh.counter.header-title">Calendar Tracker</h5>
+        </div>
+        <div class="w-10 h-10 shrink-0" aria-hidden="true"></div>
+    </header>
+
+    <div class="grow flex flex-col overflow-auto" data-ref="page.tasbeeh.counter.body">
+        <!-- Dhikr Title & Target Info -->
+        <div class="text-center w-full pt-3 pb-2 px-3" data-ref="page.tasbeeh.counter.chant-info">
+            <h4 class="font-bold text-brand mb-1 truncate" id="tbCounterTitle"
+                data-ref="page.tasbeeh.counter.chant-title"
+                data-bind="text: itemTitle">—</h4>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-surfaceBg border border-borderGrey rounded-full text-xs font-semibold text-brand"
+                id="tbCalTargetPill">
+                <app-icon params="name: 'bullseye'"></app-icon>
+                <span id="tbCalTargetLabel" data-bind="text: targetLabel">Target: 100 / day</span>
+            </div>
+        </div>
+
+        <!-- Month Navigation -->
+        <div class="flex items-center justify-between px-3 py-2" id="tbCalMonthNav">
+            <button type="button"
+                class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
+                id="tbCalPrevMonth" title="Previous month"
+                data-bind="click: prevMonth, style: { opacity: canPrev() ? '1' : '0.2', pointerEvents: canPrev() ? 'auto' : 'none' }">
+                <app-icon params="name: 'chevron-left'"></app-icon>
+            </button>
+            <div class="font-bold text-base text-brand text-center tracking-wide flex-1" id="tbCalMonthLabel"
+                data-bind="text: monthLabel">October 2026</div>
+            <button type="button"
+                class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
+                id="tbCalNextMonth" title="Next month"
+                data-bind="click: nextMonth, style: { opacity: canNext() ? '1' : '0.2', pointerEvents: canNext() ? 'auto' : 'none' }, css: { 'border-brand text-brand': isMonthDone }">
+                <app-icon params="name: 'chevron-right'"></app-icon>
+            </button>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div class="flex-1 px-3 pb-3">
+            <div class="grid grid-cols-7 gap-1 mb-1.5">
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sun</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Mon</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Tue</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Wed</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Thu</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Fri</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sat</div>
+            </div>
+            <div class="grid grid-cols-7 gap-1.5" id="tbCalGrid" data-bind="foreach: calendarCells">
+                <!-- ko if: isEmpty -->
+                <div class="tb-cal-cell tb-cal-empty aspect-square rounded-xl bg-transparent border-0" aria-hidden="true"></div>
+                <!-- /ko -->
+                <!-- ko ifnot: isEmpty -->
+                <div class="tb-cal-cell aspect-square rounded-xl flex items-center justify-center cursor-pointer border-2 border-transparent bg-white relative select-none transition-all hover:border-brand"
+                    data-bind="attr: { 'data-date': dateStr, 'aria-label': dayNumber + ' ' + (isCompleted() ? 'Completed' : 'Pending') }, css: { 'tb-cal-done': isCompleted, 'tb-cal-today': isToday }, click: $parent.toggleDay"
+                    role="button" tabindex="0">
+                    <span class="tb-cal-date text-lg font-bold text-brand leading-none inline-flex items-center justify-center"
+                        data-bind="text: dayNumber"></span>
+                </div>
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+</div>
+
+        </script>
+        <script type="text/html" id="tasbeeh-old-card-template">
+<div class="tb-card bg-white border border-gray-200 rounded-3xl p-4 sm:p-5 flex flex-row gap-4 items-center cursor-pointer hover:border-gray-300 select-none transition-all w-full shadow-none"
+    data-bind="attr: { 'data-id': id, 'data-month': month, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: onCardClick"
+    role="button" tabindex="0">
+    <!-- Left: Icon -->
+    <div class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-2xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center text-2xl shrink-0 leading-none select-none overflow-hidden">
+        <app-icon params="name: 'hands-praying'"></app-icon>
+    </div>
+
+    <!-- Middle: Data & Info -->
+    <div class="flex-1 min-w-0 flex flex-col justify-center gap-1.5">
+        <h6 class="tb-card-title text-[17px] font-bold text-gray-900 leading-tight m-0 truncate"
+            data-bind="text: title"></h6>
+        <div class="tb-card-meta flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 font-medium">
+            <span class="tb-meta-row inline-flex items-center gap-1.5">
+                <app-icon params="name: 'bullseye', color: 'text-gray-400', size: 'xs'"></app-icon>
+                <span>Target: <strong class="tb-val-num font-bold text-gray-900" data-bind="text: targetDisplay"></strong> <span class="text-gray-500">/day</span></span>
+            </span>
+            <span class="tb-meta-row inline-flex items-center gap-1.5">
+                <app-icon params="name: 'calendar', prefix: 'fa-regular', color: 'text-gray-400', size: 'xs'"></app-icon>
+                <span>Total: <span class="tb-val-total text-gray-600 font-medium" data-bind="text: totalDaysText"></span></span>
+            </span>
+        </div>
+        <div class="flex items-center gap-2.5 mt-1">
+            <div class="inline-flex items-center gap-1.5 bg-[#094E3A] text-white text-xs font-semibold px-3 py-1 rounded-full shrink-0 leading-none shadow-none">
+                <app-icon params="name: 'check', size: 'xs', customClass: 'text-[10px]'"></app-icon>
+                <span>Done</span>
+            </div>
+            <span class="tb-val-done text-lg font-bold text-gray-900 leading-none" data-bind="text: completedDays"></span>
+            <!-- ko if: isComplete -->
+            <span class="text-[#094E3A] font-bold inline-flex items-center gap-1 text-[11px] ml-2">
+                <app-icon params="name: 'circle-check', color: 'text-[#094E3A]', size: 'xs'"></app-icon> Month Completed
+            </span>
+            <!-- /ko -->
+        </div>
+    </div>
+
+    <!-- Right: Actions (Edit at top, Chevron at bottom) -->
+    <div class="tb-card-actions flex flex-col items-center justify-between self-stretch shrink-0 py-0.5 pl-1">
+        <button type="button"
+            class="tb-btn-edit w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200/80 flex items-center justify-center text-gray-600 cursor-pointer active:scale-95 transition-all p-0"
+            data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
+            data-bind="click: onEditClick">
+            <app-icon params="name: 'pencil', size: 'xs'"></app-icon>
+        </button>
+        <div class="text-gray-300 flex items-center justify-center">
+            <app-icon params="name: 'chevron-right', size: 'xs'"></app-icon>
+        </div>
+    </div>
+</div>
+
+        </script>
+        <script type="text/html" id="tasbeeh-old-feed-template">
+<div class="flex flex-col gap-3">
+    <!-- No Previous Months in Period -->
+    <div class="border border-borderGrey p-4 text-center rounded-2xl bg-white shadow-none"
+        id="tbOldEmptyRange" data-ref="page.tasbeeh.old.empty-range"
+        data-bind="visible: isEmptyRange">
+        <div class="mb-3">
+            <app-icon params="name: 'calendar-xmark', color: 'text-gr-warning', size: '4xl', customClass: 'opacity-75'"></app-icon>
+        </div>
+        <h5 class="font-bold text-brand mb-2">No Previous Months in Period</h5>
+        <p class="text-gr-textMuted text-xs mb-3">
+            Your tracking start date is <strong id="tbOldEmptyRangeStart" data-bind="text: startDateLabel"></strong>, which falls in or after the current period.<br>
+            The Old tab displays previous completed months prior to <strong id="tbOldEmptyRangeCur" data-bind="text: curMonthName"></strong>.
+        </p>
+        <button type="button"
+            class="px-4 py-2 rounded-xl font-bold mx-auto bg-brand text-white hover:bg-brand-hover transition-colors cursor-pointer"
+            data-act="tb-open-settings"
+            data-bind="click: onAdjustStartDate">
+            <app-icon params="name: 'calendar-days', customClass: 'mr-2'"></app-icon> Adjust Start Date
+        </button>
+    </div>
+
+    <!-- All Previous Months Completed -->
+    <div class="border border-borderGrey p-4 text-center rounded-2xl bg-white shadow-none"
+        id="tbOldAllCompleted" data-ref="page.tasbeeh.old.all-completed"
+        data-bind="visible: isAllCompleted">
+        <div class="mb-3">
+            <app-icon params="name: 'circle-check', color: 'text-brand', size: '4xl'"></app-icon>
+        </div>
+        <h5 class="font-bold text-brand mb-2">All Previous Months Completed!</h5>
+        <p class="text-gr-textMuted text-xs mb-3">
+            All previous months back to <span id="tbOldAllCompletedStart" data-bind="text: startDateLabel"></span> have been completed.
+        </p>
+        <div class="flex justify-center gap-2">
+            <button type="button"
+                class="rounded-full px-4 py-2 font-bold border border-brand bg-white text-brand hover:bg-brand-light transition-colors cursor-pointer"
+                data-act="tb-old-reopen"
+                data-bind="click: onReopenLastMonth">
+                <app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reopen Last Month
+            </button>
+            <button type="button"
+                class="border rounded-full px-3 py-2 text-gr-textMuted text-xs bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors cursor-pointer"
+                data-act="tb-reset-all-completed"
+                data-bind="click: onResetCompleted">
+                <app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Completed
+            </button>
+        </div>
+    </div>
+
+    <!-- Active Old Month Content -->
+    <!-- ko if: hasActiveOldMonth -->
+    <div class="flex flex-col gap-3" id="tbOldContent" data-ref="page.tasbeeh.old.content">
+        <!-- Advance Month Banner -->
+        <div class="border border-borderGrey p-3 text-center rounded-2xl bg-white mb-3 shadow-none"
+            id="tbOldAdvanceBanner" data-ref="page.tasbeeh.old.advance-banner"
+            data-bind="visible: isAllDone">
+            <div class="text-brand font-bold mb-2">
+                <app-icon params="name: 'circle-check', color: 'text-brand', customClass: 'mr-1'"></app-icon>
+                <span id="tbOldAdvanceBannerMsg" data-bind="text: 'All targets for ' + monthName() + ' are completed!'">All targets are completed!</span>
+            </div>
+            <button type="button"
+                class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
+                data-act="tb-old-advance"
+                data-bind="click: onAdvanceMonth">
+                <app-icon params="name: 'arrow-left', customClass: 'mr-1'"></app-icon> Finalize & Move to Previous Month
+            </button>
+        </div>
+
+        <!-- Old Tabs Navigation -->
+        <!-- ko component: { name: 'app-tabs', params: statusTabsParams } --><!-- /ko -->
+
+        <!-- TO DO LIST -->
+        <div id="tbOldTodoList" role="tabpanel" aria-labelledby="tabTbOldTodo" class="mt-2 space-y-3"
+            data-bind="visible: activeTab() === 'todo'">
+            <!-- ko if: todoItems().length === 0 -->
+            <div id="tbOldTodoEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2">
+                <div class="mb-2">
+                    <app-icon params="name: 'circle-check', color: 'text-brand', size: '2xl'"></app-icon>
+                </div>
+                <h6 class="font-bold text-brand text-sm mb-1">All Targets Completed!</h6>
+                <p class="text-gr-textMuted text-xs mb-0">All Dhikr targets for this month are finished. You can advance to the previous month above.</p>
+            </div>
+            <!-- /ko -->
+            <div class="flex flex-col gap-3" id="tbOldTodoGrid" data-bind="foreach: todoItems">
+                <!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
+            </div>
+        </div>
+
+        <!-- COMPLETED LIST -->
+        <div id="tbOldDoneList" role="tabpanel" aria-labelledby="tabTbOldDone" class="mt-2 space-y-3"
+            data-bind="visible: activeTab() === 'completed'">
+            <!-- ko if: doneItems().length === 0 -->
+            <div id="tbOldDoneEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2">
+                <div class="mb-2">
+                    <app-icon params="name: 'circle-check', color: 'text-gr-textMuted', size: '2xl', customClass: 'opacity-40'"></app-icon>
+                </div>
+                <h6 class="font-bold text-gray-700 text-sm mb-1">No Completed Dhikrs Yet</h6>
+                <p class="text-gr-textMuted text-xs mb-0">Complete all days for any Dhikr to see it listed here.</p>
+            </div>
+            <!-- /ko -->
+            <div class="flex flex-col gap-3" id="tbOldDoneGrid" data-bind="foreach: doneItems">
+                <!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
+            </div>
+        </div>
+    </div>
+    <!-- /ko -->
+</div>
+
+        </script>
+        <script type="text/html" id="tasbeeh-old-form-template">
+<!-- ko if: isOpen -->
+<div class="modal fixed inset-0 z-[1100] w-full h-full overflow-y-auto bg-black/45 backdrop-blur-[2px] transition-opacity flex items-center justify-center p-4"
+    id="tasbeehOldModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="tbOldModalTitle"
+    data-bind="click: handleBackdropClick">
+    <div class="modal-dialog relative w-auto m-4 pointer-events-none max-w-[440px] w-full mx-auto min-h-[calc(100%-2rem)] flex items-center justify-center">
+        <div class="modal-content relative flex flex-col w-full pointer-events-auto bg-white rounded-2xl border border-borderGrey shadow-2xl p-4"
+            data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); }">
+            <!-- Header -->
+            <div class="modal-header border-0 pb-0 flex items-center gap-3 pt-4 px-4">
+                <span class="icon-box icon-box-lg">
+                    <i class="fa-solid fa-hand-holding-heart text-brand text-xl"></i>
+                </span>
+                <h5 class="modal-title font-bold text-lg grow mb-0" id="tbOldModalTitle"
+                    data-bind="text: isEditMode() ? 'Edit Dhikr' : 'Add New Dhikr'">Add New Dhikr</h5>
+                <button type="button"
+                    class="w-8 h-8 rounded-lg text-gr-textMuted hover:bg-gray-100 flex items-center justify-center ml-auto cursor-pointer"
+                    aria-label="Close"
+                    data-bind="click: close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body pt-3 px-4">
+                <!-- Chant Title -->
+                <div class="mb-3">
+                    <label class="font-bold mb-2 block text-xs font-semibold text-brand mb-1.5" for="tbOldFormTitle">Chant Title</label>
+                    <div class="relative flex items-center rounded-xl border border-borderGrey bg-white focus-within:border-brand overflow-hidden">
+                        <span class="w-10 h-10 flex items-center justify-center text-gr-textMuted shrink-0">
+                            <i class="fa-regular fa-file-lines text-base"></i>
+                        </span>
+                        <input type="text"
+                            class="border-0 pl-3 text-sm w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand focus:outline-none focus:border-brand transition-colors"
+                            id="tbOldFormTitle" placeholder="e.g. SubhanAllah" maxlength="40"
+                            data-bind="value: title, valueUpdate: 'afterkeydown'">
+                    </div>
+                </div>
+
+                <!-- Target Count with Chips -->
+                <div class="mb-3">
+                    <label class="font-bold mb-2 block text-xs font-semibold text-brand mb-1.5">Daily Target Count</label>
+                    <div class="flex gap-2 mb-2" id="tbOldCountChips">
+                        <button type="button"
+                            class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+                            data-count="33"
+                            data-bind="click: function(){ selectChip(33); }, css: { 'bg-brand text-white border-brand': !isInfinite() && targetCount() == 33 }">33</button>
+                        <button type="button"
+                            class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+                            data-count="99"
+                            data-bind="click: function(){ selectChip(99); }, css: { 'bg-brand text-white border-brand': !isInfinite() && targetCount() == 99 }">99</button>
+                        <button type="button"
+                            class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+                            data-count="100"
+                            data-bind="click: function(){ selectChip(100); }, css: { 'bg-brand text-white border-brand': !isInfinite() && targetCount() == 100 }">100</button>
+                        <button type="button"
+                            class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+                            data-count="infinite"
+                            data-bind="click: function(){ selectChip('infinite'); }, css: { 'bg-brand text-white border-brand': isInfinite() }">∞</button>
+                    </div>
+                    <div class="relative flex items-center rounded-xl border border-borderGrey bg-white focus-within:border-brand overflow-hidden">
+                        <span class="w-10 h-10 flex items-center justify-center text-gr-textMuted shrink-0">
+                            <i class="fa-solid fa-hashtag text-base"></i>
+                        </span>
+                        <input type="number"
+                            class="border-0 pl-3 text-sm w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand focus:outline-none focus:border-brand transition-colors disabled:opacity-50 disabled:bg-gray-100"
+                            id="tbOldFormCount" placeholder="33" min="1" max="9999"
+                            data-bind="value: targetCount, enable: !isInfinite(), valueUpdate: 'afterkeydown'">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer border-0 pt-2 pb-4 px-4 flex gap-2">
+                <!-- ko if: isEditMode -->
+                <button type="button"
+                    class="text-gr-danger border rounded-xl py-3 px-3 shrink-0 bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors cursor-pointer"
+                    id="tbOldModalDelBtn" title="Delete Dhikr" aria-label="Delete Dhikr"
+                    data-bind="click: deleteItem">
+                    <i class="fa-solid fa-trash-can text-base"></i>
+                </button>
+                <!-- /ko -->
+                <button type="button"
+                    class="border font-bold flex-1 py-3 rounded-xl text-base bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors cursor-pointer"
+                    data-bind="click: close">Cancel</button>
+                <button type="button"
+                    class="flex-1 py-3 rounded-xl text-base bg-brand text-white hover:bg-brand-hover transition-colors font-bold cursor-pointer"
+                    id="tbOldModalSaveBtn"
+                    data-bind="click: save">Save Dhikr</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /ko -->
+
+        </script>
+        <script type="text/html" id="tasbeeh-old-page-template">
+<div id="tasbeehOldCounterView" class="flex flex-col grow tb-counter-overlay" data-ref="page.tasbeeh.old.counter">
+    <header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px] gap-2">
+        <button type="button"
+            class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
+            id="tbOldBtnBack" data-act="tb-back" data-bind="click: onBack" title="Back">
+            <app-icon params="name: 'arrow-left', size: 'base'"></app-icon>
+        </button>
+        <div class="grow min-w-0 text-center">
+            <h5 class="font-bold text-base text-brand m-0 flex items-center justify-center truncate mb-0"
+                id="tbOldCounterTopTitle" data-bind="text: topTitle">Calendar Tracker</h5>
+        </div>
+        <div class="w-10 h-10 shrink-0" aria-hidden="true"></div>
+    </header>
+
+    <div class="grow flex flex-col overflow-auto">
+        <!-- Dhikr Title & Target Info -->
+        <div class="text-center w-full pt-3 pb-2 px-3">
+            <h4 class="font-bold text-brand mb-1 truncate" id="tbOldCounterTitle"
+                data-bind="text: itemTitle">—</h4>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-surfaceBg border border-borderGrey rounded-full text-xs font-semibold text-brand"
+                id="tbOldCalTargetPill">
+                <app-icon params="name: 'bullseye'"></app-icon>
+                <span id="tbOldCalTargetLabel" data-bind="text: targetLabel">Target: 100 / day</span>
+            </div>
+        </div>
+
+        <!-- Month Navigation -->
+        <div class="flex items-center justify-between px-3 py-2" id="tbOldCalMonthNav">
+            <button type="button"
+                class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
+                id="tbOldCalPrevMonth" title="Previous month"
+                data-bind="click: prevMonth, style: { opacity: canPrev() ? '1' : '0.5', pointerEvents: canPrev() ? 'auto' : 'none' }, css: { 'border-brand text-brand': isMonthDone }">
+                <app-icon params="name: 'chevron-left'"></app-icon>
+            </button>
+            <div class="font-bold text-base text-brand text-center tracking-wide flex-1" id="tbOldCalMonthLabel"
+                data-bind="text: monthLabel">October 2026</div>
+            <button type="button"
+                class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0 opacity-20 pointer-events-none"
+                id="tbOldCalNextMonth" title="Next month unavailable in Old Tracking">
+                <app-icon params="name: 'chevron-right'"></app-icon>
+            </button>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div class="flex-1 px-3 pb-3">
+            <div class="grid grid-cols-7 gap-1 mb-1.5">
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sun</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Mon</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Tue</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Wed</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Thu</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Fri</div>
+                <div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sat</div>
+            </div>
+            <div class="grid grid-cols-7 gap-1.5" id="tbOldCalGrid" data-bind="foreach: calendarCells">
+                <!-- ko if: isEmpty -->
+                <div class="tb-cal-cell tb-cal-empty aspect-square rounded-xl bg-transparent border-0" aria-hidden="true"></div>
+                <!-- /ko -->
+                <!-- ko ifnot: isEmpty -->
+                <div class="tb-cal-cell aspect-square rounded-xl flex items-center justify-center cursor-pointer border-2 border-transparent bg-white relative select-none transition-all hover:border-brand"
+                    data-bind="attr: { 'data-date': dateStr, 'aria-label': dayNumber + ' ' + (isCompleted() ? 'Completed' : 'Pending') }, css: { 'tb-cal-done': isCompleted, 'tb-cal-today': isToday }, click: $parent.toggleDay"
+                    role="button" tabindex="0">
+                    <span class="tb-cal-date text-lg font-bold text-brand leading-none inline-flex items-center justify-center"
+                        data-bind="text: dayNumber"></span>
+                </div>
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+</div>
+
+        </script>
+        <script type="text/html" id="tasbeeh-history-card-template">
+<div class="flex items-center justify-between p-2 rounded-3 bg-white border border-borderGrey mb-2"
+    data-bind="attr: { 'data-month': monthKey }">
+    <div class="flex items-center gap-2 min-w-0">
+        <span class="text-muted fw-bold small text-gr-textMuted font-bold text-xs" style="width: 24px; font-size: 11px;"
+            data-bind="text: indexText">#1</span>
+        <span class="fw-bold text-gr1 small text-truncate font-bold text-brand text-xs truncate" style="font-size: 13.5px;"
+            data-bind="text: monthLabel">September 2026</span>
+    </div>
+    <div class="flex items-center gap-2 shrink-0">
+        <span class="badge rounded-pill inline-flex items-center" style="font-size: 10.5px; font-weight: 600; padding: 4px 8px;"
+            data-bind="css: badgeClass">
+            <app-icon params="name: badgeIcon, customClass: 'mr-1', size: 'xs'"></app-icon>
+            <span data-bind="text: badgeText">Completed</span>
+        </span>
+        <!-- ko if: canReopen -->
+        <button type="button"
+            class="inline-flex items-center justify-center bg-transparent border border-yellow-500 text-yellow-600 font-semibold rounded-full px-2 py-0 ml-auto text-[11px] hover:bg-yellow-50 transition-colors cursor-pointer select-none"
+            data-act="tb-old-reopen" title="Reopen this month to recount"
+            data-bind="click: onReopen">
+            <app-icon params="name: 'rotate-left', customClass: 'mr-1', size: 'xs'"></app-icon> Reopen
+        </button>
+        <!-- /ko -->
+    </div>
+</div>
+
+        </script>
+        <script type="text/html" id="tasbeeh-history-feed-template">
 <div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none">
-    <div class="flex items-center gap-2 mb-3">
-        <div class="icon-box icon-box-sm">
-            <app-icon params="name: 'gear', color: 'text-brand'"></app-icon>
-        </div>
-        <div>
-            <h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Period Settings</h6>
-            <div class="text-gr-textMuted text-xs" style="font-size: 11.5px;">Configure range for Old Tasbeeh tracking</div>
-        </div>
+    <div class="flex items-center justify-between mb-2">
+        <h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6>
+        <!-- ko if: hasClearedMonths -->
+        <button type="button"
+            class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 underline text-gr-danger text-decoration-none text-xs font-bold"
+            id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed"
+            data-bind="click: onResetCompleted">
+            <app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Cleared
+        </button>
+        <!-- /ko -->
+    </div>
+    <div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">
+        Sequential monthly clearance advances backward month-by-month as dhikrs are completed.
     </div>
 
-    <!-- Start Date Input -->
-    <div class="mb-2">
-        <label class="text-xs font-bold text-gr-textMuted mb-1 block font-semibold text-brand mb-1.5"
-            for="tbHistPeriodStart">
-            <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', customClass: 'mr-1'"></app-icon>Start Date
-        </label>
-        <div class="relative flex items-center rounded-xl border border-borderGrey bg-white focus-within:border-brand overflow-hidden"
-            style="border-radius: 8px;">
-            <span class="w-10 h-10 flex items-center justify-center text-gr-textMuted shrink-0"
-                style="width: 42px; height: 42px;">
-                <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', size: '15px'"></app-icon>
-            </span>
-            <input type="date"
-                class="border-0 pl-2 w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                style="height: 42px; font-size: 14px;" id="tbHistPeriodStart"
-                data-bind="value: startDate">
-        </div>
+    <!-- Empty State -->
+    <!-- ko if: isEmpty -->
+    <div class="text-center py-4 text-gr-textMuted text-xs">
+        <app-icon params="name: 'calendar-xmark', size: '2xl', customClass: 'opacity-50 mb-2'"></app-icon>
+        <div>No past months found in this period range. Check your Start and End dates.</div>
     </div>
+    <!-- /ko -->
 
-    <!-- End Date Input -->
-    <div class="mb-3">
-        <label class="text-xs font-bold text-gr-textMuted mb-1 block font-semibold text-brand mb-1.5"
-            for="tbHistPeriodEnd">
-            <app-icon params="name: 'calendar-check', color: 'text-brand', customClass: 'mr-1'"></app-icon>End Date
-        </label>
-        <div class="relative flex items-center rounded-xl border border-borderGrey bg-white focus-within:border-brand overflow-hidden"
-            style="border-radius: 8px;">
-            <span class="w-10 h-10 flex items-center justify-center text-gr-textMuted shrink-0"
-                style="width: 42px; height: 42px;">
-                <app-icon params="name: 'calendar-check', color: 'text-brand', size: '15px'"></app-icon>
-            </span>
-            <input type="date"
-                class="border-0 pl-2 w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-                style="height: 42px; font-size: 14px;" id="tbHistPeriodEnd"
-                data-bind="value: endDate">
-        </div>
+    <!-- Months List -->
+    <!-- ko ifnot: isEmpty -->
+    <div class="flex flex-col gap-2" id="tbHistoryList" data-bind="foreach: months">
+        <!-- ko component: { name: 'tasbeeh-history-card', params: $data } --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+</div>
+
+        </script>
+        <script type="text/html" id="tasbeeh-history-form-template">
+<div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none">
+    <div class="flex items-center justify-between mb-1">
+        <h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Tracking Goal & Period Range</h6>
+        <span class="text-xs text-gr-textMuted font-semibold">Old Tracking Scope</span>
+    </div>
+    <div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">
+        Define your historical tracking window. Months are cleared sequentially backward.
     </div>
 
     <!-- Presets -->
-    <div class="mb-3">
-        <label class="text-xs font-bold text-gr-textMuted uppercase mb-1 block font-semibold text-brand mb-1.5"
-            style="font-size: 10.5px;">Quick Presets</label>
-        <div class="flex gap-2 flex-wrap">
-            <button type="button"
-                class="rounded-full px-3 py-1 border border-borderGrey bg-white text-gr-text hover:bg-surfaceBg transition-colors text-xs py-1.5 rounded-lg"
-                style="font-size: 12px;" data-act="tb-hist-preset" data-preset="this-year">This Year</button>
-            <button type="button"
-                class="rounded-full px-3 py-1 border border-borderGrey bg-white text-gr-text hover:bg-surfaceBg transition-colors text-xs py-1.5 rounded-lg"
-                style="font-size: 12px;" data-act="tb-hist-preset" data-preset="6-months">Last 6 Months</button>
-            <button type="button"
-                class="rounded-full px-3 py-1 border border-borderGrey bg-white text-gr-text hover:bg-surfaceBg transition-colors text-xs py-1.5 rounded-lg"
-                style="font-size: 12px;" data-act="tb-hist-preset" data-preset="1-year">Last 1 Year</button>
+    <div class="flex gap-1.5 mb-3 flex-wrap">
+        <button type="button"
+            class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-surfaceBg border border-borderGrey text-brand hover:bg-brand-light transition-colors cursor-pointer select-none"
+            data-bind="click: function(){ applyPreset('this-year'); }">
+            This Year
+        </button>
+        <button type="button"
+            class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-surfaceBg border border-borderGrey text-brand hover:bg-brand-light transition-colors cursor-pointer select-none"
+            data-bind="click: function(){ applyPreset('6-months'); }">
+            Last 6 Months
+        </button>
+        <button type="button"
+            class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-surfaceBg border border-borderGrey text-brand hover:bg-brand-light transition-colors cursor-pointer select-none"
+            data-bind="click: function(){ applyPreset('1-year'); }">
+            Last 1 Year
+        </button>
+    </div>
+
+    <!-- Dates Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+        <div>
+            <label class="block text-xs font-bold text-brand mb-1" for="tbHistPeriodStart">Tracking Start Date</label>
+            <input type="date"
+                class="w-full px-3 py-2 rounded-xl border border-borderGrey bg-white text-xs font-semibold text-brand focus:outline-none focus:border-brand transition-colors"
+                id="tbHistPeriodStart"
+                data-bind="value: startDate, valueUpdate: 'afterkeydown'">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-brand mb-1" for="tbHistPeriodEnd">Period End Date</label>
+            <input type="date"
+                class="w-full px-3 py-2 rounded-xl border border-borderGrey bg-white text-xs font-semibold text-brand focus:outline-none focus:border-brand transition-colors"
+                id="tbHistPeriodEnd"
+                data-bind="value: endDate, valueUpdate: 'afterkeydown'">
         </div>
     </div>
 
     <!-- Action Buttons -->
-    <div class="flex gap-2 pt-1">
+    <div class="flex gap-2">
         <button type="button"
-            class="grow rounded-xl py-2 font-bold bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
-            style="font-size: 13.5px;" data-act="tb-hist-save">
-            <app-icon params="name: 'check', customClass: 'mr-1'"></app-icon> Save Period Settings
+            class="flex-1 py-2 rounded-xl bg-brand text-white font-bold text-xs hover:bg-brand-hover transition-colors cursor-pointer select-none flex items-center justify-center gap-1.5"
+            data-bind="click: save">
+            <app-icon params="name: 'check', size: 'xs'"></app-icon> Save Settings
         </button>
         <button type="button"
-            class="rounded-xl px-3 py-2 border border-borderGrey bg-white text-gr-text hover:bg-surfaceBg transition-colors text-xs py-1.5 rounded-lg cursor-pointer"
-            style="font-size: 13.5px;" data-act="tb-hist-reset" title="Reset Period Settings">
-            <app-icon params="name: 'rotate-left'"></app-icon>
+            class="px-3 py-2 rounded-xl bg-surfaceBg border border-borderGrey text-gr-textMuted font-bold text-xs hover:bg-gray-100 transition-colors cursor-pointer select-none"
+            data-bind="click: reset">
+            Reset Default
         </button>
     </div>
 </div>
 
-
         </script>
-        <script type="text/html" id="tasbeeh-nav-tab-template">
-<nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
-    id="tasbeehBottomNav" data-ref="page.tasbeeh.bottom-nav">
-    <button type="button"
-        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-        id="tabTbCurrent" data-act="switch-tb-current" role="tab"
-        data-bind="css: ko.unwrap($data.activeTab) === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'current' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('current'); }"
-        data-ref="page.tasbeeh.tab-current">
-        <app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon>
-        <span>Current</span>
-    </button>
-    <button type="button"
-        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-        id="tabTbOld" data-act="switch-tb-old" role="tab"
-        data-bind="css: ko.unwrap($data.activeTab) === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'old' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('old'); }"
-        data-ref="page.tasbeeh.tab-old">
-        <app-icon params="name: 'clock-rotate-left'"></app-icon>
-        <span>Old</span>
-    </button>
-    <button type="button"
-        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-        id="tabTbHistory" data-act="switch-tb-history" role="tab"
-        data-bind="css: ko.unwrap($data.activeTab) === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'history' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('history'); }"
-        data-ref="page.tasbeeh.tab-history">
-        <app-icon params="name: 'gear'"></app-icon>
-        <span>History</span>
-    </button>
-</nav>
+        <script type="text/html" id="tasbeeh-history-page-template">
+<div class="flex flex-col gap-3 pt-1 pb-4" id="tbHistoryContent" data-ref="page.tasbeeh.history.content">
+    <!-- Progress Circle & Stats Component -->
+    <!-- ko component: { name: 'tasbeeh-progress-circle', params: progressStats } --><!-- /ko -->
 
+    <!-- Goal & Period Setter Component -->
+    <!-- ko component: { name: 'tasbeeh-history-form', params: formParams } --><!-- /ko -->
+
+    <!-- Monthly Clearance Breakdown Feed Component -->
+    <!-- ko component: { name: 'tasbeeh-history-feed', params: feedParams } --><!-- /ko -->
+</div>
 
         </script>
         <script type="text/html" id="duas-page-template">
@@ -3024,44 +3577,26 @@
 
         </script>
         <script type="text/html" id="duva-nav-tab-template">
-<nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
-    id="duaBottomNav" data-ref="page.duas.bottom-nav">
-    <div class="flex w-full h-full items-center justify-around" id="duaSegmentBar" role="tablist"
-        aria-label="Duas view">
-        <button type="button"
-            class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-            id="duaTabPinned" data-act="dua-switch-pinned" role="tab"
-            data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('home'); }, css: (ko.unwrap($data.activeTab) === 'pinned' || ko.unwrap($data.activeTab) === 'home') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'pinned' || ko.unwrap($data.activeTab) === 'home') ? 'true' : 'false' }"
-            data-ref="page.duas.tab-pinned">
-            <span class="text-xl leading-none inline-flex items-center justify-center">
-                <app-icon params="name: 'thumbtack'"></app-icon>
-            </span>
-            <span>Pinned</span>
-        </button>
-        <button type="button"
-            class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-            id="duaTabAll" data-act="dua-switch-all" role="tab"
-            data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('duas'); }, css: (ko.unwrap($data.activeTab) === 'all' || ko.unwrap($data.activeTab) === 'duas') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'all' || ko.unwrap($data.activeTab) === 'duas') ? 'true' : 'false' }"
-            data-ref="page.duas.tab-all">
-            <span class="text-xl leading-none inline-flex items-center justify-center">
-                <app-icon params="name: 'book-quran'"></app-icon>
-            </span>
-            <span>All Duas</span>
-        </button>
-        <button type="button"
-            class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-            id="duaTabFavs" data-act="dua-switch-favs" role="tab"
-            data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('favourites'); }, css: (ko.unwrap($data.activeTab) === 'favourites' || ko.unwrap($data.activeTab) === 'favs') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'favourites' || ko.unwrap($data.activeTab) === 'favs') ? 'true' : 'false' }"
-            data-ref="page.duas.tab-favs">
-            <span class="text-xl leading-none inline-flex items-center justify-center">
-                <app-icon params="name: 'bookmark'"></app-icon>
-            </span>
-            <span>Favourites</span>
-        </button>
-    </div>
-</nav>
-
-
+<!-- ko component: {
+    name: 'app-tabs',
+    params: {
+        variant: 'bottom-nav',
+        containerId: 'duaBottomNav',
+        dataRef: 'page.duas.bottom-nav',
+        ariaLabel: 'Duas view',
+        activeTab: $data.activeTab,
+        onTabChange: function(tabId) {
+            if (window.DuasApp && window.DuasApp.switchTab) {
+                window.DuasApp.switchTab(tabId === 'pinned' ? 'home' : (tabId === 'all' ? 'duas' : 'favourites'));
+            }
+        },
+        tabs: [
+            { id: 'pinned', label: 'Pinned', icon: 'thumbtack', elementId: 'duaTabPinned', dataAct: 'dua-switch-pinned', dataRef: 'page.duas.tab-pinned', aliases: ['home'] },
+            { id: 'all', label: 'All Duas', icon: 'book-quran', elementId: 'duaTabAll', dataAct: 'dua-switch-all', dataRef: 'page.duas.tab-all', aliases: ['duas'] },
+            { id: 'favourites', label: 'Favourites', icon: 'bookmark', elementId: 'duaTabFavs', dataAct: 'dua-switch-favs', dataRef: 'page.duas.tab-favs', aliases: ['favs'] }
+        ]
+    }
+} --><!-- /ko -->
         </script>
         <script type="text/html" id="duva-pinned-card-template">
 <div class="pinned-dua-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col gap-2.5 border-l-4 border-l-brand relative cursor-pointer hover:bg-surfaceBg transition-all mb-3"

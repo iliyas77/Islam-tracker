@@ -1,0 +1,61 @@
+<div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none">
+    <div class="flex items-center justify-between mb-1">
+        <h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Tracking Goal & Period Range</h6>
+        <span class="text-xs text-gr-textMuted font-semibold">Old Tracking Scope</span>
+    </div>
+    <div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">
+        Define your historical tracking window. Months are cleared sequentially backward.
+    </div>
+
+    <!-- Presets -->
+    <div class="flex gap-1.5 mb-3 flex-wrap">
+        <button type="button"
+            class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-surfaceBg border border-borderGrey text-brand hover:bg-brand-light transition-colors cursor-pointer select-none"
+            data-bind="click: function(){ applyPreset('this-year'); }">
+            This Year
+        </button>
+        <button type="button"
+            class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-surfaceBg border border-borderGrey text-brand hover:bg-brand-light transition-colors cursor-pointer select-none"
+            data-bind="click: function(){ applyPreset('6-months'); }">
+            Last 6 Months
+        </button>
+        <button type="button"
+            class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-surfaceBg border border-borderGrey text-brand hover:bg-brand-light transition-colors cursor-pointer select-none"
+            data-bind="click: function(){ applyPreset('1-year'); }">
+            Last 1 Year
+        </button>
+    </div>
+
+    <!-- Dates Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+        <div>
+            <label class="block text-xs font-bold text-brand mb-1" for="tbHistPeriodStart">Tracking Start Date</label>
+            <input type="date"
+                class="w-full px-3 py-2 rounded-xl border border-borderGrey bg-white text-xs font-semibold text-brand focus:outline-none focus:border-brand transition-colors"
+                id="tbHistPeriodStart"
+                data-bind="value: startDate, valueUpdate: 'afterkeydown'">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-brand mb-1" for="tbHistPeriodEnd">Period End Date</label>
+            <input type="date"
+                class="w-full px-3 py-2 rounded-xl border border-borderGrey bg-white text-xs font-semibold text-brand focus:outline-none focus:border-brand transition-colors"
+                id="tbHistPeriodEnd"
+                data-bind="value: endDate, valueUpdate: 'afterkeydown'">
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex gap-2">
+        <button type="button"
+            class="flex-1 py-2 rounded-xl bg-brand text-white font-bold text-xs hover:bg-brand-hover transition-colors cursor-pointer select-none flex items-center justify-center gap-1.5"
+            data-bind="click: save">
+            <app-icon params="name: 'check', size: 'xs'"></app-icon> Save Settings
+        </button>
+        <button type="button"
+            class="px-3 py-2 rounded-xl bg-surfaceBg border border-borderGrey text-gr-textMuted font-bold text-xs hover:bg-gray-100 transition-colors cursor-pointer select-none"
+            data-bind="click: reset">
+            Reset Default
+        </button>
+    </div>
+</div>
+

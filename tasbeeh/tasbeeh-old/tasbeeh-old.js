@@ -8,41 +8,27 @@
    ============================================================ */
 
 import {
-    loadPeriod, savePeriod, openPeriodModal, savePeriodModal,
-    resetPeriodModal, setPeriodPreset, updatePeriodPreview, PERIOD_PRESETS
+    openPeriodModal, savePeriodModal,
+    resetPeriodModal, setPeriodPreset, updatePeriodPreview
 } from '../tasbeeh-period.js';
-import { getTasbeehViewModel, escHtml } from '../tasbeeh-view-model.js';
+import {
+    loadPeriod, savePeriod, PERIOD_PRESETS,
+    pad2, showToast, formatMonthLabel, renderIcon, escHtml
+} from '../tasbeeh-service.js';
+import { getTasbeehViewModel } from '../tasbeeh-view-model.js';
+
+// Re-export Old modular components
+export * from './tasbeeh-old-card/tasbeeh-old-card.js';
+export * from './tasbeeh-old-feed/tasbeeh-old-feed.js';
+export * from './tasbeeh-old-form/tasbeeh-old-form.js';
+export * from './tasbeeh-old-page/tasbeeh-old-page.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var TASBEEH_CONSTANTS = _win.TASBEEH_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.TASBEEH) || {};
 var ELEMENT_IDS = TASBEEH_CONSTANTS.ELEMENT_IDS || {};
 var currentOldMonthKey = null;
 
-function getEl(id) { return document.getElementById(id); }
-var pad2 = function (n) {
-    if (typeof _win.pad2 === 'function' && _win.pad2 !== pad2) return _win.pad2(n);
-    return n < 10 ? '0' + n : '' + n;
-};
-function showToast(msg, d) { if (typeof _win.showToast === 'function') _win.showToast(msg, d); }
-var formatMonthLabel = function (m) {
-    if (typeof _win.formatMonthLabel === 'function' && _win.formatMonthLabel !== formatMonthLabel) return _win.formatMonthLabel(m);
-    return m;
-};
-var renderIcon = function (opt) {
-    if (typeof _win.renderIcon === 'function' && _win.renderIcon !== renderIcon) return _win.renderIcon(opt);
-    if (typeof opt === 'string') {
-        if (opt === 'tb-target') return '<app-icon params="name: \'bullseye\', color: \'text-gray-400\', size: \'xs\'"></app-icon>';
-        if (opt === 'tb-pencil') return '<app-icon params="name: \'pencil\', size: \'xs\'"></app-icon>';
-        if (opt === 'tb-chevron') return '<app-icon params="name: \'chevron-right\', size: \'xs\'"></app-icon>';
-        if (opt === 'tb-check-circle') return '<app-icon params="name: \'check\', size: \'xs\'"></app-icon>';
-        return '<i class="fa-solid fa-' + opt + '"></i>';
-    }
-    if (opt && opt.name) {
-        var prefix = opt.prefix || 'fa-solid', col = opt.color || '';
-        return '<i class="' + prefix + ' fa-' + opt.name + ' ' + col + '"></i>';
-    }
-    return '';
-};
+function getEl(id) { if (typeof document === 'undefined') return null; return document.getElementById(id); }
 
 function getItems() {
     if (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.getItems === 'function') {
@@ -155,8 +141,18 @@ export function resetAllCompleted() {
 }
 
 export function openCounterOld(id, monthKey) {
+    var curOldMonth = monthKey || getCurrentOldMonth();
+    var itList = getItems();
+    var item = null;
+    for (var i = 0; i < itList.length; i++) {
+        if (itList[i].id === id) { item = itList[i]; break; }
+    }
+    var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+    if (vm && typeof vm.openCalendar === 'function') {
+        vm.openCalendar(item, curOldMonth);
+    }
     if (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.openCounter === 'function') {
-        _win.TasbeehCurrentApp.openCounter(id, monthKey);
+        _win.TasbeehCurrentApp.openCounter(id, curOldMonth);
     }
 }
 

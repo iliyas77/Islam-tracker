@@ -1,28 +1,16 @@
-<nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
-    id="tasbeehBottomNav" data-ref="page.tasbeeh.bottom-nav">
-    <button type="button"
-        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-        id="tabTbCurrent" data-act="switch-tb-current" role="tab"
-        data-bind="css: ko.unwrap($data.activeTab) === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'current' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('current'); }"
-        data-ref="page.tasbeeh.tab-current">
-        <app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon>
-        <span>Current</span>
-    </button>
-    <button type="button"
-        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-        id="tabTbOld" data-act="switch-tb-old" role="tab"
-        data-bind="css: ko.unwrap($data.activeTab) === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'old' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('old'); }"
-        data-ref="page.tasbeeh.tab-old">
-        <app-icon params="name: 'clock-rotate-left'"></app-icon>
-        <span>Old</span>
-    </button>
-    <button type="button"
-        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-        id="tabTbHistory" data-act="switch-tb-history" role="tab"
-        data-bind="css: ko.unwrap($data.activeTab) === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'history' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('history'); }"
-        data-ref="page.tasbeeh.tab-history">
-        <app-icon params="name: 'gear'"></app-icon>
-        <span>History</span>
-    </button>
-</nav>
-
+<!-- ko component: {
+    name: 'app-tabs',
+    params: {
+        variant: 'bottom-nav',
+        containerId: 'tasbeehBottomNav',
+        dataRef: 'page.tasbeeh.bottom-nav',
+        ariaLabel: 'Tasbeeh Navigation Tabs',
+        activeTab: $data.activeTab,
+        onTabChange: function(tabId) { if (window.TasbeehApp && window.TasbeehApp.switchTab) window.TasbeehApp.switchTab(tabId); },
+        tabs: [
+            { id: 'current', label: 'Current', icon: 'calendar-days', iconPrefix: 'fa-regular', elementId: 'tabTbCurrent', dataAct: 'switch-tb-current', dataRef: 'page.tasbeeh.tab-current' },
+            { id: 'old', label: 'Old', icon: 'clock-rotate-left', elementId: 'tabTbOld', dataAct: 'switch-tb-old', dataRef: 'page.tasbeeh.tab-old' },
+            { id: 'history', label: 'History', icon: 'gear', elementId: 'tabTbHistory', dataAct: 'switch-tb-history', dataRef: 'page.tasbeeh.tab-history' }
+        ]
+    }
+} --><!-- /ko -->

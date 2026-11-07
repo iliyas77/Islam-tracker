@@ -154,7 +154,64 @@ id: id,
 'data-ref': dataRef
 }"></i><!-- /ko --></script><script type="text/html" id="bottom-sheet-template"><!-- ko if: ko.unwrap(isOpen) --><div class="bottom-sheet-backdrop" data-bind="click: closeOnBackdrop" role="dialog" aria-modal="true"><div class="bottom-sheet-card show" data-bind="click: stopPropagation, attr: { id: cardId }"><div class="bottom-sheet-header"><!-- ko if: showBackBtn --><button type="button"
 class="w-9 h-9 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer mr-1"
-data-bind="click: close" aria-label="Back"><i class="fa-solid fa-arrow-left text-base"></i></button><!-- /ko --><div class="grow min-w-0"><h5 class="bottom-sheet-title font-bold text-base text-brand flex items-center gap-2 m-0 mb-0"><!-- ko if: ko.unwrap(icon) --><i data-bind="attr: { class: ko.unwrap(icon), id: iconId }"></i><!-- /ko --><span data-bind="text: title, attr: { id: titleId }" class="truncate"></span></h5><!-- ko if: ko.unwrap(subtitle) --><div class="text-xs text-gr-textMuted mt-0.5 truncate" data-bind="text: subtitle, attr: { id: subId }"></div><!-- /ko --></div><!-- ko if: showCloseBtn --><button type="button" class="sheet-close-btn" data-bind="click: close" aria-label="Close">&times;</button><!-- /ko --></div><div class="bottom-sheet-body" data-bind="attr: { id: bodyId }"><!-- ko template: { nodes: $componentTemplateNodes } --><!-- /ko --></div></div></div><!-- /ko --></script><script type="text/html" id="settings-card-header-template"><div class="flex items-center gap-3 mb-3" data-bind="attr: { class: headerClass || 'flex items-center gap-3 mb-3', 'data-ref': headerDataRef }"><div class="icon-box icon-box-lg" data-bind="attr: { class: iconBoxClass, 'data-ref': iconDataRef }"><!-- ko if: icon --><app-icon params="name: icon"></app-icon><!-- /ko --><!-- ko if: iconText --><!-- ko text: iconText --><!-- /ko --><!-- /ko --></div><div class="grow" data-bind="attr: { 'data-ref': infoDataRef }"><div data-bind="text: title, attr: { class: titleClass || 'font-bold text-sm', 'data-ref': titleDataRef }"></div><!-- ko if: subtitle --><div class="text-gr-textMuted text-xs" data-bind="text: subtitle, attr: { id: subtitleId, 'data-ref': subtitleDataRef }"></div><!-- /ko --></div><!-- ko if: showStatusBadge --><span class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-gr-accent-soft text-gr-accent px-2"
+data-bind="click: close" aria-label="Back"><i class="fa-solid fa-arrow-left text-base"></i></button><!-- /ko --><div class="grow min-w-0"><h5 class="bottom-sheet-title font-bold text-base text-brand flex items-center gap-2 m-0 mb-0"><!-- ko if: ko.unwrap(icon) --><i data-bind="attr: { class: ko.unwrap(icon), id: iconId }"></i><!-- /ko --><span data-bind="text: title, attr: { id: titleId }" class="truncate"></span></h5><!-- ko if: ko.unwrap(subtitle) --><div class="text-xs text-gr-textMuted mt-0.5 truncate" data-bind="text: subtitle, attr: { id: subId }"></div><!-- /ko --></div><!-- ko if: showCloseBtn --><button type="button" class="sheet-close-btn" data-bind="click: close" aria-label="Close">&times;</button><!-- /ko --></div><div class="bottom-sheet-body" data-bind="attr: { id: bodyId }"><!-- ko template: { nodes: $componentTemplateNodes } --><!-- /ko --></div></div></div><!-- /ko --></script><script type="text/html" id="app-tabs-template"><!-- ko if: variant() === 'underline' --><div class="flex border-b border-borderGrey bg-white sticky top-0 z-20"
+role="tablist"
+data-bind="attr: { 'aria-label': ariaLabel, 'id': containerId, 'data-ref': dataRef }, css: customClass"><!-- ko foreach: tabs --><button type="button" role="tab"
+class="flex-1 py-3 flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
+data-bind="
+attr: {
+'id': elementId,
+'aria-selected': $parent.isActive($data) ? 'true' : 'false',
+'data-act': dataAct,
+'data-ref': dataRef,
+'disabled': disabled
+},
+css: $parent.getUnderlineTabClass($data),
+click: function(d, e) { $parent.selectTab($data, e); }
+"><!-- ko if: icon --><app-icon params="name: icon, prefix: iconPrefix, customClass: iconClass"></app-icon><!-- /ko --><span data-bind="text: label"></span><!-- ko if: hasBadge --><span class="text-xs font-bold px-2 py-0.5 rounded-full"
+data-bind="
+attr: { 'id': badgeId },
+css: $parent.getBadgeClass($data),
+text: badgeValue
+"></span><!-- /ko --></button><!-- /ko --></div><!-- /ko --><!-- ko if: variant() === 'bottom-nav' || variant() === 'nav' --><nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
+role="tablist"
+data-bind="attr: { 'aria-label': ariaLabel, 'id': containerId, 'data-ref': dataRef }, css: customClass"><!-- ko foreach: tabs --><button type="button" role="tab"
+class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
+data-bind="
+attr: {
+'id': elementId,
+'aria-selected': $parent.isActive($data) ? 'true' : 'false',
+'data-act': dataAct,
+'data-ref': dataRef,
+'disabled': disabled
+},
+css: $parent.getNavTabClass($data),
+click: function(d, e) { $parent.selectTab($data, e); }
+"><!-- ko if: icon --><span class="text-xl leading-none inline-flex items-center justify-center"><app-icon params="name: icon, prefix: iconPrefix, customClass: iconClass"></app-icon></span><!-- /ko --><span data-bind="text: label"></span><!-- ko if: hasBadge --><span class="text-xs font-bold px-1.5 py-0.2 rounded-full absolute top-1 right-2"
+data-bind="
+attr: { 'id': badgeId },
+css: $parent.getBadgeClass($data),
+text: badgeValue
+"></span><!-- /ko --></button><!-- /ko --></nav><!-- /ko --><!-- ko if: variant() === 'pills' || variant() === 'segment' --><div class="inline-flex p-1 bg-surfaceBg rounded-xl border border-borderGrey gap-1"
+role="tablist"
+data-bind="attr: { 'aria-label': ariaLabel, 'id': containerId, 'data-ref': dataRef }, css: customClass"><!-- ko foreach: tabs --><button type="button" role="tab"
+class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer select-none flex items-center gap-1.5"
+data-bind="
+attr: {
+'id': elementId,
+'aria-selected': $parent.isActive($data) ? 'true' : 'false',
+'data-act': dataAct,
+'data-ref': dataRef,
+'disabled': disabled
+},
+css: $parent.getPillTabClass($data),
+click: function(d, e) { $parent.selectTab($data, e); }
+"><!-- ko if: icon --><app-icon params="name: icon, prefix: iconPrefix, customClass: iconClass"></app-icon><!-- /ko --><span data-bind="text: label"></span><!-- ko if: hasBadge --><span class="text-xs font-bold px-1.5 py-0.2 rounded-full ml-1"
+data-bind="
+attr: { 'id': badgeId },
+css: $parent.getBadgeClass($data),
+text: badgeValue
+"></span><!-- /ko --></button><!-- /ko --></div><!-- /ko --></script><script type="text/html" id="tabs-template"><!-- ko template: { name: 'app-tabs-template' } --><!-- /ko --></script><script type="text/html" id="settings-card-header-template"><div class="flex items-center gap-3 mb-3" data-bind="attr: { class: headerClass || 'flex items-center gap-3 mb-3', 'data-ref': headerDataRef }"><div class="icon-box icon-box-lg" data-bind="attr: { class: iconBoxClass, 'data-ref': iconDataRef }"><!-- ko if: icon --><app-icon params="name: icon"></app-icon><!-- /ko --><!-- ko if: iconText --><!-- ko text: iconText --><!-- /ko --><!-- /ko --></div><div class="grow" data-bind="attr: { 'data-ref': infoDataRef }"><div data-bind="text: title, attr: { class: titleClass || 'font-bold text-sm', 'data-ref': titleDataRef }"></div><!-- ko if: subtitle --><div class="text-gr-textMuted text-xs" data-bind="text: subtitle, attr: { id: subtitleId, 'data-ref': subtitleDataRef }"></div><!-- /ko --></div><!-- ko if: showStatusBadge --><span class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-gr-accent-soft text-gr-accent px-2"
 data-bind="attr: { id: statusBadgeId, 'data-ref': statusBadgeDataRef }"><app-icon params="name: 'circle-dot', size: '10px', customClass: 'mr-1'"></app-icon><span
 data-bind="text: statusText, attr: { id: statusTextId }">Offline</span></span><!-- /ko --></div></script><script type="text/html" id="settings-city-option-template"><option data-bind="value: value, text: label, attr: { 'data-ref': dataRef }"></option></script><script type="text/html" id="settings-font-size-btn-template"><button type="button"
 data-bind="text: label, click: onClick, attr: { 'data-act': 'font', 'data-fs': size, 'data-ref': dataRef }, css: $parent.getFontSizeBtnClass ? $parent.getFontSizeBtnClass(size) : ($root.getFontSizeBtnClass ? $root.getFontSizeBtnClass(size) : '')"></button></script><script type="text/html" id="settings-info-card-template"><div class="rounded-2xl border border-borderGrey p-4 bg-brand-light flex flex-col shadow-none"
@@ -316,85 +373,34 @@ data-bind="text: totalCompleted || 0">0</span><span class="text-gr-textMuted fon
 data-bind="text: ' / ' + (totalPossible || 0)"> / 0</span></div></div></div><div class="w-full text-center py-2 px-3 rounded-full bg-brand-light text-brand text-xs font-medium border border-borderGrey"
 id="perfDatePill" data-bind="text: datePillText || '0 days'">
 0 days
-</div></div></script><script type="text/html" id="prayer-nav-tab-template"><nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
-id="trackerBottomNav"><button type="button"
-class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-id="tabTrackCurrent" data-act="switch-track-current" role="tab"
-data-bind="css: activeTab() === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'current' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('current'); }"><app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon><span>Current</span></button><button type="button"
-class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-id="tabTrackOld" data-act="switch-track-old" role="tab"
-data-bind="css: activeTab() === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'old' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('old'); }"><app-icon params="name: 'clock-rotate-left'"></app-icon><span>Old</span></button><button type="button"
-class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-id="tabTrackPerformance" data-act="switch-track-performance" role="tab"
-data-bind="css: activeTab() === 'performance' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'performance' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('performance'); }"><app-icon params="name: 'chart-simple'"></app-icon><span>Performance</span></button><button type="button"
-class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-id="tabTrackHistory" data-act="switch-track-history" role="tab"
-data-bind="css: activeTab() === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': activeTab() === 'history' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); switchTrackerSubTab('history'); }"><app-icon params="name: 'list-check'"></app-icon><span>History</span></button></nav></script><script type="text/html" id="prayer-history-card-template"><div class="rounded-2xl p-4 bg-white border border-borderGrey mb-3 flex flex-col gap-3 shadow-none"
+</div></div></script><script type="text/html" id="prayer-nav-tab-template"><!-- ko component: {
+name: 'app-tabs',
+params: {
+variant: 'bottom-nav',
+containerId: 'trackerBottomNav',
+dataRef: 'page.tracker.bottom-nav',
+ariaLabel: 'Prayer Tracker Navigation Tabs',
+activeTab: activeTab,
+onTabChange: function(tabId) { if (typeof switchTrackerSubTab === 'function') switchTrackerSubTab(tabId); },
+tabs: [
+{ id: 'current', label: 'Current', icon: 'calendar-days', iconPrefix: 'fa-regular', elementId: 'tabTrackCurrent', dataAct: 'switch-track-current', dataRef: 'page.tracker.tab-current' },
+{ id: 'old', label: 'Old', icon: 'clock-rotate-left', elementId: 'tabTrackOld', dataAct: 'switch-track-old', dataRef: 'page.tracker.tab-old' },
+{ id: 'performance', label: 'Performance', icon: 'chart-simple', elementId: 'tabTrackPerformance', dataAct: 'switch-track-performance', dataRef: 'page.tracker.tab-performance' },
+{ id: 'history', label: 'History', icon: 'list-check', elementId: 'tabTrackHistory', dataAct: 'switch-track-history', dataRef: 'page.tracker.tab-history' }
+]
+}
+} --><!-- /ko --></script><script type="text/html" id="prayer-history-card-template"><div class="rounded-2xl p-4 bg-white border border-borderGrey mb-3 flex flex-col gap-3 shadow-none"
 data-bind="attr: { 'data-ref': 'page.history.card.' + (id || '') }"><div class="flex items-center justify-between"><div class="flex items-center gap-2.5 min-w-0"><div class="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 44px; height: 44px;"
 data-bind="attr: { 'data-ref': 'page.history.item.avatar.' + (id || '') }"><app-icon params="name: iconName, size: '22px', color: 'text-brand'"></app-icon></div><div class="flex items-center gap-2 min-w-0"><h6 class="font-bold text-brand text-base mb-0 leading-none"
 data-bind="text: prayer, attr: { 'data-ref': 'page.history.item.prayer.' + (id || '') }"></h6><span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
 data-bind="text: type, attr: { 'data-ref': 'page.history.item.type.' + (id || '') }, css: isCurrent ? 'bg-brand-light text-brand border border-brand/20' : 'bg-amber-50 text-amber-700 border border-amber-200'"></span></div></div><span class="flex items-center gap-1.5 text-brand text-xs font-bold shrink-0"><app-icon params="name: 'circle-check', size: '14px', color: 'text-brand'"></app-icon><span>Completed</span></span></div><div class="text-gr-textMuted text-xs" data-bind="attr: { 'data-ref': 'page.history.item.date.' + (id || '') }">
 Prayer Date: <strong class="text-brand font-bold" data-bind="text: formattedDate"></strong></div><div class="flex items-center justify-between text-gr-textMuted text-xs"><div class="flex items-center gap-1.5" data-bind="attr: { 'data-ref': 'page.history.item.time.' + (id || '') }"><app-icon params="name: 'clock', prefix: 'fa-regular', size: '12px'"></app-icon><span>Completed: <span class="text-brand font-medium" data-bind="text: exactTime"></span></span></div><span class="text-gr-textMuted" data-bind="text: ago"></span></div></div></script><script type="text/html" id="tasbeeh-page-template"><!-- ko component: { name: 'tasbeeh-header', params: header } --><!-- /ko --><div class="grow overflow-auto p-2 pb-5 relative" id="tbCurrentBody"
-data-bind="visible: currentSubTab() === 'current'"><div id="tbList" class="flex flex-col gap-3"><div class="border border-borderGrey p-3 text-center rounded-2xl bg-white d-none shadow-none"
-id="tbCurrentAdvanceBanner"><app-icon params="name: 'circle-check', color: 'text-brand', size: 'xl', customClass: 'mb-2'"></app-icon><div class="font-bold text-brand" id="tbCurrentAdvanceBannerText">All Dhikrs for this month Completed!</div><div class="text-gr-textMuted text-xs mb-3">All daily targets for this month have been achieved.</div><button type="button"
-class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
-data-act="tb-current-advance"><app-icon params="name: 'arrow-right', customClass: 'mr-1'"></app-icon> Finalize & Advance to Next Month
-</button></div><div class="flex border-b border-borderGrey bg-white sticky top-0 z-20" role="tablist" aria-label="Current Tasbeeh Status Tabs"><button type="button" id="tabTbCurrentTodo" role="tab" aria-selected="true" aria-controls="tbCurrentTodoList"
-class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-brand text-brand font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
-data-bind="click: function(d,e){ switchCurrentTab('todo', e); }, css: currentActiveTab() === 'todo' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'"><span>TO DO</span><span id="tbCurrentTodoBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
-data-bind="css: currentActiveTab() === 'todo' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: currentTodoItems().length">0</span></button><button type="button" id="tabTbCurrentDone" role="tab" aria-selected="false" aria-controls="tbCurrentDoneList"
-class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-transparent text-gr-textMuted font-semibold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
-data-bind="click: function(d,e){ switchCurrentTab('completed', e); }, css: currentActiveTab() === 'completed' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'"><span>COMPLETED</span><span id="tbCurrentDoneBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
-data-bind="css: currentActiveTab() === 'completed' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: currentDoneItems().length">0</span></button></div><div id="tbCurrentTodoList" role="tabpanel" aria-labelledby="tabTbCurrentTodo" class="mt-2 space-y-3"
-data-bind="visible: currentActiveTab() === 'todo'"><div class="flex flex-col gap-3" id="tbCurrentTodoGrid" data-bind="foreach: currentTodoItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div><div id="tbCurrentDoneList" role="tabpanel" aria-labelledby="tabTbCurrentDone" class="mt-2 space-y-3 d-none hidden"
-data-bind="visible: currentActiveTab() === 'completed'"><div class="flex flex-col gap-3" id="tbCurrentDoneGrid" data-bind="foreach: currentDoneItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div></div><div id="tbEmptyState" class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"><div class="mb-3"><app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50', dataRef: 'page.tasbeeh.empty-state.icon'"></app-icon></div><h5 class="font-bold text-brand mb-1">No Dhikr Yet</h5><p class="text-gr-textMuted text-xs mb-0">Tap “+” below to add your first chant and begin counting.</p></div></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody"
-data-bind="visible: currentSubTab() === 'old'"><div class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"
-id="tbOldEmptyRange"><div class="mb-3"><app-icon params="name: 'calendar-xmark', color: 'text-gr-warning', size: '4xl', customClass: 'opacity-75'"></app-icon></div><h5 class="font-bold text-brand mb-2">No Previous Months in Period</h5><p class="text-gr-textMuted text-xs mb-3">
-Your tracking start date is <strong id="tbOldEmptyRangeStart"></strong>, which falls in or after the current period.<br>
-The Old tab displays previous completed months prior to <strong id="tbOldEmptyRangeCur"></strong>.
-</p><button type="button"
-class="px-4 py-2 rounded-xl font-bold mx-auto bg-brand text-white hover:bg-brand-hover transition-colors"
-data-act="tb-open-settings"><app-icon params="name: 'calendar-days', customClass: 'mr-2'"></app-icon> Adjust Start Date
-</button></div><div class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"
-id="tbOldAllCompleted"><div class="mb-3"><app-icon params="name: 'circle-check', color: 'text-brand', size: '4xl'"></app-icon></div><h5 class="font-bold text-brand mb-2">All Previous Months Completed!</h5><p class="text-gr-textMuted text-xs mb-3">
-All previous months back to <span id="tbOldAllCompletedStart"></span> have been completed.
-</p><div class="flex justify-center gap-2"><button type="button"
-class="rounded-full px-4 py-2 font-bold border border-brand bg-white text-brand hover:bg-brand-light transition-colors"
-data-act="tb-old-reopen"
-data-bind="click: reopenLastMonth"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reopen Last Month
-</button><button type="button"
-class="border rounded-full px-3 py-2 text-gr-textMuted text-xs bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors"
-data-act="tb-reset-all-completed"
-data-bind="click: resetAllCompleted"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Completed
-</button></div></div><div class="d-none flex flex-col gap-3" id="tbOldContent"><div class="border border-borderGrey p-3 text-center rounded-2xl bg-white mb-3 d-none shadow-none"
-id="tbOldAdvanceBanner"><div class="text-brand font-bold mb-2"><app-icon params="name: 'circle-check', color: 'text-brand', customClass: 'mr-1'"></app-icon><span id="tbOldAdvanceBannerMsg">All targets are completed!</span></div><button type="button"
-class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg"
-data-act="tb-old-advance"><app-icon params="name: 'arrow-left', customClass: 'mr-1'"></app-icon> Finalize & Move to Previous Month
-</button></div><div class="flex border-b border-borderGrey bg-white sticky top-0 z-20" role="tablist" aria-label="Old Tasbeeh Status Tabs"><button type="button" id="tabTbOldTodo" role="tab" aria-selected="true" aria-controls="tbOldTodoList"
-class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-brand text-brand font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
-data-bind="click: function(d,e){ switchOldTab('todo', e); }, css: oldActiveTab() === 'todo' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'"><span>TO DO</span><span id="tbOldTodoBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
-data-bind="css: oldActiveTab() === 'todo' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: oldTodoItems().length">0</span></button><button type="button" id="tabTbOldDone" role="tab" aria-selected="false" aria-controls="tbOldDoneList"
-class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-transparent text-gr-textMuted font-semibold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
-data-bind="click: function(d,e){ switchOldTab('completed', e); }, css: oldActiveTab() === 'completed' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'"><span>COMPLETED</span><span id="tbOldDoneBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
-data-bind="css: oldActiveTab() === 'completed' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: oldDoneItems().length">0</span></button></div><div id="tbOldTodoList" role="tabpanel" aria-labelledby="tabTbOldTodo" class="mt-2 space-y-3"
-data-bind="visible: oldActiveTab() === 'todo'"><div class="flex flex-col gap-3" id="tbOldTodoGrid" data-bind="foreach: oldTodoItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div><div id="tbOldDoneList" role="tabpanel" aria-labelledby="tabTbOldDone" class="mt-2 space-y-3 d-none hidden"
-data-bind="visible: oldActiveTab() === 'completed'"><div class="flex flex-col gap-3" id="tbOldDoneGrid" data-bind="foreach: oldDoneItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div></div></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody"
-data-bind="visible: currentSubTab() === 'history'"><div class="flex flex-col gap-3 pt-1 pb-4" id="tbHistoryContent"><!-- ko component: { name: 'tasbeeh-progress-circle', params: historyProgress } --><!-- /ko --><!-- ko component: { name: 'tasbeeh-goal-setter', params: goalSetter } --><!-- /ko --><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center justify-between mb-2"><h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6><button type="button"
-class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 underline text-gr-danger text-decoration-none text-xs font-bold d-none"
-id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed"
-data-bind="click: resetAllCompleted"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Cleared
-</button></div><div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">Sequential monthly clearance advances backward month-by-month as dhikrs are completed.</div><div class="flex flex-col gap-2" id="tbHistoryList"></div></div></div></div><button type="button"
+data-bind="visible: currentSubTab() === 'current' && !isCalendarOpen()"><!-- ko component: { name: 'tasbeeh-current-feed', params: currentFeedParams } --><!-- /ko --></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody"
+data-bind="visible: currentSubTab() === 'old' && !isCalendarOpen()"><!-- ko component: { name: 'tasbeeh-old-feed', params: oldFeedParams } --><!-- /ko --></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody"
+data-bind="visible: currentSubTab() === 'history' && !isCalendarOpen()"><!-- ko component: { name: 'tasbeeh-history-page', params: historyPageParams } --><!-- /ko --></div><!-- ko if: currentSubTab() === 'current' && isCalendarOpen() --><!-- ko component: { name: 'tasbeeh-current-page', params: currentCalendarParams } --><!-- /ko --><!-- /ko --><!-- ko if: currentSubTab() === 'old' && isCalendarOpen() --><!-- ko component: { name: 'tasbeeh-old-page', params: oldCalendarParams } --><!-- /ko --><!-- /ko --><!-- ko component: { name: 'tasbeeh-current-form', params: currentFormParams } --><!-- /ko --><button type="button"
 class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
 id="tbAddBtn" title="Add New Dhikr" aria-label="Add New Dhikr"
-data-bind="visible: currentSubTab() === 'current' || currentSubTab() === 'old', click: openAddModal"><app-icon params="name: 'plus', size: 'xl', dataRef: 'page.tasbeeh.header.add-icon'"></app-icon></button><!-- ko component: { name: 'tasbeeh-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko --><div id="tasbeehCounterView" class="d-none flex-col grow tb-counter-overlay"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px] gap-2"><button type="button"
-class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
-id="tbBtnBack" data-act="tb-back" data-bind="click: closeCounter" title="Back"><app-icon params="name: 'arrow-left', size: 'base', dataRef: 'page.tasbeeh.counter.back-icon'"></app-icon></button><div class="grow min-w-0 text-center"><h5 class="font-bold text-base text-brand m-0 flex items-center justify-center truncate mb-0"
-id="tbCounterTopTitle">Calendar Tracker</h5></div><div class="w-10 h-10 shrink-0" aria-hidden="true"></div></header><div class="grow flex flex-col overflow-auto"><div class="text-center w-full pt-3 pb-2 px-3"><h4 class="font-bold text-brand mb-1 truncate" id="tbCounterTitle">—</h4><div class="inline-flex items-center gap-1.5 px-3 py-1 bg-surfaceBg border border-borderGrey rounded-full text-xs font-semibold text-brand"
-id="tbCalTargetPill"><app-icon params="name: 'bullseye'"></app-icon><span id="tbCalTargetLabel">Target: 100 / day</span></div></div><div class="flex items-center justify-between px-3 py-2" id="tbCalMonthNav"><button type="button"
-class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
-id="tbCalPrevMonth" title="Previous month"><app-icon params="name: 'chevron-left'"></app-icon></button><div class="font-bold text-base text-brand text-center tracking-wide flex-1" id="tbCalMonthLabel">October 2026</div><button type="button"
-class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
-id="tbCalNextMonth" title="Next month"><app-icon params="name: 'chevron-right'"></app-icon></button></div><div class="flex-1 px-3 pb-3"><div class="grid grid-cols-7 gap-1 mb-1.5"><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sun</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Mon</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Tue</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Wed</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Thu</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Fri</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sat</div></div><div class="grid grid-cols-7 gap-1.5" id="tbCalGrid"></div></div></div></div></script><script type="text/html" id="tasbeeh-header-template"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"><div class="w-full flex items-center justify-between min-w-0 min-h-[44px]"><div class="flex items-center gap-2 min-w-0 grow"><button type="button"
+data-bind="visible: (currentSubTab() === 'current' || currentSubTab() === 'old') && !isCalendarOpen(), click: openAddModal"><app-icon params="name: 'plus', size: 'xl', dataRef: 'page.tasbeeh.header.add-icon'"></app-icon></button><!-- ko ifnot: isCalendarOpen --><!-- ko component: { name: 'tasbeeh-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko --><!-- /ko --></script><script type="text/html" id="tasbeeh-header-template"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"><div class="w-full flex items-center justify-between min-w-0 min-h-[44px]"><div class="flex items-center gap-2 min-w-0 grow"><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
 data-act="go-home" title="Back to Home" aria-label="Back to Home"
 data-bind="click: goHome"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="min-w-0 grow"><h5 class="font-bold text-base text-brand m-0 flex items-center gap-2"><app-icon params="id: 'tbHeaderIcon', name: iconClass || 'fa-solid fa-house text-brand', dataRef: 'page.tasbeeh.header.icon'"></app-icon><span id="tbHeaderLabel" data-bind="text: title || 'Digital Tasbeeh'">Digital Tasbeeh</span></h5><div class="text-xs text-gr-textMuted mt-0.5" id="tbHeaderSub"
@@ -412,43 +418,210 @@ data-bind="text: (ko.unwrap(percentCleared) || 0) + '% Cleared'">
 </span></div><div class="mb-3 w-full bg-gray-100 rounded-full overflow-hidden" style="height: 6px;"><div class="bg-brand rounded-full w-full bg-gray-100 overflow-hidden h-full transition-all duration-300"
 id="tbHistProgressBar" role="progressbar"
 data-bind="style: { width: (ko.unwrap(percentCleared) || 0) + '%' }, attr: { 'aria-valuenow': ko.unwrap(percentCleared) || 0 }"
-style="width: 0%;" aria-valuemin="0" aria-valuemax="100"></div></div><div class="grid grid-cols-3 gap-2 text-center"><div><div class="p-2 rounded-xl bg-surfaceBg border border-borderGrey"><div class="text-gr-textMuted text-[11px]">Total Months</div><div class="font-bold text-brand text-base mt-0.5" id="tbHistTotalMonths" data-bind="text: totalMonths">0</div></div></div><div><div class="p-2 rounded-xl bg-brand-light text-brand border border-brand/20"><div class="text-[11px] font-semibold text-brand">Cleared</div><div class="font-bold text-base mt-0.5" id="tbHistClearedMonths" data-bind="text: clearedMonths">0</div></div></div><div><div class="p-2 rounded-xl bg-surfaceBg border border-borderGrey"><div class="text-gr-textMuted text-[11px]">Pending</div><div class="font-bold text-gr-textMuted text-base mt-0.5" id="tbHistPendingMonths" data-bind="text: pendingMonths">0</div></div></div></div></div></script><script type="text/html" id="tasbeeh-goal-setter-template"><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center gap-2 mb-3"><div class="icon-box icon-box-sm"><app-icon params="name: 'gear', color: 'text-brand'"></app-icon></div><div><h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Period Settings</h6><div class="text-gr-textMuted text-xs" style="font-size: 11.5px;">Configure range for Old Tasbeeh tracking</div></div></div><div class="mb-2"><label class="text-xs font-bold text-gr-textMuted mb-1 block font-semibold text-brand mb-1.5"
-for="tbHistPeriodStart"><app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', customClass: 'mr-1'"></app-icon>Start Date
-</label><div class="relative flex items-center rounded-xl border border-borderGrey bg-white focus-within:border-brand overflow-hidden"
-style="border-radius: 8px;"><span class="w-10 h-10 flex items-center justify-center text-gr-textMuted shrink-0"
-style="width: 42px; height: 42px;"><app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', size: '15px'"></app-icon></span><input type="date"
-class="border-0 pl-2 w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-style="height: 42px; font-size: 14px;" id="tbHistPeriodStart"
-data-bind="value: startDate"></div></div><div class="mb-3"><label class="text-xs font-bold text-gr-textMuted mb-1 block font-semibold text-brand mb-1.5"
-for="tbHistPeriodEnd"><app-icon params="name: 'calendar-check', color: 'text-brand', customClass: 'mr-1'"></app-icon>End Date
-</label><div class="relative flex items-center rounded-xl border border-borderGrey bg-white focus-within:border-brand overflow-hidden"
-style="border-radius: 8px;"><span class="w-10 h-10 flex items-center justify-center text-gr-textMuted shrink-0"
-style="width: 42px; height: 42px;"><app-icon params="name: 'calendar-check', color: 'text-brand', size: '15px'"></app-icon></span><input type="date"
-class="border-0 pl-2 w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-style="height: 42px; font-size: 14px;" id="tbHistPeriodEnd"
-data-bind="value: endDate"></div></div><div class="mb-3"><label class="text-xs font-bold text-gr-textMuted uppercase mb-1 block font-semibold text-brand mb-1.5"
-style="font-size: 10.5px;">Quick Presets</label><div class="flex gap-2 flex-wrap"><button type="button"
-class="rounded-full px-3 py-1 border border-borderGrey bg-white text-gr-text hover:bg-surfaceBg transition-colors text-xs py-1.5 rounded-lg"
-style="font-size: 12px;" data-act="tb-hist-preset" data-preset="this-year">This Year</button><button type="button"
-class="rounded-full px-3 py-1 border border-borderGrey bg-white text-gr-text hover:bg-surfaceBg transition-colors text-xs py-1.5 rounded-lg"
-style="font-size: 12px;" data-act="tb-hist-preset" data-preset="6-months">Last 6 Months</button><button type="button"
-class="rounded-full px-3 py-1 border border-borderGrey bg-white text-gr-text hover:bg-surfaceBg transition-colors text-xs py-1.5 rounded-lg"
-style="font-size: 12px;" data-act="tb-hist-preset" data-preset="1-year">Last 1 Year</button></div></div><div class="flex gap-2 pt-1"><button type="button"
-class="grow rounded-xl py-2 font-bold bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
-style="font-size: 13.5px;" data-act="tb-hist-save"><app-icon params="name: 'check', customClass: 'mr-1'"></app-icon> Save Period Settings
+style="width: 0%;" aria-valuemin="0" aria-valuemax="100"></div></div><div class="grid grid-cols-3 gap-2 text-center"><div><div class="p-2 rounded-xl bg-surfaceBg border border-borderGrey"><div class="text-gr-textMuted text-[11px]">Total Months</div><div class="font-bold text-brand text-base mt-0.5" id="tbHistTotalMonths" data-bind="text: totalMonths">0</div></div></div><div><div class="p-2 rounded-xl bg-brand-light text-brand border border-brand/20"><div class="text-[11px] font-semibold text-brand">Cleared</div><div class="font-bold text-base mt-0.5" id="tbHistClearedMonths" data-bind="text: clearedMonths">0</div></div></div><div><div class="p-2 rounded-xl bg-surfaceBg border border-borderGrey"><div class="text-gr-textMuted text-[11px]">Pending</div><div class="font-bold text-gr-textMuted text-base mt-0.5" id="tbHistPendingMonths" data-bind="text: pendingMonths">0</div></div></div></div></div></script><script type="text/html" id="tasbeeh-nav-tab-template"><!-- ko component: {
+name: 'app-tabs',
+params: {
+variant: 'bottom-nav',
+containerId: 'tasbeehBottomNav',
+dataRef: 'page.tasbeeh.bottom-nav',
+ariaLabel: 'Tasbeeh Navigation Tabs',
+activeTab: $data.activeTab,
+onTabChange: function(tabId) { if (window.TasbeehApp && window.TasbeehApp.switchTab) window.TasbeehApp.switchTab(tabId); },
+tabs: [
+{ id: 'current', label: 'Current', icon: 'calendar-days', iconPrefix: 'fa-regular', elementId: 'tabTbCurrent', dataAct: 'switch-tb-current', dataRef: 'page.tasbeeh.tab-current' },
+{ id: 'old', label: 'Old', icon: 'clock-rotate-left', elementId: 'tabTbOld', dataAct: 'switch-tb-old', dataRef: 'page.tasbeeh.tab-old' },
+{ id: 'history', label: 'History', icon: 'gear', elementId: 'tabTbHistory', dataAct: 'switch-tb-history', dataRef: 'page.tasbeeh.tab-history' }
+]
+}
+} --><!-- /ko --></script><script type="text/html" id="tasbeeh-current-card-template"><div class="tb-card bg-white border border-gray-200 rounded-3xl p-4 sm:p-5 flex flex-row gap-4 items-center cursor-pointer hover:border-gray-300 select-none transition-all w-full shadow-none"
+data-bind="attr: { 'data-id': id, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: onCardClick"
+role="button" tabindex="0"><div class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-2xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center text-2xl shrink-0 leading-none select-none overflow-hidden"><app-icon params="name: 'hands-praying'"></app-icon></div><div class="flex-1 min-w-0 flex flex-col justify-center gap-1.5"><h6 class="tb-card-title text-[17px] font-bold text-gray-900 leading-tight m-0 truncate"
+data-bind="text: title"></h6><div class="tb-card-meta flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 font-medium"><span class="tb-meta-row inline-flex items-center gap-1.5"><app-icon params="name: 'bullseye', color: 'text-gray-400', size: 'xs'"></app-icon><span>Target: <strong class="tb-val-num font-bold text-gray-900" data-bind="text: targetDisplay"></strong><span class="text-gray-500">/day</span></span></span><span class="tb-meta-row inline-flex items-center gap-1.5"><app-icon params="name: 'calendar', prefix: 'fa-regular', color: 'text-gray-400', size: 'xs'"></app-icon><span>Total: <span class="tb-val-total text-gray-600 font-medium" data-bind="text: totalDaysText"></span></span></span></div><div class="flex items-center gap-2.5 mt-1"><div class="inline-flex items-center gap-1.5 bg-[#094E3A] text-white text-xs font-semibold px-3 py-1 rounded-full shrink-0 leading-none shadow-none"><app-icon params="name: 'check', size: 'xs', customClass: 'text-[10px]'"></app-icon><span>Done</span></div><span class="tb-val-done text-lg font-bold text-gray-900 leading-none" data-bind="text: completedDays"></span><!-- ko if: isTodayDone --><span class="text-[#094E3A] font-bold inline-flex items-center gap-1 text-[11px] ml-2"><app-icon params="name: 'circle-check', color: 'text-[#094E3A]', size: 'xs'"></app-icon> Today Completed
+</span><!-- /ko --></div></div><div class="tb-card-actions flex flex-col items-center justify-between self-stretch shrink-0 py-0.5 pl-1"><button type="button"
+class="tb-btn-edit w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200/80 flex items-center justify-center text-gray-600 cursor-pointer active:scale-95 transition-all p-0"
+data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
+data-bind="click: onEditClick"><app-icon params="name: 'pencil', size: 'xs'"></app-icon></button><div class="text-gray-300 flex items-center justify-center"><app-icon params="name: 'chevron-right', size: 'xs'"></app-icon></div></div></div></script><script type="text/html" id="tasbeeh-current-feed-template"><div class="flex flex-col gap-3" id="tbList"><div class="border border-borderGrey p-3 text-center rounded-2xl bg-white shadow-none"
+id="tbCurrentAdvanceBanner"
+data-bind="visible: isMonthCompleted"><app-icon params="name: 'circle-check', color: 'text-brand', size: 'xl', customClass: 'mb-2'"></app-icon><div class="font-bold text-brand" id="tbCurrentAdvanceBannerText">All Dhikrs for this month Completed!</div><div class="text-gr-textMuted text-xs mb-3">All daily targets for this month have been achieved.</div><button type="button"
+class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
+data-act="tb-current-advance"
+data-bind="click: onAdvanceMonth"><app-icon params="name: 'arrow-right', customClass: 'mr-1'"></app-icon> Finalize & Advance to Next Month
+</button></div><div id="tbEmptyState" class="border border-borderGrey p-4 text-center rounded-2xl bg-white shadow-none"
+data-bind="visible: isEmpty"><div class="mb-3"><app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50', dataRef: 'page.tasbeeh.empty-state.icon'"></app-icon></div><h5 class="font-bold text-brand mb-1">No Dhikr Yet</h5><p class="text-gr-textMuted text-xs mb-0">Tap “+” below to add your first chant and begin counting.</p></div><!-- ko ifnot: isEmpty --><!-- ko component: { name: 'app-tabs', params: statusTabsParams } --><!-- /ko --><div id="tbCurrentTodoList" role="tabpanel" aria-labelledby="tabTbCurrentTodo" class="mt-2 space-y-3"
+data-bind="visible: activeTab() === 'todo'"><!-- ko if: todoItems().length === 0 --><div id="tbCurrentTodoEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2"><div class="mb-2"><app-icon params="name: 'circle-check', color: 'text-brand', size: '2xl'"></app-icon></div><h6 class="font-bold text-brand text-sm mb-1">All Done for Today!</h6><p class="text-gr-textMuted text-xs mb-0">You have completed all daily Dhikr targets. Check the Completed tab to view them.</p></div><!-- /ko --><div class="flex flex-col gap-3" id="tbCurrentTodoGrid" data-bind="foreach: todoItems"><!-- ko component: { name: 'tasbeeh-current-card', params: { item: $data, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko --></div></div><div id="tbCurrentDoneList" role="tabpanel" aria-labelledby="tabTbCurrentDone" class="mt-2 space-y-3"
+data-bind="visible: activeTab() === 'completed'"><!-- ko if: doneItems().length === 0 --><div id="tbCurrentDoneEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2"><div class="mb-2"><app-icon params="name: 'circle-check', color: 'text-gr-textMuted', size: '2xl', customClass: 'opacity-40'"></app-icon></div><h6 class="font-bold text-gray-700 text-sm mb-1">No Completed Dhikrs Yet</h6><p class="text-gr-textMuted text-xs mb-0">Complete today's target for any Dhikr to see it listed here.</p></div><!-- /ko --><div class="flex flex-col gap-3" id="tbCurrentDoneGrid" data-bind="foreach: doneItems"><!-- ko component: { name: 'tasbeeh-current-card', params: { item: $data, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko --></div></div><!-- /ko --></div></script><script type="text/html" id="tasbeeh-current-form-template"><!-- ko if: isOpen --><div class="modal fixed inset-0 z-[1100] w-full h-full overflow-y-auto bg-black/45 backdrop-blur-[2px] transition-opacity flex items-center justify-center p-4"
+id="tasbeehModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="tbModalTitle"
+data-bind="click: handleBackdropClick"><div class="modal-dialog relative w-auto m-4 pointer-events-none max-w-[440px] w-full mx-auto min-h-[calc(100%-2rem)] flex items-center justify-center"><div class="modal-content relative flex flex-col w-full pointer-events-auto bg-white rounded-2xl border border-borderGrey shadow-2xl p-4"
+data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); }"><div class="modal-header border-0 pb-0 flex items-center gap-3 pt-4 px-4"><span class="icon-box icon-box-lg"><i class="fa-solid fa-hand-holding-heart text-brand text-xl"></i></span><h5 class="modal-title font-bold text-lg grow mb-0" id="tbModalTitle"
+data-bind="text: isEditMode() ? 'Edit Dhikr' : 'Add New Dhikr'">Add New Dhikr</h5><button type="button"
+class="w-8 h-8 rounded-lg text-gr-textMuted hover:bg-gray-100 flex items-center justify-center ml-auto cursor-pointer"
+aria-label="Close"
+data-bind="click: close"><i class="fa-solid fa-xmark"></i></button></div><div class="modal-body pt-3 px-4"><div class="mb-3"><label class="font-bold mb-2 block text-xs font-semibold text-brand mb-1.5" for="tbFormTitle">Chant Title</label><div class="relative flex items-center rounded-xl border border-borderGrey bg-white focus-within:border-brand overflow-hidden"><span class="w-10 h-10 flex items-center justify-center text-gr-textMuted shrink-0"><i class="fa-regular fa-file-lines text-base"></i></span><input type="text"
+class="border-0 pl-3 text-sm w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand focus:outline-none focus:border-brand transition-colors"
+id="tbFormTitle" placeholder="e.g. SubhanAllah" maxlength="40"
+data-bind="value: title, valueUpdate: 'afterkeydown'"></div></div><div class="mb-3"><label class="font-bold mb-2 block text-xs font-semibold text-brand mb-1.5">Daily Target Count</label><div class="flex gap-2 mb-2" id="tbCountChips"><button type="button"
+class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+data-count="33"
+data-bind="click: function(){ selectChip(33); }, css: { 'bg-brand text-white border-brand': !isInfinite() && targetCount() == 33 }">33</button><button type="button"
+class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+data-count="99"
+data-bind="click: function(){ selectChip(99); }, css: { 'bg-brand text-white border-brand': !isInfinite() && targetCount() == 99 }">99</button><button type="button"
+class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+data-count="100"
+data-bind="click: function(){ selectChip(100); }, css: { 'bg-brand text-white border-brand': !isInfinite() && targetCount() == 100 }">100</button><button type="button"
+class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+data-count="infinite"
+data-bind="click: function(){ selectChip('infinite'); }, css: { 'bg-brand text-white border-brand': isInfinite() }">∞</button></div><div class="relative flex items-center rounded-xl border border-borderGrey bg-white focus-within:border-brand overflow-hidden"><span class="w-10 h-10 flex items-center justify-center text-gr-textMuted shrink-0"><i class="fa-solid fa-hashtag text-base"></i></span><input type="number"
+class="border-0 pl-3 text-sm w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand focus:outline-none focus:border-brand transition-colors disabled:opacity-50 disabled:bg-gray-100"
+id="tbFormCount" placeholder="33" min="1" max="9999"
+data-bind="value: targetCount, enable: !isInfinite(), valueUpdate: 'afterkeydown'"></div></div></div><div class="modal-footer border-0 pt-2 pb-4 px-4 flex gap-2"><!-- ko if: isEditMode --><button type="button"
+class="text-gr-danger border rounded-xl py-3 px-3 shrink-0 bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors cursor-pointer"
+id="tbModalDelBtn" title="Delete Dhikr" aria-label="Delete Dhikr"
+data-bind="click: deleteItem"><i class="fa-solid fa-trash-can text-base"></i></button><!-- /ko --><button type="button"
+class="border font-bold flex-1 py-3 rounded-xl text-base bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors cursor-pointer"
+data-bind="click: close">Cancel</button><button type="button"
+class="flex-1 py-3 rounded-xl text-base bg-brand text-white hover:bg-brand-hover transition-colors font-bold cursor-pointer"
+id="tbModalSaveBtn"
+data-bind="click: save">Save Dhikr</button></div></div></div></div><!-- /ko --></script><script type="text/html" id="tasbeeh-current-page-template"><div id="tasbeehCounterView" class="flex flex-col grow tb-counter-overlay"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px] gap-2"><button type="button"
+class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
+id="tbBtnBack" data-act="tb-back" data-bind="click: onBack" title="Back"><app-icon params="name: 'arrow-left', size: 'base', dataRef: 'page.tasbeeh.counter.back-icon'"></app-icon></button><div class="grow min-w-0 text-center"><h5 class="font-bold text-base text-brand m-0 flex items-center justify-center truncate mb-0"
+id="tbCounterTopTitle">Calendar Tracker</h5></div><div class="w-10 h-10 shrink-0" aria-hidden="true"></div></header><div class="grow flex flex-col overflow-auto"><div class="text-center w-full pt-3 pb-2 px-3"><h4 class="font-bold text-brand mb-1 truncate" id="tbCounterTitle"
+data-bind="text: itemTitle">—</h4><div class="inline-flex items-center gap-1.5 px-3 py-1 bg-surfaceBg border border-borderGrey rounded-full text-xs font-semibold text-brand"
+id="tbCalTargetPill"><app-icon params="name: 'bullseye'"></app-icon><span id="tbCalTargetLabel" data-bind="text: targetLabel">Target: 100 / day</span></div></div><div class="flex items-center justify-between px-3 py-2" id="tbCalMonthNav"><button type="button"
+class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
+id="tbCalPrevMonth" title="Previous month"
+data-bind="click: prevMonth, style: { opacity: canPrev() ? '1' : '0.2', pointerEvents: canPrev() ? 'auto' : 'none' }"><app-icon params="name: 'chevron-left'"></app-icon></button><div class="font-bold text-base text-brand text-center tracking-wide flex-1" id="tbCalMonthLabel"
+data-bind="text: monthLabel">October 2026</div><button type="button"
+class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
+id="tbCalNextMonth" title="Next month"
+data-bind="click: nextMonth, style: { opacity: canNext() ? '1' : '0.2', pointerEvents: canNext() ? 'auto' : 'none' }, css: { 'border-brand text-brand': isMonthDone }"><app-icon params="name: 'chevron-right'"></app-icon></button></div><div class="flex-1 px-3 pb-3"><div class="grid grid-cols-7 gap-1 mb-1.5"><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sun</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Mon</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Tue</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Wed</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Thu</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Fri</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sat</div></div><div class="grid grid-cols-7 gap-1.5" id="tbCalGrid" data-bind="foreach: calendarCells"><!-- ko if: isEmpty --><div class="tb-cal-cell tb-cal-empty aspect-square rounded-xl bg-transparent border-0" aria-hidden="true"></div><!-- /ko --><!-- ko ifnot: isEmpty --><div class="tb-cal-cell aspect-square rounded-xl flex items-center justify-center cursor-pointer border-2 border-transparent bg-white relative select-none transition-all hover:border-brand"
+data-bind="attr: { 'data-date': dateStr, 'aria-label': dayNumber + ' ' + (isCompleted() ? 'Completed' : 'Pending') }, css: { 'tb-cal-done': isCompleted, 'tb-cal-today': isToday }, click: $parent.toggleDay"
+role="button" tabindex="0"><span class="tb-cal-date text-lg font-bold text-brand leading-none inline-flex items-center justify-center"
+data-bind="text: dayNumber"></span></div><!-- /ko --></div></div></div></div></script><script type="text/html" id="tasbeeh-old-card-template"><div class="tb-card bg-white border border-gray-200 rounded-3xl p-4 sm:p-5 flex flex-row gap-4 items-center cursor-pointer hover:border-gray-300 select-none transition-all w-full shadow-none"
+data-bind="attr: { 'data-id': id, 'data-month': month, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: onCardClick"
+role="button" tabindex="0"><div class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-2xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center text-2xl shrink-0 leading-none select-none overflow-hidden"><app-icon params="name: 'hands-praying'"></app-icon></div><div class="flex-1 min-w-0 flex flex-col justify-center gap-1.5"><h6 class="tb-card-title text-[17px] font-bold text-gray-900 leading-tight m-0 truncate"
+data-bind="text: title"></h6><div class="tb-card-meta flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 font-medium"><span class="tb-meta-row inline-flex items-center gap-1.5"><app-icon params="name: 'bullseye', color: 'text-gray-400', size: 'xs'"></app-icon><span>Target: <strong class="tb-val-num font-bold text-gray-900" data-bind="text: targetDisplay"></strong><span class="text-gray-500">/day</span></span></span><span class="tb-meta-row inline-flex items-center gap-1.5"><app-icon params="name: 'calendar', prefix: 'fa-regular', color: 'text-gray-400', size: 'xs'"></app-icon><span>Total: <span class="tb-val-total text-gray-600 font-medium" data-bind="text: totalDaysText"></span></span></span></div><div class="flex items-center gap-2.5 mt-1"><div class="inline-flex items-center gap-1.5 bg-[#094E3A] text-white text-xs font-semibold px-3 py-1 rounded-full shrink-0 leading-none shadow-none"><app-icon params="name: 'check', size: 'xs', customClass: 'text-[10px]'"></app-icon><span>Done</span></div><span class="tb-val-done text-lg font-bold text-gray-900 leading-none" data-bind="text: completedDays"></span><!-- ko if: isComplete --><span class="text-[#094E3A] font-bold inline-flex items-center gap-1 text-[11px] ml-2"><app-icon params="name: 'circle-check', color: 'text-[#094E3A]', size: 'xs'"></app-icon> Month Completed
+</span><!-- /ko --></div></div><div class="tb-card-actions flex flex-col items-center justify-between self-stretch shrink-0 py-0.5 pl-1"><button type="button"
+class="tb-btn-edit w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200/80 flex items-center justify-center text-gray-600 cursor-pointer active:scale-95 transition-all p-0"
+data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
+data-bind="click: onEditClick"><app-icon params="name: 'pencil', size: 'xs'"></app-icon></button><div class="text-gray-300 flex items-center justify-center"><app-icon params="name: 'chevron-right', size: 'xs'"></app-icon></div></div></div></script><script type="text/html" id="tasbeeh-old-feed-template"><div class="flex flex-col gap-3"><div class="border border-borderGrey p-4 text-center rounded-2xl bg-white shadow-none"
+id="tbOldEmptyRange"
+data-bind="visible: isEmptyRange"><div class="mb-3"><app-icon params="name: 'calendar-xmark', color: 'text-gr-warning', size: '4xl', customClass: 'opacity-75'"></app-icon></div><h5 class="font-bold text-brand mb-2">No Previous Months in Period</h5><p class="text-gr-textMuted text-xs mb-3">
+Your tracking start date is <strong id="tbOldEmptyRangeStart" data-bind="text: startDateLabel"></strong>, which falls in or after the current period.<br>
+The Old tab displays previous completed months prior to <strong id="tbOldEmptyRangeCur" data-bind="text: curMonthName"></strong>.
+</p><button type="button"
+class="px-4 py-2 rounded-xl font-bold mx-auto bg-brand text-white hover:bg-brand-hover transition-colors cursor-pointer"
+data-act="tb-open-settings"
+data-bind="click: onAdjustStartDate"><app-icon params="name: 'calendar-days', customClass: 'mr-2'"></app-icon> Adjust Start Date
+</button></div><div class="border border-borderGrey p-4 text-center rounded-2xl bg-white shadow-none"
+id="tbOldAllCompleted"
+data-bind="visible: isAllCompleted"><div class="mb-3"><app-icon params="name: 'circle-check', color: 'text-brand', size: '4xl'"></app-icon></div><h5 class="font-bold text-brand mb-2">All Previous Months Completed!</h5><p class="text-gr-textMuted text-xs mb-3">
+All previous months back to <span id="tbOldAllCompletedStart" data-bind="text: startDateLabel"></span> have been completed.
+</p><div class="flex justify-center gap-2"><button type="button"
+class="rounded-full px-4 py-2 font-bold border border-brand bg-white text-brand hover:bg-brand-light transition-colors cursor-pointer"
+data-act="tb-old-reopen"
+data-bind="click: onReopenLastMonth"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reopen Last Month
 </button><button type="button"
-class="rounded-xl px-3 py-2 border border-borderGrey bg-white text-gr-text hover:bg-surfaceBg transition-colors text-xs py-1.5 rounded-lg cursor-pointer"
-style="font-size: 13.5px;" data-act="tb-hist-reset" title="Reset Period Settings"><app-icon params="name: 'rotate-left'"></app-icon></button></div></div></script><script type="text/html" id="tasbeeh-nav-tab-template"><nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
-id="tasbeehBottomNav"><button type="button"
-class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-id="tabTbCurrent" data-act="switch-tb-current" role="tab"
-data-bind="css: ko.unwrap($data.activeTab) === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'current' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('current'); }"><app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon><span>Current</span></button><button type="button"
-class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-id="tabTbOld" data-act="switch-tb-old" role="tab"
-data-bind="css: ko.unwrap($data.activeTab) === 'old' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'old' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('old'); }"><app-icon params="name: 'clock-rotate-left'"></app-icon><span>Old</span></button><button type="button"
-class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-id="tabTbHistory" data-act="switch-tb-history" role="tab"
-data-bind="css: ko.unwrap($data.activeTab) === 'history' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'history' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('history'); }"><app-icon params="name: 'gear'"></app-icon><span>History</span></button></nav></script><script type="text/html" id="duas-page-template"><!-- ko component: { name: 'duva-header', params: header } --><!-- /ko --><div class="grow overflow-auto p-3 relative pb-5" id="duasBody"><div class="text-center py-6 text-gr-textMuted py-4 d-none" id="duaLoadingState"><div class="w-5 h-5 border-2 border-brand border-t-transparent rounded-full animate-spin inline-block mb-2"
+class="border rounded-full px-3 py-2 text-gr-textMuted text-xs bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors cursor-pointer"
+data-act="tb-reset-all-completed"
+data-bind="click: onResetCompleted"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Completed
+</button></div></div><!-- ko if: hasActiveOldMonth --><div class="flex flex-col gap-3" id="tbOldContent"><div class="border border-borderGrey p-3 text-center rounded-2xl bg-white mb-3 shadow-none"
+id="tbOldAdvanceBanner"
+data-bind="visible: isAllDone"><div class="text-brand font-bold mb-2"><app-icon params="name: 'circle-check', color: 'text-brand', customClass: 'mr-1'"></app-icon><span id="tbOldAdvanceBannerMsg" data-bind="text: 'All targets for ' + monthName() + ' are completed!'">All targets are completed!</span></div><button type="button"
+class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
+data-act="tb-old-advance"
+data-bind="click: onAdvanceMonth"><app-icon params="name: 'arrow-left', customClass: 'mr-1'"></app-icon> Finalize & Move to Previous Month
+</button></div><!-- ko component: { name: 'app-tabs', params: statusTabsParams } --><!-- /ko --><div id="tbOldTodoList" role="tabpanel" aria-labelledby="tabTbOldTodo" class="mt-2 space-y-3"
+data-bind="visible: activeTab() === 'todo'"><!-- ko if: todoItems().length === 0 --><div id="tbOldTodoEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2"><div class="mb-2"><app-icon params="name: 'circle-check', color: 'text-brand', size: '2xl'"></app-icon></div><h6 class="font-bold text-brand text-sm mb-1">All Targets Completed!</h6><p class="text-gr-textMuted text-xs mb-0">All Dhikr targets for this month are finished. You can advance to the previous month above.</p></div><!-- /ko --><div class="flex flex-col gap-3" id="tbOldTodoGrid" data-bind="foreach: todoItems"><!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko --></div></div><div id="tbOldDoneList" role="tabpanel" aria-labelledby="tabTbOldDone" class="mt-2 space-y-3"
+data-bind="visible: activeTab() === 'completed'"><!-- ko if: doneItems().length === 0 --><div id="tbOldDoneEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2"><div class="mb-2"><app-icon params="name: 'circle-check', color: 'text-gr-textMuted', size: '2xl', customClass: 'opacity-40'"></app-icon></div><h6 class="font-bold text-gray-700 text-sm mb-1">No Completed Dhikrs Yet</h6><p class="text-gr-textMuted text-xs mb-0">Complete all days for any Dhikr to see it listed here.</p></div><!-- /ko --><div class="flex flex-col gap-3" id="tbOldDoneGrid" data-bind="foreach: doneItems"><!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko --></div></div></div><!-- /ko --></div></script><script type="text/html" id="tasbeeh-old-form-template"><!-- ko if: isOpen --><div class="modal fixed inset-0 z-[1100] w-full h-full overflow-y-auto bg-black/45 backdrop-blur-[2px] transition-opacity flex items-center justify-center p-4"
+id="tasbeehOldModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="tbOldModalTitle"
+data-bind="click: handleBackdropClick"><div class="modal-dialog relative w-auto m-4 pointer-events-none max-w-[440px] w-full mx-auto min-h-[calc(100%-2rem)] flex items-center justify-center"><div class="modal-content relative flex flex-col w-full pointer-events-auto bg-white rounded-2xl border border-borderGrey shadow-2xl p-4"
+data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); }"><div class="modal-header border-0 pb-0 flex items-center gap-3 pt-4 px-4"><span class="icon-box icon-box-lg"><i class="fa-solid fa-hand-holding-heart text-brand text-xl"></i></span><h5 class="modal-title font-bold text-lg grow mb-0" id="tbOldModalTitle"
+data-bind="text: isEditMode() ? 'Edit Dhikr' : 'Add New Dhikr'">Add New Dhikr</h5><button type="button"
+class="w-8 h-8 rounded-lg text-gr-textMuted hover:bg-gray-100 flex items-center justify-center ml-auto cursor-pointer"
+aria-label="Close"
+data-bind="click: close"><i class="fa-solid fa-xmark"></i></button></div><div class="modal-body pt-3 px-4"><div class="mb-3"><label class="font-bold mb-2 block text-xs font-semibold text-brand mb-1.5" for="tbOldFormTitle">Chant Title</label><div class="relative flex items-center rounded-xl border border-borderGrey bg-white focus-within:border-brand overflow-hidden"><span class="w-10 h-10 flex items-center justify-center text-gr-textMuted shrink-0"><i class="fa-regular fa-file-lines text-base"></i></span><input type="text"
+class="border-0 pl-3 text-sm w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand focus:outline-none focus:border-brand transition-colors"
+id="tbOldFormTitle" placeholder="e.g. SubhanAllah" maxlength="40"
+data-bind="value: title, valueUpdate: 'afterkeydown'"></div></div><div class="mb-3"><label class="font-bold mb-2 block text-xs font-semibold text-brand mb-1.5">Daily Target Count</label><div class="flex gap-2 mb-2" id="tbOldCountChips"><button type="button"
+class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+data-count="33"
+data-bind="click: function(){ selectChip(33); }, css: { 'bg-brand text-white border-brand': !isInfinite() && targetCount() == 33 }">33</button><button type="button"
+class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+data-count="99"
+data-bind="click: function(){ selectChip(99); }, css: { 'bg-brand text-white border-brand': !isInfinite() && targetCount() == 99 }">99</button><button type="button"
+class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+data-count="100"
+data-bind="click: function(){ selectChip(100); }, css: { 'bg-brand text-white border-brand': !isInfinite() && targetCount() == 100 }">100</button><button type="button"
+class="border border-borderGrey bg-white rounded-xl py-2 px-3.5 font-bold text-sm text-brand transition-all cursor-pointer flex-1"
+data-count="infinite"
+data-bind="click: function(){ selectChip('infinite'); }, css: { 'bg-brand text-white border-brand': isInfinite() }">∞</button></div><div class="relative flex items-center rounded-xl border border-borderGrey bg-white focus-within:border-brand overflow-hidden"><span class="w-10 h-10 flex items-center justify-center text-gr-textMuted shrink-0"><i class="fa-solid fa-hashtag text-base"></i></span><input type="number"
+class="border-0 pl-3 text-sm w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand focus:outline-none focus:border-brand transition-colors disabled:opacity-50 disabled:bg-gray-100"
+id="tbOldFormCount" placeholder="33" min="1" max="9999"
+data-bind="value: targetCount, enable: !isInfinite(), valueUpdate: 'afterkeydown'"></div></div></div><div class="modal-footer border-0 pt-2 pb-4 px-4 flex gap-2"><!-- ko if: isEditMode --><button type="button"
+class="text-gr-danger border rounded-xl py-3 px-3 shrink-0 bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors cursor-pointer"
+id="tbOldModalDelBtn" title="Delete Dhikr" aria-label="Delete Dhikr"
+data-bind="click: deleteItem"><i class="fa-solid fa-trash-can text-base"></i></button><!-- /ko --><button type="button"
+class="border font-bold flex-1 py-3 rounded-xl text-base bg-surfaceBg border-borderGrey text-gr-text hover:bg-gray-100 transition-colors cursor-pointer"
+data-bind="click: close">Cancel</button><button type="button"
+class="flex-1 py-3 rounded-xl text-base bg-brand text-white hover:bg-brand-hover transition-colors font-bold cursor-pointer"
+id="tbOldModalSaveBtn"
+data-bind="click: save">Save Dhikr</button></div></div></div></div><!-- /ko --></script><script type="text/html" id="tasbeeh-old-page-template"><div id="tasbeehOldCounterView" class="flex flex-col grow tb-counter-overlay"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px] gap-2"><button type="button"
+class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
+id="tbOldBtnBack" data-act="tb-back" data-bind="click: onBack" title="Back"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="grow min-w-0 text-center"><h5 class="font-bold text-base text-brand m-0 flex items-center justify-center truncate mb-0"
+id="tbOldCounterTopTitle" data-bind="text: topTitle">Calendar Tracker</h5></div><div class="w-10 h-10 shrink-0" aria-hidden="true"></div></header><div class="grow flex flex-col overflow-auto"><div class="text-center w-full pt-3 pb-2 px-3"><h4 class="font-bold text-brand mb-1 truncate" id="tbOldCounterTitle"
+data-bind="text: itemTitle">—</h4><div class="inline-flex items-center gap-1.5 px-3 py-1 bg-surfaceBg border border-borderGrey rounded-full text-xs font-semibold text-brand"
+id="tbOldCalTargetPill"><app-icon params="name: 'bullseye'"></app-icon><span id="tbOldCalTargetLabel" data-bind="text: targetLabel">Target: 100 / day</span></div></div><div class="flex items-center justify-between px-3 py-2" id="tbOldCalMonthNav"><button type="button"
+class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
+id="tbOldCalPrevMonth" title="Previous month"
+data-bind="click: prevMonth, style: { opacity: canPrev() ? '1' : '0.5', pointerEvents: canPrev() ? 'auto' : 'none' }, css: { 'border-brand text-brand': isMonthDone }"><app-icon params="name: 'chevron-left'"></app-icon></button><div class="font-bold text-base text-brand text-center tracking-wide flex-1" id="tbOldCalMonthLabel"
+data-bind="text: monthLabel">October 2026</div><button type="button"
+class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0 opacity-20 pointer-events-none"
+id="tbOldCalNextMonth" title="Next month unavailable in Old Tracking"><app-icon params="name: 'chevron-right'"></app-icon></button></div><div class="flex-1 px-3 pb-3"><div class="grid grid-cols-7 gap-1 mb-1.5"><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sun</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Mon</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Tue</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Wed</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Thu</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Fri</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sat</div></div><div class="grid grid-cols-7 gap-1.5" id="tbOldCalGrid" data-bind="foreach: calendarCells"><!-- ko if: isEmpty --><div class="tb-cal-cell tb-cal-empty aspect-square rounded-xl bg-transparent border-0" aria-hidden="true"></div><!-- /ko --><!-- ko ifnot: isEmpty --><div class="tb-cal-cell aspect-square rounded-xl flex items-center justify-center cursor-pointer border-2 border-transparent bg-white relative select-none transition-all hover:border-brand"
+data-bind="attr: { 'data-date': dateStr, 'aria-label': dayNumber + ' ' + (isCompleted() ? 'Completed' : 'Pending') }, css: { 'tb-cal-done': isCompleted, 'tb-cal-today': isToday }, click: $parent.toggleDay"
+role="button" tabindex="0"><span class="tb-cal-date text-lg font-bold text-brand leading-none inline-flex items-center justify-center"
+data-bind="text: dayNumber"></span></div><!-- /ko --></div></div></div></div></script><script type="text/html" id="tasbeeh-history-card-template"><div class="flex items-center justify-between p-2 rounded-3 bg-white border border-borderGrey mb-2"
+data-bind="attr: { 'data-month': monthKey }"><div class="flex items-center gap-2 min-w-0"><span class="text-muted fw-bold small text-gr-textMuted font-bold text-xs" style="width: 24px; font-size: 11px;"
+data-bind="text: indexText">#1</span><span class="fw-bold text-gr1 small text-truncate font-bold text-brand text-xs truncate" style="font-size: 13.5px;"
+data-bind="text: monthLabel">September 2026</span></div><div class="flex items-center gap-2 shrink-0"><span class="badge rounded-pill inline-flex items-center" style="font-size: 10.5px; font-weight: 600; padding: 4px 8px;"
+data-bind="css: badgeClass"><app-icon params="name: badgeIcon, customClass: 'mr-1', size: 'xs'"></app-icon><span data-bind="text: badgeText">Completed</span></span><!-- ko if: canReopen --><button type="button"
+class="inline-flex items-center justify-center bg-transparent border border-yellow-500 text-yellow-600 font-semibold rounded-full px-2 py-0 ml-auto text-[11px] hover:bg-yellow-50 transition-colors cursor-pointer select-none"
+data-act="tb-old-reopen" title="Reopen this month to recount"
+data-bind="click: onReopen"><app-icon params="name: 'rotate-left', customClass: 'mr-1', size: 'xs'"></app-icon> Reopen
+</button><!-- /ko --></div></div></script><script type="text/html" id="tasbeeh-history-feed-template"><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center justify-between mb-2"><h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6><!-- ko if: hasClearedMonths --><button type="button"
+class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 underline text-gr-danger text-decoration-none text-xs font-bold"
+id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed"
+data-bind="click: onResetCompleted"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Cleared
+</button><!-- /ko --></div><div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">
+Sequential monthly clearance advances backward month-by-month as dhikrs are completed.
+</div><!-- ko if: isEmpty --><div class="text-center py-4 text-gr-textMuted text-xs"><app-icon params="name: 'calendar-xmark', size: '2xl', customClass: 'opacity-50 mb-2'"></app-icon><div>No past months found in this period range. Check your Start and End dates.</div></div><!-- /ko --><!-- ko ifnot: isEmpty --><div class="flex flex-col gap-2" id="tbHistoryList" data-bind="foreach: months"><!-- ko component: { name: 'tasbeeh-history-card', params: $data } --><!-- /ko --></div><!-- /ko --></div></script><script type="text/html" id="tasbeeh-history-form-template"><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center justify-between mb-1"><h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Tracking Goal & Period Range</h6><span class="text-xs text-gr-textMuted font-semibold">Old Tracking Scope</span></div><div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">
+Define your historical tracking window. Months are cleared sequentially backward.
+</div><div class="flex gap-1.5 mb-3 flex-wrap"><button type="button"
+class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-surfaceBg border border-borderGrey text-brand hover:bg-brand-light transition-colors cursor-pointer select-none"
+data-bind="click: function(){ applyPreset('this-year'); }">
+This Year
+</button><button type="button"
+class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-surfaceBg border border-borderGrey text-brand hover:bg-brand-light transition-colors cursor-pointer select-none"
+data-bind="click: function(){ applyPreset('6-months'); }">
+Last 6 Months
+</button><button type="button"
+class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-surfaceBg border border-borderGrey text-brand hover:bg-brand-light transition-colors cursor-pointer select-none"
+data-bind="click: function(){ applyPreset('1-year'); }">
+Last 1 Year
+</button></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3"><div><label class="block text-xs font-bold text-brand mb-1" for="tbHistPeriodStart">Tracking Start Date</label><input type="date"
+class="w-full px-3 py-2 rounded-xl border border-borderGrey bg-white text-xs font-semibold text-brand focus:outline-none focus:border-brand transition-colors"
+id="tbHistPeriodStart"
+data-bind="value: startDate, valueUpdate: 'afterkeydown'"></div><div><label class="block text-xs font-bold text-brand mb-1" for="tbHistPeriodEnd">Period End Date</label><input type="date"
+class="w-full px-3 py-2 rounded-xl border border-borderGrey bg-white text-xs font-semibold text-brand focus:outline-none focus:border-brand transition-colors"
+id="tbHistPeriodEnd"
+data-bind="value: endDate, valueUpdate: 'afterkeydown'"></div></div><div class="flex gap-2"><button type="button"
+class="flex-1 py-2 rounded-xl bg-brand text-white font-bold text-xs hover:bg-brand-hover transition-colors cursor-pointer select-none flex items-center justify-center gap-1.5"
+data-bind="click: save"><app-icon params="name: 'check', size: 'xs'"></app-icon> Save Settings
+</button><button type="button"
+class="px-3 py-2 rounded-xl bg-surfaceBg border border-borderGrey text-gr-textMuted font-bold text-xs hover:bg-gray-100 transition-colors cursor-pointer select-none"
+data-bind="click: reset">
+Reset Default
+</button></div></div></script><script type="text/html" id="tasbeeh-history-page-template"><div class="flex flex-col gap-3 pt-1 pb-4" id="tbHistoryContent"><!-- ko component: { name: 'tasbeeh-progress-circle', params: progressStats } --><!-- /ko --><!-- ko component: { name: 'tasbeeh-history-form', params: formParams } --><!-- /ko --><!-- ko component: { name: 'tasbeeh-history-feed', params: feedParams } --><!-- /ko --></div></script><script type="text/html" id="duas-page-template"><!-- ko component: { name: 'duva-header', params: header } --><!-- /ko --><div class="grow overflow-auto p-3 relative pb-5" id="duasBody"><div class="text-center py-6 text-gr-textMuted py-4 d-none" id="duaLoadingState"><div class="w-5 h-5 border-2 border-brand border-t-transparent rounded-full animate-spin inline-block mb-2"
 role="status"></div><div class="text-xs">Loading Duas...</div></div><div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed text-gr-danger py-4 d-none"
 id="duaErrorState"><div class="text-lg mb-2">⚠️</div><div class="font-bold mb-1">Failed to load Duas</div><div class="text-xs opacity-75 mb-3" id="duaErrorMessage"></div><button type="button"
 class="border border-brand bg-white text-brand hover:bg-brand-light transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
@@ -489,18 +662,26 @@ class="rounded-xl border border-borderGrey pl-3 pr-5 py-2 w-full px-3.5 py-2.5 b
 data-bind="value: query, valueUpdate: 'afterkeydown', attr: { placeholder: placeholder || 'Search by number, Surah, or keywords...' }"
 placeholder="Search by number, Surah, or keywords..."><button type="button" id="duaSearchClear"
 class="border-0 text-gr-textMuted absolute right-2.5 top-1/2 -translate-y-1/2 d-none p-1 leading-none text-base cursor-pointer hover:text-brand"
-data-bind="css: { 'd-none': !query() }">✕</button></div></script><script type="text/html" id="duva-nav-tab-template"><nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
-id="duaBottomNav"><div class="flex w-full h-full items-center justify-around" id="duaSegmentBar" role="tablist"
-aria-label="Duas view"><button type="button"
-class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-id="duaTabPinned" data-act="dua-switch-pinned" role="tab"
-data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('home'); }, css: (ko.unwrap($data.activeTab) === 'pinned' || ko.unwrap($data.activeTab) === 'home') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'pinned' || ko.unwrap($data.activeTab) === 'home') ? 'true' : 'false' }"><span class="text-xl leading-none inline-flex items-center justify-center"><app-icon params="name: 'thumbtack'"></app-icon></span><span>Pinned</span></button><button type="button"
-class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-id="duaTabAll" data-act="dua-switch-all" role="tab"
-data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('duas'); }, css: (ko.unwrap($data.activeTab) === 'all' || ko.unwrap($data.activeTab) === 'duas') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'all' || ko.unwrap($data.activeTab) === 'duas') ? 'true' : 'false' }"><span class="text-xl leading-none inline-flex items-center justify-center"><app-icon params="name: 'book-quran'"></app-icon></span><span>All Duas</span></button><button type="button"
-class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-id="duaTabFavs" data-act="dua-switch-favs" role="tab"
-data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('favourites'); }, css: (ko.unwrap($data.activeTab) === 'favourites' || ko.unwrap($data.activeTab) === 'favs') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'favourites' || ko.unwrap($data.activeTab) === 'favs') ? 'true' : 'false' }"><span class="text-xl leading-none inline-flex items-center justify-center"><app-icon params="name: 'bookmark'"></app-icon></span><span>Favourites</span></button></div></nav></script><script type="text/html" id="duva-pinned-card-template"><div class="pinned-dua-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col gap-2.5 border-l-4 border-l-brand relative cursor-pointer hover:bg-surfaceBg transition-all mb-3"
+data-bind="css: { 'd-none': !query() }">✕</button></div></script><script type="text/html" id="duva-nav-tab-template"><!-- ko component: {
+name: 'app-tabs',
+params: {
+variant: 'bottom-nav',
+containerId: 'duaBottomNav',
+dataRef: 'page.duas.bottom-nav',
+ariaLabel: 'Duas view',
+activeTab: $data.activeTab,
+onTabChange: function(tabId) {
+if (window.DuasApp && window.DuasApp.switchTab) {
+window.DuasApp.switchTab(tabId === 'pinned' ? 'home' : (tabId === 'all' ? 'duas' : 'favourites'));
+}
+},
+tabs: [
+{ id: 'pinned', label: 'Pinned', icon: 'thumbtack', elementId: 'duaTabPinned', dataAct: 'dua-switch-pinned', dataRef: 'page.duas.tab-pinned', aliases: ['home'] },
+{ id: 'all', label: 'All Duas', icon: 'book-quran', elementId: 'duaTabAll', dataAct: 'dua-switch-all', dataRef: 'page.duas.tab-all', aliases: ['duas'] },
+{ id: 'favourites', label: 'Favourites', icon: 'bookmark', elementId: 'duaTabFavs', dataAct: 'dua-switch-favs', dataRef: 'page.duas.tab-favs', aliases: ['favs'] }
+]
+}
+} --><!-- /ko --></script><script type="text/html" id="duva-pinned-card-template"><div class="pinned-dua-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col gap-2.5 border-l-4 border-l-brand relative cursor-pointer hover:bg-surfaceBg transition-all mb-3"
 data-act="dua-open-detail"
 data-bind="click: onOpenDetail, attr: { 'data-idx': index, 'data-source': 'home' }"><span class="pinned-badge absolute top-3.5 right-4 text-base inline-flex items-center justify-center text-pinAmber"><app-icon params="name: 'thumbtack'"></app-icon></span><div class="pinned-dua-number text-sm font-bold text-brand"
 data-bind="text: '#' + String(number).padStart(2, '0')">#01</div><div class="pinned-dua-surah text-base font-bold text-brand font-telugu pr-8"
@@ -1064,6 +1245,174 @@ module.exports = AppBottomSheet;
 module.exports.BottomSheetViewModel = BottomSheetViewModel;
 module.exports.BottomSheetTemplate = BottomSheetTemplate;
 module.exports.default = AppBottomSheet;
+}
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+const TabsTemplate = {
+element: 'app-tabs-template',
+file: 'components/tabs/tabs.html'
+};
+const TABS_TEMPLATE_CONFIG = TabsTemplate;
+function TabsViewModel(params) {
+if (params instanceof TabsViewModel) return params;
+if (!(this instanceof TabsViewModel)) return new TabsViewModel(params);
+params = (params && typeof params === 'function') ? params() : (params || {});
+var self = this;
+var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+function unwrap(val, def) {
+var v = val;
+if (typeof val === 'function') {
+try { v = val(); } catch (_) { return def; }
+}
+return (v !== undefined && v !== null) ? v : def;
+}
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function comp(fn) {
+return (k && k.pureComputed) ? k.pureComputed(fn) : fn;
+}
+if (params.activeTab && k && k.isObservable(params.activeTab)) {
+self.activeTab = params.activeTab;
+} else {
+self.activeTab = obs(unwrap(params.activeTab, unwrap(params.initialTab, '')));
+}
+self.variant = comp(function () {
+return unwrap(params.variant, unwrap(params.type, 'underline'));
+});
+self.ariaLabel = unwrap(params.ariaLabel, 'Navigation Tabs');
+self.containerId = unwrap(params.containerId, unwrap(params.id, null));
+self.customClass = unwrap(params.customClass, unwrap(params.containerClass, ''));
+self.dataRef = unwrap(params.dataRef, null);
+self.tabs = comp(function () {
+var rawList = unwrap(params.tabs, unwrap(params.items, []));
+if (!Array.isArray(rawList)) return [];
+return rawList.map(function (item, index) {
+if (typeof item === 'string') {
+return {
+id: item,
+label: item,
+icon: null,
+iconPrefix: 'fa-solid',
+iconClass: '',
+badgeValue: null,
+hasBadge: false,
+elementId: null,
+badgeId: null,
+dataAct: null,
+dataRef: null,
+disabled: false,
+aliases: []
+};
+}
+var id = unwrap(item.id, unwrap(item.key, unwrap(item.value, 'tab-' + index)));
+var label = unwrap(item.label, unwrap(item.title, unwrap(item.name, id)));
+var badgeRaw = item.badge !== undefined ? item.badge : (item.count !== undefined ? item.count : null);
+var badgeVal = unwrap(badgeRaw, null);
+var hasBadge = badgeVal !== null && badgeVal !== undefined;
+return {
+id: id,
+label: label,
+icon: unwrap(item.icon, null),
+iconPrefix: unwrap(item.iconPrefix, 'fa-solid'),
+iconClass: unwrap(item.iconClass, ''),
+badgeRaw: badgeRaw,
+badgeValue: comp(function () { return unwrap(badgeRaw, ''); }),
+hasBadge: comp(function () {
+var v = unwrap(badgeRaw, null);
+return v !== null && v !== undefined;
+}),
+elementId: unwrap(item.elementId, unwrap(item.btnId, unwrap(item.idAttr, null))),
+badgeId: unwrap(item.badgeId, null),
+dataAct: unwrap(item.dataAct, null),
+dataRef: unwrap(item.dataRef, null),
+disabled: unwrap(item.disabled, false),
+aliases: Array.isArray(item.aliases) ? item.aliases : [],
+raw: item
+};
+});
+});
+self.isActive = function (tab) {
+var cur = unwrap(self.activeTab);
+var tabId = (tab && tab.id) ? tab.id : tab;
+if (cur === tabId) return true;
+if (tab && tab.aliases && Array.isArray(tab.aliases)) {
+return tab.aliases.indexOf(cur) !== -1;
+}
+return false;
+};
+self.selectTab = function (tab, event) {
+if (event && event.stopPropagation) event.stopPropagation();
+if (tab && tab.disabled) return;
+var tabId = (tab && tab.id) ? tab.id : tab;
+if (typeof self.activeTab === 'function') {
+self.activeTab(tabId);
+}
+var onTabChange = params.onTabChange || params.onSelect || params.onChange || params.onTabSwitch;
+if (typeof onTabChange === 'function') {
+onTabChange(tabId, tab, event);
+}
+if (tab && typeof tab.raw === 'object' && typeof tab.raw.action === 'function') {
+tab.raw.action(tabId, tab, event);
+} else if (tab && typeof tab.action === 'function') {
+tab.action(tabId, tab, event);
+}
+};
+self.getUnderlineTabClass = function (tab) {
+var active = self.isActive(tab);
+var base = 'flex-1 py-3 flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-colors cursor-pointer select-none';
+return active
+? (base + ' border-b-2 border-brand text-brand font-bold')
+: (base + ' border-b-2 border-transparent text-gr-textMuted font-semibold hover:text-gr-text');
+};
+self.getNavTabClass = function (tab) {
+var active = self.isActive(tab);
+var base = 'nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors';
+return active ? (base + ' text-brand active') : (base + ' text-gr-textMuted');
+};
+self.getPillTabClass = function (tab) {
+var active = self.isActive(tab);
+var base = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer select-none flex items-center gap-1.5';
+return active
+? (base + ' bg-white text-brand shadow-sm font-bold')
+: (base + ' text-gr-textMuted hover:text-gr-text');
+};
+self.getBadgeClass = function (tab) {
+var active = self.isActive(tab);
+return active
+? 'bg-brand-light text-brand'
+: 'bg-surfaceBg text-gr-textMuted border border-borderGrey';
+};
+}
+function registerTabsComponent(customKo) {
+var k = customKo || (typeof ko !== 'undefined' ? ko : (_win.ko || null));
+if (!k || !k.components) return;
+if (!k.components.isRegistered('app-tabs')) {
+k.components.register('app-tabs', {
+viewModel: TabsViewModel,
+template: TabsTemplate
+});
+}
+}
+if (typeof ko !== 'undefined' && ko.components) {
+registerTabsComponent(ko);
+}
+const AppTabs = {
+viewModel: TabsViewModel,
+template: TabsTemplate,
+register: registerTabsComponent
+};
+if (typeof window !== 'undefined') {
+window.AppTabs = AppTabs;
+window.TabsViewModel = TabsViewModel;
+window.TabsTemplate = TabsTemplate;
+window.registerTabsComponent = registerTabsComponent;
+}
+if (typeof module === 'object' && module.exports) {
+module.exports = AppTabs;
+module.exports.TabsViewModel = TabsViewModel;
+module.exports.TabsTemplate = TabsTemplate;
+module.exports.default = AppTabs;
 }
 (function (globalObj) {
 'use strict';
@@ -5949,8 +6298,8 @@ var p = (params && typeof params === 'function') ? params() : (params || {});
 var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
 var self = this;
 function unwrap(v, def) {
-if (typeof v === 'function') return v();
-return (v !== undefined && v !== null) ? v : def;
+var res = (typeof v === 'function') ? v() : v;
+return (res !== undefined && res !== null) ? res : def;
 }
 self.collapsePrefix = unwrap(p.collapsePrefix, 'cur');
 self.pagePrefix = unwrap(p.pagePrefix, 'page.current');
@@ -6563,262 +6912,6 @@ window.updateCurrentMissedBadge = updateCurrentMissedBadge;
 window.PrayerTrackingApp = PrayerTrackingApp;
 }
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-if (typeof window === 'undefined') {
-globalThis.window = _win;
-}
-function escHtml(str) {
-if (!str) return '';
-return String(str)
-.replace(/&/g, '&amp;')
-.replace(/</g, '&lt;')
-.replace(/>/g, '&gt;')
-.replace(/"/g, '&quot;')
-.replace(/'/g, '&#39;');
-}
-if (typeof window !== 'undefined') {
-window.escHtml = escHtml;
-}
-const TasbeehPageTemplate = { element: 'tasbeeh-page-template', file: 'tasbeeh/tasbeeh.html' };
-const TasbeehHeaderTemplate = { element: 'tasbeeh-header-template', file: 'tasbeeh/templates/tasbeeh-header.html' };
-const TasbeehCounterCardTemplate = { element: 'tasbeeh-counter-card-template', file: 'tasbeeh/templates/tasbeeh-counter-card.html' };
-const TasbeehProgressCircleTemplate = { element: 'tasbeeh-progress-circle-template', file: 'tasbeeh/templates/tasbeeh-progress-circle.html' };
-const TasbeehGoalSetterTemplate = { element: 'tasbeeh-goal-setter-template', file: 'tasbeeh/templates/tasbeeh-goal-setter.html' };
-const TasbeehNavTabTemplate = { element: 'tasbeeh-nav-tab-template', file: 'tasbeeh/templates/tasbeeh-nav-tab.html' };
-function TasbeehCounterCardViewModel(params) {
-if (params instanceof TasbeehCounterCardViewModel) return params;
-if (!(this instanceof TasbeehCounterCardViewModel)) return new TasbeehCounterCardViewModel(params);
-var p = (params && typeof params === 'function') ? params() : (params || {});
-var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
-var self = this;
-function unwrap(v, def) {
-if (typeof v === 'function') return v();
-return (v !== undefined && v !== null) ? v : def;
-}
-self.id = unwrap(p.id, '');
-self.title = unwrap(p.title, 'Dhikr');
-self.month = unwrap(p.month, null);
-self.targetCount = unwrap(p.targetCount, 33);
-self.completedDays = unwrap(p.completedDays, 0);
-self.totalDays = unwrap(p.totalDays, 30);
-var rawComplete = unwrap(p.isComplete, unwrap(p.isCompleted, false));
-self.isComplete = (k && k.isObservable(p.isComplete)) ? p.isComplete : ((k && k.isObservable(p.isCompleted)) ? p.isCompleted : rawComplete);
-self.isCompleted = self.isComplete;
-self.isTodayDone = unwrap(p.isTodayDone, false);
-self.onCardClick = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof p.onCardClick === 'function') {
-p.onCardClick(d, e);
-} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounter === 'function') {
-_win.TasbeehApp.openCounter(self.id, self.month);
-} else if (_win.openCounter) {
-_win.openCounter(self.id, self.month);
-}
-};
-self.onEditClick = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof p.onEditClick === 'function') {
-p.onEditClick(d, e);
-} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openEditModal === 'function') {
-_win.TasbeehApp.openEditModal(self.id);
-} else if (_win.openEditModal) {
-_win.openEditModal(self.id);
-}
-};
-}
-var tasbeehViewModel = null;
-function switchCurrentTab(tabName) {
-var todoTab = document.getElementById('tabTbCurrentTodo'), doneTab = document.getElementById('tabTbCurrentDone');
-var todoList = document.getElementById('tbCurrentTodoList'), doneList = document.getElementById('tbCurrentDoneList');
-var todoBadge = document.getElementById('tbCurrentTodoBadge'), doneBadge = document.getElementById('tbCurrentDoneBadge');
-var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
-if (vm && typeof vm.currentActiveTab === 'function') vm.currentActiveTab(tabName);
-var isTodo = tabName === 'todo';
-if (todoList) { todoList.classList.toggle('d-none', !isTodo); todoList.classList.toggle('hidden', !isTodo); }
-if (doneList) { doneList.classList.toggle('d-none', isTodo); doneList.classList.toggle('hidden', isTodo); }
-var actCls = 'flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-brand text-brand font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none';
-var inactCls = 'flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-transparent text-gr-textMuted font-semibold text-xs uppercase tracking-wider hover:text-gr-text transition-colors cursor-pointer select-none';
-if (todoTab) { todoTab.setAttribute('aria-selected', isTodo ? 'true' : 'false'); todoTab.className = isTodo ? actCls : inactCls; }
-if (doneTab) { doneTab.setAttribute('aria-selected', !isTodo ? 'true' : 'false'); doneTab.className = !isTodo ? actCls : inactCls; }
-if (todoBadge) todoBadge.className = isTodo ? 'text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand' : 'text-xs font-bold px-2 py-0.5 rounded-full bg-surfaceBg text-gr-textMuted border border-borderGrey';
-if (doneBadge) doneBadge.className = !isTodo ? 'text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand' : 'text-xs font-bold px-2 py-0.5 rounded-full bg-surfaceBg text-gr-textMuted border border-borderGrey';
-}
-_win.switchCurrentTab = switchCurrentTab;
-function getTasbeehViewModel() {
-if (!tasbeehViewModel && typeof TasbeehPageViewModel === 'function') {
-tasbeehViewModel = new TasbeehPageViewModel();
-}
-return tasbeehViewModel;
-}
-function TasbeehPageViewModel(params) {
-params = params || {};
-var self = this;
-var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
-self.currentSubTab = (k && k.observable) ? k.observable('current') : function () { return 'current'; };
-self.currentActiveTab = (k && k.observable) ? k.observable('todo') : function () { return 'todo'; };
-self.switchCurrentTab = function (tab, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (k && k.isObservable(self.currentActiveTab)) {
-self.currentActiveTab(tab);
-}
-if (typeof _win.switchCurrentTab === 'function') {
-_win.switchCurrentTab(tab);
-}
-};
-self.oldActiveTab = (k && k.observable) ? k.observable('todo') : function () { return 'todo'; };
-self.switchOldTab = function (tab, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (k && k.isObservable(self.oldActiveTab)) {
-self.oldActiveTab(tab);
-}
-if (typeof _win.switchOldTab === 'function') {
-_win.switchOldTab(tab);
-}
-};
-self.header = {
-title: (k && k.observable) ? k.observable('Digital Tasbeeh') : 'Digital Tasbeeh',
-subtitle: (k && k.observable) ? k.observable('') : '',
-iconClass: (k && k.observable) ? k.observable('fa-solid fa-calendar text-brand') : 'fa-solid fa-calendar text-brand',
-goHome: function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof showPage === 'function') showPage('dashboard');
-}
-};
-self.switchTab = function (tab, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
-window.TasbeehApp.switchTab(tab);
-}
-};
-self.closeCounter = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.closeCounter === 'function') {
-_win.TasbeehCurrentApp.closeCounter();
-} else if (_win.TasbeehApp && typeof _win.TasbeehApp.closeCounter === 'function') {
-_win.TasbeehApp.closeCounter();
-}
-};
-self.openAddModal = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (window.TasbeehApp && typeof window.TasbeehApp.openAddModal === 'function') {
-window.TasbeehApp.openAddModal();
-}
-};
-self.reopenLastMonth = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (window.TasbeehApp && typeof window.TasbeehApp.reopenLastMonth === 'function') {
-window.TasbeehApp.reopenLastMonth();
-}
-if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
-window.TasbeehHistoryApp.renderHistoryTab();
-}
-};
-self.resetAllCompleted = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (window.TasbeehApp && typeof window.TasbeehApp.resetAllCompleted === 'function') {
-window.TasbeehApp.resetAllCompleted();
-}
-if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
-window.TasbeehHistoryApp.renderHistoryTab();
-}
-};
-var tbStore = _win.TasbeehStore || null;
-self.currentDhikrsCount = (tbStore && k && k.isObservable(tbStore.currentDhikrsCount))
-? tbStore.currentDhikrsCount
-: ((k && k.observable) ? k.observable(0) : 0);
-self.clearedMonthsCount = (tbStore && k && k.isObservable(tbStore.clearedMonthsCount))
-? tbStore.clearedMonthsCount
-: ((k && k.observable) ? k.observable(0) : 0);
-self.activeOldLabel = (tbStore && k && k.isObservable(tbStore.activeOldLabel))
-? tbStore.activeOldLabel
-: ((k && k.observable) ? k.observable('All Cleared') : 'All Cleared');
-self.currentTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
-self.currentDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
-self.oldTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
-self.oldDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
-self.historyProgress = {
-percentCleared: (k && k.observable) ? k.observable(0) : 0,
-totalMonths: (k && k.observable) ? k.observable(0) : 0,
-clearedMonths: (k && k.observable) ? k.observable(0) : 0,
-pendingMonths: (k && k.observable) ? k.observable(0) : 0
-};
-self.goalSetter = {
-startDate: (k && k.observable) ? k.observable('') : '',
-endDate: (k && k.observable) ? k.observable('') : ''
-};
-}
-function registerTasbeehComponents(customKo) {
-var k = customKo || (typeof ko !== 'undefined' ? ko : (_win.ko || null));
-if (!k || !k.components) return;
-if (!k.components.isRegistered('tasbeeh-header')) {
-k.components.register('tasbeeh-header', {
-viewModel: function (params) { return params || {}; },
-template: TasbeehHeaderTemplate
-});
-}
-if (!k.components.isRegistered('tasbeeh-counter-card')) {
-k.components.register('tasbeeh-counter-card', {
-viewModel: TasbeehCounterCardViewModel,
-template: TasbeehCounterCardTemplate
-});
-}
-if (!k.components.isRegistered('tasbeeh-progress-circle')) {
-k.components.register('tasbeeh-progress-circle', {
-viewModel: function (params) { return params || {}; },
-template: TasbeehProgressCircleTemplate
-});
-}
-if (!k.components.isRegistered('tasbeeh-goal-setter')) {
-k.components.register('tasbeeh-goal-setter', {
-viewModel: function (params) { return params || {}; },
-template: TasbeehGoalSetterTemplate
-});
-}
-if (!k.components.isRegistered('tasbeeh-nav-tab')) {
-k.components.register('tasbeeh-nav-tab', {
-viewModel: function (params) { return params || {}; },
-template: TasbeehNavTabTemplate
-});
-}
-if (!k.components.isRegistered('tasbeeh-page')) {
-k.components.register('tasbeeh-page', {
-viewModel: function (params) {
-if (params && params.viewModel) return params.viewModel;
-if (params && params.subTabs) return params;
-if (params && params.tasbeeh) return params.tasbeeh;
-return getTasbeehViewModel();
-},
-template: TasbeehPageTemplate
-});
-}
-}
-function initTasbeeh() {
-registerTasbeehComponents();
-var el = document.getElementById('tasbeehPage');
-if (!document.getElementById('app') && el && typeof ko !== 'undefined') {
-var vm = getTasbeehViewModel();
-if (!ko.dataFor(el)) {
-ko.applyBindings(vm, el);
-}
-}
-if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.init === 'function') {
-_win.TasbeehOldApp.init();
-}
-if (_win.TasbeehHistoryApp && typeof _win.TasbeehHistoryApp.init === 'function') {
-_win.TasbeehHistoryApp.init();
-}
-if (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.init === 'function') {
-_win.TasbeehCurrentApp.init();
-} else if (_win.TasbeehApp && typeof _win.TasbeehApp.init === 'function' && _win.TasbeehApp.init !== initTasbeeh) {
-_win.TasbeehApp.init();
-}
-}
-if (typeof window !== 'undefined') {
-window.TasbeehPageViewModel = TasbeehPageViewModel;
-window.getTasbeehViewModel = getTasbeehViewModel;
-window.initTasbeeh = initTasbeeh;
-window.registerTasbeehComponents = registerTasbeehComponents;
-}
-var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var TASBEEH_CONSTANTS = _win.TASBEEH_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.TASBEEH) || {};
 var ELEMENT_IDS = TASBEEH_CONSTANTS.ELEMENT_IDS || {};
 var STORAGE_KEYS = TASBEEH_CONSTANTS.STORAGE_KEYS || {};
@@ -7065,6 +7158,327 @@ return finiteItems.every(function (it) {
 var completedDays = getCompletedDaysInMonth(calCompletions, it.id, yr, mo);
 return completedDays >= totalDays;
 });
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+function unwrap(val, def) {
+var v = (typeof val === 'function') ? val() : val;
+return (v !== undefined && v !== null) ? v : def;
+}
+function pad2(n) {
+if (typeof _win.pad2 === 'function' && _win.pad2 !== pad2) return _win.pad2(n);
+return n < 10 ? '0' + n : '' + n;
+}
+function uid(prefix) {
+if (typeof _win.uid === 'function' && _win.uid !== uid) return _win.uid();
+return (prefix || 'tb_') + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+}
+function clamp(v, min, max) {
+if (typeof _win.clamp === 'function' && _win.clamp !== clamp) return _win.clamp(v, min, max);
+return Math.min(Math.max(v, min), max);
+}
+function todayKey() {
+if (typeof _win.todayKey === 'function' && _win.todayKey !== todayKey) return _win.todayKey();
+if (typeof _win.td === 'function') return _win.td();
+return new Date().toISOString().slice(0, 10);
+}
+var td = todayKey;
+function formatMonthLabel(m) {
+if (typeof _win.formatMonthLabel === 'function' && _win.formatMonthLabel !== formatMonthLabel) return _win.formatMonthLabel(m);
+if (!m) return '';
+var parts = m.split('-');
+if (parts.length < 2) return m;
+var yr = parseInt(parts[0], 10), mo = parseInt(parts[1], 10) - 1;
+var d = new Date(yr, mo, 1);
+return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+}
+function formatDate(d) {
+if (typeof _win.formatDate === 'function' && _win.formatDate !== formatDate) return _win.formatDate(d);
+if (!d) return '';
+var parts = d.split('-');
+if (parts.length === 3) {
+var dt = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+return dt.toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' });
+}
+return d;
+}
+function formatMonthYear(mKey) {
+return formatMonthLabel(mKey);
+}
+function getPrevMonthKey(monthKey) {
+if (typeof _win.getPrevMonthKey === 'function') return _win.getPrevMonthKey(monthKey);
+var p = (monthKey || todayKey().slice(0, 7)).split('-');
+var yr = parseInt(p[0], 10), mo = parseInt(p[1], 10) - 1;
+if (mo < 1) { mo = 12; yr--; }
+return yr + '-' + pad2(mo);
+}
+function getNextMonthKey(monthKey) {
+if (typeof _win.getNextMonthKey === 'function') return _win.getNextMonthKey(monthKey);
+var p = (monthKey || todayKey().slice(0, 7)).split('-');
+var yr = parseInt(p[0], 10), mo = parseInt(p[1], 10) + 1;
+if (mo > 12) { mo = 1; yr++; }
+return yr + '-' + pad2(mo);
+}
+function getPreviousMonthsList(startDate, endDate) {
+if (typeof _win.getPreviousMonthsList === 'function') return _win.getPreviousMonthsList(startDate, endDate);
+var list = [];
+if (!startDate || !endDate || startDate > endDate) return list;
+var sParts = startDate.split('-'), eParts = endDate.split('-');
+var sYr = parseInt(sParts[0], 10), sMo = parseInt(sParts[1], 10);
+var curY = parseInt(eParts[0], 10), curM = parseInt(eParts[1], 10);
+while (curY > sYr || (curY === sYr && curM >= sMo)) {
+list.push(curY + '-' + pad2(curM));
+curM--;
+if (curM < 1) { curM = 12; curY--; }
+}
+return list;
+}
+function renderIcon(opt) {
+if (typeof _win.renderIcon === 'function' && _win.renderIcon !== renderIcon) return _win.renderIcon(opt);
+if (typeof opt === 'string') {
+if (opt === 'tb-target') return '<app-icon params="name: \'bullseye\', color: \'text-gray-400\', size: \'xs\'"></app-icon>';
+if (opt === 'tb-pencil') return '<app-icon params="name: \'pencil\', size: \'xs\'"></app-icon>';
+if (opt === 'tb-chevron') return '<app-icon params="name: \'chevron-right\', size: \'xs\'"></app-icon>';
+if (opt === 'tb-check-circle') return '<app-icon params="name: \'check\', size: \'xs\'"></app-icon>';
+return '<i class="fa-solid fa-' + opt + '"></i>';
+}
+if (opt && opt.name) {
+var prefix = opt.prefix || 'fa-solid', col = opt.color || '';
+return '<i class="' + prefix + ' fa-' + opt.name + ' ' + col + '"></i>';
+}
+return '';
+}
+function showToast(msg, duration) {
+if (typeof _win.showToast === 'function') {
+_win.showToast(msg, duration);
+} else if (_win.TasbeehApp && typeof _win.TasbeehApp.showToast === 'function') {
+_win.TasbeehApp.showToast(msg, duration);
+}
+}
+function escHtml(str) {
+if (str === null || str === undefined) return '';
+return String(str).replace(/[&<>"']/g, function (m) {
+switch (m) {
+case '&': return '&amp;';
+case '<': return '&lt;';
+case '>': return '&gt;';
+case '"': return '&quot;';
+case "'": return '&#39;';
+default: return m;
+}
+});
+}
+function getDhikrById(id) {
+if (!id) return null;
+var list = loadItems();
+for (var i = 0; i < list.length; i++) {
+if (list[i].id === id) return list[i];
+}
+return null;
+}
+function saveDhikrItem(data) {
+if (!data || !data.title) return null;
+if (_win.TasbeehStore && typeof _win.TasbeehStore.addDhikr === 'function' && typeof _win.TasbeehStore.updateDhikr === 'function') {
+if (data.id) {
+_win.TasbeehStore.updateDhikr(data.id, { title: data.title, targetCount: data.targetCount });
+} else {
+_win.TasbeehStore.addDhikr(data.title, data.targetCount);
+}
+return getDhikrById(data.id);
+}
+var items = loadItems();
+var targetNum = (data.targetCount === 'infinite' || data.targetCount === '∞')
+? 'infinite'
+: clamp(parseInt(data.targetCount, 10) || 33, 1, 9999);
+var saved = null;
+if (data.id) {
+for (var i = 0; i < items.length; i++) {
+if (items[i].id === data.id) {
+items[i].title = data.title;
+items[i].targetCount = targetNum;
+items[i].updatedAt = Date.now();
+saved = items[i];
+break;
+}
+}
+} else {
+saved = normalizeItem({ id: uid(), title: data.title, targetCount: targetNum });
+items.push(saved);
+}
+persistItems(items);
+if (_win.TasbeehApp && typeof _win.TasbeehApp.setItems === 'function') _win.TasbeehApp.setItems(items);
+if (_win.TasbeehApp && typeof _win.TasbeehApp.render === 'function') _win.TasbeehApp.render();
+return saved;
+}
+function deleteDhikrItem(id) {
+if (!id) return;
+if (_win.TasbeehStore && typeof _win.TasbeehStore.deleteDhikr === 'function') {
+_win.TasbeehStore.deleteDhikr(id);
+}
+var items = loadItems().filter(function (it) { return it.id !== id; });
+persistItems(items);
+if (_win.TasbeehApp && typeof _win.TasbeehApp.setItems === 'function') _win.TasbeehApp.setItems(items);
+if (_win.TasbeehApp && typeof _win.TasbeehApp.render === 'function') _win.TasbeehApp.render();
+}
+function getCurrentOldMonth() {
+var period = loadPeriod();
+if (!period || !period.startDate || !period.endDate) return null;
+return (period.endDate < period.startDate) ? null : period.endDate;
+}
+function calculateHistoryStats(period, curOldMonth) {
+var p = period || loadPeriod();
+var maxEnd = p.initialEnd || p.endDate;
+var allOldMonths = getPreviousMonthsList(p.startDate, maxEnd);
+var activeOld = (curOldMonth !== undefined) ? curOldMonth : getCurrentOldMonth();
+var totalMonthsCount = allOldMonths.length;
+var completedCount = 0;
+allOldMonths.forEach(function (m) {
+if (m > p.endDate || p.endDate < p.startDate) completedCount++;
+});
+var pendingCount = Math.max(0, totalMonthsCount - completedCount - (activeOld ? 1 : 0));
+var percent = totalMonthsCount > 0 ? Math.round((completedCount / totalMonthsCount) * 100) : 0;
+return {
+percentCleared: percent,
+totalMonths: totalMonthsCount,
+clearedMonths: completedCount,
+pendingMonths: pendingCount,
+allOldMonths: allOldMonths
+};
+}
+function calculatePeriodPreset(presetType) {
+var now = new Date();
+var curMonth = typeof _win.getCurrentMonthKey === 'function' ? _win.getCurrentMonthKey() : (now.getFullYear() + '-' + pad2(now.getMonth() + 1));
+var prevMonth = getPrevMonthKey(curMonth);
+var startStr = '', endStr = prevMonth + '-01';
+if (presetType === 'this-year' || presetType === PERIOD_PRESETS.THIS_YEAR) {
+startStr = now.getFullYear() + '-01-01';
+} else if (presetType === '6-months' || presetType === PERIOD_PRESETS.LAST_6_MONTHS) {
+var d6 = new Date(now.getFullYear(), now.getMonth() - 6, 1);
+startStr = d6.getFullYear() + '-' + pad2(d6.getMonth() + 1) + '-01';
+} else if (presetType === '1-year' || presetType === PERIOD_PRESETS.LAST_1_YEAR) {
+var d12 = new Date(now.getFullYear() - 1, now.getMonth(), 1);
+startStr = d12.getFullYear() + '-' + pad2(d12.getMonth() + 1) + '-01';
+}
+return { startDate: startStr, endDate: endStr };
+}
+function classifyCurrentItems(items, calCompletions, curMonthKey, todayStr) {
+var itList = items || [];
+var comps = calCompletions || {};
+var mKey = curMonthKey || getCurrentTrackingMonth();
+var tStr = todayStr || td();
+var parts = mKey.split('-');
+var yr = parseInt(parts[0], 10), mo = parseInt(parts[1], 10) - 1;
+var totalDays = getDaysInMonth(yr, mo);
+var isTodayInCurMonth = (tStr.slice(0, 7) === mKey);
+var todo = [], done = [];
+itList.forEach(function (it) {
+var completedDays = getCompletedDaysInMonth(comps, it.id, yr, mo);
+var isTodayDone = isTodayInCurMonth ? isDayCompleted(comps, it.id, tStr) : false;
+var isAllMonthDone = totalDays > 0 && completedDays >= totalDays;
+var isComplete = isAllMonthDone || (isTodayInCurMonth && isTodayDone);
+var cardRecord = {
+id: it.id,
+title: it.title,
+targetCount: it.targetCount === 'infinite' ? '∞' : it.targetCount,
+completedDays: completedDays,
+totalDays: totalDays,
+isComplete: isComplete,
+isCompleted: isComplete,
+isTodayDone: isTodayDone,
+raw: it
+};
+if (isComplete) done.push(cardRecord);
+else todo.push(cardRecord);
+});
+return { todo: todo, done: done, curMonthKey: mKey };
+}
+function classifyOldItems(items, calCompletions, oldMonthKey) {
+var itList = items || [];
+var comps = calCompletions || {};
+var m = oldMonthKey;
+if (!m) return { todo: [], done: [] };
+var parts = m.split('-');
+var yr = parseInt(parts[0], 10), mo = parseInt(parts[1], 10) - 1;
+var totalDays = getDaysInMonth(yr, mo);
+var todo = [], done = [];
+itList.forEach(function (it) {
+var isInf = it.targetCount === 'infinite' || it.targetCount === '∞';
+var completedDays = getCompletedDaysInMonth(comps, it.id, yr, mo);
+var isDhikrDone = !isInf && completedDays >= totalDays;
+var record = {
+id: it.id,
+title: it.title,
+targetCount: isInf ? '∞' : it.targetCount,
+completedDays: completedDays,
+totalDays: totalDays,
+isComplete: isDhikrDone,
+isCompleted: isDhikrDone,
+month: m,
+raw: it
+};
+if (isDhikrDone) done.push(record);
+else todo.push(record);
+});
+return { todo: todo, done: done };
+}
+function buildCalendarCells(year, month, itemId, calCompletions, todayStr, obsFactory) {
+var daysInMonth = getDaysInMonth(year, month);
+var firstDay = getFirstDayOfMonth(year, month);
+var tStr = todayStr || td();
+var comps = calCompletions || {};
+var makeObs = typeof obsFactory === 'function' ? obsFactory : function (val) {
+if (typeof ko !== 'undefined' && ko.observable) return ko.observable(val);
+return function () { return val; };
+};
+var cells = [];
+for (var e = 0; e < firstDay; e++) {
+cells.push({ isEmpty: true });
+}
+for (var d = 1; d <= daysInMonth; d++) {
+var dateStr = makeDateStr(year, month, d);
+var isToday = (dateStr === tStr);
+var isDone = isDayCompleted(comps, itemId, dateStr);
+cells.push({
+isEmpty: false,
+dayNumber: d,
+dateStr: dateStr,
+isToday: isToday,
+isCompleted: makeObs(isDone)
+});
+}
+return cells;
+}
+function reopenLastMonth() {
+if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.reopenLastMonth === 'function') {
+return _win.TasbeehOldApp.reopenLastMonth();
+}
+var period = loadPeriod();
+var maxEnd = period.initialEnd || period.endDate;
+if (period.endDate >= maxEnd) return;
+var target = getNextMonthKey(period.endDate);
+savePeriod(period.startDate, target, maxEnd);
+showToast('Reopened ' + formatMonthLabel(target));
+}
+const TasbeehService = {
+TASBEEH_CONSTANTS, ELEMENT_IDS, STORAGE_KEYS, STORAGE_KEY, DAY_KEY,
+CURRENT_PERIOD_KEY, CAL_COMPLETION_KEY, PERIOD_KEY, TABS,
+DEFAULT_PRESETS, PERIOD_PRESETS,
+unwrap, pad2, uid, clamp, todayKey, td, formatMonthLabel, formatDate,
+formatMonthYear, getDaysInMonth, getFirstDayOfMonth, makeDateStr,
+getPrevMonthKey, getNextMonthKey, getPreviousMonthsList, renderIcon,
+showToast, escHtml, normalizeItem, loadItems, persistItems, getDhikrById,
+saveDhikrItem, deleteDhikrItem, checkDailyReset, loadCalCompletions,
+persistCalCompletions, isDayCompleted, setDayCompleted, getCompletedDaysInMonth,
+isMonthFullyCompleted, removeMonthTrackingData, loadCurrentPeriod,
+saveCurrentPeriod, getCurrentTrackingMonth, loadPeriod, savePeriod,
+getCurrentOldMonth, calculateHistoryStats, calculatePeriodPreset,
+classifyCurrentItems, classifyOldItems, buildCalendarCells, confirmAction,
+animateCell, advanceCurrentMonth, advanceOldMonth, reopenLastMonth
+};
+if (typeof window !== 'undefined') {
+window.TasbeehService = TasbeehService;
+if (!window.getCurrentTrackingMonth) {
+window.getCurrentTrackingMonth = getCurrentTrackingMonth;
+}
 }
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 function getEl(id) {
@@ -7727,34 +8141,1377 @@ endInp.value = endStr;
 updatePeriodPreview();
 }
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+const CurrentCardTemplate = {
+element: 'tasbeeh-current-card-template',
+file: 'tasbeeh/tasbeeh-current/tasbeeh-current-card/tasbeeh-current-card.html'
+};
+function CurrentCardViewModel(params) {
+if (params instanceof CurrentCardViewModel) return params;
+if (!(this instanceof CurrentCardViewModel)) return new CurrentCardViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var item = (p.item && typeof p.item === 'function') ? p.item() : (p.item || p);
+var self = this;
+self.item = item;
+self.id = unwrap(item.id, '');
+self.title = unwrap(item.title, 'Dhikr');
+self.targetCount = unwrap(item.targetCount, 33);
+self.completedDays = unwrap(item.completedDays, 0);
+self.totalDays = unwrap(item.totalDays, 30);
+self.isComplete = unwrap(item.isComplete, unwrap(item.isCompleted, false));
+self.isTodayDone = unwrap(item.isTodayDone, false);
+self.targetDisplay = (self.targetCount === 'infinite' || self.targetCount === '∞') ? '∞' : self.targetCount;
+self.totalDaysText = self.totalDays + ' days';
+self.onCardClick = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onCardClick === 'function') {
+p.onCardClick(item, e);
+} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounter === 'function') {
+_win.TasbeehApp.openCounter(self.id);
+}
+};
+self.onEditClick = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onEditClick === 'function') {
+p.onEditClick(item, e);
+} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openEditModal === 'function') {
+_win.TasbeehApp.openEditModal(self.id);
+}
+};
+}
+if (typeof window !== 'undefined') {
+window.CurrentCardViewModel = CurrentCardViewModel;
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+const CurrentFeedTemplate = {
+element: 'tasbeeh-current-feed-template',
+file: 'tasbeeh/tasbeeh-current/tasbeeh-current-feed/tasbeeh-current-feed.html'
+};
+function CurrentFeedViewModel(params) {
+if (params instanceof CurrentFeedViewModel) return params;
+if (!(this instanceof CurrentFeedViewModel)) return new CurrentFeedViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function comp(fn) {
+return (k && k.pureComputed) ? k.pureComputed(fn) : fn;
+}
+self.refreshKey = obs(0);
+self.refresh = function () {
+if (typeof self.refreshKey === 'function') {
+self.refreshKey(self.refreshKey() + 1);
+}
+};
+self.activeTab = (p.activeTab && k && k.isObservable(p.activeTab)) ? p.activeTab : obs(p.initialTab || 'todo');
+var getRawItems = function () {
+if (p.items) {
+return (typeof p.items === 'function') ? p.items() : p.items;
+}
+if (_win.TasbeehApp && typeof _win.TasbeehApp.getItems === 'function') {
+return _win.TasbeehApp.getItems();
+}
+return loadItems();
+};
+var getRawCompletions = function () {
+if (p.calCompletions) {
+return (typeof p.calCompletions === 'function') ? p.calCompletions() : p.calCompletions;
+}
+return loadCalCompletions();
+};
+self.items = comp(function () {
+if (typeof self.refreshKey === 'function') self.refreshKey();
+return getRawItems();
+});
+self.isEmpty = comp(function () {
+var it = self.items();
+return !it || it.length === 0;
+});
+self.classified = comp(function () {
+if (typeof self.refreshKey === 'function') self.refreshKey();
+return classifyCurrentItems(self.items(), getRawCompletions(), getCurrentTrackingMonth(), td());
+});
+self.todoItems = comp(function () {
+if (p.todoItems && typeof p.todoItems === 'function') {
+var items = p.todoItems();
+var done = (p.doneItems && typeof p.doneItems === 'function') ? p.doneItems() : [];
+if ((items && items.length > 0) || (done && done.length > 0)) {
+return items || [];
+}
+}
+return self.classified().todo;
+});
+self.doneItems = comp(function () {
+if (p.doneItems && typeof p.doneItems === 'function') {
+var done = p.doneItems();
+var items = (p.todoItems && typeof p.todoItems === 'function') ? p.todoItems() : [];
+if ((done && done.length > 0) || (items && items.length > 0)) {
+return done || [];
+}
+}
+return self.classified().done;
+});
+self.isMonthCompleted = comp(function () {
+if (typeof self.refreshKey === 'function') self.refreshKey();
+var itList = self.items() || [];
+if (!itList.length) return false;
+var comps = getRawCompletions();
+var curMonthKey = getCurrentTrackingMonth();
+return isMonthFullyCompleted(comps, itList, curMonthKey);
+});
+self.switchTab = function (tab, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var targetTab = (tab === 'completed') ? 'completed' : 'todo';
+if (typeof self.activeTab === 'function') {
+self.activeTab(targetTab);
+}
+if (typeof p.onTabSwitch === 'function') {
+p.onTabSwitch(targetTab, e);
+}
+};
+self.statusTabs = comp(function () {
+return [
+{
+id: 'todo',
+label: 'TO DO',
+badge: comp(function () { return self.todoItems().length; }),
+elementId: 'tabTbCurrentTodo',
+badgeId: 'tbCurrentTodoBadge'
+},
+{
+id: 'completed',
+label: 'COMPLETED',
+badge: comp(function () { return self.doneItems().length; }),
+elementId: 'tabTbCurrentDone',
+badgeId: 'tbCurrentDoneBadge'
+}
+];
+});
+self.statusTabsParams = {
+tabs: self.statusTabs,
+activeTab: self.activeTab,
+onTabChange: function (tabId, tabItem, event) {
+self.switchTab(tabId, event);
+},
+ariaLabel: 'Current Tasbeeh Status Tabs'
+};
+self.handleCardClick = function (item, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var it = (item && item.raw) ? item.raw : item;
+if (typeof p.onCardClick === 'function') {
+p.onCardClick(it, e);
+}
+};
+self.handleEditClick = function (item, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var it = (item && item.raw) ? item.raw : item;
+if (typeof p.onEditClick === 'function') {
+p.onEditClick(it, e);
+}
+};
+self.onCardClick = (typeof p.onCardClick === 'function') ? self.handleCardClick : null;
+self.onEditClick = (typeof p.onEditClick === 'function') ? self.handleEditClick : null;
+self.onAdvanceMonth = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onAdvanceMonth === 'function') {
+p.onAdvanceMonth(d, e);
+} else {
+advanceCurrentMonth({
+items: self.items(),
+calCompletions: getRawCompletions()
+});
+}
+};
+}
+if (typeof window !== 'undefined') {
+window.CurrentFeedViewModel = CurrentFeedViewModel;
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+const CurrentFormTemplate = {
+element: 'tasbeeh-current-form-template',
+file: 'tasbeeh/tasbeeh-current/tasbeeh-current-form/tasbeeh-current-form.html'
+};
+function CurrentFormViewModel(params) {
+if (params instanceof CurrentFormViewModel) return params;
+if (!(this instanceof CurrentFormViewModel)) return new CurrentFormViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function comp(fn) {
+return (k && k.pureComputed) ? k.pureComputed(fn) : fn;
+}
+self.isOpen = (p.isOpen && k && k.isObservable(p.isOpen)) ? p.isOpen : obs(false);
+self.editingId = obs(null);
+self.title = obs('');
+self.targetCount = obs(33);
+self.isInfinite = obs(false);
+self.isEditMode = comp(function () {
+return !!self.editingId();
+});
+self.selectChip = function (val) {
+if (val === 'infinite' || val === '∞') {
+self.isInfinite(true);
+} else {
+self.isInfinite(false);
+self.targetCount(Number(val) || 33);
+}
+};
+self.setItem = function (item) {
+if (!item) {
+self.editingId(null);
+self.title('');
+self.targetCount(33);
+self.isInfinite(false);
+return;
+}
+var raw = (typeof item === 'function') ? item() : item;
+self.editingId(raw.id || null);
+self.title(raw.title || '');
+var inf = raw.targetCount === 'infinite' || raw.targetCount === '∞';
+self.isInfinite(inf);
+self.targetCount(inf ? '' : (parseInt(raw.targetCount, 10) || 33));
+};
+if (p.item) {
+if (k && k.isObservable(p.item)) {
+p.item.subscribe(function (newVal) {
+self.setItem(newVal);
+});
+self.setItem(p.item());
+} else {
+self.setItem(p.item);
+}
+}
+self.save = function () {
+var t = (self.title() || '').trim();
+if (!t) {
+if (_win.alert) _win.alert('Please enter a Dhikr title.');
+return;
+}
+var tCount = self.isInfinite()
+? 'infinite'
+: Math.min(Math.max(parseInt(self.targetCount(), 10) || 33, 1), 9999);
+var data = {
+id: self.editingId(),
+title: t,
+targetCount: tCount
+};
+if (typeof p.onSave === 'function') {
+p.onSave(data);
+} else {
+saveDhikrItem(data);
+}
+self.close();
+};
+self.deleteItem = function () {
+var id = self.editingId();
+if (!id) return;
+confirmAction({
+title: 'Delete Dhikr',
+message: 'Are you sure you want to delete this Dhikr and its tracking history?',
+btnText: 'Delete',
+isSuccess: false
+}, function () {
+if (typeof p.onDelete === 'function') {
+p.onDelete(id);
+} else {
+deleteDhikrItem(id);
+}
+self.close();
+});
+};
+self.close = function () {
+if (typeof self.isOpen === 'function') {
+self.isOpen(false);
+}
+if (typeof p.onClose === 'function') {
+p.onClose();
+}
+};
+self.handleBackdropClick = function (d, e) {
+if (e && e.target && e.target.id === 'tasbeehModal') {
+self.close();
+}
+};
+}
+if (typeof window !== 'undefined') {
+window.CurrentFormViewModel = CurrentFormViewModel;
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+const CurrentPageTemplate = {
+element: 'tasbeeh-current-page-template',
+file: 'tasbeeh/tasbeeh-current/tasbeeh-current-page/tasbeeh-current-page.html'
+};
+function CurrentPageViewModel(params) {
+if (params instanceof CurrentPageViewModel) return params;
+if (!(this instanceof CurrentPageViewModel)) return new CurrentPageViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function obsArr(arr) {
+return (k && k.observableArray) ? k.observableArray(arr) : function () { return arr; };
+}
+function comp(fn) {
+return (k && k.pureComputed) ? k.pureComputed(fn) : fn;
+}
+self.activeItem = p.item || null;
+var rawMonth = unwrap(p.monthKey, getCurrentTrackingMonth());
+if (!rawMonth || typeof rawMonth !== 'string' || rawMonth.indexOf('-') === -1) {
+rawMonth = getCurrentTrackingMonth() || td().slice(0, 7);
+}
+self.monthKey = obs(rawMonth);
+self.calendarCells = obsArr([]);
+self.canPrev = obs(false);
+self.itemTitle = comp(function () {
+var it = unwrap(self.activeItem);
+return it ? (it.title || 'Dhikr') : '—';
+});
+self.targetLabel = comp(function () {
+var it = unwrap(self.activeItem);
+if (!it) return 'Target: 100 / day';
+var t = it.targetCount;
+return (t === 'infinite' || t === '∞') ? 'Target: ∞ / day' : ('Target: ' + t + ' / day');
+});
+self.monthLabel = comp(function () {
+var mKey = self.monthKey() || getCurrentTrackingMonth() || td().slice(0, 7);
+return formatMonthYear(mKey);
+});
+self.isMonthDone = comp(function () {
+var comps = loadCalCompletions();
+var items = loadItems();
+var mKey = self.monthKey() || getCurrentTrackingMonth() || td().slice(0, 7);
+return isMonthFullyCompleted(comps, items, mKey);
+});
+self.canNext = comp(function () {
+return true;
+});
+self.buildCalendar = function () {
+var it = unwrap(self.activeItem);
+if (!it) {
+self.calendarCells([]);
+return;
+}
+var mKey = self.monthKey() || getCurrentTrackingMonth() || td().slice(0, 7);
+if (!mKey || typeof mKey !== 'string' || mKey.indexOf('-') === -1) {
+mKey = getCurrentTrackingMonth() || td().slice(0, 7);
+}
+var parts = mKey.split('-');
+var year = parseInt(parts[0], 10);
+var month = parseInt(parts[1], 10) - 1;
+var comps = loadCalCompletions();
+var cells = buildCalendarCells(year, month, it.id, comps, td(), obs);
+self.calendarCells(cells);
+};
+self.toggleDay = function (cell) {
+if (!cell || cell.isEmpty) return;
+var it = unwrap(self.activeItem);
+if (!it) return;
+var isDone = cell.isCompleted();
+var comps = loadCalCompletions();
+var items = loadItems();
+if (isDone) {
+confirmAction({
+title: 'Change Day Status',
+message: 'Mark <strong>' + formatDate(cell.dateStr) + '</strong> for “' + (it.title || 'Dhikr') + '” as incomplete?',
+btnText: 'Yes, Mark Incomplete',
+isSuccess: false
+}, function () {
+setDayCompleted(comps, items, it.id, cell.dateStr, false);
+cell.isCompleted(false);
+animateCell(cell.dateStr);
+if (typeof p.onDayChange === 'function') p.onDayChange(cell.dateStr, false);
+});
+} else {
+setDayCompleted(comps, items, it.id, cell.dateStr, true);
+cell.isCompleted(true);
+animateCell(cell.dateStr);
+if (typeof p.onDayChange === 'function') p.onDayChange(cell.dateStr, true);
+var activeMKey = self.monthKey() || getCurrentTrackingMonth() || td().slice(0, 7);
+if (isMonthFullyCompleted(comps, items, activeMKey)) {
+setTimeout(function () {
+advanceCurrentMonth({
+calCompletions: comps,
+items: items
+});
+}, 300);
+}
+}
+};
+self.prevMonth = function () {
+if (_win.showToast) _win.showToast('Previous month is not available in Current tracking.');
+};
+self.nextMonth = function () {
+var comps = loadCalCompletions();
+var items = loadItems();
+var curMonthKey = self.monthKey() || getCurrentTrackingMonth() || td().slice(0, 7);
+if (isMonthFullyCompleted(comps, items, curMonthKey)) {
+advanceCurrentMonth({
+calCompletions: comps,
+items: items
+});
+} else {
+if (_win.showToast) _win.showToast('Complete all targets to advance forward.');
+}
+};
+self.onBack = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onBack === 'function') {
+p.onBack();
+} else if (_win.TasbeehApp && typeof _win.TasbeehApp.closeCounter === 'function') {
+_win.TasbeehApp.closeCounter();
+}
+};
+if (p.monthKey && k && k.isObservable(p.monthKey)) {
+p.monthKey.subscribe(function (newMonth) {
+if (newMonth && typeof newMonth === 'string' && newMonth.indexOf('-') !== -1) {
+if (typeof self.monthKey === 'function') self.monthKey(newMonth);
+self.buildCalendar();
+}
+});
+}
+if (p.item && k && k.isObservable(p.item)) {
+p.item.subscribe(function () {
+self.buildCalendar();
+});
+}
+self.buildCalendar();
+}
+if (typeof window !== 'undefined') {
+window.CurrentPageViewModel = CurrentPageViewModel;
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+const OldCardTemplate = {
+element: 'tasbeeh-old-card-template',
+file: 'tasbeeh/tasbeeh-old/tasbeeh-old-card/tasbeeh-old-card.html'
+};
+function OldCardViewModel(params) {
+if (params instanceof OldCardViewModel) return params;
+if (!(this instanceof OldCardViewModel)) return new OldCardViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var item = (p.item && typeof p.item === 'function') ? p.item() : (p.item || p);
+var self = this;
+self.item = item;
+self.id = unwrap(item.id, '');
+self.month = unwrap(p.month, unwrap(item.month, null));
+self.title = unwrap(item.title, 'Dhikr');
+self.targetCount = unwrap(item.targetCount, 33);
+self.completedDays = unwrap(item.completedDays, 0);
+self.totalDays = unwrap(item.totalDays, 30);
+self.isComplete = unwrap(item.isComplete, unwrap(item.isCompleted, false));
+self.targetDisplay = (self.targetCount === 'infinite' || self.targetCount === '∞') ? '∞' : self.targetCount;
+self.totalDaysText = self.totalDays + ' days';
+self.onCardClick = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onCardClick === 'function') {
+p.onCardClick(item, self.month, e);
+} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounterOld === 'function') {
+_win.TasbeehApp.openCounterOld(self.id, self.month);
+}
+};
+self.onEditClick = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onEditClick === 'function') {
+p.onEditClick(item, e);
+} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openEditModal === 'function') {
+_win.TasbeehApp.openEditModal(self.id);
+}
+};
+}
+if (typeof window !== 'undefined') {
+window.OldCardViewModel = OldCardViewModel;
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+const OldFeedTemplate = {
+element: 'tasbeeh-old-feed-template',
+file: 'tasbeeh/tasbeeh-old/tasbeeh-old-feed/tasbeeh-old-feed.html'
+};
+function OldFeedViewModel(params) {
+if (params instanceof OldFeedViewModel) return params;
+if (!(this instanceof OldFeedViewModel)) return new OldFeedViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function comp(fn) {
+return (k && k.pureComputed) ? k.pureComputed(fn) : fn;
+}
+self.refreshKey = obs(0);
+self.refresh = function () {
+if (typeof self.refreshKey === 'function') {
+self.refreshKey(self.refreshKey() + 1);
+}
+};
+self.activeTab = (p.activeTab && k && k.isObservable(p.activeTab)) ? p.activeTab : obs(p.initialTab || 'todo');
+self.period = comp(function () {
+return loadPeriod();
+});
+self.curOldMonth = comp(function () {
+var per = self.period();
+if (!per || !per.startDate || !per.endDate) return null;
+return (per.endDate < per.startDate) ? null : per.endDate;
+});
+self.isEmptyRange = comp(function () {
+var per = self.period();
+var initEnd = per.initialEnd || per.endDate;
+return initEnd < per.startDate;
+});
+self.isAllCompleted = comp(function () {
+if (self.isEmptyRange()) return false;
+return !self.curOldMonth();
+});
+self.hasActiveOldMonth = comp(function () {
+return !self.isEmptyRange() && !self.isAllCompleted() && !!self.curOldMonth();
+});
+self.startDateLabel = comp(function () {
+var per = self.period();
+return formatMonthLabel(per.startDate);
+});
+self.curMonthName = comp(function () {
+var m = typeof _win.getCurrentMonthKey === 'function' ? _win.getCurrentMonthKey() : '';
+return formatMonthLabel(m);
+});
+self.monthName = comp(function () {
+return formatMonthLabel(self.curOldMonth());
+});
+self.classified = comp(function () {
+if (typeof self.refreshKey === 'function') self.refreshKey();
+return classifyOldItems(loadItems(), loadCalCompletions(), self.curOldMonth());
+});
+self.todoItems = comp(function () {
+if (p.todoItems && typeof p.todoItems === 'function') {
+var items = p.todoItems();
+var done = (p.doneItems && typeof p.doneItems === 'function') ? p.doneItems() : [];
+if ((items && items.length > 0) || (done && done.length > 0)) {
+return items || [];
+}
+}
+return self.classified().todo;
+});
+self.doneItems = comp(function () {
+if (p.doneItems && typeof p.doneItems === 'function') {
+var done = p.doneItems();
+var items = (p.todoItems && typeof p.todoItems === 'function') ? p.todoItems() : [];
+if ((done && done.length > 0) || (items && items.length > 0)) {
+return done || [];
+}
+}
+return self.classified().done;
+});
+self.isAllDone = comp(function () {
+var cl = self.classified();
+return cl.todo.length === 0 && (cl.done.length > 0);
+});
+self.switchTab = function (tab, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var targetTab = (tab === 'completed') ? 'completed' : 'todo';
+if (typeof self.activeTab === 'function') {
+self.activeTab(targetTab);
+}
+if (typeof p.onTabSwitch === 'function') {
+p.onTabSwitch(targetTab, e);
+}
+};
+self.statusTabs = comp(function () {
+return [
+{
+id: 'todo',
+label: 'TO DO',
+badge: comp(function () { return self.todoItems().length; }),
+elementId: 'tabTbOldTodo',
+badgeId: 'tbOldTodoBadge'
+},
+{
+id: 'completed',
+label: 'COMPLETED',
+badge: comp(function () { return self.doneItems().length; }),
+elementId: 'tabTbOldDone',
+badgeId: 'tbOldDoneBadge'
+}
+];
+});
+self.statusTabsParams = {
+tabs: self.statusTabs,
+activeTab: self.activeTab,
+onTabChange: function (tabId, tabItem, event) {
+self.switchTab(tabId, event);
+},
+ariaLabel: 'Old Tasbeeh Status Tabs'
+};
+self.handleCardClick = function (item, month, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var it = (item && item.raw) ? item.raw : item;
+var m = month || self.curOldMonth();
+if (typeof p.onCardClick === 'function') {
+p.onCardClick(it, m, e);
+}
+};
+self.handleEditClick = function (item, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var it = (item && item.raw) ? item.raw : item;
+if (typeof p.onEditClick === 'function') {
+p.onEditClick(it, e);
+}
+};
+self.onCardClick = (typeof p.onCardClick === 'function') ? self.handleCardClick : null;
+self.onEditClick = (typeof p.onEditClick === 'function') ? self.handleEditClick : null;
+self.onAdvanceMonth = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onAdvanceMonth === 'function') {
+p.onAdvanceMonth(d, e);
+} else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.advanceOldMonth === 'function') {
+_win.TasbeehOldApp.advanceOldMonth();
+}
+};
+self.onReopenLastMonth = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onReopenLastMonth === 'function') {
+p.onReopenLastMonth(d, e);
+} else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.reopenLastMonth === 'function') {
+_win.TasbeehOldApp.reopenLastMonth();
+}
+};
+self.onResetCompleted = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onResetCompleted === 'function') {
+p.onResetCompleted(d, e);
+} else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.resetAllCompleted === 'function') {
+_win.TasbeehOldApp.resetAllCompleted();
+}
+};
+self.onAdjustStartDate = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onAdjustStartDate === 'function') {
+p.onAdjustStartDate(d, e);
+} else if (_win.TasbeehApp && typeof _win.TasbeehApp.switchTab === 'function') {
+_win.TasbeehApp.switchTab('history');
+}
+};
+}
+if (typeof window !== 'undefined') {
+window.OldFeedViewModel = OldFeedViewModel;
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+const OldFormTemplate = {
+element: 'tasbeeh-old-form-template',
+file: 'tasbeeh/tasbeeh-old/tasbeeh-old-form/tasbeeh-old-form.html'
+};
+function OldFormViewModel(params) {
+if (params instanceof OldFormViewModel) return params;
+if (!(this instanceof OldFormViewModel)) return new OldFormViewModel(params);
+return new CurrentFormViewModel(params);
+}
+if (typeof window !== 'undefined') {
+window.OldFormViewModel = OldFormViewModel;
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+const OldPageTemplate = {
+element: 'tasbeeh-old-page-template',
+file: 'tasbeeh/tasbeeh-old/tasbeeh-old-page/tasbeeh-old-page.html'
+};
+function OldPageViewModel(params) {
+if (params instanceof OldPageViewModel) return params;
+if (!(this instanceof OldPageViewModel)) return new OldPageViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function obsArr(arr) {
+return (k && k.observableArray) ? k.observableArray(arr) : function () { return arr; };
+}
+function comp(fn) {
+return (k && k.pureComputed) ? k.pureComputed(fn) : fn;
+}
+self.activeItem = p.item || null;
+var rawMonth = unwrap(p.monthKey, unwrap(p.month, '2026-09'));
+if (!rawMonth || typeof rawMonth !== 'string' || rawMonth.indexOf('-') === -1) {
+rawMonth = '2026-09';
+}
+self.monthKey = obs(rawMonth);
+self.calendarCells = obsArr([]);
+self.itemTitle = comp(function () {
+var it = unwrap(self.activeItem);
+return it ? (it.title || 'Dhikr') : '—';
+});
+self.targetLabel = comp(function () {
+var it = unwrap(self.activeItem);
+if (!it) return 'Target: 100 / day';
+var t = it.targetCount;
+return (t === 'infinite' || t === '∞') ? 'Target: ∞ / day' : ('Target: ' + t + ' / day');
+});
+self.monthLabel = comp(function () {
+var mKey = self.monthKey() || '2026-09';
+return formatMonthYear(mKey);
+});
+self.topTitle = comp(function () {
+return self.itemTitle() + ' (' + self.monthLabel() + ')';
+});
+self.isMonthDone = comp(function () {
+var comps = loadCalCompletions();
+var items = loadItems();
+var mKey = self.monthKey() || '2026-09';
+return isMonthFullyCompleted(comps, items, mKey);
+});
+self.canPrev = comp(function () {
+return self.isMonthDone();
+});
+self.buildCalendar = function () {
+var it = unwrap(self.activeItem);
+if (!it) {
+self.calendarCells([]);
+return;
+}
+var mKey = self.monthKey() || '2026-09';
+if (!mKey || typeof mKey !== 'string' || mKey.indexOf('-') === -1) {
+mKey = '2026-09';
+}
+var parts = mKey.split('-');
+var year = parseInt(parts[0], 10);
+var month = parseInt(parts[1], 10) - 1;
+var comps = loadCalCompletions();
+var cells = buildCalendarCells(year, month, it.id, comps, td(), obs);
+self.calendarCells(cells);
+};
+self.toggleDay = function (cell) {
+if (!cell || cell.isEmpty) return;
+var it = unwrap(self.activeItem);
+if (!it) return;
+var isDone = cell.isCompleted();
+var comps = loadCalCompletions();
+var items = loadItems();
+if (isDone) {
+confirmAction({
+title: 'Change Day Status',
+message: 'Mark <strong>' + formatDate(cell.dateStr) + '</strong> for “' + (it.title || 'Dhikr') + '” as incomplete?',
+btnText: 'Yes, Mark Incomplete',
+isSuccess: false
+}, function () {
+setDayCompleted(comps, items, it.id, cell.dateStr, false);
+cell.isCompleted(false);
+animateCell(cell.dateStr);
+if (typeof p.onDayChange === 'function') p.onDayChange(cell.dateStr, false);
+});
+} else {
+setDayCompleted(comps, items, it.id, cell.dateStr, true);
+cell.isCompleted(true);
+animateCell(cell.dateStr);
+if (typeof p.onDayChange === 'function') p.onDayChange(cell.dateStr, true);
+var activeMKey = self.monthKey();
+if (isMonthFullyCompleted(comps, items, activeMKey)) {
+setTimeout(function () {
+advanceOldMonth({
+calCompletions: comps,
+items: items,
+counterMonthKey: activeMKey,
+activeId: it.id
+});
+}, 300);
+}
+}
+};
+self.prevMonth = function () {
+var comps = loadCalCompletions();
+var items = loadItems();
+var activeMKey = self.monthKey();
+if (isMonthFullyCompleted(comps, items, activeMKey)) {
+advanceOldMonth({
+calCompletions: comps,
+items: items,
+counterMonthKey: activeMKey,
+activeId: unwrap(self.activeItem) ? unwrap(self.activeItem).id : null
+});
+} else {
+if (_win.showToast) _win.showToast('Complete all targets to move backward.');
+}
+};
+self.onBack = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onBack === 'function') {
+p.onBack();
+} else if (_win.TasbeehApp && typeof _win.TasbeehApp.closeCounter === 'function') {
+_win.TasbeehApp.closeCounter();
+}
+};
+if (p.monthKey && k && k.isObservable(p.monthKey)) {
+p.monthKey.subscribe(function (newMonth) {
+if (newMonth && typeof newMonth === 'string' && newMonth.indexOf('-') !== -1) {
+if (typeof self.monthKey === 'function') self.monthKey(newMonth);
+self.buildCalendar();
+}
+});
+}
+if (p.item && k && k.isObservable(p.item)) {
+p.item.subscribe(function () {
+self.buildCalendar();
+});
+}
+self.buildCalendar();
+}
+if (typeof window !== 'undefined') {
+window.OldPageViewModel = OldPageViewModel;
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+const HistoryCardTemplate = {
+element: 'tasbeeh-history-card-template',
+file: 'tasbeeh/tasbeeh-history/tasbeeh-history-card/tasbeeh-history-card.html'
+};
+function HistoryCardViewModel(params) {
+if (params instanceof HistoryCardViewModel) return params;
+if (!(this instanceof HistoryCardViewModel)) return new HistoryCardViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var self = this;
+self.monthKey = unwrap(p.monthKey, '');
+self.monthLabel = unwrap(p.monthLabel, self.monthKey);
+self.indexNumber = unwrap(p.indexNumber, 1);
+self.status = unwrap(p.status, 'pending'); // 'completed' | 'active' | 'pending'
+self.canReopen = unwrap(p.canReopen, false);
+self.indexText = '#' + self.indexNumber;
+if (self.status === 'completed') {
+self.badgeClass = 'bg-brand-light text-brand border border-brand-subtle';
+self.badgeIcon = 'circle-check';
+self.badgeText = 'Completed';
+} else if (self.status === 'active') {
+self.badgeClass = 'bg-brand text-white border-0';
+self.badgeIcon = 'play';
+self.badgeText = 'In Progress';
+} else {
+self.badgeClass = 'bg-surfaceBg text-gr-textMuted border border-borderGrey';
+self.badgeIcon = 'clock';
+self.badgeText = 'Pending';
+}
+self.onReopen = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onReopen === 'function') {
+p.onReopen(self.monthKey, e);
+} else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.reopenLastMonth === 'function') {
+_win.TasbeehOldApp.reopenLastMonth();
+} else {
+reopenLastMonth();
+}
+};
+}
+if (typeof window !== 'undefined') {
+window.HistoryCardViewModel = HistoryCardViewModel;
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+const HistoryFeedTemplate = {
+element: 'tasbeeh-history-feed-template',
+file: 'tasbeeh/tasbeeh-history/tasbeeh-history-feed/tasbeeh-history-feed.html'
+};
+function HistoryFeedViewModel(params) {
+if (params instanceof HistoryFeedViewModel) return params;
+if (!(this instanceof HistoryFeedViewModel)) return new HistoryFeedViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var self = this;
+function comp(fn) {
+return (k && k.pureComputed) ? k.pureComputed(fn) : fn;
+}
+self.period = comp(function () {
+return (p.period && typeof p.period === 'function') ? p.period() : loadPeriod();
+});
+self.monthsData = comp(function () {
+var period = self.period();
+var maxEnd = period.initialEnd || period.endDate;
+var allOldMonths = getPreviousMonthsList(period.startDate, maxEnd);
+var curOldMonth = getCurrentOldMonth();
+var reopenTargetMonth = (period.endDate < maxEnd) ? getNextMonthKey(period.endDate) : null;
+var completedCount = 0;
+var totalCount = allOldMonths.length;
+var mapped = allOldMonths.map(function (mKey, idx) {
+var isCompleted = (mKey > period.endDate) || (period.endDate < period.startDate);
+var isActive = (mKey === curOldMonth);
+if (isCompleted) completedCount++;
+var status = isCompleted ? 'completed' : (isActive ? 'active' : 'pending');
+var canReopen = (mKey === reopenTargetMonth);
+return {
+monthKey: mKey,
+monthLabel: formatMonthLabel(mKey),
+indexNumber: totalCount - idx,
+status: status,
+canReopen: canReopen,
+onReopen: function (m, e) {
+self.handleReopen(m, e);
+}
+};
+});
+return {
+list: mapped,
+completedCount: completedCount,
+totalCount: totalCount
+};
+});
+self.months = comp(function () {
+return self.monthsData().list;
+});
+self.isEmpty = comp(function () {
+return self.months().length === 0;
+});
+self.hasClearedMonths = comp(function () {
+return self.monthsData().completedCount > 0;
+});
+self.handleReopen = function (monthKey, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onReopenMonth === 'function') {
+p.onReopenMonth(monthKey, e);
+} else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.reopenLastMonth === 'function') {
+_win.TasbeehOldApp.reopenLastMonth();
+} else {
+reopenLastMonth();
+}
+};
+self.onResetCompleted = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onResetCompleted === 'function') {
+p.onResetCompleted(d, e);
+} else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.resetAllCompleted === 'function') {
+_win.TasbeehOldApp.resetAllCompleted();
+}
+};
+}
+if (typeof window !== 'undefined') {
+window.HistoryFeedViewModel = HistoryFeedViewModel;
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+const HistoryFormTemplate = {
+element: 'tasbeeh-history-form-template',
+file: 'tasbeeh/tasbeeh-history/tasbeeh-history-form/tasbeeh-history-form.html'
+};
+function HistoryFormViewModel(params) {
+if (params instanceof HistoryFormViewModel) return params;
+if (!(this instanceof HistoryFormViewModel)) return new HistoryFormViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+var initialPeriod = loadPeriod();
+var sVal = initialPeriod.startDate ? (initialPeriod.startDate.length === 7 ? initialPeriod.startDate + '-01' : initialPeriod.startDate) : '';
+var eVal = initialPeriod.initialEnd ? (initialPeriod.initialEnd.length === 7 ? initialPeriod.initialEnd + '-01' : initialPeriod.initialEnd) : '';
+self.startDate = (p.startDate && k && k.isObservable(p.startDate)) ? p.startDate : obs(sVal);
+self.endDate = (p.endDate && k && k.isObservable(p.endDate)) ? p.endDate : obs(eVal);
+self.applyPreset = function (presetType) {
+var preset = calculatePeriodPreset(presetType);
+self.startDate(preset.startDate);
+self.endDate(preset.endDate);
+};
+self.save = function () {
+var startRaw = self.startDate();
+var endRaw = self.endDate() || td();
+if (!startRaw) {
+if (_win.alert) _win.alert('Please select a Start Date.');
+return;
+}
+var startMonth = startRaw.slice(0, 7);
+var endMonth = endRaw.slice(0, 7);
+if (endMonth < startMonth) {
+if (_win.alert) _win.alert('End Date must be on or after Start Date.');
+return;
+}
+savePeriod(startMonth, endMonth, endMonth);
+showToast('Tasbeeh period settings updated');
+if (typeof p.onSave === 'function') {
+p.onSave(startMonth, endMonth);
+}
+if (_win.TasbeehHistoryApp && typeof _win.TasbeehHistoryApp.renderHistoryTab === 'function') {
+_win.TasbeehHistoryApp.renderHistoryTab();
+}
+if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.renderOldTab === 'function') {
+_win.TasbeehOldApp.renderOldTab();
+}
+};
+self.reset = function () {
+var now = new Date();
+var curMonth = typeof _win.getCurrentMonthKey === 'function' ? _win.getCurrentMonthKey() : (now.getFullYear() + '-' + ((now.getMonth() + 1 < 10 ? '0' : '') + (now.getMonth() + 1)));
+var defaultStart = now.getFullYear() + '-01';
+var defaultEnd = getPrevMonthKey(curMonth);
+self.startDate(defaultStart + '-01');
+self.endDate(defaultEnd + '-01');
+savePeriod(defaultStart, defaultEnd, defaultEnd);
+showToast('Period reset to current year');
+if (typeof p.onReset === 'function') {
+p.onReset(defaultStart, defaultEnd);
+}
+if (_win.TasbeehHistoryApp && typeof _win.TasbeehHistoryApp.renderHistoryTab === 'function') {
+_win.TasbeehHistoryApp.renderHistoryTab();
+}
+if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.renderOldTab === 'function') {
+_win.TasbeehOldApp.renderOldTab();
+}
+};
+}
+if (typeof window !== 'undefined') {
+window.HistoryFormViewModel = HistoryFormViewModel;
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+const HistoryPageTemplate = {
+element: 'tasbeeh-history-page-template',
+file: 'tasbeeh/tasbeeh-history/tasbeeh-history-page/tasbeeh-history-page.html'
+};
+function HistoryPageViewModel(params) {
+if (params instanceof HistoryPageViewModel) return params;
+if (!(this instanceof HistoryPageViewModel)) return new HistoryPageViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function comp(fn) {
+return (k && k.pureComputed) ? k.pureComputed(fn) : fn;
+}
+self.period = obs(loadPeriod());
+self.stats = comp(function () {
+return calculateHistoryStats(self.period());
+});
+self.progressStats = {
+percentCleared: comp(function () { return self.stats().percentCleared; }),
+totalMonths: comp(function () { return self.stats().totalMonths; }),
+clearedMonths: comp(function () { return self.stats().clearedMonths; }),
+pendingMonths: comp(function () { return self.stats().pendingMonths; })
+};
+self.formParams = {
+onSave: function () {
+self.period(loadPeriod());
+if (typeof p.onSave === 'function') p.onSave();
+},
+onReset: function () {
+self.period(loadPeriod());
+if (typeof p.onReset === 'function') p.onReset();
+}
+};
+self.feedParams = {
+period: self.period,
+onReopenMonth: function (monthKey, e) {
+if (typeof p.onReopenMonth === 'function') {
+p.onReopenMonth(monthKey, e);
+} else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.reopenLastMonth === 'function') {
+_win.TasbeehOldApp.reopenLastMonth();
+}
+self.period(loadPeriod());
+},
+onResetCompleted: function (d, e) {
+if (typeof p.onResetCompleted === 'function') {
+p.onResetCompleted(d, e);
+} else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.resetAllCompleted === 'function') {
+_win.TasbeehOldApp.resetAllCompleted();
+}
+self.period(loadPeriod());
+}
+};
+}
+if (typeof window !== 'undefined') {
+window.HistoryPageViewModel = HistoryPageViewModel;
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+if (typeof window === 'undefined') {
+globalThis.window = _win;
+}
+function escHtml(str) {
+if (!str) return '';
+return String(str)
+.replace(/&/g, '&amp;')
+.replace(/</g, '&lt;')
+.replace(/>/g, '&gt;')
+.replace(/"/g, '&quot;')
+.replace(/'/g, '&#39;');
+}
+if (typeof window !== 'undefined') {
+window.escHtml = escHtml;
+}
+const TasbeehPageTemplate = { element: 'tasbeeh-page-template', file: 'tasbeeh/tasbeeh.html' };
+const TasbeehHeaderTemplate = { element: 'tasbeeh-header-template', file: 'tasbeeh/templates/tasbeeh-header.html' };
+const TasbeehCounterCardTemplate = { element: 'tasbeeh-counter-card-template', file: 'tasbeeh/templates/tasbeeh-counter-card.html' };
+const TasbeehProgressCircleTemplate = { element: 'tasbeeh-progress-circle-template', file: 'tasbeeh/templates/tasbeeh-progress-circle.html' };
+const TasbeehNavTabTemplate = { element: 'tasbeeh-nav-tab-template', file: 'tasbeeh/templates/tasbeeh-nav-tab.html' };
+function TasbeehCounterCardViewModel(params) {
+if (params instanceof TasbeehCounterCardViewModel) return params;
+if (!(this instanceof TasbeehCounterCardViewModel)) return new TasbeehCounterCardViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var self = this;
+function unwrap(v, def) {
+var res = (typeof v === 'function') ? v() : v;
+return (res !== undefined && res !== null) ? res : def;
+}
+self.id = unwrap(p.id, '');
+self.title = unwrap(p.title, 'Dhikr');
+self.month = unwrap(p.month, null);
+self.targetCount = unwrap(p.targetCount, 33);
+self.completedDays = unwrap(p.completedDays, 0);
+self.totalDays = unwrap(p.totalDays, 30);
+var rawComplete = unwrap(p.isComplete, unwrap(p.isCompleted, false));
+self.isComplete = (k && k.isObservable(p.isComplete)) ? p.isComplete : ((k && k.isObservable(p.isCompleted)) ? p.isCompleted : rawComplete);
+self.isCompleted = self.isComplete;
+self.isTodayDone = unwrap(p.isTodayDone, false);
+self.onCardClick = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onCardClick === 'function') {
+p.onCardClick(d, e);
+} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounter === 'function') {
+_win.TasbeehApp.openCounter(self.id, self.month);
+} else if (_win.openCounter) {
+_win.openCounter(self.id, self.month);
+}
+};
+self.onEditClick = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onEditClick === 'function') {
+p.onEditClick(d, e);
+} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openEditModal === 'function') {
+_win.TasbeehApp.openEditModal(self.id);
+} else if (_win.openEditModal) {
+_win.openEditModal(self.id);
+}
+};
+}
+var tasbeehViewModel = null;
+function switchCurrentTab(tabName) {
+var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+if (vm && typeof vm.currentActiveTab === 'function') vm.currentActiveTab(tabName);
+if (typeof document === 'undefined') return;
+var todoTab = document.getElementById('tabTbCurrentTodo'), doneTab = document.getElementById('tabTbCurrentDone');
+var todoList = document.getElementById('tbCurrentTodoList'), doneList = document.getElementById('tbCurrentDoneList');
+var todoBadge = document.getElementById('tbCurrentTodoBadge'), doneBadge = document.getElementById('tbCurrentDoneBadge');
+var isTodo = tabName === 'todo';
+if (todoList) { todoList.classList.toggle('d-none', !isTodo); todoList.classList.toggle('hidden', !isTodo); }
+if (doneList) { doneList.classList.toggle('d-none', isTodo); doneList.classList.toggle('hidden', isTodo); }
+var actCls = 'flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-brand text-brand font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none';
+var inactCls = 'flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-transparent text-gr-textMuted font-semibold text-xs uppercase tracking-wider hover:text-gr-text transition-colors cursor-pointer select-none';
+if (todoTab) { todoTab.setAttribute('aria-selected', isTodo ? 'true' : 'false'); todoTab.className = isTodo ? actCls : inactCls; }
+if (doneTab) { doneTab.setAttribute('aria-selected', !isTodo ? 'true' : 'false'); doneTab.className = !isTodo ? actCls : inactCls; }
+if (todoBadge) todoBadge.className = isTodo ? 'text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand' : 'text-xs font-bold px-2 py-0.5 rounded-full bg-surfaceBg text-gr-textMuted border border-borderGrey';
+if (doneBadge) doneBadge.className = !isTodo ? 'text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand' : 'text-xs font-bold px-2 py-0.5 rounded-full bg-surfaceBg text-gr-textMuted border border-borderGrey';
+}
+_win.switchCurrentTab = switchCurrentTab;
+function getTasbeehViewModel() {
+if (!tasbeehViewModel && typeof TasbeehPageViewModel === 'function') {
+tasbeehViewModel = new TasbeehPageViewModel();
+}
+return tasbeehViewModel;
+}
+function TasbeehPageViewModel(params) {
+params = params || {};
+var self = this;
+var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+self.currentSubTab = (k && k.observable) ? k.observable('current') : function () { return 'current'; };
+self.currentActiveTab = (k && k.observable) ? k.observable('todo') : function () { return 'todo'; };
+self.currentTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
+self.currentDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
+self.oldActiveTab = (k && k.observable) ? k.observable('todo') : function () { return 'todo'; };
+self.oldTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
+self.oldDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
+self.switchCurrentTab = function (tab, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (k && k.isObservable(self.currentActiveTab)) {
+self.currentActiveTab(tab);
+}
+if (typeof _win.switchCurrentTab === 'function') {
+_win.switchCurrentTab(tab);
+}
+};
+self.oldActiveTab = (k && k.observable) ? k.observable('todo') : function () { return 'todo'; };
+self.switchOldTab = function (tab, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (k && k.isObservable(self.oldActiveTab)) {
+self.oldActiveTab(tab);
+}
+if (typeof _win.switchOldTab === 'function') {
+_win.switchOldTab(tab);
+}
+};
+self.header = {
+title: (k && k.observable) ? k.observable('Digital Tasbeeh') : 'Digital Tasbeeh',
+subtitle: (k && k.observable) ? k.observable('') : '',
+iconClass: (k && k.observable) ? k.observable('fa-solid fa-calendar text-brand') : 'fa-solid fa-calendar text-brand',
+goHome: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof showPage === 'function') showPage('dashboard');
+}
+};
+self.switchTab = function (tab, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
+window.TasbeehApp.switchTab(tab);
+}
+};
+self.closeCounter = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+self.closeCalendar();
+if (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.closeCounter === 'function') {
+_win.TasbeehCurrentApp.closeCounter();
+} else if (_win.TasbeehApp && typeof _win.TasbeehApp.closeCounter === 'function') {
+_win.TasbeehApp.closeCounter();
+}
+};
+self.openAddModal = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+self.openAddForm();
+if (window.TasbeehApp && typeof window.TasbeehApp.openAddModal === 'function') {
+window.TasbeehApp.openAddModal();
+}
+};
+self.activeCalendarItem = (k && k.observable) ? k.observable(null) : function () { return null; };
+var defaultMonth = (typeof getCurrentTrackingMonth === 'function') ? getCurrentTrackingMonth() : null;
+self.calendarMonth = (k && k.observable) ? k.observable(defaultMonth) : function () { return defaultMonth; };
+self.isCalendarOpen = (k && k.pureComputed) ? k.pureComputed(function () {
+return !!self.activeCalendarItem();
+}) : function () { return false; };
+self.isFormOpen = (k && k.observable) ? k.observable(false) : function () { return false; };
+self.editingItem = (k && k.observable) ? k.observable(null) : function () { return null; };
+self.openCalendar = function (item, month) {
+var m = month || ((typeof getCurrentTrackingMonth === 'function') ? getCurrentTrackingMonth() : null);
+if (typeof self.calendarMonth === 'function') self.calendarMonth(m);
+if (typeof self.activeCalendarItem === 'function') self.activeCalendarItem(item || null);
+};
+self.closeCalendar = function () {
+if (typeof self.activeCalendarItem === 'function') self.activeCalendarItem(null);
+};
+self.openAddForm = function () {
+if (typeof self.editingItem === 'function') self.editingItem(null);
+if (typeof self.isFormOpen === 'function') self.isFormOpen(true);
+};
+self.openEditForm = function (item) {
+if (typeof self.editingItem === 'function') self.editingItem(item || null);
+if (typeof self.isFormOpen === 'function') self.isFormOpen(true);
+};
+self.closeForm = function () {
+if (typeof self.isFormOpen === 'function') self.isFormOpen(false);
+if (typeof self.editingItem === 'function') self.editingItem(null);
+};
+var refreshCur = function () { if (typeof _win.renderCurrentTab === 'function') _win.renderCurrentTab(); };
+var refreshOld = function () { if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.renderOldTab === 'function') _win.TasbeehOldApp.renderOldTab(); };
+self.currentFeedParams = {
+activeTab: self.currentActiveTab,
+todoItems: self.currentTodoItems,
+doneItems: self.currentDoneItems,
+onTabSwitch: function (tab, e) { self.switchCurrentTab(tab, e); },
+onCardClick: function (item) { self.openCalendar(item, typeof getCurrentTrackingMonth === 'function' ? getCurrentTrackingMonth() : null); },
+onEditClick: function (item) { self.openEditForm(item); }
+};
+self.currentCalendarParams = {
+item: self.activeCalendarItem,
+monthKey: self.calendarMonth,
+onBack: function () { self.closeCalendar(); refreshCur(); },
+onDayChange: function () { refreshCur(); }
+};
+self.currentFormParams = {
+isOpen: self.isFormOpen,
+item: self.editingItem,
+onClose: function () { self.closeForm(); refreshCur(); },
+onSave: function () { self.closeForm(); refreshCur(); }
+};
+self.oldFeedParams = {
+activeTab: self.oldActiveTab,
+todoItems: self.oldTodoItems,
+doneItems: self.oldDoneItems,
+onTabSwitch: function (tab, e) { self.switchOldTab(tab, e); },
+onCardClick: function (item, month) { self.openCalendar(item, month); },
+onEditClick: function (item) { self.openEditForm(item); },
+onAdjustStartDate: function () { self.switchTab('history'); }
+};
+self.oldCalendarParams = {
+item: self.activeCalendarItem,
+monthKey: self.calendarMonth,
+onBack: function () { self.closeCalendar(); refreshOld(); },
+onDayChange: function () { refreshOld(); }
+};
+self.oldFormParams = {
+isOpen: self.isFormOpen,
+item: self.editingItem,
+onClose: function () { self.closeForm(); refreshOld(); },
+onSave: function () { self.closeForm(); refreshOld(); }
+};
+self.historyPageParams = {
+onReopenMonth: function (m, e) {
+self.reopenLastMonth(m, e);
+},
+onResetCompleted: function (d, e) {
+self.resetAllCompleted(d, e);
+}
+};
+self.reopenLastMonth = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.reopenLastMonth === 'function') {
+window.TasbeehApp.reopenLastMonth();
+}
+if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
+window.TasbeehHistoryApp.renderHistoryTab();
+}
+};
+self.resetAllCompleted = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (window.TasbeehApp && typeof window.TasbeehApp.resetAllCompleted === 'function') {
+window.TasbeehApp.resetAllCompleted();
+}
+if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.renderHistoryTab === 'function') {
+window.TasbeehHistoryApp.renderHistoryTab();
+}
+};
+var tbStore = _win.TasbeehStore || null;
+self.currentDhikrsCount = (tbStore && k && k.isObservable(tbStore.currentDhikrsCount))
+? tbStore.currentDhikrsCount
+: ((k && k.observable) ? k.observable(0) : 0);
+self.clearedMonthsCount = (tbStore && k && k.isObservable(tbStore.clearedMonthsCount))
+? tbStore.clearedMonthsCount
+: ((k && k.observable) ? k.observable(0) : 0);
+self.activeOldLabel = (tbStore && k && k.isObservable(tbStore.activeOldLabel))
+? tbStore.activeOldLabel
+: ((k && k.observable) ? k.observable('All Cleared') : 'All Cleared');
+self.historyProgress = {
+percentCleared: (k && k.observable) ? k.observable(0) : 0,
+totalMonths: (k && k.observable) ? k.observable(0) : 0,
+clearedMonths: (k && k.observable) ? k.observable(0) : 0,
+pendingMonths: (k && k.observable) ? k.observable(0) : 0
+};
+}
+function initTasbeeh() {
+if (typeof _win.registerAllComponents === 'function') {
+_win.registerAllComponents();
+}
+var el = document.getElementById('tasbeehPage');
+if (!document.getElementById('app') && el && typeof ko !== 'undefined') {
+var vm = getTasbeehViewModel();
+if (!ko.dataFor(el)) {
+ko.applyBindings(vm, el);
+}
+}
+if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.init === 'function') {
+_win.TasbeehOldApp.init();
+}
+if (_win.TasbeehHistoryApp && typeof _win.TasbeehHistoryApp.init === 'function') {
+_win.TasbeehHistoryApp.init();
+}
+if (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.init === 'function') {
+_win.TasbeehCurrentApp.init();
+} else if (_win.TasbeehApp && typeof _win.TasbeehApp.init === 'function' && _win.TasbeehApp.init !== initTasbeeh) {
+_win.TasbeehApp.init();
+}
+}
+if (typeof window !== 'undefined') {
+window.TasbeehPageViewModel = TasbeehPageViewModel;
+window.getTasbeehViewModel = getTasbeehViewModel;
+window.initTasbeeh = initTasbeeh;
+}
+export * from './tasbeeh-old-card/tasbeeh-old-card.js';
+export * from './tasbeeh-old-feed/tasbeeh-old-feed.js';
+export * from './tasbeeh-old-form/tasbeeh-old-form.js';
+export * from './tasbeeh-old-page/tasbeeh-old-page.js';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var TASBEEH_CONSTANTS = _win.TASBEEH_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.TASBEEH) || {};
 var ELEMENT_IDS = TASBEEH_CONSTANTS.ELEMENT_IDS || {};
 var currentOldMonthKey = null;
-function getEl(id) { return document.getElementById(id); }
-var pad2 = function (n) {
-if (typeof _win.pad2 === 'function' && _win.pad2 !== pad2) return _win.pad2(n);
-return n < 10 ? '0' + n : '' + n;
-};
-function showToast(msg, d) { if (typeof _win.showToast === 'function') _win.showToast(msg, d); }
-var formatMonthLabel = function (m) {
-if (typeof _win.formatMonthLabel === 'function' && _win.formatMonthLabel !== formatMonthLabel) return _win.formatMonthLabel(m);
-return m;
-};
-var renderIcon = function (opt) {
-if (typeof _win.renderIcon === 'function' && _win.renderIcon !== renderIcon) return _win.renderIcon(opt);
-if (typeof opt === 'string') {
-if (opt === 'tb-target') return '<app-icon params="name: \'bullseye\', color: \'text-gray-400\', size: \'xs\'"></app-icon>';
-if (opt === 'tb-pencil') return '<app-icon params="name: \'pencil\', size: \'xs\'"></app-icon>';
-if (opt === 'tb-chevron') return '<app-icon params="name: \'chevron-right\', size: \'xs\'"></app-icon>';
-if (opt === 'tb-check-circle') return '<app-icon params="name: \'check\', size: \'xs\'"></app-icon>';
-return '<i class="fa-solid fa-' + opt + '"></i>';
-}
-if (opt && opt.name) {
-var prefix = opt.prefix || 'fa-solid', col = opt.color || '';
-return '<i class="' + prefix + ' fa-' + opt.name + ' ' + col + '"></i>';
-}
-return '';
-};
+function getEl(id) { if (typeof document === 'undefined') return null; return document.getElementById(id); }
 function getItems() {
 if (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.getItems === 'function') {
 return _win.TasbeehCurrentApp.getItems();
@@ -7852,8 +9609,18 @@ showToast('Reset old tracking period to ' + formatMonthLabel(maxEnd));
 renderOldTab();
 }
 function openCounterOld(id, monthKey) {
+var curOldMonth = monthKey || getCurrentOldMonth();
+var itList = getItems();
+var item = null;
+for (var i = 0; i < itList.length; i++) {
+if (itList[i].id === id) { item = itList[i]; break; }
+}
+var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+if (vm && typeof vm.openCalendar === 'function') {
+vm.openCalendar(item, curOldMonth);
+}
 if (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.openCounter === 'function') {
-_win.TasbeehCurrentApp.openCounter(id, monthKey);
+_win.TasbeehCurrentApp.openCounter(id, curOldMonth);
 }
 }
 function renderOldCardHtml(item, isDhikrDone, curOldMonth, monthName) {
@@ -8095,54 +9862,32 @@ window.TasbeehApp.savePeriod = savePeriod;
 window.TasbeehApp.renderOldTab = renderOldTab;
 }
 }
+export * from './tasbeeh-history-card/tasbeeh-history-card.js';
+export * from './tasbeeh-history-feed/tasbeeh-history-feed.js';
+export * from './tasbeeh-history-form/tasbeeh-history-form.js';
+export * from './tasbeeh-history-page/tasbeeh-history-page.js';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var TASBEEH_CONSTANTS = _win.TASBEEH_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.TASBEEH) || {};
 var ELEMENT_IDS = TASBEEH_CONSTANTS.ELEMENT_IDS || {};
 function getEl(id) {
+if (typeof document === 'undefined') return null;
 return document.getElementById(id);
 }
-var pad2 = function (n) {
-if (typeof _win.pad2 === 'function' && _win.pad2 !== pad2) return _win.pad2(n);
-return n < 10 ? '0' + n : '' + n;
-};
-var td = function () {
-if (typeof _win.td === 'function' && _win.td !== td) return _win.td();
-return new Date().toISOString().slice(0, 10);
-};
-function showToast(msg, duration) {
-if (_win.TasbeehApp && typeof _win.TasbeehApp.showToast === 'function') {
-_win.TasbeehApp.showToast(msg, duration);
-} else if (typeof _win.showToast === 'function') {
-_win.showToast(msg, duration);
-}
-}
-var renderIcon = function (opt) {
-if (typeof _win.renderIcon === 'function' && _win.renderIcon !== renderIcon) return _win.renderIcon(opt);
-return '';
-};
 function renderHistoryTab() {
 var body = getEl(ELEMENT_IDS.HISTORY_BODY || 'tbHistoryBody');
 if (!body) return;
 var period = loadPeriod();
+var curOldMonth = typeof getCurrentOldMonth === 'function' ? getCurrentOldMonth() : ((period && period.startDate && period.endDate && period.endDate >= period.startDate) ? period.endDate : null);
 var maxEnd = period.initialEnd || period.endDate;
-var allOldMonths = typeof _win.getPreviousMonthsList === 'function'
-? _win.getPreviousMonthsList(period.startDate, maxEnd)
-: [];
-var curOldMonth = (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.getCurrentOldMonth === 'function')
-? _win.TasbeehOldApp.getCurrentOldMonth()
-: (period.endDate >= period.startDate ? period.endDate : null);
-var totalMonthsCount = allOldMonths.length;
-var completedCount = 0;
-allOldMonths.forEach(function (m) {
-if (m > period.endDate || period.endDate < period.startDate) {
-completedCount++;
-}
-});
-var pendingCount = Math.max(0, totalMonthsCount - completedCount - (curOldMonth ? 1 : 0));
-var percent = totalMonthsCount > 0 ? Math.round((completedCount / totalMonthsCount) * 100) : 0;
+var stats = calculateHistoryStats(period, curOldMonth);
+var allOldMonths = stats.allOldMonths;
+var totalMonthsCount = stats.totalMonths;
+var completedCount = stats.clearedMonths;
+var pendingCount = stats.pendingMonths;
+var percent = stats.percentCleared;
 var reopenTargetMonth = null;
 if (period.endDate < maxEnd) {
-reopenTargetMonth = typeof _win.getNextMonthKey === 'function' ? _win.getNextMonthKey(period.endDate) : null;
+reopenTargetMonth = typeof _win.getNextMonthKey === 'function' ? _win.getNextMonthKey(period.endDate) : (typeof getNextMonthKey === 'function' ? getNextMonthKey(period.endDate) : null);
 }
 var monthsListHtml = '';
 if (allOldMonths.length === 0) {
@@ -8155,7 +9900,7 @@ monthsListHtml =
 monthsListHtml = allOldMonths.map(function (mKey, idx) {
 var isCompleted = (mKey > period.endDate) || (period.endDate < period.startDate);
 var isActive = (mKey === curOldMonth);
-var monthLabel = typeof _win.formatMonthLabel === 'function' ? _win.formatMonthLabel(mKey) : mKey;
+var monthLabel = typeof _win.formatMonthLabel === 'function' ? _win.formatMonthLabel(mKey) : (typeof formatMonthLabel === 'function' ? formatMonthLabel(mKey) : mKey);
 var badgeClass = isCompleted ? 'bg-brand-light text-brand border border-brand-subtle'
 : (isActive ? 'bg-brand text-white border-0'
 : 'bg-surface text-secondary border');
@@ -8307,24 +10052,11 @@ current: { iconClass: 'calendar text-brand', label: 'Digital Tasbeeh' },
 old: { iconClass: 'clock-rotate-left text-warning', label: 'Old Tasbeeh' },
 history: { iconClass: 'gear text-gr-accent', label: 'Tasbeeh History', sub: 'Period & Settings' }
 };
-function getEl(id) { return document.getElementById(id); }
-var td = function () { return (typeof _win.td === 'function' && _win.td !== td) ? _win.td() : new Date().toISOString().slice(0, 10); };
-var formatMonthLabel = function (m) { return (typeof _win.formatMonthLabel === 'function' && _win.formatMonthLabel !== formatMonthLabel) ? _win.formatMonthLabel(m) : m; };
-var renderIcon = function (opt) {
-if (typeof _win.renderIcon === 'function' && _win.renderIcon !== renderIcon) return _win.renderIcon(opt);
-if (typeof opt === 'string') {
-if (opt === 'tb-target') return '<app-icon params="name: \'bullseye\', color: \'text-gray-400\', size: \'xs\'"></app-icon>';
-if (opt === 'tb-pencil') return '<app-icon params="name: \'pencil\', size: \'xs\'"></app-icon>';
-if (opt === 'tb-chevron') return '<app-icon params="name: \'chevron-right\', size: \'xs\'"></app-icon>';
-if (opt === 'tb-check-circle') return '<app-icon params="name: \'check\', size: \'xs\'"></app-icon>';
-return '<i class="fa-solid fa-' + opt + '"></i>';
-}
-if (opt && opt.name) {
-var prefix = opt.prefix || 'fa-solid', col = opt.color || '';
-return '<i class="' + prefix + ' fa-' + opt.name + ' ' + col + '"></i>';
-}
-return '';
-};
+function getEl(id) { if (typeof document === 'undefined') return null; return document.getElementById(id); }
+export * from './tasbeeh-current-card/tasbeeh-current-card.js';
+export * from './tasbeeh-current-feed/tasbeeh-current-feed.js';
+export * from './tasbeeh-current-form/tasbeeh-current-form.js';
+export * from './tasbeeh-current-page/tasbeeh-current-page.js';
 var state = {
 items: [], activeId: null, editingId: null, activeTab: 'current',
 counterMonthKey: null, countMode: 'finite', calViewYear: null,
@@ -8464,9 +10196,10 @@ if (doneGrid && (!vm || typeof ko === 'undefined')) {
 doneGrid.innerHTML = doneItems.map(function (it) { return renderCurrentCardHtml(it, true); }).join('');
 }
 var currentActive = (vm && typeof vm.currentActiveTab === 'function') ? vm.currentActiveTab() : 'todo';
-if (todoItems.length === 0 && doneItems.length > 0) switchCurrentTab('completed');
-else if (doneItems.length === 0 && todoItems.length > 0 && currentActive === 'completed') switchCurrentTab('todo');
-else switchCurrentTab(currentActive || 'todo');
+if (!currentActive) {
+currentActive = (todoItems.length === 0 && doneItems.length > 0) ? 'completed' : 'todo';
+}
+switchCurrentTab(currentActive || 'todo');
 }
 function render() {
 if (state.activeTab === 'old') {
@@ -8519,10 +10252,15 @@ render();
 }
 function openCounter(id, monthKey) {
 var item = null;
-for (var i = 0; i < state.items.length; i++) {
-if (state.items[i].id === id) { item = state.items[i]; break; }
+var itList = getItems();
+for (var i = 0; i < itList.length; i++) {
+if (itList[i].id === id) { item = itList[i]; break; }
 }
 if (!item) return;
+var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+if (vm && typeof vm.openCalendar === 'function') {
+vm.openCalendar(item, monthKey || getCurrentTrackingMonth());
+}
 state.activeId = id;
 state.counterMonthKey = monthKey || getCurrentTrackingMonth();
 var view = getEl('tasbeehCounterView'), nav = getEl('tasbeehBottomNav'), fab = getEl('tbAddBtn');
@@ -8541,6 +10279,10 @@ function openCounterOld(id, monthKey) {
 openCounter(id, monthKey);
 }
 function closeCounter() {
+var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+if (vm && typeof vm.closeCalendar === 'function') {
+vm.closeCalendar();
+}
 var view = getEl('tasbeehCounterView'), nav = getEl('tasbeehBottomNav'), fab = getEl('tbAddBtn');
 if (view) view.classList.add('d-none');
 if (nav) nav.classList.remove('d-none');
@@ -8670,6 +10412,19 @@ window.TasbeehCurrentApp = TasbeehCurrentApp;
 window.TasbeehApp = TasbeehCurrentApp;
 window.switchCurrentTab = switchCurrentTab;
 }
+export * from './tasbeeh-current/tasbeeh-current-card/tasbeeh-current-card.js';
+export * from './tasbeeh-current/tasbeeh-current-feed/tasbeeh-current-feed.js';
+export * from './tasbeeh-current/tasbeeh-current-form/tasbeeh-current-form.js';
+export * from './tasbeeh-current/tasbeeh-current-page/tasbeeh-current-page.js';
+export * from './tasbeeh-old/tasbeeh-old-card/tasbeeh-old-card.js';
+export * from './tasbeeh-old/tasbeeh-old-feed/tasbeeh-old-feed.js';
+export * from './tasbeeh-old/tasbeeh-old-form/tasbeeh-old-form.js';
+export * from './tasbeeh-old/tasbeeh-old-page/tasbeeh-old-page.js';
+export * from './tasbeeh-history/tasbeeh-history-card/tasbeeh-history-card.js';
+export * from './tasbeeh-history/tasbeeh-history-feed/tasbeeh-history-feed.js';
+export * from './tasbeeh-history/tasbeeh-history-form/tasbeeh-history-form.js';
+export * from './tasbeeh-history/tasbeeh-history-page/tasbeeh-history-page.js';
+export * from './tasbeeh-registration.js';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 if (_win.TasbeehApp) {
 if (_win.TasbeehOldApp) {
@@ -8685,12 +10440,54 @@ if (typeof window !== 'undefined') {
 window.TasbeehPageViewModel = TasbeehPageViewModel;
 window.getTasbeehViewModel = getTasbeehViewModel;
 window.initTasbeeh = initTasbeeh;
-window.registerTasbeehComponents = registerTasbeehComponents;
 window.escHtml = escHtml;
 window.TasbeehCurrentApp = TasbeehCurrentApp;
 window.TasbeehApp = TasbeehCurrentApp;
 window.TasbeehOldApp = TasbeehOldApp;
 window.TasbeehHistoryApp = TasbeehHistoryApp;
+window.TasbeehService = TasbeehService;
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+function registerComponent(name, viewModel, template, customKo) {
+if (!customKo && typeof _win.registerFeatureComponent === 'function') {
+_win.registerFeatureComponent(name, viewModel, template);
+return;
+}
+var ko = customKo || (typeof _win.ko !== 'undefined' ? _win.ko : (typeof ko !== 'undefined' ? ko : null));
+if (!ko || !ko.components) return;
+if (!ko.components.isRegistered(name)) {
+ko.components.register(name, {
+viewModel: viewModel,
+template: template
+});
+}
+}
+function registerTasbeehComponents(customKo) {
+registerComponent('tasbeeh-header', function (p) { return p || {}; }, TasbeehHeaderTemplate, customKo);
+registerComponent('tasbeeh-counter-card', TasbeehCounterCardViewModel, TasbeehCounterCardTemplate, customKo);
+registerComponent('tasbeeh-progress-circle', function (p) { return p || {}; }, TasbeehProgressCircleTemplate, customKo);
+registerComponent('tasbeeh-nav-tab', function (p) { return p || {}; }, TasbeehNavTabTemplate, customKo);
+registerComponent('tasbeeh-page', function (p) {
+if (p && p.viewModel) return p.viewModel;
+if (p && p.subTabs) return p;
+if (p && p.tasbeeh) return p.tasbeeh;
+return getTasbeehViewModel();
+}, TasbeehPageTemplate, customKo);
+registerComponent('tasbeeh-current-card', CurrentCardViewModel, CurrentCardTemplate, customKo);
+registerComponent('tasbeeh-current-feed', CurrentFeedViewModel, CurrentFeedTemplate, customKo);
+registerComponent('tasbeeh-current-form', CurrentFormViewModel, CurrentFormTemplate, customKo);
+registerComponent('tasbeeh-current-page', CurrentPageViewModel, CurrentPageTemplate, customKo);
+registerComponent('tasbeeh-old-card', OldCardViewModel, OldCardTemplate, customKo);
+registerComponent('tasbeeh-old-feed', OldFeedViewModel, OldFeedTemplate, customKo);
+registerComponent('tasbeeh-old-form', OldFormViewModel, OldFormTemplate, customKo);
+registerComponent('tasbeeh-old-page', OldPageViewModel, OldPageTemplate, customKo);
+registerComponent('tasbeeh-history-card', HistoryCardViewModel, HistoryCardTemplate, customKo);
+registerComponent('tasbeeh-history-feed', HistoryFeedViewModel, HistoryFeedTemplate, customKo);
+registerComponent('tasbeeh-history-form', HistoryFormViewModel, HistoryFormTemplate, customKo);
+registerComponent('tasbeeh-history-page', HistoryPageViewModel, HistoryPageTemplate, customKo);
+}
+if (typeof window !== 'undefined') {
+window.registerTasbeehComponents = registerTasbeehComponents;
 }
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 if (typeof window === 'undefined') {
@@ -9696,6 +11493,7 @@ function registerAllComponents() {
 registerCustomBindings();
 registerFeatureComponent('app-icon', IconViewModel, IconTemplate);
 registerFeatureComponent('app-bottom-sheet', BottomSheetViewModel, BottomSheetTemplate);
+registerFeatureComponent('app-tabs', TabsViewModel, TabsTemplate);
 registerFeatureComponent('dashboard-header', function (p) { return p || {}; }, DashboardHeaderTemplate);
 registerFeatureComponent('dashboard-clock', function (p) { return p || {}; }, DashboardClockTemplate);
 registerFeatureComponent('dashboard-timeline-item', function (p) { return p || {}; }, DashboardTimelineItemTemplate);
@@ -9730,17 +11528,7 @@ if (p && p.header && p.subTabs) return p;
 if (p && p.tracker) return p.tracker;
 return getTrackerViewModel();
 }, TrackerPageTemplate);
-registerFeatureComponent('tasbeeh-header', function (p) { return p || {}; }, TasbeehHeaderTemplate);
-registerFeatureComponent('tasbeeh-counter-card', TasbeehCounterCardViewModel, TasbeehCounterCardTemplate);
-registerFeatureComponent('tasbeeh-progress-circle', function (p) { return p || {}; }, TasbeehProgressCircleTemplate);
-registerFeatureComponent('tasbeeh-goal-setter', function (p) { return p || {}; }, TasbeehGoalSetterTemplate);
-registerFeatureComponent('tasbeeh-nav-tab', function (p) { return p || {}; }, TasbeehNavTabTemplate);
-registerFeatureComponent('tasbeeh-page', function (p) {
-if (p && p.viewModel) return p.viewModel;
-if (p && p.subTabs) return p;
-if (p && p.tasbeeh) return p.tasbeeh;
-return getTasbeehViewModel();
-}, TasbeehPageTemplate);
+registerTasbeehComponents();
 registerFeatureComponent('duva-header', function (p) { return p || {}; }, DuvaHeaderTemplate);
 registerFeatureComponent('duva-search-bar', function (p) { return (p && p.search) ? p.search : p; }, DuvaSearchBarTemplate);
 registerFeatureComponent('duva-nav-tab', function (p) { return p || {}; }, DuvaNavTabTemplate);
