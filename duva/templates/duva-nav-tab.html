@@ -1,37 +1,20 @@
-<nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
-    id="duaBottomNav" data-ref="page.duas.bottom-nav">
-    <div class="flex w-full h-full items-center justify-around" id="duaSegmentBar" role="tablist"
-        aria-label="Duas view">
-        <button type="button"
-            class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-            id="duaTabPinned" data-act="dua-switch-pinned" role="tab"
-            data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('home'); }, css: (ko.unwrap($data.activeTab) === 'pinned' || ko.unwrap($data.activeTab) === 'home') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'pinned' || ko.unwrap($data.activeTab) === 'home') ? 'true' : 'false' }"
-            data-ref="page.duas.tab-pinned">
-            <span class="text-xl leading-none inline-flex items-center justify-center">
-                <app-icon params="name: 'thumbtack'"></app-icon>
-            </span>
-            <span>Pinned</span>
-        </button>
-        <button type="button"
-            class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-            id="duaTabAll" data-act="dua-switch-all" role="tab"
-            data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('duas'); }, css: (ko.unwrap($data.activeTab) === 'all' || ko.unwrap($data.activeTab) === 'duas') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'all' || ko.unwrap($data.activeTab) === 'duas') ? 'true' : 'false' }"
-            data-ref="page.duas.tab-all">
-            <span class="text-xl leading-none inline-flex items-center justify-center">
-                <app-icon params="name: 'book-quran'"></app-icon>
-            </span>
-            <span>All Duas</span>
-        </button>
-        <button type="button"
-            class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-            id="duaTabFavs" data-act="dua-switch-favs" role="tab"
-            data-bind="click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.DuasApp && window.DuasApp.switchTab) window.DuasApp.switchTab('favourites'); }, css: (ko.unwrap($data.activeTab) === 'favourites' || ko.unwrap($data.activeTab) === 'favs') ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': (ko.unwrap($data.activeTab) === 'favourites' || ko.unwrap($data.activeTab) === 'favs') ? 'true' : 'false' }"
-            data-ref="page.duas.tab-favs">
-            <span class="text-xl leading-none inline-flex items-center justify-center">
-                <app-icon params="name: 'bookmark'"></app-icon>
-            </span>
-            <span>Favourites</span>
-        </button>
-    </div>
-</nav>
-
+<!-- ko component: {
+    name: 'app-tabs',
+    params: {
+        variant: 'bottom-nav',
+        containerId: 'duaBottomNav',
+        dataRef: 'page.duas.bottom-nav',
+        ariaLabel: 'Duas view',
+        activeTab: $data.activeTab,
+        onTabChange: function(tabId) {
+            if (window.DuasApp && window.DuasApp.switchTab) {
+                window.DuasApp.switchTab(tabId === 'pinned' ? 'home' : (tabId === 'all' ? 'duas' : 'favourites'));
+            }
+        },
+        tabs: [
+            { id: 'pinned', label: 'Pinned', icon: 'thumbtack', elementId: 'duaTabPinned', dataAct: 'dua-switch-pinned', dataRef: 'page.duas.tab-pinned', aliases: ['home'] },
+            { id: 'all', label: 'All Duas', icon: 'book-quran', elementId: 'duaTabAll', dataAct: 'dua-switch-all', dataRef: 'page.duas.tab-all', aliases: ['duas'] },
+            { id: 'favourites', label: 'Favourites', icon: 'bookmark', elementId: 'duaTabFavs', dataAct: 'dua-switch-favs', dataRef: 'page.duas.tab-favs', aliases: ['favs'] }
+        ]
+    }
+} --><!-- /ko -->

@@ -2,6 +2,8 @@
 // tests/run-all-tests.js
 import { runPrayerTests } from './prayer.test.js';
 import { runTasbeehTests } from './tasbeeh.test.js';
+import { runTasbeehComponentTests } from './tasbeeh-components.test.js';
+import { runTabsTests } from './tabs.test.js';
 import { runDuasTests } from './duas.test.js';
 import { runSettingsTests } from './settings.test.js';
 import { runRouterTests } from './router.test.js';
@@ -18,6 +20,8 @@ async function runAll() {
     try {
         await runPrayerTests();
         await runTasbeehTests();
+        await runTasbeehComponentTests();
+        await runTabsTests();
         await runDuasTests();
         await runSettingsTests();
         await runRouterTests();

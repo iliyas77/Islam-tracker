@@ -128,5 +128,16 @@ export async function runTasbeehTests() {
     assert.strictEqual(pageVm.currentDoneItems().length, 1);
     assert.strictEqual(pageVm.currentDoneItems()[0].id, 'c1');
 
+    // 6. Verify currentFeedParams wires observables and tab switching properly
+    assert(pageVm.currentFeedParams, 'currentFeedParams must exist on TasbeehPageViewModel');
+    assert.strictEqual(pageVm.currentFeedParams.activeTab, pageVm.currentActiveTab);
+    assert.strictEqual(pageVm.currentFeedParams.todoItems, pageVm.currentTodoItems);
+    assert.strictEqual(pageVm.currentFeedParams.doneItems, pageVm.currentDoneItems);
+    assert.strictEqual(typeof pageVm.currentFeedParams.onTabSwitch, 'function');
+
+    // Switch to completed tab via pageVm
+    pageVm.switchCurrentTab('completed');
+    assert.strictEqual(pageVm.currentActiveTab(), 'completed');
+
     console.log('  ✔ TasbeehStore: Items, progress computeds, month completion, card VM, and current tab completion passed');
 }

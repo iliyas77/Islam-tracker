@@ -51,8 +51,8 @@ export function PrayerTrackerCardViewModel(params) {
     var self = this;
 
     function unwrap(v, def) {
-        if (typeof v === 'function') return v();
-        return (v !== undefined && v !== null) ? v : def;
+        var res = (typeof v === 'function') ? v() : v;
+        return (res !== undefined && res !== null) ? res : def;
     }
 
     self.collapsePrefix = unwrap(p.collapsePrefix, 'cur');

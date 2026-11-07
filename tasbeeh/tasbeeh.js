@@ -6,11 +6,10 @@
      - tasbeeh/tasbeeh-model.js
      - tasbeeh/tasbeeh-calendar.js
      - tasbeeh/tasbeeh-modal.js
-     - tasbeeh/tasbeeh-current.js
      - tasbeeh/tasbeeh-period.js
-     - tasbeeh/tasbeeh-old.js
-     - tasbeeh/tasbeeh-history.js
-     - tasbeeh/tasbeeh-home.js
+     - tasbeeh/tasbeeh-current/tasbeeh-current.js
+     - tasbeeh/tasbeeh-old/tasbeeh-old.js
+     - tasbeeh/tasbeeh-history/tasbeeh-history.js
    ============================================================ */
 
 import {
@@ -19,11 +18,9 @@ import {
     TasbeehCounterCardTemplate,
     TasbeehCounterCardViewModel,
     TasbeehProgressCircleTemplate,
-    TasbeehGoalSetterTemplate,
     TasbeehNavTabTemplate,
     TasbeehPageViewModel,
     getTasbeehViewModel,
-    registerTasbeehComponents,
     initTasbeeh,
     escHtml
 } from './tasbeeh-view-model.js';
@@ -89,7 +86,7 @@ import {
     openCounterOld,
     closeCounter,
     init as initTasbeehCurrent
-} from './current/current.js';
+} from './tasbeeh-current/tasbeeh-current.js';
 
 import {
     loadPeriod,
@@ -114,7 +111,7 @@ import {
     renderOldTab,
     switchOldTab,
     init as initTasbeehOld
-} from './old/old.js';
+} from './tasbeeh-old/tasbeeh-old.js';
 
 import {
     TasbeehHistoryApp,
@@ -123,7 +120,53 @@ import {
     saveHistoryPeriod,
     resetHistoryPeriod,
     init as initTasbeehHistory
-} from './history/history.js';
+} from './tasbeeh-history/tasbeeh-history.js';
+
+import {
+    TasbeehService,
+    unwrap,
+    pad2,
+    uid,
+    clamp,
+    todayKey,
+    td,
+    formatMonthLabel,
+    formatDate,
+    formatMonthYear,
+    getPrevMonthKey,
+    getNextMonthKey,
+    getPreviousMonthsList,
+    renderIcon,
+    showToast,
+    getDhikrById,
+    saveDhikrItem,
+    deleteDhikrItem,
+    calculateHistoryStats,
+    calculatePeriodPreset,
+    classifyCurrentItems,
+    classifyOldItems,
+    buildCalendarCells
+} from './tasbeeh-service.js';
+
+// Re-export modular Knockout components
+export * from './tasbeeh-current/tasbeeh-current-card/tasbeeh-current-card.js';
+export * from './tasbeeh-current/tasbeeh-current-feed/tasbeeh-current-feed.js';
+export * from './tasbeeh-current/tasbeeh-current-form/tasbeeh-current-form.js';
+export * from './tasbeeh-current/tasbeeh-current-page/tasbeeh-current-page.js';
+
+export * from './tasbeeh-old/tasbeeh-old-card/tasbeeh-old-card.js';
+export * from './tasbeeh-old/tasbeeh-old-feed/tasbeeh-old-feed.js';
+export * from './tasbeeh-old/tasbeeh-old-form/tasbeeh-old-form.js';
+export * from './tasbeeh-old/tasbeeh-old-page/tasbeeh-old-page.js';
+
+export * from './tasbeeh-history/tasbeeh-history-card/tasbeeh-history-card.js';
+export * from './tasbeeh-history/tasbeeh-history-feed/tasbeeh-history-feed.js';
+export * from './tasbeeh-history/tasbeeh-history-form/tasbeeh-history-form.js';
+export * from './tasbeeh-history/tasbeeh-history-page/tasbeeh-history-page.js';
+
+// Re-export Tasbeeh centralized registration
+import { registerTasbeehComponents } from './tasbeeh-registration.js';
+export * from './tasbeeh-registration.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 
@@ -144,12 +187,12 @@ if (typeof window !== 'undefined') {
     window.TasbeehPageViewModel = TasbeehPageViewModel;
     window.getTasbeehViewModel = getTasbeehViewModel;
     window.initTasbeeh = initTasbeeh;
-    window.registerTasbeehComponents = registerTasbeehComponents;
     window.escHtml = escHtml;
     window.TasbeehCurrentApp = TasbeehCurrentApp;
     window.TasbeehApp = TasbeehCurrentApp;
     window.TasbeehOldApp = TasbeehOldApp;
     window.TasbeehHistoryApp = TasbeehHistoryApp;
+    window.TasbeehService = TasbeehService;
 }
 
 export {
@@ -158,12 +201,11 @@ export {
     TasbeehCounterCardTemplate,
     TasbeehCounterCardViewModel,
     TasbeehProgressCircleTemplate,
-    TasbeehGoalSetterTemplate,
     TasbeehNavTabTemplate,
     TasbeehPageViewModel,
     getTasbeehViewModel,
-    registerTasbeehComponents,
     initTasbeeh,
+    registerTasbeehComponents,
     escHtml,
     TasbeehCurrentApp,
     TasbeehOldApp,
@@ -236,7 +278,30 @@ export {
     renderHistoryTab,
     applyHistoryPreset,
     saveHistoryPeriod,
-    resetHistoryPeriod
+    resetHistoryPeriod,
+    TasbeehService,
+    unwrap,
+    pad2,
+    uid,
+    clamp,
+    todayKey,
+    td,
+    formatMonthLabel,
+    formatDate,
+    formatMonthYear,
+    getPrevMonthKey,
+    getNextMonthKey,
+    getPreviousMonthsList,
+    renderIcon,
+    showToast,
+    getDhikrById,
+    saveDhikrItem,
+    deleteDhikrItem,
+    calculateHistoryStats,
+    calculatePeriodPreset,
+    classifyCurrentItems,
+    classifyOldItems,
+    buildCalendarCells
 };
 
 export default (typeof window !== 'undefined' ? window.TasbeehApp : null);
