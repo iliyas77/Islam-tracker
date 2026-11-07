@@ -545,53 +545,55 @@
             /* ---------- Digital Tasbeeh Card & Grid Styles ---------- */
             .tb-card {
                 background: #ffffff;
-                border-radius: 16px;
+                border-radius: 24px;
                 border: 1px solid #E0E0E0;
                 box-shadow: none;
                 transition: transform 0.15s ease, border-color 0.15s ease;
                 cursor: pointer;
                 display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                padding: 14px 12px;
+                flex-direction: row;
+                align-items: center;
+                gap: 16px;
+                padding: 16px 20px;
                 user-select: none;
                 -webkit-user-select: none;
                 box-sizing: border-box;
-                min-height: 146px;
+                min-height: auto;
+                width: 100%;
             }
             .tb-card:hover {
                 border-color: #123D2E;
             }
             .tb-card:active {
-                transform: scale(0.98);
+                transform: scale(0.99);
             }
             .tb-card.tb-card-done {
                 background: #ffffff;
                 border-color: #E0E0E0;
-                opacity: 0.8;
+                opacity: 0.85;
             }
             .tb-card-bookmark {
                 background: #ffffff;
                 border: 1px solid #E0E0E0;
-                border-radius: 16px;
+                border-radius: 24px;
                 box-shadow: none;
                 transition: transform 0.15s ease, border-color 0.15s ease;
                 cursor: pointer;
                 display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                padding: 14px 12px;
+                flex-direction: row;
+                align-items: center;
+                gap: 16px;
+                padding: 16px 20px;
                 user-select: none;
                 -webkit-user-select: none;
                 box-sizing: border-box;
-                min-height: 152px;
+                width: 100%;
             }
             .tb-card-bookmark:hover {
                 border-color: #123D2E;
-                transform: translateY(-2px);
             }
             .tb-card-bookmark:active {
-                transform: scale(0.98);
+                transform: scale(0.99);
             }
             .tb-card-top {
                 display: flex;
@@ -601,18 +603,21 @@
             }
             .tb-card-actions {
                 display: flex;
+                flex-direction: column;
                 align-items: center;
-                gap: 6px;
+                justify-content: space-between;
+                align-self: stretch;
                 flex-shrink: 0;
+                padding: 2px 0;
                 margin-left: auto;
             }
             .tb-btn-edit {
-                width: 32px;
-                height: 32px;
-                border-radius: 8px;
-                background-color: #e8f4ed;
-                color: #123D2E;
-                border: none;
+                width: 36px;
+                height: 36px;
+                border-radius: 9999px;
+                background-color: #f3f4f6;
+                color: #4b5563;
+                border: 1px solid #e5e7eb;
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
@@ -621,13 +626,13 @@
                 padding: 0;
             }
             .tb-btn-edit:hover {
-                background-color: #d1e5dc;
+                background-color: #e5e7eb;
             }
             .tb-btn-edit:active {
                 transform: scale(0.92);
             }
             .tb-chevron {
-                color: #7C918A;
+                color: #D1D5DB;
                 flex-shrink: 0;
                 transition: transform 0.15s ease, color 0.15s ease;
                 width: 14px;
@@ -643,39 +648,38 @@
             .tb-card-body {
                 display: flex;
                 flex-direction: column;
-                justify-content: flex-end;
+                justify-content: center;
                 width: 100%;
-                margin-top: 10px;
                 min-width: 0;
             }
             .tb-card-title {
-                font-size: 0.95rem;
+                font-size: 1.05rem;
                 font-weight: 700;
-                color: #123D2E;
+                color: #111827;
                 letter-spacing: -0.015em;
                 line-height: 1.25;
-                margin: 0 0 6px 0;
+                margin: 0;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
             .tb-card-meta {
                 display: flex;
-                flex-direction: column;
-                gap: 4px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 16px;
                 width: 100%;
             }
             .tb-meta-row {
-                display: flex;
+                display: inline-flex;
                 align-items: center;
                 gap: 6px;
-                font-size: 0.75rem;
+                font-size: 0.8rem;
                 line-height: 1.35;
-                color: #49665F;
+                color: #6B7280;
                 font-weight: 500;
                 white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
             }
             .tb-meta-icon {
                 flex-shrink: 0;
@@ -2336,93 +2340,8 @@
 <!-- Header Component -->
     <!-- ko component: { name: 'tasbeeh-header', params: header } --><!-- /ko -->
 
-    <!-- Home Tab Body Container (Bookmarked Counters) -->
-    <div class="grow overflow-auto p-2 pb-5 relative" id="tbHomeBody" data-ref="page.tasbeeh.body.home"
-        data-bind="visible: currentSubTab() === 'home'">
-        <!-- Empty State (When no Dhikrs configured) -->
-        <div class="border border-borderGrey p-4 text-center rounded-2xl bg-white mt-3 d-none shadow-none"
-            id="tbHomeEmptyState" data-ref="page.tasbeeh.home.empty">
-            <div class="mb-3">
-                <app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50'"></app-icon>
-            </div>
-            <h5 class="font-bold text-brand mb-1">No Dhikr Configured</h5>
-            <p class="text-gr-textMuted text-xs mb-3">Add your first recitation chant in the Current tab to begin tracking bookmarks.</p>
-            <div>
-                <button type="button"
-                    class="rounded-xl px-4 py-2 bg-brand text-white hover:bg-brand-hover transition-colors text-xs font-semibold cursor-pointer"
-                    data-act="switch-tb-current"
-                    data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }">
-                    <app-icon params="name: 'plus', customClass: 'mr-1'"></app-icon> Add First Dhikr
-                </button>
-            </div>
-        </div>
-
-        <!-- Home Content (When Dhikrs exist) -->
-        <div class="flex flex-col gap-3 pt-1 pb-4" id="tbHomeContent" data-ref="page.tasbeeh.home.content">
-            <!-- Header Bar with Quick Action -->
-            <div class="flex items-center justify-between px-1">
-                <div>
-                    <h6 class="font-bold text-brand mb-0 text-sm">Bookmarked Counters</h6>
-                    <div class="text-gr-textMuted text-xs">Tap any bookmark to recount directly</div>
-                </div>
-                <button type="button"
-                    class="px-3 py-1.5 inline-flex items-center gap-1 border border-brand bg-white text-brand hover:bg-brand-light transition-colors text-xs font-semibold rounded-xl cursor-pointer"
-                    data-act="switch-tb-current"
-                    data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }">
-                    <span>All Dhikrs</span>
-                    <app-icon params="name: 'chevron-right', size: 'text-[10px]'"></app-icon>
-                </button>
-            </div>
-
-            <!-- 2x2 Bookmarks Grid -->
-            <div class="grid grid-cols-2 gap-3" id="tbHomeGrid" data-ref="page.tasbeeh.home.grid">
-                <!-- ko foreach: bookmarkedCounters -->
-                <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
-                <!-- /ko -->
-            </div>
-
-            <!-- Quick Navigation / Status Cards -->
-            <div class="grid grid-cols-2 gap-2 mt-1">
-                <div>
-                    <div class="border border-borderGrey p-3 rounded-2xl bg-white h-full shadow-none cursor-pointer hover:border-brand transition-colors"
-                        role="button" tabindex="0" data-act="switch-tb-current"
-                        data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand">CURRENT</span>
-                            <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', size: 'sm'"></app-icon>
-                        </div>
-                        <div class="font-bold text-brand text-lg leading-tight"><span id="tbHomeCurrentCount" data-bind="text: currentDhikrsCount">0</span> <span class="text-xs font-normal text-gr-textMuted">Dhikrs</span></div>
-                        <div class="text-gr-textMuted text-xs mt-1">Active in Current Month</div>
-                    </div>
-                </div>
-                <div>
-                    <div class="border border-borderGrey p-3 rounded-2xl bg-white h-full shadow-none cursor-pointer hover:border-brand transition-colors"
-                        role="button" tabindex="0" data-act="switch-tb-history"
-                        data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('history'); }">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700">HISTORY</span>
-                            <app-icon params="name: 'gear', color: 'text-amber-600', size: 'sm'"></app-icon>
-                        </div>
-                        <div class="font-bold text-brand text-lg leading-tight"><span id="tbHomeHistoryCount" data-bind="text: clearedMonthsCount">0</span> <span class="text-xs font-normal text-gr-textMuted">Cleared</span></div>
-                        <div class="text-gr-textMuted text-xs mt-1">Active: <span id="tbHomeActiveOldLabel" data-bind="text: activeOldLabel">All Cleared</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Helpful Guidance Banner -->
-            <div class="border border-borderGrey p-3 rounded-2xl bg-brand-soft shadow-none">
-                <div class="flex items-start gap-2">
-                    <app-icon params="name: 'circle-info', color: 'text-brand', size: 'sm', customClass: 'mt-0.5'"></app-icon>
-                    <div class="text-xs text-gr-text leading-relaxed">
-                        Whenever you open a Dhikr in <strong>Current</strong> or <strong>Old</strong> tracking, its bookmark updates automatically so you can continue where you left off.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Current Month Body Container -->
-    <div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbCurrentBody" data-ref="page.tasbeeh.body.current"
+    <div class="grow overflow-auto p-2 pb-5 relative" id="tbCurrentBody" data-ref="page.tasbeeh.body.current"
         data-bind="visible: currentSubTab() === 'current'">
         <div id="tbList" class="flex flex-col gap-3" data-ref="page.tasbeeh.list">
             <!-- Advance Banner -->
@@ -2438,43 +2357,41 @@
                 </button>
             </div>
 
-            <!-- TO DO GROUP -->
-            <section class="mb-3 flex flex-col gap-2" id="tbCurrentTodoGroup" data-ref="page.tasbeeh.group.todo">
-                <button type="button"
-                    class="group-toggle py-1 flex items-center justify-between w-full cursor-pointer select-none text-gr-text gap-2"
-                    data-toggle="collapse" data-target="#tbCurrentTodoList" aria-expanded="true">
-                    <span class="text-xs transition-transform duration-200 inline-block">
-                        <app-icon params="name: 'chevron-down'"></app-icon>
-                    </span>
-                    <span class="font-bold text-xs uppercase tracking-wider text-gr-text">To Do</span>
-                    <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand ml-1.5"
-                        id="tbCurrentTodoBadge">0</span>
+            <!-- Current Tabs Navigation -->
+            <div class="flex border-b border-borderGrey bg-white sticky top-0 z-20" role="tablist" aria-label="Current Tasbeeh Status Tabs">
+                <!-- To Do Tab -->
+                <button type="button" id="tabTbCurrentTodo" role="tab" aria-selected="true" aria-controls="tbCurrentTodoList"
+                    class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-brand text-brand font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
+                    data-bind="click: function(d,e){ switchCurrentTab('todo', e); }, css: currentActiveTab() === 'todo' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'">
+                    <span>TO DO</span>
+                    <span id="tbCurrentTodoBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
+                        data-bind="css: currentActiveTab() === 'todo' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: currentTodoItems().length">0</span>
                 </button>
-                <div class="collapse show visible" id="tbCurrentTodoList" style="visibility: visible;">
-                    <div class="grid grid-cols-2 gap-3 mt-2" id="tbCurrentTodoGrid" data-bind="foreach: currentTodoItems">
-                        <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
-                    </div>
-                </div>
-            </section>
+                <!-- Completed Tab -->
+                <button type="button" id="tabTbCurrentDone" role="tab" aria-selected="false" aria-controls="tbCurrentDoneList"
+                    class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-transparent text-gr-textMuted font-semibold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
+                    data-bind="click: function(d,e){ switchCurrentTab('completed', e); }, css: currentActiveTab() === 'completed' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'">
+                    <span>COMPLETED</span>
+                    <span id="tbCurrentDoneBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
+                        data-bind="css: currentActiveTab() === 'completed' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: currentDoneItems().length">0</span>
+                </button>
+            </div>
 
-            <!-- COMPLETED GROUP -->
-            <section class="mb-3 flex flex-col gap-2" id="tbCurrentDoneGroup" data-ref="page.tasbeeh.group.done">
-                <button type="button"
-                    class="group-toggle py-1 flex items-center justify-between w-full cursor-pointer select-none text-gr-text gap-2"
-                    id="tbCurrentDoneToggle" data-toggle="collapse" data-target="#tbCurrentDoneList" aria-expanded="true">
-                    <span class="text-xs transition-transform duration-200 inline-block">
-                        <app-icon params="name: 'chevron-right'"></app-icon>
-                    </span>
-                    <span class="font-bold text-xs uppercase tracking-wider text-gr-accent">COMPLETED</span>
-                    <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand ml-1.5"
-                        id="tbCurrentDoneBadge">0</span>
-                </button>
-                <div class="collapse show visible" id="tbCurrentDoneList" style="visibility: visible;">
-                    <div class="grid grid-cols-2 gap-3 mt-2" id="tbCurrentDoneGrid" data-bind="foreach: currentDoneItems">
-                        <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
-                    </div>
+            <!-- TO DO LIST -->
+            <div id="tbCurrentTodoList" role="tabpanel" aria-labelledby="tabTbCurrentTodo" class="mt-2 space-y-3"
+                data-bind="visible: currentActiveTab() === 'todo'">
+                <div class="flex flex-col gap-3" id="tbCurrentTodoGrid" data-bind="foreach: currentTodoItems">
+                    <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
                 </div>
-            </section>
+            </div>
+
+            <!-- COMPLETED LIST -->
+            <div id="tbCurrentDoneList" role="tabpanel" aria-labelledby="tabTbCurrentDone" class="mt-2 space-y-3 d-none hidden"
+                data-bind="visible: currentActiveTab() === 'completed'">
+                <div class="flex flex-col gap-3" id="tbCurrentDoneGrid" data-bind="foreach: currentDoneItems">
+                    <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
+                </div>
+            </div>
         </div>
 
         <div id="tbEmptyState" class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"
@@ -2549,43 +2466,41 @@
                 </button>
             </div>
 
-            <!-- TO DO GROUP (OLD) -->
-            <section class="mb-3 flex flex-col gap-2" id="tbOldTodoGroup" data-ref="page.tasbeeh.old.todo-group">
-                <button type="button"
-                    class="group-toggle py-1 flex items-center justify-between w-full cursor-pointer select-none text-gr-text gap-2"
-                    data-toggle="collapse" data-target="#tbOldTodoList" aria-expanded="true">
-                    <span class="text-xs transition-transform duration-200 inline-block">
-                        <app-icon params="name: 'chevron-down'"></app-icon>
-                    </span>
-                    <span class="font-bold text-xs uppercase tracking-wider text-gr-text">To Do</span>
-                    <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand ml-1.5"
-                        id="tbOldTodoBadge">0</span>
+            <!-- Old Tabs Navigation -->
+            <div class="flex border-b border-borderGrey bg-white sticky top-0 z-20" role="tablist" aria-label="Old Tasbeeh Status Tabs">
+                <!-- To Do Tab -->
+                <button type="button" id="tabTbOldTodo" role="tab" aria-selected="true" aria-controls="tbOldTodoList"
+                    class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-brand text-brand font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
+                    data-bind="click: function(d,e){ switchOldTab('todo', e); }, css: oldActiveTab() === 'todo' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'">
+                    <span>TO DO</span>
+                    <span id="tbOldTodoBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
+                        data-bind="css: oldActiveTab() === 'todo' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: oldTodoItems().length">0</span>
                 </button>
-                <div class="collapse show visible" id="tbOldTodoList" style="visibility: visible;">
-                    <div class="grid grid-cols-2 gap-3 mt-2" id="tbOldTodoGrid" data-bind="foreach: oldTodoItems">
-                        <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
-                    </div>
-                </div>
-            </section>
+                <!-- Completed Tab -->
+                <button type="button" id="tabTbOldDone" role="tab" aria-selected="false" aria-controls="tbOldDoneList"
+                    class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-transparent text-gr-textMuted font-semibold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
+                    data-bind="click: function(d,e){ switchOldTab('completed', e); }, css: oldActiveTab() === 'completed' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'">
+                    <span>COMPLETED</span>
+                    <span id="tbOldDoneBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
+                        data-bind="css: oldActiveTab() === 'completed' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: oldDoneItems().length">0</span>
+                </button>
+            </div>
 
-            <!-- COMPLETED GROUP (OLD) -->
-            <section class="mb-3 flex flex-col gap-2" id="tbOldDoneGroup" data-ref="page.tasbeeh.old.done-group">
-                <button type="button"
-                    class="group-toggle py-1 flex items-center justify-between w-full cursor-pointer select-none text-gr-text gap-2"
-                    id="tbOldDoneToggle" data-toggle="collapse" data-target="#tbOldDoneList" aria-expanded="true">
-                    <span class="text-xs transition-transform duration-200 inline-block">
-                        <app-icon params="name: 'chevron-right'"></app-icon>
-                    </span>
-                    <span class="font-bold text-xs uppercase tracking-wider text-gr-accent">COMPLETED</span>
-                    <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand ml-1.5"
-                        id="tbOldDoneBadge">0</span>
-                </button>
-                <div class="collapse show visible" id="tbOldDoneList" style="visibility: visible;">
-                    <div class="grid grid-cols-2 gap-3 mt-2" id="tbOldDoneGrid" data-bind="foreach: oldDoneItems">
-                        <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
-                    </div>
+            <!-- TO DO LIST -->
+            <div id="tbOldTodoList" role="tabpanel" aria-labelledby="tabTbOldTodo" class="mt-2 space-y-3"
+                data-bind="visible: oldActiveTab() === 'todo'">
+                <div class="flex flex-col gap-3" id="tbOldTodoGrid" data-bind="foreach: oldTodoItems">
+                    <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
                 </div>
-            </section>
+            </div>
+
+            <!-- COMPLETED LIST -->
+            <div id="tbOldDoneList" role="tabpanel" aria-labelledby="tabTbOldDone" class="mt-2 space-y-3 d-none hidden"
+                data-bind="visible: oldActiveTab() === 'completed'">
+                <div class="flex flex-col gap-3" id="tbOldDoneGrid" data-bind="foreach: oldDoneItems">
+                    <!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -2618,7 +2533,7 @@
 
     <!-- Shared Floating Action Button for Add Dhikr -->
     <button type="button"
-        class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all d-none"
+        class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
         id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr"
         data-bind="visible: currentSubTab() === 'current' || currentSubTab() === 'old', click: openAddModal">
         <app-icon params="name: 'plus', size: 'xl', dataRef: 'page.tasbeeh.header.add-icon'"></app-icon>
@@ -2633,19 +2548,14 @@
         data-ref="page.tasbeeh.counter.header">
         <button type="button"
             class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
-            id="tbBtnBack" data-ref="page.tasbeeh.counter.back-btn" title="Back">
+            id="tbBtnBack" data-act="tb-back" data-bind="click: closeCounter" data-ref="page.tasbeeh.counter.back-btn" title="Back">
             <app-icon params="name: 'arrow-left', size: 'base', dataRef: 'page.tasbeeh.counter.back-icon'"></app-icon>
         </button>
         <div class="grow min-w-0 text-center" data-ref="page.tasbeeh.counter.header-center">
             <h5 class="font-bold text-base text-brand m-0 flex items-center justify-center truncate mb-0"
                 id="tbCounterTopTitle" data-ref="page.tasbeeh.counter.header-title">Calendar Tracker</h5>
         </div>
-        <button type="button"
-            class="inline-flex items-center gap-1 px-3 py-1.5 bg-brand-soft text-brand font-bold text-xs rounded-full hover:bg-brand-light transition-colors cursor-pointer"
-            id="tbBtnEditActive" data-ref="page.tasbeeh.counter.edit-btn" title="Edit active chant">
-            <app-icon params="name: 'pencil', dataRef: 'page.tasbeeh.counter.edit-icon'"></app-icon>
-            <span data-ref="page.tasbeeh.counter.edit-label">Edit</span>
-        </button>
+        <div class="w-10 h-10 shrink-0" aria-hidden="true"></div>
     </header>
 
     <div class="grow flex flex-col overflow-auto" data-ref="page.tasbeeh.counter.body">
@@ -2688,25 +2598,6 @@
             </div>
             <div class="grid grid-cols-7 gap-1.5" id="tbCalGrid"></div>
         </div>
-
-        <!-- Progress Summary -->
-        <div class="bg-white rounded-2xl border border-borderGrey p-3.5 flex items-center justify-around shadow-none mx-3 mb-3"
-            id="tbCalSummary">
-            <div class="flex flex-col items-center flex-1 gap-0.5">
-                <span class="text-xl font-extrabold text-brand leading-tight" id="tbCalCompletedCount">0</span>
-                <span class="text-[10px] font-semibold text-gr-textMuted uppercase tracking-wider">Completed</span>
-            </div>
-            <div class="w-[1px] h-7 bg-borderGrey shrink-0"></div>
-            <div class="flex flex-col items-center flex-1 gap-0.5">
-                <span class="text-xl font-extrabold text-brand leading-tight" id="tbCalRemainingCount">0</span>
-                <span class="text-[10px] font-semibold text-gr-textMuted uppercase tracking-wider">Remaining</span>
-            </div>
-            <div class="w-[1px] h-7 bg-borderGrey shrink-0"></div>
-            <div class="flex flex-col items-center flex-1 gap-0.5">
-                <span class="text-xl font-extrabold text-brand leading-tight" id="tbCalProgressPct">0%</span>
-                <span class="text-[10px] font-semibold text-gr-textMuted uppercase tracking-wider">Progress</span>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -2742,56 +2633,57 @@
 
         </script>
         <script type="text/html" id="tasbeeh-counter-card-template">
-<div class="tb-card bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer hover:border-brand min-h-[146px] select-none transition-all"
+<div class="tb-card bg-white border border-gray-200 rounded-3xl p-4 sm:p-5 flex flex-row gap-4 items-center cursor-pointer hover:border-gray-300 select-none transition-all w-full shadow-none"
     data-bind="attr: { 'data-id': id, 'data-month': $data.month || null, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': $data.isComplete || $data.isCompleted }, click: onCardClick"
     role="button" tabindex="0">
-    <div class="tb-card-top flex items-start justify-between w-full">
-        <div class="w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
-            data-ref="page.tasbeeh.card.icon">
-            <app-icon params="name: 'hands-praying'"></app-icon>
-        </div>
-        <div class="tb-card-actions flex items-center gap-1.5 shrink-0 ml-auto">
-            <button type="button"
-                class="tb-btn-edit w-8 h-8 rounded-lg bg-brand-light text-brand flex items-center justify-center cursor-pointer hover:bg-brand/20 active:scale-95 transition-all p-0"
-                data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
-                data-bind="click: onEditClick"
-                data-ref="page.tasbeeh.card.edit-btn">
-                <app-icon params="name: 'pencil', size: 'xs'"></app-icon>
-            </button>
-            <app-icon params="name: 'chevron-right', color: 'text-gr-textMuted', size: 'xs', customClass: 'ml-1'"></app-icon>
-        </div>
+    <!-- Left: Icon -->
+    <div class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-2xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center text-2xl shrink-0 leading-none select-none overflow-hidden"
+        data-ref="page.tasbeeh.card.icon">
+        <app-icon params="name: 'hands-praying'"></app-icon>
     </div>
-    <div class="tb-card-body flex flex-col justify-end w-full mt-2.5 min-w-0" data-ref="page.tasbeeh.card.info">
-        <h6 class="tb-card-title text-base font-bold text-brand leading-snug mb-1 truncate"
+
+    <!-- Middle: Data & Info -->
+    <div class="flex-1 min-w-0 flex flex-col justify-center gap-1.5" data-ref="page.tasbeeh.card.info">
+        <h6 class="tb-card-title text-[17px] font-bold text-gray-900 leading-tight m-0 truncate"
             data-bind="text: title" data-ref="page.tasbeeh.card.title"></h6>
-        <div class="tb-card-meta flex flex-col gap-1 w-full" data-ref="page.tasbeeh.card.meta">
-            <div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">
-                <app-icon params="name: 'bullseye', color: 'text-gr-textMuted', size: 'xs'"></app-icon>
-                <span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Target: <span class="tb-val-num font-semibold text-brand ml-1" data-bind="text: targetCount"></span> / day</span>
+        <div class="tb-card-meta flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 font-medium" data-ref="page.tasbeeh.card.meta">
+            <span class="tb-meta-row inline-flex items-center gap-1.5">
+                <app-icon params="name: 'bullseye', color: 'text-gray-400', size: 'xs'"></app-icon>
+                <span>Target: <strong class="tb-val-num font-bold text-gray-900" data-bind="text: targetCount"></strong> <span class="text-gray-500">/day</span></span>
+            </span>
+            <span class="tb-meta-row inline-flex items-center gap-1.5">
+                <app-icon params="name: 'calendar', prefix: 'fa-regular', color: 'text-gray-400', size: 'xs'"></app-icon>
+                <span>Total: <span class="tb-val-total text-gray-600 font-medium" data-bind="text: ($data.totalDays || 30) + ' days'"></span></span>
+            </span>
+        </div>
+        <div class="flex items-center gap-2.5 mt-1">
+            <div class="inline-flex items-center gap-1.5 bg-[#094E3A] text-white text-xs font-semibold px-3 py-1 rounded-full shrink-0 leading-none shadow-none">
+                <app-icon params="name: 'check', size: 'xs', customClass: 'text-[10px]'"></app-icon>
+                <span>Done</span>
             </div>
-            <div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">
-                <app-icon params="name: 'circle-check', color: 'text-brand', size: 'xs'"></app-icon>
-                <span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">
-                    <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-brand text-white leading-none">Done</span>
-                    <strong class="tb-val-done ml-1 font-bold text-brand" data-bind="text: completedDays"></strong>
-                </span>
-            </div>
-            <div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">
-                <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-gr-textMuted', size: 'xs'"></app-icon>
-                <span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Total: <span class="tb-val-total text-gr-textMuted font-medium ml-1" data-bind="text: ($data.totalDays || 30) + ' days'"></span></span>
-            </div>
+            <span class="tb-val-done text-lg font-bold text-gray-900 leading-none" data-bind="text: completedDays"></span>
             <!-- ko if: $data.isTodayDone -->
-            <div class="tb-meta-row tb-meta-sub-row">
-                <span class="text-brand font-bold flex items-center gap-1" style="font-size: 11px;">
-                    <app-icon params="name: 'circle-check', color: 'text-brand'"></app-icon> Today Completed
-                </span>
-            </div>
+            <span class="text-[#094E3A] font-bold inline-flex items-center gap-1 text-[11px] ml-2">
+                <app-icon params="name: 'circle-check', color: 'text-[#094E3A]', size: 'xs'"></app-icon> Today Completed
+            </span>
             <!-- /ko -->
         </div>
     </div>
+
+    <!-- Right: Actions (Edit at top, Chevron at bottom) -->
+    <div class="tb-card-actions flex flex-col items-center justify-between self-stretch shrink-0 py-0.5 pl-1" data-ref="page.tasbeeh.card.actions">
+        <button type="button"
+            class="tb-btn-edit w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200/80 flex items-center justify-center text-gray-600 cursor-pointer active:scale-95 transition-all p-0"
+            data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
+            data-bind="click: onEditClick"
+            data-ref="page.tasbeeh.card.edit-btn">
+            <app-icon params="name: 'pencil', size: 'xs'"></app-icon>
+        </button>
+        <div class="text-gray-300 flex items-center justify-center">
+            <app-icon params="name: 'chevron-right', size: 'xs'"></app-icon>
+        </div>
+    </div>
 </div>
-
-
         </script>
         <script type="text/html" id="tasbeeh-progress-circle-template">
 <div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none">
@@ -2927,14 +2819,6 @@
         <script type="text/html" id="tasbeeh-nav-tab-template">
 <nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
     id="tasbeehBottomNav" data-ref="page.tasbeeh.bottom-nav">
-    <button type="button"
-        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-        id="tabTbHome" data-act="switch-tb-home" role="tab"
-        data-bind="css: ko.unwrap($data.activeTab) === 'home' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'home' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('home'); }"
-        data-ref="page.tasbeeh.tab-home">
-        <app-icon params="name: 'house'"></app-icon>
-        <span>Home</span>
-    </button>
     <button type="button"
         class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
         id="tabTbCurrent" data-act="switch-tb-current" role="tab"
@@ -3307,9 +3191,6 @@
             }
             if (window.TasbeehOldApp && typeof window.TasbeehOldApp.init === 'function') {
                 window.TasbeehOldApp.init();
-            }
-            if (window.TasbeehHomeApp && typeof window.TasbeehHomeApp.init === 'function') {
-                window.TasbeehHomeApp.init();
             }
             if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.init === 'function') {
                 window.TasbeehHistoryApp.init();

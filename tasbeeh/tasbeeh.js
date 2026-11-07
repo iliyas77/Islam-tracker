@@ -34,8 +34,6 @@ import {
     STORAGE_KEYS,
     STORAGE_KEY,
     DAY_KEY,
-    BM_CUR_KEY,
-    BM_OLD_KEY,
     CURRENT_PERIOD_KEY,
     CAL_COMPLETION_KEY,
     TABS,
@@ -56,10 +54,7 @@ import {
     saveCurrentPeriod,
     getCurrentTrackingMonth,
     removeMonthTrackingData,
-    isMonthFullyCompleted,
-    getBookmark,
-    setBookmark,
-    getBookmarkedChants
+    isMonthFullyCompleted
 } from './tasbeeh-model.js';
 
 import {
@@ -93,9 +88,8 @@ import {
     openCounter,
     openCounterOld,
     closeCounter,
-    openCounterFromHome,
     init as initTasbeehCurrent
-} from './tasbeeh-current.js';
+} from './current/current.js';
 
 import {
     loadPeriod,
@@ -118,8 +112,9 @@ import {
     resetAllCompleted,
     renderOldCardHtml,
     renderOldTab,
+    switchOldTab,
     init as initTasbeehOld
-} from './tasbeeh-old.js';
+} from './old/old.js';
 
 import {
     TasbeehHistoryApp,
@@ -128,19 +123,12 @@ import {
     saveHistoryPeriod,
     resetHistoryPeriod,
     init as initTasbeehHistory
-} from './tasbeeh-history.js';
-
-import {
-    TasbeehHomeApp,
-    renderHomeTab,
-    init as initTasbeehHome
-} from './tasbeeh-home.js';
+} from './history/history.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 
 // Wire cross-module bridges
 if (_win.TasbeehApp) {
-    if (_win.TasbeehHomeApp) _win.TasbeehApp.renderHomeTab = _win.TasbeehHomeApp.renderHomeTab;
     if (_win.TasbeehOldApp) {
         _win.TasbeehApp.renderOldTab = _win.TasbeehOldApp.renderOldTab;
         _win.TasbeehApp.getCurrentOldMonth = _win.TasbeehOldApp.getCurrentOldMonth;
@@ -162,7 +150,6 @@ if (typeof window !== 'undefined') {
     window.TasbeehApp = TasbeehCurrentApp;
     window.TasbeehOldApp = TasbeehOldApp;
     window.TasbeehHistoryApp = TasbeehHistoryApp;
-    window.TasbeehHomeApp = TasbeehHomeApp;
 }
 
 export {
@@ -181,14 +168,11 @@ export {
     TasbeehCurrentApp,
     TasbeehOldApp,
     TasbeehHistoryApp,
-    TasbeehHomeApp,
     TASBEEH_CONSTANTS,
     ELEMENT_IDS,
     STORAGE_KEYS,
     STORAGE_KEY,
     DAY_KEY,
-    BM_CUR_KEY,
-    BM_OLD_KEY,
     CURRENT_PERIOD_KEY,
     CAL_COMPLETION_KEY,
     TABS,
@@ -212,9 +196,6 @@ export {
     getCurrentTrackingMonth,
     removeMonthTrackingData,
     isMonthFullyCompleted,
-    getBookmark,
-    setBookmark,
-    getBookmarkedChants,
     renderCalendar,
     handleCalendarDayClick,
     confirmDayStatusChange,
@@ -237,7 +218,6 @@ export {
     openCounter,
     openCounterOld,
     closeCounter,
-    openCounterFromHome,
     loadPeriod,
     savePeriod,
     openPeriodModal,
@@ -252,11 +232,11 @@ export {
     resetAllCompleted,
     renderOldCardHtml,
     renderOldTab,
+    switchOldTab,
     renderHistoryTab,
     applyHistoryPreset,
     saveHistoryPeriod,
-    resetHistoryPeriod,
-    renderHomeTab
+    resetHistoryPeriod
 };
 
 export default (typeof window !== 'undefined' ? window.TasbeehApp : null);

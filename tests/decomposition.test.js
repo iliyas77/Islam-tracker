@@ -25,9 +25,11 @@ export async function runDecompositionTests() {
         'tasbeeh/tasbeeh-calendar.js',
         'tasbeeh/tasbeeh-modal.js',
         'tasbeeh/tasbeeh-period.js',
+        'tasbeeh/current/current.js',
+        'tasbeeh/old/old.js',
+        'tasbeeh/history/history.js',
         'tasbeeh/tasbeeh-old.js',
         'tasbeeh/tasbeeh-history.js',
-        'tasbeeh/tasbeeh-home.js',
         'tasbeeh/tasbeeh-current.js',
         'tasbeeh/tasbeeh.js'
     ];

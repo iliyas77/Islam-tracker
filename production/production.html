@@ -5,7 +5,7 @@ crossorigin="anonymous"><script>
 if (window.location.protocol === 'file:') {
 console.warn('[Nur Prayer] Running via file:// protocol. ES modules and Service Worker require HTTP/HTTPS (run "npm start") or use the standalone distribution in "production/production.html".');
 }
-</script><script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script><style type="text/tailwindcss">@theme{--color-brand:#123D2E;--color-brand-light:#e8f4ed;--color-brand-soft:#f4f8f5;--color-brand-hover:#1c6847;--color-borderGrey:#E0E0E0;--color-border-grey:#E0E0E0;--color-surfaceBg:#F5F8F6;--color-surface-bg:#F5F8F6;--color-cardBg:#FFFFFF;--color-card-bg:#FFFFFF;--color-warningBg:#FFF7ED;--color-warningText:#C2410C;--color-warningBorder:#FFEDD5;--color-activeLight:#EBF6F1;--color-iconDoneBg:#D1E5DC;--color-borderHover:#CCDCD5;--color-heartRed:#E5484D;--color-pinAmber:#C98A1B;--color-pinBg:#FDF6E3;--color-gr-bg:#ffffff;--color-gr-bgSoft:#f4f5f7;--color-gr-bg-soft:#f4f5f7;--color-gr-text:#49665F;--color-gr-text1:#123D2E;--color-gr-textMuted:#7C918A;--color-gr-text-muted:#7C918A;--color-gr-accent:#25845B;--color-gr-accentSoft:#e6f5ec;--color-gr-accent-soft:#e6f5ec;--color-gr-warning:#ca8a04;--color-gr-danger:#ef4444;--color-gr-dangerSoft:#fce8e6;--color-gr-danger-soft:#fce8e6;--color-gr-successSoft:#e6f5ec;--color-gr-borderCalc:#bbf7d0;--color-dash-mintBg:#e1eee5;--color-dash-mint-bg:#e1eee5;--color-dash-nextGold:#c49a5b;--color-dash-textMuted:#69887c;--color-dash-timelineLine:#cdded4;--font-sans:'Inter',sans-serif;--font-arabic:'Noto Sans Arabic',sans-serif;--font-telugu:'Noto Sans Telugu',sans-serif}:root{--brand:#123D2E;--brand-light:#e8f4ed;--brand-soft:#f4f8f5;--text-primary:#123D2E;--text-secondary:#49665F;--text-muted:#7C918A;--border-borderGrey:#E0E0E0;--dash-mint-bg:#e1eee5;--warning-bg:#FFF7ED;--warning-text:#C2410C;--warning-border:#FFEDD5;--gr-accent:#25845B;--gr-accent-soft:#e6f5ec;--gr-danger-soft:#fce8e6;--font-primary:'Inter',sans-serif;--font-arabic:'Noto Sans Arabic',sans-serif;--font-telugu:'Noto Sans Telugu',sans-serif}.collapse{visibility:visible !important}.collapse.show{display:block !important;visibility:visible !important}.collapse:not(.show){display:none !important}app-icon{display:contents}.group-toggle.collapsed .toggle-icon,.group-toggle[aria-expanded="false"] .toggle-icon{transform:rotate(-90deg)}.d-none{display:none !important}.modal.show{display:flex !important}.modal-backdrop.show{opacity:1 !important;pointer-events:auto !important}#duaAddModal.active,#duaPinConfirmModal.active,#duaAdminModal.active{display:flex !important}.page{width:100%;height:100%;min-height:0;background:#ffffff;overflow:hidden;display:flex;flex-direction:column;position:relative;flex:1 1 0%}.app-bottom-nav,nav[id$="BottomNav"]{width:100%;height:60px;min-height:60px;max-height:60px;background:#ffffff;border-top:1px solid #E0E0E0;flex-shrink:0;z-index:100;display:flex;align-items:center;justify-content:space-around;padding:0 0.5rem}.nav-tab{height:100%;background:transparent;border:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-weight:500;color:#7C918A;padding:6px 0 4px 0;position:relative;cursor:pointer;transition:color 0.15s ease;user-select:none;-webkit-user-select:none}.nav-tab i,.nav-tab .nav-tab-icon{font-size:1.25rem !important;line-height:1;display:inline-flex;align-items:center;justify-content:center;transition:transform 0.15s ease,color 0.15s ease}.nav-tab span:not(.nav-tab-icon){font-size:0.72rem;line-height:1.1;letter-spacing:0.2px;transition:color 0.15s ease,font-weight 0.15s ease}.nav-tab:hover{color:#123D2E}.nav-tab:hover i{transform:translateY(-1px)}.nav-tab.active,.nav-tab.text-brand{color:#123D2E !important;font-weight:700}.nav-tab.active i{color:#123D2E !important;transform:scale(1.08)}.nav-tab.active span:not(.nav-tab-icon){font-weight:700;color:#123D2E !important}.nav-tab.active::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:32px;height:3px;border-radius:0 0 3px 3px;background-color:#123D2E}.icon-box{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;width:46px;height:46px;min-width:46px;min-height:46px;border-radius:14px;background-color:#e1eee5;color:#123D2E;transition:transform 0.15s ease,background-color 0.2s ease,color 0.2s ease;user-select:none;-webkit-user-select:none;overflow:hidden}.icon-box.icon-box-sm,.icon-box-sm,.icon-box.sm{width:36px;height:36px;min-width:36px;min-height:36px;border-radius:10px}.icon-box.icon-box-md,.icon-box-md,.icon-box.md{width:46px;height:46px;min-width:46px;min-height:46px;border-radius:14px}.icon-box.icon-box-lg,.icon-box-lg,.icon-box.lg{width:56px;height:56px;min-width:56px;min-height:56px;border-radius:16px}.icon-box.icon-box-xl,.icon-box-xl,.icon-box.xl{width:64px;height:64px;min-width:64px;min-height:64px;border-radius:18px}.icon-box i,.icon-box svg{display:inline-flex;align-items:center;justify-content:center;font-size:1.25rem;line-height:1}.icon-box.icon-box-sm i,.icon-box-sm i{font-size:1rem}.icon-box.icon-box-lg i,.icon-box-lg i{font-size:1.5rem}.icon-box.icon-box-xl i,.icon-box-xl i{font-size:1.75rem}.dash-nav-card:hover .icon-box,.tb-dhikr-card:hover .icon-box,.tb-card:hover .icon-box{transform:scale(1.05)}.icon-box.active,.icon-box.icon-box-active,.icon-box.icon-current,.icon-box-active{background-color:#123D2E !important;color:#ffffff !important}.icon-box.active i,.icon-box.icon-box-active i,.icon-box.icon-current i,.icon-box-active i{color:#ffffff !important}.icon-box.icon-done{background-color:#D1E5DC !important;color:#123D2E !important}.icon-box.icon-missed{background-color:#fce8e6 !important;color:#ef4444 !important}.icon-box.bg-brand-light{background-color:#e8f4ed !important;color:#123D2E !important}.icon-box.bg-brand-soft{background-color:#f4f8f5 !important;color:#123D2E !important}.icon-box.bg-warning-subtle{background-color:#FFF7ED !important;color:#ca8a04 !important}.icon-box.bg-danger-subtle{background-color:#fce8e6 !important;color:#ef4444 !important}.dash-timeline-badge{margin-top:10px;display:inline-block;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:600;line-height:1.2;text-align:center;white-space:nowrap}.badge-passed,.badge-status-passed{background:#dfeae2;color:#4e7364}.badge-active,.badge-status-active{background:#123D2E;color:#ffffff}.badge-next,.badge-status-next{background:#c49a5b;color:#ffffff}.badge-upcoming,.badge-status-upcoming{background:#dfeae2;color:#4e7364}.dash-tracker-badge{position:absolute;top:9px;right:9px;font-size:10.5px;font-weight:700;line-height:1;padding:3px 8px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;z-index:3;letter-spacing:-0.1px;pointer-events:none}.dash-tracker-badge-missed{background:#fce8e6;color:#ef4444;border:1px solid rgba(239,68,68,0.25)}.dash-tracker-badge-zero{background:#e1eee5;color:#123D2E;border:1px solid rgba(18,61,46,0.12)}.tb-fab,.dua-fab,#tbAddBtn,#duaFabBtn{position:absolute;right:20px;bottom:76px;width:54px;height:54px;border-radius:16px;background-color:#123D2E;color:#ffffff;border:none;font-size:20px;cursor:pointer;z-index:90;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.15s;box-shadow:0 4px 14px rgba(18,61,46,0.25)}.tb-fab:hover,.dua-fab:hover,#tbAddBtn:hover,#duaFabBtn:hover{background-color:#1c6847;transform:scale(1.05)}.tb-fab:active,.dua-fab:active,#tbAddBtn:active,#duaFabBtn:active{transform:scale(0.95)}.offcanvas-bottom,.offcanvas-backdrop{display:none !important}.bottom-sheet-backdrop{position:fixed;inset:0;background:rgba(18,61,46,0.45);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:1100;display:flex;align-items:flex-end;justify-content:center;animation:sheetBackdropFadeIn 0.2s ease-out}.bottom-sheet-card,#sheet2{position:relative !important;background:#ffffff !important;width:100% !important;max-width:480px !important;height:90vh !important;height:90dvh !important;max-height:90vh !important;max-height:90dvh !important;margin:0 auto !important;border-radius:1.25rem 1.25rem 0 0 !important;box-shadow:0 -10px 30px rgba(0,0,0,0.18) !important;display:flex !important;flex-direction:column !important;overflow:hidden !important;z-index:1101 !important;transform:translateY(0) !important;animation:sheetCardSlideUp 0.25s cubic-bezier(0.16,1,0.3,1) !important;animation-fill-mode:forwards !important}.bottom-sheet-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #eef2f0;gap:0.75rem;flex-shrink:0}.bottom-sheet-title{margin:0;font-size:1.125rem;font-weight:700;color:#123d2e;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sheet-close-btn{background:none;border:none;font-size:1.5rem;line-height:1;width:2rem;height:2rem;border-radius:9999px;display:inline-flex;align-items:center;justify-content:center;color:#64748b;cursor:pointer;transition:background-color 0.15s,color 0.15s,transform 0.1s;flex-shrink:0;padding:0}.sheet-close-btn:hover{background-color:#f1f5f3;color:#123d2e}.sheet-close-btn:active{transform:scale(0.92)}.bottom-sheet-body{padding:1.25rem;overflow-y:auto;flex:1 1 auto;min-height:0;-webkit-overflow-scrolling:touch}@keyframes sheetBackdropFadeIn{from{opacity:0}to{opacity:1}}@keyframes sheetCardSlideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}.fs-1{font-size:2.25rem !important}.fs-2{font-size:1.75rem !important}.fs-3{font-size:1.5rem !important}.fs-4{font-size:1.25rem !important}.fs-5{font-size:1.125rem !important}.fs-6{font-size:1rem !important}.fs-xs{font-size:0.75rem !important}.fs-sm{font-size:0.875rem !important}.fs-base{font-size:1rem !important}.fw-bold{font-weight:700 !important}.fw-semibold{font-weight:600 !important}.fw-medium{font-weight:500 !important}.fw-normal{font-weight:400 !important}.lh-1{line-height:1 !important}.lh-sm{line-height:1.25 !important}.text-danger{color:#ef4444 !important}.text-muted{color:#7C918A !important}.text-gr1{color:#123D2E !important}.badge-pill-custom{gap:0.35rem;padding:0.35rem 0.65rem;border-radius:9999px;font-weight:700;font-size:0.75rem}.badge-missed{background-color:#fce8e6;color:#ef4444}.badge-done{background-color:#e6f5ec;color:#123D2E}.rounded-3{border-radius:0.75rem !important}.rounded-4{border-radius:1rem !important}.bg-danger-subtle{background-color:#fce8e6 !important}.bg-warning-subtle{background-color:#FFF7ED !important}.bg-brand-light{background-color:#e8f4ed !important}.bg-surface{background-color:#F5F8F6 !important}.btn-action-round{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background-color:#ffffff;color:#123D2E;border:1px solid #E0E0E0;transition:background-color 0.2s,transform 0.15s}.btn-action-round:hover{background-color:#F5F8F6}.btn-action-round:active{transform:scale(0.96)}.tb-card{background:#ffffff;border-radius:16px;border:1px solid #E0E0E0;box-shadow:none;transition:transform 0.15s ease,border-color 0.15s ease;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;padding:14px 12px;user-select:none;-webkit-user-select:none;box-sizing:border-box;min-height:146px}.tb-card:hover{border-color:#123D2E}.tb-card:active{transform:scale(0.98)}.tb-card.tb-card-done{background:#ffffff;border-color:#E0E0E0;opacity:0.8}.tb-card-bookmark{background:#ffffff;border:1px solid #E0E0E0;border-radius:16px;box-shadow:none;transition:transform 0.15s ease,border-color 0.15s ease;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;padding:14px 12px;user-select:none;-webkit-user-select:none;box-sizing:border-box;min-height:152px}.tb-card-bookmark:hover{border-color:#123D2E;transform:translateY(-2px)}.tb-card-bookmark:active{transform:scale(0.98)}.tb-card-top{display:flex;align-items:flex-start;justify-content:space-between;width:100%}.tb-card-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:auto}.tb-btn-edit{width:32px;height:32px;border-radius:8px;background-color:#e8f4ed;color:#123D2E;border:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color 0.15s ease,transform 0.12s ease;padding:0}.tb-btn-edit:hover{background-color:#d1e5dc}.tb-btn-edit:active{transform:scale(0.92)}.tb-chevron{color:#7C918A;flex-shrink:0;transition:transform 0.15s ease,color 0.15s ease;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center}.tb-card:hover .tb-chevron{color:#123D2E;transform:translateX(2px)}.tb-card-body{display:flex;flex-direction:column;justify-content:flex-end;width:100%;margin-top:10px;min-width:0}.tb-card-title{font-size:0.95rem;font-weight:700;color:#123D2E;letter-spacing:-0.015em;line-height:1.25;margin:0 0 6px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tb-card-meta{display:flex;flex-direction:column;gap:4px;width:100%}.tb-meta-row{display:flex;align-items:center;gap:6px;font-size:0.75rem;line-height:1.35;color:#49665F;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tb-meta-icon{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px}.tb-meta-text{display:inline-flex;align-items:center;flex-wrap:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:0.75rem}.tb-meta-sub-row{font-size:0.7rem !important;color:#7C918A !important;margin-top:2px}.tb-val-num{color:#123D2E;font-weight:600}.tb-val-done{font-weight:700;color:#123D2E}.tb-val-total{color:#7C918A;font-weight:500}.tb-counter-overlay{position:absolute;inset:0;z-index:200;background-color:#ffffff}.tb-cal-target-pill{gap:6px;background-color:#e6f5ec;color:#123D2E;font-weight:700;font-size:0.8rem;padding:4px 12px;border-radius:9999px;border:1px solid rgba(37,132,91,0.2)}.tb-cal-nav-btn{width:36px;height:36px;border-radius:10px;border:1px solid #E0E0E0;background-color:#ffffff;color:#123D2E;cursor:pointer;transition:all 0.15s ease;font-size:0.8rem;display:flex;align-items:center;justify-content:center}.tb-cal-nav-btn:hover{background-color:#e8f4ed;border-color:#123D2E}.tb-cal-cell{aspect-ratio:1;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;background-color:#ffffff;transition:all 0.2s cubic-bezier(0.16,1,0.3,1);position:relative;user-select:none;-webkit-user-select:none;min-height:0;padding:0}.tb-cal-cell:hover{border-color:#123D2E;transform:translateY(-1px)}.tb-cal-cell:active{transform:scale(0.92)}.tb-cal-cell.tb-cal-empty{background-color:transparent;border:none;cursor:default}.tb-cal-cell.tb-cal-empty:hover{border-color:transparent;transform:none}.tb-cal-date{font-size:clamp(1rem,3.8vw,1.25rem);font-weight:700;color:#123D2E;line-height:1;font-variant-numeric:tabular-nums}.tb-cal-cell.tb-cal-pop{animation:tbCalPop 0.3s ease}.tb-cal-cell.tb-cal-done{background-color:#e6f5ec;border-color:rgba(37,132,91,0.35)}.tb-cal-cell.tb-cal-done .tb-cal-date{color:#123D2E;text-decoration:line-through;text-decoration-thickness:2.5px}.tb-cal-cell.tb-cal-done::after{content:'✓';position:absolute;top:3px;right:5px;font-size:0.65rem;color:#123D2E;font-weight:800;line-height:1}.tb-cal-cell.tb-cal-today{border-color:#123D2E}.tb-cal-cell.tb-cal-today .tb-cal-date{color:#123D2E}.tb-cal-cell.tb-cal-future{opacity:0.45;cursor:not-allowed}.is-fav .fa-heart{color:#E5484D !important}.is-pinned .fa-thumbtack{color:#C98A1B !important}.hidden-date-input{position:fixed !important;left:0 !important;bottom:0 !important;width:1px !important;height:1px !important;opacity:0 !important;pointer-events:none !important;border:0 !important;padding:0 !important;margin:0 !important;z-index:-9999 !important;clip:rect(0,0,0,0) !important;clip-path:inset(50%) !important}.pinned-dua-card{background-color:#ffffff;border:1px solid #E0E0E0;border-radius:16px;padding:16px 18px;border-left:5px solid #123D2E;position:relative;cursor:pointer;box-shadow:none;transition:background 0.2s,transform 0.15s}.pinned-dua-card:hover{background-color:#F5F8F6;transform:translateY(-1px)}.pinned-badge{position:absolute;top:14px;right:16px;font-size:18px;display:inline-flex;align-items:center;justify-content:center}.pinned-dua-number{font-size:0.875rem;font-weight:700;color:#123D2E}.pinned-dua-surah{font-size:1.05rem;font-weight:700;color:#123D2E;font-family:'Noto Sans Telugu',sans-serif;padding-right:32px}.pinned-dua-text{font-size:0.95rem;color:#49665F;line-height:1.7;font-family:'Noto Sans Telugu',sans-serif}.pinned-dua-meaning{font-size:0.875rem;color:#7C918A;line-height:1.7;font-family:'Noto Sans Telugu',sans-serif;border-top:1px dashed #E0E0E0;padding-top:10px}.dua-list-item{padding:12px 14px;border-radius:14px;background-color:#ffffff;border:1px solid #E0E0E0;cursor:pointer;box-shadow:none;transition:background 0.2s,border-color 0.2s,transform 0.15s}.dua-list-item:hover{background-color:#F5F8F6;border-color:#CCDCD5;transform:translateY(-1px)}.dua-item-number{font-size:0.875rem;font-weight:700;color:#123D2E;min-width:36px}.dua-item-surah{font-size:0.95rem;font-weight:600;color:#123D2E;font-family:'Noto Sans Telugu',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dua-item-preview{font-size:0.8rem;color:#7C918A;font-family:'Noto Sans Telugu',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}.dua-action-btn{background:none;border:none;font-size:18px;cursor:pointer;padding:6px;border-radius:8px;line-height:1;transition:background 0.2s,transform 0.15s;display:inline-flex;align-items:center;justify-content:center}.dua-action-btn:hover{background:rgba(0,0,0,0.05);transform:scale(1.1)}.dua-pin-btn{opacity:0.5}.dua-pin-btn:hover{background:rgba(201,138,27,0.12);opacity:1}.dua-pin-btn.pinned{opacity:1;transform:rotate(-15deg) scale(1.1)}@keyframes tbCalPop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}@keyframes tbRippleAnim{to{transform:scale(4);opacity:0}}</style></head><body><div class="w-full max-w-[480px] h-screen h-[100dvh] mx-auto overflow-hidden relative bg-white flex flex-col font-sans text-brand p-0"
+</script><script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script><style type="text/tailwindcss">@theme{--color-brand:#123D2E;--color-brand-light:#e8f4ed;--color-brand-soft:#f4f8f5;--color-brand-hover:#1c6847;--color-borderGrey:#E0E0E0;--color-border-grey:#E0E0E0;--color-surfaceBg:#F5F8F6;--color-surface-bg:#F5F8F6;--color-cardBg:#FFFFFF;--color-card-bg:#FFFFFF;--color-warningBg:#FFF7ED;--color-warningText:#C2410C;--color-warningBorder:#FFEDD5;--color-activeLight:#EBF6F1;--color-iconDoneBg:#D1E5DC;--color-borderHover:#CCDCD5;--color-heartRed:#E5484D;--color-pinAmber:#C98A1B;--color-pinBg:#FDF6E3;--color-gr-bg:#ffffff;--color-gr-bgSoft:#f4f5f7;--color-gr-bg-soft:#f4f5f7;--color-gr-text:#49665F;--color-gr-text1:#123D2E;--color-gr-textMuted:#7C918A;--color-gr-text-muted:#7C918A;--color-gr-accent:#25845B;--color-gr-accentSoft:#e6f5ec;--color-gr-accent-soft:#e6f5ec;--color-gr-warning:#ca8a04;--color-gr-danger:#ef4444;--color-gr-dangerSoft:#fce8e6;--color-gr-danger-soft:#fce8e6;--color-gr-successSoft:#e6f5ec;--color-gr-borderCalc:#bbf7d0;--color-dash-mintBg:#e1eee5;--color-dash-mint-bg:#e1eee5;--color-dash-nextGold:#c49a5b;--color-dash-textMuted:#69887c;--color-dash-timelineLine:#cdded4;--font-sans:'Inter',sans-serif;--font-arabic:'Noto Sans Arabic',sans-serif;--font-telugu:'Noto Sans Telugu',sans-serif}:root{--brand:#123D2E;--brand-light:#e8f4ed;--brand-soft:#f4f8f5;--text-primary:#123D2E;--text-secondary:#49665F;--text-muted:#7C918A;--border-borderGrey:#E0E0E0;--dash-mint-bg:#e1eee5;--warning-bg:#FFF7ED;--warning-text:#C2410C;--warning-border:#FFEDD5;--gr-accent:#25845B;--gr-accent-soft:#e6f5ec;--gr-danger-soft:#fce8e6;--font-primary:'Inter',sans-serif;--font-arabic:'Noto Sans Arabic',sans-serif;--font-telugu:'Noto Sans Telugu',sans-serif}.collapse{visibility:visible !important}.collapse.show{display:block !important;visibility:visible !important}.collapse:not(.show){display:none !important}app-icon{display:contents}.group-toggle.collapsed .toggle-icon,.group-toggle[aria-expanded="false"] .toggle-icon{transform:rotate(-90deg)}.d-none{display:none !important}.modal.show{display:flex !important}.modal-backdrop.show{opacity:1 !important;pointer-events:auto !important}#duaAddModal.active,#duaPinConfirmModal.active,#duaAdminModal.active{display:flex !important}.page{width:100%;height:100%;min-height:0;background:#ffffff;overflow:hidden;display:flex;flex-direction:column;position:relative;flex:1 1 0%}.app-bottom-nav,nav[id$="BottomNav"]{width:100%;height:60px;min-height:60px;max-height:60px;background:#ffffff;border-top:1px solid #E0E0E0;flex-shrink:0;z-index:100;display:flex;align-items:center;justify-content:space-around;padding:0 0.5rem}.nav-tab{height:100%;background:transparent;border:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-weight:500;color:#7C918A;padding:6px 0 4px 0;position:relative;cursor:pointer;transition:color 0.15s ease;user-select:none;-webkit-user-select:none}.nav-tab i,.nav-tab .nav-tab-icon{font-size:1.25rem !important;line-height:1;display:inline-flex;align-items:center;justify-content:center;transition:transform 0.15s ease,color 0.15s ease}.nav-tab span:not(.nav-tab-icon){font-size:0.72rem;line-height:1.1;letter-spacing:0.2px;transition:color 0.15s ease,font-weight 0.15s ease}.nav-tab:hover{color:#123D2E}.nav-tab:hover i{transform:translateY(-1px)}.nav-tab.active,.nav-tab.text-brand{color:#123D2E !important;font-weight:700}.nav-tab.active i{color:#123D2E !important;transform:scale(1.08)}.nav-tab.active span:not(.nav-tab-icon){font-weight:700;color:#123D2E !important}.nav-tab.active::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:32px;height:3px;border-radius:0 0 3px 3px;background-color:#123D2E}.icon-box{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;width:46px;height:46px;min-width:46px;min-height:46px;border-radius:14px;background-color:#e1eee5;color:#123D2E;transition:transform 0.15s ease,background-color 0.2s ease,color 0.2s ease;user-select:none;-webkit-user-select:none;overflow:hidden}.icon-box.icon-box-sm,.icon-box-sm,.icon-box.sm{width:36px;height:36px;min-width:36px;min-height:36px;border-radius:10px}.icon-box.icon-box-md,.icon-box-md,.icon-box.md{width:46px;height:46px;min-width:46px;min-height:46px;border-radius:14px}.icon-box.icon-box-lg,.icon-box-lg,.icon-box.lg{width:56px;height:56px;min-width:56px;min-height:56px;border-radius:16px}.icon-box.icon-box-xl,.icon-box-xl,.icon-box.xl{width:64px;height:64px;min-width:64px;min-height:64px;border-radius:18px}.icon-box i,.icon-box svg{display:inline-flex;align-items:center;justify-content:center;font-size:1.25rem;line-height:1}.icon-box.icon-box-sm i,.icon-box-sm i{font-size:1rem}.icon-box.icon-box-lg i,.icon-box-lg i{font-size:1.5rem}.icon-box.icon-box-xl i,.icon-box-xl i{font-size:1.75rem}.dash-nav-card:hover .icon-box,.tb-dhikr-card:hover .icon-box,.tb-card:hover .icon-box{transform:scale(1.05)}.icon-box.active,.icon-box.icon-box-active,.icon-box.icon-current,.icon-box-active{background-color:#123D2E !important;color:#ffffff !important}.icon-box.active i,.icon-box.icon-box-active i,.icon-box.icon-current i,.icon-box-active i{color:#ffffff !important}.icon-box.icon-done{background-color:#D1E5DC !important;color:#123D2E !important}.icon-box.icon-missed{background-color:#fce8e6 !important;color:#ef4444 !important}.icon-box.bg-brand-light{background-color:#e8f4ed !important;color:#123D2E !important}.icon-box.bg-brand-soft{background-color:#f4f8f5 !important;color:#123D2E !important}.icon-box.bg-warning-subtle{background-color:#FFF7ED !important;color:#ca8a04 !important}.icon-box.bg-danger-subtle{background-color:#fce8e6 !important;color:#ef4444 !important}.dash-timeline-badge{margin-top:10px;display:inline-block;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:600;line-height:1.2;text-align:center;white-space:nowrap}.badge-passed,.badge-status-passed{background:#dfeae2;color:#4e7364}.badge-active,.badge-status-active{background:#123D2E;color:#ffffff}.badge-next,.badge-status-next{background:#c49a5b;color:#ffffff}.badge-upcoming,.badge-status-upcoming{background:#dfeae2;color:#4e7364}.dash-tracker-badge{position:absolute;top:9px;right:9px;font-size:10.5px;font-weight:700;line-height:1;padding:3px 8px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;z-index:3;letter-spacing:-0.1px;pointer-events:none}.dash-tracker-badge-missed{background:#fce8e6;color:#ef4444;border:1px solid rgba(239,68,68,0.25)}.dash-tracker-badge-zero{background:#e1eee5;color:#123D2E;border:1px solid rgba(18,61,46,0.12)}.tb-fab,.dua-fab,#tbAddBtn,#duaFabBtn{position:absolute;right:20px;bottom:76px;width:54px;height:54px;border-radius:16px;background-color:#123D2E;color:#ffffff;border:none;font-size:20px;cursor:pointer;z-index:90;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.15s;box-shadow:0 4px 14px rgba(18,61,46,0.25)}.tb-fab:hover,.dua-fab:hover,#tbAddBtn:hover,#duaFabBtn:hover{background-color:#1c6847;transform:scale(1.05)}.tb-fab:active,.dua-fab:active,#tbAddBtn:active,#duaFabBtn:active{transform:scale(0.95)}.offcanvas-bottom,.offcanvas-backdrop{display:none !important}.bottom-sheet-backdrop{position:fixed;inset:0;background:rgba(18,61,46,0.45);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:1100;display:flex;align-items:flex-end;justify-content:center;animation:sheetBackdropFadeIn 0.2s ease-out}.bottom-sheet-card,#sheet2{position:relative !important;background:#ffffff !important;width:100% !important;max-width:480px !important;height:90vh !important;height:90dvh !important;max-height:90vh !important;max-height:90dvh !important;margin:0 auto !important;border-radius:1.25rem 1.25rem 0 0 !important;box-shadow:0 -10px 30px rgba(0,0,0,0.18) !important;display:flex !important;flex-direction:column !important;overflow:hidden !important;z-index:1101 !important;transform:translateY(0) !important;animation:sheetCardSlideUp 0.25s cubic-bezier(0.16,1,0.3,1) !important;animation-fill-mode:forwards !important}.bottom-sheet-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #eef2f0;gap:0.75rem;flex-shrink:0}.bottom-sheet-title{margin:0;font-size:1.125rem;font-weight:700;color:#123d2e;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sheet-close-btn{background:none;border:none;font-size:1.5rem;line-height:1;width:2rem;height:2rem;border-radius:9999px;display:inline-flex;align-items:center;justify-content:center;color:#64748b;cursor:pointer;transition:background-color 0.15s,color 0.15s,transform 0.1s;flex-shrink:0;padding:0}.sheet-close-btn:hover{background-color:#f1f5f3;color:#123d2e}.sheet-close-btn:active{transform:scale(0.92)}.bottom-sheet-body{padding:1.25rem;overflow-y:auto;flex:1 1 auto;min-height:0;-webkit-overflow-scrolling:touch}@keyframes sheetBackdropFadeIn{from{opacity:0}to{opacity:1}}@keyframes sheetCardSlideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}.fs-1{font-size:2.25rem !important}.fs-2{font-size:1.75rem !important}.fs-3{font-size:1.5rem !important}.fs-4{font-size:1.25rem !important}.fs-5{font-size:1.125rem !important}.fs-6{font-size:1rem !important}.fs-xs{font-size:0.75rem !important}.fs-sm{font-size:0.875rem !important}.fs-base{font-size:1rem !important}.fw-bold{font-weight:700 !important}.fw-semibold{font-weight:600 !important}.fw-medium{font-weight:500 !important}.fw-normal{font-weight:400 !important}.lh-1{line-height:1 !important}.lh-sm{line-height:1.25 !important}.text-danger{color:#ef4444 !important}.text-muted{color:#7C918A !important}.text-gr1{color:#123D2E !important}.badge-pill-custom{gap:0.35rem;padding:0.35rem 0.65rem;border-radius:9999px;font-weight:700;font-size:0.75rem}.badge-missed{background-color:#fce8e6;color:#ef4444}.badge-done{background-color:#e6f5ec;color:#123D2E}.rounded-3{border-radius:0.75rem !important}.rounded-4{border-radius:1rem !important}.bg-danger-subtle{background-color:#fce8e6 !important}.bg-warning-subtle{background-color:#FFF7ED !important}.bg-brand-light{background-color:#e8f4ed !important}.bg-surface{background-color:#F5F8F6 !important}.btn-action-round{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background-color:#ffffff;color:#123D2E;border:1px solid #E0E0E0;transition:background-color 0.2s,transform 0.15s}.btn-action-round:hover{background-color:#F5F8F6}.btn-action-round:active{transform:scale(0.96)}.tb-card{background:#ffffff;border-radius:24px;border:1px solid #E0E0E0;box-shadow:none;transition:transform 0.15s ease,border-color 0.15s ease;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;padding:16px 20px;user-select:none;-webkit-user-select:none;box-sizing:border-box;min-height:auto;width:100%}.tb-card:hover{border-color:#123D2E}.tb-card:active{transform:scale(0.99)}.tb-card.tb-card-done{background:#ffffff;border-color:#E0E0E0;opacity:0.85}.tb-card-bookmark{background:#ffffff;border:1px solid #E0E0E0;border-radius:24px;box-shadow:none;transition:transform 0.15s ease,border-color 0.15s ease;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;padding:16px 20px;user-select:none;-webkit-user-select:none;box-sizing:border-box;width:100%}.tb-card-bookmark:hover{border-color:#123D2E}.tb-card-bookmark:active{transform:scale(0.99)}.tb-card-top{display:flex;align-items:flex-start;justify-content:space-between;width:100%}.tb-card-actions{display:flex;flex-direction:column;align-items:center;justify-content:space-between;align-self:stretch;flex-shrink:0;padding:2px 0;margin-left:auto}.tb-btn-edit{width:36px;height:36px;border-radius:9999px;background-color:#f3f4f6;color:#4b5563;border:1px solid #e5e7eb;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color 0.15s ease,transform 0.12s ease;padding:0}.tb-btn-edit:hover{background-color:#e5e7eb}.tb-btn-edit:active{transform:scale(0.92)}.tb-chevron{color:#D1D5DB;flex-shrink:0;transition:transform 0.15s ease,color 0.15s ease;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center}.tb-card:hover .tb-chevron{color:#123D2E;transform:translateX(2px)}.tb-card-body{display:flex;flex-direction:column;justify-content:center;width:100%;min-width:0}.tb-card-title{font-size:1.05rem;font-weight:700;color:#111827;letter-spacing:-0.015em;line-height:1.25;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tb-card-meta{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:16px;width:100%}.tb-meta-row{display:inline-flex;align-items:center;gap:6px;font-size:0.8rem;line-height:1.35;color:#6B7280;font-weight:500;white-space:nowrap}.tb-meta-icon{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px}.tb-meta-text{display:inline-flex;align-items:center;flex-wrap:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:0.75rem}.tb-meta-sub-row{font-size:0.7rem !important;color:#7C918A !important;margin-top:2px}.tb-val-num{color:#123D2E;font-weight:600}.tb-val-done{font-weight:700;color:#123D2E}.tb-val-total{color:#7C918A;font-weight:500}.tb-counter-overlay{position:absolute;inset:0;z-index:200;background-color:#ffffff}.tb-cal-target-pill{gap:6px;background-color:#e6f5ec;color:#123D2E;font-weight:700;font-size:0.8rem;padding:4px 12px;border-radius:9999px;border:1px solid rgba(37,132,91,0.2)}.tb-cal-nav-btn{width:36px;height:36px;border-radius:10px;border:1px solid #E0E0E0;background-color:#ffffff;color:#123D2E;cursor:pointer;transition:all 0.15s ease;font-size:0.8rem;display:flex;align-items:center;justify-content:center}.tb-cal-nav-btn:hover{background-color:#e8f4ed;border-color:#123D2E}.tb-cal-cell{aspect-ratio:1;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;background-color:#ffffff;transition:all 0.2s cubic-bezier(0.16,1,0.3,1);position:relative;user-select:none;-webkit-user-select:none;min-height:0;padding:0}.tb-cal-cell:hover{border-color:#123D2E;transform:translateY(-1px)}.tb-cal-cell:active{transform:scale(0.92)}.tb-cal-cell.tb-cal-empty{background-color:transparent;border:none;cursor:default}.tb-cal-cell.tb-cal-empty:hover{border-color:transparent;transform:none}.tb-cal-date{font-size:clamp(1rem,3.8vw,1.25rem);font-weight:700;color:#123D2E;line-height:1;font-variant-numeric:tabular-nums}.tb-cal-cell.tb-cal-pop{animation:tbCalPop 0.3s ease}.tb-cal-cell.tb-cal-done{background-color:#e6f5ec;border-color:rgba(37,132,91,0.35)}.tb-cal-cell.tb-cal-done .tb-cal-date{color:#123D2E;text-decoration:line-through;text-decoration-thickness:2.5px}.tb-cal-cell.tb-cal-done::after{content:'✓';position:absolute;top:3px;right:5px;font-size:0.65rem;color:#123D2E;font-weight:800;line-height:1}.tb-cal-cell.tb-cal-today{border-color:#123D2E}.tb-cal-cell.tb-cal-today .tb-cal-date{color:#123D2E}.tb-cal-cell.tb-cal-future{opacity:0.45;cursor:not-allowed}.is-fav .fa-heart{color:#E5484D !important}.is-pinned .fa-thumbtack{color:#C98A1B !important}.hidden-date-input{position:fixed !important;left:0 !important;bottom:0 !important;width:1px !important;height:1px !important;opacity:0 !important;pointer-events:none !important;border:0 !important;padding:0 !important;margin:0 !important;z-index:-9999 !important;clip:rect(0,0,0,0) !important;clip-path:inset(50%) !important}.pinned-dua-card{background-color:#ffffff;border:1px solid #E0E0E0;border-radius:16px;padding:16px 18px;border-left:5px solid #123D2E;position:relative;cursor:pointer;box-shadow:none;transition:background 0.2s,transform 0.15s}.pinned-dua-card:hover{background-color:#F5F8F6;transform:translateY(-1px)}.pinned-badge{position:absolute;top:14px;right:16px;font-size:18px;display:inline-flex;align-items:center;justify-content:center}.pinned-dua-number{font-size:0.875rem;font-weight:700;color:#123D2E}.pinned-dua-surah{font-size:1.05rem;font-weight:700;color:#123D2E;font-family:'Noto Sans Telugu',sans-serif;padding-right:32px}.pinned-dua-text{font-size:0.95rem;color:#49665F;line-height:1.7;font-family:'Noto Sans Telugu',sans-serif}.pinned-dua-meaning{font-size:0.875rem;color:#7C918A;line-height:1.7;font-family:'Noto Sans Telugu',sans-serif;border-top:1px dashed #E0E0E0;padding-top:10px}.dua-list-item{padding:12px 14px;border-radius:14px;background-color:#ffffff;border:1px solid #E0E0E0;cursor:pointer;box-shadow:none;transition:background 0.2s,border-color 0.2s,transform 0.15s}.dua-list-item:hover{background-color:#F5F8F6;border-color:#CCDCD5;transform:translateY(-1px)}.dua-item-number{font-size:0.875rem;font-weight:700;color:#123D2E;min-width:36px}.dua-item-surah{font-size:0.95rem;font-weight:600;color:#123D2E;font-family:'Noto Sans Telugu',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dua-item-preview{font-size:0.8rem;color:#7C918A;font-family:'Noto Sans Telugu',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}.dua-action-btn{background:none;border:none;font-size:18px;cursor:pointer;padding:6px;border-radius:8px;line-height:1;transition:background 0.2s,transform 0.15s;display:inline-flex;align-items:center;justify-content:center}.dua-action-btn:hover{background:rgba(0,0,0,0.05);transform:scale(1.1)}.dua-pin-btn{opacity:0.5}.dua-pin-btn:hover{background:rgba(201,138,27,0.12);opacity:1}.dua-pin-btn.pinned{opacity:1;transform:rotate(-15deg) scale(1.1)}@keyframes tbCalPop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}@keyframes tbRippleAnim{to{transform:scale(4);opacity:0}}</style></head><body><div class="w-full max-w-[480px] h-screen h-[100dvh] mx-auto overflow-hidden relative bg-white flex flex-col font-sans text-brand p-0"
 id="app"><main class="flex flex-col grow overflow-hidden relative" id="appMain"><div id="dashboardPage" class="flex flex-col grow page"
 data-bind="component: { name: 'dashboard-page', params: dashboard }, css: { 'd-none': !isDashboardVisible(), 'flex': isDashboardVisible() }"></div><div id="trackerPage" class="d-none flex-col grow page"
 data-bind="component: { name: 'tracker-page', params: tracker }, css: { 'd-none': !isTrackerVisible(), 'flex': isTrackerVisible() }"></div><div id="settingsPage" class="d-none flex-col grow page"
@@ -334,33 +334,20 @@ data-bind="attr: { 'data-ref': 'page.history.card.' + (id || '') }"><div class="
 data-bind="attr: { 'data-ref': 'page.history.item.avatar.' + (id || '') }"><app-icon params="name: iconName, size: '22px', color: 'text-brand'"></app-icon></div><div class="flex items-center gap-2 min-w-0"><h6 class="font-bold text-brand text-base mb-0 leading-none"
 data-bind="text: prayer, attr: { 'data-ref': 'page.history.item.prayer.' + (id || '') }"></h6><span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
 data-bind="text: type, attr: { 'data-ref': 'page.history.item.type.' + (id || '') }, css: isCurrent ? 'bg-brand-light text-brand border border-brand/20' : 'bg-amber-50 text-amber-700 border border-amber-200'"></span></div></div><span class="flex items-center gap-1.5 text-brand text-xs font-bold shrink-0"><app-icon params="name: 'circle-check', size: '14px', color: 'text-brand'"></app-icon><span>Completed</span></span></div><div class="text-gr-textMuted text-xs" data-bind="attr: { 'data-ref': 'page.history.item.date.' + (id || '') }">
-Prayer Date: <strong class="text-brand font-bold" data-bind="text: formattedDate"></strong></div><div class="flex items-center justify-between text-gr-textMuted text-xs"><div class="flex items-center gap-1.5" data-bind="attr: { 'data-ref': 'page.history.item.time.' + (id || '') }"><app-icon params="name: 'clock', prefix: 'fa-regular', size: '12px'"></app-icon><span>Completed: <span class="text-brand font-medium" data-bind="text: exactTime"></span></span></div><span class="text-gr-textMuted" data-bind="text: ago"></span></div></div></script><script type="text/html" id="tasbeeh-page-template"><!-- ko component: { name: 'tasbeeh-header', params: header } --><!-- /ko --><div class="grow overflow-auto p-2 pb-5 relative" id="tbHomeBody"
-data-bind="visible: currentSubTab() === 'home'"><div class="border border-borderGrey p-4 text-center rounded-2xl bg-white mt-3 d-none shadow-none"
-id="tbHomeEmptyState"><div class="mb-3"><app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50'"></app-icon></div><h5 class="font-bold text-brand mb-1">No Dhikr Configured</h5><p class="text-gr-textMuted text-xs mb-3">Add your first recitation chant in the Current tab to begin tracking bookmarks.</p><div><button type="button"
-class="rounded-xl px-4 py-2 bg-brand text-white hover:bg-brand-hover transition-colors text-xs font-semibold cursor-pointer"
-data-act="switch-tb-current"
-data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }"><app-icon params="name: 'plus', customClass: 'mr-1'"></app-icon> Add First Dhikr
-</button></div></div><div class="flex flex-col gap-3 pt-1 pb-4" id="tbHomeContent"><div class="flex items-center justify-between px-1"><div><h6 class="font-bold text-brand mb-0 text-sm">Bookmarked Counters</h6><div class="text-gr-textMuted text-xs">Tap any bookmark to recount directly</div></div><button type="button"
-class="px-3 py-1.5 inline-flex items-center gap-1 border border-brand bg-white text-brand hover:bg-brand-light transition-colors text-xs font-semibold rounded-xl cursor-pointer"
-data-act="switch-tb-current"
-data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }"><span>All Dhikrs</span><app-icon params="name: 'chevron-right', size: 'text-[10px]'"></app-icon></button></div><div class="grid grid-cols-2 gap-3" id="tbHomeGrid"><!-- ko foreach: bookmarkedCounters --><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --><!-- /ko --></div><div class="grid grid-cols-2 gap-2 mt-1"><div><div class="border border-borderGrey p-3 rounded-2xl bg-white h-full shadow-none cursor-pointer hover:border-brand transition-colors"
-role="button" tabindex="0" data-act="switch-tb-current"
-data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('current'); }"><div class="flex items-center justify-between mb-2"><span class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand">CURRENT</span><app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', size: 'sm'"></app-icon></div><div class="font-bold text-brand text-lg leading-tight"><span id="tbHomeCurrentCount" data-bind="text: currentDhikrsCount">0</span><span class="text-xs font-normal text-gr-textMuted">Dhikrs</span></div><div class="text-gr-textMuted text-xs mt-1">Active in Current Month</div></div></div><div><div class="border border-borderGrey p-3 rounded-2xl bg-white h-full shadow-none cursor-pointer hover:border-brand transition-colors"
-role="button" tabindex="0" data-act="switch-tb-history"
-data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); switchTab('history'); }"><div class="flex items-center justify-between mb-2"><span class="inline-flex items-center justify-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700">HISTORY</span><app-icon params="name: 'gear', color: 'text-amber-600', size: 'sm'"></app-icon></div><div class="font-bold text-brand text-lg leading-tight"><span id="tbHomeHistoryCount" data-bind="text: clearedMonthsCount">0</span><span class="text-xs font-normal text-gr-textMuted">Cleared</span></div><div class="text-gr-textMuted text-xs mt-1">Active: <span id="tbHomeActiveOldLabel" data-bind="text: activeOldLabel">All Cleared</span></div></div></div></div><div class="border border-borderGrey p-3 rounded-2xl bg-brand-soft shadow-none"><div class="flex items-start gap-2"><app-icon params="name: 'circle-info', color: 'text-brand', size: 'sm', customClass: 'mt-0.5'"></app-icon><div class="text-xs text-gr-text leading-relaxed">
-Whenever you open a Dhikr in <strong>Current</strong> or <strong>Old</strong> tracking, its bookmark updates automatically so you can continue where you left off.
-</div></div></div></div></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbCurrentBody"
+Prayer Date: <strong class="text-brand font-bold" data-bind="text: formattedDate"></strong></div><div class="flex items-center justify-between text-gr-textMuted text-xs"><div class="flex items-center gap-1.5" data-bind="attr: { 'data-ref': 'page.history.item.time.' + (id || '') }"><app-icon params="name: 'clock', prefix: 'fa-regular', size: '12px'"></app-icon><span>Completed: <span class="text-brand font-medium" data-bind="text: exactTime"></span></span></div><span class="text-gr-textMuted" data-bind="text: ago"></span></div></div></script><script type="text/html" id="tasbeeh-page-template"><!-- ko component: { name: 'tasbeeh-header', params: header } --><!-- /ko --><div class="grow overflow-auto p-2 pb-5 relative" id="tbCurrentBody"
 data-bind="visible: currentSubTab() === 'current'"><div id="tbList" class="flex flex-col gap-3"><div class="border border-borderGrey p-3 text-center rounded-2xl bg-white d-none shadow-none"
 id="tbCurrentAdvanceBanner"><app-icon params="name: 'circle-check', color: 'text-brand', size: 'xl', customClass: 'mb-2'"></app-icon><div class="font-bold text-brand" id="tbCurrentAdvanceBannerText">All Dhikrs for this month Completed!</div><div class="text-gr-textMuted text-xs mb-3">All daily targets for this month have been achieved.</div><button type="button"
 class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
 data-act="tb-current-advance"><app-icon params="name: 'arrow-right', customClass: 'mr-1'"></app-icon> Finalize & Advance to Next Month
-</button></div><section class="mb-3 flex flex-col gap-2" id="tbCurrentTodoGroup"><button type="button"
-class="group-toggle py-1 flex items-center justify-between w-full cursor-pointer select-none text-gr-text gap-2"
-data-toggle="collapse" data-target="#tbCurrentTodoList" aria-expanded="true"><span class="text-xs transition-transform duration-200 inline-block"><app-icon params="name: 'chevron-down'"></app-icon></span><span class="font-bold text-xs uppercase tracking-wider text-gr-text">To Do</span><span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand ml-1.5"
-id="tbCurrentTodoBadge">0</span></button><div class="collapse show visible" id="tbCurrentTodoList" style="visibility: visible;"><div class="grid grid-cols-2 gap-3 mt-2" id="tbCurrentTodoGrid" data-bind="foreach: currentTodoItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div></section><section class="mb-3 flex flex-col gap-2" id="tbCurrentDoneGroup"><button type="button"
-class="group-toggle py-1 flex items-center justify-between w-full cursor-pointer select-none text-gr-text gap-2"
-id="tbCurrentDoneToggle" data-toggle="collapse" data-target="#tbCurrentDoneList" aria-expanded="true"><span class="text-xs transition-transform duration-200 inline-block"><app-icon params="name: 'chevron-right'"></app-icon></span><span class="font-bold text-xs uppercase tracking-wider text-gr-accent">COMPLETED</span><span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand ml-1.5"
-id="tbCurrentDoneBadge">0</span></button><div class="collapse show visible" id="tbCurrentDoneList" style="visibility: visible;"><div class="grid grid-cols-2 gap-3 mt-2" id="tbCurrentDoneGrid" data-bind="foreach: currentDoneItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div></section></div><div id="tbEmptyState" class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"><div class="mb-3"><app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50', dataRef: 'page.tasbeeh.empty-state.icon'"></app-icon></div><h5 class="font-bold text-brand mb-1">No Dhikr Yet</h5><p class="text-gr-textMuted text-xs mb-0">Tap “+” below to add your first chant and begin counting.</p></div></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody"
+</button></div><div class="flex border-b border-borderGrey bg-white sticky top-0 z-20" role="tablist" aria-label="Current Tasbeeh Status Tabs"><button type="button" id="tabTbCurrentTodo" role="tab" aria-selected="true" aria-controls="tbCurrentTodoList"
+class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-brand text-brand font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
+data-bind="click: function(d,e){ switchCurrentTab('todo', e); }, css: currentActiveTab() === 'todo' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'"><span>TO DO</span><span id="tbCurrentTodoBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
+data-bind="css: currentActiveTab() === 'todo' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: currentTodoItems().length">0</span></button><button type="button" id="tabTbCurrentDone" role="tab" aria-selected="false" aria-controls="tbCurrentDoneList"
+class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-transparent text-gr-textMuted font-semibold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
+data-bind="click: function(d,e){ switchCurrentTab('completed', e); }, css: currentActiveTab() === 'completed' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'"><span>COMPLETED</span><span id="tbCurrentDoneBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
+data-bind="css: currentActiveTab() === 'completed' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: currentDoneItems().length">0</span></button></div><div id="tbCurrentTodoList" role="tabpanel" aria-labelledby="tabTbCurrentTodo" class="mt-2 space-y-3"
+data-bind="visible: currentActiveTab() === 'todo'"><div class="flex flex-col gap-3" id="tbCurrentTodoGrid" data-bind="foreach: currentTodoItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div><div id="tbCurrentDoneList" role="tabpanel" aria-labelledby="tabTbCurrentDone" class="mt-2 space-y-3 d-none hidden"
+data-bind="visible: currentActiveTab() === 'completed'"><div class="flex flex-col gap-3" id="tbCurrentDoneGrid" data-bind="foreach: currentDoneItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div></div><div id="tbEmptyState" class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"><div class="mb-3"><app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50', dataRef: 'page.tasbeeh.empty-state.icon'"></app-icon></div><h5 class="font-bold text-brand mb-1">No Dhikr Yet</h5><p class="text-gr-textMuted text-xs mb-0">Tap “+” below to add your first chant and begin counting.</p></div></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody"
 data-bind="visible: currentSubTab() === 'old'"><div class="border border-borderGrey p-4 text-center rounded-2xl bg-white d-none shadow-none"
 id="tbOldEmptyRange"><div class="mb-3"><app-icon params="name: 'calendar-xmark', color: 'text-gr-warning', size: '4xl', customClass: 'opacity-75'"></app-icon></div><h5 class="font-bold text-brand mb-2">No Previous Months in Period</h5><p class="text-gr-textMuted text-xs mb-3">
 Your tracking start date is <strong id="tbOldEmptyRangeStart"></strong>, which falls in or after the current period.<br>
@@ -383,43 +370,42 @@ data-bind="click: resetAllCompleted"><app-icon params="name: 'rotate-left', cust
 id="tbOldAdvanceBanner"><div class="text-brand font-bold mb-2"><app-icon params="name: 'circle-check', color: 'text-brand', customClass: 'mr-1'"></app-icon><span id="tbOldAdvanceBannerMsg">All targets are completed!</span></div><button type="button"
 class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg"
 data-act="tb-old-advance"><app-icon params="name: 'arrow-left', customClass: 'mr-1'"></app-icon> Finalize & Move to Previous Month
-</button></div><section class="mb-3 flex flex-col gap-2" id="tbOldTodoGroup"><button type="button"
-class="group-toggle py-1 flex items-center justify-between w-full cursor-pointer select-none text-gr-text gap-2"
-data-toggle="collapse" data-target="#tbOldTodoList" aria-expanded="true"><span class="text-xs transition-transform duration-200 inline-block"><app-icon params="name: 'chevron-down'"></app-icon></span><span class="font-bold text-xs uppercase tracking-wider text-gr-text">To Do</span><span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand ml-1.5"
-id="tbOldTodoBadge">0</span></button><div class="collapse show visible" id="tbOldTodoList" style="visibility: visible;"><div class="grid grid-cols-2 gap-3 mt-2" id="tbOldTodoGrid" data-bind="foreach: oldTodoItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div></section><section class="mb-3 flex flex-col gap-2" id="tbOldDoneGroup"><button type="button"
-class="group-toggle py-1 flex items-center justify-between w-full cursor-pointer select-none text-gr-text gap-2"
-id="tbOldDoneToggle" data-toggle="collapse" data-target="#tbOldDoneList" aria-expanded="true"><span class="text-xs transition-transform duration-200 inline-block"><app-icon params="name: 'chevron-right'"></app-icon></span><span class="font-bold text-xs uppercase tracking-wider text-gr-accent">COMPLETED</span><span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand ml-1.5"
-id="tbOldDoneBadge">0</span></button><div class="collapse show visible" id="tbOldDoneList" style="visibility: visible;"><div class="grid grid-cols-2 gap-3 mt-2" id="tbOldDoneGrid" data-bind="foreach: oldDoneItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div></section></div></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody"
+</button></div><div class="flex border-b border-borderGrey bg-white sticky top-0 z-20" role="tablist" aria-label="Old Tasbeeh Status Tabs"><button type="button" id="tabTbOldTodo" role="tab" aria-selected="true" aria-controls="tbOldTodoList"
+class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-brand text-brand font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
+data-bind="click: function(d,e){ switchOldTab('todo', e); }, css: oldActiveTab() === 'todo' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'"><span>TO DO</span><span id="tbOldTodoBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
+data-bind="css: oldActiveTab() === 'todo' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: oldTodoItems().length">0</span></button><button type="button" id="tabTbOldDone" role="tab" aria-selected="false" aria-controls="tbOldDoneList"
+class="flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-transparent text-gr-textMuted font-semibold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none"
+data-bind="click: function(d,e){ switchOldTab('completed', e); }, css: oldActiveTab() === 'completed' ? 'border-brand text-brand font-bold' : 'border-transparent text-gr-textMuted font-semibold hover:text-gr-text'"><span>COMPLETED</span><span id="tbOldDoneBadge" class="text-xs font-bold px-2 py-0.5 rounded-full"
+data-bind="css: oldActiveTab() === 'completed' ? 'bg-brand-light text-brand' : 'bg-surfaceBg text-gr-textMuted border border-borderGrey', text: oldDoneItems().length">0</span></button></div><div id="tbOldTodoList" role="tabpanel" aria-labelledby="tabTbOldTodo" class="mt-2 space-y-3"
+data-bind="visible: oldActiveTab() === 'todo'"><div class="flex flex-col gap-3" id="tbOldTodoGrid" data-bind="foreach: oldTodoItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div><div id="tbOldDoneList" role="tabpanel" aria-labelledby="tabTbOldDone" class="mt-2 space-y-3 d-none hidden"
+data-bind="visible: oldActiveTab() === 'completed'"><div class="flex flex-col gap-3" id="tbOldDoneGrid" data-bind="foreach: oldDoneItems"><!-- ko component: { name: 'tasbeeh-counter-card', params: $data } --><!-- /ko --></div></div></div></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody"
 data-bind="visible: currentSubTab() === 'history'"><div class="flex flex-col gap-3 pt-1 pb-4" id="tbHistoryContent"><!-- ko component: { name: 'tasbeeh-progress-circle', params: historyProgress } --><!-- /ko --><!-- ko component: { name: 'tasbeeh-goal-setter', params: goalSetter } --><!-- /ko --><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center justify-between mb-2"><h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6><button type="button"
 class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 underline text-gr-danger text-decoration-none text-xs font-bold d-none"
 id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed"
 data-bind="click: resetAllCompleted"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Cleared
 </button></div><div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">Sequential monthly clearance advances backward month-by-month as dhikrs are completed.</div><div class="flex flex-col gap-2" id="tbHistoryList"></div></div></div></div><button type="button"
-class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all d-none"
+class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
 id="tbAddBtn" title="Add New Dhikr" aria-label="Add New Dhikr"
 data-bind="visible: currentSubTab() === 'current' || currentSubTab() === 'old', click: openAddModal"><app-icon params="name: 'plus', size: 'xl', dataRef: 'page.tasbeeh.header.add-icon'"></app-icon></button><!-- ko component: { name: 'tasbeeh-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko --><div id="tasbeehCounterView" class="d-none flex-col grow tb-counter-overlay"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px] gap-2"><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
-id="tbBtnBack" title="Back"><app-icon params="name: 'arrow-left', size: 'base', dataRef: 'page.tasbeeh.counter.back-icon'"></app-icon></button><div class="grow min-w-0 text-center"><h5 class="font-bold text-base text-brand m-0 flex items-center justify-center truncate mb-0"
-id="tbCounterTopTitle">Calendar Tracker</h5></div><button type="button"
-class="inline-flex items-center gap-1 px-3 py-1.5 bg-brand-soft text-brand font-bold text-xs rounded-full hover:bg-brand-light transition-colors cursor-pointer"
-id="tbBtnEditActive" title="Edit active chant"><app-icon params="name: 'pencil', dataRef: 'page.tasbeeh.counter.edit-icon'"></app-icon><span>Edit</span></button></header><div class="grow flex flex-col overflow-auto"><div class="text-center w-full pt-3 pb-2 px-3"><h4 class="font-bold text-brand mb-1 truncate" id="tbCounterTitle">—</h4><div class="inline-flex items-center gap-1.5 px-3 py-1 bg-surfaceBg border border-borderGrey rounded-full text-xs font-semibold text-brand"
+id="tbBtnBack" data-act="tb-back" data-bind="click: closeCounter" title="Back"><app-icon params="name: 'arrow-left', size: 'base', dataRef: 'page.tasbeeh.counter.back-icon'"></app-icon></button><div class="grow min-w-0 text-center"><h5 class="font-bold text-base text-brand m-0 flex items-center justify-center truncate mb-0"
+id="tbCounterTopTitle">Calendar Tracker</h5></div><div class="w-10 h-10 shrink-0" aria-hidden="true"></div></header><div class="grow flex flex-col overflow-auto"><div class="text-center w-full pt-3 pb-2 px-3"><h4 class="font-bold text-brand mb-1 truncate" id="tbCounterTitle">—</h4><div class="inline-flex items-center gap-1.5 px-3 py-1 bg-surfaceBg border border-borderGrey rounded-full text-xs font-semibold text-brand"
 id="tbCalTargetPill"><app-icon params="name: 'bullseye'"></app-icon><span id="tbCalTargetLabel">Target: 100 / day</span></div></div><div class="flex items-center justify-between px-3 py-2" id="tbCalMonthNav"><button type="button"
 class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
 id="tbCalPrevMonth" title="Previous month"><app-icon params="name: 'chevron-left'"></app-icon></button><div class="font-bold text-base text-brand text-center tracking-wide flex-1" id="tbCalMonthLabel">October 2026</div><button type="button"
 class="w-9 h-9 rounded-xl border border-borderGrey bg-white text-brand flex items-center justify-center hover:bg-surfaceBg cursor-pointer transition-colors shrink-0"
-id="tbCalNextMonth" title="Next month"><app-icon params="name: 'chevron-right'"></app-icon></button></div><div class="flex-1 px-3 pb-3"><div class="grid grid-cols-7 gap-1 mb-1.5"><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sun</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Mon</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Tue</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Wed</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Thu</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Fri</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sat</div></div><div class="grid grid-cols-7 gap-1.5" id="tbCalGrid"></div></div><div class="bg-white rounded-2xl border border-borderGrey p-3.5 flex items-center justify-around shadow-none mx-3 mb-3"
-id="tbCalSummary"><div class="flex flex-col items-center flex-1 gap-0.5"><span class="text-xl font-extrabold text-brand leading-tight" id="tbCalCompletedCount">0</span><span class="text-[10px] font-semibold text-gr-textMuted uppercase tracking-wider">Completed</span></div><div class="w-[1px] h-7 bg-borderGrey shrink-0"></div><div class="flex flex-col items-center flex-1 gap-0.5"><span class="text-xl font-extrabold text-brand leading-tight" id="tbCalRemainingCount">0</span><span class="text-[10px] font-semibold text-gr-textMuted uppercase tracking-wider">Remaining</span></div><div class="w-[1px] h-7 bg-borderGrey shrink-0"></div><div class="flex flex-col items-center flex-1 gap-0.5"><span class="text-xl font-extrabold text-brand leading-tight" id="tbCalProgressPct">0%</span><span class="text-[10px] font-semibold text-gr-textMuted uppercase tracking-wider">Progress</span></div></div></div></div></script><script type="text/html" id="tasbeeh-header-template"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"><div class="w-full flex items-center justify-between min-w-0 min-h-[44px]"><div class="flex items-center gap-2 min-w-0 grow"><button type="button"
+id="tbCalNextMonth" title="Next month"><app-icon params="name: 'chevron-right'"></app-icon></button></div><div class="flex-1 px-3 pb-3"><div class="grid grid-cols-7 gap-1 mb-1.5"><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sun</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Mon</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Tue</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Wed</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Thu</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Fri</div><div class="text-center text-[11px] font-bold text-gr-textMuted uppercase tracking-wider py-1">Sat</div></div><div class="grid grid-cols-7 gap-1.5" id="tbCalGrid"></div></div></div></div></script><script type="text/html" id="tasbeeh-header-template"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"><div class="w-full flex items-center justify-between min-w-0 min-h-[44px]"><div class="flex items-center gap-2 min-w-0 grow"><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
 data-act="go-home" title="Back to Home" aria-label="Back to Home"
 data-bind="click: goHome"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="min-w-0 grow"><h5 class="font-bold text-base text-brand m-0 flex items-center gap-2"><app-icon params="id: 'tbHeaderIcon', name: iconClass || 'fa-solid fa-house text-brand', dataRef: 'page.tasbeeh.header.icon'"></app-icon><span id="tbHeaderLabel" data-bind="text: title || 'Digital Tasbeeh'">Digital Tasbeeh</span></h5><div class="text-xs text-gr-textMuted mt-0.5" id="tbHeaderSub"
-data-bind="text: subtitle || 'Home · Bookmarks'">Home · Bookmarks</div></div></div></div></header></script><script type="text/html" id="tasbeeh-counter-card-template"><div class="tb-card bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer hover:border-brand min-h-[146px] select-none transition-all"
+data-bind="text: subtitle || 'Home · Bookmarks'">Home · Bookmarks</div></div></div></div></header></script><script type="text/html" id="tasbeeh-counter-card-template"><div class="tb-card bg-white border border-gray-200 rounded-3xl p-4 sm:p-5 flex flex-row gap-4 items-center cursor-pointer hover:border-gray-300 select-none transition-all w-full shadow-none"
 data-bind="attr: { 'data-id': id, 'data-month': $data.month || null, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': $data.isComplete || $data.isCompleted }, click: onCardClick"
-role="button" tabindex="0"><div class="tb-card-top flex items-start justify-between w-full"><div class="w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"><app-icon params="name: 'hands-praying'"></app-icon></div><div class="tb-card-actions flex items-center gap-1.5 shrink-0 ml-auto"><button type="button"
-class="tb-btn-edit w-8 h-8 rounded-lg bg-brand-light text-brand flex items-center justify-center cursor-pointer hover:bg-brand/20 active:scale-95 transition-all p-0"
+role="button" tabindex="0"><div class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-2xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center text-2xl shrink-0 leading-none select-none overflow-hidden"><app-icon params="name: 'hands-praying'"></app-icon></div><div class="flex-1 min-w-0 flex flex-col justify-center gap-1.5"><h6 class="tb-card-title text-[17px] font-bold text-gray-900 leading-tight m-0 truncate"
+data-bind="text: title"></h6><div class="tb-card-meta flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 font-medium"><span class="tb-meta-row inline-flex items-center gap-1.5"><app-icon params="name: 'bullseye', color: 'text-gray-400', size: 'xs'"></app-icon><span>Target: <strong class="tb-val-num font-bold text-gray-900" data-bind="text: targetCount"></strong><span class="text-gray-500">/day</span></span></span><span class="tb-meta-row inline-flex items-center gap-1.5"><app-icon params="name: 'calendar', prefix: 'fa-regular', color: 'text-gray-400', size: 'xs'"></app-icon><span>Total: <span class="tb-val-total text-gray-600 font-medium" data-bind="text: ($data.totalDays || 30) + ' days'"></span></span></span></div><div class="flex items-center gap-2.5 mt-1"><div class="inline-flex items-center gap-1.5 bg-[#094E3A] text-white text-xs font-semibold px-3 py-1 rounded-full shrink-0 leading-none shadow-none"><app-icon params="name: 'check', size: 'xs', customClass: 'text-[10px]'"></app-icon><span>Done</span></div><span class="tb-val-done text-lg font-bold text-gray-900 leading-none" data-bind="text: completedDays"></span><!-- ko if: $data.isTodayDone --><span class="text-[#094E3A] font-bold inline-flex items-center gap-1 text-[11px] ml-2"><app-icon params="name: 'circle-check', color: 'text-[#094E3A]', size: 'xs'"></app-icon> Today Completed
+</span><!-- /ko --></div></div><div class="tb-card-actions flex flex-col items-center justify-between self-stretch shrink-0 py-0.5 pl-1"><button type="button"
+class="tb-btn-edit w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200/80 flex items-center justify-center text-gray-600 cursor-pointer active:scale-95 transition-all p-0"
 data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
-data-bind="click: onEditClick"><app-icon params="name: 'pencil', size: 'xs'"></app-icon></button><app-icon params="name: 'chevron-right', color: 'text-gr-textMuted', size: 'xs', customClass: 'ml-1'"></app-icon></div></div><div class="tb-card-body flex flex-col justify-end w-full mt-2.5 min-w-0"><h6 class="tb-card-title text-base font-bold text-brand leading-snug mb-1 truncate"
-data-bind="text: title"></h6><div class="tb-card-meta flex flex-col gap-1 w-full"><div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight"><app-icon params="name: 'bullseye', color: 'text-gr-textMuted', size: 'xs'"></app-icon><span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Target: <span class="tb-val-num font-semibold text-brand ml-1" data-bind="text: targetCount"></span> / day</span></div><div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight"><app-icon params="name: 'circle-check', color: 'text-brand', size: 'xs'"></app-icon><span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs"><span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-brand text-white leading-none">Done</span><strong class="tb-val-done ml-1 font-bold text-brand" data-bind="text: completedDays"></strong></span></div><div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight"><app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-gr-textMuted', size: 'xs'"></app-icon><span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Total: <span class="tb-val-total text-gr-textMuted font-medium ml-1" data-bind="text: ($data.totalDays || 30) + ' days'"></span></span></div><!-- ko if: $data.isTodayDone --><div class="tb-meta-row tb-meta-sub-row"><span class="text-brand font-bold flex items-center gap-1" style="font-size: 11px;"><app-icon params="name: 'circle-check', color: 'text-brand'"></app-icon> Today Completed
-</span></div><!-- /ko --></div></div></div></script><script type="text/html" id="tasbeeh-progress-circle-template"><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center justify-between mb-2"><div><h6 class="font-bold text-brand mb-0" style="font-size: 1.05rem;">Tracking Period & History</h6><div class="text-gr-textMuted text-xs">Configure timeline and view past monthly clearance</div></div><span class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-brand-light text-brand px-3 font-bold"
+data-bind="click: onEditClick"><app-icon params="name: 'pencil', size: 'xs'"></app-icon></button><div class="text-gray-300 flex items-center justify-center"><app-icon params="name: 'chevron-right', size: 'xs'"></app-icon></div></div></div></script><script type="text/html" id="tasbeeh-progress-circle-template"><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center justify-between mb-2"><div><h6 class="font-bold text-brand mb-0" style="font-size: 1.05rem;">Tracking Period & History</h6><div class="text-gr-textMuted text-xs">Configure timeline and view past monthly clearance</div></div><span class="inline-flex items-center justify-center text-xs font-semibold px-2.5 py-1 rounded-full bg-brand-light text-brand px-3 font-bold"
 id="tbHistPercentBadge" style="font-size: 11px;"
 data-bind="text: (ko.unwrap(percentCleared) || 0) + '% Cleared'">
 0% Cleared
@@ -454,9 +440,6 @@ style="font-size: 13.5px;" data-act="tb-hist-save"><app-icon params="name: 'chec
 class="rounded-xl px-3 py-2 border border-borderGrey bg-white text-gr-text hover:bg-surfaceBg transition-colors text-xs py-1.5 rounded-lg cursor-pointer"
 style="font-size: 13.5px;" data-act="tb-hist-reset" title="Reset Period Settings"><app-icon params="name: 'rotate-left'"></app-icon></button></div></div></script><script type="text/html" id="tasbeeh-nav-tab-template"><nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
 id="tasbeehBottomNav"><button type="button"
-class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-id="tabTbHome" data-act="switch-tb-home" role="tab"
-data-bind="css: ko.unwrap($data.activeTab) === 'home' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'home' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('home'); }"><app-icon params="name: 'house'"></app-icon><span>Home</span></button><button type="button"
 class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
 id="tabTbCurrent" data-act="switch-tb-current" role="tab"
 data-bind="css: ko.unwrap($data.activeTab) === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'current' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('current'); }"><app-icon params="name: 'calendar-days', prefix: 'fa-regular'"></app-icon><span>Current</span></button><button type="button"
@@ -1240,17 +1223,9 @@ HEADER_ICON: 'tbHeaderIcon',
 HEADER_LABEL: 'tbHeaderLabel',
 HEADER_SUB: 'tbHeaderSub',
 ADD_BTN: 'tbAddBtn',
-TAB_HOME: 'tabTbHome',
 TAB_CURRENT: 'tabTbCurrent',
 TAB_OLD: 'tabTbOld',
 TAB_HISTORY: 'tabTbHistory',
-HOME_BODY: 'tbHomeBody',
-HOME_EMPTY_STATE: 'tbHomeEmptyState',
-HOME_CONTENT: 'tbHomeContent',
-HOME_GRID: 'tbHomeGrid',
-HOME_CURRENT_COUNT: 'tbHomeCurrentCount',
-HOME_HISTORY_COUNT: 'tbHomeHistoryCount',
-HOME_ACTIVE_OLD_LABEL: 'tbHomeActiveOldLabel',
 CURRENT_BODY: 'tbCurrentBody',
 CURRENT_LIST: 'tbList',
 CURRENT_EMPTY_STATE: 'tbEmptyState',
@@ -1293,11 +1268,9 @@ HIST_RESET_COMPLETED_BTN: 'tbHistResetCompletedBtn',
 HISTORY_LIST: 'tbHistoryList'
 },
 DATA_ACTS: {
-SWITCH_HOME: 'switch-tb-home',
 SWITCH_CURRENT: 'switch-tb-current',
 SWITCH_OLD: 'switch-tb-old',
 SWITCH_HISTORY: 'switch-tb-history',
-OPEN_BOOKMARK: 'tb-open-bookmark',
 CURRENT_ADVANCE: 'tb-current-advance',
 OLD_ADVANCE: 'tb-old-advance',
 OLD_REOPEN: 'tb-old-reopen',
@@ -1313,22 +1286,14 @@ DATA: 'app_tasbeeh_data',
 DAY: 'app_tasbeeh_day',
 PERIOD: 'app_tasbeeh_period',
 CURRENT_PERIOD: 'app_tasbeeh_current_period',
-BOOKMARK_CURRENT: 'app_tasbeeh_bookmark_current',
-BOOKMARK_OLD: 'app_tasbeeh_bookmark_old',
 CAL_COMPLETIONS: 'app_tasbeeh_cal_completions'
 },
 TABS: {
-HOME: 'home',
 CURRENT: 'current',
 OLD: 'old',
 HISTORY: 'history'
 },
 TAB_HEADERS: {
-home: {
-iconClass: 'fa-solid fa-house text-brand',
-label: 'Digital Tasbeeh',
-sub: 'Home · Bookmarks'
-},
 current: {
 iconClass: 'fa-regular fa-calendar-days text-brand',
 label: 'Digital Tasbeeh'
@@ -2546,17 +2511,6 @@ emptyPrayerHistory();
 showPage('settings');
 } else if (act === 'goto-tasbeeh') {
 showPage('tasbeeh');
-} else if (act === 'tb-open-bookmark') {
-var bmId = t.dataset.id;
-var bmMonth = t.dataset.month || null;
-var bmType = t.dataset.type || (bmMonth ? 'old' : 'current');
-if (window.TasbeehApp && typeof window.TasbeehApp.openCounterFromHome === 'function') {
-window.TasbeehApp.openCounterFromHome(bmId, bmMonth, bmType);
-}
-} else if (act === 'switch-tb-home') {
-if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
-window.TasbeehApp.switchTab('home');
-}
 } else if (act === 'switch-tb-current') {
 if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
 window.TasbeehApp.switchTab('current');
@@ -3547,9 +3501,6 @@ self.sync = function () {
 self.loadAll();
 if (_win.TasbeehApp && typeof _win.TasbeehApp.renderCurrentList === 'function') {
 try { _win.TasbeehApp.renderCurrentList(); } catch (_) {}
-}
-if (_win.TasbeehHomeApp && typeof _win.TasbeehHomeApp.render === 'function') {
-try { _win.TasbeehHomeApp.render(); } catch (_) {}
 }
 if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.render === 'function') {
 try { _win.TasbeehOldApp.render(); } catch (_) {}
@@ -6675,6 +6626,23 @@ _win.openEditModal(self.id);
 };
 }
 var tasbeehViewModel = null;
+function switchCurrentTab(tabName) {
+var todoTab = document.getElementById('tabTbCurrentTodo'), doneTab = document.getElementById('tabTbCurrentDone');
+var todoList = document.getElementById('tbCurrentTodoList'), doneList = document.getElementById('tbCurrentDoneList');
+var todoBadge = document.getElementById('tbCurrentTodoBadge'), doneBadge = document.getElementById('tbCurrentDoneBadge');
+var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+if (vm && typeof vm.currentActiveTab === 'function') vm.currentActiveTab(tabName);
+var isTodo = tabName === 'todo';
+if (todoList) { todoList.classList.toggle('d-none', !isTodo); todoList.classList.toggle('hidden', !isTodo); }
+if (doneList) { doneList.classList.toggle('d-none', isTodo); doneList.classList.toggle('hidden', isTodo); }
+var actCls = 'flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-brand text-brand font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none';
+var inactCls = 'flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-transparent text-gr-textMuted font-semibold text-xs uppercase tracking-wider hover:text-gr-text transition-colors cursor-pointer select-none';
+if (todoTab) { todoTab.setAttribute('aria-selected', isTodo ? 'true' : 'false'); todoTab.className = isTodo ? actCls : inactCls; }
+if (doneTab) { doneTab.setAttribute('aria-selected', !isTodo ? 'true' : 'false'); doneTab.className = !isTodo ? actCls : inactCls; }
+if (todoBadge) todoBadge.className = isTodo ? 'text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand' : 'text-xs font-bold px-2 py-0.5 rounded-full bg-surfaceBg text-gr-textMuted border border-borderGrey';
+if (doneBadge) doneBadge.className = !isTodo ? 'text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand' : 'text-xs font-bold px-2 py-0.5 rounded-full bg-surfaceBg text-gr-textMuted border border-borderGrey';
+}
+_win.switchCurrentTab = switchCurrentTab;
 function getTasbeehViewModel() {
 if (!tasbeehViewModel && typeof TasbeehPageViewModel === 'function') {
 tasbeehViewModel = new TasbeehPageViewModel();
@@ -6685,11 +6653,31 @@ function TasbeehPageViewModel(params) {
 params = params || {};
 var self = this;
 var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
-self.currentSubTab = (k && k.observable) ? k.observable('home') : function () { return 'home'; };
+self.currentSubTab = (k && k.observable) ? k.observable('current') : function () { return 'current'; };
+self.currentActiveTab = (k && k.observable) ? k.observable('todo') : function () { return 'todo'; };
+self.switchCurrentTab = function (tab, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (k && k.isObservable(self.currentActiveTab)) {
+self.currentActiveTab(tab);
+}
+if (typeof _win.switchCurrentTab === 'function') {
+_win.switchCurrentTab(tab);
+}
+};
+self.oldActiveTab = (k && k.observable) ? k.observable('todo') : function () { return 'todo'; };
+self.switchOldTab = function (tab, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (k && k.isObservable(self.oldActiveTab)) {
+self.oldActiveTab(tab);
+}
+if (typeof _win.switchOldTab === 'function') {
+_win.switchOldTab(tab);
+}
+};
 self.header = {
 title: (k && k.observable) ? k.observable('Digital Tasbeeh') : 'Digital Tasbeeh',
-subtitle: (k && k.observable) ? k.observable('Home · Bookmarks') : 'Home · Bookmarks',
-iconClass: (k && k.observable) ? k.observable('fa-solid fa-house text-brand') : 'fa-solid fa-house text-brand',
+subtitle: (k && k.observable) ? k.observable('') : '',
+iconClass: (k && k.observable) ? k.observable('fa-solid fa-calendar text-brand') : 'fa-solid fa-calendar text-brand',
 goHome: function (d, e) {
 if (e && e.stopPropagation) e.stopPropagation();
 if (typeof showPage === 'function') showPage('dashboard');
@@ -6699,6 +6687,14 @@ self.switchTab = function (tab, e) {
 if (e && e.stopPropagation) e.stopPropagation();
 if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
 window.TasbeehApp.switchTab(tab);
+}
+};
+self.closeCounter = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.closeCounter === 'function') {
+_win.TasbeehCurrentApp.closeCounter();
+} else if (_win.TasbeehApp && typeof _win.TasbeehApp.closeCounter === 'function') {
+_win.TasbeehApp.closeCounter();
 }
 };
 self.openAddModal = function (d, e) {
@@ -6735,21 +6731,10 @@ self.clearedMonthsCount = (tbStore && k && k.isObservable(tbStore.clearedMonthsC
 self.activeOldLabel = (tbStore && k && k.isObservable(tbStore.activeOldLabel))
 ? tbStore.activeOldLabel
 : ((k && k.observable) ? k.observable('All Cleared') : 'All Cleared');
-self.bookmarkedCounters = (tbStore && k && k.isObservable(tbStore.bookmarkedItems))
-? tbStore.bookmarkedItems
-: ((k && k.observableArray) ? k.observableArray([]) : []);
-self.currentTodoItems = (tbStore && k && k.isObservable(tbStore.currentTodoItems))
-? tbStore.currentTodoItems
-: ((k && k.observableArray) ? k.observableArray([]) : []);
-self.currentDoneItems = (tbStore && k && k.isObservable(tbStore.currentDoneItems))
-? tbStore.currentDoneItems
-: ((k && k.observableArray) ? k.observableArray([]) : []);
-self.oldTodoItems = (tbStore && k && k.isObservable(tbStore.oldTodoItems))
-? tbStore.oldTodoItems
-: ((k && k.observableArray) ? k.observableArray([]) : []);
-self.oldDoneItems = (tbStore && k && k.isObservable(tbStore.oldDoneItems))
-? tbStore.oldDoneItems
-: ((k && k.observableArray) ? k.observableArray([]) : []);
+self.currentTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
+self.currentDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
+self.oldTodoItems = (k && k.observableArray) ? k.observableArray([]) : [];
+self.oldDoneItems = (k && k.observableArray) ? k.observableArray([]) : [];
 self.historyProgress = {
 percentCleared: (k && k.observable) ? k.observable(0) : 0,
 totalMonths: (k && k.observable) ? k.observable(0) : 0,
@@ -6815,9 +6800,6 @@ if (!ko.dataFor(el)) {
 ko.applyBindings(vm, el);
 }
 }
-if (_win.TasbeehHomeApp && typeof _win.TasbeehHomeApp.init === 'function') {
-_win.TasbeehHomeApp.init();
-}
 if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.init === 'function') {
 _win.TasbeehOldApp.init();
 }
@@ -6846,7 +6828,7 @@ var BM_CUR_KEY = STORAGE_KEYS.BOOKMARK_CURRENT || 'app_tasbeeh_bookmark_current'
 var BM_OLD_KEY = STORAGE_KEYS.BOOKMARK_OLD || 'app_tasbeeh_bookmark_old';
 var CURRENT_PERIOD_KEY = STORAGE_KEYS.CURRENT_PERIOD || 'app_tasbeeh_current_period';
 var CAL_COMPLETION_KEY = STORAGE_KEYS.CAL_COMPLETIONS || 'app_tasbeeh_cal_completions';
-var TABS = TASBEEH_CONSTANTS.TABS || { HOME: 'home', CURRENT: 'current', OLD: 'old', HISTORY: 'history' };
+var TABS = TASBEEH_CONSTANTS.TABS || { CURRENT: 'current', OLD: 'old', HISTORY: 'history' };
 var DEFAULT_PRESETS = TASBEEH_CONSTANTS.DEFAULT_PRESETS || [
 { title: 'SubhanAllah', targetCount: 33 },
 { title: 'Alhamdulillah', targetCount: 33 },
@@ -6971,6 +6953,9 @@ item.dailyHistory[dateStr] = targetNum;
 } else {
 delete item.dailyHistory[dateStr];
 }
+if (dateStr === todayKey()) {
+item.currentCount = completed ? targetNum : 0;
+}
 item.monthlyHistory = item.monthlyHistory || {};
 item.monthlyHistory[monthKey] = completedDays * targetNum;
 item.updatedAt = Date.now();
@@ -7080,100 +7065,6 @@ return finiteItems.every(function (it) {
 var completedDays = getCompletedDaysInMonth(calCompletions, it.id, yr, mo);
 return completedDays >= totalDays;
 });
-}
-function getBookmark(type) {
-var key = type === 'old' ? BM_OLD_KEY : BM_CUR_KEY;
-try {
-var raw = localStorage.getItem(key);
-if (!raw) return null;
-if (raw.charAt(0) === '{') {
-return JSON.parse(raw);
-}
-return { id: raw };
-} catch (_) {
-return null;
-}
-}
-function setBookmark(type, id, monthKey) {
-if (!id) return;
-var key = type === 'old' ? BM_OLD_KEY : BM_CUR_KEY;
-try {
-if (type === 'old') {
-localStorage.setItem(key, JSON.stringify({ id: id, month: monthKey || null }));
-} else {
-localStorage.setItem(key, JSON.stringify({ id: id }));
-}
-} catch (_) { }
-}
-function getBookmarkedChants(items, calCompletions) {
-if (!items || items.length === 0) {
-items = loadItems();
-}
-var tdStr = typeof _win.td === 'function' ? _win.td() : todayKey();
-var curMonthKey = getCurrentTrackingMonth();
-var curParts = curMonthKey.split('-');
-var curYear = parseInt(curParts[0], 10);
-var curMonth = parseInt(curParts[1], 10) - 1;
-var curTotalDays = getDaysInMonth(curYear, curMonth);
-var curBm = getBookmark('current');
-var curItem = null;
-if (curBm && curBm.id) {
-for (var i = 0; i < items.length; i++) {
-if (items[i].id === curBm.id) { curItem = items[i]; break; }
-}
-}
-if (!curItem && items.length > 0) {
-curItem = items[0];
-setBookmark('current', curItem.id);
-}
-var curCompletedDays = curItem ? getCompletedDaysInMonth(calCompletions, curItem.id, curYear, curMonth) : 0;
-var curTargetDisplay = curItem ? (curItem.targetCount === 'infinite' ? '∞' : curItem.targetCount) : '—';
-var isTodayInCurMonth = (tdStr.slice(0, 7) === curMonthKey);
-var curIsTodayDone = (curItem && isTodayInCurMonth) ? isDayCompleted(calCompletions, curItem.id, tdStr) : false;
-var curMonthName = typeof _win.formatMonthLabel === 'function' ? _win.formatMonthLabel(curMonthKey) : curMonthKey;
-var oldBm = getBookmark('old');
-var oldItem = null;
-var oldMonthKey = (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.getCurrentOldMonth === 'function')
-? _win.TasbeehOldApp.getCurrentOldMonth()
-: (oldBm ? oldBm.month : null);
-if (oldBm && oldBm.id) {
-for (var j = 0; j < items.length; j++) {
-if (items[j].id === oldBm.id) { oldItem = items[j]; break; }
-}
-}
-if (!oldItem && items.length > 0) {
-oldItem = items.length > 1 ? items[1] : items[0];
-}
-var oldYear = curYear;
-var oldMonth = curMonth - 1;
-if (oldMonthKey) {
-var p = oldMonthKey.split('-');
-oldYear = parseInt(p[0], 10);
-oldMonth = parseInt(p[1], 10) - 1;
-}
-var oldTotalDays = getDaysInMonth(oldYear, oldMonth);
-var oldCompletedDays = (oldItem && oldMonthKey) ? getCompletedDaysInMonth(calCompletions, oldItem.id, oldYear, oldMonth) : 0;
-var oldTargetDisplay = oldItem ? (oldItem.targetCount === 'infinite' ? '∞' : oldItem.targetCount) : '—';
-var oldMonthName = oldMonthKey ? (typeof _win.formatMonthLabel === 'function' ? _win.formatMonthLabel(oldMonthKey) : oldMonthKey) : 'All Completed';
-return {
-current: curItem ? {
-item: curItem,
-monthKey: curMonthKey,
-monthName: curMonthName,
-completedDays: curCompletedDays,
-totalDays: curTotalDays,
-targetDisplay: curTargetDisplay,
-isTodayDone: curIsTodayDone
-} : null,
-old: oldItem ? {
-item: oldItem,
-monthKey: oldMonthKey,
-monthName: oldMonthName,
-completedDays: oldCompletedDays,
-totalDays: oldTotalDays,
-targetDisplay: oldTargetDisplay
-} : null
-};
 }
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 function getEl(id) {
@@ -7375,14 +7266,6 @@ var targetLabel = getEl('tbCalTargetLabel');
 if (targetLabel) {
 targetLabel.textContent = isInfinite ? 'Target: ∞ / day' : ('Target: ' + item.targetCount + ' / day');
 }
-var remaining = Math.max(0, totalDays - completedCount);
-var pct = totalDays > 0 ? Math.round((completedCount / totalDays) * 100) : 0;
-var completedEl = getEl('tbCalCompletedCount');
-var remainingEl = getEl('tbCalRemainingCount');
-var pctEl = getEl('tbCalProgressPct');
-if (completedEl) completedEl.textContent = completedCount;
-if (remainingEl) remainingEl.textContent = remaining;
-if (pctEl) pctEl.textContent = pct + '%';
 var activeMKey = state.counterMonthKey || getCurrentTrackingMonth();
 var isOldTracking = !!state.counterMonthKey;
 var isFullyDone = isMonthFullyCompleted(state.calCompletions, state.items, activeMKey);
@@ -7440,11 +7323,15 @@ isSuccess: false
 setDayCompleted(state.calCompletions, state.items, item.id, dateStr, false);
 animateCell(dateStr);
 renderCalendar(state);
+if (typeof state.renderCurrentTab === 'function') state.renderCurrentTab();
+if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.renderOldTab === 'function') _win.TasbeehOldApp.renderOldTab();
 });
 } else {
 setDayCompleted(state.calCompletions, state.items, item.id, dateStr, true);
 animateCell(dateStr);
 renderCalendar(state);
+if (typeof state.renderCurrentTab === 'function') state.renderCurrentTab();
+if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.renderOldTab === 'function') _win.TasbeehOldApp.renderOldTab();
 var activeMKey = state.counterMonthKey || getCurrentTrackingMonth();
 if (isMonthFullyCompleted(state.calCompletions, state.items, activeMKey)) {
 setTimeout(function () {
@@ -7464,6 +7351,8 @@ if (item) {
 setDayCompleted(state.calCompletions, state.items, item.id, pendingToggleDate, false);
 animateCell(pendingToggleDate);
 renderCalendar(state);
+if (typeof state.renderCurrentTab === 'function') state.renderCurrentTab();
+if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.renderOldTab === 'function') _win.TasbeehOldApp.renderOldTab();
 }
 if (confirmModalInstance) {
 confirmModalInstance.hide();
@@ -7853,6 +7742,17 @@ return m;
 };
 var renderIcon = function (opt) {
 if (typeof _win.renderIcon === 'function' && _win.renderIcon !== renderIcon) return _win.renderIcon(opt);
+if (typeof opt === 'string') {
+if (opt === 'tb-target') return '<app-icon params="name: \'bullseye\', color: \'text-gray-400\', size: \'xs\'"></app-icon>';
+if (opt === 'tb-pencil') return '<app-icon params="name: \'pencil\', size: \'xs\'"></app-icon>';
+if (opt === 'tb-chevron') return '<app-icon params="name: \'chevron-right\', size: \'xs\'"></app-icon>';
+if (opt === 'tb-check-circle') return '<app-icon params="name: \'check\', size: \'xs\'"></app-icon>';
+return '<i class="fa-solid fa-' + opt + '"></i>';
+}
+if (opt && opt.name) {
+var prefix = opt.prefix || 'fa-solid', col = opt.color || '';
+return '<i class="' + prefix + ' fa-' + opt.name + ' ' + col + '"></i>';
+}
 return '';
 };
 function getItems() {
@@ -7882,8 +7782,7 @@ var items = getItems();
 var finiteItems = items.filter(function (it) { return it.targetCount !== 'infinite'; });
 if (finiteItems.length === 0) return;
 var parts = curM.split('-');
-var yr = parseInt(parts[0], 10);
-var mo = parseInt(parts[1], 10) - 1;
+var yr = parseInt(parts[0], 10), mo = parseInt(parts[1], 10) - 1;
 var totalDays = (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.getDaysInMonth === 'function')
 ? _win.TasbeehCurrentApp.getDaysInMonth(yr, mo)
 : new Date(yr, mo + 1, 0).getDate();
@@ -7901,8 +7800,7 @@ var prevMonthKey = typeof _win.getPrevMonthKey === 'function' ? _win.getPrevMont
 var p = m.split('-'); var y = parseInt(p[0], 10); var mo = parseInt(p[1], 10) - 1;
 if (mo === 0) { mo = 12; y--; } return y + '-' + pad2(mo);
 })(curM);
-var curLabel = formatMonthLabel(curM);
-var prevLabel = formatMonthLabel(prevMonthKey);
+var curLabel = formatMonthLabel(curM), prevLabel = formatMonthLabel(prevMonthKey);
 var isAllCleared = (prevMonthKey < period.startDate);
 var confirmFn = (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.confirmAction === 'function')
 ? _win.TasbeehCurrentApp.confirmAction
@@ -7933,8 +7831,7 @@ checkAndAdvanceMonth(getCurrentOldMonth());
 }
 function markMonthCompleted(mKey) { checkAndAdvanceMonth(mKey); }
 function reopenLastMonth() {
-var period = loadPeriod();
-var maxEnd = period.initialEnd || period.endDate;
+var period = loadPeriod(), maxEnd = period.initialEnd || period.endDate;
 if (period.endDate >= maxEnd) {
 showToast('Cannot reopen: already at latest month (' + formatMonthLabel(maxEnd) + ')');
 return;
@@ -7949,8 +7846,7 @@ showToast('Reopened ' + formatMonthLabel(nextM));
 renderOldTab();
 }
 function resetAllCompleted() {
-var period = loadPeriod();
-var maxEnd = period.initialEnd || (new Date().getFullYear() + '-09');
+var period = loadPeriod(), maxEnd = period.initialEnd || (new Date().getFullYear() + '-09');
 savePeriod(period.startDate, maxEnd, maxEnd);
 showToast('Reset old tracking period to ' + formatMonthLabel(maxEnd));
 renderOldTab();
@@ -7961,31 +7857,30 @@ _win.TasbeehCurrentApp.openCounter(id, monthKey);
 }
 }
 function renderOldCardHtml(item, isDhikrDone, curOldMonth, monthName) {
-var isInfinite = item.targetCount === 'infinite';
-var parts = curOldMonth.split('-');
-var yr = parseInt(parts[0], 10);
-var mo = parseInt(parts[1], 10) - 1;
+var isInfinite = item.targetCount === 'infinite', parts = curOldMonth.split('-');
+var yr = parseInt(parts[0], 10), mo = parseInt(parts[1], 10) - 1;
 var totalDays = (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.getDaysInMonth === 'function')
 ? _win.TasbeehCurrentApp.getDaysInMonth(yr, mo) : new Date(yr, mo + 1, 0).getDate();
 var completedDays = (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.getCompletedDaysInMonth === 'function')
 ? _win.TasbeehCurrentApp.getCompletedDaysInMonth(item.id, yr, mo) : 0;
 var targetDisplay = isInfinite ? '∞' : item.targetCount;
-return '<div class="tb-card bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer hover:border-brand min-h-[146px] select-none transition-all ' + (isDhikrDone ? 'tb-card-done opacity-80' : '') + '" data-id="' + item.id + '" data-month="' + curOldMonth + '" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
-'<div class="tb-card-top flex items-start justify-between w-full">' +
-'<div class="w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden">' + renderIcon({ name: 'misbaha' }) + '</div>' +
-'<div class="tb-card-actions flex items-center gap-1.5 shrink-0 ml-auto">' +
-'<button type="button" class="tb-btn-edit w-8 h-8 rounded-lg bg-brand-light text-brand flex items-center justify-center cursor-pointer hover:bg-brand/20 active:scale-95 transition-all p-0" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr">' + renderIcon('tb-pencil') + '</button>' +
-renderIcon('tb-chevron') +
+return '<div class="tb-card bg-white border border-gray-200 rounded-3xl p-4 sm:p-5 flex flex-row gap-4 items-center cursor-pointer hover:border-gray-300 select-none transition-all w-full shadow-none ' + (isDhikrDone ? 'tb-card-done opacity-80' : '') + '" data-id="' + item.id + '" data-month="' + curOldMonth + '" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
+'<div class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-2xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center text-2xl shrink-0 leading-none select-none overflow-hidden">' + renderIcon({ name: 'hands-praying' }) + '</div>' +
+'<div class="flex-1 min-w-0 flex flex-col justify-center gap-1.5">' +
+'<h6 class="tb-card-title text-[17px] font-bold text-gray-900 leading-tight m-0 truncate">' + escHtml(item.title) + '</h6>' +
+'<div class="tb-card-meta flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 font-medium">' +
+'<span class="tb-meta-row inline-flex items-center gap-1.5">' + renderIcon('tb-target') + '<span>Target: <strong class="tb-val-num font-bold text-gray-900">' + targetDisplay + '</strong><span class="text-gray-500">/day</span></span></span>' +
+'<span class="tb-meta-row inline-flex items-center gap-1.5">' + renderIcon({ name: 'calendar', prefix: 'fa-regular', color: 'text-gray-400', size: 13 }) + '<span>Total: <span class="tb-val-total text-gray-600 font-medium">' + totalDays + ' days</span></span></span>' +
 '</div>' +
-'</div>' +
-'<div class="tb-card-body flex flex-col justify-end w-full mt-2.5 min-w-0">' +
-'<h6 class="tb-card-title text-base font-bold text-brand leading-snug mb-1 truncate">' + escHtml(item.title) + '</h6>' +
-'<div class="tb-card-meta flex flex-col gap-1 w-full">' +
-'<div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">' + renderIcon('tb-target') + '<span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Target: <span class="tb-val-num font-semibold text-brand">' + targetDisplay + '</span> / day</span></div>' +
-'<div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">' + renderIcon('tb-check-circle') + '<span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs"><span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-brand text-white leading-none" style="font-size:0.72rem;padding:0.25rem 0.6rem;">Done</span><strong class="tb-val-done ml-1 font-bold text-brand">' + completedDays + '</strong></span></div>' +
-'<div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">' + renderIcon({ name: 'calendar-days', color: 'text-muted', size: 13 }) + '<span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Total: <span class="tb-val-total text-gr-textMuted font-medium">' + totalDays + ' days</span></span></div>' +
-(isDhikrDone ? '<div class="tb-meta-row tb-meta-sub-row"><span class="text-brand fw-bold" style="font-size: 11px;">' + renderIcon({ name: 'circle-check', className: 'me-1' }) + 'Month Completed</span></div>' : '') +
-'</div></div></div>';
+'<div class="flex items-center gap-2.5 mt-1">' +
+'<div class="inline-flex items-center gap-1.5 bg-[#094E3A] text-white text-xs font-semibold px-3 py-1 rounded-full shrink-0 leading-none shadow-none">' + renderIcon('tb-check-circle') + '<span>Done</span></div>' +
+'<span class="tb-val-done text-lg font-bold text-gray-900 leading-none">' + completedDays + '</span>' +
+(isDhikrDone ? '<span class="text-[#094E3A] font-bold inline-flex items-center gap-1 text-[11px] ml-2">' + renderIcon({ name: 'circle-check', className: 'me-1' }) + 'Month Completed</span>' : '') +
+'</div></div>' +
+'<div class="tb-card-actions flex flex-col items-center justify-between self-stretch shrink-0 py-0.5 pl-1">' +
+'<button type="button" class="tb-btn-edit w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200/80 flex items-center justify-center text-gray-600 cursor-pointer active:scale-95 transition-all p-0" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr">' + renderIcon('tb-pencil') + '</button>' +
+'<div class="text-gray-300 flex items-center justify-center">' + renderIcon('tb-chevron') + '</div>' +
+'</div></div>';
 }
 function renderOldTab() {
 var oldBody = getEl(ELEMENT_IDS.OLD_BODY || 'tbOldBody');
@@ -7993,8 +7888,7 @@ if (!oldBody) return;
 var emptyRangeEl = getEl(ELEMENT_IDS.OLD_EMPTY_RANGE || 'tbOldEmptyRange');
 var allCompletedEl = getEl(ELEMENT_IDS.OLD_ALL_COMPLETED || 'tbOldAllCompleted');
 var contentEl = getEl(ELEMENT_IDS.OLD_CONTENT || 'tbOldContent');
-var period = loadPeriod();
-var curOldMonth = getCurrentOldMonth();
+var period = loadPeriod(), curOldMonth = getCurrentOldMonth();
 var curMonthName = formatMonthLabel(typeof _win.getCurrentMonthKey === 'function' ? _win.getCurrentMonthKey() : '');
 var initialMaxEnd = period.initialEnd || period.endDate;
 if (initialMaxEnd < period.startDate) {
@@ -8029,14 +7923,11 @@ if (contentEl) contentEl.classList.remove('d-none');
 var monthName = formatMonthLabel(curOldMonth);
 var sub = getEl(ELEMENT_IDS.HEADER_SUB || 'tbHeaderSub');
 if (sub) sub.textContent = monthName;
-var items = getItems();
-var parts = curOldMonth.split('-');
-var yr = parseInt(parts[0], 10);
-var mo = parseInt(parts[1], 10) - 1;
+var items = getItems(), parts = curOldMonth.split('-');
+var yr = parseInt(parts[0], 10), mo = parseInt(parts[1], 10) - 1;
 var totalDays = (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.getDaysInMonth === 'function')
 ? _win.TasbeehCurrentApp.getDaysInMonth(yr, mo) : new Date(yr, mo + 1, 0).getDate();
-var todoOldItems = [];
-var doneOldItems = [];
+var todoOldItems = [], doneOldItems = [];
 items.forEach(function (item) {
 var isInfinite = item.targetCount === 'infinite';
 var completedDays = (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.getCompletedDaysInMonth === 'function')
@@ -8049,12 +7940,8 @@ var isAllDone = todoOldItems.length === 0 && items.length > 0;
 var advanceBanner = getEl(ELEMENT_IDS.OLD_ADVANCE_BANNER || 'tbOldAdvanceBanner');
 var advanceMsg = getEl(ELEMENT_IDS.OLD_ADVANCE_BANNER_MSG || 'tbOldAdvanceBannerMsg');
 if (advanceBanner) {
-if (isAllDone) {
-advanceBanner.classList.remove('d-none');
-if (advanceMsg) advanceMsg.textContent = 'All targets for ' + monthName + ' are completed!';
-} else {
-advanceBanner.classList.add('d-none');
-}
+advanceBanner.classList.toggle('d-none', !isAllDone);
+if (isAllDone && advanceMsg) advanceMsg.textContent = 'All targets for ' + monthName + ' are completed!';
 }
 var todoBadge = getEl(ELEMENT_IDS.OLD_TODO_BADGE || 'tbOldTodoBadge');
 if (todoBadge) todoBadge.textContent = todoOldItems.length;
@@ -8062,29 +7949,22 @@ var doneBadge = getEl(ELEMENT_IDS.OLD_DONE_BADGE || 'tbOldDoneBadge');
 if (doneBadge) doneBadge.textContent = doneOldItems.length;
 var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
 function mapOldCard(item, isComplete) {
-var isInfinite = item.targetCount === 'infinite';
-var pParts = curOldMonth.split('-');
-var y = parseInt(pParts[0], 10);
-var m = parseInt(pParts[1], 10) - 1;
+var isInfinite = item.targetCount === 'infinite', pParts = curOldMonth.split('-');
+var y = parseInt(pParts[0], 10), m = parseInt(pParts[1], 10) - 1;
 var tDays = (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.getDaysInMonth === 'function')
 ? _win.TasbeehCurrentApp.getDaysInMonth(y, m) : new Date(y, m + 1, 0).getDate();
 var cDays = (_win.TasbeehCurrentApp && typeof _win.TasbeehCurrentApp.getCompletedDaysInMonth === 'function')
 ? _win.TasbeehCurrentApp.getCompletedDaysInMonth(item.id, y, m) : 0;
 return {
-id: item.id,
-title: item.title,
-month: curOldMonth,
-targetCount: isInfinite ? '∞' : item.targetCount,
-completedDays: cDays,
-totalDays: tDays,
-isComplete: !!isComplete,
-isTodayDone: false,
+id: item.id, title: item.title, month: curOldMonth,
+targetCount: isInfinite ? '∞' : item.targetCount, completedDays: cDays,
+totalDays: tDays, isComplete: !!isComplete, isTodayDone: false,
 onCardClick: function (d, e) {
 if (e && e.stopPropagation) e.stopPropagation();
-if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounterFromHome === 'function') {
-_win.TasbeehApp.openCounterFromHome(item.id, curOldMonth, 'old');
-} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounterView === 'function') {
-_win.TasbeehApp.openCounterView(item.id, curOldMonth);
+if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounterOld === 'function') {
+_win.TasbeehApp.openCounterOld(item.id, curOldMonth);
+} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounter === 'function') {
+_win.TasbeehApp.openCounter(item.id, curOldMonth);
 }
 },
 onEditClick: function (d, e) {
@@ -8096,43 +7976,44 @@ _win.TasbeehApp.openEditModal(item.id);
 };
 }
 if (vm) {
-if (typeof vm.oldTodoItems === 'function') {
-vm.oldTodoItems(todoOldItems.map(function (it) { return mapOldCard(it, false); }));
+if (typeof vm.oldTodoItems === 'function') vm.oldTodoItems(todoOldItems.map(function (it) { return mapOldCard(it, false); }));
+if (typeof vm.oldDoneItems === 'function') vm.oldDoneItems(doneOldItems.map(function (it) { return mapOldCard(it, true); }));
 }
-if (typeof vm.oldDoneItems === 'function') {
-vm.oldDoneItems(doneOldItems.map(function (it) { return mapOldCard(it, true); }));
+var currentActive = (vm && typeof vm.oldActiveTab === 'function') ? vm.oldActiveTab() : 'todo';
+if (todoOldItems.length === 0 && doneOldItems.length > 0) switchOldTab('completed');
+else switchOldTab(currentActive || 'todo');
 }
+function switchOldTab(tabName, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var todoTab = getEl('tabTbOldTodo'), doneTab = getEl('tabTbOldDone');
+var todoList = getEl('tbOldTodoList'), doneList = getEl('tbOldDoneList');
+var todoBadge = getEl('tbOldTodoBadge'), doneBadge = getEl('tbOldDoneBadge');
+var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+if (vm && typeof vm.oldActiveTab === 'function') vm.oldActiveTab(tabName);
+var isTodo = tabName === 'todo';
+if (todoList) { todoList.classList.toggle('d-none', !isTodo); todoList.classList.toggle('hidden', !isTodo); }
+if (doneList) { doneList.classList.toggle('d-none', isTodo); doneList.classList.toggle('hidden', isTodo); }
+var actCls = 'flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-brand text-brand font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer select-none';
+var inactCls = 'flex-1 py-3 flex items-center justify-center gap-2 border-b-2 border-transparent text-gr-textMuted font-semibold text-xs uppercase tracking-wider hover:text-gr-text transition-colors cursor-pointer select-none';
+if (todoTab) { todoTab.setAttribute('aria-selected', isTodo ? 'true' : 'false'); todoTab.className = isTodo ? actCls : inactCls; }
+if (doneTab) { doneTab.setAttribute('aria-selected', !isTodo ? 'true' : 'false'); doneTab.className = !isTodo ? actCls : inactCls; }
+if (todoBadge) todoBadge.className = isTodo ? 'text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand' : 'text-xs font-bold px-2 py-0.5 rounded-full bg-surfaceBg text-gr-textMuted border border-borderGrey';
+if (doneBadge) doneBadge.className = !isTodo ? 'text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand' : 'text-xs font-bold px-2 py-0.5 rounded-full bg-surfaceBg text-gr-textMuted border border-borderGrey';
 }
-var isOldDoneExpanded = doneOldItems.length > 0;
-var doneToggle = getEl(ELEMENT_IDS.OLD_DONE_TOGGLE || 'tbOldDoneToggle');
-var doneList = getEl(ELEMENT_IDS.OLD_DONE_LIST || 'tbOldDoneList');
-if (doneToggle) {
-doneToggle.classList.toggle('collapsed', !isOldDoneExpanded);
-doneToggle.setAttribute('aria-expanded', isOldDoneExpanded ? 'true' : 'false');
-}
-if (doneList) {
-doneList.classList.toggle('show', isOldDoneExpanded);
-}
-}
+_win.switchOldTab = switchOldTab;
 function bindEvents() {
 var settingsBtn = getEl('tbSettingsBtn');
 if (settingsBtn) settingsBtn.onclick = openPeriodModal;
 var btnSavePeriod = getEl('tbBtnSavePeriod');
 if (btnSavePeriod) {
 btnSavePeriod.onclick = function () {
-savePeriodModal(function () {
-currentOldMonthKey = null;
-renderOldTab();
-});
+savePeriodModal(function () { currentOldMonthKey = null; renderOldTab(); });
 };
 }
 var btnResetPeriod = getEl('tbBtnResetPeriod');
 if (btnResetPeriod) {
 btnResetPeriod.onclick = function () {
-resetPeriodModal(function () {
-currentOldMonthKey = null;
-renderOldTab();
-});
+resetPeriodModal(function () { currentOldMonthKey = null; renderOldTab(); });
 };
 }
 var presetThisYear = getEl('tbPresetThisYear');
@@ -8141,13 +8022,14 @@ var preset6M = getEl('tbPreset6Months');
 if (preset6M) preset6M.onclick = function () { setPeriodPreset(PERIOD_PRESETS.LAST_6_MONTHS); };
 var preset1Y = getEl('tbPreset1Year');
 if (preset1Y) preset1Y.onclick = function () { setPeriodPreset(PERIOD_PRESETS.LAST_1_YEAR); };
-var pStart = getEl('tbPeriodStart');
-var pEnd = getEl('tbPeriodEnd');
+var pStart = getEl('tbPeriodStart'), pEnd = getEl('tbPeriodEnd');
 if (pStart) pStart.oninput = updatePeriodPreview;
 if (pEnd) pEnd.oninput = updatePeriodPreview;
 var oldBody = getEl('tbOldBody');
 if (oldBody) {
 oldBody.onclick = function (e) {
+var tabBtn = e.target.closest('#tabTbOldTodo, #tabTbOldDone');
+if (tabBtn) { switchOldTab(tabBtn.id === 'tabTbOldTodo' ? 'todo' : 'completed', e); return; }
 var btn = e.target.closest('button[data-act]');
 if (btn) {
 var act = btn.dataset.act;
@@ -8169,9 +8051,7 @@ _win.TasbeehCurrentApp.openModal(cardForEdit.dataset.id);
 return;
 }
 var card = e.target.closest('.tb-card[data-id]');
-if (card) {
-openCounterOld(card.dataset.id, card.dataset.month);
-}
+if (card) openCounterOld(card.dataset.id, card.dataset.month);
 };
 oldBody.onkeydown = function (e) {
 if (e.key === 'Enter' || e.key === ' ') {
@@ -8191,25 +8071,18 @@ loadPeriod();
 bindEvents();
 }
 var TasbeehOldApp = {
-init: init,
-renderOldTab: renderOldTab,
-getCurrentOldMonth: getCurrentOldMonth,
-checkAndAdvanceMonth: checkAndAdvanceMonth,
-advanceOldMonth: advanceOldMonth,
-markMonthCompleted: markMonthCompleted,
-markCurrentMonthCompleted: markMonthCompleted,
-reopenLastMonth: reopenLastMonth,
-resetAllCompleted: resetAllCompleted,
-openPeriodModal: openPeriodModal,
-savePeriodModal: savePeriodModal,
-resetPeriodModal: resetPeriodModal,
-loadPeriod: loadPeriod,
-savePeriod: savePeriod,
-openCounterOld: openCounterOld
+init: init, renderOldTab: renderOldTab, getCurrentOldMonth: getCurrentOldMonth,
+checkAndAdvanceMonth: checkAndAdvanceMonth, advanceOldMonth: advanceOldMonth,
+markMonthCompleted: markMonthCompleted, markCurrentMonthCompleted: markMonthCompleted,
+reopenLastMonth: reopenLastMonth, resetAllCompleted: resetAllCompleted,
+openPeriodModal: openPeriodModal, savePeriodModal: savePeriodModal,
+resetPeriodModal: resetPeriodModal, loadPeriod: loadPeriod, savePeriod: savePeriod,
+openCounterOld: openCounterOld, switchOldTab: switchOldTab
 };
 if (typeof window !== 'undefined') {
 window.TasbeehOldApp = TasbeehOldApp;
 if (window.TasbeehApp) {
+window.TasbeehApp.switchOldTab = switchOldTab;
 window.TasbeehApp.openPeriodModal = openPeriodModal;
 window.TasbeehApp.checkAndAdvanceMonth = checkAndAdvanceMonth;
 window.TasbeehApp.advanceOldMonth = advanceOldMonth;
@@ -8429,161 +8302,33 @@ window.TasbeehApp.savePeriod = savePeriod;
 }
 }
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-var TASBEEH_CONSTANTS = _win.TASBEEH_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.TASBEEH) || {};
-var ELEMENT_IDS = TASBEEH_CONSTANTS.ELEMENT_IDS || {};
-function getEl(id) {
-return document.getElementById(id);
-}
-var renderIcon = function (opt) {
-if (typeof _win.renderIcon === 'function' && _win.renderIcon !== renderIcon) return _win.renderIcon(opt);
-return '';
-};
-function renderHomeTab() {
-var body = getEl(ELEMENT_IDS.HOME_BODY || 'tbHomeBody');
-if (!body) return;
-var emptyEl = getEl(ELEMENT_IDS.HOME_EMPTY_STATE || 'tbHomeEmptyState');
-var contentEl = getEl(ELEMENT_IDS.HOME_CONTENT || 'tbHomeContent');
-var bmData = (_win.TasbeehApp && typeof _win.TasbeehApp.getBookmarkedChants === 'function')
-? _win.TasbeehApp.getBookmarkedChants()
-: null;
-var items = (_win.TasbeehApp && typeof _win.TasbeehApp.getItems === 'function')
-? _win.TasbeehApp.getItems()
-: [];
-if (!items || items.length === 0) {
-if (emptyEl) emptyEl.classList.remove('d-none');
-if (contentEl) contentEl.classList.add('d-none');
-return;
-}
-if (emptyEl) emptyEl.classList.add('d-none');
-if (contentEl) contentEl.classList.remove('d-none');
-var period = (_win.TasbeehHistoryApp && typeof _win.TasbeehHistoryApp.loadPeriod === 'function')
-? _win.TasbeehHistoryApp.loadPeriod()
-: ((_win.TasbeehOldApp && typeof _win.TasbeehOldApp.loadPeriod === 'function') ? _win.TasbeehOldApp.loadPeriod() : null);
-var completedCount = 0;
-if (period && period.startDate && (period.initialEnd || period.endDate)) {
-var maxEnd = period.initialEnd || period.endDate;
-var allOld = typeof _win.getPreviousMonthsList === 'function' ? _win.getPreviousMonthsList(period.startDate, maxEnd) : [];
-allOld.forEach(function (m) {
-if (m > period.endDate || period.endDate < period.startDate) completedCount++;
-});
-}
-var curOldMonth = (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.getCurrentOldMonth === 'function')
-? _win.TasbeehOldApp.getCurrentOldMonth()
-: null;
-var activeOldLabel = curOldMonth ? (_win.TasbeehApp && _win.TasbeehApp.formatMonthLabel ? _win.TasbeehApp.formatMonthLabel(curOldMonth) : curOldMonth) : 'All Cleared';
-var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
-if (vm) {
-var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
-var canWrite = function (target) {
-if (!target || typeof target !== 'function') return false;
-return (k && typeof k.isWriteableObservable === 'function') ? k.isWriteableObservable(target) : true;
-};
-try { if (canWrite(vm.currentDhikrsCount)) vm.currentDhikrsCount(items.length); } catch (_) {}
-try { if (canWrite(vm.clearedMonthsCount)) vm.clearedMonthsCount(completedCount); } catch (_) {}
-try { if (canWrite(vm.activeOldLabel)) vm.activeOldLabel(activeOldLabel); } catch (_) {}
-}
-var bmCards = [];
-if (bmData && bmData.current && bmData.current.item) {
-var c = bmData.current;
-bmCards.push({
-id: c.item.id,
-title: c.item.title,
-targetCount: c.targetDisplay,
-completedDays: c.completedDays,
-totalDays: c.totalDays,
-isComplete: c.completedDays >= c.totalDays,
-isTodayDone: c.isTodayDone,
-onCardClick: function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounterView === 'function') {
-_win.TasbeehApp.openCounterView(c.item.id);
-}
-},
-onEditClick: function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (_win.TasbeehApp && typeof _win.TasbeehApp.openEditModal === 'function') {
-_win.TasbeehApp.openEditModal(c.item.id);
-}
-}
-});
-}
-if (bmData && bmData.old && bmData.old.item) {
-var o = bmData.old;
-bmCards.push({
-id: o.item.id,
-title: o.item.title,
-month: o.monthKey,
-targetCount: o.targetDisplay,
-completedDays: o.completedDays,
-totalDays: o.totalDays,
-isComplete: !!o.isDhikrDone,
-isTodayDone: false,
-onCardClick: function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounterFromHome === 'function') {
-_win.TasbeehApp.openCounterFromHome(o.item.id, o.monthKey, 'old');
-} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounterView === 'function') {
-_win.TasbeehApp.openCounterView(o.item.id, o.monthKey);
-}
-},
-onEditClick: function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (_win.TasbeehApp && typeof _win.TasbeehApp.openEditModal === 'function') {
-_win.TasbeehApp.openEditModal(o.item.id);
-}
-}
-});
-}
-if (vm && typeof vm.bookmarkedCounters === 'function') {
-vm.bookmarkedCounters(bmCards);
-}
-var curCountEl = getEl(ELEMENT_IDS.HOME_CURRENT_COUNT || 'tbHomeCurrentCount');
-if (curCountEl) {
-curCountEl.textContent = items.length;
-}
-var histCountEl = getEl(ELEMENT_IDS.HOME_HISTORY_COUNT || 'tbHomeHistoryCount');
-if (histCountEl) {
-histCountEl.textContent = completedCount;
-}
-var activeOldLabelEl = getEl(ELEMENT_IDS.HOME_ACTIVE_OLD_LABEL || 'tbHomeActiveOldLabel');
-if (activeOldLabelEl) {
-activeOldLabelEl.textContent = activeOldLabel;
-}
-}
-function init() {
-}
-var TasbeehHomeApp = {
-init: init,
-renderHomeTab: renderHomeTab
-};
-if (typeof window !== 'undefined') {
-window.TasbeehHomeApp = TasbeehHomeApp;
-if (window.TasbeehApp) {
-window.TasbeehApp.renderHomeTab = renderHomeTab;
-}
-}
-var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var TAB_HEADERS = TASBEEH_CONSTANTS.TAB_HEADERS || {
-home: { iconClass: 'house text-brand', label: 'Digital Tasbeeh', sub: 'Home · Bookmarks' },
 current: { iconClass: 'calendar text-brand', label: 'Digital Tasbeeh' },
 old: { iconClass: 'clock-rotate-left text-warning', label: 'Old Tasbeeh' },
 history: { iconClass: 'gear text-gr-accent', label: 'Tasbeeh History', sub: 'Period & Settings' }
 };
-var counterOpenedFrom = null;
 function getEl(id) { return document.getElementById(id); }
 var td = function () { return (typeof _win.td === 'function' && _win.td !== td) ? _win.td() : new Date().toISOString().slice(0, 10); };
 var formatMonthLabel = function (m) { return (typeof _win.formatMonthLabel === 'function' && _win.formatMonthLabel !== formatMonthLabel) ? _win.formatMonthLabel(m) : m; };
-var renderIcon = function (opt) { return (typeof _win.renderIcon === 'function' && _win.renderIcon !== renderIcon) ? _win.renderIcon(opt) : ''; };
+var renderIcon = function (opt) {
+if (typeof _win.renderIcon === 'function' && _win.renderIcon !== renderIcon) return _win.renderIcon(opt);
+if (typeof opt === 'string') {
+if (opt === 'tb-target') return '<app-icon params="name: \'bullseye\', color: \'text-gray-400\', size: \'xs\'"></app-icon>';
+if (opt === 'tb-pencil') return '<app-icon params="name: \'pencil\', size: \'xs\'"></app-icon>';
+if (opt === 'tb-chevron') return '<app-icon params="name: \'chevron-right\', size: \'xs\'"></app-icon>';
+if (opt === 'tb-check-circle') return '<app-icon params="name: \'check\', size: \'xs\'"></app-icon>';
+return '<i class="fa-solid fa-' + opt + '"></i>';
+}
+if (opt && opt.name) {
+var prefix = opt.prefix || 'fa-solid', col = opt.color || '';
+return '<i class="' + prefix + ' fa-' + opt.name + ' ' + col + '"></i>';
+}
+return '';
+};
 var state = {
-items: [],
-activeId: null,
-editingId: null,
-activeTab: 'current',
-counterMonthKey: null,
-countMode: 'finite',
-calViewYear: null,
-calViewMonth: null,
-calCompletions: {},
+items: [], activeId: null, editingId: null, activeTab: 'current',
+counterMonthKey: null, countMode: 'finite', calViewYear: null,
+calViewMonth: null, calCompletions: {},
 getActiveItem: function () {
 if (!state.activeId) return null;
 for (var i = 0; i < state.items.length; i++) {
@@ -8606,36 +8351,62 @@ state.items = newItems || [];
 persistItems(state.items);
 }
 function renderCurrentCardHtml(item, isComplete) {
-var curMonthKey = getCurrentTrackingMonth();
-var parts = curMonthKey.split('-');
-var yr = parseInt(parts[0], 10);
-var mo = parseInt(parts[1], 10) - 1;
-var totalDays = getDaysInMonth(yr, mo);
-var completedDays = getCompletedDaysInMonth(state.calCompletions, item.id, yr, mo);
+var curMonthKey = getCurrentTrackingMonth(), parts = curMonthKey.split('-');
+var yr = parseInt(parts[0], 10), mo = parseInt(parts[1], 10) - 1;
+var totalDays = getDaysInMonth(yr, mo), completedDays = getCompletedDaysInMonth(state.calCompletions, item.id, yr, mo);
 var isTodayInCurMonth = (td().slice(0, 7) === curMonthKey);
 var isTodayDone = isTodayInCurMonth ? isDayCompleted(state.calCompletions, item.id, td()) : false;
 var targetDisplay = item.targetCount === 'infinite' ? '∞' : item.targetCount;
-return '<div class="tb-card bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer hover:border-brand min-h-[146px] select-none transition-all ' + (isComplete ? 'tb-card-done opacity-80' : '') + '" data-id="' + item.id + '" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
-'<div class="tb-card-top flex items-start justify-between w-full">' +
-'<div class="w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden">' + renderIcon({ name: 'misbaha' }) + '</div>' +
-'<div class="tb-card-actions flex items-center gap-1.5 shrink-0 ml-auto">' +
-'<button type="button" class="tb-btn-edit w-8 h-8 rounded-lg bg-brand-light text-brand flex items-center justify-center cursor-pointer hover:bg-brand/20 active:scale-95 transition-all p-0" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr">' + renderIcon('tb-pencil') + '</button>' +
-renderIcon('tb-chevron') +
+return '<div class="tb-card bg-white border border-gray-200 rounded-3xl p-4 sm:p-5 flex flex-row gap-4 items-center cursor-pointer hover:border-gray-300 select-none transition-all w-full shadow-none ' + (isComplete ? 'tb-card-done opacity-80' : '') + '" data-id="' + item.id + '" role="button" tabindex="0" aria-label="' + escHtml(item.title) + '">' +
+'<div class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-2xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center text-2xl shrink-0 leading-none select-none overflow-hidden">' + renderIcon({ name: 'hands-praying' }) + '</div>' +
+'<div class="flex-1 min-w-0 flex flex-col justify-center gap-1.5">' +
+'<h6 class="tb-card-title text-[17px] font-bold text-gray-900 leading-tight m-0 truncate">' + escHtml(item.title) + '</h6>' +
+'<div class="tb-card-meta flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 font-medium">' +
+'<span class="tb-meta-row inline-flex items-center gap-1.5">' + renderIcon('tb-target') + '<span>Target: <strong class="tb-val-num font-bold text-gray-900">' + targetDisplay + '</strong><span class="text-gray-500">/day</span></span></span>' +
+'<span class="tb-meta-row inline-flex items-center gap-1.5">' + renderIcon({ name: 'calendar', prefix: 'fa-regular', color: 'text-gray-400', size: 13 }) + '<span>Total: <span class="tb-val-total text-gray-600 font-medium">' + totalDays + ' days</span></span></span>' +
 '</div>' +
-'</div>' +
-'<div class="tb-card-body flex flex-col justify-end w-full mt-2.5 min-w-0">' +
-'<h6 class="tb-card-title text-base font-bold text-brand leading-snug mb-1 truncate">' + escHtml(item.title) + '</h6>' +
-'<div class="tb-card-meta flex flex-col gap-1 w-full">' +
-'<div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">' + renderIcon('tb-target') + '<span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Target: <span class="tb-val-num font-semibold text-brand">' + targetDisplay + '</span> / day</span></div>' +
-'<div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">' + renderIcon('tb-check-circle') + '<span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs"><span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-brand text-white leading-none" style="font-size:0.72rem;padding:0.25rem 0.6rem;">Done</span><strong class="tb-val-done ml-1 font-bold text-brand">' + completedDays + '</strong></span></div>' +
-'<div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">' + renderIcon({ name: 'calendar-days', color: 'text-muted', size: 13 }) + '<span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Total: <span class="tb-val-total text-gr-textMuted font-medium">' + totalDays + ' days</span></span></div>' +
-(isTodayDone ? '<div class="tb-meta-row tb-meta-sub-row"><span class="text-brand fw-bold" style="font-size: 11px;">' + renderIcon({ name: 'circle-check', className: 'me-1' }) + 'Today Completed</span></div>' : '') +
-'</div></div></div>';
+'<div class="flex items-center gap-2.5 mt-1">' +
+'<div class="inline-flex items-center gap-1.5 bg-[#094E3A] text-white text-xs font-semibold px-3 py-1 rounded-full shrink-0 leading-none shadow-none">' + renderIcon('tb-check-circle') + '<span>Done</span></div>' +
+'<span class="tb-val-done text-lg font-bold text-gray-900 leading-none">' + completedDays + '</span>' +
+(isTodayDone ? '<span class="text-[#094E3A] font-bold inline-flex items-center gap-1 text-[11px] ml-2">' + renderIcon({ name: 'circle-check', className: 'me-1' }) + 'Today Completed</span>' : '') +
+'</div></div>' +
+'<div class="tb-card-actions flex flex-col items-center justify-between self-stretch shrink-0 py-0.5 pl-1">' +
+'<button type="button" class="tb-btn-edit w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200/80 flex items-center justify-center text-gray-600 cursor-pointer active:scale-95 transition-all p-0" data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr">' + renderIcon('tb-pencil') + '</button>' +
+'<div class="text-gray-300 flex items-center justify-center">' + renderIcon('tb-chevron') + '</div>' +
+'</div></div>';
+}
+function switchCurrentTab(tab, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var t = (tab === 'completed') ? 'completed' : 'todo';
+var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
+if (vm && typeof vm.currentActiveTab === 'function') vm.currentActiveTab(t);
+var todoBtn = getEl('tabTbCurrentTodo'), doneBtn = getEl('tabTbCurrentDone');
+var todoList = getEl('tbCurrentTodoList'), doneList = getEl('tbCurrentDoneList');
+var todoBadge = getEl('tbCurrentTodoBadge'), doneBadge = getEl('tbCurrentDoneBadge');
+if (todoBtn) {
+todoBtn.classList.toggle('border-brand', t === 'todo'); todoBtn.classList.toggle('text-brand', t === 'todo');
+todoBtn.classList.toggle('font-bold', t === 'todo'); todoBtn.classList.toggle('border-transparent', t !== 'todo');
+todoBtn.classList.toggle('text-gr-textMuted', t !== 'todo'); todoBtn.setAttribute('aria-selected', t === 'todo' ? 'true' : 'false');
+}
+if (doneBtn) {
+doneBtn.classList.toggle('border-brand', t === 'completed'); doneBtn.classList.toggle('text-brand', t === 'completed');
+doneBtn.classList.toggle('font-bold', t === 'completed'); doneBtn.classList.toggle('border-transparent', t !== 'completed');
+doneBtn.classList.toggle('text-gr-textMuted', t !== 'completed'); doneBtn.setAttribute('aria-selected', t === 'completed' ? 'true' : 'false');
+}
+if (todoBadge) {
+todoBadge.className = (t === 'todo') ? 'text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand' : 'text-xs font-bold px-2 py-0.5 rounded-full bg-surfaceBg text-gr-textMuted border border-borderGrey';
+}
+if (doneBadge) {
+doneBadge.className = (t === 'completed') ? 'text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand' : 'text-xs font-bold px-2 py-0.5 rounded-full bg-surfaceBg text-gr-textMuted border border-borderGrey';
+}
+if (todoList) { todoList.classList.toggle('d-none', t !== 'todo'); todoList.classList.toggle('hidden', t !== 'todo'); }
+if (doneList) { doneList.classList.toggle('d-none', t !== 'completed'); doneList.classList.toggle('hidden', t !== 'completed'); }
 }
 function renderCurrentTab() {
-var listEl = getEl(ELEMENT_IDS.CURRENT_LIST || 'tbList');
-var emptyEl = getEl(ELEMENT_IDS.CURRENT_EMPTY_STATE || 'tbEmptyState');
+var listEl = getEl(ELEMENT_IDS.CURRENT_LIST || 'tbList'), emptyEl = getEl(ELEMENT_IDS.CURRENT_EMPTY_STATE || 'tbEmptyState');
 if (!listEl) return;
+if (!state.items || state.items.length === 0) state.items = loadItems();
+state.calCompletions = loadCalCompletions();
 if (state.items.length === 0) {
 if (emptyEl) emptyEl.classList.remove('d-none');
 listEl.classList.add('d-none');
@@ -8643,12 +8414,9 @@ return;
 }
 if (emptyEl) emptyEl.classList.add('d-none');
 listEl.classList.remove('d-none');
-var curMonthKey = getCurrentTrackingMonth();
-var parts = curMonthKey.split('-');
-var yr = parseInt(parts[0], 10);
-var mo = parseInt(parts[1], 10) - 1;
-var totalDays = getDaysInMonth(yr, mo);
-var sub = getEl(ELEMENT_IDS.HEADER_SUB || 'tbHeaderSub');
+var curMonthKey = getCurrentTrackingMonth(), parts = curMonthKey.split('-');
+var yr = parseInt(parts[0], 10), mo = parseInt(parts[1], 10) - 1;
+var totalDays = getDaysInMonth(yr, mo), sub = getEl(ELEMENT_IDS.HEADER_SUB || 'tbHeaderSub');
 if (sub && state.activeTab === 'current') sub.textContent = formatMonthLabel(curMonthKey);
 var todoItems = [], doneItems = [];
 var isTodayInCurMonth = (td().slice(0, 7) === curMonthKey);
@@ -8659,57 +8427,49 @@ var isAllMonthDone = totalDays > 0 && completedDays >= totalDays;
 if (isAllMonthDone || (isTodayInCurMonth && isTodayDone)) doneItems.push(item);
 else todoItems.push(item);
 });
+var isAllCurDone = isMonthFullyCompleted(state.calCompletions, state.items, curMonthKey);
+var advanceBanner = getEl(ELEMENT_IDS.CURRENT_ADVANCE_BANNER || 'tbCurrentAdvanceBanner');
+if (advanceBanner) {
+advanceBanner.classList.toggle('d-none', !isAllCurDone);
+}
 var todoBadge = getEl(ELEMENT_IDS.CURRENT_TODO_BADGE || 'tbCurrentTodoBadge');
 if (todoBadge) todoBadge.textContent = todoItems.length;
 var doneBadge = getEl(ELEMENT_IDS.CURRENT_DONE_BADGE || 'tbCurrentDoneBadge');
 if (doneBadge) doneBadge.textContent = doneItems.length;
 var vm = (typeof getTasbeehViewModel === 'function') ? getTasbeehViewModel() : null;
 function mapCurCard(item, isComplete) {
-var cParts = curMonthKey.split('-');
-var y = parseInt(cParts[0], 10);
-var m = parseInt(cParts[1], 10) - 1;
-var tDays = getDaysInMonth(y, m);
-var cDays = getCompletedDaysInMonth(state.calCompletions, item.id, y, m);
-var isToday = (td().slice(0, 7) === curMonthKey);
-var tDone = isToday ? isDayCompleted(state.calCompletions, item.id, td()) : false;
-var isInf = item.targetCount === 'infinite';
+var cParts = curMonthKey.split('-'), y = parseInt(cParts[0], 10), m = parseInt(cParts[1], 10) - 1;
+var tDays = getDaysInMonth(y, m), cDays = getCompletedDaysInMonth(state.calCompletions, item.id, y, m);
+var isToday = (td().slice(0, 7) === curMonthKey), tDone = isToday ? isDayCompleted(state.calCompletions, item.id, td()) : false;
 return {
-id: item.id,
-title: item.title,
-targetCount: isInf ? '∞' : item.targetCount,
-completedDays: cDays,
-totalDays: tDays,
-isComplete: !!isComplete,
-isTodayDone: tDone,
-onCardClick: function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-openCounter(item.id);
-},
-onEditClick: function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-openModal(state, item.id);
-}
+id: item.id, title: item.title, targetCount: item.targetCount === 'infinite' ? '∞' : item.targetCount,
+completedDays: cDays, totalDays: tDays, isComplete: !!isComplete, isTodayDone: tDone,
+onCardClick: function (d, e) { if (e && e.stopPropagation) e.stopPropagation(); openCounter(item.id); },
+onEditClick: function (d, e) { if (e && e.stopPropagation) e.stopPropagation(); openModal(state, item.id); }
 };
 }
 if (vm) {
-var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
-var canW = function (t) { return t && typeof t === 'function' && ((k && k.isWriteableObservable) ? k.isWriteableObservable(t) : true); };
-try { if (canW(vm.currentTodoItems)) vm.currentTodoItems(todoItems.map(function (it) { return mapCurCard(it, false); })); } catch (_) {}
-try { if (canW(vm.currentDoneItems)) vm.currentDoneItems(doneItems.map(function (it) { return mapCurCard(it, true); })); } catch (_) {}
+if (typeof vm.currentTodoItems === 'function') {
+vm.currentTodoItems(todoItems.map(function (it) { return mapCurCard(it, false); }));
 }
-var isDoneExpanded = doneItems.length > 0;
-var doneToggle = getEl(ELEMENT_IDS.CURRENT_DONE_TOGGLE || 'tbCurrentDoneToggle');
-var doneList = getEl(ELEMENT_IDS.CURRENT_DONE_LIST || 'tbCurrentDoneList');
-if (doneToggle) {
-doneToggle.classList.toggle('collapsed', !isDoneExpanded);
-doneToggle.setAttribute('aria-expanded', isDoneExpanded ? 'true' : 'false');
+if (typeof vm.currentDoneItems === 'function') {
+vm.currentDoneItems(doneItems.map(function (it) { return mapCurCard(it, true); }));
 }
-if (doneList) doneList.classList.toggle('show', isDoneExpanded);
+}
+var todoGrid = getEl('tbCurrentTodoGrid'), doneGrid = getEl('tbCurrentDoneGrid');
+if (todoGrid && (!vm || typeof ko === 'undefined')) {
+todoGrid.innerHTML = todoItems.map(function (it) { return renderCurrentCardHtml(it, false); }).join('');
+}
+if (doneGrid && (!vm || typeof ko === 'undefined')) {
+doneGrid.innerHTML = doneItems.map(function (it) { return renderCurrentCardHtml(it, true); }).join('');
+}
+var currentActive = (vm && typeof vm.currentActiveTab === 'function') ? vm.currentActiveTab() : 'todo';
+if (todoItems.length === 0 && doneItems.length > 0) switchCurrentTab('completed');
+else if (doneItems.length === 0 && todoItems.length > 0 && currentActive === 'completed') switchCurrentTab('todo');
+else switchCurrentTab(currentActive || 'todo');
 }
 function render() {
-if (state.activeTab === 'home') {
-if (_win.TasbeehHomeApp && typeof _win.TasbeehHomeApp.renderHomeTab === 'function') _win.TasbeehHomeApp.renderHomeTab();
-} else if (state.activeTab === 'old') {
+if (state.activeTab === 'old') {
 if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.renderOldTab === 'function') _win.TasbeehOldApp.renderOldTab();
 } else if (state.activeTab === 'history') {
 if (_win.TasbeehHistoryApp && typeof _win.TasbeehHistoryApp.renderHistoryTab === 'function') _win.TasbeehHistoryApp.renderHistoryTab();
@@ -8730,137 +8490,86 @@ if (typeof vm.header.iconClass === 'function') vm.header.iconClass(th.iconClass)
 }
 }
 function switchTab(tab) {
-state.activeTab = (tab === TABS.OLD || tab === TABS.HISTORY || tab === TABS.HOME) ? tab : TABS.CURRENT;
+state.activeTab = (tab === TABS.OLD || tab === TABS.HISTORY) ? tab : TABS.CURRENT;
 var tabConfigs = [
-{ key: TABS.HOME, btnId: 'tabTbHome', bodyId: 'tbHomeBody', header: TAB_HEADERS.home },
 { key: TABS.CURRENT, btnId: 'tabTbCurrent', bodyId: 'tbCurrentBody', header: TAB_HEADERS.current },
 { key: TABS.OLD, btnId: 'tabTbOld', bodyId: 'tbOldBody', header: TAB_HEADERS.old },
 { key: TABS.HISTORY, btnId: 'tabTbHistory', bodyId: 'tbHistoryBody', header: TAB_HEADERS.history }
 ];
 tabConfigs.forEach(function (t) {
-var btn = getEl(t.btnId);
-var body = getEl(t.bodyId);
+var btn = getEl(t.btnId), body = getEl(t.bodyId);
 var isActive = (state.activeTab === t.key);
 if (btn) {
-btn.classList.toggle('active', isActive);
-btn.classList.toggle('text-brand', isActive);
-btn.classList.toggle('text-gr-textMuted', !isActive);
-btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+btn.classList.toggle('active', isActive); btn.classList.toggle('text-brand', isActive);
+btn.classList.toggle('text-gr-textMuted', !isActive); btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
 }
 if (body) body.classList.toggle('d-none', !isActive);
 });
 var addBtn = getEl('tbAddBtn');
-if (addBtn) addBtn.classList.toggle('d-none', state.activeTab === TABS.HOME || state.activeTab === TABS.HISTORY);
+if (addBtn) addBtn.classList.toggle('d-none', state.activeTab === TABS.HISTORY);
 var curHeader = TAB_HEADERS[state.activeTab] || TAB_HEADERS.current;
-var icon = getEl('tbHeaderIcon');
-var label = getEl('tbHeaderLabel');
-var sub = getEl('tbHeaderSub');
+var icon = getEl('tbHeaderIcon'), label = getEl('tbHeaderLabel'), sub = getEl('tbHeaderSub');
 if (icon) {
-if (_win.Icon && typeof _win.Icon.update === 'function') _win.Icon.update(icon, curHeader.iconClass);
-else icon.className = curHeader.iconClass;
+var parts = (curHeader.iconClass || 'calendar text-brand').split(' ');
+icon.className = 'fa-solid fa-' + parts[0] + ' text-base ' + parts.slice(1).join(' ');
 }
-if (label) label.textContent = curHeader.label;
-if (sub) {
-if (state.activeTab === TABS.OLD) {
-var curOldM = _win.TasbeehOldApp && typeof _win.TasbeehOldApp.getCurrentOldMonth === 'function' ? _win.TasbeehOldApp.getCurrentOldMonth() : null;
-sub.textContent = curOldM ? formatMonthLabel(curOldM) : 'All Completed';
-} else if (state.activeTab === TABS.CURRENT) {
-sub.textContent = formatMonthLabel(getCurrentTrackingMonth());
-} else {
-sub.textContent = curHeader.sub || '';
-}
-}
+if (label) label.textContent = curHeader.label || 'Digital Tasbeeh';
+if (sub) sub.textContent = state.activeTab === TABS.CURRENT ? formatMonthLabel(getCurrentTrackingMonth()) : (curHeader.sub || '');
 render();
 }
-function openCounter(id, oldMonthKey) {
+function openCounter(id, monthKey) {
 var item = null;
 for (var i = 0; i < state.items.length; i++) {
 if (state.items[i].id === id) { item = state.items[i]; break; }
 }
 if (!item) return;
-if (oldMonthKey) setBookmark('old', id, oldMonthKey);
-else setBookmark('current', id);
 state.activeId = id;
-state.counterMonthKey = oldMonthKey || null;
-var curMKey = state.counterMonthKey || getCurrentTrackingMonth();
-var parts = curMKey.split('-');
+state.counterMonthKey = monthKey || getCurrentTrackingMonth();
+var view = getEl('tasbeehCounterView'), nav = getEl('tasbeehBottomNav'), fab = getEl('tbAddBtn');
+if (view) view.classList.remove('d-none');
+if (nav) nav.classList.add('d-none');
+if (fab) fab.classList.add('d-none');
+var title = getEl('tbCounterTitle'), targetLabel = getEl('tbCalTargetLabel');
+if (title) title.textContent = item.title;
+if (targetLabel) targetLabel.textContent = 'Target: ' + (item.targetCount === 'infinite' ? '∞' : item.targetCount) + ' / day';
+var parts = state.counterMonthKey.split('-');
 state.calViewYear = parseInt(parts[0], 10);
 state.calViewMonth = parseInt(parts[1], 10) - 1;
-var topTitle = item.title + (state.counterMonthKey ? (' (' + formatMonthLabel(state.counterMonthKey) + ')') : '');
-var topTitleEl = getEl('tbCounterTopTitle');
-if (topTitleEl) topTitleEl.textContent = topTitle;
-var titleEl = getEl('tbCounterTitle');
-if (titleEl) titleEl.textContent = item.title;
 renderCalendar(state);
-var counterView = getEl('tasbeehCounterView');
-if (counterView) {
-counterView.classList.remove('d-none');
-counterView.classList.add('flex');
 }
+function openCounterOld(id, monthKey) {
+openCounter(id, monthKey);
 }
-function openCounterOld(id, monthKey) { openCounter(id, monthKey); }
 function closeCounter() {
+var view = getEl('tasbeehCounterView'), nav = getEl('tasbeehBottomNav'), fab = getEl('tbAddBtn');
+if (view) view.classList.add('d-none');
+if (nav) nav.classList.remove('d-none');
+if (fab) fab.classList.toggle('d-none', state.activeTab === TABS.HISTORY);
+var prevActiveId = state.activeId;
 state.activeId = null;
-var prevCM = state.counterMonthKey;
-state.counterMonthKey = null;
-var counterView = getEl('tasbeehCounterView');
-if (counterView) {
-counterView.classList.add('d-none');
-counterView.classList.remove('flex');
+if (state.activeTab === 'old') {
+if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.checkAndAdvanceMonth === 'function' && prevActiveId) {
+_win.TasbeehOldApp.checkAndAdvanceMonth();
 }
-if (prevCM && _win.TasbeehOldApp && typeof _win.TasbeehOldApp.checkAndAdvanceMonth === 'function') {
-_win.TasbeehOldApp.checkAndAdvanceMonth(prevCM);
+if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.renderOldTab === 'function') {
+_win.TasbeehOldApp.renderOldTab();
 }
-render();
-if (counterOpenedFrom === 'home') {
-counterOpenedFrom = null;
-switchTab('home');
-}
-}
-function openCounterFromHome(id, monthKey, type) {
-counterOpenedFrom = 'home';
-if (typeof _win.showPage === 'function') _win.showPage('tasbeeh');
-if (type === 'old') {
-switchTab('old');
-openCounterOld(id, monthKey);
 } else {
-switchTab('current');
-openCounter(id);
+renderCurrentTab();
 }
 }
 function bindEvents() {
-var addBtn = getEl('tbAddBtn');
-if (addBtn) addBtn.onclick = function () { openModal(state, null); };
-var saveBtn = getEl('tbModalSaveBtn');
-if (saveBtn) saveBtn.onclick = function () { saveModal(state); };
-var modalDelBtn = getEl('tbModalDelBtn');
-if (modalDelBtn) modalDelBtn.onclick = function () { if (state.editingId) deleteItem(state, state.editingId); };
-var btnBack = getEl('tbBtnBack');
-if (btnBack) btnBack.onclick = closeCounter;
-var btnEditActive = getEl('tbBtnEditActive');
-if (btnEditActive) btnEditActive.onclick = function () { if (state.activeId) openModal(state, state.activeId); };
-['Home', 'Current', 'Old', 'History'].forEach(function (t) {
-var tabBtn = getEl('tabTb' + t);
-if (tabBtn) tabBtn.onclick = function () { switchTab(t.toLowerCase()); };
-});
-var chipsBox = getEl('tbCountChips');
-if (chipsBox) {
-chipsBox.onclick = function (e) {
-var btn = e.target.closest('button[data-count]');
-if (!btn) return;
-var val = btn.dataset.count;
-var inp = getEl('tbFormCount');
-if (val === 'infinite') {
-state.countMode = 'infinite';
-if (inp) inp.disabled = true;
-} else {
-state.countMode = 'finite';
-if (inp) { inp.disabled = false; inp.value = val; }
-}
+var formTitle = getEl('tbModalTitleInput'), formCount = getEl('tbModalCountInput'), countChips = getEl('tbCountChips');
+if (countChips) {
+countChips.onclick = function (e) {
+var chip = e.target.closest('.chip-btn');
+if (!chip) return;
+var c = chip.dataset.count;
+state.countMode = (c === 'infinite') ? 'infinite' : 'finite';
+if (formCount) formCount.value = (c === 'infinite') ? '' : c;
 syncChips(state.countMode);
 };
 }
-var formCount = getEl('tbFormCount');
 if (formCount) {
 formCount.oninput = function () {
 if (formCount.value !== '') state.countMode = 'finite';
@@ -8870,12 +8579,10 @@ syncChips(state.countMode);
 var listEl = getEl('tbList');
 if (listEl) {
 listEl.onclick = function (e) {
+var tabBtn = e.target.closest('#tabTbCurrentTodo, #tabTbCurrentDone');
+if (tabBtn) { switchCurrentTab(tabBtn.id === 'tabTbCurrentTodo' ? 'todo' : 'completed', e); return; }
 var btn = e.target.closest('button[data-act]');
-if (btn && btn.dataset.act === 'tb-current-advance') {
-e.stopPropagation();
-advanceCurrentMonth(state);
-return;
-}
+if (btn && btn.dataset.act === 'tb-current-advance') { e.stopPropagation(); advanceCurrentMonth(state); return; }
 var card = e.target.closest('[data-id]');
 if (!card) return;
 e.stopPropagation();
@@ -8890,6 +8597,23 @@ openCounter(id);
 }
 };
 }
+var btnBack = getEl('tbBtnBack');
+if (btnBack) {
+btnBack.onclick = function (e) {
+if (e && e.stopPropagation) e.stopPropagation();
+closeCounter();
+};
+}
+var counterView = getEl('tasbeehCounterView');
+if (counterView) {
+counterView.onclick = function (e) {
+var b = e.target.closest('#tbBtnBack, [data-act="tb-back"]');
+if (b) {
+if (e && e.stopPropagation) e.stopPropagation();
+closeCounter();
+}
+};
+}
 var calGrid = getEl('tbCalGrid');
 if (calGrid) {
 calGrid.onclick = function (e) {
@@ -8898,9 +8622,8 @@ if (!cell || cell.classList.contains('tb-cal-empty')) return;
 handleCalendarDayClick(state, cell.dataset.date);
 };
 }
-var prevMonth = getEl('tbCalPrevMonth');
+var prevMonth = getEl('tbCalPrevMonth'), nextMonth = getEl('tbCalNextMonth');
 if (prevMonth) prevMonth.onclick = function () { navigateMonth(state, -1); };
-var nextMonth = getEl('tbCalNextMonth');
 if (nextMonth) nextMonth.onclick = function () { navigateMonth(state, 1); };
 var btnConfirmChange = getEl('tbBtnConfirmChange');
 if (btnConfirmChange) {
@@ -8922,17 +8645,16 @@ loadCurrentPeriod();
 checkDailyReset();
 persistItems(state.items);
 bindEvents();
-switchTab('home');
+switchTab('current');
 }
 var TasbeehCurrentApp = {
 init: init, render: render, switchTab: switchTab, renderCurrentTab: renderCurrentTab,
+switchCurrentTab: switchCurrentTab,
 openCounter: openCounter, openCounterOld: openCounterOld, closeCounter: closeCounter,
 openModal: function (id) { openModal(state, id); }, openAddModal: function () { openModal(state, null); },
 openEditModal: function (id) { openModal(state, id); }, saveModal: function () { saveModal(state); },
 deleteItem: function (id) { return deleteItem(state, id); }, getItems: getItems, setItems: setItems,
-persist: function () { persistItems(state.items); }, getBookmark: getBookmark, setBookmark: setBookmark,
-getBookmarkedChants: function () { return getBookmarkedChants(state.items, state.calCompletions); },
-openCounterFromHome: openCounterFromHome, loadCurrentPeriod: loadCurrentPeriod, saveCurrentPeriod: saveCurrentPeriod,
+persist: function () { persistItems(state.items); }, loadCurrentPeriod: loadCurrentPeriod, saveCurrentPeriod: saveCurrentPeriod,
 getCurrentTrackingMonth: getCurrentTrackingMonth,
 removeMonthTrackingData: function (mKey) { removeMonthTrackingData(state.calCompletions, state.items, mKey); },
 isMonthFullyCompleted: function (mKey) { return isMonthFullyCompleted(state.calCompletions, state.items, mKey); },
@@ -8946,10 +8668,10 @@ renderCalendar: function () { renderCalendar(state); }
 if (typeof window !== 'undefined') {
 window.TasbeehCurrentApp = TasbeehCurrentApp;
 window.TasbeehApp = TasbeehCurrentApp;
+window.switchCurrentTab = switchCurrentTab;
 }
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 if (_win.TasbeehApp) {
-if (_win.TasbeehHomeApp) _win.TasbeehApp.renderHomeTab = _win.TasbeehHomeApp.renderHomeTab;
 if (_win.TasbeehOldApp) {
 _win.TasbeehApp.renderOldTab = _win.TasbeehOldApp.renderOldTab;
 _win.TasbeehApp.getCurrentOldMonth = _win.TasbeehOldApp.getCurrentOldMonth;
@@ -8969,7 +8691,6 @@ window.TasbeehCurrentApp = TasbeehCurrentApp;
 window.TasbeehApp = TasbeehCurrentApp;
 window.TasbeehOldApp = TasbeehOldApp;
 window.TasbeehHistoryApp = TasbeehHistoryApp;
-window.TasbeehHomeApp = TasbeehHomeApp;
 }
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 if (typeof window === 'undefined') {
@@ -10475,7 +10196,7 @@ var _ko = typeof ko !== 'undefined' ? ko : (typeof window !== 'undefined' ? wind
 var NavigationState = {
 activePage: (_ko && _ko.observable) ? _ko.observable('dashboard') : function () { return 'dashboard'; },
 trackerSubTab: (_ko && _ko.observable) ? _ko.observable(SUB_TABS.CURRENT) : function () { return SUB_TABS.CURRENT; },
-tasbeehSubTab: (_ko && _ko.observable) ? _ko.observable('home') : function () { return 'home'; },
+tasbeehSubTab: (_ko && _ko.observable) ? _ko.observable('current') : function () { return 'current'; },
 duasSubTab: (_ko && _ko.observable) ? _ko.observable('home') : function () { return 'home'; },
 navigateTo: function (page) {
 showPage(page);
@@ -10934,9 +10655,6 @@ window.TasbeehApp.init();
 }
 if (window.TasbeehOldApp && typeof window.TasbeehOldApp.init === 'function') {
 window.TasbeehOldApp.init();
-}
-if (window.TasbeehHomeApp && typeof window.TasbeehHomeApp.init === 'function') {
-window.TasbeehHomeApp.init();
 }
 if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.init === 'function') {
 window.TasbeehHistoryApp.init();

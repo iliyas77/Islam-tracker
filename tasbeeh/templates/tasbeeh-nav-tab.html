@@ -2,14 +2,6 @@
     id="tasbeehBottomNav" data-ref="page.tasbeeh.bottom-nav">
     <button type="button"
         class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
-        id="tabTbHome" data-act="switch-tb-home" role="tab"
-        data-bind="css: ko.unwrap($data.activeTab) === 'home' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'home' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('home'); }"
-        data-ref="page.tasbeeh.tab-home">
-        <app-icon params="name: 'house'"></app-icon>
-        <span>Home</span>
-    </button>
-    <button type="button"
-        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium py-1.5 relative cursor-pointer select-none transition-colors"
         id="tabTbCurrent" data-act="switch-tb-current" role="tab"
         data-bind="css: ko.unwrap($data.activeTab) === 'current' ? 'text-brand active' : 'text-gr-textMuted', attr: { 'aria-selected': ko.unwrap($data.activeTab) === 'current' ? 'true' : 'false' }, click: function(d, e) { if (e && e.stopPropagation) e.stopPropagation(); if (window.TasbeehApp) window.TasbeehApp.switchTab('current'); }"
         data-ref="page.tasbeeh.tab-current">

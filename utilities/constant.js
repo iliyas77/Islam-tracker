@@ -176,17 +176,9 @@
                                 HEADER_LABEL: 'tbHeaderLabel',
                                 HEADER_SUB: 'tbHeaderSub',
                                 ADD_BTN: 'tbAddBtn',
-                                TAB_HOME: 'tabTbHome',
                                 TAB_CURRENT: 'tabTbCurrent',
                                 TAB_OLD: 'tabTbOld',
                                 TAB_HISTORY: 'tabTbHistory',
-                                HOME_BODY: 'tbHomeBody',
-                                HOME_EMPTY_STATE: 'tbHomeEmptyState',
-                                HOME_CONTENT: 'tbHomeContent',
-                                HOME_GRID: 'tbHomeGrid',
-                                HOME_CURRENT_COUNT: 'tbHomeCurrentCount',
-                                HOME_HISTORY_COUNT: 'tbHomeHistoryCount',
-                                HOME_ACTIVE_OLD_LABEL: 'tbHomeActiveOldLabel',
                                 CURRENT_BODY: 'tbCurrentBody',
                                 CURRENT_LIST: 'tbList',
                                 CURRENT_EMPTY_STATE: 'tbEmptyState',
@@ -229,11 +221,9 @@
                                 HISTORY_LIST: 'tbHistoryList'
                         },
                         DATA_ACTS: {
-                                SWITCH_HOME: 'switch-tb-home',
                                 SWITCH_CURRENT: 'switch-tb-current',
                                 SWITCH_OLD: 'switch-tb-old',
                                 SWITCH_HISTORY: 'switch-tb-history',
-                                OPEN_BOOKMARK: 'tb-open-bookmark',
                                 CURRENT_ADVANCE: 'tb-current-advance',
                                 OLD_ADVANCE: 'tb-old-advance',
                                 OLD_REOPEN: 'tb-old-reopen',
@@ -249,22 +239,14 @@
                                 DAY: 'app_tasbeeh_day',
                                 PERIOD: 'app_tasbeeh_period',
                                 CURRENT_PERIOD: 'app_tasbeeh_current_period',
-                                BOOKMARK_CURRENT: 'app_tasbeeh_bookmark_current',
-                                BOOKMARK_OLD: 'app_tasbeeh_bookmark_old',
                                 CAL_COMPLETIONS: 'app_tasbeeh_cal_completions'
                         },
                         TABS: {
-                                HOME: 'home',
                                 CURRENT: 'current',
                                 OLD: 'old',
                                 HISTORY: 'history'
                         },
                         TAB_HEADERS: {
-                                home: {
-                                        iconClass: 'fa-solid fa-house text-brand',
-                                        label: 'Digital Tasbeeh',
-                                        sub: 'Home · Bookmarks'
-                                },
                                 current: {
                                         iconClass: 'fa-regular fa-calendar-days text-brand',
                                         label: 'Digital Tasbeeh'
@@ -577,17 +559,3 @@ if (typeof module !== 'undefined' && module.exports) {
         module.exports.NAVIGATION_CONSTANTS = NAVIGATION_CONSTANTS;
         module.exports.COMMON_CONSTANTS = COMMON_CONSTANTS;
 }
-
-export {
-        CONSTANTS,
-        PRAYER_CONSTANTS,
-        DASHBOARD_CONSTANTS,
-        TASBEEH_CONSTANTS,
-        DUA_CONSTANTS,
-        DUAS_CONSTANTS,
-        SETTINGS_CONSTANTS,
-        NAVIGATION_CONSTANTS,
-        COMMON_CONSTANTS
-};
-
-export default CONSTANTS;

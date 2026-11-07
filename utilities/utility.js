@@ -1033,17 +1033,6 @@ function handleClick(e) {
         showPage('settings');
     } else if (act === 'goto-tasbeeh') {
         showPage('tasbeeh');
-    } else if (act === 'tb-open-bookmark') {
-        var bmId = t.dataset.id;
-        var bmMonth = t.dataset.month || null;
-        var bmType = t.dataset.type || (bmMonth ? 'old' : 'current');
-        if (window.TasbeehApp && typeof window.TasbeehApp.openCounterFromHome === 'function') {
-            window.TasbeehApp.openCounterFromHome(bmId, bmMonth, bmType);
-        }
-    } else if (act === 'switch-tb-home') {
-        if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
-            window.TasbeehApp.switchTab('home');
-        }
     } else if (act === 'switch-tb-current') {
         if (window.TasbeehApp && typeof window.TasbeehApp.switchTab === 'function') {
             window.TasbeehApp.switchTab('current');

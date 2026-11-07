@@ -46,7 +46,7 @@ var _ko = typeof ko !== 'undefined' ? ko : (typeof window !== 'undefined' ? wind
 var NavigationState = {
     activePage: (_ko && _ko.observable) ? _ko.observable('dashboard') : function () { return 'dashboard'; },
     trackerSubTab: (_ko && _ko.observable) ? _ko.observable(SUB_TABS.CURRENT) : function () { return SUB_TABS.CURRENT; },
-    tasbeehSubTab: (_ko && _ko.observable) ? _ko.observable('home') : function () { return 'home'; },
+    tasbeehSubTab: (_ko && _ko.observable) ? _ko.observable('current') : function () { return 'current'; },
     duasSubTab: (_ko && _ko.observable) ? _ko.observable('home') : function () { return 'home'; },
     navigateTo: function (page) {
         showPage(page);

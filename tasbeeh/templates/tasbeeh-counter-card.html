@@ -1,49 +1,51 @@
-<div class="tb-card bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer hover:border-brand min-h-[146px] select-none transition-all"
+<div class="tb-card bg-white border border-gray-200 rounded-3xl p-4 sm:p-5 flex flex-row gap-4 items-center cursor-pointer hover:border-gray-300 select-none transition-all w-full shadow-none"
     data-bind="attr: { 'data-id': id, 'data-month': $data.month || null, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': $data.isComplete || $data.isCompleted }, click: onCardClick"
     role="button" tabindex="0">
-    <div class="tb-card-top flex items-start justify-between w-full">
-        <div class="w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
-            data-ref="page.tasbeeh.card.icon">
-            <app-icon params="name: 'hands-praying'"></app-icon>
-        </div>
-        <div class="tb-card-actions flex items-center gap-1.5 shrink-0 ml-auto">
-            <button type="button"
-                class="tb-btn-edit w-8 h-8 rounded-lg bg-brand-light text-brand flex items-center justify-center cursor-pointer hover:bg-brand/20 active:scale-95 transition-all p-0"
-                data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
-                data-bind="click: onEditClick"
-                data-ref="page.tasbeeh.card.edit-btn">
-                <app-icon params="name: 'pencil', size: 'xs'"></app-icon>
-            </button>
-            <app-icon params="name: 'chevron-right', color: 'text-gr-textMuted', size: 'xs', customClass: 'ml-1'"></app-icon>
-        </div>
+    <!-- Left: Icon -->
+    <div class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-2xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center text-2xl shrink-0 leading-none select-none overflow-hidden"
+        data-ref="page.tasbeeh.card.icon">
+        <app-icon params="name: 'hands-praying'"></app-icon>
     </div>
-    <div class="tb-card-body flex flex-col justify-end w-full mt-2.5 min-w-0" data-ref="page.tasbeeh.card.info">
-        <h6 class="tb-card-title text-base font-bold text-brand leading-snug mb-1 truncate"
+
+    <!-- Middle: Data & Info -->
+    <div class="flex-1 min-w-0 flex flex-col justify-center gap-1.5" data-ref="page.tasbeeh.card.info">
+        <h6 class="tb-card-title text-[17px] font-bold text-gray-900 leading-tight m-0 truncate"
             data-bind="text: title" data-ref="page.tasbeeh.card.title"></h6>
-        <div class="tb-card-meta flex flex-col gap-1 w-full" data-ref="page.tasbeeh.card.meta">
-            <div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">
-                <app-icon params="name: 'bullseye', color: 'text-gr-textMuted', size: 'xs'"></app-icon>
-                <span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Target: <span class="tb-val-num font-semibold text-brand ml-1" data-bind="text: targetCount"></span> / day</span>
+        <div class="tb-card-meta flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 font-medium" data-ref="page.tasbeeh.card.meta">
+            <span class="tb-meta-row inline-flex items-center gap-1.5">
+                <app-icon params="name: 'bullseye', color: 'text-gray-400', size: 'xs'"></app-icon>
+                <span>Target: <strong class="tb-val-num font-bold text-gray-900" data-bind="text: targetCount"></strong> <span class="text-gray-500">/day</span></span>
+            </span>
+            <span class="tb-meta-row inline-flex items-center gap-1.5">
+                <app-icon params="name: 'calendar', prefix: 'fa-regular', color: 'text-gray-400', size: 'xs'"></app-icon>
+                <span>Total: <span class="tb-val-total text-gray-600 font-medium" data-bind="text: ($data.totalDays || 30) + ' days'"></span></span>
+            </span>
+        </div>
+        <div class="flex items-center gap-2.5 mt-1">
+            <div class="inline-flex items-center gap-1.5 bg-[#094E3A] text-white text-xs font-semibold px-3 py-1 rounded-full shrink-0 leading-none shadow-none">
+                <app-icon params="name: 'check', size: 'xs', customClass: 'text-[10px]'"></app-icon>
+                <span>Done</span>
             </div>
-            <div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">
-                <app-icon params="name: 'circle-check', color: 'text-brand', size: 'xs'"></app-icon>
-                <span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">
-                    <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-brand text-white leading-none">Done</span>
-                    <strong class="tb-val-done ml-1 font-bold text-brand" data-bind="text: completedDays"></strong>
-                </span>
-            </div>
-            <div class="tb-meta-row flex items-center gap-1.5 text-xs text-gr-text font-medium truncate leading-tight">
-                <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-gr-textMuted', size: 'xs'"></app-icon>
-                <span class="tb-meta-text inline-flex items-center overflow-hidden truncate text-xs">Total: <span class="tb-val-total text-gr-textMuted font-medium ml-1" data-bind="text: ($data.totalDays || 30) + ' days'"></span></span>
-            </div>
+            <span class="tb-val-done text-lg font-bold text-gray-900 leading-none" data-bind="text: completedDays"></span>
             <!-- ko if: $data.isTodayDone -->
-            <div class="tb-meta-row tb-meta-sub-row">
-                <span class="text-brand font-bold flex items-center gap-1" style="font-size: 11px;">
-                    <app-icon params="name: 'circle-check', color: 'text-brand'"></app-icon> Today Completed
-                </span>
-            </div>
+            <span class="text-[#094E3A] font-bold inline-flex items-center gap-1 text-[11px] ml-2">
+                <app-icon params="name: 'circle-check', color: 'text-[#094E3A]', size: 'xs'"></app-icon> Today Completed
+            </span>
             <!-- /ko -->
         </div>
     </div>
-</div>
 
+    <!-- Right: Actions (Edit at top, Chevron at bottom) -->
+    <div class="tb-card-actions flex flex-col items-center justify-between self-stretch shrink-0 py-0.5 pl-1" data-ref="page.tasbeeh.card.actions">
+        <button type="button"
+            class="tb-btn-edit w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200/80 flex items-center justify-center text-gray-600 cursor-pointer active:scale-95 transition-all p-0"
+            data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
+            data-bind="click: onEditClick"
+            data-ref="page.tasbeeh.card.edit-btn">
+            <app-icon params="name: 'pencil', size: 'xs'"></app-icon>
+        </button>
+        <div class="text-gray-300 flex items-center justify-center">
+            <app-icon params="name: 'chevron-right', size: 'xs'"></app-icon>
+        </div>
+    </div>
+</div>
