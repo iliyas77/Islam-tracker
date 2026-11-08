@@ -1,0 +1,79 @@
+<div class="prayer-tracker-card w-full max-w-[480px] bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col gap-3 shadow-none mx-auto"
+    data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'TrackerCard', 'data-ref': ($data.pagePrefix || 'page.current') + '.card' }">
+    <!-- Header: Date & Global Actions -->
+    <header class="tracker-header pb-2.5 border-b border-borderGrey flex items-center justify-between gap-2"
+        data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header' }">
+        <button type="button" class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
+            data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DateChip', 'data-act': $data.dateChipAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-chip' }, click: onDateChipClick"
+            aria-label="Select date">
+            <app-icon params="name: 'calendar-days', prefix: 'fa-regular', size: 'sm'"></app-icon>
+            <span data-bind="text: $data.dateChipText, attr: { id: ($data.collapsePrefix || 'cur') + 'DateChipText', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-text' }"></span>
+        </button>
+        <div class="header-status flex items-center gap-2"
+            data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'HeaderStatus', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.status' }">
+            <!-- ko if: $data.badgeText -->
+            <span class="badge badge-warning inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer"
+                data-bind="attr: { 'data-act': $data.badgeAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.badge' }, click: onBadgeClick">
+                <app-icon params="name: 'triangle-exclamation', size: 'xs'"></app-icon>
+                <span data-bind="text: $data.badgeText"></span>
+            </span>
+            <!-- /ko -->
+            <!-- ko if: $data.actionBtnText -->
+            <button type="button" class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 text-sm hover:underline"
+                data-bind="text: $data.actionBtnText, attr: { id: ($data.collapsePrefix || 'cur') + 'ActionBtn', 'data-act': $data.actionBtnAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.action-btn' }, click: onActionBtnClick"></button>
+            <!-- /ko -->
+        </div>
+    </header>
+
+    <!-- Section 1: Missed / Pending Prayers -->
+    <section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group' }">
+        <button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
+            data-toggle="collapse"
+            data-bind="attr: { 'data-target': '#' + ($data.collapsePrefix || 'cur') + 'MissedList', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.toggle' }"
+            aria-expanded="true">
+            <span class="section-title text-xs font-bold uppercase tracking-wider text-gr-text"
+                data-bind="text: $data.missedGroupTitle, attr: { id: ($data.collapsePrefix || 'cur') + 'MissedTitle', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.title' }">MISSED</span>
+            <span class="toggle-icon text-[10px] transition-transform duration-200 inline-block"
+                data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.icon' }">▼</span>
+        </button>
+        <div class="collapse show visible" style="visibility: visible;"
+            data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'MissedList', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.collapse' }">
+            <ul class="prayer-list flex flex-col gap-1.5 list-none p-0 m-0"
+                data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'MissedUl', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.list' }">
+                <!-- ko if: (typeof missedRows === 'function' ? missedRows() : ($data.missedRows || [])).length === 0 -->
+                <li class="p-3 text-center text-gr-muted small bg-white rounded-3 border"
+                    data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.missed.empty' }">No missed or pending prayers. All caught up!</li>
+                <!-- /ko -->
+                <!-- ko foreach: (typeof missedRows === 'function' ? missedRows : ($data.missedRows || [])) -->
+                <!-- ko component: { name: 'prayer-row', params: $data } --><!-- /ko -->
+                <!-- /ko -->
+            </ul>
+        </div>
+    </section>
+
+    <!-- Section 2: Completed Prayers -->
+    <section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group' }">
+        <button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
+            data-toggle="collapse"
+            data-bind="attr: { 'data-target': '#' + ($data.collapsePrefix || 'cur') + 'DoneList', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.toggle' }"
+            aria-expanded="true">
+            <span class="section-title text-xs font-bold uppercase tracking-wider text-gr-text"
+                data-bind="text: $data.doneGroupTitle, attr: { id: ($data.collapsePrefix || 'cur') + 'DoneTitle', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.title' }">DONE</span>
+            <span class="toggle-icon text-[10px] transition-transform duration-200 inline-block"
+                data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.icon' }">▼</span>
+        </button>
+        <div class="collapse show visible" style="visibility: visible;"
+            data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DoneList', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.collapse' }">
+            <ul class="prayer-list flex flex-col gap-1.5 list-none p-0 m-0"
+                data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DoneUl', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.list' }">
+                <!-- ko if: (typeof doneRows === 'function' ? doneRows() : ($data.doneRows || [])).length === 0 -->
+                <li class="p-3 text-center text-gr-muted small bg-white rounded-3 border"
+                    data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.done.empty' }">No completed prayers yet.</li>
+                <!-- /ko -->
+                <!-- ko foreach: (typeof doneRows === 'function' ? doneRows : ($data.doneRows || [])) -->
+                <!-- ko component: { name: 'prayer-row', params: $data } --><!-- /ko -->
+                <!-- /ko -->
+            </ul>
+        </div>
+    </section>
+</div>

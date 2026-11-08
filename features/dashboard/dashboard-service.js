@@ -39,6 +39,18 @@ export var TIMELINE_ICONS = {
 var dashTimer = null;
 var dashCurrentActivePrayer = null;
 var dashLastCheckedDate = typeof _win.td === 'function' ? _win.td() : null;
+var dashTickListeners = [];
+
+export function onDashTick(fn) {
+    if (typeof fn === 'function') {
+        dashTickListeners.push(fn);
+        return function unsubscribe() {
+            var idx = dashTickListeners.indexOf(fn);
+            if (idx !== -1) dashTickListeners.splice(idx, 1);
+        };
+    }
+    return function () {};
+}
 
 /* ---------- Helper Functions ---------- */
 export function pad2(n) {
@@ -236,6 +248,13 @@ export function dashTick() {
             _win.rDashboard();
         }
     }
+
+    // Notify registered listeners
+    for (var i = 0; i < dashTickListeners.length; i++) {
+        try {
+            dashTickListeners[i]();
+        } catch (_) {}
+    }
 }
 
 export function startDashClock() {
@@ -273,6 +292,7 @@ export const DashboardService = {
     dashTick: dashTick,
     startDashClock: startDashClock,
     stopDashClock: stopDashClock,
+    onDashTick: onDashTick,
     setDashCurrentActivePrayer: setDashCurrentActivePrayer,
     getDashCurrentActivePrayer: getDashCurrentActivePrayer,
     CONSTANTS: DASH_CONSTANTS,
@@ -292,6 +312,7 @@ if (typeof window !== 'undefined') {
     window.getActivePrayerInfo = getActivePrayerInfo;
     window.dashTick = dashTick;
     window.startDashClock = startDashClock;
+    window.onDashTick = onDashTick;
 }
 
 export default DashboardService;

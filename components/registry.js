@@ -4,6 +4,14 @@ import { IconViewModel, IconTemplate } from './icon/icon.js';
 import { BottomSheetViewModel, BottomSheetTemplate } from './bottom-sheet/bottom-sheet.js';
 import { TabsViewModel, TabsTemplate } from './tabs/tabs.js';
 import { registerDashboardComponents } from '../features/dashboard/dashboard-registration.js';
+import { registerTrackerComponents } from '../features/tracker/tracker-registration.js';
+import { registerTasbeehComponents } from '../features/tasbeeh/tasbeeh-registration.js';
+import { registerDuaComponents } from '../features/dua/dua-registration.js';
+import { registerQuranComponents } from '../features/quran/quran-registration.js';
+import { registerSettingsComponents } from '../features/settings/settings-registration.js';
+import { registerComponent } from './component-helper.js';
+
+export { registerComponent };
 
 // Central map for tracking registered components
 export const componentRegistry = new Map();
@@ -12,7 +20,7 @@ export const componentRegistry = new Map();
  * Registers a component with Knockout and tracks it in the registry map
  * @param {string} name - Custom HTML tag name (e.g., 'app-icon')
  * @param {Function} viewModel - Component ViewModel constructor
- * @param {string} template - HTML template string or element binding
+ * @param {string|Object} template - HTML template string or element binding
  */
 export function registerFeatureComponent(name, viewModel, template) {
     var k = typeof ko !== 'undefined' ? ko : (typeof window !== 'undefined' ? window.ko : null);
@@ -21,7 +29,8 @@ export function registerFeatureComponent(name, viewModel, template) {
         return;
     }
 
-    componentRegistry.set(name, { viewModel, template });
+    var safeTemplate = template || { element: name + '-template' };
+    componentRegistry.set(name, { viewModel, template: safeTemplate });
 
     if (k.components.isRegistered(name)) {
         return;
@@ -29,13 +38,12 @@ export function registerFeatureComponent(name, viewModel, template) {
 
     k.components.register(name, {
         viewModel: viewModel,
-        template: template
+        template: safeTemplate
     });
 }
 
 /**
- * Startup registration: Registers Core UI components + Dashboard Feature components ONLY.
- * Non-dashboard features remain available for lazy/feature-based loading.
+ * Startup registration: Registers Core UI components + Dashboard Feature components.
  */
 export function registerStartupComponents() {
     // 0. Register Custom Binding Handlers
@@ -48,12 +56,19 @@ export function registerStartupComponents() {
 
     // 2. Dashboard Feature Components (Isolated Modular Feature)
     registerDashboardComponents();
-
-    console.info(`Successfully registered ${componentRegistry.size} startup components.`);
 }
 
+/**
+ * Bulk registration function: Registers Core UI, Dashboard, and all feature components.
+ */
 export function registerAllComponents() {
     registerStartupComponents();
+    if (typeof registerTrackerComponents === 'function') registerTrackerComponents();
+    if (typeof registerTasbeehComponents === 'function') registerTasbeehComponents();
+    if (typeof registerDuaComponents === 'function') registerDuaComponents();
+    if (typeof registerQuranComponents === 'function') registerQuranComponents();
+    if (typeof registerSettingsComponents === 'function') registerSettingsComponents();
+    console.info(`Successfully registered ${componentRegistry.size} application components.`);
 }
 
 // Backward compatibility with window global

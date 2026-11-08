@@ -348,10 +348,19 @@ export async function runDuaComponentTests() {
     // ==========================================
     // 5. Registration Verification
     // ==========================================
-    const { registerDuaComponents } = await import(path.join(ROOT, 'features', 'dua', 'dua-registration.js'));
+    const { registerDuaComponents, DuasPageViewModel: DuasVmFromReg, getDuasViewModel: getDuasVmFromReg } = await import(path.join(ROOT, 'features', 'dua', 'dua-registration.js'));
+    const { DuasPageViewModel: DuasVmDirect, getDuasViewModel: getDuasVmDirect } = await import(path.join(ROOT, 'features', 'dua', 'dua.js'));
+    assert.strictEqual(DuasVmFromReg, DuasVmDirect, 'dua-registration.js should re-export DuasPageViewModel');
+    assert.strictEqual(getDuasVmFromReg, getDuasVmDirect, 'dua-registration.js should re-export getDuasViewModel');
+
     registerDuaComponents(mockKo);
 
     const expectedComponents = [
+        'dua-header',
+        'dua-nav-tab',
+        'dua-translation-toggle',
+        'dua-page',
+        'duas-page',
         'dua-all-page',
         'dua-all-feed',
         'dua-all-card',
@@ -474,6 +483,10 @@ export async function runDuaComponentTests() {
     const mainHtml = fs.readFileSync(path.join(ROOT, 'main.html'), 'utf8');
     assert(!duaHtml.includes('id="duaSubAll" class="d-none"'), 'duaSubAll in dua.html must not have static d-none');
     assert(!mainHtml.includes('id="duaSubAll" class="d-none"'), 'duaSubAll in main.html must not have static d-none');
+    assert(!duaHtml.includes('id="duaSubFavs" class="d-none"'), 'duaSubFavs in dua.html must not have static d-none');
+    assert(!mainHtml.includes('id="duaSubFavs" class="d-none"'), 'duaSubFavs in main.html must not have static d-none');
+    assert(!duaHtml.includes('id="duaSubDetail" class="flex flex-col gap-3 d-none"'), 'duaSubDetail in dua.html must not have static d-none');
+    assert(!mainHtml.includes('id="duaSubDetail" class="flex flex-col gap-3 d-none"'), 'duaSubDetail in main.html must not have static d-none');
 
     // Test error state and fallback handling
     globalThis.fetch = async () => {

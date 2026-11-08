@@ -15,6 +15,9 @@ var PAGE_MAP = NAV_CONSTANTS.PAGE_MAP || {
     duas: 'duasPage',
     quran: 'quranPage'
 };
+if (PAGES.indexOf('quranPage') === -1) PAGES.push('quranPage');
+if (!PAGE_MAP.quran) PAGE_MAP.quran = 'quranPage';
+if (!NAVS.quran) NAVS.quran = 'navQuran';
 var TRACKER_HEADER = NAV_CONSTANTS.TRACKER_HEADER || {
     current: {
         iconClass: 'fa-regular fa-calendar-days text-gr-accent',
@@ -220,7 +223,6 @@ var _loadedFeatures = {
 };
 
 function ensureFeatureLoaded(kind) {
-    if (_loadedFeatures[kind]) return Promise.resolve();
     var _w = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
     switch (kind) {
         case 'tracker':
@@ -228,19 +230,24 @@ function ensureFeatureLoaded(kind) {
         case 'old':
         case 'performance':
         case 'history':
-            if (_w.TrackerApp) {
-                _loadedFeatures[kind] = true;
-                return Promise.resolve();
-            }
-            return Promise.all([
-                import('./features/prayer-tracking/prayer-tracking.js'),
-                import('./features/tracker/tracker.js')
-            ]).then(function () {
+            if (_loadedFeatures.tracker) return Promise.resolve();
+            if (_w.TrackerApp || _w.registerTrackerComponents) {
+                if (typeof _w.registerTrackerComponents === 'function') _w.registerTrackerComponents();
+                if (_w.TrackerApp && typeof _w.TrackerApp.init === 'function') _w.TrackerApp.init();
                 _loadedFeatures.tracker = true;
                 _loadedFeatures.current = true;
                 _loadedFeatures.old = true;
                 _loadedFeatures.performance = true;
                 _loadedFeatures.history = true;
+                return Promise.resolve();
+            }
+            return import('./features/tracker/tracker.js').then(function () {
+                _loadedFeatures.tracker = true;
+                _loadedFeatures.current = true;
+                _loadedFeatures.old = true;
+                _loadedFeatures.performance = true;
+                _loadedFeatures.history = true;
+                if (typeof _w.registerTrackerComponents === 'function') _w.registerTrackerComponents();
                 if (_w.TrackerApp && typeof _w.TrackerApp.init === 'function') {
                     _w.TrackerApp.init();
                 } else if (_w.PrayerTrackingApp && typeof _w.PrayerTrackingApp.init === 'function') {
@@ -254,15 +261,17 @@ function ensureFeatureLoaded(kind) {
                 console.warn('Feature load failed for tracker:', err);
             });
         case 'tasbeeh':
-            if (_w.TasbeehApp || _w.initTasbeeh) {
+            if (_loadedFeatures.tasbeeh) return Promise.resolve();
+            if (_w.TasbeehApp || _w.initTasbeeh || _w.registerTasbeehComponents) {
+                if (typeof _w.registerTasbeehComponents === 'function') _w.registerTasbeehComponents();
+                if (typeof _w.initTasbeeh === 'function') _w.initTasbeeh();
                 _loadedFeatures.tasbeeh = true;
                 return Promise.resolve();
             }
             return import('./features/tasbeeh/tasbeeh.js').then(function () {
                 _loadedFeatures.tasbeeh = true;
-                if (typeof _w.initTasbeeh === 'function') {
-                    _w.initTasbeeh();
-                }
+                if (typeof _w.registerTasbeehComponents === 'function') _w.registerTasbeehComponents();
+                if (typeof _w.initTasbeeh === 'function') _w.initTasbeeh();
                 var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
                 if (appVm && typeof appVm.getTasbeeh === 'function') {
                     appVm.tasbeeh = appVm.getTasbeeh();
@@ -271,15 +280,17 @@ function ensureFeatureLoaded(kind) {
                 console.warn('Feature load failed for tasbeeh:', err);
             });
         case 'duas':
-            if (_w.DuasApp || _w.initDuas) {
+            if (_loadedFeatures.duas) return Promise.resolve();
+            if (_w.DuasApp || _w.initDuas || _w.registerDuaComponents) {
+                if (typeof _w.registerDuaComponents === 'function') _w.registerDuaComponents();
+                if (typeof _w.initDuas === 'function') _w.initDuas();
                 _loadedFeatures.duas = true;
                 return Promise.resolve();
             }
             return import('./features/dua/dua.js').then(function () {
                 _loadedFeatures.duas = true;
-                if (typeof _w.initDuas === 'function') {
-                    _w.initDuas();
-                }
+                if (typeof _w.registerDuaComponents === 'function') _w.registerDuaComponents();
+                if (typeof _w.initDuas === 'function') _w.initDuas();
                 var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
                 if (appVm && typeof appVm.getDuas === 'function') {
                     appVm.duas = appVm.getDuas();
@@ -288,15 +299,17 @@ function ensureFeatureLoaded(kind) {
                 console.warn('Feature load failed for duas:', err);
             });
         case 'quran':
-            if (_w.QuranApp || _w.initQuran) {
+            if (_loadedFeatures.quran) return Promise.resolve();
+            if (_w.QuranApp || _w.initQuran || _w.registerQuranComponents) {
+                if (typeof _w.registerQuranComponents === 'function') _w.registerQuranComponents();
+                if (typeof _w.initQuran === 'function') _w.initQuran();
                 _loadedFeatures.quran = true;
                 return Promise.resolve();
             }
             return import('./features/quran/quran.js').then(function () {
                 _loadedFeatures.quran = true;
-                if (typeof _w.initQuran === 'function') {
-                    _w.initQuran();
-                }
+                if (typeof _w.registerQuranComponents === 'function') _w.registerQuranComponents();
+                if (typeof _w.initQuran === 'function') _w.initQuran();
                 var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
                 if (appVm && typeof appVm.getQuran === 'function') {
                     appVm.quran = appVm.getQuran();
@@ -305,15 +318,17 @@ function ensureFeatureLoaded(kind) {
                 console.warn('Feature load failed for quran:', err);
             });
         case 'settings':
-            if (_w.SettingsApp) {
+            if (_loadedFeatures.settings) return Promise.resolve();
+            if (_w.SettingsApp || _w.registerSettingsComponents) {
+                if (typeof _w.registerSettingsComponents === 'function') _w.registerSettingsComponents();
+                if (_w.SettingsApp && typeof _w.SettingsApp.init === 'function') _w.SettingsApp.init();
                 _loadedFeatures.settings = true;
                 return Promise.resolve();
             }
             return import('./features/settings/settings.js').then(function () {
                 _loadedFeatures.settings = true;
-                if (_w.SettingsApp && typeof _w.SettingsApp.init === 'function') {
-                    _w.SettingsApp.init();
-                }
+                if (typeof _w.registerSettingsComponents === 'function') _w.registerSettingsComponents();
+                if (_w.SettingsApp && typeof _w.SettingsApp.init === 'function') _w.SettingsApp.init();
                 var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
                 if (appVm && typeof appVm.getSettings === 'function') {
                     appVm.settings = appVm.getSettings();
@@ -331,13 +346,17 @@ function showPage(kind) {
     if (_isShowingPage) return;
 
     if (kind && kind !== 'dashboard') {
-        ensureFeatureLoaded(kind);
+        try { ensureFeatureLoaded(kind); } catch (_) {}
     }
 
     _isShowingPage = true;
     try {
         if (NavigationState && typeof NavigationState.activePage === 'function') {
             NavigationState.activePage(kind);
+        }
+        var _w = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+        if (_w.AppRouter && typeof _w.AppRouter.activePage === 'function' && _w.AppRouter.activePage() !== kind) {
+            _w.AppRouter.activePage(kind);
         }
         if (typeof window !== 'undefined') {
             window.currentActivePage = kind;

@@ -19,8 +19,6 @@ export const DashboardFeaturesGridTemplate = {
     file: 'features/dashboard/components/dashboard-features-grid/dashboard-features-grid.html'
 };
 
-export const FeaturesGridTemplate = DashboardFeaturesGridTemplate;
-
 export function DashboardFeaturesGridViewModel(params) {
     if (params instanceof DashboardFeaturesGridViewModel) return params;
     if (!(this instanceof DashboardFeaturesGridViewModel)) return new DashboardFeaturesGridViewModel(params);
@@ -151,20 +149,8 @@ export function DashboardFeaturesGridViewModel(params) {
     self.trackerBadgeText = trackerBadgeText;
 }
 
-export const FeaturesGridViewModel = DashboardFeaturesGridViewModel;
-
-// Global backward compatibility
-if (typeof window !== 'undefined') {
-    window.DashboardFeaturesGridViewModel = DashboardFeaturesGridViewModel;
-    window.FeaturesGridViewModel = DashboardFeaturesGridViewModel;
-    window.DashboardFeaturesGridTemplate = DashboardFeaturesGridTemplate;
-    window.FeaturesGridTemplate = DashboardFeaturesGridTemplate;
-}
-
 export default {
     DashboardFeaturesGridViewModel: DashboardFeaturesGridViewModel,
-    FeaturesGridViewModel: DashboardFeaturesGridViewModel,
-    DashboardFeaturesGridTemplate: DashboardFeaturesGridTemplate,
-    FeaturesGridTemplate: DashboardFeaturesGridTemplate
+    DashboardFeaturesGridTemplate: DashboardFeaturesGridTemplate
 };
 

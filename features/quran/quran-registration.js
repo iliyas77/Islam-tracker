@@ -9,9 +9,11 @@
    ============================================================ */
 'use strict';
 
+/* ---------- Template Definitions ---------- */
+export const QuranPageTemplate = { element: 'quran-page-template', file: 'features/quran/quran.html' };
+export const QuranNavTabTemplate = { element: 'quran-nav-tab-template', file: 'features/quran/templates/quran-nav-tab.html' };
+
 import {
-    QuranPageTemplate,
-    QuranNavTabTemplate,
     getQuranViewModel
 } from './quran.js';
 
@@ -33,22 +35,9 @@ import {
     QuranBookmarkPageTemplate, QuranBookmarkPageViewModel
 } from './quran-bookmark/quran-bookmark.js';
 
-var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+import { registerComponent } from '../../components/component-helper.js';
 
-function registerComponent(name, viewModel, template, customKo) {
-    if (!customKo && typeof _win.registerFeatureComponent === 'function') {
-        _win.registerFeatureComponent(name, viewModel, template);
-        return;
-    }
-    var ko = customKo || (typeof _win.ko !== 'undefined' ? _win.ko : (typeof ko !== 'undefined' ? ko : null));
-    if (!ko || !ko.components) return;
-    if (!ko.components.isRegistered(name)) {
-        ko.components.register(name, {
-            viewModel: viewModel,
-            template: template
-        });
-    }
-}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 
 /**
  * Register all Quran Knockout components

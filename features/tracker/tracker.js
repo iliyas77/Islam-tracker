@@ -9,29 +9,87 @@
    ============================================================ */
 'use strict';
 
-import { TrackerService, unwrap, getTotalMissedCount } from './tracker-service.js';
+import {
+    TrackerService, unwrap, getTotalMissedCount, td, fr,
+    clearPrayerHistory, formatPrayerDate, datesInRange
+} from './tracker-service.js';
+
 import { registerTrackerComponents } from './tracker-registration.js';
-import { PrayerTrackerCardViewModel } from '../prayer-tracking/tracker-view-model.js';
-import { emptyPrayerHistory } from '../prayer-tracking/history-view-model.js';
-import { rMS, rn, go, updateCurrentMissedBadge } from '../prayer-tracking/prayer-tracking.js';
-import { rOldInfo, rPeriod, openOldCal, goOld, setOldSd, getDefaultOldPeriod, rOT, oldSd } from '../prayer-tracking/old-tracking.js';
+import { TrackerCurrentPageViewModel } from './tracker-current/tracker-current.js';
+import { TrackerOldPageViewModel } from './tracker-old/tracker-old.js';
+import { TrackerPerformancePageViewModel } from './tracker-performance/tracker-performance.js';
+import { TrackerHistoryPageViewModel } from './tracker-history/tracker-history.js';
 
 // Re-export modular components and layers
 export * from './tracker-service.js';
 export * from './tracker-registration.js';
 export * from './tracker-current/tracker-current.js';
+export * from './tracker-old/tracker-old.js';
 export * from './tracker-performance/tracker-performance.js';
 export * from './tracker-history/tracker-history.js';
-export { rMS, rn, go, updateCurrentMissedBadge } from '../prayer-tracking/prayer-tracking.js';
-export { rOldInfo, rPeriod, openOldCal, goOld, setOldSd, getDefaultOldPeriod, rOT, oldSd } from '../prayer-tracking/old-tracking.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
 
-/* ---------- Template Definitions ---------- */
-export var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker.html' };
-export var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/prayer-tracking/templates/prayer-header.html' };
-export var TrackerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/prayer-tracking/templates/prayer-nav-tab.html' };
+/* ---------- Template Definitions (re-exported from tracker-registration.js) ---------- */
+export {
+    TrackerPageTemplate,
+    TrackerHeaderTemplate,
+    TrackerNavTabTemplate,
+    PrayerTrackerCardTemplate,
+    PrayerRowTemplate,
+    PrayerStatCardTemplate,
+    PrayerPerfRingTemplate,
+    PrayerHistoryCardTemplate
+} from './tracker-registration.js';
+
+/* ---------- Backward-Compatible ViewModel Bridges ---------- */
+export function PrayerRowViewModel(params) {
+    if (params instanceof PrayerRowViewModel) return params;
+    if (!(this instanceof PrayerRowViewModel)) return new PrayerRowViewModel(params);
+    var p = params || {};
+    var self = this;
+    self.prayer = p.prayer || '';
+    self.time = p.time || '--:--';
+    self.isDone = !!p.isDone;
+    self.isUpcoming = !!p.isUpcoming;
+    self.isMissed = !!p.isMissed;
+    self.isCurrent = !!p.isCurrent;
+    self.isStandard = !self.isDone && !self.isUpcoming && !self.isMissed;
+    self.prefix = p.prefix || 'page.current';
+    self.actionAct = p.actionAct || 'toggle-cur';
+    self.date = p.date || '';
+    self.iconClass = p.iconClass || 'fa-solid fa-mosque';
+    self.onToggle = function (d, e) {
+        if (typeof p.onToggle === 'function') p.onToggle(self, e);
+    };
+}
+
+export function PrayerTrackerCardViewModel(params) {
+    if (params instanceof PrayerTrackerCardViewModel) return params;
+    if (!(this instanceof PrayerTrackerCardViewModel)) return new PrayerTrackerCardViewModel(params);
+    var p = params || {};
+    var k = _ko;
+    var self = this;
+    function obs(v) { return (k && k.observable) ? k.observable(v) : function () { return v; }; }
+    function obsArr(v) { return (k && k.observableArray) ? k.observableArray(v) : function () { return v || []; }; }
+
+    self.collapsePrefix = p.collapsePrefix || 'cur';
+    self.pagePrefix = p.pagePrefix || 'page.current';
+    self.dateChipAct = p.dateChipAct || '';
+    self.dateChipText = obs(p.dateChipText || '');
+    self.badgeText = obs(p.badgeText || '');
+    self.badgeAct = p.badgeAct || '';
+    self.actionBtnText = obs(p.actionBtnText || '');
+    self.actionBtnAct = p.actionBtnAct || '';
+    self.missedGroupTitle = obs(p.missedGroupTitle || 'MISSED');
+    self.missedRows = obsArr(p.missedRows || []);
+    self.doneGroupTitle = obs(p.doneGroupTitle || 'DONE');
+    self.doneRows = obsArr(p.doneRows || []);
+    self.onDateChipClick = function (d, e) { if (typeof p.onDateChipClick === 'function') p.onDateChipClick(d, e); };
+    self.onBadgeClick = function (d, e) { if (typeof p.onBadgeClick === 'function') p.onBadgeClick(d, e); };
+    self.onActionBtnClick = function (d, e) { if (typeof p.onActionBtnClick === 'function') p.onActionBtnClick(d, e); };
+}
 
 /* ---------- Tracker Root Page ViewModel ---------- */
 var trackerViewModelInstance = null;
@@ -127,7 +185,13 @@ export function TrackerPageViewModel(params) {
         }
     };
 
-    // Preserved Old Card for Old tracking
+    self.oldParams = {
+        onSelectDate: function () {
+            if (typeof _win.openOldCal === 'function') _win.openOldCal();
+        }
+    };
+
+    // Preserved oldCard observable for legacy compatibility
     self.oldCard = (k && k.observable) ? k.observable(new PrayerTrackerCardViewModel({
         collapsePrefix: 'old',
         pagePrefix: 'page.old',
@@ -146,7 +210,7 @@ export function TrackerPageViewModel(params) {
 
     self.historyParams = {
         onDeleteEntry: function () {
-            // Handled in subpage
+            // Handled within tracker-history-page
         }
     };
 
@@ -156,6 +220,97 @@ export function TrackerPageViewModel(params) {
             self.switchTab(tab, e);
         }
     };
+}
+
+/* ---------- Operational Functions & Facades ---------- */
+export var oldSd = null;
+
+export function setOldSd(date) {
+    oldSd = date;
+    if (typeof _win !== 'undefined') _win.oldSd = date;
+}
+
+export function getDefaultOldPeriod() {
+    var today = td();
+    var yesterday = typeof _win.prevDate === 'function' ? _win.prevDate(today) : today;
+    var start = (typeof _win.rdSD === 'function' ? _win.rdSD() : null) || null;
+    if (!start || start >= today) {
+        var d = new Date();
+        d.setDate(d.getDate() - 30);
+        var pad2 = function (n) { return n < 10 ? '0' + n : n; };
+        start = d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+    }
+    if (start > yesterday) start = yesterday;
+    return {
+        start: start,
+        end: yesterday,
+        initialEnd: yesterday,
+        created: Date.now()
+    };
+}
+
+export function rMS() {
+    var vm = getTrackerViewModel();
+    if (vm && typeof vm.switchTab === 'function') {
+        vm.switchTab('current');
+    }
+}
+
+export function rn() {
+    var vm = getTrackerViewModel();
+    if (vm && typeof vm.switchTab === 'function') {
+        // refreshes current subtab
+    }
+}
+
+export function go(date) {
+    if (_win.PrayerStore && typeof _win.PrayerStore.selectedDate === 'function') {
+        _win.PrayerStore.selectedDate(date);
+    }
+    rn();
+}
+
+export function updateCurrentMissedBadge() {
+    var vm = getTrackerViewModel();
+    if (vm && typeof vm.missedCount === 'function') {
+        vm.missedCount(getTotalMissedCount());
+    }
+}
+
+export function rOldInfo() {
+    var vm = getTrackerViewModel();
+    if (vm && typeof vm.switchTab === 'function') {
+        vm.switchTab('old');
+    }
+}
+
+export function rPeriod() {
+    rOldInfo();
+}
+
+export function openOldCal() {
+    var dp = typeof _win.$ === 'function' ? _win.$('oldDp') : null;
+    if (dp && typeof dp.showPicker === 'function') {
+        try { dp.showPicker(); return; } catch (_) {}
+    }
+    if (dp) dp.click();
+}
+
+export function goOld(date) {
+    setOldSd(date);
+    rOT();
+}
+
+export function rOT() {
+    var vm = getTrackerViewModel();
+    if (vm && typeof vm.switchTab === 'function') {
+        // refreshes old subtab
+    }
+}
+
+export function emptyPrayerHistory() {
+    clearPrayerHistory();
+    rn();
 }
 
 /* ---------- Global App Bridge ---------- */
@@ -168,9 +323,7 @@ export function initTracker() {
             ko.applyBindings(vm, el);
         }
     }
-    if (typeof _win.rn === 'function') {
-        _win.rn();
-    }
+    rn();
 }
 
 export var TrackerApp = {
@@ -193,6 +346,8 @@ if (typeof window !== 'undefined') {
     window.initTracker = initTracker;
     window.getTrackerViewModel = getTrackerViewModel;
     window.TrackerPageViewModel = TrackerPageViewModel;
+    window.PrayerTrackerCardViewModel = PrayerTrackerCardViewModel;
+    window.PrayerRowViewModel = PrayerRowViewModel;
     window.trackerViewModel = getTrackerViewModel();
     window.rMS = rMS;
     window.rn = rn;
@@ -206,7 +361,9 @@ if (typeof window !== 'undefined') {
     window.getDefaultOldPeriod = getDefaultOldPeriod;
     window.rOT = rOT;
     window.oldSd = oldSd;
+    window.emptyPrayerHistory = emptyPrayerHistory;
 }
 
-export default TrackerApp;
+try { registerTrackerComponents(); } catch (_) {}
 
+export default TrackerApp;

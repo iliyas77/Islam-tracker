@@ -4,15 +4,24 @@
    Responsibilities:
      - Centralizes ALL Knockout component registrations for Tracker feature
      - Registers feature-level components (tracker-page, tracker-header, tracker-nav-tab)
-     - Registers modular components for Current, Performance, and History
+     - Registers modular components for Current, Old, Performance, and History
      - Provides backward-compatibility alias registrations for legacy templates
    ============================================================ */
 'use strict';
 
+/* ---------- Template Definitions ---------- */
+export var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker.html' };
+export var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/templates/prayer-header.html' };
+export var TrackerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/templates/prayer-nav-tab.html' };
+export var PrayerTrackerCardTemplate = { element: 'prayer-tracker-card-template', file: 'features/tracker/templates/prayer-tracker-card.html' };
+export var PrayerRowTemplate = { element: 'prayer-row-template', file: 'features/tracker/templates/prayer-row.html' };
+export var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/tracker/templates/prayer-stat-card.html' };
+export var PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'features/tracker/templates/prayer-perf-ring.html' };
+export var PrayerHistoryCardTemplate = { element: 'prayer-history-card-template', file: 'features/tracker/templates/prayer-history-card.html' };
+
 import {
-    TrackerPageTemplate,
-    TrackerHeaderTemplate,
-    TrackerNavTabTemplate,
+    PrayerRowViewModel,
+    PrayerTrackerCardViewModel,
     getTrackerViewModel
 } from './tracker.js';
 
@@ -22,6 +31,13 @@ import {
     TrackerCurrentFormTemplate, TrackerCurrentFormViewModel,
     TrackerCurrentPageTemplate, TrackerCurrentPageViewModel
 } from './tracker-current/tracker-current.js';
+
+import {
+    TrackerOldCardTemplate, TrackerOldCardViewModel,
+    TrackerOldFeedTemplate, TrackerOldFeedViewModel,
+    TrackerOldFormTemplate, TrackerOldFormViewModel,
+    TrackerOldPageTemplate, TrackerOldPageViewModel
+} from './tracker-old/tracker-old.js';
 
 import {
     TrackerPerformanceCardTemplate, TrackerPerformanceCardViewModel,
@@ -35,27 +51,9 @@ import {
     TrackerHistoryPageTemplate, TrackerHistoryPageViewModel
 } from './tracker-history/tracker-history.js';
 
-import {
-    PrayerTrackerCardTemplate, PrayerTrackerCardViewModel,
-    PrayerStatCardTemplate, PrayerPerfRingTemplate
-} from '../prayer-tracking/tracker-view-model.js';
+import { registerComponent } from '../../components/component-helper.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-
-function registerComponent(name, viewModel, template, customKo) {
-    if (!customKo && typeof _win.registerFeatureComponent === 'function') {
-        _win.registerFeatureComponent(name, viewModel, template);
-        return;
-    }
-    var ko = customKo || (typeof _win.ko !== 'undefined' ? _win.ko : (typeof ko !== 'undefined' ? ko : null));
-    if (!ko || !ko.components) return;
-    if (!ko.components.isRegistered(name)) {
-        ko.components.register(name, {
-            viewModel: viewModel,
-            template: template
-        });
-    }
-}
 
 /**
  * Register all Tracker Knockout components
@@ -78,20 +76,26 @@ export function registerTrackerComponents(customKo) {
     registerComponent('tracker-current-form', TrackerCurrentFormViewModel, TrackerCurrentFormTemplate, customKo);
     registerComponent('tracker-current-page', TrackerCurrentPageViewModel, TrackerCurrentPageTemplate, customKo);
 
-    // 3. Performance Tab Modular Components
+    // 3. Old Tab Modular Components
+    registerComponent('tracker-old-card', TrackerOldCardViewModel, TrackerOldCardTemplate, customKo);
+    registerComponent('tracker-old-feed', TrackerOldFeedViewModel, TrackerOldFeedTemplate, customKo);
+    registerComponent('tracker-old-form', TrackerOldFormViewModel, TrackerOldFormTemplate, customKo);
+    registerComponent('tracker-old-page', TrackerOldPageViewModel, TrackerOldPageTemplate, customKo);
+
+    // 4. Performance Tab Modular Components
     registerComponent('tracker-performance-card', TrackerPerformanceCardViewModel, TrackerPerformanceCardTemplate, customKo);
     registerComponent('tracker-performance-feed', TrackerPerformanceFeedViewModel, TrackerPerformanceFeedTemplate, customKo);
     registerComponent('tracker-performance-page', TrackerPerformancePageViewModel, TrackerPerformancePageTemplate, customKo);
 
-    // 4. History Tab Modular Components
+    // 5. History Tab Modular Components
     registerComponent('tracker-history-card', TrackerHistoryCardViewModel, TrackerHistoryCardTemplate, customKo);
     registerComponent('tracker-history-feed', TrackerHistoryFeedViewModel, TrackerHistoryFeedTemplate, customKo);
     registerComponent('tracker-history-page', TrackerHistoryPageViewModel, TrackerHistoryPageTemplate, customKo);
 
-    // 5. Backward Compatibility Aliases for Legacy Template Bindings
+    // 6. Backward Compatibility Aliases for Legacy Template Bindings
     registerComponent('prayer-header', function (p) { return p || {}; }, TrackerHeaderTemplate, customKo);
     registerComponent('prayer-tracker-card', PrayerTrackerCardViewModel, PrayerTrackerCardTemplate, customKo);
-    registerComponent('prayer-row', TrackerCurrentCardViewModel, TrackerCurrentCardTemplate, customKo);
+    registerComponent('prayer-row', PrayerRowViewModel, TrackerCurrentCardTemplate, customKo);
     registerComponent('prayer-stat-card', function (p) { return p || {}; }, PrayerStatCardTemplate, customKo);
     registerComponent('prayer-perf-ring', function (p) { return p || {}; }, PrayerPerfRingTemplate, customKo);
     registerComponent('prayer-nav-tab', function (p) { return p || {}; }, TrackerNavTabTemplate, customKo);
@@ -103,4 +107,3 @@ if (typeof window !== 'undefined') {
 }
 
 export default registerTrackerComponents;
-

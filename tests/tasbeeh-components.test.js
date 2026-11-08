@@ -463,10 +463,27 @@ export async function runTasbeehComponentTests() {
     // ==========================================
     // 4. Knockout Registration Verification (tasbeeh-registration.js)
     // ==========================================
-    const { registerTasbeehComponents } = await import(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-registration.js'));
+    const {
+        registerTasbeehComponents,
+        TasbeehPageViewModel: TasbeehVmFromReg,
+        getTasbeehViewModel: getTasbeehVmFromReg
+    } = await import(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-registration.js'));
+    const {
+        TasbeehPageViewModel: TasbeehVmDirect,
+        getTasbeehViewModel: getTasbeehVmDirect
+    } = await import(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-view-model.js'));
+
+    assert.strictEqual(TasbeehVmFromReg, TasbeehVmDirect, 'tasbeeh-registration.js should re-export TasbeehPageViewModel');
+    assert.strictEqual(getTasbeehVmFromReg, getTasbeehVmDirect, 'tasbeeh-registration.js should re-export getTasbeehViewModel');
+
     registerTasbeehComponents(globalThis.ko);
 
     const expectedComponents = [
+        'tasbeeh-header',
+        'tasbeeh-counter-card',
+        'tasbeeh-progress-circle',
+        'tasbeeh-nav-tab',
+        'tasbeeh-page',
         'tasbeeh-current-card',
         'tasbeeh-current-feed',
         'tasbeeh-current-form',
@@ -486,6 +503,15 @@ export async function runTasbeehComponentTests() {
         const reg = registeredComponents[name];
         assert(reg && reg.viewModel && reg.template, `Component "${name}" must have viewModel and template defined`);
     }
+
+    // Verify subtab containers in tasbeeh.html and main.html do not have static d-none blocking Knockout visible
+    const fs = await import('fs');
+    const tasbeehHtml = fs.readFileSync(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh.html'), 'utf8');
+    const mainHtml = fs.readFileSync(path.join(ROOT, 'main.html'), 'utf8');
+    assert(!tasbeehHtml.includes('id="tbOldBody" class="grow overflow-auto p-2 pb-5 relative d-none"'), 'tbOldBody in tasbeeh.html must not have static d-none');
+    assert(!mainHtml.includes('id="tbOldBody" class="grow overflow-auto p-2 pb-5 relative d-none"'), 'tbOldBody in main.html must not have static d-none');
+    assert(!tasbeehHtml.includes('id="tbHistoryBody" class="grow overflow-auto p-2 pb-5 relative d-none"'), 'tbHistoryBody in tasbeeh.html must not have static d-none');
+    assert(!mainHtml.includes('id="tbHistoryBody" class="grow overflow-auto p-2 pb-5 relative d-none"'), 'tbHistoryBody in main.html must not have static d-none');
 
     // ==========================================
     // 5. Centralized TasbeehService Verification

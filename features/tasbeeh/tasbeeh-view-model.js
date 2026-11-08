@@ -339,7 +339,9 @@ export function TasbeehPageViewModel(params) {
 }
 
 export function initTasbeeh() {
-    if (typeof _win.registerAllComponents === 'function') {
+    if (typeof _win.registerTasbeehComponents === 'function') {
+        _win.registerTasbeehComponents();
+    } else if (typeof _win.registerAllComponents === 'function') {
         _win.registerAllComponents();
     }
     var el = document.getElementById('tasbeehPage');

@@ -22,12 +22,14 @@ export * from './dua-favourites/dua-favourites.js';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
 
-/* ---------- Template Definitions ---------- */
-export var DuasPageTemplate = { element: 'duas-page-template', file: 'features/dua/dua.html' };
-export var DuaHeaderTemplate = { element: 'dua-header-template', file: 'features/dua/templates/dua-header.html' };
-export var DuaNavTabTemplate = { element: 'dua-nav-tab-template', file: 'features/dua/templates/dua-nav-tab.html' };
-export var DuaTranslationToggleTemplate = { element: 'dua-translation-toggle-template', file: 'features/dua/templates/dua-translation-toggle.html' };
-export var DuvaSearchBarTemplate = { element: 'duva-search-bar-template', file: 'features/dua/dua-all/dua-all-form/dua-all-form.html' };
+/* ---------- Template Definitions (re-exported from dua-registration.js) ---------- */
+export {
+    DuasPageTemplate,
+    DuaHeaderTemplate,
+    DuaNavTabTemplate,
+    DuaTranslationToggleTemplate,
+    DuvaSearchBarTemplate
+} from './dua-registration.js';
 
 /* ---------- Dua Feature ViewModel ---------- */
 var duasViewModelInstance = null;
@@ -386,6 +388,8 @@ export var DuasApp = {
 };
 
 export var DuaApp = DuasApp;
+export var DuaPageViewModel = DuasPageViewModel;
+export var getDuaViewModel = getDuasViewModel;
 
 if (typeof window !== 'undefined') {
     window.DuaApp = DuaApp;
@@ -397,5 +401,7 @@ if (typeof window !== 'undefined') {
     window.DuasPageViewModel = DuasPageViewModel;
     window.duasViewModel = getDuasViewModel();
 }
+
+try { registerDuaComponents(); } catch (_) {}
 
 export default DuasApp;

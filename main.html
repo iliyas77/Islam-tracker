@@ -2952,13 +2952,13 @@
 </div>
 
 <!-- Old Tracking (Previous Months) Body Container -->
-<div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody" data-ref="page.tasbeeh.body.old"
+<div class="grow overflow-auto p-2 pb-5 relative" id="tbOldBody" data-ref="page.tasbeeh.body.old"
     data-bind="visible: currentSubTab() === 'old' && !isCalendarOpen()">
     <!-- ko component: { name: 'tasbeeh-old-feed', params: oldFeedParams } --><!-- /ko -->
 </div>
 
 <!-- History & Settings Body Container -->
-<div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody" data-ref="page.tasbeeh.body.history"
+<div class="grow overflow-auto p-2 pb-5 relative" id="tbHistoryBody" data-ref="page.tasbeeh.body.history"
     data-bind="visible: currentSubTab() === 'history' && !isCalendarOpen()">
     <!-- ko component: { name: 'tasbeeh-history-page', params: historyPageParams } --><!-- /ko -->
 </div>
@@ -3932,12 +3932,12 @@
     </div>
 
     <!-- Favourites Subtab -->
-    <div id="duaSubFavs" class="d-none" data-bind="visible: currentSubTab() === 'favourites' || currentSubTab() === 'favs'">
+    <div id="duaSubFavs" data-bind="visible: currentSubTab() === 'favourites' || currentSubTab() === 'favs'">
         <!-- ko component: { name: 'dua-favourites-page', params: favouritesPageParams } --><!-- /ko -->
     </div>
 
     <!-- Detail Subtab -->
-    <div id="duaSubDetail" class="flex flex-col gap-3 d-none" data-bind="visible: currentSubTab() === 'detail'">
+    <div id="duaSubDetail" class="flex flex-col gap-3" data-bind="visible: currentSubTab() === 'detail'">
         <button type="button"
             class="self-start mb-3 px-4 py-2 bg-white border border-borderGrey rounded-xl text-xs font-semibold text-brand cursor-pointer hover:bg-brand-light inline-flex items-center gap-1.5 transition-colors mb-2"
             data-act="dua-detail-back"
@@ -4860,6 +4860,7 @@
     <script type="module" src="services/duas-store.js"></script>
     <script type="module" src="services/settings-store.js"></script>
     <script type="module" src="services/router.js"></script>
+    <script type="module" src="features/dashboard/dashboard.js"></script>
     <script type="module" src="features/dashboard/dashboard-registration.js"></script>
     <script src="app.js"></script>
     <script src="navigation.js"></script>
@@ -4867,14 +4868,14 @@
 
     <!-- Global Components & Custom Bindings Registry -->
     <script type="module">
-        import { registerStartupComponents } from './components/registry.js';
+        import { registerStartupComponents, registerAllComponents } from './components/registry.js';
         import { initApp } from './services/app-view-model.js';
-        registerStartupComponents();
+        registerAllComponents();
         initApp();
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        function startApp() {
             if (typeof initApp === 'function') {
                 initApp();
             } else if (window.initApp) {
@@ -4883,7 +4884,13 @@
             if (window.DashboardApp && typeof window.DashboardApp.init === 'function') {
                 window.DashboardApp.init();
             }
-        });
+        }
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            startApp();
+        } else {
+            document.addEventListener('DOMContentLoaded', startApp);
+        }
+    </script>
 
         // Progressive Web App (PWA) Service Worker Registration
         if ('serviceWorker' in navigator) {

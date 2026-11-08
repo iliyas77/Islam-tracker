@@ -23,8 +23,6 @@ export const DashboardTimelineTemplate = {
     file: 'features/dashboard/components/dashboard-timeline/dashboard-timeline.html'
 };
 
-export const TimelineTemplate = DashboardTimelineTemplate;
-
 export function DashboardTimelineViewModel(params) {
     if (params instanceof DashboardTimelineViewModel) return params;
     if (!(this instanceof DashboardTimelineViewModel)) return new DashboardTimelineViewModel(params);
@@ -91,20 +89,7 @@ export function DashboardTimelineViewModel(params) {
     self.updateTimeline();
 }
 
-export const TimelineViewModel = DashboardTimelineViewModel;
-
-// Global backward compatibility
-if (typeof window !== 'undefined') {
-    window.DashboardTimelineViewModel = DashboardTimelineViewModel;
-    window.TimelineViewModel = DashboardTimelineViewModel;
-    window.DashboardTimelineTemplate = DashboardTimelineTemplate;
-    window.TimelineTemplate = DashboardTimelineTemplate;
-}
-
 export default {
     DashboardTimelineViewModel: DashboardTimelineViewModel,
-    TimelineViewModel: DashboardTimelineViewModel,
-    DashboardTimelineTemplate: DashboardTimelineTemplate,
-    TimelineTemplate: DashboardTimelineTemplate
+    DashboardTimelineTemplate: DashboardTimelineTemplate
 };
-

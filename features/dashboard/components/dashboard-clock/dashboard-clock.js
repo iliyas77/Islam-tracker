@@ -18,8 +18,6 @@ export const DashboardClockTemplate = {
     file: 'features/dashboard/components/dashboard-clock/dashboard-clock.html'
 };
 
-export const ClockTemplate = DashboardClockTemplate;
-
 export function DashboardClockViewModel(params) {
     if (params instanceof DashboardClockViewModel) return params;
     if (!(this instanceof DashboardClockViewModel)) return new DashboardClockViewModel(params);
@@ -53,20 +51,7 @@ export function DashboardClockViewModel(params) {
     }
 }
 
-export const ClockViewModel = DashboardClockViewModel;
-
-// Global backward compatibility
-if (typeof window !== 'undefined') {
-    window.DashboardClockViewModel = DashboardClockViewModel;
-    window.ClockViewModel = DashboardClockViewModel;
-    window.DashboardClockTemplate = DashboardClockTemplate;
-    window.ClockTemplate = DashboardClockTemplate;
-}
-
 export default {
     DashboardClockViewModel: DashboardClockViewModel,
-    ClockViewModel: DashboardClockViewModel,
-    DashboardClockTemplate: DashboardClockTemplate,
-    ClockTemplate: DashboardClockTemplate
+    DashboardClockTemplate: DashboardClockTemplate
 };
-

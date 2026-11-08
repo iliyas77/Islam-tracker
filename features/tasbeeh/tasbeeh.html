@@ -9,13 +9,13 @@
 </div>
 
 <!-- Old Tracking (Previous Months) Body Container -->
-<div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody" data-ref="page.tasbeeh.body.old"
+<div class="grow overflow-auto p-2 pb-5 relative" id="tbOldBody" data-ref="page.tasbeeh.body.old"
     data-bind="visible: currentSubTab() === 'old' && !isCalendarOpen()">
     <!-- ko component: { name: 'tasbeeh-old-feed', params: oldFeedParams } --><!-- /ko -->
 </div>
 
 <!-- History & Settings Body Container -->
-<div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody" data-ref="page.tasbeeh.body.history"
+<div class="grow overflow-auto p-2 pb-5 relative" id="tbHistoryBody" data-ref="page.tasbeeh.body.history"
     data-bind="visible: currentSubTab() === 'history' && !isCalendarOpen()">
     <!-- ko component: { name: 'tasbeeh-history-page', params: historyPageParams } --><!-- /ko -->
 </div>

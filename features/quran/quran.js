@@ -22,9 +22,11 @@ export * from './quran-bookmark/quran-bookmark.js';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
 
-/* ---------- Template Definitions ---------- */
-export const QuranPageTemplate = { element: 'quran-page-template', file: 'features/quran/quran.html' };
-export const QuranNavTabTemplate = { element: 'quran-nav-tab-template', file: 'features/quran/templates/quran-nav-tab.html' };
+/* ---------- Template Definitions (re-exported from quran-registration.js) ---------- */
+export {
+    QuranPageTemplate,
+    QuranNavTabTemplate
+} from './quran-registration.js';
 
 /* ---------- Quran Feature ViewModel ---------- */
 var quranViewModelInstance = null;
@@ -175,6 +177,8 @@ if (typeof window !== 'undefined') {
         QuranApp.switchTab(tab);
     };
 }
+
+try { registerQuranComponents(); } catch (_) {}
 
 export default QuranApp;
 

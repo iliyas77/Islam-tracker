@@ -546,8 +546,8 @@ data-bind="attr: { 'data-ref': 'page.history.item.avatar.' + (id || '') }"><app-
 data-bind="text: prayer, attr: { 'data-ref': 'page.history.item.prayer.' + (id || '') }"></h6><span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
 data-bind="text: type, attr: { 'data-ref': 'page.history.item.type.' + (id || '') }, css: isCurrent ? 'bg-brand-light text-brand border border-brand/20' : 'bg-amber-50 text-amber-700 border border-amber-200'"></span></div></div><span class="flex items-center gap-1.5 text-brand text-xs font-bold shrink-0"><app-icon params="name: 'circle-check', size: '14px', color: 'text-brand'"></app-icon><span>Completed</span></span></div><div class="text-gr-textMuted text-xs" data-bind="attr: { 'data-ref': 'page.history.item.date.' + (id || '') }">
 Prayer Date: <strong class="text-brand font-bold" data-bind="text: formattedDate"></strong></div><div class="flex items-center justify-between text-gr-textMuted text-xs"><div class="flex items-center gap-1.5" data-bind="attr: { 'data-ref': 'page.history.item.time.' + (id || '') }"><app-icon params="name: 'clock', prefix: 'fa-regular', size: '12px'"></app-icon><span>Completed: <span class="text-brand font-medium" data-bind="text: exactTime"></span></span></div><span class="text-gr-textMuted" data-bind="text: ago"></span></div></div></script><script type="text/html" id="tasbeeh-page-template"><!-- ko component: { name: 'tasbeeh-header', params: header } --><!-- /ko --><div class="grow overflow-auto p-2 pb-5 relative" id="tbCurrentBody"
-data-bind="visible: currentSubTab() === 'current' && !isCalendarOpen()"><!-- ko component: { name: 'tasbeeh-current-feed', params: currentFeedParams } --><!-- /ko --></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbOldBody"
-data-bind="visible: currentSubTab() === 'old' && !isCalendarOpen()"><!-- ko component: { name: 'tasbeeh-old-feed', params: oldFeedParams } --><!-- /ko --></div><div class="grow overflow-auto p-2 pb-5 relative d-none" id="tbHistoryBody"
+data-bind="visible: currentSubTab() === 'current' && !isCalendarOpen()"><!-- ko component: { name: 'tasbeeh-current-feed', params: currentFeedParams } --><!-- /ko --></div><div class="grow overflow-auto p-2 pb-5 relative" id="tbOldBody"
+data-bind="visible: currentSubTab() === 'old' && !isCalendarOpen()"><!-- ko component: { name: 'tasbeeh-old-feed', params: oldFeedParams } --><!-- /ko --></div><div class="grow overflow-auto p-2 pb-5 relative" id="tbHistoryBody"
 data-bind="visible: currentSubTab() === 'history' && !isCalendarOpen()"><!-- ko component: { name: 'tasbeeh-history-page', params: historyPageParams } --><!-- /ko --></div><!-- ko if: currentSubTab() === 'current' && isCalendarOpen() --><!-- ko component: { name: 'tasbeeh-current-page', params: currentCalendarParams } --><!-- /ko --><!-- /ko --><!-- ko if: currentSubTab() === 'old' && isCalendarOpen() --><!-- ko component: { name: 'tasbeeh-old-page', params: oldCalendarParams } --><!-- /ko --><!-- /ko --><!-- ko component: { name: 'tasbeeh-current-form', params: currentFormParams } --><!-- /ko --><button type="button"
 class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
 id="tbAddBtn" title="Add New Dhikr" aria-label="Add New Dhikr"
@@ -772,7 +772,7 @@ data-bind="click: save"><app-icon params="name: 'check', size: 'xs'"></app-icon>
 class="px-3 py-2 rounded-xl bg-surfaceBg border border-borderGrey text-gr-textMuted font-bold text-xs hover:bg-gray-100 transition-colors cursor-pointer select-none"
 data-bind="click: reset">
 Reset Default
-</button></div></div></script><script type="text/html" id="tasbeeh-history-page-template"><div class="flex flex-col gap-3 pt-1 pb-4" id="tbHistoryContent"><!-- ko component: { name: 'tasbeeh-progress-circle', params: progressStats } --><!-- /ko --><!-- ko component: { name: 'tasbeeh-history-form', params: formParams } --><!-- /ko --><!-- ko component: { name: 'tasbeeh-history-feed', params: feedParams } --><!-- /ko --></div></script><script type="text/html" id="dua-page-template"><!-- ko template: { name: 'duas-page-template' } --><!-- /ko --></script><script type="text/html" id="duas-page-template"><!-- ko component: { name: 'dua-header', params: header } --><!-- /ko --><div class="grow overflow-auto p-3 relative pb-5" id="duasBody"><div id="duaSubHome" data-bind="visible: currentSubTab() === 'home' || currentSubTab() === 'pinned'"><!-- ko component: { name: 'dua-pinned-page', params: pinnedPageParams } --><!-- /ko --></div><div id="duaSubAll" data-bind="visible: currentSubTab() === 'duas' || currentSubTab() === 'all'"><!-- ko component: { name: 'dua-all-page', params: allPageParams } --><!-- /ko --></div><div id="duaSubFavs" class="d-none" data-bind="visible: currentSubTab() === 'favourites' || currentSubTab() === 'favs'"><!-- ko component: { name: 'dua-favourites-page', params: favouritesPageParams } --><!-- /ko --></div><div id="duaSubDetail" class="flex flex-col gap-3 d-none" data-bind="visible: currentSubTab() === 'detail'"><button type="button"
+</button></div></div></script><script type="text/html" id="tasbeeh-history-page-template"><div class="flex flex-col gap-3 pt-1 pb-4" id="tbHistoryContent"><!-- ko component: { name: 'tasbeeh-progress-circle', params: progressStats } --><!-- /ko --><!-- ko component: { name: 'tasbeeh-history-form', params: formParams } --><!-- /ko --><!-- ko component: { name: 'tasbeeh-history-feed', params: feedParams } --><!-- /ko --></div></script><script type="text/html" id="dua-page-template"><!-- ko template: { name: 'duas-page-template' } --><!-- /ko --></script><script type="text/html" id="duas-page-template"><!-- ko component: { name: 'dua-header', params: header } --><!-- /ko --><div class="grow overflow-auto p-3 relative pb-5" id="duasBody"><div id="duaSubHome" data-bind="visible: currentSubTab() === 'home' || currentSubTab() === 'pinned'"><!-- ko component: { name: 'dua-pinned-page', params: pinnedPageParams } --><!-- /ko --></div><div id="duaSubAll" data-bind="visible: currentSubTab() === 'duas' || currentSubTab() === 'all'"><!-- ko component: { name: 'dua-all-page', params: allPageParams } --><!-- /ko --></div><div id="duaSubFavs" data-bind="visible: currentSubTab() === 'favourites' || currentSubTab() === 'favs'"><!-- ko component: { name: 'dua-favourites-page', params: favouritesPageParams } --><!-- /ko --></div><div id="duaSubDetail" class="flex flex-col gap-3" data-bind="visible: currentSubTab() === 'detail'"><button type="button"
 class="self-start mb-3 px-4 py-2 bg-white border border-borderGrey rounded-xl text-xs font-semibold text-brand cursor-pointer hover:bg-brand-light inline-flex items-center gap-1.5 transition-colors mb-2"
 data-act="dua-detail-back"
 data-bind="click: goBack"><app-icon params="name: 'arrow-left', customClass: 'mr-1'"></app-icon> Back to list
@@ -1079,7 +1079,7 @@ data-bind="text: arabicName"></span><button type="button" aria-label="Remove boo
 class="w-7 h-7 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition-colors focus-visible:outline-none"
 data-bind="click: handleRemove"><i class="fa-solid fa-trash-can text-xs" aria-hidden="true"></i></button></div></div><!-- ko if: arabicText --><p dir="rtl" lang="ar" class="font-arabic text-lg text-right text-gray-800 line-clamp-2 leading-relaxed"
 data-bind="text: arabicText"></p><!-- /ko --><!-- ko if: translation --><p lang="te" class="font-telugu text-sm text-gray-600 line-clamp-2 leading-relaxed"
-data-bind="text: translation"></p><!-- /ko --></div></script></div><script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js"></script><script type="module" src="features/dashboard/dashboard-registration.js"></script><script>'use strict';
+data-bind="text: translation"></p><!-- /ko --></div></script></div><script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js"></script><script>'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
 var ModalBinding = {
@@ -1284,6 +1284,32 @@ window.registerCustomBindings = registerCustomBindings;
 window.ModalBinding = ModalBinding;
 window.DatePickerBinding = DatePickerBinding;
 window.RippleBinding = RippleBinding;
+}
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+function registerComponent(name, viewModel, template, customKo) {
+var safeTemplate = template || { element: name + '-template' };
+if (!customKo && typeof _win.registerFeatureComponent === 'function') {
+_win.registerFeatureComponent(name, viewModel, safeTemplate);
+return;
+}
+var ko = customKo || (typeof _win.ko !== 'undefined' ? _win.ko : (typeof ko !== 'undefined' ? ko : null));
+if (!ko || !ko.components) return;
+if (!ko.components.isRegistered(name)) {
+ko.components.register(name, {
+viewModel: viewModel,
+template: safeTemplate
+});
+}
+}
+if (typeof window !== 'undefined') {
+window.registerComponent = registerComponent;
+}
+if (typeof module !== 'undefined' && module.exports) {
+module.exports = {
+registerComponent: registerComponent
+};
+module.exports.default = registerComponent;
 }
 'use strict';
 var SIZE_MAP = {
@@ -2190,7 +2216,7 @@ FONT_SIZE_OPTIONS: [
 ]
 },
 NAVIGATION: {
-PAGES: ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage'],
+PAGES: ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage', 'quranPage'],
 NAVS: {
 dashboard: 'navHome',
 tracker: 'navCur',
@@ -2199,7 +2225,8 @@ old: 'navCur',
 performance: 'navCur',
 settings: 'navSet',
 tasbeeh: 'navTasbeeh',
-duas: 'navDuas'
+duas: 'navDuas',
+quran: 'navQuran'
 },
 SUB_TABS: {
 CURRENT: 'current',
@@ -2216,7 +2243,8 @@ performance: 'trackerPage',
 history: 'trackerPage',
 settings: 'settingsPage',
 tasbeeh: 'tasbeehPage',
-duas: 'duasPage'
+duas: 'duasPage',
+quran: 'quranPage'
 },
 TRACKER_HEADER: {
 current: {
@@ -4999,6 +5027,17 @@ Isha: 'fa-solid fa-moon'
 var dashTimer = null;
 var dashCurrentActivePrayer = null;
 var dashLastCheckedDate = typeof _win.td === 'function' ? _win.td() : null;
+var dashTickListeners = [];
+function onDashTick(fn) {
+if (typeof fn === 'function') {
+dashTickListeners.push(fn);
+return function unsubscribe() {
+var idx = dashTickListeners.indexOf(fn);
+if (idx !== -1) dashTickListeners.splice(idx, 1);
+};
+}
+return function () {};
+}
 function pad2(n) {
 if (typeof _win.pad2 === 'function') return _win.pad2(n);
 var s = String(n);
@@ -5176,6 +5215,11 @@ if (typeof _win.rDashboard === 'function') {
 _win.rDashboard();
 }
 }
+for (var i = 0; i < dashTickListeners.length; i++) {
+try {
+dashTickListeners[i]();
+} catch (_) {}
+}
 }
 function startDashClock() {
 if (dashTimer) clearInterval(dashTimer);
@@ -5207,6 +5251,7 @@ getActivePrayerInfo: getActivePrayerInfo,
 dashTick: dashTick,
 startDashClock: startDashClock,
 stopDashClock: stopDashClock,
+onDashTick: onDashTick,
 setDashCurrentActivePrayer: setDashCurrentActivePrayer,
 getDashCurrentActivePrayer: getDashCurrentActivePrayer,
 CONSTANTS: DASH_CONSTANTS,
@@ -5224,6 +5269,7 @@ window.getTimelinePrayerStatuses = getTimelinePrayerStatuses;
 window.getActivePrayerInfo = getActivePrayerInfo;
 window.dashTick = dashTick;
 window.startDashClock = startDashClock;
+window.onDashTick = onDashTick;
 }
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
@@ -5232,7 +5278,6 @@ var DashboardClockTemplate = {
 element: 'dashboard-clock-template',
 file: 'features/dashboard/components/dashboard-clock/dashboard-clock.html'
 };
-var ClockTemplate = DashboardClockTemplate;
 function DashboardClockViewModel(params) {
 if (params instanceof DashboardClockViewModel) return params;
 if (!(this instanceof DashboardClockViewModel)) return new DashboardClockViewModel(params);
@@ -5258,13 +5303,6 @@ if (self.digits() === '--:--:--') {
 self.updateClock();
 }
 }
-var ClockViewModel = DashboardClockViewModel;
-if (typeof window !== 'undefined') {
-window.DashboardClockViewModel = DashboardClockViewModel;
-window.ClockViewModel = DashboardClockViewModel;
-window.DashboardClockTemplate = DashboardClockTemplate;
-window.ClockTemplate = DashboardClockTemplate;
-}
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
@@ -5272,7 +5310,6 @@ var DashboardTimelineTemplate = {
 element: 'dashboard-timeline-template',
 file: 'features/dashboard/components/dashboard-timeline/dashboard-timeline.html'
 };
-var TimelineTemplate = DashboardTimelineTemplate;
 function DashboardTimelineViewModel(params) {
 if (params instanceof DashboardTimelineViewModel) return params;
 if (!(this instanceof DashboardTimelineViewModel)) return new DashboardTimelineViewModel(params);
@@ -5329,13 +5366,6 @@ item.isActive(isActive);
 };
 self.updateTimeline();
 }
-var TimelineViewModel = DashboardTimelineViewModel;
-if (typeof window !== 'undefined') {
-window.DashboardTimelineViewModel = DashboardTimelineViewModel;
-window.TimelineViewModel = DashboardTimelineViewModel;
-window.DashboardTimelineTemplate = DashboardTimelineTemplate;
-window.TimelineTemplate = DashboardTimelineTemplate;
-}
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
@@ -5343,7 +5373,6 @@ var DashboardFeaturesGridTemplate = {
 element: 'dashboard-features-grid-template',
 file: 'features/dashboard/components/dashboard-features-grid/dashboard-features-grid.html'
 };
-var FeaturesGridTemplate = DashboardFeaturesGridTemplate;
 function DashboardFeaturesGridViewModel(params) {
 if (params instanceof DashboardFeaturesGridViewModel) return params;
 if (!(this instanceof DashboardFeaturesGridViewModel)) return new DashboardFeaturesGridViewModel(params);
@@ -5466,21 +5495,9 @@ trackerBadgeText(totalMissed > 0 ? (totalMissed + ' missed') : '');
 self.trackerBadgeVisible = trackerBadgeVisible;
 self.trackerBadgeText = trackerBadgeText;
 }
-var FeaturesGridViewModel = DashboardFeaturesGridViewModel;
-if (typeof window !== 'undefined') {
-window.DashboardFeaturesGridViewModel = DashboardFeaturesGridViewModel;
-window.FeaturesGridViewModel = DashboardFeaturesGridViewModel;
-window.DashboardFeaturesGridTemplate = DashboardFeaturesGridTemplate;
-window.FeaturesGridTemplate = DashboardFeaturesGridTemplate;
-}
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
-var DashboardMobileViewTemplate = {
-element: 'dashboard-page-template',
-file: 'features/dashboard/dashboard-mobile-view.html'
-};
-var DashboardPageTemplate = DashboardMobileViewTemplate;
 var dashboardViewModelInstance = null;
 function getDashboardViewModel() {
 if (!dashboardViewModelInstance && typeof DashboardViewModel === 'function') {
@@ -5602,40 +5619,39 @@ render: rDashboard,
 registerComponents: registerDashboardComponents,
 getViewModel: getDashboardViewModel
 };
-function registerComponent(name, viewModel, template, customKo) {
-if (!customKo && typeof _win.registerFeatureComponent === 'function') {
-_win.registerFeatureComponent(name, viewModel, template);
-return;
+if (typeof window !== 'undefined') {
+window.DashboardApp = DashboardApp;
+window.rDashboard = rDashboard;
+window.initDashboard = initDashboard;
+window.DashboardViewModel = DashboardViewModel;
+window.getDashboardViewModel = getDashboardViewModel;
 }
-var ko = customKo || (typeof _win.ko !== 'undefined' ? _win.ko : (typeof ko !== 'undefined' ? ko : null));
-if (!ko || !ko.components) return;
-if (!ko.components.isRegistered(name)) {
-ko.components.register(name, {
-viewModel: viewModel,
-template: template
-});
+if (typeof module !== 'undefined' && module.exports) {
+module.exports = {
+initDashboard: initDashboard,
+rDashboard: rDashboard,
+registerDashboardComponents: registerDashboardComponents,
+DashboardViewModel: DashboardViewModel,
+getDashboardViewModel: getDashboardViewModel,
+DashboardApp: DashboardApp,
+DashboardPageTemplate: DashboardPageTemplate
+};
+module.exports.default = DashboardApp;
 }
-}
+'use strict';
+var DashboardPageTemplate = {
+element: 'dashboard-page-template',
+file: 'features/dashboard/dashboard-mobile-view.html'
+};
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 function registerDashboardComponents(customKo) {
 registerComponent('dashboard-clock', function (params) {
-return (params && params instanceof DashboardClockViewModel) ? params : new DashboardClockViewModel(params);
-}, DashboardClockTemplate, customKo);
-registerComponent('clock-component', function (params) {
 return (params && params instanceof DashboardClockViewModel) ? params : new DashboardClockViewModel(params);
 }, DashboardClockTemplate, customKo);
 registerComponent('dashboard-timeline', function (params) {
 return (params && params instanceof DashboardTimelineViewModel) ? params : new DashboardTimelineViewModel(params);
 }, DashboardTimelineTemplate, customKo);
-registerComponent('timeline-component', function (params) {
-return (params && params instanceof DashboardTimelineViewModel) ? params : new DashboardTimelineViewModel(params);
-}, DashboardTimelineTemplate, customKo);
 registerComponent('dashboard-features-grid', function (params) {
-return (params && params instanceof DashboardFeaturesGridViewModel) ? params : new DashboardFeaturesGridViewModel(params);
-}, DashboardFeaturesGridTemplate, customKo);
-registerComponent('features-grid-component', function (params) {
-return (params && params instanceof DashboardFeaturesGridViewModel) ? params : new DashboardFeaturesGridViewModel(params);
-}, DashboardFeaturesGridTemplate, customKo);
-registerComponent('features-grid', function (params) {
 return (params && params instanceof DashboardFeaturesGridViewModel) ? params : new DashboardFeaturesGridViewModel(params);
 }, DashboardFeaturesGridTemplate, customKo);
 var pageVmResolver = function (params) {
@@ -5644,18 +5660,10 @@ if (params && params.timeline) return params;
 if (params && params.dashboard) return params.dashboard;
 return getDashboardViewModel();
 };
-registerComponent('dashboard-mobile-view', pageVmResolver, DashboardMobileViewTemplate, customKo);
-registerComponent('dashboard-page', pageVmResolver, DashboardMobileViewTemplate, customKo);
+registerComponent('dashboard-page', pageVmResolver, DashboardPageTemplate, customKo);
 }
 if (typeof window !== 'undefined') {
-window.DashboardApp = DashboardApp;
-window.rDashboard = rDashboard;
-window.initDashboard = initDashboard;
-window.DashboardViewModel = DashboardViewModel;
-window.getDashboardViewModel = getDashboardViewModel;
 window.registerDashboardComponents = registerDashboardComponents;
-window.DashboardMobileViewTemplate = DashboardMobileViewTemplate;
-window.DashboardPageTemplate = DashboardPageTemplate;
 }
 if (typeof module !== 'undefined' && module.exports) {
 module.exports = {
@@ -5663,114 +5671,600 @@ initDashboard: initDashboard,
 rDashboard: rDashboard,
 registerDashboardComponents: registerDashboardComponents,
 DashboardViewModel: DashboardViewModel,
-getDashboardViewModel: getDashboardViewModel
+getDashboardViewModel: getDashboardViewModel,
+DashboardApp: DashboardApp,
+DashboardPageTemplate: DashboardPageTemplate
 };
-module.exports.default = DashboardApp;
+module.exports.default = registerDashboardComponents;
 }
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-var SETTINGS_CONSTANTS = _win.SETTINGS_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.SETTINGS) || {};
-var PRAYER_CONSTANTS = _win.PRAYER_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER) || {};
-var INDIAN_CITIES = SETTINGS_CONSTANTS.INDIAN_CITIES || _win.INDIAN_CITIES || [];
-var CUSTOM_CITY_VALUE = SETTINGS_CONSTANTS.CUSTOM_CITY_VALUE || '__custom__';
-var TIMINGS_STATUS_LABELS = PRAYER_CONSTANTS.STATUS_LABELS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER && _win.CONSTANTS.PRAYER.STATUS_LABELS) || { live: 'Live', cached: 'Cached', offline: 'Offline' };
-var SETTINGS_DEFAULT_CONFIG = SETTINGS_CONSTANTS.DEFAULT_CONFIG || { city: 'Guntur', country: 'India', school: 1 };
-var SETTINGS_ELEMENT_IDS = SETTINGS_CONSTANTS.ELEMENT_IDS || {
-LOCATION_SUBTITLE: 'ptLocationSubtitle',
-STATUS_TEXT: 'ptStatusText',
-CITY_SELECT: 'ptCitySelect',
-CUSTOM_CITY_WRAP: 'ptCustomCityWrap',
-CUSTOM_CITY_INPUT: 'ptCustomCityInput',
-COUNTRY_INPUT: 'ptCountryInput',
-SCHOOL_SELECT: 'ptSchoolSelect',
-START_DATE_INPUT: 'sdInput',
-FONT_SIZE_BTNS: 'fsBtns'
+var SETTINGS_STORAGE_KEYS = {
+CONFIG: 'namazPrayerConfig',
+START_DATE: 'namazStartDate',
+FONT_SIZE: 'namazFontSize',
+TIMINGS_CACHE: 'namazPrayerTimingsCache',
+TRACKER_DATA: 'namazTrackerData',
+OLD_DATA: 'namazOldData',
+OLD_PERIOD: 'namazOldPeriod',
+HISTORY: 'namazPrayerHistory',
+TASBEEH: 'tasbeeh_items',
+DUAS_PINS: 'quran_duas_pins',
+DUAS_FAVS: 'quran_duas_favs',
+QURAN_BOOKMARKS: 'quran_bookmarks'
 };
-var SETTINGS_BUTTON_CLASSES = SETTINGS_CONSTANTS.BUTTON_CLASSES || {
-FONT_ACTIVE: 'flex-1 py-3 font-bold rounded-xl text-sm bg-brand text-white border border-brand transition-all cursor-pointer',
-FONT_INACTIVE: 'flex-1 py-3 font-bold rounded-xl text-sm bg-surfaceBg text-brand border border-borderGrey hover:bg-brand-light transition-all cursor-pointer'
+var DEFAULT_SETTINGS_CONFIG = {
+city: 'Guntur',
+country: 'India',
+school: 1,
+method: 1
 };
-var SETTINGS_STATUS_FALLBACK = SETTINGS_CONSTANTS.STATUS_FALLBACK || 'Offline';
+var INDIAN_CITIES = [
+{ name: 'Guntur', state: 'AP' },
+{ name: 'Vijayawada', state: 'AP' },
+{ name: 'Hyderabad', state: 'Telangana' },
+{ name: 'Tenali', state: 'AP' },
+{ name: 'Visakhapatnam', state: 'AP' },
+{ name: 'Tirupati', state: 'AP' },
+{ name: 'Kurnool', state: 'AP' },
+{ name: 'Bengaluru', state: 'Karnataka' },
+{ name: 'Chennai', state: 'Tamil Nadu' },
+{ name: 'Mumbai', state: 'Maharashtra' },
+{ name: 'Delhi', state: 'Delhi' },
+{ name: 'Kolkata', state: 'West Bengal' }
+];
+var CUSTOM_CITY_VALUE = '__custom__';
+var FONT_SIZE_OPTIONS = [
+{ value: 0.9, label: 'Small', key: 'small' },
+{ value: 1.0, label: 'Medium', key: 'medium' },
+{ value: 1.15, label: 'Large', key: 'large' }
+];
+var JURISTIC_SCHOOLS = [
+{ value: '1', label: 'Hanafi (Standard in South Asia)' },
+{ value: '0', label: 'Shafi / Maliki / Hanbali' }
+];
+function unwrap(val, def) {
+var res = (typeof val === 'function') ? val() : val;
+return (res !== undefined && res !== null) ? res : def;
+}
+function getPrayerConfig() {
+try {
+var raw = _win.localStorage ? _win.localStorage.getItem(SETTINGS_STORAGE_KEYS.CONFIG) : null;
+if (raw) {
+var parsed = JSON.parse(raw);
+if (parsed && typeof parsed === 'object') {
+return Object.assign({}, DEFAULT_SETTINGS_CONFIG, parsed);
+}
+}
+} catch (_) {}
+return Object.assign({}, DEFAULT_SETTINGS_CONFIG);
+}
+function savePrayerConfig(cfg) {
+if (!cfg || typeof cfg !== 'object') return;
+var merged = Object.assign(getPrayerConfig(), cfg);
+try {
+if (_win.localStorage) {
+_win.localStorage.setItem(SETTINGS_STORAGE_KEYS.CONFIG, JSON.stringify(merged));
+_win.localStorage.removeItem(SETTINGS_STORAGE_KEYS.TIMINGS_CACHE);
+}
+} catch (_) {}
+if (_win.SettingsStore && typeof _win.SettingsStore.sync === 'function') {
+_win.SettingsStore.sync();
+}
+return merged;
+}
+function getStartDate() {
+try {
+var raw = _win.localStorage ? _win.localStorage.getItem(SETTINGS_STORAGE_KEYS.START_DATE) : null;
+if (raw) return raw;
+} catch (_) {}
+return (typeof _win.td === 'function' ? _win.td() : new Date().toISOString().slice(0, 10));
+}
+function saveStartDate(dateStr) {
+if (!dateStr) return;
+try {
+if (_win.localStorage) {
+_win.localStorage.setItem(SETTINGS_STORAGE_KEYS.START_DATE, dateStr);
+}
+} catch (_) {}
+if (_win.SettingsStore && typeof _win.SettingsStore.sync === 'function') {
+_win.SettingsStore.sync();
+}
+return dateStr;
+}
+function getFontSize() {
+try {
+var raw = _win.localStorage ? _win.localStorage.getItem(SETTINGS_STORAGE_KEYS.FONT_SIZE) : null;
+if (raw) {
+var n = parseFloat(raw);
+if (!isNaN(n) && n > 0) return n;
+}
+} catch (_) {}
+return 1.0;
+}
+function applyFontSize(size) {
+var val = parseFloat(size);
+if (isNaN(val) || val <= 0) val = 1.0;
+try {
+if (_win.localStorage) {
+_win.localStorage.setItem(SETTINGS_STORAGE_KEYS.FONT_SIZE, String(val));
+}
+} catch (_) {}
+if (_win.document && _win.document.documentElement) {
+_win.document.documentElement.style.fontSize = (val * 16) + 'px';
+}
+return val;
+}
+function resetDatabase() {
+try {
+if (_win.localStorage) {
+_win.localStorage.removeItem(SETTINGS_STORAGE_KEYS.TRACKER_DATA);
+_win.localStorage.removeItem(SETTINGS_STORAGE_KEYS.OLD_DATA);
+_win.localStorage.removeItem(SETTINGS_STORAGE_KEYS.OLD_PERIOD);
+_win.localStorage.removeItem(SETTINGS_STORAGE_KEYS.HISTORY);
+_win.localStorage.removeItem(SETTINGS_STORAGE_KEYS.TIMINGS_CACHE);
+}
+} catch (_) {}
+var todayStr = (typeof _win.td === 'function' ? _win.td() : new Date().toISOString().slice(0, 10));
+saveStartDate(todayStr);
+if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
+_win.PrayerStore.sync();
+}
+if (_win.SettingsStore && typeof _win.SettingsStore.sync === 'function') {
+_win.SettingsStore.sync();
+}
+}
+function exportBackupData() {
+var backup = {
+app: 'Nur Prayer',
+version: '1.0.0',
+exportedAt: new Date().toISOString(),
+data: {}
+};
+if (_win.localStorage) {
+Object.keys(SETTINGS_STORAGE_KEYS).forEach(function (k) {
+var key = SETTINGS_STORAGE_KEYS[k];
+var val = _win.localStorage.getItem(key);
+if (val !== null) {
+try {
+backup.data[key] = JSON.parse(val);
+} catch (_) {
+backup.data[key] = val;
+}
+}
+});
+}
+return backup;
+}
+function importBackupData(jsonOrObj) {
+var payload = jsonOrObj;
+if (typeof jsonOrObj === 'string') {
+try {
+payload = JSON.parse(jsonOrObj);
+} catch (e) {
+return { success: false, message: 'Invalid JSON format' };
+}
+}
+if (!payload || typeof payload !== 'object' || !payload.data) {
+return { success: false, message: 'Invalid backup structure' };
+}
+try {
+if (_win.localStorage) {
+Object.keys(payload.data).forEach(function (key) {
+var val = payload.data[key];
+if (typeof val === 'object' && val !== null) {
+_win.localStorage.setItem(key, JSON.stringify(val));
+} else if (val !== undefined && val !== null) {
+_win.localStorage.setItem(key, String(val));
+}
+});
+}
+if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') _win.PrayerStore.sync();
+if (_win.SettingsStore && typeof _win.SettingsStore.sync === 'function') _win.SettingsStore.sync();
+if (_win.TasbeehStore && typeof _win.TasbeehStore.sync === 'function') _win.TasbeehStore.sync();
+if (_win.DuasStore && typeof _win.DuasStore.sync === 'function') _win.DuasStore.sync();
+return { success: true, message: 'Backup restored successfully' };
+} catch (err) {
+return { success: false, message: err.message || 'Error restoring backup' };
+}
+}
+var SettingsService = {
+SETTINGS_STORAGE_KEYS: SETTINGS_STORAGE_KEYS,
+DEFAULT_SETTINGS_CONFIG: DEFAULT_SETTINGS_CONFIG,
+INDIAN_CITIES: INDIAN_CITIES,
+CUSTOM_CITY_VALUE: CUSTOM_CITY_VALUE,
+FONT_SIZE_OPTIONS: FONT_SIZE_OPTIONS,
+JURISTIC_SCHOOLS: JURISTIC_SCHOOLS,
+unwrap: unwrap,
+getPrayerConfig: getPrayerConfig,
+savePrayerConfig: savePrayerConfig,
+getStartDate: getStartDate,
+saveStartDate: saveStartDate,
+getFontSize: getFontSize,
+applyFontSize: applyFontSize,
+resetDatabase: resetDatabase,
+exportBackupData: exportBackupData,
+importBackupData: importBackupData
+};
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var SettingsPrayerTimesTemplate = {
+element: 'settings-prayer-times-template',
+file: 'features/settings/components/settings-prayer-times/settings-prayer-times.html'
+};
+function SettingsPrayerTimesViewModel(params) {
+if (params instanceof SettingsPrayerTimesViewModel) return params;
+if (!(this instanceof SettingsPrayerTimesViewModel)) return new SettingsPrayerTimesViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = _ko;
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function cmp(fn) {
+return (k && k.pureComputed) ? k.pureComputed(fn) : fn;
+}
+var store = _win.SettingsStore || null;
+var initialCfg = getPrayerConfig();
+var isInitialPredefined = (INDIAN_CITIES || []).some(function (c) {
+return c.name.toLowerCase() === (initialCfg.city || '').toLowerCase();
+});
+self.selectedCity = (store && k && k.isObservable(store.selectedCity))
+? store.selectedCity
+: obs(isInitialPredefined ? initialCfg.city : CUSTOM_CITY_VALUE);
+self.customCity = (store && k && k.isObservable(store.customCity))
+? store.customCity
+: obs(isInitialPredefined ? '' : (initialCfg.city || ''));
+self.country = (store && k && k.isObservable(store.country))
+? store.country
+: obs(initialCfg.country || 'India');
+self.school = (store && k && k.isObservable(store.school))
+? store.school
+: obs(String(initialCfg.school !== undefined ? initialCfg.school : 1));
+self.statusText = obs('Cached');
+self.isCustomCity = cmp(function () {
+var cityVal = typeof self.selectedCity === 'function' ? self.selectedCity() : self.selectedCity;
+return cityVal === CUSTOM_CITY_VALUE;
+});
+self.effectiveCity = cmp(function () {
+var isCust = typeof self.isCustomCity === 'function' ? self.isCustomCity() : self.isCustomCity;
+if (isCust) {
+var c = typeof self.customCity === 'function' ? self.customCity() : self.customCity;
+return (c || '').trim() || 'Guntur';
+}
+var sel = typeof self.selectedCity === 'function' ? self.selectedCity() : self.selectedCity;
+return sel || 'Guntur';
+});
+self.locationSubtitle = cmp(function () {
+var eff = typeof self.effectiveCity === 'function' ? self.effectiveCity() : self.effectiveCity;
+var cntry = typeof self.country === 'function' ? self.country() : self.country;
+return 'Selected City: ' + eff + ', ' + (cntry || 'India');
+});
+var cityOpts = (INDIAN_CITIES || []).map(function (c) {
+return {
+value: c.name,
+label: c.name + (c.state ? ' (' + c.state + ')' : ''),
+dataRef: 'page.settings.prayer-times.city-option.' + c.name.toLowerCase().replace(/\s+/g, '-')
+};
+});
+cityOpts.push({
+value: CUSTOM_CITY_VALUE,
+label: 'Other / Custom City...',
+dataRef: 'page.settings.prayer-times.city-option.custom'
+});
+self.cityOptions = (k && k.observableArray) ? k.observableArray(cityOpts) : cityOpts;
+self.juristicSchools = JURISTIC_SCHOOLS;
+self.savePrayerTimes = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var city = typeof self.effectiveCity === 'function' ? self.effectiveCity() : self.effectiveCity;
+var country = (typeof self.country === 'function' ? self.country() : self.country) || 'India';
+var schoolNum = parseInt(typeof self.school === 'function' ? self.school() : self.school, 10) || 1;
+if (!city) {
+if (typeof alert === 'function') alert('Please select or enter a city.');
+return;
+}
+savePrayerConfig({ city: city, country: country, school: schoolNum });
+if (typeof p.onSave === 'function') {
+p.onSave({ city: city, country: country, school: schoolNum });
+} else if (typeof _win.fetchPrayerTimings === 'function') {
+var todayStr = typeof _win.td === 'function' ? _win.td() : '';
+_win.fetchPrayerTimings(todayStr, function (err) {
+if (err) {
+if (typeof alert === 'function') alert('Saved settings, but live API connection failed: ' + err.message);
+} else {
+if (typeof alert === 'function') alert('Prayer times synced successfully for ' + city + ', ' + country + '!');
+}
+if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
+_win.PrayerStore.sync();
+}
+});
+}
+};
+}
+if (typeof window !== 'undefined') {
+window.SettingsPrayerTimesViewModel = SettingsPrayerTimesViewModel;
+}
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var SettingsStartDateTemplate = {
+element: 'settings-start-date-template',
+file: 'features/settings/components/settings-start-date/settings-start-date.html'
+};
+function SettingsStartDateViewModel(params) {
+if (params instanceof SettingsStartDateViewModel) return params;
+if (!(this instanceof SettingsStartDateViewModel)) return new SettingsStartDateViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = _ko;
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function cmp(fn) {
+return (k && k.pureComputed) ? k.pureComputed(fn) : fn;
+}
+var store = _win.SettingsStore || null;
+self.startDate = (store && k && k.isObservable(store.startDate))
+? store.startDate
+: obs(getStartDate());
+self.formattedDate = cmp(function () {
+var d = typeof self.startDate === 'function' ? self.startDate() : self.startDate;
+if (!d) return '--';
+if (typeof _win.fr === 'function') return _win.fr(d);
+return d;
+});
+self.saveStartDate = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var v = unwrap(self.startDate, '');
+if (!v) {
+if (typeof alert === 'function') alert('Please pick a date.');
+return;
+}
+var formatted = typeof _win.fr === 'function' ? _win.fr(v) : v;
+if (typeof confirm === 'function' && !confirm('Save Current Start Date as ' + formatted + '?')) {
+return;
+}
+saveStartDate(v);
+if (typeof p.onSave === 'function') {
+p.onSave(v);
+}
+if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
+_win.PrayerStore.sync();
+}
+if (typeof _win.updatePerformanceTab === 'function') {
+_win.updatePerformanceTab();
+}
+};
+}
+if (typeof window !== 'undefined') {
+window.SettingsStartDateViewModel = SettingsStartDateViewModel;
+}
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var SettingsFontSizeTemplate = {
+element: 'settings-font-size-template',
+file: 'features/settings/components/settings-font-size/settings-font-size.html'
+};
+var BTN_ACTIVE = 'flex-1 py-3 font-bold rounded-xl text-sm bg-brand text-white border border-brand transition-all cursor-pointer';
+var BTN_INACTIVE = 'flex-1 py-3 font-bold rounded-xl text-sm bg-surfaceBg text-brand border border-borderGrey hover:bg-brand-light transition-all cursor-pointer';
+function SettingsFontSizeViewModel(params) {
+if (params instanceof SettingsFontSizeViewModel) return params;
+if (!(this instanceof SettingsFontSizeViewModel)) return new SettingsFontSizeViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = _ko;
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+var store = _win.SettingsStore || null;
+self.currentFontSize = (store && k && k.isObservable(store.fontScale))
+? store.fontScale
+: obs(getFontSize());
+self.getButtonClass = function (size) {
+var curr = unwrap(self.currentFontSize, 1.0);
+var active = Math.abs(curr - size) < 0.01;
+return active ? BTN_ACTIVE : BTN_INACTIVE;
+};
+self.buttons = FONT_SIZE_OPTIONS.map(function (opt) {
+return {
+size: opt.value,
+label: opt.label,
+dataRef: 'page.settings.font-size.' + opt.key,
+handleClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+applyFontSize(opt.value);
+if (typeof self.currentFontSize === 'function') {
+self.currentFontSize(opt.value);
+}
+if (typeof p.onSelect === 'function') {
+p.onSelect(opt.value);
+}
+}
+};
+});
+}
+if (typeof window !== 'undefined') {
+window.SettingsFontSizeViewModel = SettingsFontSizeViewModel;
+}
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var SettingsBackupTemplate = {
+element: 'settings-backup-template',
+file: 'features/settings/components/settings-backup/settings-backup.html'
+};
+function SettingsBackupViewModel(params) {
+if (params instanceof SettingsBackupViewModel) return params;
+if (!(this instanceof SettingsBackupViewModel)) return new SettingsBackupViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = _ko;
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+self.message = obs('');
+self.isError = obs(false);
+self.showMessage = function (msg, isErr) {
+self.message(msg);
+self.isError(!!isErr);
+if (_win.setTimeout) {
+_win.setTimeout(function () {
+self.message('');
+}, 4000);
+}
+};
+self.handleExportBackup = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var data = exportBackupData();
+var jsonStr = JSON.stringify(data, null, 2);
+if (_win.document && typeof _win.Blob !== 'undefined') {
+try {
+var blob = new _win.Blob([jsonStr], { type: 'application/json' });
+var url = _win.URL.createObjectURL(blob);
+var a = _win.document.createElement('a');
+a.href = url;
+a.download = 'nur-prayer-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+_win.document.body.appendChild(a);
+a.click();
+_win.document.body.removeChild(a);
+_win.URL.revokeObjectURL(url);
+self.showMessage('Backup exported successfully!', false);
+return;
+} catch (_) {}
+}
+self.showMessage('Backup data generated (' + Object.keys(data.data || {}).length + ' keys)', false);
+};
+self.triggerImport = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var input = _win.document ? _win.document.getElementById('settingsBackupFileInput') : null;
+if (input) {
+input.value = '';
+input.click();
+}
+};
+self.handleFileChosen = function (vm, event) {
+var file = event && event.target && event.target.files && event.target.files[0];
+if (!file) return;
+if (typeof _win.FileReader !== 'undefined') {
+var reader = new _win.FileReader();
+reader.onload = function (e) {
+var content = e && e.target && e.target.result;
+var res = importBackupData(content);
+self.showMessage(res.message, !res.success);
+};
+reader.readAsText(file);
+}
+};
+self.handleResetDatabase = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof confirm === 'function' && !confirm('Delete ALL prayer records and cached prayer times?')) {
+return;
+}
+resetDatabase();
+self.showMessage('Database reset successfully. Starting fresh!', false);
+if (typeof p.onReset === 'function') {
+p.onReset();
+}
+};
+}
+if (typeof window !== 'undefined') {
+window.SettingsBackupViewModel = SettingsBackupViewModel;
+}
+'use strict';
+var SettingsPageTemplate = { element: 'settings-page-template', file: 'features/settings/settings.html' };
 var SettingsCardHeaderTemplate = { element: 'settings-card-header-template', file: 'features/settings/templates/settings-card-header.html' };
 var SettingsFontSizeBtnTemplate = { element: 'settings-font-size-btn-template', file: 'features/settings/templates/settings-font-size-btn.html' };
 var SettingsInfoCardTemplate = { element: 'settings-info-card-template', file: 'features/settings/templates/settings-info-card.html' };
-var SettingsPageTemplate = { element: 'settings-page-template', file: 'features/settings/settings.html' };
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 function registerSettingsComponents(customKo) {
-var k = customKo || (typeof ko !== 'undefined' ? ko : (typeof window !== 'undefined' ? window.ko : null));
-if (!k || !k.components) return;
-if (!k.components.isRegistered('settings-card-header')) {
-k.components.register('settings-card-header', {
-viewModel: function (params) {
-return (params && params.header) ? params.header : params;
-},
-template: SettingsCardHeaderTemplate
-});
-}
-if (!k.components.isRegistered('settings-font-size-btn')) {
-k.components.register('settings-font-size-btn', {
-viewModel: function (params) {
-return (params && params.button) ? params.button : params;
-},
-template: SettingsFontSizeBtnTemplate
-});
-}
-if (!k.components.isRegistered('settings-info-card')) {
-k.components.register('settings-info-card', {
-viewModel: function (params) {
-return (params && params.info) ? params.info : params;
-},
-template: SettingsInfoCardTemplate
-});
-}
-if (!k.components.isRegistered('settings-page')) {
-k.components.register('settings-page', {
-viewModel: function (params) {
+registerComponent('settings-prayer-times', SettingsPrayerTimesViewModel, SettingsPrayerTimesTemplate, customKo);
+registerComponent('settings-start-date', SettingsStartDateViewModel, SettingsStartDateTemplate, customKo);
+registerComponent('settings-font-size', SettingsFontSizeViewModel, SettingsFontSizeTemplate, customKo);
+registerComponent('settings-backup', SettingsBackupViewModel, SettingsBackupTemplate, customKo);
+registerComponent('settings-page', function (params) {
 if (params && params.viewModel) return params.viewModel;
-if (params && params.fontSizes) return params;
+if (params && params.prayerTimes) return params;
 if (params && params.settings) return params.settings;
 return getSettingsViewModel();
-},
-template: SettingsPageTemplate
-});
+}, SettingsPageTemplate, customKo);
+registerComponent('settings-card-header', function (p) {
+return (p && p.header) ? p.header : p;
+}, SettingsCardHeaderTemplate, customKo);
+registerComponent('settings-font-size-btn', function (p) {
+return (p && p.button) ? p.button : p;
+}, SettingsFontSizeBtnTemplate, customKo);
+registerComponent('settings-info-card', function (p) {
+return (p && p.info) ? p.info : p;
+}, SettingsInfoCardTemplate, customKo);
 }
+if (typeof window !== 'undefined') {
+window.registerSettingsComponents = registerSettingsComponents;
 }
-var settingsViewModel = null;
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var settingsViewModelInstance = null;
 function getSettingsViewModel() {
-if (!settingsViewModel && typeof SettingsViewModel === 'function') {
-settingsViewModel = new SettingsViewModel();
+if (!settingsViewModelInstance && typeof SettingsViewModel === 'function') {
+settingsViewModelInstance = new SettingsViewModel();
 }
-return settingsViewModel;
+return settingsViewModelInstance;
 }
 function SettingsViewModel() {
 var self = this;
-var initialFs = typeof rdFS === 'function' ? rdFS() : (SETTINGS_CONSTANTS.DEFAULT_FONT_SIZE || 1);
-var initialCfg = typeof getPrayerConfig === 'function' ? getPrayerConfig() : SETTINGS_DEFAULT_CONFIG;
-var initialStatusKey = (typeof prayerTimingsStatus !== 'undefined' && prayerTimingsStatus) ? prayerTimingsStatus : 'offline';
-var initialStatusText = TIMINGS_STATUS_LABELS[initialStatusKey] || SETTINGS_STATUS_FALLBACK;
-var initialSubtitle = 'Selected City: ' + (initialCfg.city || SETTINGS_DEFAULT_CONFIG.city) + ', ' + (initialCfg.country || SETTINGS_DEFAULT_CONFIG.country);
+var k = _ko;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+self.prayerTimes = new SettingsPrayerTimesViewModel();
+self.startDateParams = new SettingsStartDateViewModel();
+self.fontSizeParams = new SettingsFontSizeViewModel();
+self.backupParams = new SettingsBackupViewModel();
+self.selectedCity = self.prayerTimes.selectedCity;
+self.customCity = self.prayerTimes.customCity;
+self.country = self.prayerTimes.country;
+self.school = self.prayerTimes.school;
+self.isCustomCity = self.prayerTimes.isCustomCity;
+self.cityOptions = self.prayerTimes.cityOptions;
+self.startDate = self.startDateParams.startDate;
+self.currentFontSize = self.fontSizeParams.currentFontSize;
+self.fontSizeButtons = self.fontSizeParams.buttons;
+self.goHome = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof _win.showPage === 'function') _win.showPage('dashboard');
+};
+self.savePrayerTimes = function (d, e) {
+return self.prayerTimes.savePrayerTimes(d, e);
+};
+self.saveStartDate = function (d, e) {
+return self.startDateParams.saveStartDate(d, e);
+};
+self.resetDatabase = function (d, e) {
+return self.backupParams.handleResetDatabase(d, e);
+};
 self.prayerTimesHeader = {
 icon: 'fa-solid fa-mosque text-xl',
-iconText: null,
 iconBoxClass: 'icon-box icon-box-lg bg-brand-light',
 iconDataRef: 'page.settings.prayer-times.icon-badge',
 infoDataRef: 'page.settings.prayer-times.info',
 title: 'Prayer Times Location',
 titleClass: 'font-bold text-sm text-brand',
 titleDataRef: 'page.settings.prayer-times.title',
-subtitle: ko.observable(initialSubtitle),
-subtitleId: SETTINGS_ELEMENT_IDS.LOCATION_SUBTITLE,
+subtitle: self.prayerTimes.locationSubtitle,
+subtitleId: 'ptLocationSubtitle',
 subtitleDataRef: 'page.settings.prayer-times.subtitle',
 showStatusBadge: true,
 statusBadgeId: 'ptStatusBadge',
 statusBadgeDataRef: 'page.settings.prayer-times.status-badge',
-statusTextId: SETTINGS_ELEMENT_IDS.STATUS_TEXT,
-statusText: ko.observable(initialStatusText),
+statusTextId: 'ptStatusText',
+statusText: self.prayerTimes.statusText,
 headerDataRef: 'page.settings.prayer-times.header',
 headerClass: 'flex items-center gap-3 mb-3'
 };
 self.startDateHeader = {
 icon: 'fa-solid fa-calendar-check text-xl',
-iconText: null,
 iconBoxClass: 'icon-box icon-box-lg bg-brand-light text-brand',
 iconDataRef: 'page.settings.start-date.icon-badge',
 infoDataRef: 'page.settings.start-date.info',
@@ -5778,8 +6272,6 @@ title: 'Current Start Date',
 titleClass: 'font-bold text-sm',
 titleDataRef: 'page.settings.start-date.title',
 subtitle: null,
-subtitleId: null,
-subtitleDataRef: null,
 showStatusBadge: false,
 headerDataRef: 'page.settings.start-date.header',
 headerClass: 'flex items-center gap-3 mb-3'
@@ -5794,172 +6286,23 @@ title: 'Font Size',
 titleClass: 'font-bold text-sm',
 titleDataRef: 'page.settings.font-size.title',
 subtitle: null,
-subtitleId: null,
-subtitleDataRef: null,
 showStatusBadge: false,
 headerDataRef: 'page.settings.font-size.header',
 headerClass: 'flex items-center gap-3 mb-3'
 };
 self.resetDbHeader = {
 icon: 'fa-solid fa-triangle-exclamation text-xl',
-iconText: null,
 iconBoxClass: 'icon-box icon-box-lg bg-danger-subtle text-gr-danger',
 iconDataRef: 'page.settings.reset.icon-badge',
 infoDataRef: 'page.settings.reset.info',
 title: 'Reset Database',
 titleClass: 'font-bold text-sm',
 titleDataRef: 'page.settings.reset.title',
-subtitle: ko.observable('This will delete all prayer data, old data and cache.'),
-subtitleId: null,
+subtitle: obs('This will delete all prayer data, old data and cache.'),
 subtitleDataRef: 'page.settings.reset.subtitle',
 showStatusBadge: false,
 headerDataRef: 'page.settings.reset.header',
 headerClass: 'flex items-center gap-3 mb-2'
-};
-var cityOpts = (INDIAN_CITIES || []).map(function (c) {
-return {
-value: c.name,
-label: c.name + (c.state ? ' (' + c.state + ')' : ''),
-dataRef: 'page.settings.prayer-times.city-option.' + c.name.toLowerCase().replace(/\s+/g, '-')
-};
-});
-cityOpts.push({
-value: CUSTOM_CITY_VALUE,
-label: 'Other / Custom City...',
-dataRef: 'page.settings.prayer-times.city-option.custom'
-});
-self.cityOptions = ko.observableArray(cityOpts);
-var store = _win.SettingsStore || null;
-var initialCity = initialCfg.city || SETTINGS_DEFAULT_CONFIG.city;
-var isInitialPredefined = (INDIAN_CITIES || []).some(function (c) {
-return c.name.toLowerCase() === initialCity.toLowerCase();
-});
-self.selectedCity = (store && ko.isObservable(store.selectedCity))
-? store.selectedCity
-: ko.observable(isInitialPredefined ? initialCity : CUSTOM_CITY_VALUE);
-self.customCity = (store && ko.isObservable(store.customCity))
-? store.customCity
-: ko.observable(isInitialPredefined ? '' : initialCity);
-self.country = (store && ko.isObservable(store.country))
-? store.country
-: ko.observable(initialCfg.country || SETTINGS_DEFAULT_CONFIG.country);
-self.school = (store && ko.isObservable(store.school))
-? store.school
-: ko.observable(String(initialCfg.school !== undefined ? initialCfg.school : 1));
-self.startDate = (store && ko.isObservable(store.startDate))
-? store.startDate
-: ko.observable(typeof rdSD === 'function' ? rdSD() : '');
-self.isCustomCity = (store && typeof store.isCustomCity === 'function')
-? store.isCustomCity
-: ko.pureComputed(function () {
-return self.selectedCity() === CUSTOM_CITY_VALUE;
-});
-self.currentFontSize = ko.observable(initialFs);
-self.getFontSizeBtnClass = function (size) {
-var active = Math.abs(self.currentFontSize() - size) < 0.01;
-return active ? SETTINGS_BUTTON_CLASSES.FONT_ACTIVE : SETTINGS_BUTTON_CLASSES.FONT_INACTIVE;
-};
-var rawFontOptions = SETTINGS_CONSTANTS.FONT_SIZE_OPTIONS || [
-{ v: 0.9, l: 'Small' },
-{ v: 1, l: 'Medium' },
-{ v: 1.15, l: 'Large' }
-];
-self.fontSizeButtons = rawFontOptions.map(function (opt) {
-var sizeVal = opt.v;
-var labelStr = opt.l;
-var refKey = labelStr.toLowerCase();
-return {
-size: sizeVal,
-label: labelStr,
-dataRef: 'page.settings.font-size.' + refKey,
-onClick: function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof apFS === 'function') apFS(sizeVal);
-if (typeof self.currentFontSize === 'function') self.currentFontSize(sizeVal);
-if (typeof rSET === 'function') rSET();
-}
-};
-});
-self.goHome = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof showPage === 'function') showPage('dashboard');
-};
-self.savePrayerTimes = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-var isCustom = self.isCustomCity();
-var city = isCustom ? (self.customCity() || '').trim() : (self.selectedCity() || '');
-var country = isCustom ? ((self.country() || '').trim() || 'India') : 'India';
-var school = parseInt(self.school(), 10) || 1;
-if (!city) {
-alert('Please select or enter a city.');
-return;
-}
-if (_win.SettingsStore && typeof _win.SettingsStore.savePrayerConfig === 'function') {
-_win.SettingsStore.savePrayerConfig({ city: city, country: country, school: school });
-} else if (typeof setPrayerConfig === 'function') {
-setPrayerConfig({ city: city, country: country, school: school });
-}
-if (typeof fetchPrayerTimings === 'function') {
-var todayStr = typeof td === 'function' ? td() : '';
-fetchPrayerTimings(todayStr, function (err) {
-if (err) {
-alert('Saved settings, but live API connection failed: ' + err.message);
-} else {
-alert('Prayer times synced successfully for ' + city + ', ' + country + '!');
-}
-if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
-_win.PrayerStore.sync();
-}
-rSET();
-});
-}
-};
-self.saveStartDate = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-var v = (typeof self.startDate === 'function' ? self.startDate() : self.startDate) || '';
-if (!v) { alert('Please pick a date.'); return; }
-var formatted = typeof fr === 'function' ? fr(v) : v;
-if (!confirm('Save Current Start Date as ' + formatted + '?')) return;
-if (_win.SettingsStore && typeof _win.SettingsStore.saveStartDate === 'function') {
-_win.SettingsStore.saveStartDate(v);
-}
-if (typeof wrSD === 'function') wrSD(v);
-if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
-_win.PrayerStore.sync();
-}
-rSET();
-if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
-};
-self.resetDatabase = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (confirm('Delete ALL prayer records and cached prayer times?')) {
-var k_const = window.K || (window.CONSTANTS && window.CONSTANTS.PRAYER && window.CONSTANTS.PRAYER.STORAGE_KEYS && window.CONSTANTS.PRAYER.STORAGE_KEYS.TRACKER_DATA) || 'tracker_records';
-var ock_const = window.OCK || 'old_clean_records';
-var ok_const = window.OK || 'old_records';
-var lik_const = window.LIK || 'last_interaction_records';
-var oik_const = window.OIK || 'old_interaction_records';
-localStorage.removeItem(k_const);
-localStorage.removeItem(ock_const);
-localStorage.removeItem(ok_const);
-localStorage.removeItem(lik_const);
-localStorage.removeItem(oik_const);
-if (typeof PHK !== 'undefined') localStorage.removeItem(PHK);
-if (typeof clearPrayerHistory === 'function') clearPrayerHistory();
-if (typeof PTK_CACHE !== 'undefined') localStorage.removeItem(PTK_CACHE);
-if (typeof td === 'function') {
-window.sd = td();
-}
-if (typeof ensureCurrentDateInitialized === 'function') ensureCurrentDateInitialized();
-if (typeof fetchPrayerTimings === 'function' && typeof td === 'function') fetchPrayerTimings(td());
-if (_win.PrayerStore && typeof _win.PrayerStore.sync === 'function') {
-_win.PrayerStore.sync();
-}
-rSET();
-if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
-if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
-renderPrayerHistoryTab();
-}
-}
 };
 self.storageInfo = {
 cardDataRef: 'page.settings.info.card',
@@ -5971,75 +6314,41 @@ text: 'All changes are saved automatically in your device (localStorage).',
 textDataRef: 'page.settings.info.text'
 };
 }
+function rSET() {
+var vm = getSettingsViewModel();
+var fs = getFontSize();
+var sdate = getStartDate();
+var cfg = getPrayerConfig();
+if (vm) {
+if (typeof vm.currentFontSize === 'function') vm.currentFontSize(fs);
+if (typeof vm.startDate === 'function') vm.startDate(sdate);
+if (typeof vm.school === 'function') vm.school(String(cfg.school !== undefined ? cfg.school : 1));
+if (typeof vm.country === 'function') vm.country(cfg.country || 'India');
+var isPredefined = (INDIAN_CITIES || []).some(function (c) {
+return c.name.toLowerCase() === (cfg.city || '').toLowerCase();
+});
+if (typeof vm.selectedCity === 'function') {
+vm.selectedCity(isPredefined ? cfg.city : CUSTOM_CITY_VALUE);
+}
+if (typeof vm.customCity === 'function') {
+vm.customCity(isPredefined ? '' : (cfg.city || ''));
+}
+}
+}
 function initSettings() {
-if (typeof ko === 'undefined') return;
 registerSettingsComponents();
-var el = document.getElementById('settingsPage');
-if (!el || document.getElementById('app')) return;
+var el = (_win.document && typeof _win.document.getElementById === 'function')
+? _win.document.getElementById('settingsPage')
+: null;
+if (_win.document && !_win.document.getElementById('app') && el && typeof ko !== 'undefined') {
 var vm = getSettingsViewModel();
 if (!ko.dataFor(el)) {
 ko.applyBindings(vm, el);
 }
 }
-function rSET() {
-if (!settingsViewModel) {
-initSettings();
-}
-var fs = typeof rdFS === 'function' ? rdFS() : (SETTINGS_CONSTANTS.DEFAULT_FONT_SIZE || 1);
-var sdate = typeof rdSD === 'function' ? rdSD() : '';
-var cfg = (typeof getPrayerConfig === 'function' ? getPrayerConfig() : null) || SETTINGS_DEFAULT_CONFIG;
-if (!cfg || typeof cfg !== 'object') {
-cfg = SETTINGS_DEFAULT_CONFIG || { city: 'Guntur', country: 'India', school: 1 };
-}
-var statusKey = (typeof prayerTimingsStatus !== 'undefined' && prayerTimingsStatus) ? prayerTimingsStatus : 'offline';
-var statusText = TIMINGS_STATUS_LABELS[statusKey] || SETTINGS_STATUS_FALLBACK;
-var subtitleText = 'Selected City: ' + (cfg.city || SETTINGS_DEFAULT_CONFIG.city) + ', ' + (cfg.country || SETTINGS_DEFAULT_CONFIG.country);
-if (settingsViewModel) {
-if (settingsViewModel.prayerTimesHeader && ko.isObservable(settingsViewModel.prayerTimesHeader.subtitle)) {
-settingsViewModel.prayerTimesHeader.subtitle(subtitleText);
-}
-if (settingsViewModel.prayerTimesHeader && ko.isObservable(settingsViewModel.prayerTimesHeader.statusText)) {
-settingsViewModel.prayerTimesHeader.statusText(statusText);
-}
-if (ko.isObservable(settingsViewModel.currentFontSize)) {
-settingsViewModel.currentFontSize(fs);
-}
-if (ko.isObservable(settingsViewModel.startDate)) {
-settingsViewModel.startDate(sdate);
-}
-if (ko.isObservable(settingsViewModel.school)) {
-settingsViewModel.school(String(cfg.school !== undefined ? cfg.school : 1));
-}
-var isPredefined = false;
-var targetCityLower = (cfg.city || '').toLowerCase();
-for (var i = 0; i < INDIAN_CITIES.length; i++) {
-if (INDIAN_CITIES[i].name.toLowerCase() === targetCityLower) {
-isPredefined = true;
-break;
-}
-}
-if (ko.isObservable(settingsViewModel.selectedCity)) {
-settingsViewModel.selectedCity(isPredefined ? cfg.city : CUSTOM_CITY_VALUE);
-}
-if (ko.isObservable(settingsViewModel.customCity)) {
-settingsViewModel.customCity(isPredefined ? '' : (cfg.city || ''));
-}
-if (ko.isObservable(settingsViewModel.country)) {
-settingsViewModel.country(cfg.country || SETTINGS_DEFAULT_CONFIG.country);
-}
-}
-}
-if (typeof document !== 'undefined') {
-if (document.readyState === 'loading') {
-document.addEventListener('DOMContentLoaded', function () {
-initSettings();
-rSET();
-});
-} else {
-initSettings();
 rSET();
 }
-}
+var settingsViewModel = settingsViewModelInstance;
 var SettingsApp = {
 init: initSettings,
 render: rSET,
@@ -6059,10 +6368,12 @@ initSettings: initSettings,
 rSET: rSET,
 registerSettingsComponents: registerSettingsComponents,
 SettingsViewModel: SettingsViewModel,
-getSettingsViewModel: getSettingsViewModel
+getSettingsViewModel: getSettingsViewModel,
+SettingsApp: SettingsApp
 };
 module.exports.default = SettingsApp;
 }
+try { registerSettingsComponents(); } catch (_) {}
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var PRAYER_CONSTANTS = _win.PRAYER_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER) || {};
@@ -10147,7 +10458,9 @@ pendingMonths: (k && k.observable) ? k.observable(0) : 0
 };
 }
 function initTasbeeh() {
-if (typeof _win.registerAllComponents === 'function') {
+if (typeof _win.registerTasbeehComponents === 'function') {
+_win.registerTasbeehComponents();
+} else if (typeof _win.registerAllComponents === 'function') {
 _win.registerAllComponents();
 }
 var el = document.getElementById('tasbeehPage');
@@ -11086,6 +11399,7 @@ window.TasbeehCurrentApp = TasbeehCurrentApp;
 window.TasbeehApp = TasbeehCurrentApp;
 window.switchCurrentTab = switchCurrentTab;
 }
+try { registerTasbeehComponents(); } catch (_) {}
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 if (_win.TasbeehApp) {
 if (_win.TasbeehOldApp) {
@@ -11109,20 +11423,6 @@ window.TasbeehHistoryApp = TasbeehHistoryApp;
 window.TasbeehService = TasbeehService;
 }
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-function registerComponent(name, viewModel, template, customKo) {
-if (!customKo && typeof _win.registerFeatureComponent === 'function') {
-_win.registerFeatureComponent(name, viewModel, template);
-return;
-}
-var ko = customKo || (typeof _win.ko !== 'undefined' ? _win.ko : (typeof ko !== 'undefined' ? ko : null));
-if (!ko || !ko.components) return;
-if (!ko.components.isRegistered(name)) {
-ko.components.register(name, {
-viewModel: viewModel,
-template: template
-});
-}
-}
 function registerTasbeehComponents(customKo) {
 registerComponent('tasbeeh-header', function (p) { return p || {}; }, TasbeehHeaderTemplate, customKo);
 registerComponent('tasbeeh-counter-card', TasbeehCounterCardViewModel, TasbeehCounterCardTemplate, customKo);
@@ -12012,8 +12312,6 @@ _win.showPage('settings');
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
-var QuranPageTemplate = { element: 'quran-page-template', file: 'features/quran/quran.html' };
-var QuranNavTabTemplate = { element: 'quran-nav-tab-template', file: 'features/quran/templates/quran-nav-tab.html' };
 var quranViewModelInstance = null;
 function getQuranViewModel() {
 if (!quranViewModelInstance && typeof QuranPageViewModel === 'function') {
@@ -12144,22 +12442,11 @@ window.showQuranTab = function (tab) {
 QuranApp.switchTab(tab);
 };
 }
+try { registerQuranComponents(); } catch (_) {}
 'use strict';
+var QuranPageTemplate = { element: 'quran-page-template', file: 'features/quran/quran.html' };
+var QuranNavTabTemplate = { element: 'quran-nav-tab-template', file: 'features/quran/templates/quran-nav-tab.html' };
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-function registerComponent(name, viewModel, template, customKo) {
-if (!customKo && typeof _win.registerFeatureComponent === 'function') {
-_win.registerFeatureComponent(name, viewModel, template);
-return;
-}
-var ko = customKo || (typeof _win.ko !== 'undefined' ? _win.ko : (typeof ko !== 'undefined' ? ko : null));
-if (!ko || !ko.components) return;
-if (!ko.components.isRegistered(name)) {
-ko.components.register(name, {
-viewModel: viewModel,
-template: template
-});
-}
-}
 function registerQuranComponents(customKo) {
 registerComponent('quran-nav-tab', function (params) {
 var p = params || {};
@@ -12856,6 +13143,388 @@ window.TrackerCurrentPageViewModel = TrackerCurrentPageViewModel;
 }
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var TrackerOldCardTemplate = {
+element: 'tracker-old-card-template',
+file: 'features/tracker/tracker-old/tracker-old-card/tracker-old-card.html'
+};
+function TrackerOldCardViewModel(params) {
+if (params instanceof TrackerOldCardViewModel) return params;
+if (!(this instanceof TrackerOldCardViewModel)) return new TrackerOldCardViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var item = (p.item && typeof p.item === 'function') ? p.item() : (p.item || p);
+var self = this;
+self.prayer = unwrap(item.prayer, '');
+self.time = unwrap(item.time, '--:--');
+self.isDone = !!unwrap(item.isDone, false);
+self.isUpcoming = false;
+self.isMissed = !self.isDone;
+self.isCurrent = false;
+self.isStandard = false;
+self.prefix = unwrap(item.prefix || p.prefix, 'page.old');
+self.actionAct = unwrap(item.actionAct || p.actionAct, 'toggle-old');
+self.date = unwrap(item.date || p.date, '');
+var rawIcon = unwrap(item.iconClass || p.iconClass, (PRAYER_CARD_ICONS && PRAYER_CARD_ICONS[self.prayer]) || 'fa-solid fa-mosque');
+if (typeof rawIcon === 'string' && rawIcon.indexOf('<') !== -1) {
+var m = rawIcon.match(/name:\s*['"]([^'"]+)['"]/);
+if (m) {
+rawIcon = m[1];
+} else {
+var m2 = rawIcon.match(/class=['"][^'"]*fa-([a-z0-9-]+)[^'"]*['"]/);
+if (m2) rawIcon = m2[1];
+}
+}
+self.iconClass = rawIcon;
+self.onToggle = function (d, e) {
+var event = e || (d && d.stopPropagation ? d : null);
+if (event && event.stopPropagation) {
+event.stopPropagation();
+}
+var cb = p.onToggle || p.onClick;
+if (typeof cb === 'function') {
+cb(self, event);
+}
+};
+}
+if (typeof window !== 'undefined') {
+window.TrackerOldCardViewModel = TrackerOldCardViewModel;
+}
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var TrackerOldFeedTemplate = {
+element: 'tracker-old-feed-template',
+file: 'features/tracker/tracker-old/tracker-old-feed/tracker-old-feed.html'
+};
+function TrackerOldFeedViewModel(params) {
+if (params instanceof TrackerOldFeedViewModel) return params;
+if (!(this instanceof TrackerOldFeedViewModel)) return new TrackerOldFeedViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = _ko;
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function obsArr(arr) {
+return (k && k.observableArray) ? k.observableArray(arr || []) : function () { return arr || []; };
+}
+self.collapsePrefix = unwrap(p.collapsePrefix, 'old');
+self.pagePrefix = unwrap(p.pagePrefix, 'page.old');
+self.missedGroupTitle = (p.missedGroupTitle && k && k.isObservable(p.missedGroupTitle))
+? p.missedGroupTitle
+: obs(unwrap(p.missedGroupTitle, 'MISSED'));
+self.doneGroupTitle = (p.doneGroupTitle && k && k.isObservable(p.doneGroupTitle))
+? p.doneGroupTitle
+: obs(unwrap(p.doneGroupTitle, 'DONE'));
+self.missedRows = (p.missedRows && k && k.isObservable(p.missedRows))
+? p.missedRows
+: obsArr(unwrap(p.missedRows, []));
+self.doneRows = (p.doneRows && k && k.isObservable(p.doneRows))
+? p.doneRows
+: obsArr(unwrap(p.doneRows, []));
+self.hasMissed = function () {
+var list = (typeof self.missedRows === 'function') ? self.missedRows() : self.missedRows;
+return Array.isArray(list) && list.length > 0;
+};
+self.hasDone = function () {
+var list = (typeof self.doneRows === 'function') ? self.doneRows() : self.doneRows;
+return Array.isArray(list) && list.length > 0;
+};
+self.handleToggle = function (prayerCardVm, event) {
+var cb = p.onTogglePrayer || p.onToggle;
+if (typeof cb === 'function') {
+cb(prayerCardVm, event);
+}
+};
+}
+if (typeof window !== 'undefined') {
+window.TrackerOldFeedViewModel = TrackerOldFeedViewModel;
+}
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var TrackerOldFormTemplate = {
+element: 'tracker-old-form-template',
+file: 'features/tracker/tracker-old/tracker-old-form/tracker-old-form.html'
+};
+function TrackerOldFormViewModel(params) {
+if (params instanceof TrackerOldFormViewModel) return params;
+if (!(this instanceof TrackerOldFormViewModel)) return new TrackerOldFormViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = _ko;
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function obsArr(arr) {
+return (k && k.observableArray) ? k.observableArray(arr || []) : function () { return arr || []; };
+}
+self.title = obs('Period Info');
+self.isOpen = (p.isOpen && k && k.isObservable(p.isOpen)) ? p.isOpen : obs(false);
+self.isEditMode = obs(false);
+self.totalDays = obs(0);
+self.totalMissed = obs(0);
+self.daysMissed = obs(0);
+self.formattedStart = obs('--');
+self.formattedEnd = obs('--');
+self.startDateInput = obs('');
+self.endDateInput = obs('');
+self.perPrayerBreakdown = obsArr([]);
+self.refresh = function () {
+var period = (typeof p.getPeriod === 'function')
+? p.getPeriod()
+: (typeof _win.rdOK === 'function' ? _win.rdOK() : null);
+if (!period) return;
+var isComplete = period.end < period.start;
+var dates = isComplete ? [] : datesInRange(period.start, period.end);
+var oldRecords = (typeof p.getOldRecords === 'function')
+? p.getOldRecords()
+: (typeof _win.rdOC === 'function' ? _win.rdOC() : {});
+self.formattedStart(fr(period.start));
+self.formattedEnd(isComplete ? 'Complete' : fr(period.end));
+self.startDateInput(period.start || '');
+self.endDateInput(period.end || '');
+self.totalDays(dates.length);
+var tMissed = 0;
+var dMissed = 0;
+var perPrayer = {};
+PRAYER_NAMES.forEach(function (name) { perPrayer[name] = 0; });
+dates.forEach(function (d) {
+var rec = oldRecords[d] || {};
+var missedPrayers = PRAYER_NAMES.filter(function (name) {
+return rec[name] === true || rec[name] === 'missed';
+});
+if (missedPrayers.length > 0) {
+tMissed += missedPrayers.length;
+dMissed++;
+missedPrayers.forEach(function (name) { perPrayer[name]++; });
+}
+});
+self.totalMissed(tMissed);
+self.daysMissed(dMissed);
+var breakdown = PRAYER_NAMES.map(function (name) {
+return {
+prayer: name,
+count: perPrayer[name] || 0
+};
+});
+self.perPrayerBreakdown(breakdown);
+};
+self.toggleEditMode = function () {
+if (typeof self.isEditMode === 'function') {
+self.isEditMode(!self.isEditMode());
+}
+};
+self.handleSavePeriod = function () {
+var newStart = unwrap(self.startDateInput, '');
+var newEnd = unwrap(self.endDateInput, '');
+if (!newStart || !newEnd) return;
+var cb = p.onSavePeriod;
+if (typeof cb === 'function') {
+cb({ start: newStart, end: newEnd });
+} else if (typeof _win.wrOK === 'function') {
+_win.wrOK({ start: newStart, end: newEnd, initialEnd: newEnd, created: Date.now() });
+if (typeof _win.ensureAllOldMissed === 'function') _win.ensureAllOldMissed();
+if (typeof _win.rOT === 'function') _win.rOT();
+}
+self.refresh();
+self.isEditMode(false);
+};
+self.handleClose = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof self.isOpen === 'function') self.isOpen(false);
+if (typeof p.onClose === 'function') p.onClose();
+};
+self.handleBackdropClick = function (d, e) {
+self.handleClose(d, e);
+};
+if (p.isOpen && typeof p.isOpen.subscribe === 'function') {
+p.isOpen.subscribe(function (open) {
+if (open) self.refresh();
+});
+}
+self.refresh();
+}
+if (typeof window !== 'undefined') {
+window.TrackerOldFormViewModel = TrackerOldFormViewModel;
+}
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var TrackerOldPageTemplate = {
+element: 'tracker-old-page-template',
+file: 'features/tracker/tracker-old/tracker-old-page/tracker-old-page.html'
+};
+function TrackerOldPageViewModel(params) {
+if (params instanceof TrackerOldPageViewModel) return params;
+if (!(this instanceof TrackerOldPageViewModel)) return new TrackerOldPageViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = _ko;
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function obsArr(arr) {
+return (k && k.observableArray) ? k.observableArray(arr || []) : function () { return arr || []; };
+}
+self.collapsePrefix = unwrap(p.collapsePrefix, 'old');
+self.pagePrefix = unwrap(p.pagePrefix, 'page.old');
+var initialDate = _win.oldSd || (typeof _win.currentOldDate === 'function' ? _win.currentOldDate() : null);
+self.selectedDate = obs(initialDate || td());
+self.dateChipText = obs('');
+self.badgeText = obs('Period Info');
+self.actionBtnText = obs('');
+self.missedRows = obsArr([]);
+self.doneRows = obsArr([]);
+self.isPeriodFormOpen = obs(false);
+self.getPeriod = function () {
+return typeof _win.rdOK === 'function' ? _win.rdOK() : null;
+};
+self.getOldRecords = function () {
+return typeof _win.rdOC === 'function' ? _win.rdOC() : {};
+};
+self.refresh = function () {
+var period = self.getPeriod();
+if (!period && typeof _win.getDefaultOldPeriod === 'function') {
+period = _win.getDefaultOldPeriod();
+if (typeof _win.wrOK === 'function') _win.wrOK(period);
+}
+var currDate = unwrap(self.selectedDate, '');
+if (period) {
+if (!currDate || currDate < period.start || currDate > period.end) {
+currDate = (typeof _win.currentOldDate === 'function' ? _win.currentOldDate() : null) || period.end;
+self.selectedDate(currDate);
+}
+}
+var chipLabel = currDate ? formatPrayerDate(currDate) : 'Select Date';
+self.dateChipText(chipLabel);
+var timings = (_win.PrayerStore && typeof _win.PrayerStore.timings === 'function')
+? _win.PrayerStore.timings()
+: (_win.T || DEFAULT_TIMINGS);
+var oldRec = {};
+if (typeof _win.grO === 'function' && currDate) {
+oldRec = _win.grO(currDate);
+}
+var mRows = [];
+var dRows = [];
+PRAYER_NAMES.forEach(function (name) {
+var time = timings[name] || '--:--';
+var isMissed = (oldRec[name] === true || oldRec[name] === 'missed');
+var isDone = !isMissed;
+var rowData = {
+prayer: name,
+time: time,
+isDone: isDone,
+isUpcoming: false,
+isMissed: isMissed,
+isCurrent: false,
+date: currDate,
+prefix: self.pagePrefix,
+actionAct: 'toggle-old'
+};
+if (isDone) {
+dRows.push(rowData);
+} else {
+mRows.push(rowData);
+}
+});
+self.missedRows(mRows);
+self.doneRows(dRows);
+self.actionBtnText(mRows.length > 0 ? 'Select All' : 'Reset All');
+var oldDp = typeof _win.$ === 'function' ? _win.$('oldDp') : null;
+if (oldDp && period) {
+oldDp.min = period.start;
+oldDp.max = period.end;
+oldDp.value = currDate;
+}
+};
+self.handleTogglePrayer = function (prayerCardVm, event) {
+if (event && event.stopPropagation) event.stopPropagation();
+var prayer = unwrap(prayerCardVm.prayer, '');
+var currDate = unwrap(self.selectedDate, '');
+if (!currDate) return;
+var wasDone = !!prayerCardVm.isDone;
+var actionText = wasDone ? 'Missed' : 'Done';
+var dateFormatted = fr(currDate);
+if (typeof confirm === 'function' && !confirm('Mark ' + prayer + ' as ' + actionText + ' for ' + dateFormatted + '?')) {
+return;
+}
+var c = typeof _win.grO === 'function' ? _win.grO(currDate) : {};
+c[prayer] = wasDone ? true : false;
+if (wasDone) {
+removePrayerHistoryEntry(prayer, 'Old', currDate);
+} else {
+addPrayerHistoryEntry(prayer, 'Old', currDate);
+}
+if (typeof _win.srO === 'function') {
+_win.srO(currDate, c);
+}
+if (typeof _win.rOT === 'function') _win.rOT();
+if (typeof _win.updatePerformanceTab === 'function') _win.updatePerformanceTab();
+self.refresh();
+};
+self.handleDateChipClick = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onSelectDate === 'function') {
+p.onSelectDate();
+} else if (typeof _win.openOldCal === 'function') {
+_win.openOldCal();
+}
+};
+self.handleBadgeClick = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+self.isPeriodFormOpen(true);
+};
+self.handleActionBtnClick = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var currDate = unwrap(self.selectedDate, '');
+if (!currDate) return;
+var mList = (typeof self.missedRows === 'function') ? self.missedRows() : self.missedRows;
+var willMarkDone = (mList || []).length > 0;
+var action = willMarkDone ? 'Done' : 'Missed';
+if (typeof confirm === 'function' && !confirm('Mark all prayers as ' + action + ' for ' + fr(currDate) + '?')) {
+return;
+}
+var c = typeof _win.grO === 'function' ? _win.grO(currDate) : {};
+PRAYER_NAMES.forEach(function (name) {
+var wasDone = (c[name] !== true && c[name] !== 'missed');
+if (willMarkDone && !wasDone) {
+addPrayerHistoryEntry(name, 'Old', currDate);
+} else if (!willMarkDone && wasDone) {
+removePrayerHistoryEntry(name, 'Old', currDate);
+}
+c[name] = willMarkDone ? false : true;
+});
+if (typeof _win.srO === 'function') {
+_win.srO(currDate, c);
+}
+if (typeof _win.rOT === 'function') _win.rOT();
+if (typeof _win.updatePerformanceTab === 'function') _win.updatePerformanceTab();
+self.refresh();
+};
+self.handleSavePeriod = function (newPeriod) {
+if (newPeriod && typeof _win.wrOK === 'function') {
+_win.wrOK({
+start: newPeriod.start,
+end: newPeriod.end,
+initialEnd: newPeriod.end,
+created: Date.now()
+});
+if (typeof _win.ensureAllOldMissed === 'function') _win.ensureAllOldMissed();
+if (typeof _win.rOT === 'function') _win.rOT();
+}
+self.refresh();
+};
+self.closePeriodForm = function () {
+self.isPeriodFormOpen(false);
+self.refresh();
+};
+self.refresh();
+}
+if (typeof window !== 'undefined') {
+window.TrackerOldPageViewModel = TrackerOldPageViewModel;
+}
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var TrackerPerformanceCardTemplate = {
 element: 'tracker-performance-card-template',
 file: 'features/tracker/tracker-performance/tracker-performance-card/tracker-performance-card.html'
@@ -13175,21 +13844,15 @@ if (typeof window !== 'undefined') {
 window.TrackerHistoryPageViewModel = TrackerHistoryPageViewModel;
 }
 'use strict';
+var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker.html' };
+var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/templates/prayer-header.html' };
+var TrackerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/templates/prayer-nav-tab.html' };
+var PrayerTrackerCardTemplate = { element: 'prayer-tracker-card-template', file: 'features/tracker/templates/prayer-tracker-card.html' };
+var PrayerRowTemplate = { element: 'prayer-row-template', file: 'features/tracker/templates/prayer-row.html' };
+var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/tracker/templates/prayer-stat-card.html' };
+var PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'features/tracker/templates/prayer-perf-ring.html' };
+var PrayerHistoryCardTemplate = { element: 'prayer-history-card-template', file: 'features/tracker/templates/prayer-history-card.html' };
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-function registerComponent(name, viewModel, template, customKo) {
-if (!customKo && typeof _win.registerFeatureComponent === 'function') {
-_win.registerFeatureComponent(name, viewModel, template);
-return;
-}
-var ko = customKo || (typeof _win.ko !== 'undefined' ? _win.ko : (typeof ko !== 'undefined' ? ko : null));
-if (!ko || !ko.components) return;
-if (!ko.components.isRegistered(name)) {
-ko.components.register(name, {
-viewModel: viewModel,
-template: template
-});
-}
-}
 function registerTrackerComponents(customKo) {
 registerComponent('tracker-header', function (p) { return p || {}; }, TrackerHeaderTemplate, customKo);
 registerComponent('tracker-nav-tab', function (p) { return p || {}; }, TrackerNavTabTemplate, customKo);
@@ -13203,6 +13866,10 @@ registerComponent('tracker-current-card', TrackerCurrentCardViewModel, TrackerCu
 registerComponent('tracker-current-feed', TrackerCurrentFeedViewModel, TrackerCurrentFeedTemplate, customKo);
 registerComponent('tracker-current-form', TrackerCurrentFormViewModel, TrackerCurrentFormTemplate, customKo);
 registerComponent('tracker-current-page', TrackerCurrentPageViewModel, TrackerCurrentPageTemplate, customKo);
+registerComponent('tracker-old-card', TrackerOldCardViewModel, TrackerOldCardTemplate, customKo);
+registerComponent('tracker-old-feed', TrackerOldFeedViewModel, TrackerOldFeedTemplate, customKo);
+registerComponent('tracker-old-form', TrackerOldFormViewModel, TrackerOldFormTemplate, customKo);
+registerComponent('tracker-old-page', TrackerOldPageViewModel, TrackerOldPageTemplate, customKo);
 registerComponent('tracker-performance-card', TrackerPerformanceCardViewModel, TrackerPerformanceCardTemplate, customKo);
 registerComponent('tracker-performance-feed', TrackerPerformanceFeedViewModel, TrackerPerformanceFeedTemplate, customKo);
 registerComponent('tracker-performance-page', TrackerPerformancePageViewModel, TrackerPerformancePageTemplate, customKo);
@@ -13211,7 +13878,7 @@ registerComponent('tracker-history-feed', TrackerHistoryFeedViewModel, TrackerHi
 registerComponent('tracker-history-page', TrackerHistoryPageViewModel, TrackerHistoryPageTemplate, customKo);
 registerComponent('prayer-header', function (p) { return p || {}; }, TrackerHeaderTemplate, customKo);
 registerComponent('prayer-tracker-card', PrayerTrackerCardViewModel, PrayerTrackerCardTemplate, customKo);
-registerComponent('prayer-row', TrackerCurrentCardViewModel, TrackerCurrentCardTemplate, customKo);
+registerComponent('prayer-row', PrayerRowViewModel, TrackerCurrentCardTemplate, customKo);
 registerComponent('prayer-stat-card', function (p) { return p || {}; }, PrayerStatCardTemplate, customKo);
 registerComponent('prayer-perf-ring', function (p) { return p || {}; }, PrayerPerfRingTemplate, customKo);
 registerComponent('prayer-nav-tab', function (p) { return p || {}; }, TrackerNavTabTemplate, customKo);
@@ -13223,9 +13890,50 @@ window.registerTrackerComponents = registerTrackerComponents;
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
-var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker.html' };
-var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/prayer-tracking/templates/prayer-header.html' };
-var TrackerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/prayer-tracking/templates/prayer-nav-tab.html' };
+function PrayerRowViewModel(params) {
+if (params instanceof PrayerRowViewModel) return params;
+if (!(this instanceof PrayerRowViewModel)) return new PrayerRowViewModel(params);
+var p = params || {};
+var self = this;
+self.prayer = p.prayer || '';
+self.time = p.time || '--:--';
+self.isDone = !!p.isDone;
+self.isUpcoming = !!p.isUpcoming;
+self.isMissed = !!p.isMissed;
+self.isCurrent = !!p.isCurrent;
+self.isStandard = !self.isDone && !self.isUpcoming && !self.isMissed;
+self.prefix = p.prefix || 'page.current';
+self.actionAct = p.actionAct || 'toggle-cur';
+self.date = p.date || '';
+self.iconClass = p.iconClass || 'fa-solid fa-mosque';
+self.onToggle = function (d, e) {
+if (typeof p.onToggle === 'function') p.onToggle(self, e);
+};
+}
+function PrayerTrackerCardViewModel(params) {
+if (params instanceof PrayerTrackerCardViewModel) return params;
+if (!(this instanceof PrayerTrackerCardViewModel)) return new PrayerTrackerCardViewModel(params);
+var p = params || {};
+var k = _ko;
+var self = this;
+function obs(v) { return (k && k.observable) ? k.observable(v) : function () { return v; }; }
+function obsArr(v) { return (k && k.observableArray) ? k.observableArray(v) : function () { return v || []; }; }
+self.collapsePrefix = p.collapsePrefix || 'cur';
+self.pagePrefix = p.pagePrefix || 'page.current';
+self.dateChipAct = p.dateChipAct || '';
+self.dateChipText = obs(p.dateChipText || '');
+self.badgeText = obs(p.badgeText || '');
+self.badgeAct = p.badgeAct || '';
+self.actionBtnText = obs(p.actionBtnText || '');
+self.actionBtnAct = p.actionBtnAct || '';
+self.missedGroupTitle = obs(p.missedGroupTitle || 'MISSED');
+self.missedRows = obsArr(p.missedRows || []);
+self.doneGroupTitle = obs(p.doneGroupTitle || 'DONE');
+self.doneRows = obsArr(p.doneRows || []);
+self.onDateChipClick = function (d, e) { if (typeof p.onDateChipClick === 'function') p.onDateChipClick(d, e); };
+self.onBadgeClick = function (d, e) { if (typeof p.onBadgeClick === 'function') p.onBadgeClick(d, e); };
+self.onActionBtnClick = function (d, e) { if (typeof p.onActionBtnClick === 'function') p.onActionBtnClick(d, e); };
+}
 var trackerViewModelInstance = null;
 function getTrackerViewModel() {
 if (!trackerViewModelInstance && typeof TrackerPageViewModel === 'function') {
@@ -13304,6 +14012,11 @@ onSelectDate: function () {
 if (typeof _win.openCal === 'function') _win.openCal();
 }
 };
+self.oldParams = {
+onSelectDate: function () {
+if (typeof _win.openOldCal === 'function') _win.openOldCal();
+}
+};
 self.oldCard = (k && k.observable) ? k.observable(new PrayerTrackerCardViewModel({
 collapsePrefix: 'old',
 pagePrefix: 'page.old',
@@ -13329,6 +14042,81 @@ self.switchTab(tab, e);
 }
 };
 }
+var oldSd = null;
+function setOldSd(date) {
+oldSd = date;
+if (typeof _win !== 'undefined') _win.oldSd = date;
+}
+function getDefaultOldPeriod() {
+var today = td();
+var yesterday = typeof _win.prevDate === 'function' ? _win.prevDate(today) : today;
+var start = (typeof _win.rdSD === 'function' ? _win.rdSD() : null) || null;
+if (!start || start >= today) {
+var d = new Date();
+d.setDate(d.getDate() - 30);
+var pad2 = function (n) { return n < 10 ? '0' + n : n; };
+start = d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+}
+if (start > yesterday) start = yesterday;
+return {
+start: start,
+end: yesterday,
+initialEnd: yesterday,
+created: Date.now()
+};
+}
+function rMS() {
+var vm = getTrackerViewModel();
+if (vm && typeof vm.switchTab === 'function') {
+vm.switchTab('current');
+}
+}
+function rn() {
+var vm = getTrackerViewModel();
+if (vm && typeof vm.switchTab === 'function') {
+}
+}
+function go(date) {
+if (_win.PrayerStore && typeof _win.PrayerStore.selectedDate === 'function') {
+_win.PrayerStore.selectedDate(date);
+}
+rn();
+}
+function updateCurrentMissedBadge() {
+var vm = getTrackerViewModel();
+if (vm && typeof vm.missedCount === 'function') {
+vm.missedCount(getTotalMissedCount());
+}
+}
+function rOldInfo() {
+var vm = getTrackerViewModel();
+if (vm && typeof vm.switchTab === 'function') {
+vm.switchTab('old');
+}
+}
+function rPeriod() {
+rOldInfo();
+}
+function openOldCal() {
+var dp = typeof _win.$ === 'function' ? _win.$('oldDp') : null;
+if (dp && typeof dp.showPicker === 'function') {
+try { dp.showPicker(); return; } catch (_) {}
+}
+if (dp) dp.click();
+}
+function goOld(date) {
+setOldSd(date);
+rOT();
+}
+function rOT() {
+var vm = getTrackerViewModel();
+if (vm && typeof vm.switchTab === 'function') {
+}
+}
+function emptyPrayerHistory() {
+clearPrayerHistory();
+rn();
+}
 function initTracker() {
 registerTrackerComponents();
 var el = (typeof _win.document !== 'undefined') ? _win.document.getElementById('trackerPage') : null;
@@ -13338,9 +14126,7 @@ if (!ko.dataFor(el)) {
 ko.applyBindings(vm, el);
 }
 }
-if (typeof _win.rn === 'function') {
-_win.rn();
-}
+rn();
 }
 var TrackerApp = {
 init: initTracker,
@@ -13360,6 +14146,8 @@ window.PrayerTrackingApp = PrayerTrackingApp;
 window.initTracker = initTracker;
 window.getTrackerViewModel = getTrackerViewModel;
 window.TrackerPageViewModel = TrackerPageViewModel;
+window.PrayerTrackerCardViewModel = PrayerTrackerCardViewModel;
+window.PrayerRowViewModel = PrayerRowViewModel;
 window.trackerViewModel = getTrackerViewModel();
 window.rMS = rMS;
 window.rn = rn;
@@ -13373,7 +14161,9 @@ window.setOldSd = setOldSd;
 window.getDefaultOldPeriod = getDefaultOldPeriod;
 window.rOT = rOT;
 window.oldSd = oldSd;
+window.emptyPrayerHistory = emptyPrayerHistory;
 }
+try { registerTrackerComponents(); } catch (_) {}
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
@@ -14274,21 +15064,12 @@ if (typeof window !== 'undefined') {
 window.DuaFavouritesPageViewModel = DuaFavouritesPageViewModel;
 }
 'use strict';
+var DuasPageTemplate = { element: 'duas-page-template', file: 'features/dua/dua.html' };
+var DuaHeaderTemplate = { element: 'dua-header-template', file: 'features/dua/templates/dua-header.html' };
+var DuaNavTabTemplate = { element: 'dua-nav-tab-template', file: 'features/dua/templates/dua-nav-tab.html' };
+var DuaTranslationToggleTemplate = { element: 'dua-translation-toggle-template', file: 'features/dua/templates/dua-translation-toggle.html' };
+var DuvaSearchBarTemplate = { element: 'duva-search-bar-template', file: 'features/dua/dua-all/dua-all-form/dua-all-form.html' };
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-function registerComponent(name, viewModel, template, customKo) {
-if (!customKo && typeof _win.registerFeatureComponent === 'function') {
-_win.registerFeatureComponent(name, viewModel, template);
-return;
-}
-var ko = customKo || (typeof _win.ko !== 'undefined' ? _win.ko : (typeof ko !== 'undefined' ? ko : null));
-if (!ko || !ko.components) return;
-if (!ko.components.isRegistered(name)) {
-ko.components.register(name, {
-viewModel: viewModel,
-template: template
-});
-}
-}
 function registerDuaComponents(customKo) {
 registerComponent('dua-header', function (p) { return p || {}; }, DuaHeaderTemplate, customKo);
 registerComponent('dua-nav-tab', function (p) { return p || {}; }, DuaNavTabTemplate, customKo);
@@ -14328,11 +15109,6 @@ window.registerDuaComponents = registerDuaComponents;
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
-var DuasPageTemplate = { element: 'duas-page-template', file: 'features/dua/dua.html' };
-var DuaHeaderTemplate = { element: 'dua-header-template', file: 'features/dua/templates/dua-header.html' };
-var DuaNavTabTemplate = { element: 'dua-nav-tab-template', file: 'features/dua/templates/dua-nav-tab.html' };
-var DuaTranslationToggleTemplate = { element: 'dua-translation-toggle-template', file: 'features/dua/templates/dua-translation-toggle.html' };
-var DuvaSearchBarTemplate = { element: 'duva-search-bar-template', file: 'features/dua/dua-all/dua-all-form/dua-all-form.html' };
 var duasViewModelInstance = null;
 function getDuasViewModel() {
 if (!duasViewModelInstance && typeof DuasPageViewModel === 'function') {
@@ -14649,6 +15425,8 @@ getViewModel: getDuasViewModel,
 registerComponents: registerDuaComponents
 };
 var DuaApp = DuasApp;
+var DuaPageViewModel = DuasPageViewModel;
+var getDuaViewModel = getDuasViewModel;
 if (typeof window !== 'undefined') {
 window.DuaApp = DuaApp;
 if (!window.DuasApp) {
@@ -14659,6 +15437,7 @@ window.getDuasViewModel = getDuasViewModel;
 window.DuasPageViewModel = DuasPageViewModel;
 window.duasViewModel = getDuasViewModel();
 }
+try { registerDuaComponents(); } catch (_) {}
 var componentRegistry = new Map();
 function registerFeatureComponent(name, viewModel, template) {
 var k = typeof ko !== 'undefined' ? ko : (typeof window !== 'undefined' ? window.ko : null);
@@ -14666,13 +15445,14 @@ if (!k || !k.components) {
 console.warn(`Knockout is not available. Skipping registration for [${name}].`);
 return;
 }
-componentRegistry.set(name, { viewModel, template });
+var safeTemplate = template || { element: name + '-template' };
+componentRegistry.set(name, { viewModel, template: safeTemplate });
 if (k.components.isRegistered(name)) {
 return;
 }
 k.components.register(name, {
 viewModel: viewModel,
-template: template
+template: safeTemplate
 });
 }
 function registerStartupComponents() {
@@ -14681,10 +15461,15 @@ registerFeatureComponent('app-icon', IconViewModel, IconTemplate);
 registerFeatureComponent('app-bottom-sheet', BottomSheetViewModel, BottomSheetTemplate);
 registerFeatureComponent('app-tabs', TabsViewModel, TabsTemplate);
 registerDashboardComponents();
-console.info(`Successfully registered ${componentRegistry.size} startup components.`);
 }
 function registerAllComponents() {
 registerStartupComponents();
+if (typeof registerTrackerComponents === 'function') registerTrackerComponents();
+if (typeof registerTasbeehComponents === 'function') registerTasbeehComponents();
+if (typeof registerDuaComponents === 'function') registerDuaComponents();
+if (typeof registerQuranComponents === 'function') registerQuranComponents();
+if (typeof registerSettingsComponents === 'function') registerSettingsComponents();
+console.info(`Successfully registered ${componentRegistry.size} application components.`);
 }
 if (typeof window !== 'undefined') {
 window.componentRegistry = componentRegistry;
@@ -15142,6 +15927,9 @@ tasbeeh: 'tasbeehPage',
 duas: 'duasPage',
 quran: 'quranPage'
 };
+if (PAGES.indexOf('quranPage') === -1) PAGES.push('quranPage');
+if (!PAGE_MAP.quran) PAGE_MAP.quran = 'quranPage';
+if (!NAVS.quran) NAVS.quran = 'navQuran';
 var TRACKER_HEADER = NAV_CONSTANTS.TRACKER_HEADER || {
 current: {
 iconClass: 'fa-regular fa-calendar-days text-gr-accent',
@@ -15324,7 +16112,6 @@ var _loadedFeatures = {
 dashboard: true
 };
 function ensureFeatureLoaded(kind) {
-if (_loadedFeatures[kind]) return Promise.resolve();
 var _w = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 switch (kind) {
 case 'tracker':
@@ -15332,19 +16119,24 @@ case 'current':
 case 'old':
 case 'performance':
 case 'history':
-if (_w.TrackerApp) {
-_loadedFeatures[kind] = true;
-return Promise.resolve();
-}
-return Promise.all([
-import('./features/prayer-tracking/prayer-tracking.js'),
-import('./features/tracker/tracker.js')
-]).then(function () {
+if (_loadedFeatures.tracker) return Promise.resolve();
+if (_w.TrackerApp || _w.registerTrackerComponents) {
+if (typeof _w.registerTrackerComponents === 'function') _w.registerTrackerComponents();
+if (_w.TrackerApp && typeof _w.TrackerApp.init === 'function') _w.TrackerApp.init();
 _loadedFeatures.tracker = true;
 _loadedFeatures.current = true;
 _loadedFeatures.old = true;
 _loadedFeatures.performance = true;
 _loadedFeatures.history = true;
+return Promise.resolve();
+}
+return import('./features/tracker/tracker.js').then(function () {
+_loadedFeatures.tracker = true;
+_loadedFeatures.current = true;
+_loadedFeatures.old = true;
+_loadedFeatures.performance = true;
+_loadedFeatures.history = true;
+if (typeof _w.registerTrackerComponents === 'function') _w.registerTrackerComponents();
 if (_w.TrackerApp && typeof _w.TrackerApp.init === 'function') {
 _w.TrackerApp.init();
 } else if (_w.PrayerTrackingApp && typeof _w.PrayerTrackingApp.init === 'function') {
@@ -15358,15 +16150,17 @@ appVm.tracker = appVm.getTracker();
 console.warn('Feature load failed for tracker:', err);
 });
 case 'tasbeeh':
-if (_w.TasbeehApp || _w.initTasbeeh) {
+if (_loadedFeatures.tasbeeh) return Promise.resolve();
+if (_w.TasbeehApp || _w.initTasbeeh || _w.registerTasbeehComponents) {
+if (typeof _w.registerTasbeehComponents === 'function') _w.registerTasbeehComponents();
+if (typeof _w.initTasbeeh === 'function') _w.initTasbeeh();
 _loadedFeatures.tasbeeh = true;
 return Promise.resolve();
 }
 return import('./features/tasbeeh/tasbeeh.js').then(function () {
 _loadedFeatures.tasbeeh = true;
-if (typeof _w.initTasbeeh === 'function') {
-_w.initTasbeeh();
-}
+if (typeof _w.registerTasbeehComponents === 'function') _w.registerTasbeehComponents();
+if (typeof _w.initTasbeeh === 'function') _w.initTasbeeh();
 var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
 if (appVm && typeof appVm.getTasbeeh === 'function') {
 appVm.tasbeeh = appVm.getTasbeeh();
@@ -15375,15 +16169,17 @@ appVm.tasbeeh = appVm.getTasbeeh();
 console.warn('Feature load failed for tasbeeh:', err);
 });
 case 'duas':
-if (_w.DuasApp || _w.initDuas) {
+if (_loadedFeatures.duas) return Promise.resolve();
+if (_w.DuasApp || _w.initDuas || _w.registerDuaComponents) {
+if (typeof _w.registerDuaComponents === 'function') _w.registerDuaComponents();
+if (typeof _w.initDuas === 'function') _w.initDuas();
 _loadedFeatures.duas = true;
 return Promise.resolve();
 }
 return import('./features/dua/dua.js').then(function () {
 _loadedFeatures.duas = true;
-if (typeof _w.initDuas === 'function') {
-_w.initDuas();
-}
+if (typeof _w.registerDuaComponents === 'function') _w.registerDuaComponents();
+if (typeof _w.initDuas === 'function') _w.initDuas();
 var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
 if (appVm && typeof appVm.getDuas === 'function') {
 appVm.duas = appVm.getDuas();
@@ -15392,15 +16188,17 @@ appVm.duas = appVm.getDuas();
 console.warn('Feature load failed for duas:', err);
 });
 case 'quran':
-if (_w.QuranApp || _w.initQuran) {
+if (_loadedFeatures.quran) return Promise.resolve();
+if (_w.QuranApp || _w.initQuran || _w.registerQuranComponents) {
+if (typeof _w.registerQuranComponents === 'function') _w.registerQuranComponents();
+if (typeof _w.initQuran === 'function') _w.initQuran();
 _loadedFeatures.quran = true;
 return Promise.resolve();
 }
 return import('./features/quran/quran.js').then(function () {
 _loadedFeatures.quran = true;
-if (typeof _w.initQuran === 'function') {
-_w.initQuran();
-}
+if (typeof _w.registerQuranComponents === 'function') _w.registerQuranComponents();
+if (typeof _w.initQuran === 'function') _w.initQuran();
 var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
 if (appVm && typeof appVm.getQuran === 'function') {
 appVm.quran = appVm.getQuran();
@@ -15409,15 +16207,17 @@ appVm.quran = appVm.getQuran();
 console.warn('Feature load failed for quran:', err);
 });
 case 'settings':
-if (_w.SettingsApp) {
+if (_loadedFeatures.settings) return Promise.resolve();
+if (_w.SettingsApp || _w.registerSettingsComponents) {
+if (typeof _w.registerSettingsComponents === 'function') _w.registerSettingsComponents();
+if (_w.SettingsApp && typeof _w.SettingsApp.init === 'function') _w.SettingsApp.init();
 _loadedFeatures.settings = true;
 return Promise.resolve();
 }
 return import('./features/settings/settings.js').then(function () {
 _loadedFeatures.settings = true;
-if (_w.SettingsApp && typeof _w.SettingsApp.init === 'function') {
-_w.SettingsApp.init();
-}
+if (typeof _w.registerSettingsComponents === 'function') _w.registerSettingsComponents();
+if (_w.SettingsApp && typeof _w.SettingsApp.init === 'function') _w.SettingsApp.init();
 var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
 if (appVm && typeof appVm.getSettings === 'function') {
 appVm.settings = appVm.getSettings();
@@ -15433,12 +16233,16 @@ var _isShowingPage = false;
 function showPage(kind) {
 if (_isShowingPage) return;
 if (kind && kind !== 'dashboard') {
-ensureFeatureLoaded(kind);
+try { ensureFeatureLoaded(kind); } catch (_) {}
 }
 _isShowingPage = true;
 try {
 if (NavigationState && typeof NavigationState.activePage === 'function') {
 NavigationState.activePage(kind);
+}
+var _w = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+if (_w.AppRouter && typeof _w.AppRouter.activePage === 'function' && _w.AppRouter.activePage() !== kind) {
+_w.AppRouter.activePage(kind);
 }
 if (typeof window !== 'undefined') {
 window.currentActivePage = kind;
@@ -15715,6 +16519,7 @@ if (!_appViewModel.tracker) _appViewModel.tracker = _appViewModel.getTracker();
 if (!_appViewModel.settings) _appViewModel.settings = _appViewModel.getSettings();
 if (!_appViewModel.tasbeeh) _appViewModel.tasbeeh = _appViewModel.getTasbeeh();
 if (!_appViewModel.duas) _appViewModel.duas = _appViewModel.getDuas();
+if (!_appViewModel.quran) _appViewModel.quran = _appViewModel.getQuran();
 return _appViewModel;
 }
 function initApp() {
@@ -15752,13 +16557,9 @@ AppViewModel: AppViewModel,
 getAppViewModel: getAppViewModel,
 initApp: initApp
 };
-}</script><script type="module">
-import { registerStartupComponents } from './components/registry.js';
-import { initApp } from './services/app-view-model.js';
-registerStartupComponents();
-initApp();
-</script><script>
-document.addEventListener('DOMContentLoaded', function () {
+}
+if (typeof registerAllComponents === "function") { try { registerAllComponents(); } catch (_) {} }</script><script>
+function startApp() {
 if (typeof initApp === 'function') {
 initApp();
 } else if (window.initApp) {
@@ -15767,7 +16568,13 @@ window.initApp();
 if (window.DashboardApp && typeof window.DashboardApp.init === 'function') {
 window.DashboardApp.init();
 }
-});
+}
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+startApp();
+} else {
+document.addEventListener('DOMContentLoaded', startApp);
+}
+</script>
 // Progressive Web App (PWA) Service Worker Registration
 if ('serviceWorker' in navigator) {
 window.addEventListener('load', function () {

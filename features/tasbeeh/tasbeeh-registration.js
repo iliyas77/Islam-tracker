@@ -15,7 +15,9 @@ import {
     TasbeehCounterCardViewModel,
     TasbeehProgressCircleTemplate,
     TasbeehNavTabTemplate,
-    getTasbeehViewModel
+    TasbeehPageViewModel,
+    getTasbeehViewModel,
+    initTasbeeh
 } from './tasbeeh-view-model.js';
 
 import {
@@ -39,22 +41,22 @@ import {
     HistoryPageViewModel, HistoryPageTemplate
 } from './tasbeeh-history/tasbeeh-history.js';
 
+import { registerComponent } from '../../components/component-helper.js';
+
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 
-function registerComponent(name, viewModel, template, customKo) {
-    if (!customKo && typeof _win.registerFeatureComponent === 'function') {
-        _win.registerFeatureComponent(name, viewModel, template);
-        return;
-    }
-    var ko = customKo || (typeof _win.ko !== 'undefined' ? _win.ko : (typeof ko !== 'undefined' ? ko : null));
-    if (!ko || !ko.components) return;
-    if (!ko.components.isRegistered(name)) {
-        ko.components.register(name, {
-            viewModel: viewModel,
-            template: template
-        });
-    }
-}
+// Re-export for backward compatibility
+export {
+    TasbeehPageTemplate,
+    TasbeehHeaderTemplate,
+    TasbeehCounterCardTemplate,
+    TasbeehCounterCardViewModel,
+    TasbeehProgressCircleTemplate,
+    TasbeehNavTabTemplate,
+    TasbeehPageViewModel,
+    getTasbeehViewModel,
+    initTasbeeh
+};
 
 /**
  * Register all Digital Tasbeeh Knockout components

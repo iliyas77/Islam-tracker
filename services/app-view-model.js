@@ -210,6 +210,7 @@ export function getAppViewModel() {
     if (!_appViewModel.settings) _appViewModel.settings = _appViewModel.getSettings();
     if (!_appViewModel.tasbeeh) _appViewModel.tasbeeh = _appViewModel.getTasbeeh();
     if (!_appViewModel.duas) _appViewModel.duas = _appViewModel.getDuas();
+    if (!_appViewModel.quran) _appViewModel.quran = _appViewModel.getQuran();
     return _appViewModel;
 }
 

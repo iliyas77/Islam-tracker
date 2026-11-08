@@ -240,7 +240,64 @@ export async function runTrackerComponentTests() {
     console.log('  ✔ Tracker Current: Card, Feed, Form, Page, and 3-level communication verified');
 
     // ==========================================
-    // 3. Tracker Performance Components Verification
+    // 3. Tracker Old Components Verification
+    // ==========================================
+    const { TrackerOldCardViewModel } = await import(
+        path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-card', 'tracker-old-card.js')
+    );
+    const { TrackerOldFeedViewModel } = await import(
+        path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-feed', 'tracker-old-feed.js')
+    );
+    const { TrackerOldFormViewModel } = await import(
+        path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-form', 'tracker-old-form.js')
+    );
+    const { TrackerOldPageViewModel } = await import(
+        path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-page', 'tracker-old-page.js')
+    );
+
+    let oldCardToggled = null;
+    const oldCardVm = new TrackerOldCardViewModel({
+        item: { prayer: 'Fajr', time: '05:15', isDone: false, isUpcoming: false, isMissed: true },
+        onToggle: c => { oldCardToggled = c; }
+    });
+    assert.strictEqual(oldCardVm.prayer, 'Fajr');
+    assert.strictEqual(oldCardVm.isDone, false);
+    assert.strictEqual(oldCardVm.isMissed, true);
+    oldCardVm.onToggle();
+    assert.strictEqual(oldCardToggled.prayer, 'Fajr');
+
+    let oldFeedToggled = null;
+    const oldFeedVm = new TrackerOldFeedViewModel({
+        missedRows: mockKo.observableArray([oldCardVm]),
+        doneRows: mockKo.observableArray([]),
+        onTogglePrayer: c => { oldFeedToggled = c; }
+    });
+    assert.strictEqual(oldFeedVm.hasMissed(), true);
+    assert.strictEqual(oldFeedVm.hasDone(), false);
+    oldFeedVm.handleToggle(oldCardVm);
+    assert.strictEqual(oldFeedToggled.prayer, 'Fajr');
+
+    let oldPeriodSaved = null;
+    const oldFormVm = new TrackerOldFormViewModel({
+        isOpen: mockKo.observable(true),
+        getPeriod: () => ({ start: '2026-10-01', end: '2026-10-31' }),
+        getOldRecords: () => ({ '2026-10-15': { Fajr: true } }),
+        onSavePeriod: p => { oldPeriodSaved = p; }
+    });
+    assert.strictEqual(oldFormVm.totalDays(), 31);
+    oldFormVm.startDateInput('2026-09-01');
+    oldFormVm.endDateInput('2026-09-30');
+    oldFormVm.handleSavePeriod();
+    assert.deepStrictEqual(oldPeriodSaved, { start: '2026-09-01', end: '2026-09-30' });
+
+    const oldPageVm = new TrackerOldPageViewModel();
+    assert(oldPageVm.dateChipText() !== '', 'Old page computes dateChipText');
+    assert(Array.isArray(oldPageVm.missedRows()), 'missedRows is an array');
+
+    console.log('  ✔ Tracker Old: Card, Feed, Form, Page, and 3-level communication verified');
+
+    // ==========================================
+    // 4. Tracker Performance Components Verification
     // ==========================================
     const { TrackerPerformanceCardViewModel } = await import(
         path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-card', 'tracker-performance-card.js')
@@ -322,10 +379,17 @@ export async function runTrackerComponentTests() {
     registerTrackerComponents(mockKo);
 
     const expectedComponents = [
+        'tracker-header',
+        'tracker-nav-tab',
+        'tracker-page',
         'tracker-current-page',
         'tracker-current-feed',
         'tracker-current-card',
         'tracker-current-form',
+        'tracker-old-page',
+        'tracker-old-feed',
+        'tracker-old-card',
+        'tracker-old-form',
         'tracker-performance-page',
         'tracker-performance-feed',
         'tracker-performance-card',

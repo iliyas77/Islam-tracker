@@ -19,6 +19,7 @@ const OUT_FILE = path.join(BUILD_DIR, 'production.html');
 
 const htmlPath = path.join(ROOT, 'main.html');
 const bindingsJsPath = path.join(ROOT, 'components', 'bindings.js');
+const componentHelperJsPath = path.join(ROOT, 'components', 'component-helper.js');
 const iconJsPath = path.join(ROOT, 'components', 'icon', 'icon.js');
 const bottomSheetJsPath = path.join(ROOT, 'components', 'bottom-sheet', 'bottom-sheet.js');
 const tabsJsPath = path.join(ROOT, 'components', 'tabs', 'tabs.js');
@@ -31,7 +32,14 @@ const dashboardServiceJsPath = path.join(ROOT, 'features', 'dashboard', 'dashboa
 const dashboardClockJsPath = path.join(ROOT, 'features', 'dashboard', 'components', 'dashboard-clock', 'dashboard-clock.js');
 const dashboardTimelineJsPath = path.join(ROOT, 'features', 'dashboard', 'components', 'dashboard-timeline', 'dashboard-timeline.js');
 const dashboardFeaturesGridJsPath = path.join(ROOT, 'features', 'dashboard', 'components', 'dashboard-features-grid', 'dashboard-features-grid.js');
+const dashboardJsPath = path.join(ROOT, 'features', 'dashboard', 'dashboard.js');
 const dashboardRegJsPath = path.join(ROOT, 'features', 'dashboard', 'dashboard-registration.js');
+const settingsServiceJsPath = path.join(ROOT, 'features', 'settings', 'settings-service.js');
+const settingsPrayerTimesJsPath = path.join(ROOT, 'features', 'settings', 'components', 'settings-prayer-times', 'settings-prayer-times.js');
+const settingsStartDateJsPath = path.join(ROOT, 'features', 'settings', 'components', 'settings-start-date', 'settings-start-date.js');
+const settingsFontSizeJsPath = path.join(ROOT, 'features', 'settings', 'components', 'settings-font-size', 'settings-font-size.js');
+const settingsBackupJsPath = path.join(ROOT, 'features', 'settings', 'components', 'settings-backup', 'settings-backup.js');
+const settingsRegJsPath = path.join(ROOT, 'features', 'settings', 'settings-registration.js');
 const settingsJsPath = path.join(ROOT, 'features', 'settings', 'settings.js');
 const prayerStoreJsPath = path.join(ROOT, 'services', 'prayer-store.js');
 const tasbeehStoreJsPath = path.join(ROOT, 'services', 'tasbeeh-store.js');
@@ -102,6 +110,11 @@ const trackerCurFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-cur
 const trackerCurFormJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-form', 'tracker-current-form.js');
 const trackerCurPageJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-page', 'tracker-current-page.js');
 const trackerCurJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current.js');
+const trackerOldCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-card', 'tracker-old-card.js');
+const trackerOldFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-feed', 'tracker-old-feed.js');
+const trackerOldFormJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-form', 'tracker-old-form.js');
+const trackerOldPageJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-page', 'tracker-old-page.js');
+const trackerOldJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old.js');
 const trackerPerfCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-card', 'tracker-performance-card.js');
 const trackerPerfFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-feed', 'tracker-performance-feed.js');
 const trackerPerfPageJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-page', 'tracker-performance-page.js');
@@ -204,6 +217,7 @@ function buildProduction() {
 
         // 2. Combine and Minify JS in exact dependency order
         const bindingsJs = readFile(bindingsJsPath);
+        const componentHelperJs = readFile(componentHelperJsPath);
         const iconJs = readFile(iconJsPath);
         const bottomSheetJs = readFile(bottomSheetJsPath);
         const tabsJs = readFile(tabsJsPath);
@@ -218,7 +232,14 @@ function buildProduction() {
         const dashboardClockJs = readFile(dashboardClockJsPath);
         const dashboardTimelineJs = readFile(dashboardTimelineJsPath);
         const dashboardFeaturesGridJs = readFile(dashboardFeaturesGridJsPath);
+        const dashboardJs = readFile(dashboardJsPath);
         const dashboardRegJs = readFile(dashboardRegJsPath);
+        const settingsServiceJs = readFile(settingsServiceJsPath);
+        const settingsPrayerTimesJs = readFile(settingsPrayerTimesJsPath);
+        const settingsStartDateJs = readFile(settingsStartDateJsPath);
+        const settingsFontSizeJs = readFile(settingsFontSizeJsPath);
+        const settingsBackupJs = readFile(settingsBackupJsPath);
+        const settingsRegJs = readFile(settingsRegJsPath);
         const settingsJs = readFile(settingsJsPath);
 
         // Prayer submodules
@@ -284,6 +305,11 @@ function buildProduction() {
         const trackerCurFormJs = readFile(trackerCurFormJsPath);
         const trackerCurPageJs = readFile(trackerCurPageJsPath);
         const trackerCurJs = readFile(trackerCurJsPath);
+        const trackerOldCardJs = readFile(trackerOldCardJsPath);
+        const trackerOldFeedJs = readFile(trackerOldFeedJsPath);
+        const trackerOldFormJs = readFile(trackerOldFormJsPath);
+        const trackerOldPageJs = readFile(trackerOldPageJsPath);
+        const trackerOldJs = readFile(trackerOldJsPath);
         const trackerPerfCardJs = readFile(trackerPerfCardJsPath);
         const trackerPerfFeedJs = readFile(trackerPerfFeedJsPath);
         const trackerPerfPageJs = readFile(trackerPerfPageJsPath);
@@ -320,6 +346,7 @@ function buildProduction() {
 
         const combinedJs = [
             bindingsJs,
+            componentHelperJs,
             iconJs,
             bottomSheetJs,
             tabsJs,
@@ -334,7 +361,14 @@ function buildProduction() {
             dashboardClockJs,
             dashboardTimelineJs,
             dashboardFeaturesGridJs,
+            dashboardJs,
             dashboardRegJs,
+            settingsServiceJs,
+            settingsPrayerTimesJs,
+            settingsStartDateJs,
+            settingsFontSizeJs,
+            settingsBackupJs,
+            settingsRegJs,
             settingsJs,
             prayerOldJs,
             prayerPerfJs,
@@ -385,6 +419,11 @@ function buildProduction() {
             trackerCurFormJs,
             trackerCurPageJs,
             trackerCurJs,
+            trackerOldCardJs,
+            trackerOldFeedJs,
+            trackerOldFormJs,
+            trackerOldPageJs,
+            trackerOldJs,
             trackerPerfCardJs,
             trackerPerfFeedJs,
             trackerPerfPageJs,
@@ -414,7 +453,8 @@ function buildProduction() {
             registryJs,
             appJs,
             navigationJs,
-            appViewModelJs
+            appViewModelJs,
+            'if (typeof registerAllComponents === "function") { try { registerAllComponents(); } catch (_) {} }'
         ].join('\n');
 
         const minifiedJs = minifyJs(combinedJs);
@@ -424,7 +464,7 @@ function buildProduction() {
         html = html.replace(/<script[^>]*src="components\/icon\/icon\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="components\/bottom-sheet\/bottom-sheet\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="components\/registry\.js"[^>]*><\/script>/g, '');
-        html = html.replace(/<script\s+type="module"(?![^>]*src=)[^>]*>[\s\S]*?registerAllComponents[\s\S]*?<\/script>/g, '');
+        html = html.replace(/<script\s+type="module"(?![^>]*src=)[^>]*>[\s\S]*?(?:registerAllComponents|registerStartupComponents)[\s\S]*?<\/script>/g, '');
         html = html.replace(/<script[^>]*src="utilities\/constant\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="utilities\/utility\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="services\/prayer-store\.js"[^>]*><\/script>/g, '');
@@ -436,11 +476,17 @@ function buildProduction() {
         html = html.replace(/<script[^>]*src="navigation\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="(?:features\/)?(?:prayer-tracking\/)?prayer-tracking\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="(?:features\/)?(?:tracker\/)?tracker\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="(?:features\/)?(?:tracker\/)?tracker-registration\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="(?:features\/)?(?:dashboard\/)?dashboard\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="(?:features\/)?(?:dashboard\/)?dashboard-registration\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="(?:features\/)?(?:settings\/)?settings\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="(?:features\/)?(?:settings\/)?settings-registration\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="(?:features\/)?(?:tasbeeh\/)?tasbeeh\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="(?:features\/)?(?:tasbeeh\/)?tasbeeh-registration\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="(?:features\/)?(?:duva\/|dua\/)?(?:duva|dua)\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="(?:features\/)?(?:dua\/)?dua-registration\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="(?:features\/)?(?:quran\/)?quran\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="(?:features\/)?(?:quran\/)?quran-registration\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="app\.js"[^>]*><\/script>/g, () => `<script>${minifiedJs}<\/script>`);
 
         // ---- Strip data-ref attributes from production output ----

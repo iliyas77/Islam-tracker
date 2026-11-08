@@ -134,7 +134,11 @@ export async function runDashboardTests() {
     console.log('  ✔ Features Grid Component: All 5 feature cards, action bindings, and badge reactivity verified');
 
     // 5. Dashboard Root ViewModel Composition Tests
+    const { DashboardViewModel: DashboardVmDirect, getDashboardViewModel: getDashVmDirect } = await import(path.join(ROOT, 'features', 'dashboard', 'dashboard.js'));
     const { DashboardViewModel, getDashboardViewModel } = await import(path.join(ROOT, 'features', 'dashboard', 'dashboard-registration.js'));
+    assert.strictEqual(DashboardViewModel, DashboardVmDirect, 'dashboard-registration.js should re-export DashboardViewModel for backward compatibility');
+    assert.strictEqual(getDashboardViewModel, getDashVmDirect, 'dashboard-registration.js should re-export getDashboardViewModel for backward compatibility');
+
     const dashVm = new DashboardViewModel();
     assert(dashVm.header && typeof dashVm.header.locationText === 'function');
     assert(dashVm.clock instanceof DashboardClockViewModel);
@@ -155,19 +159,14 @@ export async function runDashboardTests() {
 
     const requiredComponents = [
         'dashboard-clock',
-        'clock-component',
         'dashboard-timeline',
-        'timeline-component',
         'dashboard-features-grid',
-        'features-grid-component',
-        'features-grid',
-        'dashboard-mobile-view',
         'dashboard-page'
     ];
 
     for (const name of requiredComponents) {
         assert(mockKo.components.isRegistered(name), `Dashboard component [${name}] must be registered`);
     }
-    console.log(`  ✔ Dashboard Registration: All ${requiredComponents.length} components & aliases registered in ko`);
+    console.log(`  ✔ Dashboard Registration: All ${requiredComponents.length} canonical components registered in ko`);
 }
 

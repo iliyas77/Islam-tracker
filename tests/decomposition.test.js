@@ -14,6 +14,7 @@ export async function runDecompositionTests() {
     const filesToCheck = [
         // Reusable Global Components
         'components/tabs/tabs.js',
+        'components/component-helper.js',
 
         // Prayer Tracking modules
         'features/prayer-tracking/old-tracking.js',
@@ -75,6 +76,11 @@ export async function runDecompositionTests() {
         'features/tracker/tracker-current/tracker-current-feed/tracker-current-feed.js',
         'features/tracker/tracker-current/tracker-current-card/tracker-current-card.js',
         'features/tracker/tracker-current/tracker-current-form/tracker-current-form.js',
+        'features/tracker/tracker-old/tracker-old.js',
+        'features/tracker/tracker-old/tracker-old-page/tracker-old-page.js',
+        'features/tracker/tracker-old/tracker-old-feed/tracker-old-feed.js',
+        'features/tracker/tracker-old/tracker-old-card/tracker-old-card.js',
+        'features/tracker/tracker-old/tracker-old-form/tracker-old-form.js',
         'features/tracker/tracker-performance/tracker-performance.js',
         'features/tracker/tracker-performance/tracker-performance-page/tracker-performance-page.js',
         'features/tracker/tracker-performance/tracker-performance-feed/tracker-performance-feed.js',
@@ -103,11 +109,21 @@ export async function runDecompositionTests() {
         'features/dua/dua-favourites/dua-favourites-card/dua-favourites-card.js',
 
         // Dashboard Modular Component Architecture
+        'features/dashboard/dashboard.js',
         'features/dashboard/dashboard-service.js',
         'features/dashboard/dashboard-registration.js',
         'features/dashboard/components/dashboard-clock/dashboard-clock.js',
         'features/dashboard/components/dashboard-timeline/dashboard-timeline.js',
-        'features/dashboard/components/dashboard-features-grid/dashboard-features-grid.js'
+        'features/dashboard/components/dashboard-features-grid/dashboard-features-grid.js',
+
+        // Settings Modular Component Architecture (SB)
+        'features/settings/settings-service.js',
+        'features/settings/settings-registration.js',
+        'features/settings/settings.js',
+        'features/settings/components/settings-prayer-times/settings-prayer-times.js',
+        'features/settings/components/settings-start-date/settings-start-date.js',
+        'features/settings/components/settings-font-size/settings-font-size.js',
+        'features/settings/components/settings-backup/settings-backup.js'
     ];
 
     for (const file of filesToCheck) {

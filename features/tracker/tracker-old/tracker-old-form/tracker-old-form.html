@@ -1,0 +1,94 @@
+<!-- ko if: isOpen -->
+<div class="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity"
+    data-bind="click: handleBackdropClick"
+    data-ref="page.old.form.backdrop">
+    <div class="bg-white w-full max-w-lg rounded-t-2xl sm:rounded-2xl p-5 flex flex-col gap-4 max-h-[90vh] overflow-y-auto shadow-xl"
+        data-bind="click: function(d, e) { e.stopPropagation(); }"
+        data-ref="page.old.form.modal">
+        <!-- Header -->
+        <div class="flex items-center justify-between border-b pb-3">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-clock-rotate-left text-gr-warning text-lg" aria-hidden="true"></i>
+                <h3 class="text-base font-bold text-gray-900" data-bind="text: title">Period Info</h3>
+            </div>
+            <button type="button" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500 transition-colors"
+                data-bind="click: handleClose" aria-label="Close">
+                <i class="fa-solid fa-xmark text-sm" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <!-- Period Summary Badges -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-center text-xs">
+            <div class="p-2.5 bg-gray-50 rounded-xl border border-gray-100">
+                <span class="text-gray-500 block">Total Days</span>
+                <span class="font-bold text-sm text-gray-800" data-bind="text: totalDays">0</span>
+            </div>
+            <div class="p-2.5 bg-red-50 rounded-xl border border-red-100">
+                <span class="text-red-500 block">Total Missed</span>
+                <span class="font-bold text-sm text-red-600" data-bind="text: totalMissed">0</span>
+            </div>
+            <div class="p-2.5 bg-amber-50 rounded-xl border border-amber-100 col-span-2 sm:col-span-1">
+                <span class="text-amber-600 block">Days Missed</span>
+                <span class="font-bold text-sm text-amber-700" data-bind="text: daysMissed">0</span>
+            </div>
+        </div>
+
+        <!-- Date Range Range Info -->
+        <div class="flex flex-col gap-1 text-xs text-gray-600 bg-emerald-50/60 p-3 rounded-xl border border-emerald-100">
+            <div class="flex justify-between items-center">
+                <span>Start Date:</span>
+                <span class="font-semibold text-gray-800" data-bind="text: formattedStart">--</span>
+            </div>
+            <div class="flex justify-between items-center">
+                <span>End Date:</span>
+                <span class="font-semibold text-gray-800" data-bind="text: formattedEnd">--</span>
+            </div>
+        </div>
+
+        <!-- Per Prayer Missed Breakdown -->
+        <div class="flex flex-col gap-1.5">
+            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Missed per Prayer</span>
+            <div class="flex flex-col gap-1" data-bind="foreach: perPrayerBreakdown">
+                <div class="flex justify-between items-center py-1.5 px-3 rounded-lg bg-gray-50 border border-gray-100 text-xs">
+                    <span class="font-semibold text-gray-700" data-bind="text: prayer"></span>
+                    <span class="font-bold px-2 py-0.5 rounded-full"
+                        data-bind="text: count + ' missed', css: count > 0 ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Period Settings Controls -->
+        <div class="border-t pt-3 flex flex-col gap-2.5">
+            <button type="button" class="text-xs font-semibold text-brand text-left hover:underline flex items-center justify-between"
+                data-bind="click: toggleEditMode">
+                <span data-bind="text: isEditMode() ? 'Hide Period Settings' : 'Configure Tracking Period'">Configure Tracking Period</span>
+                <span data-bind="text: isEditMode() ? '▲' : '▼'">▼</span>
+            </button>
+
+            <!-- ko if: isEditMode -->
+            <div class="flex flex-col gap-2.5 pt-1">
+                <div class="flex flex-col gap-1 text-xs">
+                    <label for="oldStartInput" class="font-medium text-gray-700">Tracking Start Date</label>
+                    <input type="date" id="oldStartInput" class="p-2 border rounded-lg text-xs"
+                        data-bind="value: startDateInput">
+                </div>
+                <div class="flex flex-col gap-1 text-xs">
+                    <label for="oldEndInput" class="font-medium text-gray-700">Tracking End Date</label>
+                    <input type="date" id="oldEndInput" class="p-2 border rounded-lg text-xs"
+                        data-bind="value: endDateInput">
+                </div>
+                <button type="button" class="w-full py-2 bg-brand text-white rounded-xl text-xs font-bold hover:bg-brand/90 transition-colors"
+                    data-bind="click: handleSavePeriod">Save Period</button>
+            </div>
+            <!-- /ko -->
+        </div>
+
+        <!-- Actions -->
+        <div class="flex justify-end pt-2 border-t">
+            <button type="button" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition-colors"
+                data-bind="click: handleClose">Close</button>
+        </div>
+    </div>
+</div>
+<!-- /ko -->
+

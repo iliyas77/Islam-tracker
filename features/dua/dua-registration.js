@@ -9,13 +9,20 @@
    ============================================================ */
 'use strict';
 
+/* ---------- Template Definitions ---------- */
+export var DuasPageTemplate = { element: 'duas-page-template', file: 'features/dua/dua.html' };
+export var DuaHeaderTemplate = { element: 'dua-header-template', file: 'features/dua/templates/dua-header.html' };
+export var DuaNavTabTemplate = { element: 'dua-nav-tab-template', file: 'features/dua/templates/dua-nav-tab.html' };
+export var DuaTranslationToggleTemplate = { element: 'dua-translation-toggle-template', file: 'features/dua/templates/dua-translation-toggle.html' };
+export var DuvaSearchBarTemplate = { element: 'duva-search-bar-template', file: 'features/dua/dua-all/dua-all-form/dua-all-form.html' };
+
 import {
-    DuasPageTemplate,
-    DuaHeaderTemplate,
-    DuaNavTabTemplate,
-    DuaTranslationToggleTemplate,
-    DuvaSearchBarTemplate,
-    getDuasViewModel
+    getDuasViewModel,
+    DuasPageViewModel,
+    DuaPageViewModel,
+    initDuas,
+    DuasApp,
+    DuaApp
 } from './dua.js';
 
 import {
@@ -37,23 +44,19 @@ import {
     DuaFavouritesPageTemplate, DuaFavouritesPageViewModel
 } from './dua-favourites/dua-favourites.js';
 
+import { registerComponent } from '../../components/component-helper.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 
-function registerComponent(name, viewModel, template, customKo) {
-    if (!customKo && typeof _win.registerFeatureComponent === 'function') {
-        _win.registerFeatureComponent(name, viewModel, template);
-        return;
-    }
-    var ko = customKo || (typeof _win.ko !== 'undefined' ? _win.ko : (typeof ko !== 'undefined' ? ko : null));
-    if (!ko || !ko.components) return;
-    if (!ko.components.isRegistered(name)) {
-        ko.components.register(name, {
-            viewModel: viewModel,
-            template: template
-        });
-    }
-}
+// Re-export for backward compatibility
+export {
+    getDuasViewModel,
+    DuasPageViewModel,
+    DuaPageViewModel,
+    initDuas,
+    DuasApp,
+    DuaApp
+};
 
 /**
  * Register all Dua Knockout components

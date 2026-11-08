@@ -167,6 +167,7 @@ export * from './tasbeeh-history/tasbeeh-history-page/tasbeeh-history-page.js';
 // Re-export Tasbeeh centralized registration
 import { registerTasbeehComponents } from './tasbeeh-registration.js';
 export * from './tasbeeh-registration.js';
+try { registerTasbeehComponents(); } catch (_) {}
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 
