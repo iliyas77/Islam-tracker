@@ -1,0 +1,62 @@
+<!-- ko if: isOpen -->
+<div class="fixed inset-0 bg-black/50 z-[120] flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity"
+    data-ref="page.current.missed-form.overlay"
+    data-bind="click: handleClose">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-[480px] max-h-[85vh] flex flex-col overflow-hidden shadow-2xl"
+        data-ref="page.current.missed-form.modal"
+        data-bind="click: function(d, e) { e.stopPropagation(); }">
+        <!-- Header -->
+        <div class="px-5 py-4 border-b border-borderGrey flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center">
+                    <i class="fa-solid fa-clock-rotate-left text-sm" aria-hidden="true"></i>
+                </div>
+                <h3 class="text-base font-bold text-gray-900 m-0">Missed Prayers</h3>
+            </div>
+            <button type="button" aria-label="Close"
+                class="w-8 h-8 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 flex items-center justify-center"
+                data-bind="click: handleClose">
+                <i class="fa-solid fa-xmark text-sm" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="p-5 overflow-y-auto space-y-3 flex-1 min-h-0">
+            <!-- ko if: (typeof missedItems === 'function' ? missedItems() : missedItems).length === 0 -->
+            <div class="py-12 text-center text-gray-500">
+                <i class="fa-solid fa-star text-brand opacity-40 text-4xl mb-3" aria-hidden="true"></i>
+                <p class="text-sm font-semibold">No missed prayers from previous days.</p>
+                <p class="text-xs text-gray-400 mt-1">All caught up!</p>
+            </div>
+            <!-- /ko -->
+
+            <!-- ko foreach: (typeof missedItems === 'function' ? missedItems : missedItems) -->
+            <div class="rounded-2xl border border-borderGrey p-3.5 bg-surfaceBg flex flex-col gap-2.5">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-brand" data-bind="text: $parent.formatDate(date)"></span>
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-600 font-semibold" data-bind="text: count + ' missed'"></span>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <!-- ko foreach: prayers -->
+                    <button type="button"
+                        class="p-2 rounded-xl bg-white border border-borderGrey flex items-center justify-between hover:border-brand transition-colors text-xs text-left"
+                        data-bind="click: function(d, e) { $parents[1].handleResolve($parent.date, $data, e); }">
+                        <span class="font-semibold text-gray-800" data-bind="text: $data"></span>
+                        <span class="text-[11px] font-bold text-brand hover:underline">Mark Done</span>
+                    </button>
+                    <!-- /ko -->
+                </div>
+            </div>
+            <!-- /ko -->
+        </div>
+
+        <!-- Footer -->
+        <div class="p-4 border-t border-borderGrey flex justify-end">
+            <button type="button"
+                class="px-4 py-2 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 text-xs font-semibold"
+                data-bind="click: handleClose">Done</button>
+        </div>
+    </div>
+</div>
+<!-- /ko -->
+

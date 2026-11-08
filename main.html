@@ -975,27 +975,42 @@
 
             <!-- Prayer Tracker Page (Combined Current, Old, Performance, History) -->
             <div id="trackerPage" class="d-none flex-col grow page" data-ref="page.tracker"
-                data-bind="component: { name: 'tracker-page', params: tracker }, css: { 'd-none': !isTrackerVisible(), 'flex': isTrackerVisible() }">
+                data-bind="css: { 'd-none': !isTrackerVisible(), 'flex': isTrackerVisible() }">
+                <!-- ko if: isTrackerVisible -->
+                <!-- ko component: { name: 'tracker-page', params: tracker } --><!-- /ko -->
+                <!-- /ko -->
             </div>
 
             <!-- Settings Page -->
             <div id="settingsPage" class="d-none flex-col grow page" data-ref="page.settings"
-                data-bind="component: { name: 'settings-page', params: settings }, css: { 'd-none': !isSettingsVisible(), 'flex': isSettingsVisible() }">
+                data-bind="css: { 'd-none': !isSettingsVisible(), 'flex': isSettingsVisible() }">
+                <!-- ko if: isSettingsVisible -->
+                <!-- ko component: { name: 'settings-page', params: settings } --><!-- /ko -->
+                <!-- /ko -->
             </div>
 
             <!-- Digital Tasbeeh Page -->
             <div id="tasbeehPage" class="d-none flex-col grow page" data-ref="page.tasbeeh"
-                data-bind="component: { name: 'tasbeeh-page', params: tasbeeh }, css: { 'd-none': !isTasbeehVisible(), 'flex': isTasbeehVisible() }">
+                data-bind="css: { 'd-none': !isTasbeehVisible(), 'flex': isTasbeehVisible() }">
+                <!-- ko if: isTasbeehVisible -->
+                <!-- ko component: { name: 'tasbeeh-page', params: tasbeeh } --><!-- /ko -->
+                <!-- /ko -->
             </div>
 
             <!-- Quran Duas Page -->
             <div id="duasPage" class="d-none flex-col grow page" data-ref="page.duas"
-                data-bind="component: { name: 'duas-page', params: duas }, css: { 'd-none': !isDuasVisible(), 'flex': isDuasVisible() }">
+                data-bind="css: { 'd-none': !isDuasVisible(), 'flex': isDuasVisible() }">
+                <!-- ko if: isDuasVisible -->
+                <!-- ko component: { name: 'duas-page', params: duas } --><!-- /ko -->
+                <!-- /ko -->
             </div>
 
             <!-- Quran Reading Page -->
             <div id="quranPage" class="d-none flex-col grow page" data-ref="page.quran"
-                data-bind="component: { name: 'quran-page', params: quran }, css: { 'd-none': !isQuranVisible(), 'flex': isQuranVisible() }">
+                data-bind="css: { 'd-none': !isQuranVisible(), 'flex': isQuranVisible() }">
+                <!-- ko if: isQuranVisible -->
+                <!-- ko component: { name: 'quran-page', params: quran } --><!-- /ko -->
+                <!-- /ko -->
             </div>
         </main>
 
@@ -1893,8 +1908,22 @@
                     </div>
                 </div>
                 <div class="flex justify-between items-stretch gap-1 w-full" id="dashTimelineNodes"
-                    data-ref="page.dashboard.timeline.nodes"
-                    data-bind="template: { name: 'dashboard-timeline-item-template', foreach: items }">
+                    data-ref="page.dashboard.timeline.nodes">
+                    <!-- ko foreach: items -->
+                    <div class="flex-1 flex flex-col items-center gap-1.5 text-center min-w-0"
+                        data-bind="attr: { id: 'dashTimeline' + name, 'data-ref': 'page.dashboard.timeline.item.' + name.toLowerCase() }">
+                        <div class="icon-box icon-box-md"
+                            data-bind="attr: { id: 'dashIconBox' + name, 'data-ref': 'page.dashboard.timeline.icon.' + name.toLowerCase() }, css: { 'icon-box-active': isActive }">
+                            <app-icon params="name: iconClass"></app-icon>
+                        </div>
+                        <div class="text-xs font-bold text-brand mt-1 truncate"
+                            data-bind="text: name, attr: { 'data-ref': 'page.dashboard.timeline.name.' + name.toLowerCase() }"></div>
+                        <div class="text-[11px] text-gr-text font-medium"
+                            data-bind="text: time, attr: { id: 'dashTime' + name, 'data-ref': 'page.dashboard.timeline.time.' + name.toLowerCase() }">--:--</div>
+                        <span class="dash-timeline-badge text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
+                            data-bind="text: statusText, attr: { id: 'dashBadge' + name, 'data-ref': 'page.dashboard.timeline.badge.' + name.toLowerCase() }, css: statusBadgeClass">Upcoming</span>
+                    </div>
+                    <!-- /ko -->
                 </div>
             </div>
         </script>
@@ -1916,6 +1945,31 @@
                 </div>
             </div>
         </script>
+        <script type="text/html" id="dashboard-features-grid-template">
+            <div class="grid grid-cols-2 gap-3 w-full" data-ref="page.dashboard.nav-grid">
+                <!-- ko foreach: navCards -->
+                <div class="dash-nav-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col items-center justify-between cursor-pointer hover:border-brand hover:shadow-sm transition-all min-h-[120px] relative shadow-none"
+                    role="button" tabindex="0"
+                    data-bind="attr: { 'data-act': action, 'data-ref': dataRef }, click: onClick">
+                    <!-- ko if: hasBadge -->
+                    <span class="dash-tracker-badge absolute top-2.5 right-2.5 text-[10.5px] font-bold leading-none px-2 py-0.5 rounded-full inline-flex items-center justify-center whitespace-nowrap z-[3] pointer-events-none bg-red-100 text-red-600 border border-red-300"
+                        data-bind="text: badgeText, attr: { id: badgeId, 'data-ref': badgeDataRef }, css: { 'd-none': !badgeVisible() }"></span>
+                    <!-- /ko -->
+                    <div class="icon-box icon-box-lg" data-bind="attr: { 'data-ref': iconDataRef }">
+                        <app-icon params="name: iconClass"></app-icon>
+                    </div>
+                    <div class="flex items-center justify-center gap-1 text-xs font-bold text-brand mt-2">
+                        <span class="text-xs font-bold text-brand"
+                            data-bind="text: title, attr: { 'data-ref': titleDataRef }"></span>
+                        <app-icon params="name: 'chevron-right'"></app-icon>
+                    </div>
+                </div>
+                <!-- /ko -->
+            </div>
+        </script>
+        <script type="text/html" id="features-grid-template">
+            <!-- ko template: 'dashboard-features-grid-template' --><!-- /ko -->
+        </script>
         <script type="text/html" id="dashboard-divider-template">
             <div class="flex items-center justify-center gap-2 py-3 w-full text-brand/30"
                 data-ref="page.dashboard.bottom-divider">
@@ -1925,7 +1979,7 @@
             </div>
         </script>
         <script type="text/html" id="dashboard-page-template">
-            <!-- Dashboard / Home Page Component Template -->
+            <!-- Dashboard / Home Page Mobile View Component Template -->
             <div class="grow overflow-auto p-0 relative" id="dashScroll">
                 <div id="dashBody">
                     <div class="p-2.5 pt-2 pb-3 relative flex flex-col gap-3.5 w-full min-h-full box-border"
@@ -1938,141 +1992,589 @@
                         </div>
 
                         <!-- Top Header Bar: Location & Mosque Silhouette -->
-                        <!-- ko component: { name: 'dashboard-header', params: header } --><!-- /ko -->
+                        <header class="flex items-center justify-between text-brand text-xs font-semibold py-1 z-10"
+                            data-ref="page.dashboard.header">
+                            <div class="flex items-center gap-1.5 text-xs text-brand font-medium"
+                                data-ref="page.dashboard.header.location">
+                                <app-icon params="name: 'location-dot', color: 'text-brand', size: 'sm', dataRef: 'page.dashboard.header.location-icon'"></app-icon>
+                                <span id="dashLocationText" data-ref="page.dashboard.header.location-text"
+                                    data-bind="html: header.locationText">Guntur &bull; Hanafi</span>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-sm"
+                                data-ref="page.dashboard.header.mosque-icon">
+                                <app-icon params="name: 'mosque'"></app-icon>
+                            </div>
+                        </header>
 
-                        <!-- 1. Digital Clock Card -->
+                        <!-- 1. Digital Clock Card Component -->
                         <!-- ko component: { name: 'dashboard-clock', params: clock } --><!-- /ko -->
 
-                        <!-- 2. Daily Prayer Timeline Card -->
+                        <!-- 2. Daily Prayer Timeline Card Component -->
                         <!-- ko component: { name: 'dashboard-timeline', params: timeline } --><!-- /ko -->
 
-                        <!-- 3. 2x2 Quick Navigation Cards Grid -->
-                        <div class="grid grid-cols-2 gap-3 w-full" data-ref="page.dashboard.nav-grid"
-                            data-bind="template: { name: 'dashboard-nav-card-template', foreach: navCards }">
-                        </div>
+                        <!-- 3. Features Grid Component -->
+                        <!-- ko component: { name: 'dashboard-features-grid', params: featuresGrid } --><!-- /ko -->
 
                         <!-- 4. Bottom Decorative Divider -->
-                        <!-- ko component: { name: 'dashboard-divider', params: {} } --><!-- /ko -->
+                        <div class="flex items-center justify-center gap-2 py-3 w-full text-brand/30"
+                            data-ref="page.dashboard.bottom-divider">
+                            <div class="h-[1px] bg-borderGrey flex-1"></div>
+                            <div class="text-xs text-brand/40 px-2"><app-icon params="name: 'star-and-crescent'"></app-icon></div>
+                            <div class="h-[1px] bg-borderGrey flex-1"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </script>
+        <script type="text/html" id="dashboard-mobile-view-template">
+            <!-- ko template: 'dashboard-page-template' --><!-- /ko -->
+        </script>
         <script type="text/html" id="tracker-page-template">
-            <!-- Prayer Tracker Page Component Template (Combined Current, Old, Performance, History) -->
-            <!-- Header Component -->
-            <!-- ko component: { name: 'prayer-header', params: header } --><!-- /ko -->
-            
-            <!-- Current Prayer Body -->
-            <div class="grow overflow-auto px-2 pt-2 pb-3" id="currentBody" data-ref="page.current.body"
-                data-bind="visible: currentSubTab() === 'current'">
-                <!-- ko component: { name: 'prayer-tracker-card', params: currentCard } --><!-- /ko -->
+<!-- Header Component -->
+<!-- ko component: { name: 'tracker-header', params: header } --><!-- /ko -->
+
+<!-- Current Prayer Page -->
+<div class="grow overflow-auto px-2 pt-2 pb-3" id="currentBody" data-ref="page.current.body"
+    data-bind="visible: currentSubTab() === 'current'">
+    <!-- ko component: { name: 'tracker-current-page', params: currentParams } --><!-- /ko -->
+</div>
+
+<!-- Old Tracking Body (Preserved) -->
+<div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="oldBody" data-ref="page.old.body"
+    data-bind="visible: currentSubTab() === 'old'">
+    <!-- ko component: { name: 'prayer-tracker-card', params: oldCard } --><!-- /ko -->
+</div>
+
+<!-- Performance Page -->
+<div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="performanceBody" data-ref="page.performance.body"
+    data-bind="visible: currentSubTab() === 'performance'">
+    <!-- ko component: { name: 'tracker-performance-page', params: performanceParams } --><!-- /ko -->
+</div>
+
+<!-- History Page -->
+<div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="historyBody" data-ref="page.history.body"
+    data-bind="visible: currentSubTab() === 'history'">
+    <!-- ko component: { name: 'tracker-history-page', params: historyParams } --><!-- /ko -->
+</div>
+
+<!-- Bottom Navigation Component -->
+<!-- ko component: { name: 'tracker-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko -->
+        </script>
+
+        <!-- Tracker Current Page Template -->
+        <script type="text/html" id="tracker-current-page-template">
+<div class="prayer-tracker-card w-full max-w-[480px] bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col gap-3 shadow-none mx-auto"
+    data-bind="attr: { id: collapsePrefix + 'TrackerCard', 'data-ref': pagePrefix + '.card' }">
+    <header class="tracker-header pb-2.5 border-b border-borderGrey flex items-center justify-between gap-2"
+        data-bind="attr: { 'data-ref': pagePrefix + '.card.header' }">
+        <button type="button" class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
+            data-bind="attr: { id: collapsePrefix + 'DateChip', 'data-ref': pagePrefix + '.card.header.date-chip' }, click: handleDateChipClick"
+            aria-label="Select date">
+            <app-icon params="name: 'calendar-days', prefix: 'fa-regular', size: 'sm'"></app-icon>
+            <span data-bind="text: dateChipText, attr: { id: collapsePrefix + 'DateChipText', 'data-ref': pagePrefix + '.card.header.date-text' }"></span>
+        </button>
+        <div class="header-status flex items-center gap-2"
+            data-bind="attr: { id: collapsePrefix + 'HeaderStatus', 'data-ref': pagePrefix + '.card.header.status' }">
+            <!-- ko if: badgeText -->
+            <span class="badge badge-warning inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer"
+                data-bind="attr: { 'data-ref': pagePrefix + '.card.header.badge' }, click: handleBadgeClick">
+                <app-icon params="name: 'triangle-exclamation', size: 'xs'"></app-icon>
+                <span data-bind="text: badgeText"></span>
+            </span>
+            <!-- /ko -->
+            <!-- ko if: actionBtnText -->
+            <button type="button" class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 text-sm hover:underline"
+                data-bind="text: actionBtnText, attr: { id: collapsePrefix + 'ActionBtn', 'data-ref': pagePrefix + '.card.header.action-btn' }, click: handleActionBtnClick"></button>
+            <!-- /ko -->
+        </div>
+    </header>
+
+    <!-- ko component: {
+        name: 'tracker-current-feed',
+        params: {
+            collapsePrefix: collapsePrefix,
+            pagePrefix: pagePrefix,
+            missedRows: missedRows,
+            doneRows: doneRows,
+            onTogglePrayer: handleTogglePrayer
+        }
+    } --><!-- /ko -->
+
+    <!-- ko component: {
+        name: 'tracker-current-form',
+        params: {
+            isOpen: isMissedFormOpen,
+            onClose: closeMissedForm
+        }
+    } --><!-- /ko -->
+</div>
+        </script>
+
+        <!-- Tracker Current Feed Template -->
+        <script type="text/html" id="tracker-current-feed-template">
+<div class="tracker-feed flex flex-col gap-3" data-bind="attr: { 'data-ref': pagePrefix + '.feed' }">
+    <section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': pagePrefix + '.card.missed-group' }">
+        <button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
+            data-toggle="collapse"
+            data-bind="attr: { 'data-target': '#' + collapsePrefix + 'MissedList', 'data-ref': pagePrefix + '.card.missed-group.toggle' }"
+            aria-expanded="true">
+            <span class="section-title text-xs font-bold uppercase tracking-wider text-gr-text"
+                data-bind="text: missedGroupTitle, attr: { id: collapsePrefix + 'MissedTitle', 'data-ref': pagePrefix + '.card.missed-group.title' }">MISSED</span>
+            <span class="toggle-icon text-[10px] transition-transform duration-200 inline-block"
+                data-bind="attr: { 'data-ref': pagePrefix + '.card.missed-group.icon' }">▼</span>
+        </button>
+        <div class="collapse show visible" style="visibility: visible;"
+            data-bind="attr: { id: collapsePrefix + 'MissedList', 'data-ref': pagePrefix + '.card.missed-group.collapse' }">
+            <ul class="prayer-list flex flex-col gap-1.5 list-none p-0 m-0"
+                data-bind="attr: { id: collapsePrefix + 'MissedUl', 'data-ref': pagePrefix + '.card.missed-group.list' }">
+                <!-- ko if: !hasMissed() -->
+                <li class="p-3 text-center text-gr-muted small bg-white rounded-3 border"
+                    data-bind="attr: { 'data-ref': pagePrefix + '.missed.empty' }">No missed or pending prayers. All caught up!</li>
+                <!-- /ko -->
+                <!-- ko foreach: missedRows -->
+                <!-- ko component: {
+                    name: 'tracker-current-card',
+                    params: {
+                        item: $data,
+                        prefix: $parent.pagePrefix,
+                        onToggle: function(card, event) { $parent.handleToggle(card, event); }
+                    }
+                } --><!-- /ko -->
+                <!-- /ko -->
+            </ul>
+        </div>
+    </section>
+
+    <section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': pagePrefix + '.card.done-group' }">
+        <button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
+            data-toggle="collapse"
+            data-bind="attr: { 'data-target': '#' + collapsePrefix + 'DoneList', 'data-ref': pagePrefix + '.card.done-group.toggle' }"
+            aria-expanded="true">
+            <span class="section-title text-xs font-bold uppercase tracking-wider text-gr-text"
+                data-bind="text: doneGroupTitle, attr: { id: collapsePrefix + 'DoneTitle', 'data-ref': pagePrefix + '.card.done-group.title' }">DONE</span>
+            <span class="toggle-icon text-[10px] transition-transform duration-200 inline-block"
+                data-bind="attr: { 'data-ref': pagePrefix + '.card.done-group.icon' }">▼</span>
+        </button>
+        <div class="collapse show visible" style="visibility: visible;"
+            data-bind="attr: { id: collapsePrefix + 'DoneList', 'data-ref': pagePrefix + '.card.done-group.collapse' }">
+            <ul class="prayer-list flex flex-col gap-1.5 list-none p-0 m-0"
+                data-bind="attr: { id: collapsePrefix + 'DoneUl', 'data-ref': pagePrefix + '.card.done-group.list' }">
+                <!-- ko if: !hasDone() -->
+                <li class="p-3 text-center text-gr-muted small bg-white rounded-3 border"
+                    data-bind="attr: { 'data-ref': pagePrefix + '.done.empty' }">No completed prayers yet.</li>
+                <!-- /ko -->
+                <!-- ko foreach: doneRows -->
+                <!-- ko component: {
+                    name: 'tracker-current-card',
+                    params: {
+                        item: $data,
+                        prefix: $parent.pagePrefix,
+                        onToggle: function(card, event) { $parent.handleToggle(card, event); }
+                    }
+                } --><!-- /ko -->
+                <!-- /ko -->
+            </ul>
+        </div>
+    </section>
+</div>
+        </script>
+
+        <!-- Tracker Current Card Template -->
+        <script type="text/html" id="tracker-current-card-template">
+<!-- ko if: isDone -->
+<li class="prayer-row prayer-row-done p-2.5 px-3 bg-surfaceBg border border-transparent rounded-xl flex items-center justify-between opacity-75 transition-all gap-2.5 mb-1.5"
+    data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }">
+    <div class="prayer-meta flex items-center gap-2.5 min-w-0"
+        data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }">
+        <div class="icon-box icon-box-md icon-done w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-[#D1E5DC] text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
+            data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }">
+            <app-icon params="name: 'check', size: 'xl'"></app-icon>
+        </div>
+        <div class="prayer-details flex flex-col gap-0.5 min-w-0"
+            data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }">
+            <div class="title-wrap flex items-baseline"
+                data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title-wrap' }">
+                <span class="prayer-name text-sm font-bold text-brand truncate"
+                    data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span>
             </div>
-            
-            <!-- Old Tracking Body -->
-            <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="oldBody" data-ref="page.old.body"
-                data-bind="visible: currentSubTab() === 'old'">
-                <!-- ko component: { name: 'prayer-tracker-card', params: oldCard } --><!-- /ko -->
+            <time class="prayer-time text-xs text-gr-textMuted"
+                data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time>
+        </div>
+    </div>
+    <button type="button"
+        class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#D1E5DC] text-brand border-0 hover:bg-[#c2ded3] transition-colors cursor-pointer shrink-0 text-xs font-semibold"
+        data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, click: onToggle"
+        title="Tap to mark missed">
+        <app-icon params="name: 'check', size: 'xs'"></app-icon> Done
+    </button>
+</li>
+<!-- /ko -->
+
+<!-- ko if: isUpcoming -->
+<li class="prayer-row prayer-row-upcoming p-2.5 px-3 bg-surfaceBg border border-borderGrey rounded-xl flex items-center justify-between cursor-default transition-all gap-2.5 mb-1.5"
+    data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }">
+    <div class="prayer-meta flex items-center gap-2.5 min-w-0"
+        data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }">
+        <div class="icon-box icon-box-md w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
+            data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }">
+            <app-icon params="name: iconClass"></app-icon>
+        </div>
+        <div class="prayer-details flex flex-col gap-0.5 min-w-0"
+            data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }">
+            <div class="title-wrap flex items-baseline"
+                data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title-wrap' }">
+                <span class="prayer-name text-sm font-bold text-brand truncate"
+                    data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span>
             </div>
-            
-            <!-- Performance Body -->
-            <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="performanceBody" data-ref="page.performance.body"
-                data-bind="visible: currentSubTab() === 'performance'">
-                <div class="flex flex-col gap-3 pb-2" data-ref="page.performance.container">
-                    <!-- Main Circular Stat Card -->
-                    <!-- ko component: { name: 'prayer-perf-ring', params: performance.hero } --><!-- /ko -->
-            
-                    <!-- Three Summary Stats Cards -->
-                    <!-- ko component: { name: 'prayer-stat-card', params: performance.stats } --><!-- /ko -->
-            
-                    <!-- Section Header Card -->
-                    <div class="rounded-2xl p-3 bg-white border border-borderGrey flex flex-row items-center justify-between shadow-none"
-                        data-ref="page.performance.breakdown-header">
-                        <div class="flex items-center gap-2.5">
-                            <div class="rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0"
-                                style="width: 40px; height: 40px;">
-                                <app-icon params="name: 'list-check', color: 'text-brand', size: '20px'"></app-icon>
-                            </div>
-                            <h6 class="font-bold text-brand text-sm mb-0 leading-tight">Individual Prayer<br>Breakdown</h6>
-                        </div>
-                        <div class="flex items-center gap-2 bg-brand-light px-3 py-1.5 rounded-xl border border-borderGrey text-brand text-xs font-medium shrink-0">
-                            <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', size: '16px'"></app-icon>
-                            <div class="text-left">
-                                <div class="font-bold leading-none" id="perfTrackedDays" data-bind="text: performance.trackedDays">0 days</div>
-                                <div class="text-gr-textMuted leading-none mt-0.5" style="font-size: 10px;">tracked</div>
-                            </div>
-                        </div>
-                    </div>
-            
-                    <!-- Breakdown List (Fajr, Dhuhr, Asr, Maghrib, Isha) -->
-                    <div class="flex flex-col gap-2.5" id="perfBreakdownList"
-                        data-ref="page.performance.breakdown-list"></div>
-            
-                    <!-- Settings Start Date Footer Card -->
-                    <div class="rounded-2xl p-3 bg-brand-light border border-borderGrey text-center flex flex-col items-center mt-1 bg-white shadow-none"
-                        data-ref="page.performance.footer-card">
-                        <div class="flex items-center justify-center gap-1.5 mb-1">
-                            <app-icon params="name: 'calendar-check', color: 'text-brand', size: '16px'"></app-icon>
-                            <span class="text-xs font-bold text-brand" id="perfFooterLabel" data-bind="text: performance.footerLabel">Tracking Start Date: --</span>
-                        </div>
-                        <p class="text-gr-textMuted text-xs mb-2.5" id="perfFooterDesc">
-                            Calculated from your start date configured in Settings up to today.
-                        </p>
-                        <div class="flex justify-center">
-                            <button type="button"
-                                class="font-bold px-3 py-1.5 rounded-full text-xs bg-brand text-white hover:bg-brand-hover transition-colors rounded-lg"
-                                data-act="goto-settings" data-ref="page.performance.goto-settings-btn"
-                                data-bind="click: goToSettings">
-                                <app-icon params="name: 'gear', customClass: 'mr-1', size: '14px'"></app-icon> Adjust Start Date in Settings
-                            </button>
-                        </div>
-                    </div>
+            <time class="prayer-time text-xs text-gr-textMuted"
+                data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time>
+        </div>
+    </div>
+    <button type="button"
+        class="inline-flex items-center justify-center px-3 py-1.5 rounded-xl bg-gray-100 text-gray-400 border border-dashed border-borderGrey cursor-default shrink-0 text-xs font-semibold"
+        disabled aria-disabled="true"
+        data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }">Upcoming</button>
+</li>
+<!-- /ko -->
+
+<!-- ko if: isMissed -->
+<li class="prayer-row prayer-row-missed p-2.5 px-3 bg-gradient-to-r from-gr-dangerSoft to-white border border-gr-danger rounded-xl flex items-center justify-between transition-all gap-2.5 mb-1.5"
+    data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }">
+    <div class="prayer-meta flex items-center gap-2.5 min-w-0"
+        data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }">
+        <div class="icon-box icon-box-md icon-missed w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-red-500 text-white inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
+            data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }">
+            <app-icon params="name: iconClass"></app-icon>
+        </div>
+        <div class="prayer-details flex flex-col gap-0.5 min-w-0"
+            data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }">
+            <div class="title-wrap flex items-baseline"
+                data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title-wrap' }">
+                <span class="prayer-name text-sm font-bold text-brand truncate"
+                    data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span>
+            </div>
+            <time class="prayer-time text-xs text-gr-textMuted"
+                data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time>
+        </div>
+    </div>
+    <button type="button"
+        class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl bg-red-50 text-red-600 border border-red-200 hover:bg-red-500 hover:text-white transition-colors cursor-pointer shrink-0 text-xs font-semibold"
+        data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, click: onToggle">Mark Done</button>
+</li>
+<!-- /ko -->
+
+<!-- ko if: isStandard -->
+<li class="prayer-row p-2.5 px-3 bg-white border rounded-xl flex items-center justify-between transition-all gap-2.5 mb-1.5"
+    data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }, css: isCurrent ? 'prayer-row-current bg-gradient-to-r from-activeLight to-white border-brand' : 'border-borderGrey hover:border-brand'">
+    <div class="prayer-meta flex items-center gap-2.5 min-w-0"
+        data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }">
+        <div class="icon-box icon-box-md w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
+            data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }, css: isCurrent ? 'icon-current bg-brand text-white' : 'bg-dash-mintBg text-brand'">
+            <app-icon params="name: iconClass"></app-icon>
+        </div>
+        <div class="prayer-details flex flex-col gap-0.5 min-w-0"
+            data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }">
+            <div class="title-wrap flex items-baseline"
+                data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title-wrap' }">
+                <span class="prayer-name text-sm font-bold text-brand truncate"
+                    data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span>
+            </div>
+            <time class="prayer-time text-xs text-gr-textMuted"
+                data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time>
+        </div>
+    </div>
+    <button type="button"
+        class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl bg-surfaceBg text-brand border border-borderGrey hover:bg-brand-light transition-colors cursor-pointer shrink-0 text-xs font-semibold"
+        data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, click: onToggle">Mark Done</button>
+</li>
+<!-- /ko -->
+        </script>
+
+        <!-- Tracker Current Form Template -->
+        <script type="text/html" id="tracker-current-form-template">
+<!-- ko if: isOpen -->
+<div class="fixed inset-0 bg-black/50 z-[120] flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity"
+    data-ref="page.current.missed-form.overlay"
+    data-bind="click: handleClose">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-[480px] max-h-[85vh] flex flex-col overflow-hidden shadow-2xl"
+        data-ref="page.current.missed-form.modal"
+        data-bind="click: function(d, e) { e.stopPropagation(); }">
+        <div class="px-5 py-4 border-b border-borderGrey flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center">
+                    <i class="fa-solid fa-clock-rotate-left text-sm" aria-hidden="true"></i>
+                </div>
+                <h3 class="text-base font-bold text-gray-900 m-0">Missed Prayers</h3>
+            </div>
+            <button type="button" aria-label="Close"
+                class="w-8 h-8 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 flex items-center justify-center"
+                data-bind="click: handleClose">
+                <i class="fa-solid fa-xmark text-sm" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="p-5 overflow-y-auto space-y-3 flex-1 min-h-0">
+            <!-- ko if: (typeof missedItems === 'function' ? missedItems() : missedItems).length === 0 -->
+            <div class="py-12 text-center text-gray-500">
+                <i class="fa-solid fa-star text-brand opacity-40 text-4xl mb-3" aria-hidden="true"></i>
+                <p class="text-sm font-semibold">No missed prayers from previous days.</p>
+                <p class="text-xs text-gray-400 mt-1">All caught up!</p>
+            </div>
+            <!-- /ko -->
+            <!-- ko foreach: (typeof missedItems === 'function' ? missedItems : missedItems) -->
+            <div class="rounded-2xl border border-borderGrey p-3.5 bg-surfaceBg flex flex-col gap-2.5">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-brand" data-bind="text: $parent.formatDate(date)"></span>
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-600 font-semibold" data-bind="text: count + ' missed'"></span>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <!-- ko foreach: prayers -->
+                    <button type="button"
+                        class="p-2 rounded-xl bg-white border border-borderGrey flex items-center justify-between hover:border-brand transition-colors text-xs text-left"
+                        data-bind="click: function(d, e) { $parents[1].handleResolve($parent.date, $data, e); }">
+                        <span class="font-semibold text-gray-800" data-bind="text: $data"></span>
+                        <span class="text-[11px] font-bold text-brand hover:underline">Mark Done</span>
+                    </button>
+                    <!-- /ko -->
                 </div>
             </div>
-            
-            <!-- History Body -->
-            <div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="historyBody" data-ref="page.history.body"
-                data-bind="visible: currentSubTab() === 'history'">
-                <!-- Empty State -->
-                <div class="text-center text-gr-textMuted py-8 px-4 bg-white border border-borderGrey rounded-2xl d-none flex flex-col items-center justify-center"
-                    id="histEmptyState" data-ref="page.history.empty-state">
-                    <div class="mb-3">
-                        <app-icon params="name: 'list-check', color: 'text-brand', size: '4xl', customClass: 'opacity-50'"></app-icon>
+            <!-- /ko -->
+        </div>
+        <div class="p-4 border-t border-borderGrey flex justify-end">
+            <button type="button"
+                class="px-4 py-2 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 text-xs font-semibold"
+                data-bind="click: handleClose">Done</button>
+        </div>
+    </div>
+</div>
+<!-- /ko -->
+        </script>
+
+        <!-- Tracker Performance Page Template -->
+        <script type="text/html" id="tracker-performance-page-template">
+<div class="tracker-performance-page flex flex-col grow overflow-auto px-2 pt-2 pb-3"
+    id="performanceBody" data-ref="page.performance.body">
+    <!-- ko component: {
+        name: 'tracker-performance-feed',
+        params: {
+            hero: hero,
+            stats: stats,
+            breakdownItems: breakdownItems,
+            trackedDays: trackedDays,
+            footerLabel: footerLabel,
+            onSettingsClick: goToSettings
+        }
+    } --><!-- /ko -->
+</div>
+        </script>
+
+        <!-- Tracker Performance Feed Template -->
+        <script type="text/html" id="tracker-performance-feed-template">
+<div class="flex flex-col gap-3 pb-2" data-ref="page.performance.container">
+    <!-- ko component: { name: 'prayer-perf-ring', params: hero } --><!-- /ko -->
+    <!-- ko component: { name: 'prayer-stat-card', params: stats } --><!-- /ko -->
+    <div class="rounded-2xl p-3 bg-white border border-borderGrey flex flex-row items-center justify-between shadow-none"
+        data-ref="page.performance.breakdown-header">
+        <div class="flex items-center gap-2.5">
+            <div class="rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0"
+                style="width: 40px; height: 40px;">
+                <app-icon params="name: 'list-check', color: 'text-brand', size: '20px'"></app-icon>
+            </div>
+            <h6 class="font-bold text-brand text-sm mb-0 leading-tight">Individual Prayer<br>Breakdown</h6>
+        </div>
+        <div class="flex items-center gap-2 bg-brand-light px-3 py-1.5 rounded-xl border border-borderGrey text-brand text-xs font-medium shrink-0">
+            <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', size: '16px'"></app-icon>
+            <div class="text-left">
+                <div class="font-bold leading-none" id="perfTrackedDays" data-bind="text: trackedDays">0 days</div>
+                <div class="text-gr-textMuted leading-none mt-0.5" style="font-size: 10px;">tracked</div>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col gap-2.5" id="perfBreakdownList" data-ref="page.performance.breakdown-list"
+        data-bind="foreach: breakdownItems">
+        <!-- ko component: {
+            name: 'tracker-performance-card',
+            params: {
+                item: $data,
+                onClick: function(card, event) { $parent.handleCardClick(card, event); }
+            }
+        } --><!-- /ko -->
+    </div>
+    <div class="rounded-2xl p-3 bg-brand-light border border-borderGrey text-center flex flex-col items-center mt-1 bg-white shadow-none"
+        data-ref="page.performance.footer-card">
+        <div class="flex items-center justify-center gap-1.5 mb-1">
+            <app-icon params="name: 'calendar-check', color: 'text-brand', size: '16px'"></app-icon>
+            <span class="text-xs font-bold text-brand" id="perfFooterLabel" data-bind="text: footerLabel">Tracking Start Date: --</span>
+        </div>
+        <p class="text-gr-textMuted text-xs mb-2.5" id="perfFooterDesc">
+            Calculated from your start date configured in Settings up to today.
+        </p>
+        <div class="flex justify-center">
+            <button type="button"
+                class="font-bold px-3 py-1.5 rounded-full text-xs bg-brand text-white hover:bg-brand-hover transition-colors rounded-lg cursor-pointer"
+                data-act="goto-settings" data-ref="page.performance.goto-settings-btn"
+                data-bind="click: handleSettingsClick">
+                <app-icon params="name: 'gear', customClass: 'mr-1', size: '14px'"></app-icon> Adjust Start Date in Settings
+            </button>
+        </div>
+    </div>
+</div>
+        </script>
+
+        <!-- Tracker Performance Card Template -->
+        <script type="text/html" id="tracker-performance-card-template">
+<div class="rounded-2xl p-3.5 bg-white border border-borderGrey flex flex-col gap-2.5 shadow-none transition-all hover:border-brand"
+    data-bind="attr: { 'data-ref': 'page.performance.prayer.' + pLower }, click: handleClick">
+    <div class="flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-10 h-10 rounded-xl bg-dash-mintBg text-brand flex items-center justify-center shrink-0">
+                <app-icon params="name: iconClass, size: '20px'"></app-icon>
+            </div>
+            <div class="min-w-0">
+                <h6 class="font-bold text-brand text-sm mb-0 leading-tight" data-bind="text: name"></h6>
+                <div class="text-gr-textMuted text-xs mt-0.5" data-bind="text: time"></div>
+            </div>
+        </div>
+        <div>
+            <!-- ko if: isPerfect -->
+            <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand"
+                data-bind="text: percentage + '%', attr: { 'data-ref': 'page.performance.prayer.' + pLower + '.pct' }"></span>
+            <!-- /ko -->
+            <!-- ko ifnot: isPerfect -->
+            <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-gr-dangerSoft text-gr-danger"
+                data-bind="text: percentage + '%', attr: { 'data-ref': 'page.performance.prayer.' + pLower + '.pct' }"></span>
+            <!-- /ko -->
+        </div>
+    </div>
+    <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden flex">
+        <!-- ko if: isPerfect -->
+        <div class="h-full bg-brand rounded-full" data-bind="style: { width: percentage + '%' }"></div>
+        <!-- /ko -->
+        <!-- ko ifnot: isPerfect -->
+        <div class="perf-bar-fill h-full bg-brand" data-bind="style: { width: percentage + '%' }"></div>
+        <div class="perf-bar-missed h-full bg-gr-danger" data-bind="style: { width: (100 - percentage) + '%' }"></div>
+        <!-- /ko -->
+    </div>
+    <div class="flex items-center justify-between text-xs pt-1 border-t border-borderGrey/50">
+        <span class="flex items-center gap-1.5 text-brand font-semibold">
+            <app-icon params="name: 'circle-check', size: '14px'"></app-icon>
+            <span data-bind="text: completed + ' Completed'"></span>
+        </span>
+        <span class="flex items-center gap-1.5" data-bind="css: isPerfect ? 'text-gray-400 font-medium' : 'text-gr-danger font-semibold'">
+            <app-icon params="name: isPerfect ? 'circle-xmark' : 'circle-exclamation', size: '14px'"></app-icon>
+            <span data-bind="text: missed + ' Missed'"></span>
+        </span>
+    </div>
+</div>
+        </script>
+
+        <!-- Tracker History Page Template -->
+        <script type="text/html" id="tracker-history-page-template">
+<div class="tracker-history-page flex flex-col grow overflow-auto px-2 pt-2 pb-3"
+    id="historyBody" data-ref="page.history.body">
+    <!-- ko component: {
+        name: 'tracker-history-feed',
+        params: {
+            entries: historyEntries,
+            subtitle: subtitle,
+            onDeleteEntry: handleDeleteEntry,
+            onClearAll: clearAll
+        }
+    } --><!-- /ko -->
+</div>
+        </script>
+
+        <!-- Tracker History Feed Template -->
+        <script type="text/html" id="tracker-history-feed-template">
+<div class="tracker-history-feed flex flex-col gap-3" data-ref="page.history.feed">
+    <!-- ko if: !hasEntries() -->
+    <div class="text-center text-gr-textMuted py-8 px-4 bg-white border border-borderGrey rounded-2xl flex flex-col items-center justify-center"
+        id="histEmptyState" data-ref="page.history.empty-state">
+        <div class="mb-3">
+            <app-icon params="name: 'list-check', color: 'text-brand', size: '4xl', customClass: 'opacity-50'"></app-icon>
+        </div>
+        <h5 class="font-bold text-brand text-base mb-1">No Activity Yet</h5>
+        <p class="text-gr-textMuted text-xs mb-0">Whenever a prayer is marked as completed in Current or Old Tracking, its history entry will appear here.</p>
+    </div>
+    <!-- /ko -->
+
+    <!-- ko if: hasEntries() -->
+    <div id="histContent">
+        <div class="rounded-2xl p-3.5 bg-white border border-borderGrey mb-3"
+            data-ref="page.history.summary-card">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <div class="w-10 h-10 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
+                        <app-icon params="name: 'list-check', color: 'text-brand', size: 'lg'"></app-icon>
                     </div>
-                    <h5 class="font-bold text-brand text-base mb-1">No Activity Yet</h5>
-                    <p class="text-gr-textMuted text-xs mb-0">Whenever a prayer is marked as completed in Current or Old Tracking, its history entry will appear here.</p>
+                    <div class="min-w-0">
+                        <h6 class="font-bold text-brand mb-0 text-sm leading-tight">Activity Log</h6>
+                        <div class="text-gr-textMuted text-xs mt-0.5" id="histSubtitleCount" data-bind="text: subtitle">0 completed prayers</div>
+                    </div>
                 </div>
-            
-                <!-- Content Container -->
-                <div id="histContent" class="d-none">
-                    <!-- Summary Card -->
-                    <div class="rounded-2xl p-3.5 bg-white border border-borderGrey mb-3"
-                        data-ref="page.history.summary-card">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2.5 min-w-0">
-                                <div class="w-10 h-10 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
-                                    <app-icon params="name: 'list-check', color: 'text-brand', size: 'lg'"></app-icon>
-                                </div>
-                                <div class="min-w-0">
-                                    <h6 class="font-bold text-brand mb-0 text-sm leading-tight">Activity Log</h6>
-                                    <div class="text-gr-textMuted text-xs mt-0.5" id="histSubtitleCount" data-bind="text: historySubtitle">0 completed prayers</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-borderGrey bg-surfaceBg text-xs text-gr-textMuted font-medium shrink-0">
-                                <app-icon params="name: 'clock', prefix: 'fa-regular', size: 'xs', customClass: 'shrink-0'"></app-icon>
-                                <span>Latest first</span>
-                            </div>
-                        </div>
-                    </div>
-            
-                    <!-- Entries List Container -->
-                    <div class="flex flex-col gap-1" id="histList" data-ref="page.history.list" data-bind="foreach: historyEntries">
-                        <!-- ko component: { name: 'prayer-history-card', params: $data } --><!-- /ko -->
-                    </div>
+                <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-borderGrey bg-surfaceBg text-xs text-gr-textMuted font-medium shrink-0">
+                    <app-icon params="name: 'clock', prefix: 'fa-regular', size: 'xs', customClass: 'shrink-0'"></app-icon>
+                    <span>Latest first</span>
                 </div>
             </div>
-            
-            <!-- Bottom Navigation Component -->
-            <!-- ko component: { name: 'prayer-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko -->
+        </div>
+
+        <div class="flex flex-col gap-1" id="histList" data-ref="page.history.list" data-bind="foreach: entries">
+            <!-- ko component: {
+                name: 'tracker-history-card',
+                params: {
+                    item: $data,
+                    onDelete: function(entry, event) { $parent.handleDeleteEntry(entry, event); }
+                }
+            } --><!-- /ko -->
+        </div>
+    </div>
+    <!-- /ko -->
+</div>
+        </script>
+
+        <!-- Tracker History Card Template -->
+        <script type="text/html" id="tracker-history-card-template">
+<div class="rounded-2xl p-4 bg-white border border-borderGrey mb-3 flex flex-col gap-3 shadow-none hover:border-brand transition-all"
+    data-bind="attr: { 'data-ref': 'page.history.card.' + (id || '') }">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 44px; height: 44px;"
+                data-bind="attr: { 'data-ref': 'page.history.item.avatar.' + (id || '') }">
+                <app-icon params="name: iconName, size: '22px', color: 'text-brand'"></app-icon>
+            </div>
+            <div class="flex items-center gap-2 min-w-0">
+                <h6 class="font-bold text-brand text-base mb-0 leading-none"
+                    data-bind="text: prayer, attr: { 'data-ref': 'page.history.item.prayer.' + (id || '') }"></h6>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
+                    data-bind="text: type, attr: { 'data-ref': 'page.history.item.type.' + (id || '') }, css: isCurrent ? 'bg-brand-light text-brand border border-brand/20' : 'bg-amber-50 text-amber-700 border border-amber-200'"></span>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="flex items-center gap-1.5 text-brand text-xs font-bold shrink-0">
+                <app-icon params="name: 'circle-check', size: '14px', color: 'text-brand'"></app-icon>
+                <span>Completed</span>
+            </span>
+            <button type="button" aria-label="Delete entry" title="Delete entry"
+                class="w-7 h-7 rounded-full text-gray-300 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition-colors cursor-pointer"
+                data-bind="click: handleDelete">
+                <app-icon params="name: 'trash', size: 'xs'"></app-icon>
+            </button>
+        </div>
+    </div>
+    <div class="text-gr-textMuted text-xs" data-bind="attr: { 'data-ref': 'page.history.item.date.' + (id || '') }">
+        Prayer Date: <strong class="text-brand font-bold" data-bind="text: formattedDate"></strong>
+    </div>
+    <div class="flex items-center justify-between text-gr-textMuted text-xs">
+        <div class="flex items-center gap-1.5" data-bind="attr: { 'data-ref': 'page.history.item.time.' + (id || '') }">
+            <app-icon params="name: 'clock', prefix: 'fa-regular', size: '12px'"></app-icon>
+            <span>Completed: <span class="text-brand font-medium" data-bind="text: exactTime"></span></span>
+        </div>
+        <span class="text-gr-textMuted" data-bind="text: ago"></span>
+    </div>
+</div>
+        </script>
+        <script type="text/html" id="tracker-header-template">
+            <!-- ko template: { name: 'prayer-header-template' } --><!-- /ko -->
         </script>
         <script type="text/html" id="prayer-header-template">
             <header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"
@@ -3410,134 +3912,410 @@
 </div>
 
         </script>
+        <script type="text/html" id="dua-page-template">
+            <!-- ko template: { name: 'duas-page-template' } --><!-- /ko -->
+        </script>
         <script type="text/html" id="duas-page-template">
 <!-- Quran Duas Page Template Content -->
 <!-- Header Component -->
-    <!-- ko component: { name: 'duva-header', params: header } --><!-- /ko -->
+<!-- ko component: { name: 'dua-header', params: header } --><!-- /ko -->
 
-    <div class="grow overflow-auto p-3 relative pb-5" id="duasBody">
-        <!-- Loading State -->
-        <div class="text-center py-6 text-gr-textMuted py-4 d-none" id="duaLoadingState">
-            <div class="w-5 h-5 border-2 border-brand border-t-transparent rounded-full animate-spin inline-block mb-2"
-                role="status"></div>
-            <div class="text-xs">Loading Duas...</div>
-        </div>
-
-        <!-- Error State -->
-        <div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed text-gr-danger py-4 d-none"
-            id="duaErrorState">
-            <div class="text-lg mb-2">⚠️</div>
-            <div class="font-bold mb-1">Failed to load Duas</div>
-            <div class="text-xs opacity-75 mb-3" id="duaErrorMessage"></div>
-            <button type="button"
-                class="border border-brand bg-white text-brand hover:bg-brand-light transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
-                data-act="dua-retry"
-                data-bind="click: retry">Retry</button>
-        </div>
-
-        <!-- Subview: Pinned (Home) -->
-        <div id="duaSubHome" data-bind="visible: currentSubTab() === 'home' || currentSubTab() === 'pinned'">
-            <!-- Home Empty State -->
-            <div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed d-none"
-                id="duaHomeEmptyState">
-                <span class="inline-flex items-center justify-center mb-2"><app-icon params="name: 'thumbtack'"></app-icon></span><br>
-                No pinned duas yet.<br>
-                Tap the pin icon on any dua to pin it here.<br>
-                <span class="text-xs opacity-75 mt-2 block">You can pin up to 2 duas for quick access.</span>
-            </div>
-
-            <!-- Home Content -->
-            <div id="duaHomeContent" class="d-none">
-                <div class="text-sm font-bold text-brand flex items-center gap-2 mb-2">
-                    <app-icon params="name: 'thumbtack'"></app-icon>
-                    <span id="duaHomeTitleCount" data-bind="text: pinnedTitle">Your Pinned Duas (0/2)</span>
-                </div>
-                <div class="flex flex-col gap-2" id="duaHomeView">
-                    <!-- ko foreach: pinnedDuas -->
-                    <!-- ko component: { name: 'duva-pinned-card', params: $data } --><!-- /ko -->
-                    <!-- /ko -->
-                </div>
-                <div class="text-xs text-gr-textMuted flex items-center justify-center gap-1 mt-3 mt-2">
-                    <span>Tap the</span> <app-icon params="name: 'thumbtack'"></app-icon> <span>icon on a dua to unpin it, or pin another (max 2).</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Subview: All Duas (List + Search) -->
-        <div id="duaSubAll" class="d-none" data-bind="visible: currentSubTab() === 'duas' || currentSubTab() === 'all'">
-            <!-- Search Bar Component -->
-            <!-- ko component: { name: 'duva-search-bar', params: search } --><!-- /ko -->
-            <div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed d-none"
-                id="duaListEmptyState">No duas match your search.</div>
-            <div class="flex flex-col gap-2" id="duaListView">
-                <!-- ko foreach: filteredDuas -->
-                <!-- ko component: { name: 'duva-card', params: $data } --><!-- /ko -->
-                <!-- /ko -->
-            </div>
-        </div>
-
-        <!-- Subview: Favourites -->
-        <div id="duaSubFavs" class="d-none" data-bind="visible: currentSubTab() === 'favourites' || currentSubTab() === 'favs'">
-            <div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed d-none"
-                id="duaFavsEmptyState">No favourites yet.<br>Tap the ♡ icon on any dua to add it here.</div>
-            <div class="flex flex-col gap-2" id="duaFavouritesList">
-                <!-- ko foreach: favouriteDuas -->
-                <!-- ko component: { name: 'duva-card', params: $data } --><!-- /ko -->
-                <!-- /ko -->
-            </div>
-        </div>
-
-        <!-- Subview: Detail Page -->
-        <div id="duaSubDetail" class="flex flex-col gap-3 d-none" data-bind="visible: currentSubTab() === 'detail'">
-            <button type="button"
-                class="self-start mb-3 px-4 py-2 bg-white border border-borderGrey rounded-xl text-xs font-semibold text-brand cursor-pointer hover:bg-brand-light inline-flex items-center gap-1.5 transition-colors mb-2"
-                data-act="dua-detail-back"
-                data-bind="click: goBack">
-                <app-icon params="name: 'arrow-left', customClass: 'mr-1'"></app-icon> Back to list
-            </button>
-
-            <!-- Translation Card Component -->
-            <!-- ko component: { name: 'duva-translation-toggle', params: detail } --><!-- /ko -->
-
-            <div class="flex items-center justify-between gap-2 mt-4">
-                <button type="button"
-                    class="px-4 py-2.5 rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors font-semibold text-xs cursor-pointer inline-flex items-center justify-center"
-                    id="duaPrevBtn" data-act="dua-prev"
-                    data-bind="click: prevDua">Previous</button>
-                <div class="flex items-center gap-2">
-                    <button type="button"
-                        class="w-10 h-10 rounded-xl border border-borderGrey bg-white text-brand hover:bg-brand-light cursor-pointer text-base inline-flex items-center justify-center transition-colors"
-                        id="duaDetailFavBtn" data-act="dua-detail-toggle-fav" title="Toggle Favourite"
-                        data-bind="click: toggleFavCurrent">
-                        <span id="duaDetailFavIcon"><app-icon params="name: 'heart', prefix: 'fa-regular'"></app-icon></span>
-                    </button>
-                    <button type="button"
-                        class="w-10 h-10 rounded-xl border border-borderGrey bg-white text-brand hover:bg-brand-light cursor-pointer text-base inline-flex items-center justify-center transition-colors"
-                        id="duaDetailPinBtn" data-act="dua-detail-toggle-pin" title="Toggle Pin"
-                        data-bind="click: togglePinCurrent">
-                        <span id="duaDetailPinIcon"><app-icon params="name: 'thumbtack'"></app-icon></span>
-                    </button>
-                </div>
-                <button type="button"
-                    class="px-4 py-2.5 rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors font-semibold text-xs cursor-pointer inline-flex items-center justify-center"
-                    id="duaNextBtn" data-act="dua-next"
-                    data-bind="click: nextDua">Next</button>
-            </div>
-        </div>
-
-        <!-- Floating Action Button for Add Dua -->
-        <button type="button"
-            class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
-            id="duaFabBtn" data-act="dua-open-add" title="Add New Dua"
-            data-bind="visible: currentSubTab() !== 'detail', click: openAdd">
-            <app-icon params="name: 'plus', size: 'xl'"></app-icon>
-        </button>
+<div class="grow overflow-auto p-3 relative pb-5" id="duasBody">
+    <!-- Pinned Subtab -->
+    <div id="duaSubHome" data-bind="visible: currentSubTab() === 'home' || currentSubTab() === 'pinned'">
+        <!-- ko component: { name: 'dua-pinned-page', params: pinnedPageParams } --><!-- /ko -->
     </div>
 
-    <!-- Bottom Navigation Component -->
-    <!-- ko component: { name: 'duva-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko -->
+    <!-- All Duas Subtab -->
+    <div id="duaSubAll" data-bind="visible: currentSubTab() === 'duas' || currentSubTab() === 'all'">
+        <!-- ko component: { name: 'dua-all-page', params: allPageParams } --><!-- /ko -->
+    </div>
+
+    <!-- Favourites Subtab -->
+    <div id="duaSubFavs" class="d-none" data-bind="visible: currentSubTab() === 'favourites' || currentSubTab() === 'favs'">
+        <!-- ko component: { name: 'dua-favourites-page', params: favouritesPageParams } --><!-- /ko -->
+    </div>
+
+    <!-- Detail Subtab -->
+    <div id="duaSubDetail" class="flex flex-col gap-3 d-none" data-bind="visible: currentSubTab() === 'detail'">
+        <button type="button"
+            class="self-start mb-3 px-4 py-2 bg-white border border-borderGrey rounded-xl text-xs font-semibold text-brand cursor-pointer hover:bg-brand-light inline-flex items-center gap-1.5 transition-colors mb-2"
+            data-act="dua-detail-back"
+            data-bind="click: goBack">
+            <app-icon params="name: 'arrow-left', customClass: 'mr-1'"></app-icon> Back to list
+        </button>
+
+        <!-- Translation Card Component -->
+        <!-- ko component: { name: 'dua-translation-toggle', params: detail } --><!-- /ko -->
+
+        <div class="flex items-center justify-between gap-2 mt-4">
+            <button type="button"
+                class="px-4 py-2.5 rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors font-semibold text-xs cursor-pointer inline-flex items-center justify-center"
+                id="duaPrevBtn" data-act="dua-prev"
+                data-bind="click: prevDua">Previous</button>
+            <div class="flex items-center gap-2">
+                <button type="button"
+                    class="w-10 h-10 rounded-xl border border-borderGrey bg-white text-brand hover:bg-brand-light cursor-pointer text-base inline-flex items-center justify-center transition-colors"
+                    id="duaDetailFavBtn" data-act="dua-detail-toggle-fav" title="Toggle Favourite"
+                    data-bind="click: toggleFavCurrent">
+                    <!-- ko if: isCurrentFav -->
+                    <span id="duaDetailFavIcon"><app-icon params="name: 'heart', color: 'text-heartRed'"></app-icon></span>
+                    <!-- /ko -->
+                    <!-- ko ifnot: isCurrentFav -->
+                    <span id="duaDetailFavIcon"><app-icon params="name: 'heart', prefix: 'fa-regular'"></app-icon></span>
+                    <!-- /ko -->
+                </button>
+                <button type="button"
+                    class="w-10 h-10 rounded-xl border border-borderGrey bg-white text-brand hover:bg-brand-light cursor-pointer text-base inline-flex items-center justify-center transition-colors"
+                    id="duaDetailPinBtn" data-act="dua-detail-toggle-pin" title="Toggle Pin"
+                    data-bind="click: togglePinCurrent">
+                    <span id="duaDetailPinIcon" data-bind="css: isCurrentPinned() ? 'text-pinAmber' : 'opacity-50'"><app-icon params="name: 'thumbtack'"></app-icon></span>
+                </button>
+            </div>
+            <button type="button"
+                class="px-4 py-2.5 rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors font-semibold text-xs cursor-pointer inline-flex items-center justify-center"
+                id="duaNextBtn" data-act="dua-next"
+                data-bind="click: nextDua">Next</button>
+        </div>
+    </div>
+</div>
+
+<!-- Bottom Navigation Component -->
+<!-- ko component: { name: 'dua-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko -->
+        </script>
+
+        <!-- Dua All Page Template -->
+        <script type="text/html" id="dua-all-page-template">
+<div class="dua-all-page flex flex-col flex-1 min-h-0" data-ref="page.duas.all">
+    <div class="relative mb-3">
+        <input type="text" id="duaSearchInput"
+            class="rounded-xl border border-borderGrey pl-3 pr-8 py-2 w-full px-3.5 py-2.5 bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
+            data-bind="textInput: searchQuery"
+            placeholder="Search by number, Surah, or keywords...">
+        <!-- ko if: searchQuery -->
+        <button type="button" aria-label="Clear search"
+            class="border-0 text-gr-textMuted absolute right-2.5 top-1/2 -translate-y-1/2 p-1 leading-none text-base cursor-pointer hover:text-brand"
+            data-bind="click: clearSearch">✕</button>
+        <!-- /ko -->
+    </div>
+
+    <!-- ko component: {
+        name: 'dua-all-feed',
+        params: {
+            duas: filteredDuas,
+            isLoading: isLoading,
+            loadError: loadError,
+            favourites: favourites,
+            pins: pins,
+            onRetry: handleRetry,
+            onSelectDua: handleSelectDua,
+            onTogglePin: handleTogglePin,
+            onToggleFav: handleToggleFav
+        }
+    } --><!-- /ko -->
+
+    <!-- ko component: {
+        name: 'dua-all-form',
+        params: {
+            isOpen: isAddOpen,
+            nextNumber: nextNumber,
+            onSave: handleSaveNewDua,
+            onClose: closeAdd
+        }
+    } --><!-- /ko -->
+
+    <button type="button"
+        class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
+        id="duaFabBtn" data-act="dua-open-add" title="Add New Dua"
+        data-bind="click: openAdd">
+        <app-icon params="name: 'plus', size: 'xl'"></app-icon>
+    </button>
+</div>
+        </script>
+
+        <!-- Dua All Feed Template -->
+        <script type="text/html" id="dua-all-feed-template">
+<div class="dua-all-feed flex flex-col gap-2" data-ref="page.duas.all.feed">
+    <!-- ko if: isLoading -->
+    <div class="text-center py-6 text-gr-textMuted" id="duaLoadingState">
+        <div class="w-5 h-5 border-2 border-brand border-t-transparent rounded-full animate-spin inline-block mb-2" role="status"></div>
+        <div class="text-xs">Loading Duas...</div>
+    </div>
+    <!-- /ko -->
+
+    <!-- Error State -->
+    <!-- ko if: !isLoading() && (typeof loadError === 'function' ? loadError() : loadError) && !hasResults() -->
+    <div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed" id="duaErrorState">
+        <div class="text-red-500 mb-2 font-medium" id="duaErrorMessage" data-bind="text: (typeof loadError === 'function' ? loadError() : loadError)">Unable to load Duas data.</div>
+        <button type="button" class="px-4 py-2 bg-brand text-white text-xs font-semibold rounded-xl hover:bg-brand-hover cursor-pointer inline-flex items-center gap-1.5" data-act="dua-retry" data-bind="click: handleRetry">Retry</button>
+    </div>
+    <!-- /ko -->
+
+    <!-- Empty State -->
+    <!-- ko if: !isLoading() && !(typeof loadError === 'function' ? loadError() : loadError) && !hasResults() -->
+    <div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed" id="duaListEmptyState">
+        No duas match your search.
+    </div>
+    <!-- /ko -->
+
+    <!-- ko if: !isLoading() && hasResults() -->
+    <div class="flex flex-col gap-2" id="duaListView" data-bind="foreach: { data: (typeof duas === 'function' ? duas : duas), as: 'item' }">
+        <!-- ko component: {
+            name: 'dua-all-card',
+            params: {
+                item: item,
+                index: (item && item.index !== undefined) ? item.index : $index(),
+                isFav: $parent.isFav(item, (item && item.index !== undefined) ? item.index : $index()),
+                isPinned: $parent.isPinned(item, (item && item.index !== undefined) ? item.index : $index()),
+                onSelectDua: function(d, i, e) { $parent.handleSelect(d, i, e); },
+                onTogglePin: function(d, i, e) { $parent.handleTogglePin(d, i, e); },
+                onToggleFav: function(d, i, e) { $parent.handleToggleFav(d, i, e); }
+            }
+        } --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+</div>
+        </script>
+
+        <!-- Dua All Card Template -->
+        <script type="text/html" id="dua-all-card-template">
+<div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2"
+    data-act="dua-open-detail"
+    data-bind="click: onOpenDetail, attr: { 'data-idx': index, 'data-source': source }">
+    <div class="dua-item-number text-sm font-bold text-brand min-w-[36px]"
+        data-bind="text: displayNumber">#01</div>
+    <div class="dua-item-content flex-1 min-w-0">
+        <div class="dua-item-surah text-sm font-semibold text-brand font-telugu truncate"
+            data-bind="text: surah"></div>
+        <div class="dua-item-preview text-xs text-gr-textMuted font-telugu truncate mt-0.5"
+            data-bind="text: preview"></div>
+    </div>
+    <button type="button" aria-label="Pin dua"
+        class="dua-action-btn dua-pin-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all"
+        data-act="dua-item-pin"
+        data-bind="click: onTogglePin, attr: { 'data-idx': index, title: isPinned ? 'Unpin' : 'Pin to Home' }, css: isPinned ? 'pinned text-pinAmber' : 'opacity-50'">
+        <app-icon params="name: 'thumbtack'"></app-icon>
+    </button>
+    <button type="button" aria-label="Toggle favourite"
+        class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all"
+        data-act="dua-item-fav"
+        data-bind="click: onToggleFav, attr: { 'data-idx': index, title: isFav ? 'Remove from favourites' : 'Toggle favourite' }">
+        <!-- ko if: isFav -->
+        <app-icon params="name: 'heart', color: 'text-heartRed'"></app-icon>
+        <!-- /ko -->
+        <!-- ko if: !isFav -->
+        <app-icon params="name: 'heart', prefix: 'fa-regular'"></app-icon>
+        <!-- /ko -->
+    </button>
+</div>
+        </script>
+
+        <!-- Dua All Form Template -->
+        <script type="text/html" id="dua-all-form-template">
+<!-- ko if: isOpen -->
+<div class="fixed inset-0 bg-black/50 z-[120] flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity"
+    id="duaAddModal" data-ref="page.duas.add-form.overlay"
+    data-bind="click: handleClose">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-[480px] max-h-[90vh] flex flex-col overflow-hidden shadow-2xl"
+        data-ref="page.duas.add-form.modal"
+        data-bind="click: function(d, e) { e.stopPropagation(); }">
+        <div class="px-5 py-4 border-b border-borderGrey flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-brand-light text-brand flex items-center justify-center">
+                    <i class="fa-solid fa-plus text-sm" aria-hidden="true"></i>
+                </div>
+                <h3 class="text-base font-bold text-gray-900 m-0">Add New Dua</h3>
+            </div>
+            <button type="button" aria-label="Close"
+                class="w-8 h-8 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 flex items-center justify-center"
+                data-bind="click: handleClose">
+                <i class="fa-solid fa-xmark text-sm" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="p-5 overflow-y-auto space-y-4 flex-1 min-h-0">
+            <!-- ko if: errorMessage -->
+            <div class="p-3 rounded-xl bg-red-50 text-red-600 text-xs font-semibold" data-bind="text: errorMessage"></div>
+            <!-- /ko -->
+            <div>
+                <label for="duaFormNumber" class="block text-xs font-bold text-gray-700 mb-1">Dua Number</label>
+                <input type="number" id="duaFormNumber"
+                    class="w-full px-3 py-2 border border-borderGrey rounded-xl text-sm focus:outline-none focus:border-brand"
+                    data-bind="value: number">
+            </div>
+            <div>
+                <label for="duaFormSurah" class="block text-xs font-bold text-gray-700 mb-1">Surah / Reference (తెలుగు)</label>
+                <input type="text" id="duaFormSurah" placeholder="e.g. అల్-బఖరా (201)"
+                    class="w-full px-3 py-2 border border-borderGrey rounded-xl text-sm focus:outline-none focus:border-brand font-telugu"
+                    data-bind="value: surah">
+            </div>
+            <div>
+                <label for="duaFormUch" class="block text-xs font-bold text-gray-700 mb-1">Telugu Pronunciation (ఉచ్ఛారణ)</label>
+                <textarea id="duaFormUch" rows="2" placeholder="రబ్బనా ఆతినా..."
+                    class="w-full px-3 py-2 border border-borderGrey rounded-xl text-sm focus:outline-none focus:border-brand font-telugu"
+                    data-bind="value: uchcharana"></textarea>
+            </div>
+            <div>
+                <label for="duaFormArd" class="block text-xs font-bold text-gray-700 mb-1">Telugu Meaning (అర్థం)</label>
+                <textarea id="duaFormArd" rows="3" placeholder="మా ప్రభూ..."
+                    class="w-full px-3 py-2 border border-borderGrey rounded-xl text-sm focus:outline-none focus:border-brand font-telugu"
+                    data-bind="value: ardham"></textarea>
+            </div>
+        </div>
+        <div class="p-4 border-t border-borderGrey flex justify-end gap-2">
+            <button type="button"
+                class="px-4 py-2 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 text-xs font-semibold cursor-pointer"
+                data-bind="click: handleClose">Cancel</button>
+            <button type="button"
+                class="px-5 py-2 rounded-xl bg-brand text-white hover:bg-brand-hover text-xs font-semibold cursor-pointer"
+                data-bind="click: handleSave">Save Dua</button>
+        </div>
+    </div>
+</div>
+<!-- /ko -->
+        </script>
+
+        <!-- Dua Pinned Page Template -->
+        <script type="text/html" id="dua-pinned-page-template">
+<div class="dua-pinned-page flex flex-col flex-1 min-h-0" data-ref="page.duas.pinned">
+    <!-- ko component: {
+        name: 'dua-pinned-feed',
+        params: {
+            pinnedDuas: pinnedDuas,
+            pinnedTitle: pinnedTitle,
+            onSelectDua: handleSelectDua,
+            onUnpinDua: handleUnpinDua
+        }
+    } --><!-- /ko -->
+</div>
+        </script>
+
+        <!-- Dua Pinned Feed Template -->
+        <script type="text/html" id="dua-pinned-feed-template">
+<div class="dua-pinned-feed flex flex-col gap-2" data-ref="page.duas.pinned.feed">
+    <!-- ko if: !hasPinned() -->
+    <div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed" id="duaHomeEmptyState">
+        <span class="inline-flex items-center justify-center mb-2"><app-icon params="name: 'thumbtack'"></app-icon></span><br>
+        No pinned duas yet.<br>
+        Tap the pin icon on any dua to pin it here.<br>
+        <span class="text-xs opacity-75 mt-2 block">You can pin up to 2 duas for quick access.</span>
+    </div>
+    <!-- /ko -->
+
+    <!-- ko if: hasPinned() -->
+    <div id="duaHomeContent">
+        <div class="text-sm font-bold text-brand flex items-center gap-2 mb-2">
+            <app-icon params="name: 'thumbtack'"></app-icon>
+            <span id="duaHomeTitleCount" data-bind="text: pinnedTitle">Your Pinned Duas (0/2)</span>
+        </div>
+        <div class="flex flex-col gap-2" id="duaHomeView" data-bind="foreach: { data: (typeof pinnedDuas === 'function' ? pinnedDuas : pinnedDuas), as: 'item' }">
+            <!-- ko component: {
+                name: 'dua-pinned-card',
+                params: {
+                    item: item,
+                    index: (item && item.index !== undefined) ? item.index : $index(),
+                    onSelectDua: function(d, i, e) { $parent.handleSelect(d, i, e); },
+                    onUnpin: function(d, i, e) { $parent.handleUnpin(d, i, e); }
+                }
+            } --><!-- /ko -->
+        </div>
+        <div class="text-xs text-gr-textMuted flex items-center justify-center gap-1 mt-3">
+            <span>Tap the</span> <app-icon params="name: 'thumbtack'"></app-icon> <span>icon on a dua to unpin it, or pin another (max 2).</span>
+        </div>
+    </div>
+    <!-- /ko -->
+</div>
+        </script>
+
+        <!-- Dua Pinned Card Template -->
+        <script type="text/html" id="dua-pinned-card-template">
+<div class="pinned-dua-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col gap-2.5 border-l-4 border-l-brand relative cursor-pointer hover:bg-surfaceBg transition-all mb-3"
+    data-act="dua-open-detail"
+    data-bind="click: onOpenDetail, attr: { 'data-idx': index, 'data-source': 'pinned' }">
+    <button type="button" aria-label="Unpin dua" title="Unpin dua"
+        class="pinned-badge absolute top-3.5 right-4 text-base inline-flex items-center justify-center text-pinAmber hover:scale-125 transition-transform"
+        data-bind="click: onUnpin">
+        <app-icon params="name: 'thumbtack'"></app-icon>
+    </button>
+    <div class="pinned-dua-number text-sm font-bold text-brand"
+        data-bind="text: displayNumber">#01</div>
+    <div class="pinned-dua-surah text-base font-bold text-brand font-telugu pr-8"
+        data-bind="text: surah"></div>
+    <!-- ko if: uchcharana -->
+    <div class="pinned-dua-uchcharana text-sm font-medium text-brand leading-relaxed font-telugu"
+        data-bind="text: uchcharana"></div>
+    <!-- /ko -->
+    <!-- ko if: ardham -->
+    <div class="pinned-dua-ardham text-xs font-normal text-gr-text leading-relaxed font-telugu"
+        data-bind="text: ardham"></div>
+    <!-- /ko -->
+</div>
+        </script>
+
+        <!-- Dua Favourites Page Template -->
+        <script type="text/html" id="dua-favourites-page-template">
+<div class="dua-favourites-page flex flex-col flex-1 min-h-0" data-ref="page.duas.favourites">
+    <!-- ko component: {
+        name: 'dua-favourites-feed',
+        params: {
+            favouriteDuas: favouriteDuas,
+            onSelectDua: handleSelectDua,
+            onToggleFav: handleToggleFav
+        }
+    } --><!-- /ko -->
+</div>
+        </script>
+
+        <!-- Dua Favourites Feed Template -->
+        <script type="text/html" id="dua-favourites-feed-template">
+<div class="dua-favourites-feed flex flex-col gap-2" data-ref="page.duas.favourites.feed">
+    <!-- ko if: !hasFavourites() -->
+    <div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed" id="duaFavsEmptyState">
+        No favourites yet.<br>Tap the ♡ icon on any dua to add it here.
+    </div>
+    <!-- /ko -->
+
+    <!-- ko if: hasFavourites() -->
+    <div class="flex flex-col gap-2" id="duaFavouritesList" data-bind="foreach: { data: (typeof favouriteDuas === 'function' ? favouriteDuas : favouriteDuas), as: 'item' }">
+        <!-- ko component: {
+            name: 'dua-favourites-card',
+            params: {
+                item: item,
+                index: (item && item.index !== undefined) ? item.index : $index(),
+                onSelectDua: function(d, i, e) { $parent.handleSelect(d, i, e); },
+                onToggleFav: function(d, i, e) { $parent.handleToggleFav(d, i, e); }
+            }
+        } --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+</div>
+        </script>
+
+        <!-- Dua Favourites Card Template -->
+        <script type="text/html" id="dua-favourites-card-template">
+<div class="dua-list-item p-3.5 rounded-xl bg-white border border-borderGrey flex items-center gap-3 cursor-pointer hover:bg-surfaceBg hover:border-brand transition-all mb-2"
+    data-act="dua-open-detail"
+    data-bind="click: onOpenDetail, attr: { 'data-idx': index, 'data-source': 'favourites' }">
+    <div class="dua-item-number text-sm font-bold text-brand min-w-[36px]"
+        data-bind="text: displayNumber">#01</div>
+    <div class="dua-item-content flex-1 min-w-0">
+        <div class="dua-item-surah text-sm font-semibold text-brand font-telugu truncate"
+            data-bind="text: surah"></div>
+        <div class="dua-item-preview text-xs text-gr-textMuted font-telugu truncate mt-0.5"
+            data-bind="text: preview"></div>
+    </div>
+    <button type="button" aria-label="Remove from favourites" title="Remove from favourites"
+        class="dua-action-btn p-1.5 rounded-lg text-lg leading-none cursor-pointer hover:bg-black/5 hover:scale-110 transition-all"
+        data-act="dua-item-fav"
+        data-bind="click: onToggleFav, attr: { 'data-idx': index }">
+        <app-icon params="name: 'heart', color: 'text-heartRed'"></app-icon>
+    </button>
+</div>
+        </script>
 
 
+        </script>
+        <script type="text/html" id="dua-header-template">
+            <!-- ko template: { name: 'duva-header-template' } --><!-- /ko -->
         </script>
         <script type="text/html" id="duva-header-template">
 <header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"
@@ -3585,6 +4363,9 @@
 </div>
 
 
+        </script>
+        <script type="text/html" id="dua-nav-tab-template">
+            <!-- ko template: { name: 'duva-nav-tab-template' } --><!-- /ko -->
         </script>
         <script type="text/html" id="duva-nav-tab-template">
 <!-- ko component: {
@@ -3659,6 +4440,9 @@
 </div>
 
 
+        </script>
+        <script type="text/html" id="dua-translation-toggle-template">
+            <!-- ko template: { name: 'duva-translation-toggle-template' } --><!-- /ko -->
         </script>
         <script type="text/html" id="duva-translation-toggle-template">
 <div class="bg-white border border-borderGrey rounded-2xl p-5 flex flex-col gap-4 border-l-4 border-l-brand shadow-none">
@@ -4076,16 +4860,16 @@
     <script type="module" src="services/duas-store.js"></script>
     <script type="module" src="services/settings-store.js"></script>
     <script type="module" src="services/router.js"></script>
-    <script type="module" src="quran/quran.js"></script>
+    <script type="module" src="features/dashboard/dashboard-registration.js"></script>
     <script src="app.js"></script>
     <script src="navigation.js"></script>
     <script type="module" src="services/app-view-model.js"></script>
 
     <!-- Global Components & Custom Bindings Registry -->
     <script type="module">
-        import { registerAllComponents } from './components/registry.js';
+        import { registerStartupComponents } from './components/registry.js';
         import { initApp } from './services/app-view-model.js';
-        registerAllComponents();
+        registerStartupComponents();
         initApp();
     </script>
 
@@ -4098,45 +4882,6 @@
             }
             if (window.DashboardApp && typeof window.DashboardApp.init === 'function') {
                 window.DashboardApp.init();
-            }
-            if (window.SettingsApp && typeof window.SettingsApp.init === 'function') {
-                window.SettingsApp.init();
-            }
-            if (typeof rSET === 'function') {
-                rSET();
-            }
-            if (window.PrayerTrackingApp && typeof window.PrayerTrackingApp.init === 'function') {
-                window.PrayerTrackingApp.init();
-            }
-            if (typeof initTasbeeh === 'function') {
-                initTasbeeh();
-            } else if (window.initTasbeeh) {
-                window.initTasbeeh();
-            } else if (window.TasbeehApp && typeof window.TasbeehApp.init === 'function') {
-                window.TasbeehApp.init();
-            }
-            if (window.TasbeehOldApp && typeof window.TasbeehOldApp.init === 'function') {
-                window.TasbeehOldApp.init();
-            }
-            if (window.TasbeehHistoryApp && typeof window.TasbeehHistoryApp.init === 'function') {
-                window.TasbeehHistoryApp.init();
-            }
-            if (typeof initDuas === 'function') {
-                initDuas();
-            } else if (window.initDuas) {
-                window.initDuas();
-            } else if (window.DuasApp && typeof window.DuasApp.init === 'function') {
-                window.DuasApp.init();
-            }
-            if (typeof initQuran === 'function') {
-                initQuran();
-            } else if (window.initQuran) {
-                window.initQuran();
-            } else if (window.QuranApp && typeof window.QuranApp.init === 'function') {
-                window.QuranApp.init();
-            }
-            if (window.PrayerHistoryApp && typeof window.PrayerHistoryApp.init === 'function') {
-                window.PrayerHistoryApp.init();
             }
         });
 

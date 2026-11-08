@@ -215,9 +215,125 @@ function setNav(id) {
     el.appendChild(bar);
 }
 
+var _loadedFeatures = {
+    dashboard: true
+};
+
+function ensureFeatureLoaded(kind) {
+    if (_loadedFeatures[kind]) return Promise.resolve();
+    var _w = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+    switch (kind) {
+        case 'tracker':
+        case 'current':
+        case 'old':
+        case 'performance':
+        case 'history':
+            if (_w.TrackerApp) {
+                _loadedFeatures[kind] = true;
+                return Promise.resolve();
+            }
+            return Promise.all([
+                import('./features/prayer-tracking/prayer-tracking.js'),
+                import('./features/tracker/tracker.js')
+            ]).then(function () {
+                _loadedFeatures.tracker = true;
+                _loadedFeatures.current = true;
+                _loadedFeatures.old = true;
+                _loadedFeatures.performance = true;
+                _loadedFeatures.history = true;
+                if (_w.TrackerApp && typeof _w.TrackerApp.init === 'function') {
+                    _w.TrackerApp.init();
+                } else if (_w.PrayerTrackingApp && typeof _w.PrayerTrackingApp.init === 'function') {
+                    _w.PrayerTrackingApp.init();
+                }
+                var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
+                if (appVm && typeof appVm.getTracker === 'function') {
+                    appVm.tracker = appVm.getTracker();
+                }
+            }).catch(function (err) {
+                console.warn('Feature load failed for tracker:', err);
+            });
+        case 'tasbeeh':
+            if (_w.TasbeehApp || _w.initTasbeeh) {
+                _loadedFeatures.tasbeeh = true;
+                return Promise.resolve();
+            }
+            return import('./features/tasbeeh/tasbeeh.js').then(function () {
+                _loadedFeatures.tasbeeh = true;
+                if (typeof _w.initTasbeeh === 'function') {
+                    _w.initTasbeeh();
+                }
+                var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
+                if (appVm && typeof appVm.getTasbeeh === 'function') {
+                    appVm.tasbeeh = appVm.getTasbeeh();
+                }
+            }).catch(function (err) {
+                console.warn('Feature load failed for tasbeeh:', err);
+            });
+        case 'duas':
+            if (_w.DuasApp || _w.initDuas) {
+                _loadedFeatures.duas = true;
+                return Promise.resolve();
+            }
+            return import('./features/dua/dua.js').then(function () {
+                _loadedFeatures.duas = true;
+                if (typeof _w.initDuas === 'function') {
+                    _w.initDuas();
+                }
+                var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
+                if (appVm && typeof appVm.getDuas === 'function') {
+                    appVm.duas = appVm.getDuas();
+                }
+            }).catch(function (err) {
+                console.warn('Feature load failed for duas:', err);
+            });
+        case 'quran':
+            if (_w.QuranApp || _w.initQuran) {
+                _loadedFeatures.quran = true;
+                return Promise.resolve();
+            }
+            return import('./features/quran/quran.js').then(function () {
+                _loadedFeatures.quran = true;
+                if (typeof _w.initQuran === 'function') {
+                    _w.initQuran();
+                }
+                var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
+                if (appVm && typeof appVm.getQuran === 'function') {
+                    appVm.quran = appVm.getQuran();
+                }
+            }).catch(function (err) {
+                console.warn('Feature load failed for quran:', err);
+            });
+        case 'settings':
+            if (_w.SettingsApp) {
+                _loadedFeatures.settings = true;
+                return Promise.resolve();
+            }
+            return import('./features/settings/settings.js').then(function () {
+                _loadedFeatures.settings = true;
+                if (_w.SettingsApp && typeof _w.SettingsApp.init === 'function') {
+                    _w.SettingsApp.init();
+                }
+                var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
+                if (appVm && typeof appVm.getSettings === 'function') {
+                    appVm.settings = appVm.getSettings();
+                }
+            }).catch(function (err) {
+                console.warn('Feature load failed for settings:', err);
+            });
+        default:
+            return Promise.resolve();
+    }
+}
+
 var _isShowingPage = false;
 function showPage(kind) {
     if (_isShowingPage) return;
+
+    if (kind && kind !== 'dashboard') {
+        ensureFeatureLoaded(kind);
+    }
+
     _isShowingPage = true;
     try {
         if (NavigationState && typeof NavigationState.activePage === 'function') {

@@ -1,0 +1,46 @@
+<!-- Dashboard / Home Page Mobile View Component Template -->
+<div class="grow overflow-auto p-0 relative" id="dashScroll">
+    <div id="dashBody">
+        <div class="p-2.5 pt-2 pb-3 relative flex flex-col gap-3.5 w-full min-h-full box-border"
+            data-ref="page.dashboard.container">
+            <!-- Background Islamic Geometric Watermark -->
+            <div class="absolute top-0 left-0 right-0 h-[220px] pointer-events-none opacity-20 z-0 flex justify-between p-4"
+                aria-hidden="true">
+                <app-icon params="name: 'star-and-crescent', style: 'opacity: 0.15; font-size: 1.5rem;'"></app-icon>
+                <app-icon params="name: 'star-and-crescent', style: 'opacity: 0.15; font-size: 1.5rem;'"></app-icon>
+            </div>
+
+            <!-- Top Header Bar: Location & Mosque Silhouette -->
+            <header class="flex items-center justify-between text-brand text-xs font-semibold py-1 z-10"
+                data-ref="page.dashboard.header">
+                <div class="flex items-center gap-1.5 text-xs text-brand font-medium"
+                    data-ref="page.dashboard.header.location">
+                    <app-icon params="name: 'location-dot', color: 'text-brand', size: 'sm', dataRef: 'page.dashboard.header.location-icon'"></app-icon>
+                    <span id="dashLocationText" data-ref="page.dashboard.header.location-text"
+                        data-bind="html: header.locationText">Guntur &bull; Hanafi</span>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-sm"
+                    data-ref="page.dashboard.header.mosque-icon">
+                    <app-icon params="name: 'mosque'"></app-icon>
+                </div>
+            </header>
+
+            <!-- 1. Digital Clock Card Component -->
+            <!-- ko component: { name: 'dashboard-clock', params: clock } --><!-- /ko -->
+
+            <!-- 2. Daily Prayer Timeline Card Component -->
+            <!-- ko component: { name: 'dashboard-timeline', params: timeline } --><!-- /ko -->
+
+            <!-- 3. Features Grid Component -->
+            <!-- ko component: { name: 'dashboard-features-grid', params: featuresGrid } --><!-- /ko -->
+
+            <!-- 4. Bottom Decorative Divider -->
+            <div class="flex items-center justify-center gap-2 py-3 w-full text-brand/30"
+                data-ref="page.dashboard.bottom-divider">
+                <div class="h-[1px] bg-borderGrey flex-1"></div>
+                <div class="text-xs text-brand/40 px-2"><app-icon params="name: 'star-and-crescent'"></app-icon></div>
+                <div class="h-[1px] bg-borderGrey flex-1"></div>
+            </div>
+        </div>
+    </div>
+</div>

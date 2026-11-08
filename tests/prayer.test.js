@@ -109,7 +109,7 @@ export async function runPrayerTests() {
     assert(typeof PrayerStore.streakDays() === 'number', 'Streak days should be a computed number');
 
     // 6. DashboardViewModel & Tracker Badge reactivity
-    const { DashboardViewModel } = await import(path.join(ROOT, 'dashboard', 'dashboard.js'));
+    const { DashboardViewModel } = await import(path.join(ROOT, 'features', 'dashboard', 'dashboard-registration.js'));
     const dashVm = new DashboardViewModel();
     assert.strictEqual(typeof dashVm.updateTrackerBadge, 'function');
     dashVm.updateTrackerBadge();
@@ -121,7 +121,7 @@ export async function runPrayerTests() {
     assert.strictEqual(trackerCard.badgeText(), '2 missed');
 
     // 7. PrayerRowViewModel state exclusivity & icon resolution
-    const { PrayerRowViewModel } = await import(path.join(ROOT, 'prayer-tracking', 'tracker-view-model.js'));
+    const { PrayerRowViewModel } = await import(path.join(ROOT, 'features', 'prayer-tracking', 'tracker-view-model.js'));
     const missedRow = new PrayerRowViewModel({
         prayer: 'Fajr',
         isMissed: true,

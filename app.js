@@ -16,12 +16,15 @@ var OK = (PRAYER_CONSTANTS.STORAGE_KEYS && PRAYER_CONSTANTS.STORAGE_KEYS.OLD_PER
 var PTK_CACHE = (PRAYER_CONSTANTS.STORAGE_KEYS && PRAYER_CONSTANTS.STORAGE_KEYS.TIMINGS_CACHE) || window.PTK_CACHE || 'namazPrayerTimingsCache';
 var PTK_CONFIG = (PRAYER_CONSTANTS.STORAGE_KEYS && PRAYER_CONSTANTS.STORAGE_KEYS.CONFIG) || window.PTK_CONFIG || 'namazPrayerConfig';
 
-var defaultPrayerConfig = PRAYER_CONSTANTS.DEFAULT_CONFIG || window.defaultPrayerConfig || {
+var defaultPrayerConfig = (typeof PRAYER_CONSTANTS !== 'undefined' && PRAYER_CONSTANTS.DEFAULT_CONFIG) || (typeof window !== 'undefined' && window.defaultPrayerConfig) || {
     city: 'Guntur',
     country: 'India',
     method: 1,
     school: 1
 };
+if (typeof window !== 'undefined') {
+    window.defaultPrayerConfig = defaultPrayerConfig;
+}
 
 var T = window.T || Object.assign({}, PRAYER_CONSTANTS.DEFAULT_TIMINGS || {});
 window.T = T;
@@ -76,16 +79,32 @@ var prayerTimingsStatus = TIMINGS_STATUS.CACHED; // 'live', 'cached', 'offline'
 
 /* ---------- Prayer Timings Service & Caching ---------- */
 function getPrayerConfig() {
-    var stored = LS.get(PTK_CONFIG);
+    var def = (typeof defaultPrayerConfig !== 'undefined' && defaultPrayerConfig)
+        ? defaultPrayerConfig
+        : ((typeof PRAYER_CONSTANTS !== 'undefined' && PRAYER_CONSTANTS && PRAYER_CONSTANTS.DEFAULT_CONFIG) || (typeof window !== 'undefined' && window.defaultPrayerConfig) || {
+            city: 'Guntur',
+            country: 'India',
+            method: 1,
+            school: 1
+        });
+    var stored = null;
+    try {
+        stored = (typeof LS !== 'undefined' && LS && typeof LS.get === 'function')
+            ? LS.get(typeof PTK_CONFIG !== 'undefined' ? PTK_CONFIG : 'namazPrayerConfig')
+            : null;
+    } catch (_) {}
     if (!stored || typeof stored !== 'object') {
-        return Object.assign({}, defaultPrayerConfig);
+        return Object.assign({}, def);
     }
     return {
-        city: stored.city || defaultPrayerConfig.city,
-        country: stored.country || defaultPrayerConfig.country,
-        method: typeof stored.method === 'number' ? stored.method : defaultPrayerConfig.method,
-        school: typeof stored.school === 'number' ? stored.school : defaultPrayerConfig.school
+        city: stored.city || def.city || 'Guntur',
+        country: stored.country || def.country || 'India',
+        method: typeof stored.method === 'number' ? stored.method : (def.method !== undefined ? def.method : 1),
+        school: typeof stored.school === 'number' ? stored.school : (def.school !== undefined ? def.school : 1)
     };
+}
+if (typeof window !== 'undefined') {
+    window.getPrayerConfig = getPrayerConfig;
 }
 
 function setPrayerConfig(cfg) {
@@ -385,32 +404,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (window.DashboardApp && typeof window.DashboardApp.init === 'function') {
         window.DashboardApp.init();
     }
-    if (window.SettingsApp && typeof window.SettingsApp.init === 'function') {
-        window.SettingsApp.init();
-    }
-    if (window.PrayerTrackingApp && typeof window.PrayerTrackingApp.init === 'function') {
-        window.PrayerTrackingApp.init();
-    }
-    if (typeof initTasbeeh === 'function') {
-        initTasbeeh();
-    } else if (window.initTasbeeh) {
-        window.initTasbeeh();
-    } else if (window.TasbeehApp && typeof window.TasbeehApp.init === 'function') {
-        window.TasbeehApp.init();
-    }
-    if (window.TasbeehApp && typeof window.TasbeehApp.initModals === 'function') {
-        window.TasbeehApp.initModals();
-    }
-    if (typeof initDuas === 'function') {
-        initDuas();
-    } else if (window.initDuas) {
-        window.initDuas();
-    } else if (window.DuasApp && typeof window.DuasApp.init === 'function') {
-        window.DuasApp.init();
-    }
-    if (window.DuasApp && typeof window.DuasApp.initModals === 'function') {
-        window.DuasApp.initModals();
-    }
 
     apFS(rdFS());
     if (typeof migratePrayerData === 'function') {
@@ -434,18 +427,66 @@ document.addEventListener('DOMContentLoaded', function () {
     showPage('dashboard');
 
     /* Date picker */
-    $('dp').onchange = function (e) { if (e.target.value) go(e.target.value); };
+    if ($('dp')) {
+        $('dp').onchange = function (e) {
+            if (e.target.value) {
+                if (typeof window.go === 'function') {
+                    window.go(e.target.value);
+                } else if (typeof go === 'function') {
+                    go(e.target.value);
+                }
+            }
+        };
+    }
     if ($('oldDp')) {
-        $('oldDp').onchange = function (e) { if (e.target.value && typeof goOld === 'function') goOld(e.target.value); };
+        $('oldDp').onchange = function (e) {
+            if (e.target.value) {
+                if (typeof window.goOld === 'function') {
+                    window.goOld(e.target.value);
+                } else if (typeof goOld === 'function') {
+                    goOld(e.target.value);
+                }
+            }
+        };
     }
 
     /* Action buttons */
-    if ($('currentActionBtn')) $('currentActionBtn').onclick = openCal;
-    if ($('currentMissedBtn')) $('currentMissedBtn').onclick = rMS;
-    if ($('oldActionBtn')) $('oldActionBtn').onclick = rOldInfo;
-    if ($('historyEmptyBtn')) $('historyEmptyBtn').onclick = function () {
-        if (typeof emptyPrayerHistory === 'function') emptyPrayerHistory();
-    };
+    if ($('currentActionBtn')) {
+        $('currentActionBtn').onclick = function (e) {
+            if (typeof openCal === 'function') {
+                openCal(e);
+            } else if (typeof window.openCal === 'function') {
+                window.openCal(e);
+            }
+        };
+    }
+    if ($('currentMissedBtn')) {
+        $('currentMissedBtn').onclick = function (e) {
+            if (typeof window.rMS === 'function') {
+                window.rMS(e);
+            } else if (typeof rMS === 'function') {
+                rMS(e);
+            }
+        };
+    }
+    if ($('oldActionBtn')) {
+        $('oldActionBtn').onclick = function (e) {
+            if (typeof window.rOldInfo === 'function') {
+                window.rOldInfo(e);
+            } else if (typeof rOldInfo === 'function') {
+                rOldInfo(e);
+            }
+        };
+    }
+    if ($('historyEmptyBtn')) {
+        $('historyEmptyBtn').onclick = function (e) {
+            if (typeof emptyPrayerHistory === 'function') {
+                emptyPrayerHistory(e);
+            } else if (typeof window.emptyPrayerHistory === 'function') {
+                window.emptyPrayerHistory(e);
+            }
+        };
+    }
 
     if (typeof updateCurrentMissedBadge === 'function') {
         updateCurrentMissedBadge();

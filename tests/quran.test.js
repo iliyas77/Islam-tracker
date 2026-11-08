@@ -103,7 +103,7 @@ export async function runQuranTests() {
         stopAyahAudio,
         getActiveAudioAyah,
         subscribeAudioState
-    } = await import(path.join(ROOT, 'quran', 'quran-service.js'));
+    } = await import(path.join(ROOT, 'features', 'quran', 'quran-service.js'));
 
     assert.strictEqual(SURAH_META.length, 114, 'SURAH_META must have 114 surahs');
     assert.strictEqual(SURAH_META[0].n, 1);
@@ -175,7 +175,7 @@ export async function runQuranTests() {
     // ==========================================
     // 2. Knockout Component Registrations
     // ==========================================
-    const { registerQuranComponents } = await import(path.join(ROOT, 'quran', 'quran-registration.js'));
+    const { registerQuranComponents } = await import(path.join(ROOT, 'features', 'quran', 'quran-registration.js'));
     registerQuranComponents(mockKo);
 
     const registered = mockKo.components.getRegistered();
@@ -194,9 +194,9 @@ export async function runQuranTests() {
     // ==========================================
     // 3. Three-Level Communication: Main Screen
     // ==========================================
-    const { QuranMainCardViewModel } = await import(path.join(ROOT, 'quran', 'quran-main', 'quran-main-card', 'quran-main-card.js'));
-    const { QuranMainFeedViewModel } = await import(path.join(ROOT, 'quran', 'quran-main', 'quran-main-feed', 'quran-main-feed.js'));
-    const { QuranMainPageViewModel } = await import(path.join(ROOT, 'quran', 'quran-main', 'quran-main-page', 'quran-main-page.js'));
+    const { QuranMainCardViewModel } = await import(path.join(ROOT, 'features', 'quran', 'quran-main', 'quran-main-card', 'quran-main-card.js'));
+    const { QuranMainFeedViewModel } = await import(path.join(ROOT, 'features', 'quran', 'quran-main', 'quran-main-feed', 'quran-main-feed.js'));
+    const { QuranMainPageViewModel } = await import(path.join(ROOT, 'features', 'quran', 'quran-main', 'quran-main-page', 'quran-main-page.js'));
 
     let cardClickedItem = null;
     let cardEventStopped = false;
@@ -246,9 +246,9 @@ export async function runQuranTests() {
     // ==========================================
     // 4. Three-Level Communication: Open Screen (Reader)
     // ==========================================
-    const { QuranOpenCardViewModel } = await import(path.join(ROOT, 'quran', 'quran-open', 'quran-open-card', 'quran-open-card.js'));
-    const { QuranOpenFeedViewModel } = await import(path.join(ROOT, 'quran', 'quran-open', 'quran-open-feed', 'quran-open-feed.js'));
-    const { QuranOpenPageViewModel } = await import(path.join(ROOT, 'quran', 'quran-open', 'quran-open-page', 'quran-open-page.js'));
+    const { QuranOpenCardViewModel } = await import(path.join(ROOT, 'features', 'quran', 'quran-open', 'quran-open-card', 'quran-open-card.js'));
+    const { QuranOpenFeedViewModel } = await import(path.join(ROOT, 'features', 'quran', 'quran-open', 'quran-open-feed', 'quran-open-feed.js'));
+    const { QuranOpenPageViewModel } = await import(path.join(ROOT, 'features', 'quran', 'quran-open', 'quran-open-page', 'quran-open-page.js'));
 
     let openCardBookmarkToggled = null;
     let openCardPlayTriggered = null;
@@ -302,9 +302,9 @@ export async function runQuranTests() {
     // ==========================================
     // 5. Three-Level Communication: Bookmark Screen
     // ==========================================
-    const { QuranBookmarkCardViewModel } = await import(path.join(ROOT, 'quran', 'quran-bookmark', 'quran-bookmark-card', 'quran-bookmark-card.js'));
-    const { QuranBookmarkFeedViewModel } = await import(path.join(ROOT, 'quran', 'quran-bookmark', 'quran-bookmark-feed', 'quran-bookmark-feed.js'));
-    const { QuranBookmarkPageViewModel } = await import(path.join(ROOT, 'quran', 'quran-bookmark', 'quran-bookmark-page', 'quran-bookmark-page.js'));
+    const { QuranBookmarkCardViewModel } = await import(path.join(ROOT, 'features', 'quran', 'quran-bookmark', 'quran-bookmark-card', 'quran-bookmark-card.js'));
+    const { QuranBookmarkFeedViewModel } = await import(path.join(ROOT, 'features', 'quran', 'quran-bookmark', 'quran-bookmark-feed', 'quran-bookmark-feed.js'));
+    const { QuranBookmarkPageViewModel } = await import(path.join(ROOT, 'features', 'quran', 'quran-bookmark', 'quran-bookmark-page', 'quran-bookmark-page.js'));
 
     const testBm = {
         id: '1:1',
@@ -343,7 +343,7 @@ export async function runQuranTests() {
     // ==========================================
     // 6. Feature Root ViewModel & Navigation
     // ==========================================
-    const { QuranPageViewModel, QuranApp, getQuranViewModel } = await import(path.join(ROOT, 'quran', 'quran.js'));
+    const { QuranPageViewModel, QuranApp, getQuranViewModel } = await import(path.join(ROOT, 'features', 'quran', 'quran.js'));
     const quranVm = new QuranPageViewModel();
 
     assert.strictEqual(quranVm.currentSubTab(), 'quran');
@@ -360,7 +360,7 @@ export async function runQuranTests() {
     assert.strictEqual(quranVm.currentSubTab(), 'bookmark');
 
     // Dashboard Integration: Check that Dashboard includes Quran Nav Card
-    const { DashboardViewModel } = await import(path.join(ROOT, 'dashboard', 'dashboard.js'));
+    const { DashboardViewModel } = await import(path.join(ROOT, 'features', 'dashboard', 'dashboard-registration.js'));
     const dashVm = new DashboardViewModel();
     const quranCard = dashVm.navCards.find(c => c.action === 'goto-quran');
     assert(quranCard, 'Dashboard navCards must include Quran card');

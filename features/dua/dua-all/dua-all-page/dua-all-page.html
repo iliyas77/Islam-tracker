@@ -1,0 +1,50 @@
+<div class="dua-all-page flex flex-col flex-1 min-h-0" data-ref="page.duas.all">
+    <!-- Search Bar -->
+    <div class="relative mb-3">
+        <input type="text" id="duaSearchInput"
+            class="rounded-xl border border-borderGrey pl-3 pr-8 py-2 w-full px-3.5 py-2.5 bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
+            data-bind="textInput: searchQuery"
+            placeholder="Search by number, Surah, or keywords...">
+        <!-- ko if: searchQuery -->
+        <button type="button" aria-label="Clear search"
+            class="border-0 text-gr-textMuted absolute right-2.5 top-1/2 -translate-y-1/2 p-1 leading-none text-base cursor-pointer hover:text-brand"
+            data-bind="click: clearSearch">✕</button>
+        <!-- /ko -->
+    </div>
+
+    <!-- Modular Feed Component -->
+    <!-- ko component: {
+        name: 'dua-all-feed',
+        params: {
+            duas: filteredDuas,
+            isLoading: isLoading,
+            loadError: loadError,
+            favourites: favourites,
+            pins: pins,
+            onRetry: handleRetry,
+            onSelectDua: handleSelectDua,
+            onTogglePin: handleTogglePin,
+            onToggleFav: handleToggleFav
+        }
+    } --><!-- /ko -->
+
+    <!-- Add Dua Form Modal -->
+    <!-- ko component: {
+        name: 'dua-all-form',
+        params: {
+            isOpen: isAddOpen,
+            nextNumber: nextNumber,
+            onSave: handleSaveNewDua,
+            onClose: closeAdd
+        }
+    } --><!-- /ko -->
+
+    <!-- Floating Action Button for Add Dua -->
+    <button type="button"
+        class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
+        id="duaFabBtn" data-act="dua-open-add" title="Add New Dua"
+        data-bind="click: openAdd">
+        <app-icon params="name: 'plus', size: 'xl'"></app-icon>
+    </button>
+</div>
+

@@ -91,7 +91,7 @@ export async function runTasbeehComponentTests() {
 
         // Centralized Service
         TasbeehService
-    } = await import(path.join(ROOT, 'tasbeeh', 'tasbeeh.js'));
+    } = await import(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh.js'));
 
     // ==========================================
     // 1. Current Components Verification
@@ -99,7 +99,7 @@ export async function runTasbeehComponentTests() {
 
     // 1.1 CurrentCard
     assert(CurrentCardTemplate && CurrentCardTemplate.element === 'tasbeeh-current-card-template');
-    assert.strictEqual(CurrentCardTemplate.file, 'tasbeeh/tasbeeh-current/tasbeeh-current-card/tasbeeh-current-card.html');
+    assert.strictEqual(CurrentCardTemplate.file, 'features/tasbeeh/tasbeeh-current/tasbeeh-current-card/tasbeeh-current-card.html');
 
     let cardClicked = false;
     let editClicked = false;
@@ -146,7 +146,7 @@ export async function runTasbeehComponentTests() {
 
     // 1.2 CurrentFeed
     assert(CurrentFeedTemplate && CurrentFeedTemplate.element === 'tasbeeh-current-feed-template');
-    assert.strictEqual(CurrentFeedTemplate.file, 'tasbeeh/tasbeeh-current/tasbeeh-current-feed/tasbeeh-current-feed.html');
+    assert.strictEqual(CurrentFeedTemplate.file, 'features/tasbeeh/tasbeeh-current/tasbeeh-current-feed/tasbeeh-current-feed.html');
 
     let feedCardClicked = false;
     let feedEditClicked = false;
@@ -190,7 +190,7 @@ export async function runTasbeehComponentTests() {
 
     // 1.3 CurrentForm
     assert(CurrentFormTemplate && CurrentFormTemplate.element === 'tasbeeh-current-form-template');
-    assert.strictEqual(CurrentFormTemplate.file, 'tasbeeh/tasbeeh-current/tasbeeh-current-form/tasbeeh-current-form.html');
+    assert.strictEqual(CurrentFormTemplate.file, 'features/tasbeeh/tasbeeh-current/tasbeeh-current-form/tasbeeh-current-form.html');
 
     let formSavedData = null;
     let formDeletedId = null;
@@ -232,7 +232,7 @@ export async function runTasbeehComponentTests() {
 
     // 1.4 CurrentPage
     assert(CurrentPageTemplate && CurrentPageTemplate.element === 'tasbeeh-current-page-template');
-    assert.strictEqual(CurrentPageTemplate.file, 'tasbeeh/tasbeeh-current/tasbeeh-current-page/tasbeeh-current-page.html');
+    assert.strictEqual(CurrentPageTemplate.file, 'features/tasbeeh/tasbeeh-current/tasbeeh-current-page/tasbeeh-current-page.html');
 
     let pageBackPressed = false;
     const currentPage = new CurrentPageViewModel({
@@ -267,7 +267,7 @@ export async function runTasbeehComponentTests() {
 
     // 2.1 OldCard
     assert(OldCardTemplate && OldCardTemplate.element === 'tasbeeh-old-card-template');
-    assert.strictEqual(OldCardTemplate.file, 'tasbeeh/tasbeeh-old/tasbeeh-old-card/tasbeeh-old-card.html');
+    assert.strictEqual(OldCardTemplate.file, 'features/tasbeeh/tasbeeh-old/tasbeeh-old-card/tasbeeh-old-card.html');
 
     let oldCardClicked = false;
     let oldEditClicked = false;
@@ -305,7 +305,7 @@ export async function runTasbeehComponentTests() {
 
     // 2.2 OldFeed
     assert(OldFeedTemplate && OldFeedTemplate.element === 'tasbeeh-old-feed-template');
-    assert.strictEqual(OldFeedTemplate.file, 'tasbeeh/tasbeeh-old/tasbeeh-old-feed/tasbeeh-old-feed.html');
+    assert.strictEqual(OldFeedTemplate.file, 'features/tasbeeh/tasbeeh-old/tasbeeh-old-feed/tasbeeh-old-feed.html');
 
     let reopenLastCalled = false;
     let resetCompletedCalled = false;
@@ -321,7 +321,7 @@ export async function runTasbeehComponentTests() {
 
     // 2.3 OldForm
     assert(OldFormTemplate && OldFormTemplate.element === 'tasbeeh-old-form-template');
-    assert.strictEqual(OldFormTemplate.file, 'tasbeeh/tasbeeh-old/tasbeeh-old-form/tasbeeh-old-form.html');
+    assert.strictEqual(OldFormTemplate.file, 'features/tasbeeh/tasbeeh-old/tasbeeh-old-form/tasbeeh-old-form.html');
 
     let oldFormSaved = null;
     const oldForm = new OldFormViewModel({
@@ -337,7 +337,7 @@ export async function runTasbeehComponentTests() {
 
     // 2.4 OldPage
     assert(OldPageTemplate && OldPageTemplate.element === 'tasbeeh-old-page-template');
-    assert.strictEqual(OldPageTemplate.file, 'tasbeeh/tasbeeh-old/tasbeeh-old-page/tasbeeh-old-page.html');
+    assert.strictEqual(OldPageTemplate.file, 'features/tasbeeh/tasbeeh-old/tasbeeh-old-page/tasbeeh-old-page.html');
 
     let oldPageBackPressed = false;
     const oldPage = new OldPageViewModel({
@@ -356,7 +356,7 @@ export async function runTasbeehComponentTests() {
 
     // 3.1 HistoryCard
     assert(HistoryCardTemplate && HistoryCardTemplate.element === 'tasbeeh-history-card-template');
-    assert.strictEqual(HistoryCardTemplate.file, 'tasbeeh/tasbeeh-history/tasbeeh-history-card/tasbeeh-history-card.html');
+    assert.strictEqual(HistoryCardTemplate.file, 'features/tasbeeh/tasbeeh-history/tasbeeh-history-card/tasbeeh-history-card.html');
 
     let historyReopenedMonth = null;
     const testHistoryMonth = {
@@ -396,7 +396,7 @@ export async function runTasbeehComponentTests() {
 
     // 3.2 HistoryFeed
     assert(HistoryFeedTemplate && HistoryFeedTemplate.element === 'tasbeeh-history-feed-template');
-    assert.strictEqual(HistoryFeedTemplate.file, 'tasbeeh/tasbeeh-history/tasbeeh-history-feed/tasbeeh-history-feed.html');
+    assert.strictEqual(HistoryFeedTemplate.file, 'features/tasbeeh/tasbeeh-history/tasbeeh-history-feed/tasbeeh-history-feed.html');
 
     let feedReopenMonth = null;
     let feedResetCompleted = false;
@@ -412,7 +412,7 @@ export async function runTasbeehComponentTests() {
 
     // 3.3 HistoryForm
     assert(HistoryFormTemplate && HistoryFormTemplate.element === 'tasbeeh-history-form-template');
-    assert.strictEqual(HistoryFormTemplate.file, 'tasbeeh/tasbeeh-history/tasbeeh-history-form/tasbeeh-history-form.html');
+    assert.strictEqual(HistoryFormTemplate.file, 'features/tasbeeh/tasbeeh-history/tasbeeh-history-form/tasbeeh-history-form.html');
 
     let savedStart = null;
     let savedEnd = null;
@@ -430,7 +430,7 @@ export async function runTasbeehComponentTests() {
 
     // 3.4 HistoryPage
     assert(HistoryPageTemplate && HistoryPageTemplate.element === 'tasbeeh-history-page-template');
-    assert.strictEqual(HistoryPageTemplate.file, 'tasbeeh/tasbeeh-history/tasbeeh-history-page/tasbeeh-history-page.html');
+    assert.strictEqual(HistoryPageTemplate.file, 'features/tasbeeh/tasbeeh-history/tasbeeh-history-page/tasbeeh-history-page.html');
 
     const historyPage = new HistoryPageViewModel({});
     assert(historyPage.progressStats && typeof historyPage.progressStats.percentCleared === 'function');
@@ -438,7 +438,7 @@ export async function runTasbeehComponentTests() {
     assert(historyPage.feedParams && typeof historyPage.feedParams.onReopenMonth === 'function');
 
     // 3.5 Three-Level Knockout Hierarchy Verification (Main Page -> Feed -> Card)
-    const { TasbeehPageViewModel } = await import(path.join(ROOT, 'tasbeeh', 'tasbeeh-view-model.js'));
+    const { TasbeehPageViewModel } = await import(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-view-model.js'));
     const mainPage = new TasbeehPageViewModel();
     assert.strictEqual(typeof mainPage.handleCurrentCardClick, 'function', 'Main Page must define handleCurrentCardClick');
     assert.strictEqual(typeof mainPage.handleOldCardClick, 'function', 'Main Page must define handleOldCardClick');
@@ -463,7 +463,7 @@ export async function runTasbeehComponentTests() {
     // ==========================================
     // 4. Knockout Registration Verification (tasbeeh-registration.js)
     // ==========================================
-    const { registerTasbeehComponents } = await import(path.join(ROOT, 'tasbeeh', 'tasbeeh-registration.js'));
+    const { registerTasbeehComponents } = await import(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-registration.js'));
     registerTasbeehComponents(globalThis.ko);
 
     const expectedComponents = [
@@ -543,7 +543,7 @@ export async function runTasbeehComponentTests() {
     assert(preset1Yr.startDate && preset1Yr.endDate);
 
     // 5.7 History tab rendering (curOldMonth reference check)
-    const { renderHistoryTab } = await import(path.join(ROOT, 'tasbeeh', 'tasbeeh-history', 'tasbeeh-history.js'));
+    const { renderHistoryTab } = await import(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-history', 'tasbeeh-history.js'));
     const elements = {
         'tbHistoryBody': { innerHTML: '', classList: { toggle() {}, remove() {}, add() {} } },
         'tbHistoryList': { innerHTML: '' },

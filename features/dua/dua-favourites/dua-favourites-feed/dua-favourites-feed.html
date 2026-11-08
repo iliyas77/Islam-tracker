@@ -1,0 +1,24 @@
+<div class="dua-favourites-feed flex flex-col gap-2" data-ref="page.duas.favourites.feed">
+    <!-- Empty State -->
+    <!-- ko if: !hasFavourites() -->
+    <div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed" id="duaFavsEmptyState">
+        No favourites yet.<br>Tap the ♡ icon on any dua to add it here.
+    </div>
+    <!-- /ko -->
+
+    <!-- Favourites List -->
+    <!-- ko if: hasFavourites() -->
+    <div class="flex flex-col gap-2" id="duaFavouritesList" data-bind="foreach: { data: (typeof favouriteDuas === 'function' ? favouriteDuas : favouriteDuas), as: 'item' }">
+        <!-- ko component: {
+            name: 'dua-favourites-card',
+            params: {
+                item: item,
+                index: (item && item.index !== undefined) ? item.index : $index(),
+                onSelectDua: function(d, i, e) { $parent.handleSelect(d, i, e); },
+                onToggleFav: function(d, i, e) { $parent.handleToggleFav(d, i, e); }
+            }
+        } --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+</div>
+

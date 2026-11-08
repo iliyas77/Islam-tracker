@@ -1,0 +1,59 @@
+<div class="flex flex-col gap-3 pb-2" data-ref="page.performance.container">
+    <!-- Main Circular Stat Card -->
+    <!-- ko component: { name: 'prayer-perf-ring', params: hero } --><!-- /ko -->
+
+    <!-- Three Summary Stats Cards -->
+    <!-- ko component: { name: 'prayer-stat-card', params: stats } --><!-- /ko -->
+
+    <!-- Section Header Card -->
+    <div class="rounded-2xl p-3 bg-white border border-borderGrey flex flex-row items-center justify-between shadow-none"
+        data-ref="page.performance.breakdown-header">
+        <div class="flex items-center gap-2.5">
+            <div class="rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0"
+                style="width: 40px; height: 40px;">
+                <app-icon params="name: 'list-check', color: 'text-brand', size: '20px'"></app-icon>
+            </div>
+            <h6 class="font-bold text-brand text-sm mb-0 leading-tight">Individual Prayer<br>Breakdown</h6>
+        </div>
+        <div class="flex items-center gap-2 bg-brand-light px-3 py-1.5 rounded-xl border border-borderGrey text-brand text-xs font-medium shrink-0">
+            <app-icon params="name: 'calendar-days', prefix: 'fa-regular', color: 'text-brand', size: '16px'"></app-icon>
+            <div class="text-left">
+                <div class="font-bold leading-none" id="perfTrackedDays" data-bind="text: trackedDays">0 days</div>
+                <div class="text-gr-textMuted leading-none mt-0.5" style="font-size: 10px;">tracked</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Breakdown List (Fajr, Dhuhr, Asr, Maghrib, Isha) -->
+    <div class="flex flex-col gap-2.5" id="perfBreakdownList" data-ref="page.performance.breakdown-list"
+        data-bind="foreach: breakdownItems">
+        <!-- ko component: {
+            name: 'tracker-performance-card',
+            params: {
+                item: $data,
+                onClick: function(card, event) { $parent.handleCardClick(card, event); }
+            }
+        } --><!-- /ko -->
+    </div>
+
+    <!-- Settings Start Date Footer Card -->
+    <div class="rounded-2xl p-3 bg-brand-light border border-borderGrey text-center flex flex-col items-center mt-1 bg-white shadow-none"
+        data-ref="page.performance.footer-card">
+        <div class="flex items-center justify-center gap-1.5 mb-1">
+            <app-icon params="name: 'calendar-check', color: 'text-brand', size: '16px'"></app-icon>
+            <span class="text-xs font-bold text-brand" id="perfFooterLabel" data-bind="text: footerLabel">Tracking Start Date: --</span>
+        </div>
+        <p class="text-gr-textMuted text-xs mb-2.5" id="perfFooterDesc">
+            Calculated from your start date configured in Settings up to today.
+        </p>
+        <div class="flex justify-center">
+            <button type="button"
+                class="font-bold px-3 py-1.5 rounded-full text-xs bg-brand text-white hover:bg-brand-hover transition-colors rounded-lg cursor-pointer"
+                data-act="goto-settings" data-ref="page.performance.goto-settings-btn"
+                data-bind="click: handleSettingsClick">
+                <app-icon params="name: 'gear', customClass: 'mr-1', size: '14px'"></app-icon> Adjust Start Date in Settings
+            </button>
+        </div>
+    </div>
+</div>
+

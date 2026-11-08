@@ -1,0 +1,22 @@
+<div class="pinned-dua-card bg-white border border-borderGrey rounded-2xl p-4 flex flex-col gap-2.5 border-l-4 border-l-brand relative cursor-pointer hover:bg-surfaceBg transition-all mb-3"
+    data-act="dua-open-detail"
+    data-bind="click: onOpenDetail, attr: { 'data-idx': index, 'data-source': 'pinned' }">
+    <button type="button" aria-label="Unpin dua" title="Unpin dua"
+        class="pinned-badge absolute top-3.5 right-4 text-base inline-flex items-center justify-center text-pinAmber hover:scale-125 transition-transform"
+        data-bind="click: onUnpin">
+        <app-icon params="name: 'thumbtack'"></app-icon>
+    </button>
+    <div class="pinned-dua-number text-sm font-bold text-brand"
+        data-bind="text: displayNumber">#01</div>
+    <div class="pinned-dua-surah text-base font-bold text-brand font-telugu pr-8"
+        data-bind="text: surah"></div>
+    <!-- ko if: uchcharana -->
+    <div class="pinned-dua-uchcharana text-sm font-medium text-brand leading-relaxed font-telugu"
+        data-bind="text: uchcharana"></div>
+    <!-- /ko -->
+    <!-- ko if: ardham -->
+    <div class="pinned-dua-ardham text-xs font-normal text-gr-text leading-relaxed font-telugu"
+        data-bind="text: ardham"></div>
+    <!-- /ko -->
+</div>
+

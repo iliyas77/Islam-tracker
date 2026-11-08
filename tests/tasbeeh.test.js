@@ -56,7 +56,7 @@ export async function runTasbeehTests() {
         isObservable(fn) { return typeof fn === 'function' && !!fn.__ko_proto__; }
     };
 
-    const { normalizeItem, isMonthFullyCompleted, getDaysInMonth, getCompletedDaysInMonth } = await import(path.join(ROOT, 'tasbeeh', 'tasbeeh-model.js'));
+    const { normalizeItem, isMonthFullyCompleted, getDaysInMonth, getCompletedDaysInMonth } = await import(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-model.js'));
     const { TasbeehStore } = await import(path.join(ROOT, 'services', 'tasbeeh-store.js'));
 
     // 1. Item Normalization
@@ -101,7 +101,7 @@ export async function runTasbeehTests() {
     assert.strictEqual(isSeptDone, true, 'September should be fully completed');
 
     // 4. TasbeehCounterCardViewModel robustness
-    const { TasbeehCounterCardViewModel, TasbeehPageViewModel } = await import(path.join(ROOT, 'tasbeeh', 'tasbeeh-view-model.js'));
+    const { TasbeehCounterCardViewModel, TasbeehPageViewModel } = await import(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-view-model.js'));
     const cardVm = new TasbeehCounterCardViewModel({ id: 't1', title: 'Test Dhikr' });
     assert.strictEqual(cardVm.id, 't1');
     assert.strictEqual(cardVm.title, 'Test Dhikr');
