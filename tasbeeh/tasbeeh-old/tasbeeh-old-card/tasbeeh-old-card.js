@@ -32,23 +32,31 @@ export function OldCardViewModel(params) {
     self.targetDisplay = (self.targetCount === 'infinite' || self.targetCount === '∞') ? '∞' : self.targetCount;
     self.totalDaysText = self.totalDays + ' days';
 
-    self.onCardClick = function (d, e) {
-        if (e && e.stopPropagation) e.stopPropagation();
-        if (typeof p.onCardClick === 'function') {
-            p.onCardClick(item, self.month, e);
-        } else if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounterOld === 'function') {
-            _win.TasbeehApp.openCounterOld(self.id, self.month);
+    self.handleClick = function (d, e) {
+        var event = e || (d && d.stopPropagation ? d : null);
+        if (event && event.stopPropagation) {
+            event.stopPropagation();
+        }
+        var targetItem = self.item;
+        var cb = p.onClick || p.onCardClick;
+        if (typeof cb === 'function') {
+            cb(targetItem, self.month, event);
         }
     };
+    self.onCardClick = self.handleClick;
 
-    self.onEditClick = function (d, e) {
-        if (e && e.stopPropagation) e.stopPropagation();
-        if (typeof p.onEditClick === 'function') {
-            p.onEditClick(item, e);
-        } else if (_win.TasbeehApp && typeof _win.TasbeehApp.openEditModal === 'function') {
-            _win.TasbeehApp.openEditModal(self.id);
+    self.handleEditClick = function (d, e) {
+        var event = e || (d && d.stopPropagation ? d : null);
+        if (event && event.stopPropagation) {
+            event.stopPropagation();
+        }
+        var targetItem = self.item;
+        var cb = p.onEditClick || p.onEdit;
+        if (typeof cb === 'function') {
+            cb(targetItem, event);
         }
     };
+    self.onEditClick = self.handleEditClick;
 }
 
 if (typeof window !== 'undefined') {

@@ -99,29 +99,24 @@ export function unwrap(val, def) {
 }
 
 export function pad2(n) {
-    if (typeof _win.pad2 === 'function' && _win.pad2 !== pad2) return _win.pad2(n);
     return n < 10 ? '0' + n : '' + n;
 }
 
 export function uid(prefix) {
-    if (typeof _win.uid === 'function' && _win.uid !== uid) return _win.uid();
-    return (prefix || 'tb_') + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+    return (prefix || 'tb_') + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 }
 
 export function clamp(v, min, max) {
-    if (typeof _win.clamp === 'function' && _win.clamp !== clamp) return _win.clamp(v, min, max);
     return Math.min(Math.max(v, min), max);
 }
 
 export function todayKey() {
-    if (typeof _win.todayKey === 'function' && _win.todayKey !== todayKey) return _win.todayKey();
-    if (typeof _win.td === 'function') return _win.td();
-    return new Date().toISOString().slice(0, 10);
+    var d = new Date();
+    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
 }
 export var td = todayKey;
 
 export function formatMonthLabel(m) {
-    if (typeof _win.formatMonthLabel === 'function' && _win.formatMonthLabel !== formatMonthLabel) return _win.formatMonthLabel(m);
     if (!m) return '';
     var parts = m.split('-');
     if (parts.length < 2) return m;
@@ -131,7 +126,6 @@ export function formatMonthLabel(m) {
 }
 
 export function formatDate(d) {
-    if (typeof _win.formatDate === 'function' && _win.formatDate !== formatDate) return _win.formatDate(d);
     if (!d) return '';
     var parts = d.split('-');
     if (parts.length === 3) {
@@ -146,7 +140,6 @@ export function formatMonthYear(mKey) {
 }
 
 export function getPrevMonthKey(monthKey) {
-    if (typeof _win.getPrevMonthKey === 'function') return _win.getPrevMonthKey(monthKey);
     var p = (monthKey || todayKey().slice(0, 7)).split('-');
     var yr = parseInt(p[0], 10), mo = parseInt(p[1], 10) - 1;
     if (mo < 1) { mo = 12; yr--; }
@@ -154,7 +147,6 @@ export function getPrevMonthKey(monthKey) {
 }
 
 export function getNextMonthKey(monthKey) {
-    if (typeof _win.getNextMonthKey === 'function') return _win.getNextMonthKey(monthKey);
     var p = (monthKey || todayKey().slice(0, 7)).split('-');
     var yr = parseInt(p[0], 10), mo = parseInt(p[1], 10) + 1;
     if (mo > 12) { mo = 1; yr++; }
@@ -162,7 +154,6 @@ export function getNextMonthKey(monthKey) {
 }
 
 export function getPreviousMonthsList(startDate, endDate) {
-    if (typeof _win.getPreviousMonthsList === 'function') return _win.getPreviousMonthsList(startDate, endDate);
     var list = [];
     if (!startDate || !endDate || startDate > endDate) return list;
     var sParts = startDate.split('-'), eParts = endDate.split('-');
@@ -457,6 +448,9 @@ if (typeof window !== 'undefined') {
     if (!window.getCurrentTrackingMonth) {
         window.getCurrentTrackingMonth = getCurrentTrackingMonth;
     }
+    window.getPrevMonthKey = getPrevMonthKey;
+    window.getNextMonthKey = getNextMonthKey;
+    window.getPreviousMonthsList = getPreviousMonthsList;
 }
 
 export default TasbeehService;

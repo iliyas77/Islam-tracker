@@ -75,6 +75,23 @@ const tasbeehHistFeedJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-history', 'tas
 const tasbeehHistFormJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-history', 'tasbeeh-history-form', 'tasbeeh-history-form.js');
 const tasbeehHistPageJsPath = path.join(ROOT, 'tasbeeh', 'tasbeeh-history', 'tasbeeh-history-page', 'tasbeeh-history-page.js');
 
+// Quran decomposed submodules
+const quranServiceJsPath = path.join(ROOT, 'quran', 'quran-service.js');
+const quranMainCardJsPath = path.join(ROOT, 'quran', 'quran-main', 'quran-main-card', 'quran-main-card.js');
+const quranMainFeedJsPath = path.join(ROOT, 'quran', 'quran-main', 'quran-main-feed', 'quran-main-feed.js');
+const quranMainPageJsPath = path.join(ROOT, 'quran', 'quran-main', 'quran-main-page', 'quran-main-page.js');
+const quranMainJsPath = path.join(ROOT, 'quran', 'quran-main', 'quran-main.js');
+const quranOpenCardJsPath = path.join(ROOT, 'quran', 'quran-open', 'quran-open-card', 'quran-open-card.js');
+const quranOpenFeedJsPath = path.join(ROOT, 'quran', 'quran-open', 'quran-open-feed', 'quran-open-feed.js');
+const quranOpenPageJsPath = path.join(ROOT, 'quran', 'quran-open', 'quran-open-page', 'quran-open-page.js');
+const quranOpenJsPath = path.join(ROOT, 'quran', 'quran-open', 'quran-open.js');
+const quranBookmarkCardJsPath = path.join(ROOT, 'quran', 'quran-bookmark', 'quran-bookmark-card', 'quran-bookmark-card.js');
+const quranBookmarkFeedJsPath = path.join(ROOT, 'quran', 'quran-bookmark', 'quran-bookmark-feed', 'quran-bookmark-feed.js');
+const quranBookmarkPageJsPath = path.join(ROOT, 'quran', 'quran-bookmark', 'quran-bookmark-page', 'quran-bookmark-page.js');
+const quranBookmarkJsPath = path.join(ROOT, 'quran', 'quran-bookmark', 'quran-bookmark.js');
+const quranRegistrationJsPath = path.join(ROOT, 'quran', 'quran-registration.js');
+const quranJsPath = path.join(ROOT, 'quran', 'quran.js');
+
 /**
  * Minify CSS content by removing comments and unnecessary whitespace
  */
@@ -97,10 +114,12 @@ function minifyJs(js) {
         .replace(/import\s+[\s\S]*?from\s*['"][^'"]+['"];?/g, '') // Multiline import from
         .replace(/import\s*['"][^'"]+['"];?/g, '') // Bare import '...'
         .replace(/export\s+default\s+[^;]+;/g, '') // Remove export default
+        .replace(/export\s*\*\s*from\s*['"][^'"]+['"];?/g, '') // Strip export * from '...'
         .replace(/export\s*\{[\s\S]*?\}(\s*from\s*['"][^'"]+['"])?;?/g, '') // Strip multiline export { ... } [from '...']
         .replace(/^\s*export\s+const\s+/gm, 'const ') // Strip export from const
         .replace(/^\s*export\s+let\s+/gm, 'let ') // Strip export from let
         .replace(/^\s*export\s+var\s+/gm, 'var ') // Strip export from var
+        .replace(/^\s*export\s+async\s+function\s+/gm, 'async function ') // Strip export from async function
         .replace(/^\s*export\s+function\s+/gm, 'function ') // Strip export from function
         .replace(/^\s*export\s+class\s+/gm, 'class ') // Strip export from class
         .replace(/\n\s*\n/g, '\n') // Remove consecutive blank lines
@@ -198,6 +217,23 @@ function buildProduction() {
         const tasbeehRegistrationJs = readFile(tasbeehRegistrationJsPath);
         const tasbeehJs = readFile(tasbeehJsPath);
 
+        // Quran submodules
+        const quranServiceJs = readFile(quranServiceJsPath);
+        const quranMainCardJs = readFile(quranMainCardJsPath);
+        const quranMainFeedJs = readFile(quranMainFeedJsPath);
+        const quranMainPageJs = readFile(quranMainPageJsPath);
+        const quranMainJs = readFile(quranMainJsPath);
+        const quranOpenCardJs = readFile(quranOpenCardJsPath);
+        const quranOpenFeedJs = readFile(quranOpenFeedJsPath);
+        const quranOpenPageJs = readFile(quranOpenPageJsPath);
+        const quranOpenJs = readFile(quranOpenJsPath);
+        const quranBookmarkCardJs = readFile(quranBookmarkCardJsPath);
+        const quranBookmarkFeedJs = readFile(quranBookmarkFeedJsPath);
+        const quranBookmarkPageJs = readFile(quranBookmarkPageJsPath);
+        const quranBookmarkJs = readFile(quranBookmarkJsPath);
+        const quranJs = readFile(quranJsPath);
+        const quranRegistrationJs = readFile(quranRegistrationJsPath);
+
         const duaJs = readFile(duaJsPath);
         const registryJs = readFile(registryJsPath);
         const appJs = readFile(appJsPath);
@@ -246,6 +282,21 @@ function buildProduction() {
             tasbeehCurJs,
             tasbeehJs,
             tasbeehRegistrationJs,
+            quranServiceJs,
+            quranMainCardJs,
+            quranMainFeedJs,
+            quranMainPageJs,
+            quranMainJs,
+            quranOpenCardJs,
+            quranOpenFeedJs,
+            quranOpenPageJs,
+            quranOpenJs,
+            quranBookmarkCardJs,
+            quranBookmarkFeedJs,
+            quranBookmarkPageJs,
+            quranBookmarkJs,
+            quranJs,
+            quranRegistrationJs,
             duaJs,
             registryJs,
             appJs,
@@ -275,6 +326,7 @@ function buildProduction() {
         html = html.replace(/<script[^>]*src="(?:settings\/)?settings\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="(?:tasbeeh\/)?tasbeeh\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="(?:duva\/|dua\/)?(?:duva|dua)\.js"[^>]*><\/script>/g, '');
+        html = html.replace(/<script[^>]*src="(?:quran\/)?quran\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="app\.js"[^>]*><\/script>/g, () => `<script>${minifiedJs}<\/script>`);
 
         // ---- Strip data-ref attributes from production output ----
@@ -294,6 +346,31 @@ function buildProduction() {
 
         // 4. Write out minified production/production.html
         fs.writeFileSync(OUT_FILE, minifiedHtml, 'utf8');
+
+        // 5. Ensure production folder assets (manifest.json, favicon.svg, sw.js, icons) exist
+        const manifestSrc = path.join(ROOT, 'manifest.json');
+        const manifestDest = path.join(BUILD_DIR, 'manifest.json');
+        if (fs.existsSync(manifestSrc)) {
+            fs.copyFileSync(manifestSrc, manifestDest);
+        }
+
+        const faviconSrc = path.join(ROOT, 'favicon.svg');
+        const faviconDest = path.join(BUILD_DIR, 'favicon.svg');
+        if (fs.existsSync(faviconSrc)) {
+            fs.copyFileSync(faviconSrc, faviconDest);
+        }
+
+        const swSrc = path.join(ROOT, 'sw.js');
+        const swDest = path.join(BUILD_DIR, 'sw.js');
+        if (fs.existsSync(swSrc)) {
+            fs.copyFileSync(swSrc, swDest);
+        }
+
+        const iconsSrc = path.join(ROOT, 'icons');
+        const iconsDest = path.join(BUILD_DIR, 'icons');
+        if (fs.existsSync(iconsSrc)) {
+            fs.cpSync(iconsSrc, iconsDest, { recursive: true });
+        }
 
         const minifiedSizeBytes = fs.statSync(OUT_FILE).size;
         const minifiedKb = (minifiedSizeBytes / 1024).toFixed(1);

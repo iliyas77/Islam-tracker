@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;700&family=Noto+Sans+Telugu:wght@400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;700&family=Noto+Sans+Telugu:wght@400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         crossorigin="anonymous">
@@ -74,7 +74,7 @@
             --color-dash-timelineLine: #cdded4;
 
             --font-sans: 'Inter', sans-serif;
-            --font-arabic: 'Noto Sans Arabic', sans-serif;
+            --font-arabic: 'Amiri', 'Noto Sans Arabic', serif;
             --font-telugu: 'Noto Sans Telugu', sans-serif;
         }
 
@@ -95,8 +95,13 @@
             --gr-accent-soft: #e6f5ec;
             --gr-danger-soft: #fce8e6;
             --font-primary: 'Inter', sans-serif;
-            --font-arabic: 'Noto Sans Arabic', sans-serif;
+            --font-arabic: 'Amiri', 'Noto Sans Arabic', serif;
             --font-telugu: 'Noto Sans Telugu', sans-serif;
+        }
+        .flat-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E0E0E0;
+            box-shadow: none !important;
         }
         .collapse {
             visibility: visible !important;
@@ -986,6 +991,11 @@
             <!-- Quran Duas Page -->
             <div id="duasPage" class="d-none flex-col grow page" data-ref="page.duas"
                 data-bind="component: { name: 'duas-page', params: duas }, css: { 'd-none': !isDuasVisible(), 'flex': isDuasVisible() }">
+            </div>
+
+            <!-- Quran Reading Page -->
+            <div id="quranPage" class="d-none flex-col grow page" data-ref="page.quran"
+                data-bind="component: { name: 'quran-page', params: quran }, css: { 'd-none': !isQuranVisible(), 'flex': isQuranVisible() }">
             </div>
         </main>
 
@@ -2625,7 +2635,7 @@
         </script>
                 <script type="text/html" id="tasbeeh-current-card-template">
 <div class="tb-card bg-white border border-gray-200 rounded-3xl p-4 sm:p-5 flex flex-row gap-4 items-center cursor-pointer hover:border-gray-300 select-none transition-all w-full shadow-none"
-    data-bind="attr: { 'data-id': id, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: onCardClick"
+    data-bind="attr: { 'data-id': id, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: handleClick"
     role="button" tabindex="0">
     <!-- Left: Icon -->
     <div class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-2xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center text-2xl shrink-0 leading-none select-none overflow-hidden"
@@ -2666,7 +2676,7 @@
         <button type="button"
             class="tb-btn-edit w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200/80 flex items-center justify-center text-gray-600 cursor-pointer active:scale-95 transition-all p-0"
             data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
-            data-bind="click: onEditClick"
+            data-bind="click: handleEditClick"
             data-ref="page.tasbeeh.card.edit-btn">
             <app-icon params="name: 'pencil', size: 'xs'"></app-icon>
         </button>
@@ -2722,7 +2732,7 @@
         </div>
         <!-- /ko -->
         <div class="flex flex-col gap-3" id="tbCurrentTodoGrid" data-bind="foreach: todoItems">
-            <!-- ko component: { name: 'tasbeeh-current-card', params: { item: $data, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
+            <!-- ko component: { name: 'tasbeeh-current-card', params: { item: $data, onClick: $parent.onCardClick, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
         </div>
     </div>
 
@@ -2739,7 +2749,7 @@
         </div>
         <!-- /ko -->
         <div class="flex flex-col gap-3" id="tbCurrentDoneGrid" data-bind="foreach: doneItems">
-            <!-- ko component: { name: 'tasbeeh-current-card', params: { item: $data, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
+            <!-- ko component: { name: 'tasbeeh-current-card', params: { item: $data, onClick: $parent.onCardClick, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
         </div>
     </div>
     <!-- /ko -->
@@ -2935,7 +2945,7 @@
         </script>
         <script type="text/html" id="tasbeeh-old-card-template">
 <div class="tb-card bg-white border border-gray-200 rounded-3xl p-4 sm:p-5 flex flex-row gap-4 items-center cursor-pointer hover:border-gray-300 select-none transition-all w-full shadow-none"
-    data-bind="attr: { 'data-id': id, 'data-month': month, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: onCardClick"
+    data-bind="attr: { 'data-id': id, 'data-month': month, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: handleClick"
     role="button" tabindex="0">
     <!-- Left: Icon -->
     <div class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-2xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center text-2xl shrink-0 leading-none select-none overflow-hidden">
@@ -2975,7 +2985,7 @@
         <button type="button"
             class="tb-btn-edit w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200/80 flex items-center justify-center text-gray-600 cursor-pointer active:scale-95 transition-all p-0"
             data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
-            data-bind="click: onEditClick">
+            data-bind="click: handleEditClick">
             <app-icon params="name: 'pencil', size: 'xs'"></app-icon>
         </button>
         <div class="text-gray-300 flex items-center justify-center">
@@ -3069,7 +3079,7 @@
             </div>
             <!-- /ko -->
             <div class="flex flex-col gap-3" id="tbOldTodoGrid" data-bind="foreach: todoItems">
-                <!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
+                <!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onClick: $parent.onCardClick, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
             </div>
         </div>
 
@@ -3086,7 +3096,7 @@
             </div>
             <!-- /ko -->
             <div class="flex flex-col gap-3" id="tbOldDoneGrid" data-bind="foreach: doneItems">
-                <!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
+                <!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onClick: $parent.onCardClick, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
             </div>
         </div>
     </div>
@@ -3282,7 +3292,7 @@
         <button type="button"
             class="inline-flex items-center justify-center bg-transparent border border-yellow-500 text-yellow-600 font-semibold rounded-full px-2 py-0 ml-auto text-[11px] hover:bg-yellow-50 transition-colors cursor-pointer select-none"
             data-act="tb-old-reopen" title="Reopen this month to recount"
-            data-bind="click: onReopen">
+            data-bind="click: handleClick">
             <app-icon params="name: 'rotate-left', customClass: 'mr-1', size: 'xs'"></app-icon> Reopen
         </button>
         <!-- /ko -->
@@ -3318,7 +3328,7 @@
     <!-- Months List -->
     <!-- ko ifnot: isEmpty -->
     <div class="flex flex-col gap-2" id="tbHistoryList" data-bind="foreach: months">
-        <!-- ko component: { name: 'tasbeeh-history-card', params: $data } --><!-- /ko -->
+        <!-- ko component: { name: 'tasbeeh-history-card', params: { item: $data, onClick: $parent.handleReopen, onReopen: $parent.handleReopen } } --><!-- /ko -->
     </div>
     <!-- /ko -->
 </div>
@@ -3674,6 +3684,386 @@
 
 
         </script>
+
+        <!-- Quran Feature Component Templates -->
+        <script type="text/html" id="quran-page-template">
+<div class="flex flex-col grow overflow-hidden relative bg-white h-full" id="quranContainer" data-ref="page.quran.container">
+    <div class="flex flex-col grow overflow-hidden relative" data-bind="visible: currentSubTab() === 'quran'">
+        <!-- ko component: { name: 'quran-main-page', params: mainPageParams } --><!-- /ko -->
+    </div>
+    <div class="flex flex-col grow overflow-hidden relative" data-bind="visible: currentSubTab() === 'open'">
+        <!-- ko component: { name: 'quran-open-page', params: openPageParams } --><!-- /ko -->
+    </div>
+    <div class="flex flex-col grow overflow-hidden relative" data-bind="visible: currentSubTab() === 'bookmark'">
+        <!-- ko component: { name: 'quran-bookmark-page', params: bookmarkPageParams } --><!-- /ko -->
+    </div>
+    <!-- ko component: {
+        name: 'quran-nav-tab',
+        params: {
+            activeTab: currentSubTab,
+            onTabChange: switchTab
+        }
+    } --><!-- /ko -->
+</div>
+        </script>
+
+        <script type="text/html" id="quran-nav-tab-template">
+<nav class="shrink-0 bg-white border-t border-[#E0E0E0] px-8 py-3 flex justify-between items-center z-[100]" aria-label="Quran navigation" data-ref="page.quran.bottom-nav">
+    <button type="button" aria-label="Open — reading view"
+        class="flex flex-col items-center w-16 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded-lg cursor-pointer select-none"
+        data-bind="
+            css: activeTab() === 'open' ? 'text-[#094E3A]' : 'text-gray-500 hover:text-gray-700',
+            attr: { 'aria-current': activeTab() === 'open' ? 'page' : null },
+            click: function() { selectTab('open'); }
+        ">
+        <i class="fa-solid fa-book-open text-[22px]" aria-hidden="true"></i>
+        <span class="text-[12px] mt-1" data-bind="css: activeTab() === 'open' ? 'font-bold' : 'font-medium'">Open</span>
+        <div class="tab-bar w-8 h-1 rounded-full mt-1" data-bind="css: activeTab() === 'open' ? 'bg-[#094E3A]' : 'bg-transparent'"></div>
+    </button>
+
+    <button type="button" aria-label="Quran — surah list"
+        class="flex flex-col items-center w-16 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded-lg cursor-pointer select-none"
+        data-bind="
+            css: activeTab() === 'quran' ? 'text-[#094E3A]' : 'text-gray-500 hover:text-gray-700',
+            attr: { 'aria-current': activeTab() === 'quran' ? 'page' : null },
+            click: function() { selectTab('quran'); }
+        ">
+        <i class="fa-solid fa-book-quran text-[22px]" aria-hidden="true"></i>
+        <span class="text-[12px] mt-1" data-bind="css: activeTab() === 'quran' ? 'font-bold' : 'font-medium'">Quran</span>
+        <div class="tab-bar w-8 h-1 rounded-full mt-1" data-bind="css: activeTab() === 'quran' ? 'bg-[#094E3A]' : 'bg-transparent'"></div>
+    </button>
+
+    <button type="button" aria-label="Bookmarks"
+        class="flex flex-col items-center w-16 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded-lg cursor-pointer select-none"
+        data-bind="
+            css: activeTab() === 'bookmark' ? 'text-[#094E3A]' : 'text-gray-500 hover:text-gray-700',
+            attr: { 'aria-current': activeTab() === 'bookmark' ? 'page' : null },
+            click: function() { selectTab('bookmark'); }
+        ">
+        <i class="fa-solid fa-bookmark text-[22px]" aria-hidden="true"></i>
+        <span class="text-[12px] mt-1" data-bind="css: activeTab() === 'bookmark' ? 'font-bold' : 'font-medium'">Bookmark</span>
+        <div class="tab-bar w-8 h-1 rounded-full mt-1" data-bind="css: activeTab() === 'bookmark' ? 'bg-[#094E3A]' : 'bg-transparent'"></div>
+    </button>
+</nav>
+        </script>
+
+        <script type="text/html" id="quran-main-page-template">
+<div class="flex flex-col flex-1 min-h-0 bg-white" data-ref="page.quran.main">
+    <header class="bg-white shrink-0 border-b border-[#E0E0E0]">
+        <div class="px-4 py-3 flex items-center justify-between">
+            <button type="button" aria-label="Go to Dashboard"
+                class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+                data-bind="click: goHome">
+                <i class="fa-solid fa-arrow-left text-lg" aria-hidden="true"></i>
+            </button>
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-book-quran text-[#094E3A] text-[18px]" aria-hidden="true"></i>
+                <h1 class="text-lg font-bold text-gray-900 tracking-tight">Quran</h1>
+            </div>
+            <button type="button" aria-label="Settings"
+                class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+                data-bind="click: goToSettings">
+                <i class="fa-solid fa-gear text-lg" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="px-4 pb-4 pt-1">
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-magnifying-glass text-gray-400" aria-hidden="true"></i>
+                </div>
+                <input type="text" aria-label="Search surah by name or number"
+                    class="w-full flat-card bg-white border border-[#E0E0E0] rounded-xl pl-10 pr-4 py-3.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#094E3A] focus:ring-1 focus:ring-[#094E3A] transition-colors"
+                    placeholder="Search Surah Name or Number…"
+                    data-bind="textInput: searchQuery">
+                <!-- ko if: searchQuery -->
+                <button type="button" aria-label="Clear search"
+                    class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600"
+                    data-bind="click: clearSearch">
+                    <i class="fa-solid fa-xmark text-sm" aria-hidden="true"></i>
+                </button>
+                <!-- /ko -->
+            </div>
+        </div>
+    </header>
+    <main class="px-4 py-4 flex-1 min-h-0 space-y-3 overflow-y-auto bg-white" data-ref="page.quran.main.scroll">
+        <!-- ko component: {
+            name: 'quran-main-feed',
+            params: {
+                searchQuery: searchQuery,
+                onSelectSurah: handleSelectSurah
+            }
+        } --><!-- /ko -->
+    </main>
+</div>
+        </script>
+
+        <script type="text/html" id="quran-main-feed-template">
+<div class="space-y-3 pb-6" data-ref="page.quran.feed">
+    <!-- ko if: isLoading -->
+    <div class="space-y-3">
+        <div class="h-24 rounded-2xl bg-gray-100 animate-pulse"></div>
+        <div class="h-24 rounded-2xl bg-gray-100 animate-pulse"></div>
+        <div class="h-24 rounded-2xl bg-gray-100 animate-pulse"></div>
+        <div class="h-24 rounded-2xl bg-gray-100 animate-pulse"></div>
+    </div>
+    <!-- /ko -->
+    <!-- ko ifnot: isLoading -->
+    <div class="space-y-3" data-bind="foreach: filteredSurahs">
+        <!-- ko component: {
+            name: 'quran-main-card',
+            params: {
+                item: $data,
+                onClick: function(item, event) { $parent.handleCardClick(item, event); }
+            }
+        } --><!-- /ko -->
+    </div>
+    <!-- ko if: !hasResults() -->
+    <div class="py-16 text-center">
+        <i class="fa-solid fa-magnifying-glass text-gray-300 text-3xl mb-3" aria-hidden="true"></i>
+        <p class="text-sm text-gray-500">No surah found for that search.</p>
+    </div>
+    <!-- /ko -->
+    <!-- /ko -->
+</div>
+        </script>
+
+        <script type="text/html" id="quran-main-card-template">
+<button type="button"
+    class="w-full text-left flat-card bg-white border border-[#E0E0E0] rounded-2xl p-4 flex items-center gap-3.5 hover:bg-gray-50/50 cursor-pointer transition-colors group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+    data-bind="attr: { 'data-surah': number, 'aria-label': name }, click: handleClick">
+    <div class="w-12 h-12 shrink-0 rounded-xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center font-bold text-lg border border-emerald-100 group-hover:bg-[#094E3A] group-hover:text-white transition-colors"
+        data-bind="text: number">
+    </div>
+    <div class="flex-1 min-w-0 flex flex-col justify-center">
+        <h3 lang="te" class="font-bold text-gray-900 text-lg font-telugu leading-tight truncate"
+            data-bind="text: name"></h3>
+        <p lang="te" class="text-sm text-gray-500 font-telugu mt-0.5 truncate"
+            data-bind="text: meaning"></p>
+        <p class="text-xs text-gray-500 font-telugu mt-1 flex items-center gap-1.5">
+            <i class="text-[10px]" data-bind="css: revelationIcon" aria-hidden="true"></i>
+            <span data-bind="text: revelationMetaText"></span>
+        </p>
+    </div>
+    <div class="shrink-0 text-right pr-2">
+        <span lang="ar" dir="rtl" class="font-arabic text-3xl text-[#094E3A] leading-none"
+            data-bind="text: arabicName"></span>
+    </div>
+</button>
+        </script>
+
+        <script type="text/html" id="quran-open-page-template">
+<div class="flex flex-col flex-1 min-h-0 bg-white" data-ref="page.quran.open">
+    <header class="px-4 py-3 flex items-center justify-between bg-white shrink-0 border-b border-[#E0E0E0]">
+        <button type="button" aria-label="Back to surah list"
+            class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+            data-bind="click: goBack">
+            <i class="fa-solid fa-arrow-left text-lg" aria-hidden="true"></i>
+        </button>
+        <div class="flex flex-col items-center">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-book-open text-[#094E3A] text-[15px]" aria-hidden="true"></i>
+                <h1 class="text-base font-bold text-gray-900 tracking-tight" data-bind="text: readerTitle"></h1>
+            </div>
+            <span class="text-[11px] text-gray-500 font-medium mt-0.5" data-bind="text: readerSubtitle"></span>
+        </div>
+        <button type="button" aria-label="Settings"
+            class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+            data-bind="click: goToSettings">
+            <i class="fa-solid fa-gear text-lg" aria-hidden="true"></i>
+        </button>
+    </header>
+    <main class="px-4 py-5 flex-1 min-h-0 space-y-5 overflow-y-auto bg-white" id="quranReaderScroll" data-ref="page.quran.open.scroll">
+        <!-- ko component: {
+            name: 'quran-open-feed',
+            params: {
+                surahNum: currentSurahNum,
+                ayahs: ayahs,
+                isLoading: isLoading,
+                hasError: hasError,
+                errorMessage: errorMessage,
+                activeAudioKey: activeAudioKey,
+                bookmarkKeys: bookmarkKeys,
+                onBookmarkToggle: handleBookmarkToggle,
+                onPlay: handlePlay,
+                onRetry: loadCurrentSurah
+            }
+        } --><!-- /ko -->
+    </main>
+</div>
+        </script>
+
+        <script type="text/html" id="quran-open-feed-template">
+<div class="space-y-5 pb-6" data-ref="page.quran.open.feed">
+    <!-- ko if: isLoading -->
+    <div class="flex flex-col items-center justify-center py-20 text-center">
+        <i class="fa-solid fa-spinner fa-spin text-[#094E3A] text-3xl mb-4" aria-hidden="true"></i>
+        <p class="text-sm text-gray-500">Loading surah…</p>
+    </div>
+    <!-- /ko -->
+    <!-- ko if: hasError -->
+    <div class="flex flex-col items-center justify-center py-20 text-center">
+        <i class="fa-solid fa-triangle-exclamation text-amber-500 text-3xl mb-4" aria-hidden="true"></i>
+        <p class="text-sm text-gray-700 font-medium">Unable to load this surah.</p>
+        <p class="text-xs text-gray-400 mt-1" data-bind="text: errorMessage"></p>
+        <button type="button"
+            class="mt-4 px-4 py-2 bg-[#E8F5E9] text-[#094E3A] font-bold text-xs rounded-xl hover:bg-[#094E3A] hover:text-white transition-colors"
+            data-bind="click: retryLoad">
+            <i class="fa-solid fa-rotate-right mr-1.5" aria-hidden="true"></i> Retry
+        </button>
+    </div>
+    <!-- /ko -->
+    <!-- ko if: !isLoading() && !hasError() -->
+        <!-- ko if: ayahs().length === 0 -->
+        <div class="py-16 text-center">
+            <i class="fa-solid fa-inbox text-gray-300 text-3xl mb-3" aria-hidden="true"></i>
+            <p class="text-sm text-gray-500">No ayahs found in this surah file.</p>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: ayahs().length > 0 -->
+        <div class="space-y-5" data-bind="foreach: ayahs">
+            <!-- ko component: {
+                name: 'quran-open-card',
+                params: {
+                    ayah: $data,
+                    surahNum: $parent.surahNum,
+                    isBookmarked: $parent.getAyahBookmarkObservable($data),
+                    isPlaying: $parent.getAyahPlayingObservable($data),
+                    onBookmarkToggle: function(ayah, event) { $parent.handleBookmarkToggle(ayah, event); },
+                    onPlay: function(ayah, event) { $parent.handlePlay(ayah, event); }
+                }
+            } --><!-- /ko -->
+        </div>
+        <!-- /ko -->
+    <!-- /ko -->
+</div>
+        </script>
+
+        <script type="text/html" id="quran-open-card-template">
+<div class="flat-card bg-white border border-[#E0E0E0] rounded-2xl flex flex-col overflow-hidden p-5 shadow-none"
+    data-bind="attr: { 'id': 'ayah-' + surahNum + '-' + ayahNum, 'data-ayah': ayahNum }">
+    <div class="flex justify-between items-center pb-4">
+        <div class="px-3 py-1 rounded-xl bg-[#E8F5E9] text-[#094E3A] font-bold text-sm border border-emerald-100"
+            data-bind="text: badgeText">
+        </div>
+        <div class="flex items-center gap-5 text-gray-500">
+            <button type="button"
+                class="hover:text-[#094E3A] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded cursor-pointer"
+                data-bind="attr: { 'aria-label': (isPlaying() ? 'Pause' : 'Play') + ' ayah ' + badgeText }, click: handlePlayClick">
+                <i class="text-xl" data-bind="css: isPlaying() ? 'fa-solid fa-circle-pause text-[#094E3A] animate-pulse' : 'fa-solid fa-play'" aria-hidden="true"></i>
+            </button>
+            <button type="button"
+                class="hover:text-[#094E3A] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded cursor-pointer"
+                data-bind="attr: { 'aria-label': (isBookmarked() ? 'Remove bookmark for' : 'Bookmark') + ' ayah ' + badgeText }, click: handleBookmarkClick">
+                <i class="text-xl" data-bind="css: isBookmarked() ? 'fa-solid fa-bookmark text-[#094E3A]' : 'fa-regular fa-bookmark'" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <div class="pt-4 pb-6">
+        <p dir="rtl" lang="ar" class="font-arabic text-3xl sm:text-4xl leading-loose text-right text-[#094E3A]"
+            data-bind="text: arabicText">
+        </p>
+    </div>
+    <div class="w-full h-px bg-[#E0E0E0] mb-5"></div>
+    <div>
+        <p lang="te" class="font-telugu text-[20px] sm:text-[22px] text-gray-900 leading-[1.8] font-medium"
+            data-bind="html: translationHtml">
+        </p>
+    </div>
+    <!-- ko if: hasFootnotes -->
+    <div data-bind="html: footnotesHtml"></div>
+    <!-- /ko -->
+</div>
+        </script>
+
+        <script type="text/html" id="quran-bookmark-page-template">
+<div class="flex flex-col flex-1 min-h-0 bg-white" data-ref="page.quran.bookmark">
+    <header class="px-4 py-3 flex items-center justify-between bg-white shrink-0 border-b border-[#E0E0E0]">
+        <button type="button" aria-label="Back to surah list"
+            class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+            data-bind="click: goBack">
+            <i class="fa-solid fa-arrow-left text-lg" aria-hidden="true"></i>
+        </button>
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-bookmark text-[#094E3A] text-[16px]" aria-hidden="true"></i>
+            <h1 class="text-lg font-bold text-gray-900 tracking-tight">Bookmarks</h1>
+        </div>
+        <button type="button" aria-label="Settings"
+            class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+            data-bind="click: goToSettings">
+            <i class="fa-solid fa-gear text-lg" aria-hidden="true"></i>
+        </button>
+    </header>
+    <main class="px-4 py-4 flex-1 min-h-0 overflow-y-auto bg-white" data-ref="page.quran.bookmark.scroll">
+        <!-- ko component: {
+            name: 'quran-bookmark-feed',
+            params: {
+                bookmarks: bookmarks,
+                onSelectBookmark: handleSelectBookmark,
+                onRemoveBookmark: handleRemoveBookmark
+            }
+        } --><!-- /ko -->
+    </main>
+</div>
+        </script>
+
+        <script type="text/html" id="quran-bookmark-feed-template">
+<div class="h-full flex flex-col" data-ref="page.quran.bookmark.feed">
+    <!-- ko if: bookmarks().length === 0 -->
+    <div class="flex-1 flex flex-col items-center justify-center text-center py-16 px-4">
+        <div class="w-16 h-16 rounded-2xl bg-[#E8F5E9] flex items-center justify-center mb-4">
+            <i class="fa-regular fa-bookmark text-[#094E3A] text-2xl" aria-hidden="true"></i>
+        </div>
+        <h2 class="font-bold text-gray-900 text-lg">No Bookmarks Yet</h2>
+        <p class="text-sm text-gray-500 mt-1 max-w-[240px] leading-relaxed">
+            Tap the bookmark icon on any ayah to save it here for quick access.
+        </p>
+    </div>
+    <!-- /ko -->
+    <!-- ko if: bookmarks().length > 0 -->
+    <div class="space-y-3 pb-6" data-bind="foreach: bookmarks">
+        <!-- ko component: {
+            name: 'quran-bookmark-card',
+            params: {
+                item: $data,
+                onClick: function(item, event) { $parent.handleCardClick(item, event); },
+                onRemove: function(item, event) { $parent.handleRemove(item, event); }
+            }
+        } --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+</div>
+        </script>
+
+        <script type="text/html" id="quran-bookmark-card-template">
+<div class="flat-card bg-white border border-[#E0E0E0] rounded-2xl p-4 flex flex-col gap-2.5 hover:bg-gray-50/50 cursor-pointer transition-colors shadow-none"
+    data-bind="click: handleClick">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-lg bg-[#E8F5E9] text-[#094E3A] font-bold text-xs border border-emerald-100"
+                data-bind="text: badgeText"></span>
+            <span class="font-bold text-gray-900 text-sm font-telugu"
+                data-bind="text: surahName"></span>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="font-arabic text-xl text-[#094E3A] leading-none" dir="rtl"
+                data-bind="text: arabicName"></span>
+            <button type="button" aria-label="Remove bookmark"
+                class="w-7 h-7 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition-colors focus-visible:outline-none"
+                data-bind="click: handleRemove">
+                <i class="fa-solid fa-trash-can text-xs" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <!-- ko if: arabicText -->
+    <p dir="rtl" lang="ar" class="font-arabic text-lg text-right text-gray-800 line-clamp-2 leading-relaxed"
+        data-bind="text: arabicText"></p>
+    <!-- /ko -->
+    <!-- ko if: translation -->
+    <p lang="te" class="font-telugu text-sm text-gray-600 line-clamp-2 leading-relaxed"
+        data-bind="text: translation"></p>
+    <!-- /ko -->
+</div>
+        </script>
     </div>
 
     <!-- Knockout.js Library (CDN) -->
@@ -3686,6 +4076,7 @@
     <script type="module" src="services/duas-store.js"></script>
     <script type="module" src="services/settings-store.js"></script>
     <script type="module" src="services/router.js"></script>
+    <script type="module" src="quran/quran.js"></script>
     <script src="app.js"></script>
     <script src="navigation.js"></script>
     <script type="module" src="services/app-view-model.js"></script>
@@ -3736,6 +4127,13 @@
                 window.initDuas();
             } else if (window.DuasApp && typeof window.DuasApp.init === 'function') {
                 window.DuasApp.init();
+            }
+            if (typeof initQuran === 'function') {
+                initQuran();
+            } else if (window.initQuran) {
+                window.initQuran();
+            } else if (window.QuranApp && typeof window.QuranApp.init === 'function') {
+                window.QuranApp.init();
             }
             if (window.PrayerHistoryApp && typeof window.PrayerHistoryApp.init === 'function') {
                 window.PrayerHistoryApp.init();

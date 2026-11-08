@@ -156,21 +156,24 @@ export function OldFeedViewModel(params) {
         if (e && e.stopPropagation) e.stopPropagation();
         var it = (item && item.raw) ? item.raw : item;
         var m = month || self.curOldMonth();
-        if (typeof p.onCardClick === 'function') {
-            p.onCardClick(it, m, e);
+        var cb = p.onClick || p.onCardClick;
+        if (typeof cb === 'function') {
+            cb(it, m, e);
         }
     };
 
     self.handleEditClick = function (item, e) {
         if (e && e.stopPropagation) e.stopPropagation();
         var it = (item && item.raw) ? item.raw : item;
-        if (typeof p.onEditClick === 'function') {
-            p.onEditClick(it, e);
+        var cb = p.onEditClick || p.onEdit;
+        if (typeof cb === 'function') {
+            cb(it, e);
         }
     };
 
-    self.onCardClick = (typeof p.onCardClick === 'function') ? self.handleCardClick : null;
-    self.onEditClick = (typeof p.onEditClick === 'function') ? self.handleEditClick : null;
+    self.onCardClick = self.handleCardClick;
+    self.onClick = self.handleCardClick;
+    self.onEditClick = self.handleEditClick;
 
     self.onAdvanceMonth = function (d, e) {
         if (e && e.stopPropagation) e.stopPropagation();

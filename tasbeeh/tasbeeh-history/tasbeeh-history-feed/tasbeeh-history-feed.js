@@ -86,14 +86,19 @@ export function HistoryFeedViewModel(params) {
 
     self.handleReopen = function (monthKey, e) {
         if (e && e.stopPropagation) e.stopPropagation();
-        if (typeof p.onReopenMonth === 'function') {
-            p.onReopenMonth(monthKey, e);
+        var key = (monthKey && typeof monthKey === 'object') ? (monthKey.monthKey || monthKey.id) : monthKey;
+        var cb = p.onClick || p.onReopenMonth || p.onReopen;
+        if (typeof cb === 'function') {
+            cb(key, e);
         } else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.reopenLastMonth === 'function') {
             _win.TasbeehOldApp.reopenLastMonth();
         } else {
             reopenLastMonth();
         }
     };
+    self.onReopenMonth = self.handleReopen;
+    self.onReopen = self.handleReopen;
+    self.onClick = self.handleReopen;
 
     self.onResetCompleted = function (d, e) {
         if (e && e.stopPropagation) e.stopPropagation();

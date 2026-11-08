@@ -24,13 +24,12 @@ function getEl(id) {
 }
 
 var pad2 = function (n) {
-    if (typeof _win.pad2 === 'function' && _win.pad2 !== pad2) return _win.pad2(n);
     return n < 10 ? '0' + n : '' + n;
 };
 
 var td = function () {
-    if (typeof _win.td === 'function' && _win.td !== td) return _win.td();
-    return new Date().toISOString().slice(0, 10);
+    var d = new Date();
+    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
 };
 
 function showToast(msg, duration) {
@@ -40,8 +39,12 @@ function showToast(msg, duration) {
 }
 
 var formatMonthLabel = function (m) {
-    if (typeof _win.formatMonthLabel === 'function' && _win.formatMonthLabel !== formatMonthLabel) return _win.formatMonthLabel(m);
-    return m;
+    if (!m) return '';
+    var parts = m.split('-');
+    if (parts.length < 2) return m;
+    var yr = parseInt(parts[0], 10), mo = parseInt(parts[1], 10) - 1;
+    var d = new Date(yr, mo, 1);
+    return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
 };
 
 var renderIcon = function (opt) {

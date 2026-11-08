@@ -3,7 +3,7 @@
    Path: tasbeeh/tasbeeh-history/tasbeeh-history-card/tasbeeh-history-card.js
    ============================================================ */
 
-import { unwrap, reopenLastMonth } from '../../tasbeeh-service.js';
+import { unwrap } from '../../tasbeeh-service.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 
@@ -17,13 +17,15 @@ export function HistoryCardViewModel(params) {
     if (!(this instanceof HistoryCardViewModel)) return new HistoryCardViewModel(params);
 
     var p = (params && typeof params === 'function') ? params() : (params || {});
+    var item = (p.item && typeof p.item === 'function') ? p.item() : (p.item || p);
     var self = this;
 
-    self.monthKey = unwrap(p.monthKey, '');
-    self.monthLabel = unwrap(p.monthLabel, self.monthKey);
-    self.indexNumber = unwrap(p.indexNumber, 1);
-    self.status = unwrap(p.status, 'pending'); // 'completed' | 'active' | 'pending'
-    self.canReopen = unwrap(p.canReopen, false);
+    self.item = item;
+    self.monthKey = unwrap(item.monthKey, unwrap(p.monthKey, ''));
+    self.monthLabel = unwrap(item.monthLabel, unwrap(p.monthLabel, self.monthKey));
+    self.indexNumber = unwrap(item.indexNumber, unwrap(p.indexNumber, 1));
+    self.status = unwrap(item.status, unwrap(p.status, 'pending')); // 'completed' | 'active' | 'pending'
+    self.canReopen = unwrap(item.canReopen, unwrap(p.canReopen, false));
 
     self.indexText = '#' + self.indexNumber;
 
@@ -41,16 +43,18 @@ export function HistoryCardViewModel(params) {
         self.badgeText = 'Pending';
     }
 
-    self.onReopen = function (d, e) {
-        if (e && e.stopPropagation) e.stopPropagation();
-        if (typeof p.onReopen === 'function') {
-            p.onReopen(self.monthKey, e);
-        } else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.reopenLastMonth === 'function') {
-            _win.TasbeehOldApp.reopenLastMonth();
-        } else {
-            reopenLastMonth();
+    self.handleClick = function (d, e) {
+        var event = e || (d && d.stopPropagation ? d : null);
+        if (event && event.stopPropagation) {
+            event.stopPropagation();
+        }
+        var targetMonth = self.monthKey;
+        var cb = p.onClick || p.onReopen || p.onCardClick || (p.item && (p.item.onClick || p.item.onReopen));
+        if (typeof cb === 'function') {
+            cb(targetMonth, event);
         }
     };
+    self.onReopen = self.handleClick;
 }
 
 if (typeof window !== 'undefined') {

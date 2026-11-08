@@ -81,7 +81,7 @@
             </div>
             <!-- /ko -->
             <div class="flex flex-col gap-3" id="tbOldTodoGrid" data-bind="foreach: todoItems">
-                <!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
+                <!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onClick: $parent.onCardClick, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
             </div>
         </div>
 
@@ -98,7 +98,7 @@
             </div>
             <!-- /ko -->
             <div class="flex flex-col gap-3" id="tbOldDoneGrid" data-bind="foreach: doneItems">
-                <!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
+                <!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onClick: $parent.onCardClick, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
             </div>
         </div>
     </div>

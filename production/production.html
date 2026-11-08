@@ -1,17 +1,18 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nur Prayer — Prayer Tracker, Tasbeeh & Duas</title><meta name="description" content="Modern Islamic prayer tracker, Qaza missed prayer calculation, digital tasbeeh with monthly calendar clearance, and Quranic Duas with Telugu transliteration."><meta name="theme-color" content="#123D2E"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Nur Prayer"><link rel="manifest" href="manifest.json"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="apple-touch-icon" href="icons/icon-192.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link
-href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;700&family=Noto+Sans+Telugu:wght@400;500;700&display=swap"
+href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;700&family=Noto+Sans+Telugu:wght@400;500;700&display=swap"
 rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 crossorigin="anonymous"><script>
 if (window.location.protocol === 'file:') {
 console.warn('[Nur Prayer] Running via file:// protocol. ES modules and Service Worker require HTTP/HTTPS (run "npm start") or use the standalone distribution in "production/production.html".');
 }
-</script><script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script><style type="text/tailwindcss">@theme{--color-brand:#123D2E;--color-brand-light:#e8f4ed;--color-brand-soft:#f4f8f5;--color-brand-hover:#1c6847;--color-borderGrey:#E0E0E0;--color-border-grey:#E0E0E0;--color-surfaceBg:#F5F8F6;--color-surface-bg:#F5F8F6;--color-cardBg:#FFFFFF;--color-card-bg:#FFFFFF;--color-warningBg:#FFF7ED;--color-warningText:#C2410C;--color-warningBorder:#FFEDD5;--color-activeLight:#EBF6F1;--color-iconDoneBg:#D1E5DC;--color-borderHover:#CCDCD5;--color-heartRed:#E5484D;--color-pinAmber:#C98A1B;--color-pinBg:#FDF6E3;--color-gr-bg:#ffffff;--color-gr-bgSoft:#f4f5f7;--color-gr-bg-soft:#f4f5f7;--color-gr-text:#49665F;--color-gr-text1:#123D2E;--color-gr-textMuted:#7C918A;--color-gr-text-muted:#7C918A;--color-gr-accent:#25845B;--color-gr-accentSoft:#e6f5ec;--color-gr-accent-soft:#e6f5ec;--color-gr-warning:#ca8a04;--color-gr-danger:#ef4444;--color-gr-dangerSoft:#fce8e6;--color-gr-danger-soft:#fce8e6;--color-gr-successSoft:#e6f5ec;--color-gr-borderCalc:#bbf7d0;--color-dash-mintBg:#e1eee5;--color-dash-mint-bg:#e1eee5;--color-dash-nextGold:#c49a5b;--color-dash-textMuted:#69887c;--color-dash-timelineLine:#cdded4;--font-sans:'Inter',sans-serif;--font-arabic:'Noto Sans Arabic',sans-serif;--font-telugu:'Noto Sans Telugu',sans-serif}:root{--brand:#123D2E;--brand-light:#e8f4ed;--brand-soft:#f4f8f5;--text-primary:#123D2E;--text-secondary:#49665F;--text-muted:#7C918A;--border-borderGrey:#E0E0E0;--dash-mint-bg:#e1eee5;--warning-bg:#FFF7ED;--warning-text:#C2410C;--warning-border:#FFEDD5;--gr-accent:#25845B;--gr-accent-soft:#e6f5ec;--gr-danger-soft:#fce8e6;--font-primary:'Inter',sans-serif;--font-arabic:'Noto Sans Arabic',sans-serif;--font-telugu:'Noto Sans Telugu',sans-serif}.collapse{visibility:visible !important}.collapse.show{display:block !important;visibility:visible !important}.collapse:not(.show){display:none !important}app-icon{display:contents}.group-toggle.collapsed .toggle-icon,.group-toggle[aria-expanded="false"] .toggle-icon{transform:rotate(-90deg)}.d-none{display:none !important}.modal.show{display:flex !important}.modal-backdrop.show{opacity:1 !important;pointer-events:auto !important}#duaAddModal.active,#duaPinConfirmModal.active,#duaAdminModal.active{display:flex !important}.page{width:100%;height:100%;min-height:0;background:#ffffff;overflow:hidden;display:flex;flex-direction:column;position:relative;flex:1 1 0%}.app-bottom-nav,nav[id$="BottomNav"]{width:100%;height:60px;min-height:60px;max-height:60px;background:#ffffff;border-top:1px solid #E0E0E0;flex-shrink:0;z-index:100;display:flex;align-items:center;justify-content:space-around;padding:0 0.5rem}.nav-tab{height:100%;background:transparent;border:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-weight:500;color:#7C918A;padding:6px 0 4px 0;position:relative;cursor:pointer;transition:color 0.15s ease;user-select:none;-webkit-user-select:none}.nav-tab i,.nav-tab .nav-tab-icon{font-size:1.25rem !important;line-height:1;display:inline-flex;align-items:center;justify-content:center;transition:transform 0.15s ease,color 0.15s ease}.nav-tab span:not(.nav-tab-icon){font-size:0.72rem;line-height:1.1;letter-spacing:0.2px;transition:color 0.15s ease,font-weight 0.15s ease}.nav-tab:hover{color:#123D2E}.nav-tab:hover i{transform:translateY(-1px)}.nav-tab.active,.nav-tab.text-brand{color:#123D2E !important;font-weight:700}.nav-tab.active i{color:#123D2E !important;transform:scale(1.08)}.nav-tab.active span:not(.nav-tab-icon){font-weight:700;color:#123D2E !important}.nav-tab.active::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:32px;height:3px;border-radius:0 0 3px 3px;background-color:#123D2E}.icon-box{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;width:46px;height:46px;min-width:46px;min-height:46px;border-radius:14px;background-color:#e1eee5;color:#123D2E;transition:transform 0.15s ease,background-color 0.2s ease,color 0.2s ease;user-select:none;-webkit-user-select:none;overflow:hidden}.icon-box.icon-box-sm,.icon-box-sm,.icon-box.sm{width:36px;height:36px;min-width:36px;min-height:36px;border-radius:10px}.icon-box.icon-box-md,.icon-box-md,.icon-box.md{width:46px;height:46px;min-width:46px;min-height:46px;border-radius:14px}.icon-box.icon-box-lg,.icon-box-lg,.icon-box.lg{width:56px;height:56px;min-width:56px;min-height:56px;border-radius:16px}.icon-box.icon-box-xl,.icon-box-xl,.icon-box.xl{width:64px;height:64px;min-width:64px;min-height:64px;border-radius:18px}.icon-box i,.icon-box svg{display:inline-flex;align-items:center;justify-content:center;font-size:1.25rem;line-height:1}.icon-box.icon-box-sm i,.icon-box-sm i{font-size:1rem}.icon-box.icon-box-lg i,.icon-box-lg i{font-size:1.5rem}.icon-box.icon-box-xl i,.icon-box-xl i{font-size:1.75rem}.dash-nav-card:hover .icon-box,.tb-dhikr-card:hover .icon-box,.tb-card:hover .icon-box{transform:scale(1.05)}.icon-box.active,.icon-box.icon-box-active,.icon-box.icon-current,.icon-box-active{background-color:#123D2E !important;color:#ffffff !important}.icon-box.active i,.icon-box.icon-box-active i,.icon-box.icon-current i,.icon-box-active i{color:#ffffff !important}.icon-box.icon-done{background-color:#D1E5DC !important;color:#123D2E !important}.icon-box.icon-missed{background-color:#fce8e6 !important;color:#ef4444 !important}.icon-box.bg-brand-light{background-color:#e8f4ed !important;color:#123D2E !important}.icon-box.bg-brand-soft{background-color:#f4f8f5 !important;color:#123D2E !important}.icon-box.bg-warning-subtle{background-color:#FFF7ED !important;color:#ca8a04 !important}.icon-box.bg-danger-subtle{background-color:#fce8e6 !important;color:#ef4444 !important}.dash-timeline-badge{margin-top:10px;display:inline-block;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:600;line-height:1.2;text-align:center;white-space:nowrap}.badge-passed,.badge-status-passed{background:#dfeae2;color:#4e7364}.badge-active,.badge-status-active{background:#123D2E;color:#ffffff}.badge-next,.badge-status-next{background:#c49a5b;color:#ffffff}.badge-upcoming,.badge-status-upcoming{background:#dfeae2;color:#4e7364}.dash-tracker-badge{position:absolute;top:9px;right:9px;font-size:10.5px;font-weight:700;line-height:1;padding:3px 8px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;z-index:3;letter-spacing:-0.1px;pointer-events:none}.dash-tracker-badge-missed{background:#fce8e6;color:#ef4444;border:1px solid rgba(239,68,68,0.25)}.dash-tracker-badge-zero{background:#e1eee5;color:#123D2E;border:1px solid rgba(18,61,46,0.12)}.tb-fab,.dua-fab,#tbAddBtn,#duaFabBtn{position:absolute;right:20px;bottom:76px;width:54px;height:54px;border-radius:16px;background-color:#123D2E;color:#ffffff;border:none;font-size:20px;cursor:pointer;z-index:90;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.15s;box-shadow:0 4px 14px rgba(18,61,46,0.25)}.tb-fab:hover,.dua-fab:hover,#tbAddBtn:hover,#duaFabBtn:hover{background-color:#1c6847;transform:scale(1.05)}.tb-fab:active,.dua-fab:active,#tbAddBtn:active,#duaFabBtn:active{transform:scale(0.95)}.offcanvas-bottom,.offcanvas-backdrop{display:none !important}.bottom-sheet-backdrop{position:fixed;inset:0;background:rgba(18,61,46,0.45);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:1100;display:flex;align-items:flex-end;justify-content:center;animation:sheetBackdropFadeIn 0.2s ease-out}.bottom-sheet-card,#sheet2{position:relative !important;background:#ffffff !important;width:100% !important;max-width:480px !important;height:90vh !important;height:90dvh !important;max-height:90vh !important;max-height:90dvh !important;margin:0 auto !important;border-radius:1.25rem 1.25rem 0 0 !important;box-shadow:0 -10px 30px rgba(0,0,0,0.18) !important;display:flex !important;flex-direction:column !important;overflow:hidden !important;z-index:1101 !important;transform:translateY(0) !important;animation:sheetCardSlideUp 0.25s cubic-bezier(0.16,1,0.3,1) !important;animation-fill-mode:forwards !important}.bottom-sheet-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #eef2f0;gap:0.75rem;flex-shrink:0}.bottom-sheet-title{margin:0;font-size:1.125rem;font-weight:700;color:#123d2e;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sheet-close-btn{background:none;border:none;font-size:1.5rem;line-height:1;width:2rem;height:2rem;border-radius:9999px;display:inline-flex;align-items:center;justify-content:center;color:#64748b;cursor:pointer;transition:background-color 0.15s,color 0.15s,transform 0.1s;flex-shrink:0;padding:0}.sheet-close-btn:hover{background-color:#f1f5f3;color:#123d2e}.sheet-close-btn:active{transform:scale(0.92)}.bottom-sheet-body{padding:1.25rem;overflow-y:auto;flex:1 1 auto;min-height:0;-webkit-overflow-scrolling:touch}@keyframes sheetBackdropFadeIn{from{opacity:0}to{opacity:1}}@keyframes sheetCardSlideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}.fs-1{font-size:2.25rem !important}.fs-2{font-size:1.75rem !important}.fs-3{font-size:1.5rem !important}.fs-4{font-size:1.25rem !important}.fs-5{font-size:1.125rem !important}.fs-6{font-size:1rem !important}.fs-xs{font-size:0.75rem !important}.fs-sm{font-size:0.875rem !important}.fs-base{font-size:1rem !important}.fw-bold{font-weight:700 !important}.fw-semibold{font-weight:600 !important}.fw-medium{font-weight:500 !important}.fw-normal{font-weight:400 !important}.lh-1{line-height:1 !important}.lh-sm{line-height:1.25 !important}.text-danger{color:#ef4444 !important}.text-muted{color:#7C918A !important}.text-gr1{color:#123D2E !important}.badge-pill-custom{gap:0.35rem;padding:0.35rem 0.65rem;border-radius:9999px;font-weight:700;font-size:0.75rem}.badge-missed{background-color:#fce8e6;color:#ef4444}.badge-done{background-color:#e6f5ec;color:#123D2E}.rounded-3{border-radius:0.75rem !important}.rounded-4{border-radius:1rem !important}.bg-danger-subtle{background-color:#fce8e6 !important}.bg-warning-subtle{background-color:#FFF7ED !important}.bg-brand-light{background-color:#e8f4ed !important}.bg-surface{background-color:#F5F8F6 !important}.btn-action-round{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background-color:#ffffff;color:#123D2E;border:1px solid #E0E0E0;transition:background-color 0.2s,transform 0.15s}.btn-action-round:hover{background-color:#F5F8F6}.btn-action-round:active{transform:scale(0.96)}.tb-card{background:#ffffff;border-radius:24px;border:1px solid #E0E0E0;box-shadow:none;transition:transform 0.15s ease,border-color 0.15s ease;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;padding:16px 20px;user-select:none;-webkit-user-select:none;box-sizing:border-box;min-height:auto;width:100%}.tb-card:hover{border-color:#123D2E}.tb-card:active{transform:scale(0.99)}.tb-card.tb-card-done{background:#ffffff;border-color:#E0E0E0;opacity:0.85}.tb-card-bookmark{background:#ffffff;border:1px solid #E0E0E0;border-radius:24px;box-shadow:none;transition:transform 0.15s ease,border-color 0.15s ease;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;padding:16px 20px;user-select:none;-webkit-user-select:none;box-sizing:border-box;width:100%}.tb-card-bookmark:hover{border-color:#123D2E}.tb-card-bookmark:active{transform:scale(0.99)}.tb-card-top{display:flex;align-items:flex-start;justify-content:space-between;width:100%}.tb-card-actions{display:flex;flex-direction:column;align-items:center;justify-content:space-between;align-self:stretch;flex-shrink:0;padding:2px 0;margin-left:auto}.tb-btn-edit{width:36px;height:36px;border-radius:9999px;background-color:#f3f4f6;color:#4b5563;border:1px solid #e5e7eb;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color 0.15s ease,transform 0.12s ease;padding:0}.tb-btn-edit:hover{background-color:#e5e7eb}.tb-btn-edit:active{transform:scale(0.92)}.tb-chevron{color:#D1D5DB;flex-shrink:0;transition:transform 0.15s ease,color 0.15s ease;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center}.tb-card:hover .tb-chevron{color:#123D2E;transform:translateX(2px)}.tb-card-body{display:flex;flex-direction:column;justify-content:center;width:100%;min-width:0}.tb-card-title{font-size:1.05rem;font-weight:700;color:#111827;letter-spacing:-0.015em;line-height:1.25;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tb-card-meta{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:16px;width:100%}.tb-meta-row{display:inline-flex;align-items:center;gap:6px;font-size:0.8rem;line-height:1.35;color:#6B7280;font-weight:500;white-space:nowrap}.tb-meta-icon{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px}.tb-meta-text{display:inline-flex;align-items:center;flex-wrap:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:0.75rem}.tb-meta-sub-row{font-size:0.7rem !important;color:#7C918A !important;margin-top:2px}.tb-val-num{color:#123D2E;font-weight:600}.tb-val-done{font-weight:700;color:#123D2E}.tb-val-total{color:#7C918A;font-weight:500}.tb-counter-overlay{position:absolute;inset:0;z-index:200;background-color:#ffffff}.tb-cal-target-pill{gap:6px;background-color:#e6f5ec;color:#123D2E;font-weight:700;font-size:0.8rem;padding:4px 12px;border-radius:9999px;border:1px solid rgba(37,132,91,0.2)}.tb-cal-nav-btn{width:36px;height:36px;border-radius:10px;border:1px solid #E0E0E0;background-color:#ffffff;color:#123D2E;cursor:pointer;transition:all 0.15s ease;font-size:0.8rem;display:flex;align-items:center;justify-content:center}.tb-cal-nav-btn:hover{background-color:#e8f4ed;border-color:#123D2E}.tb-cal-cell{aspect-ratio:1;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;background-color:#ffffff;transition:all 0.2s cubic-bezier(0.16,1,0.3,1);position:relative;user-select:none;-webkit-user-select:none;min-height:0;padding:0}.tb-cal-cell:hover{border-color:#123D2E;transform:translateY(-1px)}.tb-cal-cell:active{transform:scale(0.92)}.tb-cal-cell.tb-cal-empty{background-color:transparent;border:none;cursor:default}.tb-cal-cell.tb-cal-empty:hover{border-color:transparent;transform:none}.tb-cal-date{font-size:clamp(1rem,3.8vw,1.25rem);font-weight:700;color:#123D2E;line-height:1;font-variant-numeric:tabular-nums}.tb-cal-cell.tb-cal-pop{animation:tbCalPop 0.3s ease}.tb-cal-cell.tb-cal-done{background-color:#e6f5ec;border-color:rgba(37,132,91,0.35)}.tb-cal-cell.tb-cal-done .tb-cal-date{color:#123D2E;text-decoration:line-through;text-decoration-thickness:2.5px}.tb-cal-cell.tb-cal-done::after{content:'✓';position:absolute;top:3px;right:5px;font-size:0.65rem;color:#123D2E;font-weight:800;line-height:1}.tb-cal-cell.tb-cal-today{border-color:#123D2E}.tb-cal-cell.tb-cal-today .tb-cal-date{color:#123D2E}.tb-cal-cell.tb-cal-future{opacity:0.45;cursor:not-allowed}.is-fav .fa-heart{color:#E5484D !important}.is-pinned .fa-thumbtack{color:#C98A1B !important}.hidden-date-input{position:fixed !important;left:0 !important;bottom:0 !important;width:1px !important;height:1px !important;opacity:0 !important;pointer-events:none !important;border:0 !important;padding:0 !important;margin:0 !important;z-index:-9999 !important;clip:rect(0,0,0,0) !important;clip-path:inset(50%) !important}.pinned-dua-card{background-color:#ffffff;border:1px solid #E0E0E0;border-radius:16px;padding:16px 18px;border-left:5px solid #123D2E;position:relative;cursor:pointer;box-shadow:none;transition:background 0.2s,transform 0.15s}.pinned-dua-card:hover{background-color:#F5F8F6;transform:translateY(-1px)}.pinned-badge{position:absolute;top:14px;right:16px;font-size:18px;display:inline-flex;align-items:center;justify-content:center}.pinned-dua-number{font-size:0.875rem;font-weight:700;color:#123D2E}.pinned-dua-surah{font-size:1.05rem;font-weight:700;color:#123D2E;font-family:'Noto Sans Telugu',sans-serif;padding-right:32px}.pinned-dua-text{font-size:0.95rem;color:#49665F;line-height:1.7;font-family:'Noto Sans Telugu',sans-serif}.pinned-dua-meaning{font-size:0.875rem;color:#7C918A;line-height:1.7;font-family:'Noto Sans Telugu',sans-serif;border-top:1px dashed #E0E0E0;padding-top:10px}.dua-list-item{padding:12px 14px;border-radius:14px;background-color:#ffffff;border:1px solid #E0E0E0;cursor:pointer;box-shadow:none;transition:background 0.2s,border-color 0.2s,transform 0.15s}.dua-list-item:hover{background-color:#F5F8F6;border-color:#CCDCD5;transform:translateY(-1px)}.dua-item-number{font-size:0.875rem;font-weight:700;color:#123D2E;min-width:36px}.dua-item-surah{font-size:0.95rem;font-weight:600;color:#123D2E;font-family:'Noto Sans Telugu',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dua-item-preview{font-size:0.8rem;color:#7C918A;font-family:'Noto Sans Telugu',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}.dua-action-btn{background:none;border:none;font-size:18px;cursor:pointer;padding:6px;border-radius:8px;line-height:1;transition:background 0.2s,transform 0.15s;display:inline-flex;align-items:center;justify-content:center}.dua-action-btn:hover{background:rgba(0,0,0,0.05);transform:scale(1.1)}.dua-pin-btn{opacity:0.5}.dua-pin-btn:hover{background:rgba(201,138,27,0.12);opacity:1}.dua-pin-btn.pinned{opacity:1;transform:rotate(-15deg) scale(1.1)}@keyframes tbCalPop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}@keyframes tbRippleAnim{to{transform:scale(4);opacity:0}}</style></head><body><div class="w-full max-w-[480px] h-screen h-[100dvh] mx-auto overflow-hidden relative bg-white flex flex-col font-sans text-brand p-0"
+</script><script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script><style type="text/tailwindcss">@theme{--color-brand:#123D2E;--color-brand-light:#e8f4ed;--color-brand-soft:#f4f8f5;--color-brand-hover:#1c6847;--color-borderGrey:#E0E0E0;--color-border-grey:#E0E0E0;--color-surfaceBg:#F5F8F6;--color-surface-bg:#F5F8F6;--color-cardBg:#FFFFFF;--color-card-bg:#FFFFFF;--color-warningBg:#FFF7ED;--color-warningText:#C2410C;--color-warningBorder:#FFEDD5;--color-activeLight:#EBF6F1;--color-iconDoneBg:#D1E5DC;--color-borderHover:#CCDCD5;--color-heartRed:#E5484D;--color-pinAmber:#C98A1B;--color-pinBg:#FDF6E3;--color-gr-bg:#ffffff;--color-gr-bgSoft:#f4f5f7;--color-gr-bg-soft:#f4f5f7;--color-gr-text:#49665F;--color-gr-text1:#123D2E;--color-gr-textMuted:#7C918A;--color-gr-text-muted:#7C918A;--color-gr-accent:#25845B;--color-gr-accentSoft:#e6f5ec;--color-gr-accent-soft:#e6f5ec;--color-gr-warning:#ca8a04;--color-gr-danger:#ef4444;--color-gr-dangerSoft:#fce8e6;--color-gr-danger-soft:#fce8e6;--color-gr-successSoft:#e6f5ec;--color-gr-borderCalc:#bbf7d0;--color-dash-mintBg:#e1eee5;--color-dash-mint-bg:#e1eee5;--color-dash-nextGold:#c49a5b;--color-dash-textMuted:#69887c;--color-dash-timelineLine:#cdded4;--font-sans:'Inter',sans-serif;--font-arabic:'Amiri','Noto Sans Arabic',serif;--font-telugu:'Noto Sans Telugu',sans-serif}:root{--brand:#123D2E;--brand-light:#e8f4ed;--brand-soft:#f4f8f5;--text-primary:#123D2E;--text-secondary:#49665F;--text-muted:#7C918A;--border-borderGrey:#E0E0E0;--dash-mint-bg:#e1eee5;--warning-bg:#FFF7ED;--warning-text:#C2410C;--warning-border:#FFEDD5;--gr-accent:#25845B;--gr-accent-soft:#e6f5ec;--gr-danger-soft:#fce8e6;--font-primary:'Inter',sans-serif;--font-arabic:'Amiri','Noto Sans Arabic',serif;--font-telugu:'Noto Sans Telugu',sans-serif}.flat-card{background-color:#FFFFFF;border:1px solid #E0E0E0;box-shadow:none !important}.collapse{visibility:visible !important}.collapse.show{display:block !important;visibility:visible !important}.collapse:not(.show){display:none !important}app-icon{display:contents}.group-toggle.collapsed .toggle-icon,.group-toggle[aria-expanded="false"] .toggle-icon{transform:rotate(-90deg)}.d-none{display:none !important}.modal.show{display:flex !important}.modal-backdrop.show{opacity:1 !important;pointer-events:auto !important}#duaAddModal.active,#duaPinConfirmModal.active,#duaAdminModal.active{display:flex !important}.page{width:100%;height:100%;min-height:0;background:#ffffff;overflow:hidden;display:flex;flex-direction:column;position:relative;flex:1 1 0%}.app-bottom-nav,nav[id$="BottomNav"]{width:100%;height:60px;min-height:60px;max-height:60px;background:#ffffff;border-top:1px solid #E0E0E0;flex-shrink:0;z-index:100;display:flex;align-items:center;justify-content:space-around;padding:0 0.5rem}.nav-tab{height:100%;background:transparent;border:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-weight:500;color:#7C918A;padding:6px 0 4px 0;position:relative;cursor:pointer;transition:color 0.15s ease;user-select:none;-webkit-user-select:none}.nav-tab i,.nav-tab .nav-tab-icon{font-size:1.25rem !important;line-height:1;display:inline-flex;align-items:center;justify-content:center;transition:transform 0.15s ease,color 0.15s ease}.nav-tab span:not(.nav-tab-icon){font-size:0.72rem;line-height:1.1;letter-spacing:0.2px;transition:color 0.15s ease,font-weight 0.15s ease}.nav-tab:hover{color:#123D2E}.nav-tab:hover i{transform:translateY(-1px)}.nav-tab.active,.nav-tab.text-brand{color:#123D2E !important;font-weight:700}.nav-tab.active i{color:#123D2E !important;transform:scale(1.08)}.nav-tab.active span:not(.nav-tab-icon){font-weight:700;color:#123D2E !important}.nav-tab.active::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:32px;height:3px;border-radius:0 0 3px 3px;background-color:#123D2E}.icon-box{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;width:46px;height:46px;min-width:46px;min-height:46px;border-radius:14px;background-color:#e1eee5;color:#123D2E;transition:transform 0.15s ease,background-color 0.2s ease,color 0.2s ease;user-select:none;-webkit-user-select:none;overflow:hidden}.icon-box.icon-box-sm,.icon-box-sm,.icon-box.sm{width:36px;height:36px;min-width:36px;min-height:36px;border-radius:10px}.icon-box.icon-box-md,.icon-box-md,.icon-box.md{width:46px;height:46px;min-width:46px;min-height:46px;border-radius:14px}.icon-box.icon-box-lg,.icon-box-lg,.icon-box.lg{width:56px;height:56px;min-width:56px;min-height:56px;border-radius:16px}.icon-box.icon-box-xl,.icon-box-xl,.icon-box.xl{width:64px;height:64px;min-width:64px;min-height:64px;border-radius:18px}.icon-box i,.icon-box svg{display:inline-flex;align-items:center;justify-content:center;font-size:1.25rem;line-height:1}.icon-box.icon-box-sm i,.icon-box-sm i{font-size:1rem}.icon-box.icon-box-lg i,.icon-box-lg i{font-size:1.5rem}.icon-box.icon-box-xl i,.icon-box-xl i{font-size:1.75rem}.dash-nav-card:hover .icon-box,.tb-dhikr-card:hover .icon-box,.tb-card:hover .icon-box{transform:scale(1.05)}.icon-box.active,.icon-box.icon-box-active,.icon-box.icon-current,.icon-box-active{background-color:#123D2E !important;color:#ffffff !important}.icon-box.active i,.icon-box.icon-box-active i,.icon-box.icon-current i,.icon-box-active i{color:#ffffff !important}.icon-box.icon-done{background-color:#D1E5DC !important;color:#123D2E !important}.icon-box.icon-missed{background-color:#fce8e6 !important;color:#ef4444 !important}.icon-box.bg-brand-light{background-color:#e8f4ed !important;color:#123D2E !important}.icon-box.bg-brand-soft{background-color:#f4f8f5 !important;color:#123D2E !important}.icon-box.bg-warning-subtle{background-color:#FFF7ED !important;color:#ca8a04 !important}.icon-box.bg-danger-subtle{background-color:#fce8e6 !important;color:#ef4444 !important}.dash-timeline-badge{margin-top:10px;display:inline-block;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:600;line-height:1.2;text-align:center;white-space:nowrap}.badge-passed,.badge-status-passed{background:#dfeae2;color:#4e7364}.badge-active,.badge-status-active{background:#123D2E;color:#ffffff}.badge-next,.badge-status-next{background:#c49a5b;color:#ffffff}.badge-upcoming,.badge-status-upcoming{background:#dfeae2;color:#4e7364}.dash-tracker-badge{position:absolute;top:9px;right:9px;font-size:10.5px;font-weight:700;line-height:1;padding:3px 8px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;z-index:3;letter-spacing:-0.1px;pointer-events:none}.dash-tracker-badge-missed{background:#fce8e6;color:#ef4444;border:1px solid rgba(239,68,68,0.25)}.dash-tracker-badge-zero{background:#e1eee5;color:#123D2E;border:1px solid rgba(18,61,46,0.12)}.tb-fab,.dua-fab,#tbAddBtn,#duaFabBtn{position:absolute;right:20px;bottom:76px;width:54px;height:54px;border-radius:16px;background-color:#123D2E;color:#ffffff;border:none;font-size:20px;cursor:pointer;z-index:90;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.15s;box-shadow:0 4px 14px rgba(18,61,46,0.25)}.tb-fab:hover,.dua-fab:hover,#tbAddBtn:hover,#duaFabBtn:hover{background-color:#1c6847;transform:scale(1.05)}.tb-fab:active,.dua-fab:active,#tbAddBtn:active,#duaFabBtn:active{transform:scale(0.95)}.offcanvas-bottom,.offcanvas-backdrop{display:none !important}.bottom-sheet-backdrop{position:fixed;inset:0;background:rgba(18,61,46,0.45);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:1100;display:flex;align-items:flex-end;justify-content:center;animation:sheetBackdropFadeIn 0.2s ease-out}.bottom-sheet-card,#sheet2{position:relative !important;background:#ffffff !important;width:100% !important;max-width:480px !important;height:90vh !important;height:90dvh !important;max-height:90vh !important;max-height:90dvh !important;margin:0 auto !important;border-radius:1.25rem 1.25rem 0 0 !important;box-shadow:0 -10px 30px rgba(0,0,0,0.18) !important;display:flex !important;flex-direction:column !important;overflow:hidden !important;z-index:1101 !important;transform:translateY(0) !important;animation:sheetCardSlideUp 0.25s cubic-bezier(0.16,1,0.3,1) !important;animation-fill-mode:forwards !important}.bottom-sheet-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #eef2f0;gap:0.75rem;flex-shrink:0}.bottom-sheet-title{margin:0;font-size:1.125rem;font-weight:700;color:#123d2e;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sheet-close-btn{background:none;border:none;font-size:1.5rem;line-height:1;width:2rem;height:2rem;border-radius:9999px;display:inline-flex;align-items:center;justify-content:center;color:#64748b;cursor:pointer;transition:background-color 0.15s,color 0.15s,transform 0.1s;flex-shrink:0;padding:0}.sheet-close-btn:hover{background-color:#f1f5f3;color:#123d2e}.sheet-close-btn:active{transform:scale(0.92)}.bottom-sheet-body{padding:1.25rem;overflow-y:auto;flex:1 1 auto;min-height:0;-webkit-overflow-scrolling:touch}@keyframes sheetBackdropFadeIn{from{opacity:0}to{opacity:1}}@keyframes sheetCardSlideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}.fs-1{font-size:2.25rem !important}.fs-2{font-size:1.75rem !important}.fs-3{font-size:1.5rem !important}.fs-4{font-size:1.25rem !important}.fs-5{font-size:1.125rem !important}.fs-6{font-size:1rem !important}.fs-xs{font-size:0.75rem !important}.fs-sm{font-size:0.875rem !important}.fs-base{font-size:1rem !important}.fw-bold{font-weight:700 !important}.fw-semibold{font-weight:600 !important}.fw-medium{font-weight:500 !important}.fw-normal{font-weight:400 !important}.lh-1{line-height:1 !important}.lh-sm{line-height:1.25 !important}.text-danger{color:#ef4444 !important}.text-muted{color:#7C918A !important}.text-gr1{color:#123D2E !important}.badge-pill-custom{gap:0.35rem;padding:0.35rem 0.65rem;border-radius:9999px;font-weight:700;font-size:0.75rem}.badge-missed{background-color:#fce8e6;color:#ef4444}.badge-done{background-color:#e6f5ec;color:#123D2E}.rounded-3{border-radius:0.75rem !important}.rounded-4{border-radius:1rem !important}.bg-danger-subtle{background-color:#fce8e6 !important}.bg-warning-subtle{background-color:#FFF7ED !important}.bg-brand-light{background-color:#e8f4ed !important}.bg-surface{background-color:#F5F8F6 !important}.btn-action-round{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background-color:#ffffff;color:#123D2E;border:1px solid #E0E0E0;transition:background-color 0.2s,transform 0.15s}.btn-action-round:hover{background-color:#F5F8F6}.btn-action-round:active{transform:scale(0.96)}.tb-card{background:#ffffff;border-radius:24px;border:1px solid #E0E0E0;box-shadow:none;transition:transform 0.15s ease,border-color 0.15s ease;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;padding:16px 20px;user-select:none;-webkit-user-select:none;box-sizing:border-box;min-height:auto;width:100%}.tb-card:hover{border-color:#123D2E}.tb-card:active{transform:scale(0.99)}.tb-card.tb-card-done{background:#ffffff;border-color:#E0E0E0;opacity:0.85}.tb-card-bookmark{background:#ffffff;border:1px solid #E0E0E0;border-radius:24px;box-shadow:none;transition:transform 0.15s ease,border-color 0.15s ease;cursor:pointer;display:flex;flex-direction:row;align-items:center;gap:16px;padding:16px 20px;user-select:none;-webkit-user-select:none;box-sizing:border-box;width:100%}.tb-card-bookmark:hover{border-color:#123D2E}.tb-card-bookmark:active{transform:scale(0.99)}.tb-card-top{display:flex;align-items:flex-start;justify-content:space-between;width:100%}.tb-card-actions{display:flex;flex-direction:column;align-items:center;justify-content:space-between;align-self:stretch;flex-shrink:0;padding:2px 0;margin-left:auto}.tb-btn-edit{width:36px;height:36px;border-radius:9999px;background-color:#f3f4f6;color:#4b5563;border:1px solid #e5e7eb;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color 0.15s ease,transform 0.12s ease;padding:0}.tb-btn-edit:hover{background-color:#e5e7eb}.tb-btn-edit:active{transform:scale(0.92)}.tb-chevron{color:#D1D5DB;flex-shrink:0;transition:transform 0.15s ease,color 0.15s ease;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center}.tb-card:hover .tb-chevron{color:#123D2E;transform:translateX(2px)}.tb-card-body{display:flex;flex-direction:column;justify-content:center;width:100%;min-width:0}.tb-card-title{font-size:1.05rem;font-weight:700;color:#111827;letter-spacing:-0.015em;line-height:1.25;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tb-card-meta{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:16px;width:100%}.tb-meta-row{display:inline-flex;align-items:center;gap:6px;font-size:0.8rem;line-height:1.35;color:#6B7280;font-weight:500;white-space:nowrap}.tb-meta-icon{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px}.tb-meta-text{display:inline-flex;align-items:center;flex-wrap:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:0.75rem}.tb-meta-sub-row{font-size:0.7rem !important;color:#7C918A !important;margin-top:2px}.tb-val-num{color:#123D2E;font-weight:600}.tb-val-done{font-weight:700;color:#123D2E}.tb-val-total{color:#7C918A;font-weight:500}.tb-counter-overlay{position:absolute;inset:0;z-index:200;background-color:#ffffff}.tb-cal-target-pill{gap:6px;background-color:#e6f5ec;color:#123D2E;font-weight:700;font-size:0.8rem;padding:4px 12px;border-radius:9999px;border:1px solid rgba(37,132,91,0.2)}.tb-cal-nav-btn{width:36px;height:36px;border-radius:10px;border:1px solid #E0E0E0;background-color:#ffffff;color:#123D2E;cursor:pointer;transition:all 0.15s ease;font-size:0.8rem;display:flex;align-items:center;justify-content:center}.tb-cal-nav-btn:hover{background-color:#e8f4ed;border-color:#123D2E}.tb-cal-cell{aspect-ratio:1;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;background-color:#ffffff;transition:all 0.2s cubic-bezier(0.16,1,0.3,1);position:relative;user-select:none;-webkit-user-select:none;min-height:0;padding:0}.tb-cal-cell:hover{border-color:#123D2E;transform:translateY(-1px)}.tb-cal-cell:active{transform:scale(0.92)}.tb-cal-cell.tb-cal-empty{background-color:transparent;border:none;cursor:default}.tb-cal-cell.tb-cal-empty:hover{border-color:transparent;transform:none}.tb-cal-date{font-size:clamp(1rem,3.8vw,1.25rem);font-weight:700;color:#123D2E;line-height:1;font-variant-numeric:tabular-nums}.tb-cal-cell.tb-cal-pop{animation:tbCalPop 0.3s ease}.tb-cal-cell.tb-cal-done{background-color:#e6f5ec;border-color:rgba(37,132,91,0.35)}.tb-cal-cell.tb-cal-done .tb-cal-date{color:#123D2E;text-decoration:line-through;text-decoration-thickness:2.5px}.tb-cal-cell.tb-cal-done::after{content:'✓';position:absolute;top:3px;right:5px;font-size:0.65rem;color:#123D2E;font-weight:800;line-height:1}.tb-cal-cell.tb-cal-today{border-color:#123D2E}.tb-cal-cell.tb-cal-today .tb-cal-date{color:#123D2E}.tb-cal-cell.tb-cal-future{opacity:0.45;cursor:not-allowed}.is-fav .fa-heart{color:#E5484D !important}.is-pinned .fa-thumbtack{color:#C98A1B !important}.hidden-date-input{position:fixed !important;left:0 !important;bottom:0 !important;width:1px !important;height:1px !important;opacity:0 !important;pointer-events:none !important;border:0 !important;padding:0 !important;margin:0 !important;z-index:-9999 !important;clip:rect(0,0,0,0) !important;clip-path:inset(50%) !important}.pinned-dua-card{background-color:#ffffff;border:1px solid #E0E0E0;border-radius:16px;padding:16px 18px;border-left:5px solid #123D2E;position:relative;cursor:pointer;box-shadow:none;transition:background 0.2s,transform 0.15s}.pinned-dua-card:hover{background-color:#F5F8F6;transform:translateY(-1px)}.pinned-badge{position:absolute;top:14px;right:16px;font-size:18px;display:inline-flex;align-items:center;justify-content:center}.pinned-dua-number{font-size:0.875rem;font-weight:700;color:#123D2E}.pinned-dua-surah{font-size:1.05rem;font-weight:700;color:#123D2E;font-family:'Noto Sans Telugu',sans-serif;padding-right:32px}.pinned-dua-text{font-size:0.95rem;color:#49665F;line-height:1.7;font-family:'Noto Sans Telugu',sans-serif}.pinned-dua-meaning{font-size:0.875rem;color:#7C918A;line-height:1.7;font-family:'Noto Sans Telugu',sans-serif;border-top:1px dashed #E0E0E0;padding-top:10px}.dua-list-item{padding:12px 14px;border-radius:14px;background-color:#ffffff;border:1px solid #E0E0E0;cursor:pointer;box-shadow:none;transition:background 0.2s,border-color 0.2s,transform 0.15s}.dua-list-item:hover{background-color:#F5F8F6;border-color:#CCDCD5;transform:translateY(-1px)}.dua-item-number{font-size:0.875rem;font-weight:700;color:#123D2E;min-width:36px}.dua-item-surah{font-size:0.95rem;font-weight:600;color:#123D2E;font-family:'Noto Sans Telugu',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dua-item-preview{font-size:0.8rem;color:#7C918A;font-family:'Noto Sans Telugu',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}.dua-action-btn{background:none;border:none;font-size:18px;cursor:pointer;padding:6px;border-radius:8px;line-height:1;transition:background 0.2s,transform 0.15s;display:inline-flex;align-items:center;justify-content:center}.dua-action-btn:hover{background:rgba(0,0,0,0.05);transform:scale(1.1)}.dua-pin-btn{opacity:0.5}.dua-pin-btn:hover{background:rgba(201,138,27,0.12);opacity:1}.dua-pin-btn.pinned{opacity:1;transform:rotate(-15deg) scale(1.1)}@keyframes tbCalPop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}@keyframes tbRippleAnim{to{transform:scale(4);opacity:0}}</style></head><body><div class="w-full max-w-[480px] h-screen h-[100dvh] mx-auto overflow-hidden relative bg-white flex flex-col font-sans text-brand p-0"
 id="app"><main class="flex flex-col grow overflow-hidden relative" id="appMain"><div id="dashboardPage" class="flex flex-col grow page"
 data-bind="component: { name: 'dashboard-page', params: dashboard }, css: { 'd-none': !isDashboardVisible(), 'flex': isDashboardVisible() }"></div><div id="trackerPage" class="d-none flex-col grow page"
 data-bind="component: { name: 'tracker-page', params: tracker }, css: { 'd-none': !isTrackerVisible(), 'flex': isTrackerVisible() }"></div><div id="settingsPage" class="d-none flex-col grow page"
 data-bind="component: { name: 'settings-page', params: settings }, css: { 'd-none': !isSettingsVisible(), 'flex': isSettingsVisible() }"></div><div id="tasbeehPage" class="d-none flex-col grow page"
 data-bind="component: { name: 'tasbeeh-page', params: tasbeeh }, css: { 'd-none': !isTasbeehVisible(), 'flex': isTasbeehVisible() }"></div><div id="duasPage" class="d-none flex-col grow page"
-data-bind="component: { name: 'duas-page', params: duas }, css: { 'd-none': !isDuasVisible(), 'flex': isDuasVisible() }"></div></main><div id="sheet2Wrapper"><app-bottom-sheet params="isOpen: sheet2IsOpen, title: sheet2Title, subtitle: sheet2Sub, icon: sheet2Icon, cardId: 'sheet2', bodyId: 'sheet2Body', showBackBtn: true, onClose: onSheet2Close"><div id="sheetMissedContent" class="d-none"><div class="text-center text-gr-textMuted py-5 d-none" id="sheetMissedEmpty"><i class="fa-solid fa-star text-brand opacity-50 text-4xl"></i><p class="mt-3">No missed prayers from previous days.<br>All caught up!</p></div><div class="flex flex-col gap-2" id="sheetMissedList"></div></div><div id="sheetPeriodInfoContent" class="d-none"><div class="flex flex-col gap-2"><div class="rounded-2xl border border-borderGrey p-4 bg-brand-light flex flex-col shadow-none"><div class="flex items-center gap-2 mb-3"><i class="fa-solid fa-calendar-check text-brand text-lg"></i><strong class="text-base text-brand">Current Period</strong></div><div class="flex flex-wrap -mx-1 gap-2"><div class="w-1/2"><div class="p-3 rounded-xl text-center bg-white border border-borderGrey"><div class="text-gr-textMuted text-xs font-bold uppercase">Start</div><div class="font-bold text-xs text-brand" id="sheetPeriodStartVal">--</div></div></div><div class="w-1/2"><div class="p-3 rounded-xl text-center bg-white border border-borderGrey"><div class="text-gr-textMuted text-xs font-bold uppercase">End</div><div class="font-bold text-xs text-brand" id="sheetPeriodEndVal">--</div></div></div></div></div><div class="border border-borderGrey rounded-2xl p-3 bg-white shadow-none"><div class="flex items-center gap-2 mb-3"><i class="fa-solid fa-chart-simple text-brand text-base"></i><strong class="text-brand">Summary</strong></div><div class="flex flex-wrap -mx-1 gap-2 mb-3"><div class="w-1/2"><div class="p-3 rounded-xl text-center bg-surface border border-borderGrey"><div class="text-gr-textMuted text-xs font-bold uppercase">Total Days</div><div class="font-bold text-lg text-gr-warning" id="sheetPeriodTotalDaysVal">0
+data-bind="component: { name: 'duas-page', params: duas }, css: { 'd-none': !isDuasVisible(), 'flex': isDuasVisible() }"></div><div id="quranPage" class="d-none flex-col grow page"
+data-bind="component: { name: 'quran-page', params: quran }, css: { 'd-none': !isQuranVisible(), 'flex': isQuranVisible() }"></div></main><div id="sheet2Wrapper"><app-bottom-sheet params="isOpen: sheet2IsOpen, title: sheet2Title, subtitle: sheet2Sub, icon: sheet2Icon, cardId: 'sheet2', bodyId: 'sheet2Body', showBackBtn: true, onClose: onSheet2Close"><div id="sheetMissedContent" class="d-none"><div class="text-center text-gr-textMuted py-5 d-none" id="sheetMissedEmpty"><i class="fa-solid fa-star text-brand opacity-50 text-4xl"></i><p class="mt-3">No missed prayers from previous days.<br>All caught up!</p></div><div class="flex flex-col gap-2" id="sheetMissedList"></div></div><div id="sheetPeriodInfoContent" class="d-none"><div class="flex flex-col gap-2"><div class="rounded-2xl border border-borderGrey p-4 bg-brand-light flex flex-col shadow-none"><div class="flex items-center gap-2 mb-3"><i class="fa-solid fa-calendar-check text-brand text-lg"></i><strong class="text-base text-brand">Current Period</strong></div><div class="flex flex-wrap -mx-1 gap-2"><div class="w-1/2"><div class="p-3 rounded-xl text-center bg-white border border-borderGrey"><div class="text-gr-textMuted text-xs font-bold uppercase">Start</div><div class="font-bold text-xs text-brand" id="sheetPeriodStartVal">--</div></div></div><div class="w-1/2"><div class="p-3 rounded-xl text-center bg-white border border-borderGrey"><div class="text-gr-textMuted text-xs font-bold uppercase">End</div><div class="font-bold text-xs text-brand" id="sheetPeriodEndVal">--</div></div></div></div></div><div class="border border-borderGrey rounded-2xl p-3 bg-white shadow-none"><div class="flex items-center gap-2 mb-3"><i class="fa-solid fa-chart-simple text-brand text-base"></i><strong class="text-brand">Summary</strong></div><div class="flex flex-wrap -mx-1 gap-2 mb-3"><div class="w-1/2"><div class="p-3 rounded-xl text-center bg-surface border border-borderGrey"><div class="text-gr-textMuted text-xs font-bold uppercase">Total Days</div><div class="font-bold text-lg text-gr-warning" id="sheetPeriodTotalDaysVal">0
 </div></div></div><div class="w-1/2"><div class="p-3 rounded-xl text-center bg-surface border border-borderGrey"><div class="text-gr-textMuted text-xs font-bold uppercase">Total Missed</div><div class="font-bold text-lg text-gr-danger" id="sheetPeriodTotalMissedVal">0
 </div></div></div></div><div class="flex flex-wrap -mx-1 gap-2"><div class="w-full"><div class="p-3 rounded-xl text-center bg-surface border border-borderGrey"><div class="text-gr-textMuted text-xs font-bold uppercase">Days Missed</div><div class="font-bold text-lg text-gr-danger" id="sheetPeriodDaysMissedVal">0
 </div></div></div></div></div><div class="border border-borderGrey rounded-2xl p-3 bg-white shadow-none"><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-list-check text-gr-warning text-base"></i><strong class="text-brand">Per Prayer Breakdown</strong></div><div class="mt-2" id="sheetPeriodPerPrayer"></div></div><button type="button"
@@ -434,13 +435,13 @@ tabs: [
 ]
 }
 } --><!-- /ko --></script><script type="text/html" id="tasbeeh-current-card-template"><div class="tb-card bg-white border border-gray-200 rounded-3xl p-4 sm:p-5 flex flex-row gap-4 items-center cursor-pointer hover:border-gray-300 select-none transition-all w-full shadow-none"
-data-bind="attr: { 'data-id': id, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: onCardClick"
+data-bind="attr: { 'data-id': id, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: handleClick"
 role="button" tabindex="0"><div class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-2xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center text-2xl shrink-0 leading-none select-none overflow-hidden"><app-icon params="name: 'hands-praying'"></app-icon></div><div class="flex-1 min-w-0 flex flex-col justify-center gap-1.5"><h6 class="tb-card-title text-[17px] font-bold text-gray-900 leading-tight m-0 truncate"
 data-bind="text: title"></h6><div class="tb-card-meta flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 font-medium"><span class="tb-meta-row inline-flex items-center gap-1.5"><app-icon params="name: 'bullseye', color: 'text-gray-400', size: 'xs'"></app-icon><span>Target: <strong class="tb-val-num font-bold text-gray-900" data-bind="text: targetDisplay"></strong><span class="text-gray-500">/day</span></span></span><span class="tb-meta-row inline-flex items-center gap-1.5"><app-icon params="name: 'calendar', prefix: 'fa-regular', color: 'text-gray-400', size: 'xs'"></app-icon><span>Total: <span class="tb-val-total text-gray-600 font-medium" data-bind="text: totalDaysText"></span></span></span></div><div class="flex items-center gap-2.5 mt-1"><div class="inline-flex items-center gap-1.5 bg-[#094E3A] text-white text-xs font-semibold px-3 py-1 rounded-full shrink-0 leading-none shadow-none"><app-icon params="name: 'check', size: 'xs', customClass: 'text-[10px]'"></app-icon><span>Done</span></div><span class="tb-val-done text-lg font-bold text-gray-900 leading-none" data-bind="text: completedDays"></span><!-- ko if: isTodayDone --><span class="text-[#094E3A] font-bold inline-flex items-center gap-1 text-[11px] ml-2"><app-icon params="name: 'circle-check', color: 'text-[#094E3A]', size: 'xs'"></app-icon> Today Completed
 </span><!-- /ko --></div></div><div class="tb-card-actions flex flex-col items-center justify-between self-stretch shrink-0 py-0.5 pl-1"><button type="button"
 class="tb-btn-edit w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200/80 flex items-center justify-center text-gray-600 cursor-pointer active:scale-95 transition-all p-0"
 data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
-data-bind="click: onEditClick"><app-icon params="name: 'pencil', size: 'xs'"></app-icon></button><div class="text-gray-300 flex items-center justify-center"><app-icon params="name: 'chevron-right', size: 'xs'"></app-icon></div></div></div></script><script type="text/html" id="tasbeeh-current-feed-template"><div class="flex flex-col gap-3" id="tbList"><div class="border border-borderGrey p-3 text-center rounded-2xl bg-white shadow-none"
+data-bind="click: handleEditClick"><app-icon params="name: 'pencil', size: 'xs'"></app-icon></button><div class="text-gray-300 flex items-center justify-center"><app-icon params="name: 'chevron-right', size: 'xs'"></app-icon></div></div></div></script><script type="text/html" id="tasbeeh-current-feed-template"><div class="flex flex-col gap-3" id="tbList"><div class="border border-borderGrey p-3 text-center rounded-2xl bg-white shadow-none"
 id="tbCurrentAdvanceBanner"
 data-bind="visible: isMonthCompleted"><app-icon params="name: 'circle-check', color: 'text-brand', size: 'xl', customClass: 'mb-2'"></app-icon><div class="font-bold text-brand" id="tbCurrentAdvanceBannerText">All Dhikrs for this month Completed!</div><div class="text-gr-textMuted text-xs mb-3">All daily targets for this month have been achieved.</div><button type="button"
 class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
@@ -448,8 +449,8 @@ data-act="tb-current-advance"
 data-bind="click: onAdvanceMonth"><app-icon params="name: 'arrow-right', customClass: 'mr-1'"></app-icon> Finalize & Advance to Next Month
 </button></div><div id="tbEmptyState" class="border border-borderGrey p-4 text-center rounded-2xl bg-white shadow-none"
 data-bind="visible: isEmpty"><div class="mb-3"><app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50', dataRef: 'page.tasbeeh.empty-state.icon'"></app-icon></div><h5 class="font-bold text-brand mb-1">No Dhikr Yet</h5><p class="text-gr-textMuted text-xs mb-0">Tap “+” below to add your first chant and begin counting.</p></div><!-- ko ifnot: isEmpty --><!-- ko component: { name: 'app-tabs', params: statusTabsParams } --><!-- /ko --><div id="tbCurrentTodoList" role="tabpanel" aria-labelledby="tabTbCurrentTodo" class="mt-2 space-y-3"
-data-bind="visible: activeTab() === 'todo'"><!-- ko if: todoItems().length === 0 --><div id="tbCurrentTodoEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2"><div class="mb-2"><app-icon params="name: 'circle-check', color: 'text-brand', size: '2xl'"></app-icon></div><h6 class="font-bold text-brand text-sm mb-1">All Done for Today!</h6><p class="text-gr-textMuted text-xs mb-0">You have completed all daily Dhikr targets. Check the Completed tab to view them.</p></div><!-- /ko --><div class="flex flex-col gap-3" id="tbCurrentTodoGrid" data-bind="foreach: todoItems"><!-- ko component: { name: 'tasbeeh-current-card', params: { item: $data, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko --></div></div><div id="tbCurrentDoneList" role="tabpanel" aria-labelledby="tabTbCurrentDone" class="mt-2 space-y-3"
-data-bind="visible: activeTab() === 'completed'"><!-- ko if: doneItems().length === 0 --><div id="tbCurrentDoneEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2"><div class="mb-2"><app-icon params="name: 'circle-check', color: 'text-gr-textMuted', size: '2xl', customClass: 'opacity-40'"></app-icon></div><h6 class="font-bold text-gray-700 text-sm mb-1">No Completed Dhikrs Yet</h6><p class="text-gr-textMuted text-xs mb-0">Complete today's target for any Dhikr to see it listed here.</p></div><!-- /ko --><div class="flex flex-col gap-3" id="tbCurrentDoneGrid" data-bind="foreach: doneItems"><!-- ko component: { name: 'tasbeeh-current-card', params: { item: $data, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko --></div></div><!-- /ko --></div></script><script type="text/html" id="tasbeeh-current-form-template"><!-- ko if: isOpen --><div class="modal fixed inset-0 z-[1100] w-full h-full overflow-y-auto bg-black/45 backdrop-blur-[2px] transition-opacity flex items-center justify-center p-4"
+data-bind="visible: activeTab() === 'todo'"><!-- ko if: todoItems().length === 0 --><div id="tbCurrentTodoEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2"><div class="mb-2"><app-icon params="name: 'circle-check', color: 'text-brand', size: '2xl'"></app-icon></div><h6 class="font-bold text-brand text-sm mb-1">All Done for Today!</h6><p class="text-gr-textMuted text-xs mb-0">You have completed all daily Dhikr targets. Check the Completed tab to view them.</p></div><!-- /ko --><div class="flex flex-col gap-3" id="tbCurrentTodoGrid" data-bind="foreach: todoItems"><!-- ko component: { name: 'tasbeeh-current-card', params: { item: $data, onClick: $parent.onCardClick, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko --></div></div><div id="tbCurrentDoneList" role="tabpanel" aria-labelledby="tabTbCurrentDone" class="mt-2 space-y-3"
+data-bind="visible: activeTab() === 'completed'"><!-- ko if: doneItems().length === 0 --><div id="tbCurrentDoneEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2"><div class="mb-2"><app-icon params="name: 'circle-check', color: 'text-gr-textMuted', size: '2xl', customClass: 'opacity-40'"></app-icon></div><h6 class="font-bold text-gray-700 text-sm mb-1">No Completed Dhikrs Yet</h6><p class="text-gr-textMuted text-xs mb-0">Complete today's target for any Dhikr to see it listed here.</p></div><!-- /ko --><div class="flex flex-col gap-3" id="tbCurrentDoneGrid" data-bind="foreach: doneItems"><!-- ko component: { name: 'tasbeeh-current-card', params: { item: $data, onClick: $parent.onCardClick, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko --></div></div><!-- /ko --></div></script><script type="text/html" id="tasbeeh-current-form-template"><!-- ko if: isOpen --><div class="modal fixed inset-0 z-[1100] w-full h-full overflow-y-auto bg-black/45 backdrop-blur-[2px] transition-opacity flex items-center justify-center p-4"
 id="tasbeehModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="tbModalTitle"
 data-bind="click: handleBackdropClick"><div class="modal-dialog relative w-auto m-4 pointer-events-none max-w-[440px] w-full mx-auto min-h-[calc(100%-2rem)] flex items-center justify-center"><div class="modal-content relative flex flex-col w-full pointer-events-auto bg-white rounded-2xl border border-borderGrey shadow-2xl p-4"
 data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); }"><div class="modal-header border-0 pb-0 flex items-center gap-3 pt-4 px-4"><span class="icon-box icon-box-lg"><i class="fa-solid fa-hand-holding-heart text-brand text-xl"></i></span><h5 class="modal-title font-bold text-lg grow mb-0" id="tbModalTitle"
@@ -498,13 +499,13 @@ data-bind="click: nextMonth, style: { opacity: canNext() ? '1' : '0.2', pointerE
 data-bind="attr: { 'data-date': dateStr, 'aria-label': dayNumber + ' ' + (isCompleted() ? 'Completed' : 'Pending') }, css: { 'tb-cal-done': isCompleted, 'tb-cal-today': isToday }, click: $parent.toggleDay"
 role="button" tabindex="0"><span class="tb-cal-date text-lg font-bold text-brand leading-none inline-flex items-center justify-center"
 data-bind="text: dayNumber"></span></div><!-- /ko --></div></div></div></div></script><script type="text/html" id="tasbeeh-old-card-template"><div class="tb-card bg-white border border-gray-200 rounded-3xl p-4 sm:p-5 flex flex-row gap-4 items-center cursor-pointer hover:border-gray-300 select-none transition-all w-full shadow-none"
-data-bind="attr: { 'data-id': id, 'data-month': month, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: onCardClick"
+data-bind="attr: { 'data-id': id, 'data-month': month, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: handleClick"
 role="button" tabindex="0"><div class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-2xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center text-2xl shrink-0 leading-none select-none overflow-hidden"><app-icon params="name: 'hands-praying'"></app-icon></div><div class="flex-1 min-w-0 flex flex-col justify-center gap-1.5"><h6 class="tb-card-title text-[17px] font-bold text-gray-900 leading-tight m-0 truncate"
 data-bind="text: title"></h6><div class="tb-card-meta flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 font-medium"><span class="tb-meta-row inline-flex items-center gap-1.5"><app-icon params="name: 'bullseye', color: 'text-gray-400', size: 'xs'"></app-icon><span>Target: <strong class="tb-val-num font-bold text-gray-900" data-bind="text: targetDisplay"></strong><span class="text-gray-500">/day</span></span></span><span class="tb-meta-row inline-flex items-center gap-1.5"><app-icon params="name: 'calendar', prefix: 'fa-regular', color: 'text-gray-400', size: 'xs'"></app-icon><span>Total: <span class="tb-val-total text-gray-600 font-medium" data-bind="text: totalDaysText"></span></span></span></div><div class="flex items-center gap-2.5 mt-1"><div class="inline-flex items-center gap-1.5 bg-[#094E3A] text-white text-xs font-semibold px-3 py-1 rounded-full shrink-0 leading-none shadow-none"><app-icon params="name: 'check', size: 'xs', customClass: 'text-[10px]'"></app-icon><span>Done</span></div><span class="tb-val-done text-lg font-bold text-gray-900 leading-none" data-bind="text: completedDays"></span><!-- ko if: isComplete --><span class="text-[#094E3A] font-bold inline-flex items-center gap-1 text-[11px] ml-2"><app-icon params="name: 'circle-check', color: 'text-[#094E3A]', size: 'xs'"></app-icon> Month Completed
 </span><!-- /ko --></div></div><div class="tb-card-actions flex flex-col items-center justify-between self-stretch shrink-0 py-0.5 pl-1"><button type="button"
 class="tb-btn-edit w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200/80 flex items-center justify-center text-gray-600 cursor-pointer active:scale-95 transition-all p-0"
 data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
-data-bind="click: onEditClick"><app-icon params="name: 'pencil', size: 'xs'"></app-icon></button><div class="text-gray-300 flex items-center justify-center"><app-icon params="name: 'chevron-right', size: 'xs'"></app-icon></div></div></div></script><script type="text/html" id="tasbeeh-old-feed-template"><div class="flex flex-col gap-3"><div class="border border-borderGrey p-4 text-center rounded-2xl bg-white shadow-none"
+data-bind="click: handleEditClick"><app-icon params="name: 'pencil', size: 'xs'"></app-icon></button><div class="text-gray-300 flex items-center justify-center"><app-icon params="name: 'chevron-right', size: 'xs'"></app-icon></div></div></div></script><script type="text/html" id="tasbeeh-old-feed-template"><div class="flex flex-col gap-3"><div class="border border-borderGrey p-4 text-center rounded-2xl bg-white shadow-none"
 id="tbOldEmptyRange"
 data-bind="visible: isEmptyRange"><div class="mb-3"><app-icon params="name: 'calendar-xmark', color: 'text-gr-warning', size: '4xl', customClass: 'opacity-75'"></app-icon></div><h5 class="font-bold text-brand mb-2">No Previous Months in Period</h5><p class="text-gr-textMuted text-xs mb-3">
 Your tracking start date is <strong id="tbOldEmptyRangeStart" data-bind="text: startDateLabel"></strong>, which falls in or after the current period.<br>
@@ -532,8 +533,8 @@ class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-bra
 data-act="tb-old-advance"
 data-bind="click: onAdvanceMonth"><app-icon params="name: 'arrow-left', customClass: 'mr-1'"></app-icon> Finalize & Move to Previous Month
 </button></div><!-- ko component: { name: 'app-tabs', params: statusTabsParams } --><!-- /ko --><div id="tbOldTodoList" role="tabpanel" aria-labelledby="tabTbOldTodo" class="mt-2 space-y-3"
-data-bind="visible: activeTab() === 'todo'"><!-- ko if: todoItems().length === 0 --><div id="tbOldTodoEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2"><div class="mb-2"><app-icon params="name: 'circle-check', color: 'text-brand', size: '2xl'"></app-icon></div><h6 class="font-bold text-brand text-sm mb-1">All Targets Completed!</h6><p class="text-gr-textMuted text-xs mb-0">All Dhikr targets for this month are finished. You can advance to the previous month above.</p></div><!-- /ko --><div class="flex flex-col gap-3" id="tbOldTodoGrid" data-bind="foreach: todoItems"><!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko --></div></div><div id="tbOldDoneList" role="tabpanel" aria-labelledby="tabTbOldDone" class="mt-2 space-y-3"
-data-bind="visible: activeTab() === 'completed'"><!-- ko if: doneItems().length === 0 --><div id="tbOldDoneEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2"><div class="mb-2"><app-icon params="name: 'circle-check', color: 'text-gr-textMuted', size: '2xl', customClass: 'opacity-40'"></app-icon></div><h6 class="font-bold text-gray-700 text-sm mb-1">No Completed Dhikrs Yet</h6><p class="text-gr-textMuted text-xs mb-0">Complete all days for any Dhikr to see it listed here.</p></div><!-- /ko --><div class="flex flex-col gap-3" id="tbOldDoneGrid" data-bind="foreach: doneItems"><!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko --></div></div></div><!-- /ko --></div></script><script type="text/html" id="tasbeeh-old-form-template"><!-- ko if: isOpen --><div class="modal fixed inset-0 z-[1100] w-full h-full overflow-y-auto bg-black/45 backdrop-blur-[2px] transition-opacity flex items-center justify-center p-4"
+data-bind="visible: activeTab() === 'todo'"><!-- ko if: todoItems().length === 0 --><div id="tbOldTodoEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2"><div class="mb-2"><app-icon params="name: 'circle-check', color: 'text-brand', size: '2xl'"></app-icon></div><h6 class="font-bold text-brand text-sm mb-1">All Targets Completed!</h6><p class="text-gr-textMuted text-xs mb-0">All Dhikr targets for this month are finished. You can advance to the previous month above.</p></div><!-- /ko --><div class="flex flex-col gap-3" id="tbOldTodoGrid" data-bind="foreach: todoItems"><!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onClick: $parent.onCardClick, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko --></div></div><div id="tbOldDoneList" role="tabpanel" aria-labelledby="tabTbOldDone" class="mt-2 space-y-3"
+data-bind="visible: activeTab() === 'completed'"><!-- ko if: doneItems().length === 0 --><div id="tbOldDoneEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2"><div class="mb-2"><app-icon params="name: 'circle-check', color: 'text-gr-textMuted', size: '2xl', customClass: 'opacity-40'"></app-icon></div><h6 class="font-bold text-gray-700 text-sm mb-1">No Completed Dhikrs Yet</h6><p class="text-gr-textMuted text-xs mb-0">Complete all days for any Dhikr to see it listed here.</p></div><!-- /ko --><div class="flex flex-col gap-3" id="tbOldDoneGrid" data-bind="foreach: doneItems"><!-- ko component: { name: 'tasbeeh-old-card', params: { item: $data, month: $parent.curOldMonth(), onClick: $parent.onCardClick, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko --></div></div></div><!-- /ko --></div></script><script type="text/html" id="tasbeeh-old-form-template"><!-- ko if: isOpen --><div class="modal fixed inset-0 z-[1100] w-full h-full overflow-y-auto bg-black/45 backdrop-blur-[2px] transition-opacity flex items-center justify-center p-4"
 id="tasbeehOldModal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="tbOldModalTitle"
 data-bind="click: handleBackdropClick"><div class="modal-dialog relative w-auto m-4 pointer-events-none max-w-[440px] w-full mx-auto min-h-[calc(100%-2rem)] flex items-center justify-center"><div class="modal-content relative flex flex-col w-full pointer-events-auto bg-white rounded-2xl border border-borderGrey shadow-2xl p-4"
 data-bind="click: function(d,e){ if(e&&e.stopPropagation)e.stopPropagation(); }"><div class="modal-header border-0 pb-0 flex items-center gap-3 pt-4 px-4"><span class="icon-box icon-box-lg"><i class="fa-solid fa-hand-holding-heart text-brand text-xl"></i></span><h5 class="modal-title font-bold text-lg grow mb-0" id="tbOldModalTitle"
@@ -587,14 +588,14 @@ data-bind="text: monthLabel">September 2026</span></div><div class="flex items-c
 data-bind="css: badgeClass"><app-icon params="name: badgeIcon, customClass: 'mr-1', size: 'xs'"></app-icon><span data-bind="text: badgeText">Completed</span></span><!-- ko if: canReopen --><button type="button"
 class="inline-flex items-center justify-center bg-transparent border border-yellow-500 text-yellow-600 font-semibold rounded-full px-2 py-0 ml-auto text-[11px] hover:bg-yellow-50 transition-colors cursor-pointer select-none"
 data-act="tb-old-reopen" title="Reopen this month to recount"
-data-bind="click: onReopen"><app-icon params="name: 'rotate-left', customClass: 'mr-1', size: 'xs'"></app-icon> Reopen
+data-bind="click: handleClick"><app-icon params="name: 'rotate-left', customClass: 'mr-1', size: 'xs'"></app-icon> Reopen
 </button><!-- /ko --></div></div></script><script type="text/html" id="tasbeeh-history-feed-template"><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center justify-between mb-2"><h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6><!-- ko if: hasClearedMonths --><button type="button"
 class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 underline text-gr-danger text-decoration-none text-xs font-bold"
 id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed"
 data-bind="click: onResetCompleted"><app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Cleared
 </button><!-- /ko --></div><div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">
 Sequential monthly clearance advances backward month-by-month as dhikrs are completed.
-</div><!-- ko if: isEmpty --><div class="text-center py-4 text-gr-textMuted text-xs"><app-icon params="name: 'calendar-xmark', size: '2xl', customClass: 'opacity-50 mb-2'"></app-icon><div>No past months found in this period range. Check your Start and End dates.</div></div><!-- /ko --><!-- ko ifnot: isEmpty --><div class="flex flex-col gap-2" id="tbHistoryList" data-bind="foreach: months"><!-- ko component: { name: 'tasbeeh-history-card', params: $data } --><!-- /ko --></div><!-- /ko --></div></script><script type="text/html" id="tasbeeh-history-form-template"><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center justify-between mb-1"><h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Tracking Goal & Period Range</h6><span class="text-xs text-gr-textMuted font-semibold">Old Tracking Scope</span></div><div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">
+</div><!-- ko if: isEmpty --><div class="text-center py-4 text-gr-textMuted text-xs"><app-icon params="name: 'calendar-xmark', size: '2xl', customClass: 'opacity-50 mb-2'"></app-icon><div>No past months found in this period range. Check your Start and End dates.</div></div><!-- /ko --><!-- ko ifnot: isEmpty --><div class="flex flex-col gap-2" id="tbHistoryList" data-bind="foreach: months"><!-- ko component: { name: 'tasbeeh-history-card', params: { item: $data, onClick: $parent.handleReopen, onReopen: $parent.handleReopen } } --><!-- /ko --></div><!-- /ko --></div></script><script type="text/html" id="tasbeeh-history-form-template"><div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none"><div class="flex items-center justify-between mb-1"><h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Tracking Goal & Period Range</h6><span class="text-xs text-gr-textMuted font-semibold">Old Tracking Scope</span></div><div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">
 Define your historical tracking window. Months are cleared sequentially backward.
 </div><div class="flex gap-1.5 mb-3 flex-wrap"><button type="button"
 class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-surfaceBg border border-borderGrey text-brand hover:bg-brand-light transition-colors cursor-pointer select-none"
@@ -702,7 +703,125 @@ data-bind="click: onToggleFav, attr: { 'data-idx': index, title: isFav ? 'Remove
 data-bind="text: '#' + String(ko.unwrap($data.number) || 1).padStart(2, '0')">#01</div><div class="text-base font-semibold text-brand font-telugu text-right" id="duaDetailSurah"
 data-bind="text: surah"></div></div><div><div class="text-[11px] font-bold tracking-wider uppercase text-gr-textMuted">Telugu Pronunciation</div><div class="text-base font-medium text-brand leading-relaxed font-telugu mt-1" id="duaDetailUchcharana"
 data-bind="text: uchcharana"></div></div><div><div class="text-[11px] font-bold tracking-wider uppercase text-gr-textMuted">Telugu Meaning</div><div class="text-sm font-normal text-gr-text leading-relaxed font-telugu mt-1" id="duaDetailArdham"
-data-bind="text: ardham"></div></div></div></script></div><script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js"></script><script>'use strict';
+data-bind="text: ardham"></div></div></div></script><script type="text/html" id="quran-page-template"><div class="flex flex-col grow overflow-hidden relative bg-white h-full" id="quranContainer"><div class="flex flex-col grow overflow-hidden relative" data-bind="visible: currentSubTab() === 'quran'"><!-- ko component: { name: 'quran-main-page', params: mainPageParams } --><!-- /ko --></div><div class="flex flex-col grow overflow-hidden relative" data-bind="visible: currentSubTab() === 'open'"><!-- ko component: { name: 'quran-open-page', params: openPageParams } --><!-- /ko --></div><div class="flex flex-col grow overflow-hidden relative" data-bind="visible: currentSubTab() === 'bookmark'"><!-- ko component: { name: 'quran-bookmark-page', params: bookmarkPageParams } --><!-- /ko --></div><!-- ko component: {
+name: 'quran-nav-tab',
+params: {
+activeTab: currentSubTab,
+onTabChange: switchTab
+}
+} --><!-- /ko --></div></script><script type="text/html" id="quran-nav-tab-template"><nav class="shrink-0 bg-white border-t border-[#E0E0E0] px-8 py-3 flex justify-between items-center z-[100]" aria-label="Quran navigation"><button type="button" aria-label="Open — reading view"
+class="flex flex-col items-center w-16 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded-lg cursor-pointer select-none"
+data-bind="
+css: activeTab() === 'open' ? 'text-[#094E3A]' : 'text-gray-500 hover:text-gray-700',
+attr: { 'aria-current': activeTab() === 'open' ? 'page' : null },
+click: function() { selectTab('open'); }
+"><i class="fa-solid fa-book-open text-[22px]" aria-hidden="true"></i><span class="text-[12px] mt-1" data-bind="css: activeTab() === 'open' ? 'font-bold' : 'font-medium'">Open</span><div class="tab-bar w-8 h-1 rounded-full mt-1" data-bind="css: activeTab() === 'open' ? 'bg-[#094E3A]' : 'bg-transparent'"></div></button><button type="button" aria-label="Quran — surah list"
+class="flex flex-col items-center w-16 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded-lg cursor-pointer select-none"
+data-bind="
+css: activeTab() === 'quran' ? 'text-[#094E3A]' : 'text-gray-500 hover:text-gray-700',
+attr: { 'aria-current': activeTab() === 'quran' ? 'page' : null },
+click: function() { selectTab('quran'); }
+"><i class="fa-solid fa-book-quran text-[22px]" aria-hidden="true"></i><span class="text-[12px] mt-1" data-bind="css: activeTab() === 'quran' ? 'font-bold' : 'font-medium'">Quran</span><div class="tab-bar w-8 h-1 rounded-full mt-1" data-bind="css: activeTab() === 'quran' ? 'bg-[#094E3A]' : 'bg-transparent'"></div></button><button type="button" aria-label="Bookmarks"
+class="flex flex-col items-center w-16 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded-lg cursor-pointer select-none"
+data-bind="
+css: activeTab() === 'bookmark' ? 'text-[#094E3A]' : 'text-gray-500 hover:text-gray-700',
+attr: { 'aria-current': activeTab() === 'bookmark' ? 'page' : null },
+click: function() { selectTab('bookmark'); }
+"><i class="fa-solid fa-bookmark text-[22px]" aria-hidden="true"></i><span class="text-[12px] mt-1" data-bind="css: activeTab() === 'bookmark' ? 'font-bold' : 'font-medium'">Bookmark</span><div class="tab-bar w-8 h-1 rounded-full mt-1" data-bind="css: activeTab() === 'bookmark' ? 'bg-[#094E3A]' : 'bg-transparent'"></div></button></nav></script><script type="text/html" id="quran-main-page-template"><div class="flex flex-col flex-1 min-h-0 bg-white"><header class="bg-white shrink-0 border-b border-[#E0E0E0]"><div class="px-4 py-3 flex items-center justify-between"><button type="button" aria-label="Go to Dashboard"
+class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+data-bind="click: goHome"><i class="fa-solid fa-arrow-left text-lg" aria-hidden="true"></i></button><div class="flex items-center gap-2"><i class="fa-solid fa-book-quran text-[#094E3A] text-[18px]" aria-hidden="true"></i><h1 class="text-lg font-bold text-gray-900 tracking-tight">Quran</h1></div><button type="button" aria-label="Settings"
+class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+data-bind="click: goToSettings"><i class="fa-solid fa-gear text-lg" aria-hidden="true"></i></button></div><div class="px-4 pb-4 pt-1"><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none"><i class="fa-solid fa-magnifying-glass text-gray-400" aria-hidden="true"></i></div><input type="text" aria-label="Search surah by name or number"
+class="w-full flat-card bg-white border border-[#E0E0E0] rounded-xl pl-10 pr-4 py-3.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#094E3A] focus:ring-1 focus:ring-[#094E3A] transition-colors"
+placeholder="Search Surah Name or Number…"
+data-bind="textInput: searchQuery"><!-- ko if: searchQuery --><button type="button" aria-label="Clear search"
+class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600"
+data-bind="click: clearSearch"><i class="fa-solid fa-xmark text-sm" aria-hidden="true"></i></button><!-- /ko --></div></div></header><main class="px-4 py-4 flex-1 min-h-0 space-y-3 overflow-y-auto bg-white"><!-- ko component: {
+name: 'quran-main-feed',
+params: {
+searchQuery: searchQuery,
+onSelectSurah: handleSelectSurah
+}
+} --><!-- /ko --></main></div></script><script type="text/html" id="quran-main-feed-template"><div class="space-y-3 pb-6"><!-- ko if: isLoading --><div class="space-y-3"><div class="h-24 rounded-2xl bg-gray-100 animate-pulse"></div><div class="h-24 rounded-2xl bg-gray-100 animate-pulse"></div><div class="h-24 rounded-2xl bg-gray-100 animate-pulse"></div><div class="h-24 rounded-2xl bg-gray-100 animate-pulse"></div></div><!-- /ko --><!-- ko ifnot: isLoading --><div class="space-y-3" data-bind="foreach: filteredSurahs"><!-- ko component: {
+name: 'quran-main-card',
+params: {
+item: $data,
+onClick: function(item, event) { $parent.handleCardClick(item, event); }
+}
+} --><!-- /ko --></div><!-- ko if: !hasResults() --><div class="py-16 text-center"><i class="fa-solid fa-magnifying-glass text-gray-300 text-3xl mb-3" aria-hidden="true"></i><p class="text-sm text-gray-500">No surah found for that search.</p></div><!-- /ko --><!-- /ko --></div></script><script type="text/html" id="quran-main-card-template"><button type="button"
+class="w-full text-left flat-card bg-white border border-[#E0E0E0] rounded-2xl p-4 flex items-center gap-3.5 hover:bg-gray-50/50 cursor-pointer transition-colors group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+data-bind="attr: { 'data-surah': number, 'aria-label': name }, click: handleClick"><div class="w-12 h-12 shrink-0 rounded-xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center font-bold text-lg border border-emerald-100 group-hover:bg-[#094E3A] group-hover:text-white transition-colors"
+data-bind="text: number"></div><div class="flex-1 min-w-0 flex flex-col justify-center"><h3 lang="te" class="font-bold text-gray-900 text-lg font-telugu leading-tight truncate"
+data-bind="text: name"></h3><p lang="te" class="text-sm text-gray-500 font-telugu mt-0.5 truncate"
+data-bind="text: meaning"></p><p class="text-xs text-gray-500 font-telugu mt-1 flex items-center gap-1.5"><i class="text-[10px]" data-bind="css: revelationIcon" aria-hidden="true"></i><span data-bind="text: revelationMetaText"></span></p></div><div class="shrink-0 text-right pr-2"><span lang="ar" dir="rtl" class="font-arabic text-3xl text-[#094E3A] leading-none"
+data-bind="text: arabicName"></span></div></button></script><script type="text/html" id="quran-open-page-template"><div class="flex flex-col flex-1 min-h-0 bg-white"><header class="px-4 py-3 flex items-center justify-between bg-white shrink-0 border-b border-[#E0E0E0]"><button type="button" aria-label="Back to surah list"
+class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+data-bind="click: goBack"><i class="fa-solid fa-arrow-left text-lg" aria-hidden="true"></i></button><div class="flex flex-col items-center"><div class="flex items-center gap-2"><i class="fa-solid fa-book-open text-[#094E3A] text-[15px]" aria-hidden="true"></i><h1 class="text-base font-bold text-gray-900 tracking-tight" data-bind="text: readerTitle"></h1></div><span class="text-[11px] text-gray-500 font-medium mt-0.5" data-bind="text: readerSubtitle"></span></div><button type="button" aria-label="Settings"
+class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+data-bind="click: goToSettings"><i class="fa-solid fa-gear text-lg" aria-hidden="true"></i></button></header><main class="px-4 py-5 flex-1 min-h-0 space-y-5 overflow-y-auto bg-white" id="quranReaderScroll"><!-- ko component: {
+name: 'quran-open-feed',
+params: {
+surahNum: currentSurahNum,
+ayahs: ayahs,
+isLoading: isLoading,
+hasError: hasError,
+errorMessage: errorMessage,
+activeAudioKey: activeAudioKey,
+bookmarkKeys: bookmarkKeys,
+onBookmarkToggle: handleBookmarkToggle,
+onPlay: handlePlay,
+onRetry: loadCurrentSurah
+}
+} --><!-- /ko --></main></div></script><script type="text/html" id="quran-open-feed-template"><div class="space-y-5 pb-6"><!-- ko if: isLoading --><div class="flex flex-col items-center justify-center py-20 text-center"><i class="fa-solid fa-spinner fa-spin text-[#094E3A] text-3xl mb-4" aria-hidden="true"></i><p class="text-sm text-gray-500">Loading surah…</p></div><!-- /ko --><!-- ko if: hasError --><div class="flex flex-col items-center justify-center py-20 text-center"><i class="fa-solid fa-triangle-exclamation text-amber-500 text-3xl mb-4" aria-hidden="true"></i><p class="text-sm text-gray-700 font-medium">Unable to load this surah.</p><p class="text-xs text-gray-400 mt-1" data-bind="text: errorMessage"></p><button type="button"
+class="mt-4 px-4 py-2 bg-[#E8F5E9] text-[#094E3A] font-bold text-xs rounded-xl hover:bg-[#094E3A] hover:text-white transition-colors"
+data-bind="click: retryLoad"><i class="fa-solid fa-rotate-right mr-1.5" aria-hidden="true"></i> Retry
+</button></div><!-- /ko --><!-- ko if: !isLoading() && !hasError() --><!-- ko if: ayahs().length === 0 --><div class="py-16 text-center"><i class="fa-solid fa-inbox text-gray-300 text-3xl mb-3" aria-hidden="true"></i><p class="text-sm text-gray-500">No ayahs found in this surah file.</p></div><!-- /ko --><!-- ko if: ayahs().length > 0 --><div class="space-y-5" data-bind="foreach: ayahs"><!-- ko component: {
+name: 'quran-open-card',
+params: {
+ayah: $data,
+surahNum: $parent.surahNum,
+isBookmarked: $parent.getAyahBookmarkObservable($data),
+isPlaying: $parent.getAyahPlayingObservable($data),
+onBookmarkToggle: function(ayah, event) { $parent.handleBookmarkToggle(ayah, event); },
+onPlay: function(ayah, event) { $parent.handlePlay(ayah, event); }
+}
+} --><!-- /ko --></div><!-- /ko --><!-- /ko --></div></script><script type="text/html" id="quran-open-card-template"><div class="flat-card bg-white border border-[#E0E0E0] rounded-2xl flex flex-col overflow-hidden p-5 shadow-none"
+data-bind="attr: { 'id': 'ayah-' + surahNum + '-' + ayahNum, 'data-ayah': ayahNum }"><div class="flex justify-between items-center pb-4"><div class="px-3 py-1 rounded-xl bg-[#E8F5E9] text-[#094E3A] font-bold text-sm border border-emerald-100"
+data-bind="text: badgeText"></div><div class="flex items-center gap-5 text-gray-500"><button type="button"
+class="hover:text-[#094E3A] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded cursor-pointer"
+data-bind="attr: { 'aria-label': (isPlaying() ? 'Pause' : 'Play') + ' ayah ' + badgeText }, click: handlePlayClick"><i class="text-xl" data-bind="css: isPlaying() ? 'fa-solid fa-circle-pause text-[#094E3A] animate-pulse' : 'fa-solid fa-play'" aria-hidden="true"></i></button><button type="button"
+class="hover:text-[#094E3A] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded cursor-pointer"
+data-bind="attr: { 'aria-label': (isBookmarked() ? 'Remove bookmark for' : 'Bookmark') + ' ayah ' + badgeText }, click: handleBookmarkClick"><i class="text-xl" data-bind="css: isBookmarked() ? 'fa-solid fa-bookmark text-[#094E3A]' : 'fa-regular fa-bookmark'" aria-hidden="true"></i></button></div></div><div class="pt-4 pb-6"><p dir="rtl" lang="ar" class="font-arabic text-3xl sm:text-4xl leading-loose text-right text-[#094E3A]"
+data-bind="text: arabicText"></p></div><div class="w-full h-px bg-[#E0E0E0] mb-5"></div><div><p lang="te" class="font-telugu text-[20px] sm:text-[22px] text-gray-900 leading-[1.8] font-medium"
+data-bind="html: translationHtml"></p></div><!-- ko if: hasFootnotes --><div data-bind="html: footnotesHtml"></div><!-- /ko --></div></script><script type="text/html" id="quran-bookmark-page-template"><div class="flex flex-col flex-1 min-h-0 bg-white"><header class="px-4 py-3 flex items-center justify-between bg-white shrink-0 border-b border-[#E0E0E0]"><button type="button" aria-label="Back to surah list"
+class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+data-bind="click: goBack"><i class="fa-solid fa-arrow-left text-lg" aria-hidden="true"></i></button><div class="flex items-center gap-2"><i class="fa-solid fa-bookmark text-[#094E3A] text-[16px]" aria-hidden="true"></i><h1 class="text-lg font-bold text-gray-900 tracking-tight">Bookmarks</h1></div><button type="button" aria-label="Settings"
+class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+data-bind="click: goToSettings"><i class="fa-solid fa-gear text-lg" aria-hidden="true"></i></button></header><main class="px-4 py-4 flex-1 min-h-0 overflow-y-auto bg-white"><!-- ko component: {
+name: 'quran-bookmark-feed',
+params: {
+bookmarks: bookmarks,
+onSelectBookmark: handleSelectBookmark,
+onRemoveBookmark: handleRemoveBookmark
+}
+} --><!-- /ko --></main></div></script><script type="text/html" id="quran-bookmark-feed-template"><div class="h-full flex flex-col"><!-- ko if: bookmarks().length === 0 --><div class="flex-1 flex flex-col items-center justify-center text-center py-16 px-4"><div class="w-16 h-16 rounded-2xl bg-[#E8F5E9] flex items-center justify-center mb-4"><i class="fa-regular fa-bookmark text-[#094E3A] text-2xl" aria-hidden="true"></i></div><h2 class="font-bold text-gray-900 text-lg">No Bookmarks Yet</h2><p class="text-sm text-gray-500 mt-1 max-w-[240px] leading-relaxed">
+Tap the bookmark icon on any ayah to save it here for quick access.
+</p></div><!-- /ko --><!-- ko if: bookmarks().length > 0 --><div class="space-y-3 pb-6" data-bind="foreach: bookmarks"><!-- ko component: {
+name: 'quran-bookmark-card',
+params: {
+item: $data,
+onClick: function(item, event) { $parent.handleCardClick(item, event); },
+onRemove: function(item, event) { $parent.handleRemove(item, event); }
+}
+} --><!-- /ko --></div><!-- /ko --></div></script><script type="text/html" id="quran-bookmark-card-template"><div class="flat-card bg-white border border-[#E0E0E0] rounded-2xl p-4 flex flex-col gap-2.5 hover:bg-gray-50/50 cursor-pointer transition-colors shadow-none"
+data-bind="click: handleClick"><div class="flex items-center justify-between"><div class="flex items-center gap-2"><span class="px-2.5 py-0.5 rounded-lg bg-[#E8F5E9] text-[#094E3A] font-bold text-xs border border-emerald-100"
+data-bind="text: badgeText"></span><span class="font-bold text-gray-900 text-sm font-telugu"
+data-bind="text: surahName"></span></div><div class="flex items-center gap-3"><span class="font-arabic text-xl text-[#094E3A] leading-none" dir="rtl"
+data-bind="text: arabicName"></span><button type="button" aria-label="Remove bookmark"
+class="w-7 h-7 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition-colors focus-visible:outline-none"
+data-bind="click: handleRemove"><i class="fa-solid fa-trash-can text-xs" aria-hidden="true"></i></button></div></div><!-- ko if: arabicText --><p dir="rtl" lang="ar" class="font-arabic text-lg text-right text-gray-800 line-clamp-2 leading-relaxed"
+data-bind="text: arabicText"></p><!-- /ko --><!-- ko if: translation --><p lang="te" class="font-telugu text-sm text-gray-600 line-clamp-2 leading-relaxed"
+data-bind="text: translation"></p><!-- /ko --></div></script></div><script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js"></script><script>'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
 const ModalBinding = {
@@ -4455,6 +4574,7 @@ self.activePage = createObservable('dashboard');
 self.trackerSubTab = createObservable('current');
 self.tasbeehSubTab = createObservable('home');
 self.duasSubTab = createObservable('home');
+self.quranSubTab = createObservable('quran');
 self.currentPath = createObservable('#/dashboard');
 var isUpdatingHash = false;
 function parseHash(hash) {
@@ -4483,6 +4603,7 @@ subTab = 'history';
 if (page === 'tracker' && !subTab) subTab = 'current';
 if (page === 'tasbeeh' && !subTab) subTab = 'home';
 if (page === 'duas' && !subTab) subTab = 'home';
+if (page === 'quran' && !subTab) subTab = 'quran';
 var path = '#/' + page + (subTab ? ('/' + subTab) : '');
 return { page: page, subTab: subTab, path: path };
 }
@@ -4495,6 +4616,8 @@ self.trackerSubTab(parsed.subTab);
 self.tasbeehSubTab(parsed.subTab);
 } else if (parsed.page === 'duas' && parsed.subTab) {
 self.duasSubTab(parsed.subTab);
+} else if (parsed.page === 'quran' && parsed.subTab) {
+self.quranSubTab(parsed.subTab);
 }
 self.currentPath(parsed.path);
 isUpdatingHash = true;
@@ -4511,6 +4634,9 @@ _win.showPage(parsed.page);
 }
 if (parsed.page === 'tracker' && parsed.subTab && typeof _win.switchTrackerSubTab === 'function') {
 _win.switchTrackerSubTab(parsed.subTab);
+}
+if (parsed.page === 'quran' && parsed.subTab && _win.QuranApp && typeof _win.QuranApp.switchTab === 'function') {
+_win.QuranApp.switchTab(parsed.subTab);
 }
 } finally {
 isUpdatingHash = false;
@@ -4529,6 +4655,8 @@ self.trackerSubTab(parsed.subTab);
 self.tasbeehSubTab(parsed.subTab);
 } else if (parsed.page === 'duas' && parsed.subTab) {
 self.duasSubTab(parsed.subTab);
+} else if (parsed.page === 'quran' && parsed.subTab) {
+self.quranSubTab(parsed.subTab);
 }
 self.currentPath(parsed.path);
 if (typeof _win.showPage === 'function') {
@@ -4536,6 +4664,9 @@ _win.showPage(parsed.page);
 }
 if (parsed.page === 'tracker' && parsed.subTab && typeof _win.switchTrackerSubTab === 'function') {
 _win.switchTrackerSubTab(parsed.subTab);
+}
+if (parsed.page === 'quran' && parsed.subTab && _win.QuranApp && typeof _win.QuranApp.switchTab === 'function') {
+_win.QuranApp.switchTab(parsed.subTab);
 }
 } finally {
 isUpdatingHash = false;
@@ -4559,11 +4690,12 @@ if (subTab) {
 if (page === 'tracker') return self.trackerSubTab() === subTab;
 if (page === 'tasbeeh') return self.tasbeehSubTab() === subTab;
 if (page === 'duas') return self.duasSubTab() === subTab;
+if (page === 'quran') return self.quranSubTab() === subTab;
 }
 return true;
 };
 }
-const AppRouter = new Router();
+var AppRouter = new Router();
 if (typeof window !== 'undefined') {
 window.AppRouter = AppRouter;
 }
@@ -4748,6 +4880,19 @@ hasBadge: false,
 onClick: function (d, e) {
 if (e && e.stopPropagation) e.stopPropagation();
 if (typeof showPage === 'function') showPage('tasbeeh');
+}
+},
+{
+title: 'Quran',
+action: 'goto-quran',
+iconClass: 'fa-solid fa-book-quran',
+dataRef: 'page.dashboard.card.quran',
+iconDataRef: 'page.dashboard.card.quran-icon',
+titleDataRef: 'page.dashboard.card.quran-label',
+hasBadge: false,
+onClick: function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof showPage === 'function') showPage('quran');
 }
 },
 {
@@ -7165,25 +7310,20 @@ var v = (typeof val === 'function') ? val() : val;
 return (v !== undefined && v !== null) ? v : def;
 }
 function pad2(n) {
-if (typeof _win.pad2 === 'function' && _win.pad2 !== pad2) return _win.pad2(n);
 return n < 10 ? '0' + n : '' + n;
 }
 function uid(prefix) {
-if (typeof _win.uid === 'function' && _win.uid !== uid) return _win.uid();
-return (prefix || 'tb_') + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+return (prefix || 'tb_') + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 }
 function clamp(v, min, max) {
-if (typeof _win.clamp === 'function' && _win.clamp !== clamp) return _win.clamp(v, min, max);
 return Math.min(Math.max(v, min), max);
 }
 function todayKey() {
-if (typeof _win.todayKey === 'function' && _win.todayKey !== todayKey) return _win.todayKey();
-if (typeof _win.td === 'function') return _win.td();
-return new Date().toISOString().slice(0, 10);
+var d = new Date();
+return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
 }
 var td = todayKey;
 function formatMonthLabel(m) {
-if (typeof _win.formatMonthLabel === 'function' && _win.formatMonthLabel !== formatMonthLabel) return _win.formatMonthLabel(m);
 if (!m) return '';
 var parts = m.split('-');
 if (parts.length < 2) return m;
@@ -7192,7 +7332,6 @@ var d = new Date(yr, mo, 1);
 return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
 }
 function formatDate(d) {
-if (typeof _win.formatDate === 'function' && _win.formatDate !== formatDate) return _win.formatDate(d);
 if (!d) return '';
 var parts = d.split('-');
 if (parts.length === 3) {
@@ -7205,21 +7344,18 @@ function formatMonthYear(mKey) {
 return formatMonthLabel(mKey);
 }
 function getPrevMonthKey(monthKey) {
-if (typeof _win.getPrevMonthKey === 'function') return _win.getPrevMonthKey(monthKey);
 var p = (monthKey || todayKey().slice(0, 7)).split('-');
 var yr = parseInt(p[0], 10), mo = parseInt(p[1], 10) - 1;
 if (mo < 1) { mo = 12; yr--; }
 return yr + '-' + pad2(mo);
 }
 function getNextMonthKey(monthKey) {
-if (typeof _win.getNextMonthKey === 'function') return _win.getNextMonthKey(monthKey);
 var p = (monthKey || todayKey().slice(0, 7)).split('-');
 var yr = parseInt(p[0], 10), mo = parseInt(p[1], 10) + 1;
 if (mo > 12) { mo = 1; yr++; }
 return yr + '-' + pad2(mo);
 }
 function getPreviousMonthsList(startDate, endDate) {
-if (typeof _win.getPreviousMonthsList === 'function') return _win.getPreviousMonthsList(startDate, endDate);
 var list = [];
 if (!startDate || !endDate || startDate > endDate) return list;
 var sParts = startDate.split('-'), eParts = endDate.split('-');
@@ -7479,6 +7615,9 @@ window.TasbeehService = TasbeehService;
 if (!window.getCurrentTrackingMonth) {
 window.getCurrentTrackingMonth = getCurrentTrackingMonth;
 }
+window.getPrevMonthKey = getPrevMonthKey;
+window.getNextMonthKey = getNextMonthKey;
+window.getPreviousMonthsList = getPreviousMonthsList;
 }
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 function getEl(id) {
@@ -7952,12 +8091,11 @@ function getEl(id) {
 return document.getElementById(id);
 }
 var pad2 = function (n) {
-if (typeof _win.pad2 === 'function' && _win.pad2 !== pad2) return _win.pad2(n);
 return n < 10 ? '0' + n : '' + n;
 };
 var td = function () {
-if (typeof _win.td === 'function' && _win.td !== td) return _win.td();
-return new Date().toISOString().slice(0, 10);
+var d = new Date();
+return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
 };
 function showToast(msg, duration) {
 if (typeof _win.showToast === 'function') {
@@ -7965,8 +8103,12 @@ _win.showToast(msg, duration);
 }
 }
 var formatMonthLabel = function (m) {
-if (typeof _win.formatMonthLabel === 'function' && _win.formatMonthLabel !== formatMonthLabel) return _win.formatMonthLabel(m);
-return m;
+if (!m) return '';
+var parts = m.split('-');
+if (parts.length < 2) return m;
+var yr = parseInt(parts[0], 10), mo = parseInt(parts[1], 10) - 1;
+var d = new Date(yr, mo, 1);
+return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
 };
 var renderIcon = function (opt) {
 if (typeof _win.renderIcon === 'function' && _win.renderIcon !== renderIcon) return _win.renderIcon(opt);
@@ -8161,22 +8303,30 @@ self.isComplete = unwrap(item.isComplete, unwrap(item.isCompleted, false));
 self.isTodayDone = unwrap(item.isTodayDone, false);
 self.targetDisplay = (self.targetCount === 'infinite' || self.targetCount === '∞') ? '∞' : self.targetCount;
 self.totalDaysText = self.totalDays + ' days';
-self.onCardClick = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof p.onCardClick === 'function') {
-p.onCardClick(item, e);
-} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounter === 'function') {
-_win.TasbeehApp.openCounter(self.id);
+self.handleClick = function (d, e) {
+var event = e || (d && d.stopPropagation ? d : null);
+if (event && event.stopPropagation) {
+event.stopPropagation();
+}
+var targetItem = self.item;
+var cb = p.onClick || p.onCardClick;
+if (typeof cb === 'function') {
+cb(targetItem, event);
 }
 };
-self.onEditClick = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof p.onEditClick === 'function') {
-p.onEditClick(item, e);
-} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openEditModal === 'function') {
-_win.TasbeehApp.openEditModal(self.id);
+self.onCardClick = self.handleClick;
+self.handleEditClick = function (d, e) {
+var event = e || (d && d.stopPropagation ? d : null);
+if (event && event.stopPropagation) {
+event.stopPropagation();
+}
+var targetItem = self.item;
+var cb = p.onEditClick || p.onEdit;
+if (typeof cb === 'function') {
+cb(targetItem, event);
 }
 };
+self.onEditClick = self.handleEditClick;
 }
 if (typeof window !== 'undefined') {
 window.CurrentCardViewModel = CurrentCardViewModel;
@@ -8299,19 +8449,22 @@ ariaLabel: 'Current Tasbeeh Status Tabs'
 self.handleCardClick = function (item, e) {
 if (e && e.stopPropagation) e.stopPropagation();
 var it = (item && item.raw) ? item.raw : item;
-if (typeof p.onCardClick === 'function') {
-p.onCardClick(it, e);
+var cb = p.onClick || p.onCardClick;
+if (typeof cb === 'function') {
+cb(it, e);
 }
 };
 self.handleEditClick = function (item, e) {
 if (e && e.stopPropagation) e.stopPropagation();
 var it = (item && item.raw) ? item.raw : item;
-if (typeof p.onEditClick === 'function') {
-p.onEditClick(it, e);
+var cb = p.onEditClick || p.onEdit;
+if (typeof cb === 'function') {
+cb(it, e);
 }
 };
-self.onCardClick = (typeof p.onCardClick === 'function') ? self.handleCardClick : null;
-self.onEditClick = (typeof p.onEditClick === 'function') ? self.handleEditClick : null;
+self.onCardClick = self.handleCardClick;
+self.onClick = self.handleCardClick;
+self.onEditClick = self.handleEditClick;
 self.onAdvanceMonth = function (d, e) {
 if (e && e.stopPropagation) e.stopPropagation();
 if (typeof p.onAdvanceMonth === 'function') {
@@ -8606,22 +8759,30 @@ self.totalDays = unwrap(item.totalDays, 30);
 self.isComplete = unwrap(item.isComplete, unwrap(item.isCompleted, false));
 self.targetDisplay = (self.targetCount === 'infinite' || self.targetCount === '∞') ? '∞' : self.targetCount;
 self.totalDaysText = self.totalDays + ' days';
-self.onCardClick = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof p.onCardClick === 'function') {
-p.onCardClick(item, self.month, e);
-} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounterOld === 'function') {
-_win.TasbeehApp.openCounterOld(self.id, self.month);
+self.handleClick = function (d, e) {
+var event = e || (d && d.stopPropagation ? d : null);
+if (event && event.stopPropagation) {
+event.stopPropagation();
+}
+var targetItem = self.item;
+var cb = p.onClick || p.onCardClick;
+if (typeof cb === 'function') {
+cb(targetItem, self.month, event);
 }
 };
-self.onEditClick = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof p.onEditClick === 'function') {
-p.onEditClick(item, e);
-} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openEditModal === 'function') {
-_win.TasbeehApp.openEditModal(self.id);
+self.onCardClick = self.handleClick;
+self.handleEditClick = function (d, e) {
+var event = e || (d && d.stopPropagation ? d : null);
+if (event && event.stopPropagation) {
+event.stopPropagation();
+}
+var targetItem = self.item;
+var cb = p.onEditClick || p.onEdit;
+if (typeof cb === 'function') {
+cb(targetItem, event);
 }
 };
+self.onEditClick = self.handleEditClick;
 }
 if (typeof window !== 'undefined') {
 window.OldCardViewModel = OldCardViewModel;
@@ -8749,19 +8910,22 @@ self.handleCardClick = function (item, month, e) {
 if (e && e.stopPropagation) e.stopPropagation();
 var it = (item && item.raw) ? item.raw : item;
 var m = month || self.curOldMonth();
-if (typeof p.onCardClick === 'function') {
-p.onCardClick(it, m, e);
+var cb = p.onClick || p.onCardClick;
+if (typeof cb === 'function') {
+cb(it, m, e);
 }
 };
 self.handleEditClick = function (item, e) {
 if (e && e.stopPropagation) e.stopPropagation();
 var it = (item && item.raw) ? item.raw : item;
-if (typeof p.onEditClick === 'function') {
-p.onEditClick(it, e);
+var cb = p.onEditClick || p.onEdit;
+if (typeof cb === 'function') {
+cb(it, e);
 }
 };
-self.onCardClick = (typeof p.onCardClick === 'function') ? self.handleCardClick : null;
-self.onEditClick = (typeof p.onEditClick === 'function') ? self.handleEditClick : null;
+self.onCardClick = self.handleCardClick;
+self.onClick = self.handleCardClick;
+self.onEditClick = self.handleEditClick;
 self.onAdvanceMonth = function (d, e) {
 if (e && e.stopPropagation) e.stopPropagation();
 if (typeof p.onAdvanceMonth === 'function') {
@@ -8968,12 +9132,14 @@ function HistoryCardViewModel(params) {
 if (params instanceof HistoryCardViewModel) return params;
 if (!(this instanceof HistoryCardViewModel)) return new HistoryCardViewModel(params);
 var p = (params && typeof params === 'function') ? params() : (params || {});
+var item = (p.item && typeof p.item === 'function') ? p.item() : (p.item || p);
 var self = this;
-self.monthKey = unwrap(p.monthKey, '');
-self.monthLabel = unwrap(p.monthLabel, self.monthKey);
-self.indexNumber = unwrap(p.indexNumber, 1);
-self.status = unwrap(p.status, 'pending'); // 'completed' | 'active' | 'pending'
-self.canReopen = unwrap(p.canReopen, false);
+self.item = item;
+self.monthKey = unwrap(item.monthKey, unwrap(p.monthKey, ''));
+self.monthLabel = unwrap(item.monthLabel, unwrap(p.monthLabel, self.monthKey));
+self.indexNumber = unwrap(item.indexNumber, unwrap(p.indexNumber, 1));
+self.status = unwrap(item.status, unwrap(p.status, 'pending')); // 'completed' | 'active' | 'pending'
+self.canReopen = unwrap(item.canReopen, unwrap(p.canReopen, false));
 self.indexText = '#' + self.indexNumber;
 if (self.status === 'completed') {
 self.badgeClass = 'bg-brand-light text-brand border border-brand-subtle';
@@ -8988,16 +9154,18 @@ self.badgeClass = 'bg-surfaceBg text-gr-textMuted border border-borderGrey';
 self.badgeIcon = 'clock';
 self.badgeText = 'Pending';
 }
-self.onReopen = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof p.onReopen === 'function') {
-p.onReopen(self.monthKey, e);
-} else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.reopenLastMonth === 'function') {
-_win.TasbeehOldApp.reopenLastMonth();
-} else {
-reopenLastMonth();
+self.handleClick = function (d, e) {
+var event = e || (d && d.stopPropagation ? d : null);
+if (event && event.stopPropagation) {
+event.stopPropagation();
+}
+var targetMonth = self.monthKey;
+var cb = p.onClick || p.onReopen || p.onCardClick || (p.item && (p.item.onClick || p.item.onReopen));
+if (typeof cb === 'function') {
+cb(targetMonth, event);
 }
 };
+self.onReopen = self.handleClick;
 }
 if (typeof window !== 'undefined') {
 window.HistoryCardViewModel = HistoryCardViewModel;
@@ -9061,14 +9229,19 @@ return self.monthsData().completedCount > 0;
 });
 self.handleReopen = function (monthKey, e) {
 if (e && e.stopPropagation) e.stopPropagation();
-if (typeof p.onReopenMonth === 'function') {
-p.onReopenMonth(monthKey, e);
+var key = (monthKey && typeof monthKey === 'object') ? (monthKey.monthKey || monthKey.id) : monthKey;
+var cb = p.onClick || p.onReopenMonth || p.onReopen;
+if (typeof cb === 'function') {
+cb(key, e);
 } else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.reopenLastMonth === 'function') {
 _win.TasbeehOldApp.reopenLastMonth();
 } else {
 reopenLastMonth();
 }
 };
+self.onReopenMonth = self.handleReopen;
+self.onReopen = self.handleReopen;
+self.onClick = self.handleReopen;
 self.onResetCompleted = function (d, e) {
 if (e && e.stopPropagation) e.stopPropagation();
 if (typeof p.onResetCompleted === 'function') {
@@ -9190,24 +9363,29 @@ self.period(loadPeriod());
 if (typeof p.onReset === 'function') p.onReset();
 }
 };
-self.feedParams = {
-period: self.period,
-onReopenMonth: function (monthKey, e) {
-if (typeof p.onReopenMonth === 'function') {
-p.onReopenMonth(monthKey, e);
+self.handleReopenMonth = function (monthKey, e) {
+var cb = p.onReopenMonth || p.onClick;
+if (typeof cb === 'function') {
+cb(monthKey, e);
 } else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.reopenLastMonth === 'function') {
 _win.TasbeehOldApp.reopenLastMonth();
 }
 self.period(loadPeriod());
-},
-onResetCompleted: function (d, e) {
+};
+self.handleResetCompleted = function (d, e) {
 if (typeof p.onResetCompleted === 'function') {
 p.onResetCompleted(d, e);
 } else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.resetAllCompleted === 'function') {
 _win.TasbeehOldApp.resetAllCompleted();
 }
 self.period(loadPeriod());
-}
+};
+self.feedParams = {
+period: self.period,
+onReopenMonth: self.handleReopenMonth,
+onClick: self.handleReopenMonth,
+onCardClick: self.handleReopenMonth,
+onResetCompleted: self.handleResetCompleted
 };
 }
 if (typeof window !== 'undefined') {
@@ -9254,26 +9432,24 @@ var rawComplete = unwrap(p.isComplete, unwrap(p.isCompleted, false));
 self.isComplete = (k && k.isObservable(p.isComplete)) ? p.isComplete : ((k && k.isObservable(p.isCompleted)) ? p.isCompleted : rawComplete);
 self.isCompleted = self.isComplete;
 self.isTodayDone = unwrap(p.isTodayDone, false);
-self.onCardClick = function (d, e) {
+self.handleClick = function (d, e) {
 if (e && e.stopPropagation) e.stopPropagation();
-if (typeof p.onCardClick === 'function') {
-p.onCardClick(d, e);
-} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounter === 'function') {
-_win.TasbeehApp.openCounter(self.id, self.month);
-} else if (_win.openCounter) {
-_win.openCounter(self.id, self.month);
+var targetItem = (p.item && typeof p.item === 'function') ? p.item() : (p.item || self);
+var cb = p.onClick || p.onCardClick;
+if (typeof cb === 'function') {
+cb(targetItem, e);
 }
 };
-self.onEditClick = function (d, e) {
+self.onCardClick = self.handleClick;
+self.handleEditClick = function (d, e) {
 if (e && e.stopPropagation) e.stopPropagation();
-if (typeof p.onEditClick === 'function') {
-p.onEditClick(d, e);
-} else if (_win.TasbeehApp && typeof _win.TasbeehApp.openEditModal === 'function') {
-_win.TasbeehApp.openEditModal(self.id);
-} else if (_win.openEditModal) {
-_win.openEditModal(self.id);
+var targetItem = (p.item && typeof p.item === 'function') ? p.item() : (p.item || self);
+var cb = p.onEditClick || p.onEdit;
+if (typeof cb === 'function') {
+cb(targetItem, e);
 }
 };
+self.onEditClick = self.handleEditClick;
 }
 var tasbeehViewModel = null;
 function switchCurrentTab(tabName) {
@@ -9391,13 +9567,32 @@ if (typeof self.editingItem === 'function') self.editingItem(null);
 };
 var refreshCur = function () { if (typeof _win.renderCurrentTab === 'function') _win.renderCurrentTab(); };
 var refreshOld = function () { if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.renderOldTab === 'function') _win.TasbeehOldApp.renderOldTab(); };
+self.handleCurrentCardClick = function (item) {
+self.openCalendar(item, typeof getCurrentTrackingMonth === 'function' ? getCurrentTrackingMonth() : null);
+};
+self.handleCurrentEditClick = function (item) {
+self.openEditForm(item);
+};
+self.handleOldCardClick = function (item, month) {
+self.openCalendar(item, month);
+};
+self.handleOldEditClick = function (item) {
+self.openEditForm(item);
+};
+self.handleReopenMonth = function (m, e) {
+self.reopenLastMonth(m, e);
+};
+self.handleResetCompleted = function (d, e) {
+self.resetAllCompleted(d, e);
+};
 self.currentFeedParams = {
 activeTab: self.currentActiveTab,
 todoItems: self.currentTodoItems,
 doneItems: self.currentDoneItems,
 onTabSwitch: function (tab, e) { self.switchCurrentTab(tab, e); },
-onCardClick: function (item) { self.openCalendar(item, typeof getCurrentTrackingMonth === 'function' ? getCurrentTrackingMonth() : null); },
-onEditClick: function (item) { self.openEditForm(item); }
+onCardClick: self.handleCurrentCardClick,
+onClick: self.handleCurrentCardClick,
+onEditClick: self.handleCurrentEditClick
 };
 self.currentCalendarParams = {
 item: self.activeCalendarItem,
@@ -9416,8 +9611,9 @@ activeTab: self.oldActiveTab,
 todoItems: self.oldTodoItems,
 doneItems: self.oldDoneItems,
 onTabSwitch: function (tab, e) { self.switchOldTab(tab, e); },
-onCardClick: function (item, month) { self.openCalendar(item, month); },
-onEditClick: function (item) { self.openEditForm(item); },
+onCardClick: self.handleOldCardClick,
+onClick: self.handleOldCardClick,
+onEditClick: self.handleOldEditClick,
 onAdjustStartDate: function () { self.switchTab('history'); }
 };
 self.oldCalendarParams = {
@@ -9433,12 +9629,9 @@ onClose: function () { self.closeForm(); refreshOld(); },
 onSave: function () { self.closeForm(); refreshOld(); }
 };
 self.historyPageParams = {
-onReopenMonth: function (m, e) {
-self.reopenLastMonth(m, e);
-},
-onResetCompleted: function (d, e) {
-self.resetAllCompleted(d, e);
-}
+onReopenMonth: self.handleReopenMonth,
+onClick: self.handleReopenMonth,
+onResetCompleted: self.handleResetCompleted
 };
 self.reopenLastMonth = function (d, e) {
 if (e && e.stopPropagation) e.stopPropagation();
@@ -9503,10 +9696,6 @@ window.TasbeehPageViewModel = TasbeehPageViewModel;
 window.getTasbeehViewModel = getTasbeehViewModel;
 window.initTasbeeh = initTasbeeh;
 }
-export * from './tasbeeh-old-card/tasbeeh-old-card.js';
-export * from './tasbeeh-old-feed/tasbeeh-old-feed.js';
-export * from './tasbeeh-old-form/tasbeeh-old-form.js';
-export * from './tasbeeh-old-page/tasbeeh-old-page.js';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var TASBEEH_CONSTANTS = _win.TASBEEH_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.TASBEEH) || {};
 var ELEMENT_IDS = TASBEEH_CONSTANTS.ELEMENT_IDS || {};
@@ -9862,29 +10051,37 @@ window.TasbeehApp.savePeriod = savePeriod;
 window.TasbeehApp.renderOldTab = renderOldTab;
 }
 }
-export * from './tasbeeh-history-card/tasbeeh-history-card.js';
-export * from './tasbeeh-history-feed/tasbeeh-history-feed.js';
-export * from './tasbeeh-history-form/tasbeeh-history-form.js';
-export * from './tasbeeh-history-page/tasbeeh-history-page.js';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var TASBEEH_CONSTANTS = _win.TASBEEH_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.TASBEEH) || {};
 var ELEMENT_IDS = TASBEEH_CONSTANTS.ELEMENT_IDS || {};
+var curOldMonth = null;
 function getEl(id) {
 if (typeof document === 'undefined') return null;
 return document.getElementById(id);
 }
 function renderHistoryTab() {
+try {
 var body = getEl(ELEMENT_IDS.HISTORY_BODY || 'tbHistoryBody');
 if (!body) return;
 var period = loadPeriod();
-var curOldMonth = typeof getCurrentOldMonth === 'function' ? getCurrentOldMonth() : ((period && period.startDate && period.endDate && period.endDate >= period.startDate) ? period.endDate : null);
+var curOldMonth = (typeof getCurrentOldMonth === 'function')
+? getCurrentOldMonth()
+: ((_win.TasbeehService && typeof _win.TasbeehService.getCurrentOldMonth === 'function')
+? _win.TasbeehService.getCurrentOldMonth()
+: ((_win.TasbeehOldApp && typeof _win.TasbeehOldApp.getCurrentOldMonth === 'function')
+? _win.TasbeehOldApp.getCurrentOldMonth()
+: ((period && period.startDate && period.endDate && period.endDate >= period.startDate) ? period.endDate : null)));
 var maxEnd = period.initialEnd || period.endDate;
-var stats = calculateHistoryStats(period, curOldMonth);
-var allOldMonths = stats.allOldMonths;
-var totalMonthsCount = stats.totalMonths;
-var completedCount = stats.clearedMonths;
-var pendingCount = stats.pendingMonths;
-var percent = stats.percentCleared;
+var stats = (typeof calculateHistoryStats === 'function')
+? calculateHistoryStats(period, curOldMonth)
+: ((_win.TasbeehService && typeof _win.TasbeehService.calculateHistoryStats === 'function')
+? _win.TasbeehService.calculateHistoryStats(period, curOldMonth)
+: { allOldMonths: [], totalMonths: 0, clearedMonths: 0, pendingMonths: 0, percentCleared: 0 });
+var allOldMonths = stats.allOldMonths || [];
+var totalMonthsCount = stats.totalMonths || 0;
+var completedCount = stats.clearedMonths || 0;
+var pendingCount = stats.pendingMonths || 0;
+var percent = stats.percentCleared || 0;
 var reopenTargetMonth = null;
 if (period.endDate < maxEnd) {
 reopenTargetMonth = typeof _win.getNextMonthKey === 'function' ? _win.getNextMonthKey(period.endDate) : (typeof getNextMonthKey === 'function' ? getNextMonthKey(period.endDate) : null);
@@ -9899,7 +10096,7 @@ monthsListHtml =
 } else {
 monthsListHtml = allOldMonths.map(function (mKey, idx) {
 var isCompleted = (mKey > period.endDate) || (period.endDate < period.startDate);
-var isActive = (mKey === curOldMonth);
+var isActive = !!(curOldMonth && mKey === curOldMonth);
 var monthLabel = typeof _win.formatMonthLabel === 'function' ? _win.formatMonthLabel(mKey) : (typeof formatMonthLabel === 'function' ? formatMonthLabel(mKey) : mKey);
 var badgeClass = isCompleted ? 'bg-brand-light text-brand border border-brand-subtle'
 : (isActive ? 'bg-brand text-white border-0'
@@ -9967,11 +10164,14 @@ var listEl = getEl(ELEMENT_IDS.HISTORY_LIST || 'tbHistoryList');
 if (listEl) {
 listEl.innerHTML = monthsListHtml;
 }
+} catch (err) {
+console.warn('[renderHistoryTab]', err);
+}
 }
 function applyPreset(presetType) {
 var now = new Date();
 var curMonth = typeof _win.getCurrentMonthKey === 'function' ? _win.getCurrentMonthKey() : (now.getFullYear() + '-' + pad2(now.getMonth() + 1));
-var prevMonth = typeof _win.getPrevMonthKey === 'function' ? _win.getPrevMonthKey(curMonth) : (now.getFullYear() + '-09');
+var prevMonth = typeof getPrevMonthKey === 'function' ? getPrevMonthKey(curMonth) : (typeof _win.getPrevMonthKey === 'function' ? _win.getPrevMonthKey(curMonth) : (now.getFullYear() + '-09'));
 var startInp = getEl('tbHistPeriodStart');
 var endInp = getEl('tbHistPeriodEnd');
 if (!startInp || !endInp) return;
@@ -10018,7 +10218,7 @@ function resetHistoryPeriod() {
 var now = new Date();
 var curMonth = typeof _win.getCurrentMonthKey === 'function' ? _win.getCurrentMonthKey() : (now.getFullYear() + '-' + pad2(now.getMonth() + 1));
 var defaultStart = now.getFullYear() + '-01';
-var defaultEnd = typeof _win.getPrevMonthKey === 'function' ? _win.getPrevMonthKey(curMonth) : (now.getFullYear() + '-09');
+var defaultEnd = typeof getPrevMonthKey === 'function' ? getPrevMonthKey(curMonth) : (typeof _win.getPrevMonthKey === 'function' ? _win.getPrevMonthKey(curMonth) : (now.getFullYear() + '-09'));
 savePeriod(defaultStart, defaultEnd, defaultEnd);
 showToast('Period reset to current year');
 renderHistoryTab();
@@ -10053,10 +10253,6 @@ old: { iconClass: 'clock-rotate-left text-warning', label: 'Old Tasbeeh' },
 history: { iconClass: 'gear text-gr-accent', label: 'Tasbeeh History', sub: 'Period & Settings' }
 };
 function getEl(id) { if (typeof document === 'undefined') return null; return document.getElementById(id); }
-export * from './tasbeeh-current-card/tasbeeh-current-card.js';
-export * from './tasbeeh-current-feed/tasbeeh-current-feed.js';
-export * from './tasbeeh-current-form/tasbeeh-current-form.js';
-export * from './tasbeeh-current-page/tasbeeh-current-page.js';
 var state = {
 items: [], activeId: null, editingId: null, activeTab: 'current',
 counterMonthKey: null, countMode: 'finite', calViewYear: null,
@@ -10412,19 +10608,6 @@ window.TasbeehCurrentApp = TasbeehCurrentApp;
 window.TasbeehApp = TasbeehCurrentApp;
 window.switchCurrentTab = switchCurrentTab;
 }
-export * from './tasbeeh-current/tasbeeh-current-card/tasbeeh-current-card.js';
-export * from './tasbeeh-current/tasbeeh-current-feed/tasbeeh-current-feed.js';
-export * from './tasbeeh-current/tasbeeh-current-form/tasbeeh-current-form.js';
-export * from './tasbeeh-current/tasbeeh-current-page/tasbeeh-current-page.js';
-export * from './tasbeeh-old/tasbeeh-old-card/tasbeeh-old-card.js';
-export * from './tasbeeh-old/tasbeeh-old-feed/tasbeeh-old-feed.js';
-export * from './tasbeeh-old/tasbeeh-old-form/tasbeeh-old-form.js';
-export * from './tasbeeh-old/tasbeeh-old-page/tasbeeh-old-page.js';
-export * from './tasbeeh-history/tasbeeh-history-card/tasbeeh-history-card.js';
-export * from './tasbeeh-history/tasbeeh-history-feed/tasbeeh-history-feed.js';
-export * from './tasbeeh-history/tasbeeh-history-form/tasbeeh-history-form.js';
-export * from './tasbeeh-history/tasbeeh-history-page/tasbeeh-history-page.js';
-export * from './tasbeeh-registration.js';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 if (_win.TasbeehApp) {
 if (_win.TasbeehOldApp) {
@@ -10488,6 +10671,1049 @@ registerComponent('tasbeeh-history-page', HistoryPageViewModel, HistoryPageTempl
 }
 if (typeof window !== 'undefined') {
 window.registerTasbeehComponents = registerTasbeehComponents;
+}
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+const RAW_BASE = 'https://raw.githubusercontent.com/iliyas77/data.github.io/main/telugu_quran/';
+const BOOKMARKS_STORAGE_KEY = 'nurQuranBookmarks';
+const LAST_READ_STORAGE_KEY = 'nurQuranLastRead';
+const SURAH_META = [
+{ n: 1,   name: 'అల్-ఫాతిహా',           meaning: 'ప్రారంభం',                     revelation: 'Makkah',  ayahs: 7   },
+{ n: 2,   name: 'అల్-బఖరా',             meaning: 'గోవు',                         revelation: 'Madinah', ayahs: 286 },
+{ n: 3,   name: 'ఆల్-ఇమ్రాన్',           meaning: 'ఇమ్రాన్ కుటుంబం',               revelation: 'Madinah', ayahs: 200 },
+{ n: 4,   name: 'అన్-నిసా',              meaning: 'మహిళలు',                       revelation: 'Madinah', ayahs: 176 },
+{ n: 5,   name: 'అల్-మాయిదా',            meaning: 'విందు',                        revelation: 'Madinah', ayahs: 120 },
+{ n: 6,   name: 'అల్-అన్ఆమ్',            meaning: 'పశువులు',                       revelation: 'Makkah',  ayahs: 165 },
+{ n: 7,   name: 'అల్-అఆరాఫ్',            meaning: 'ఎత్తైన ప్రదేశాలు',              revelation: 'Makkah',  ayahs: 206 },
+{ n: 8,   name: 'అల్-అన్ఫాల్',           meaning: 'యుద్ధ విజయాలు',                 revelation: 'Madinah', ayahs: 75  },
+{ n: 9,   name: 'అత్-తౌబా',              meaning: 'పశ్చాత్తాపం',                   revelation: 'Madinah', ayahs: 129 },
+{ n: 10,  name: 'యూనుస్',                meaning: 'యూనుస్',                       revelation: 'Makkah',  ayahs: 109 },
+{ n: 11,  name: 'హూద్',                  meaning: 'హూద్',                         revelation: 'Makkah',  ayahs: 123 },
+{ n: 12,  name: 'యూసుఫ్',                meaning: 'యూసుఫ్',                       revelation: 'Makkah',  ayahs: 111 },
+{ n: 13,  name: 'అర్-రఅద్',              meaning: 'ఉరుము',                        revelation: 'Madinah', ayahs: 43  },
+{ n: 14,  name: 'ఇబ్రాహీమ్',            meaning: 'ఇబ్రాహీమ్',                    revelation: 'Makkah',  ayahs: 52  },
+{ n: 15,  name: 'అల్-హిజ్ర్',            meaning: 'రాతి భూమి',                    revelation: 'Makkah',  ayahs: 99  },
+{ n: 16,  name: 'అన్-నహల్',              meaning: 'తేనెటీగ',                       revelation: 'Makkah',  ayahs: 128 },
+{ n: 17,  name: 'అల్-ఇస్రా',             meaning: 'రాత్రి ప్రయాణం',                revelation: 'Makkah',  ayahs: 111 },
+{ n: 18,  name: 'అల్-కహ్ఫ్',             meaning: 'గుహ',                          revelation: 'Makkah',  ayahs: 110 },
+{ n: 19,  name: 'మర్యమ్',                meaning: 'మర్యమ్',                       revelation: 'Makkah',  ayahs: 98  },
+{ n: 20,  name: 'తా-హా',                 meaning: 'తా-హా',                        revelation: 'Makkah',  ayahs: 135 },
+{ n: 21,  name: 'అల్-అంబియా',            meaning: 'ప్రవక్తలు',                     revelation: 'Makkah',  ayahs: 112 },
+{ n: 22,  name: 'అల్-హజ్',               meaning: 'హజ్ యాత్ర',                     revelation: 'Madinah', ayahs: 78  },
+{ n: 23,  name: 'అల్-ముమినూన్',          meaning: 'విశ్వాసులు',                    revelation: 'Makkah',  ayahs: 118 },
+{ n: 24,  name: 'అన్-నూర్',              meaning: 'కాంతి',                        revelation: 'Madinah', ayahs: 64  },
+{ n: 25,  name: 'అల్-ఫుర్ఖాన్',          meaning: 'సత్య-అసత్య వివేచన',            revelation: 'Makkah',  ayahs: 77  },
+{ n: 26,  name: 'అష్-షుఅరా',             meaning: 'కవులు',                        revelation: 'Makkah',  ayahs: 227 },
+{ n: 27,  name: 'అన్-నమ్ల్',             meaning: 'చీమలు',                        revelation: 'Makkah',  ayahs: 93  },
+{ n: 28,  name: 'అల్-ఖసస్',              meaning: 'కథలు',                         revelation: 'Makkah',  ayahs: 88  },
+{ n: 29,  name: 'అల్-అన్కబూత్',          meaning: 'సాలెపురుగు',                   revelation: 'Makkah',  ayahs: 69  },
+{ n: 30,  name: 'అర్-రూమ్',              meaning: 'రోమ్ సామ్రాజ్యం',               revelation: 'Makkah',  ayahs: 60  },
+{ n: 31,  name: 'లుఖ్మాన్',              meaning: 'లుఖ్మాన్',                     revelation: 'Makkah',  ayahs: 34  },
+{ n: 32,  name: 'అస్-సజ్దా',             meaning: 'సాష్టాంగ ప్రణామం',             revelation: 'Makkah',  ayahs: 30  },
+{ n: 33,  name: 'అల్-అహ్జాబ్',           meaning: 'సైన్యాలు',                     revelation: 'Madinah', ayahs: 73  },
+{ n: 34,  name: 'సబా',                   meaning: 'సబా రాజ్యం',                   revelation: 'Makkah',  ayahs: 54  },
+{ n: 35,  name: 'ఫాతిర్',                meaning: 'సృష్టికర్త',                   revelation: 'Makkah',  ayahs: 45  },
+{ n: 36,  name: 'యా-సీన్',               meaning: 'యా-సీన్',                      revelation: 'Makkah',  ayahs: 83  },
+{ n: 37,  name: 'అస్-సాఫ్ఫాత్',          meaning: 'వరుసలు కట్టినవారు',             revelation: 'Makkah',  ayahs: 182 },
+{ n: 38,  name: 'సాద్',                  meaning: 'సాద్',                         revelation: 'Makkah',  ayahs: 88  },
+{ n: 39,  name: 'అజ్-జుమర్',             meaning: 'గుంపులు',                      revelation: 'Makkah',  ayahs: 75  },
+{ n: 40,  name: 'గాఫిర్',                meaning: 'క్షమించేవాడు',                 revelation: 'Makkah',  ayahs: 85  },
+{ n: 41,  name: 'ఫుస్సిలత్',             meaning: 'వివరించబడినవి',                revelation: 'Makkah',  ayahs: 54  },
+{ n: 42,  name: 'అష్-షూరా',              meaning: 'సలహా',                         revelation: 'Makkah',  ayahs: 53  },
+{ n: 43,  name: 'అజ్-జుఖ్రుఫ్',          meaning: 'బంగారు అలంకారాలు',              revelation: 'Makkah',  ayahs: 89  },
+{ n: 44,  name: 'అద్-దుఖాన్',            meaning: 'పొగ',                          revelation: 'Makkah',  ayahs: 59  },
+{ n: 45,  name: 'అల్-జాసియా',            meaning: 'మోకాళ్లపై కూర్చున్నది',         revelation: 'Makkah',  ayahs: 37  },
+{ n: 46,  name: 'అల్-అహ్కాఫ్',           meaning: 'ఇసుక దిబ్బలు',                 revelation: 'Makkah',  ayahs: 35  },
+{ n: 47,  name: 'ముహమ్మద్',              meaning: 'ముహమ్మద్',                     revelation: 'Madinah', ayahs: 38  },
+{ n: 48,  name: 'అల్-ఫత్హ్',             meaning: 'విజయం',                        revelation: 'Madinah', ayahs: 29  },
+{ n: 49,  name: 'అల్-హుజురాత్',          meaning: 'గదులు',                        revelation: 'Madinah', ayahs: 18  },
+{ n: 50,  name: 'ఖాఫ్',                  meaning: 'ఖాఫ్',                         revelation: 'Makkah',  ayahs: 45  },
+{ n: 51,  name: 'అజ్-జారియాత్',          meaning: 'చెదరగొట్టే గాలులు',             revelation: 'Makkah',  ayahs: 60  },
+{ n: 52,  name: 'అత్-తూర్',              meaning: 'పర్వతం',                       revelation: 'Makkah',  ayahs: 49  },
+{ n: 53,  name: 'అన్-నజ్మ్',             meaning: 'నక్షత్రం',                     revelation: 'Makkah',  ayahs: 62  },
+{ n: 54,  name: 'అల్-ఖమర్',              meaning: 'చంద్రుడు',                     revelation: 'Makkah',  ayahs: 55  },
+{ n: 55,  name: 'అర్-రహ్మాన్',           meaning: 'అనంత కరుణామయుడు',              revelation: 'Madinah', ayahs: 78  },
+{ n: 56,  name: 'అల్-వాఖిఆ',             meaning: 'తప్పనిసరి సంఘటన',              revelation: 'Makkah',  ayahs: 96  },
+{ n: 57,  name: 'అల్-హదీద్',             meaning: 'ఇనుము',                        revelation: 'Madinah', ayahs: 29  },
+{ n: 58,  name: 'అల్-ముజాదిలా',          meaning: 'వాదించే స్త్రీ',                revelation: 'Madinah', ayahs: 22  },
+{ n: 59,  name: 'అల్-హష్ర్',             meaning: 'బహిష్కరణ',                     revelation: 'Madinah', ayahs: 24  },
+{ n: 60,  name: 'అల్-ముంతహినా',          meaning: 'పరీక్షించబడిన స్త్రీ',          revelation: 'Madinah', ayahs: 13  },
+{ n: 61,  name: 'అస్-సఫ్',               meaning: 'వరుస',                         revelation: 'Madinah', ayahs: 14  },
+{ n: 62,  name: 'అల్-జుముఆ',             meaning: 'శుక్రవారం',                    revelation: 'Madinah', ayahs: 11  },
+{ n: 63,  name: 'అల్-మునాఫికూన్',        meaning: 'కపటులు',                       revelation: 'Madinah', ayahs: 11  },
+{ n: 64,  name: 'అత్-తగాబున్',           meaning: 'పరస్పర మోసం',                  revelation: 'Madinah', ayahs: 18  },
+{ n: 65,  name: 'అత్-తలాఖ్',             meaning: 'విడాకులు',                      revelation: 'Madinah', ayahs: 12  },
+{ n: 66,  name: 'అత్-తహ్రీమ్',           meaning: 'నిషేధం',                       revelation: 'Madinah', ayahs: 12  },
+{ n: 67,  name: 'అల్-ముల్క్',            meaning: 'సార్వభౌమత్వం',                 revelation: 'Makkah',  ayahs: 30  },
+{ n: 68,  name: 'అల్-ఖలమ్',              meaning: 'లేఖిని',                       revelation: 'Makkah',  ayahs: 52  },
+{ n: 69,  name: 'అల్-హాఖ్ఖా',            meaning: 'నిశ్చయమైనది',                   revelation: 'Makkah',  ayahs: 52  },
+{ n: 70,  name: 'అల్-మఆరిజ్',            meaning: 'ఆరోహణ మార్గాలు',               revelation: 'Makkah',  ayahs: 44  },
+{ n: 71,  name: 'నూహ్',                  meaning: 'నూహ్',                         revelation: 'Makkah',  ayahs: 28  },
+{ n: 72,  name: 'అల్-జిన్న్',            meaning: 'జిన్నులు',                      revelation: 'Makkah',  ayahs: 28  },
+{ n: 73,  name: 'అల్-ముజ్జమ్మిల్',       meaning: 'కప్పుకున్నవాడు',               revelation: 'Makkah',  ayahs: 20  },
+{ n: 74,  name: 'అల్-ముద్దస్సిర్',       meaning: 'దుస్తులు ధరించినవాడు',          revelation: 'Makkah',  ayahs: 56  },
+{ n: 75,  name: 'అల్-ఖియామా',            meaning: 'పునరుత్థానం',                  revelation: 'Makkah',  ayahs: 40  },
+{ n: 76,  name: 'అల్-ఇన్సాన్',           meaning: 'మానవుడు',                      revelation: 'Madinah', ayahs: 31  },
+{ n: 77,  name: 'అల్-ముర్సలాత్',         meaning: 'పంపబడినవారు',                  revelation: 'Makkah',  ayahs: 50  },
+{ n: 78,  name: 'అన్-నబా',               meaning: 'మహా వార్త',                    revelation: 'Makkah',  ayahs: 40  },
+{ n: 79,  name: 'అన్-నాజిఆత్',           meaning: 'ఆత్మలను తీసుకునేవారు',          revelation: 'Makkah',  ayahs: 46  },
+{ n: 80,  name: 'అబసా',                  meaning: 'ముఖం చిట్లించాడు',              revelation: 'Makkah',  ayahs: 42  },
+{ n: 81,  name: 'అత్-తక్వీర్',           meaning: 'చుట్టబడినది',                   revelation: 'Makkah',  ayahs: 29  },
+{ n: 82,  name: 'అల్-ఇన్ఫితార్',         meaning: 'పగిలినది',                     revelation: 'Makkah',  ayahs: 19  },
+{ n: 83,  name: 'అల్-ముతఫ్ఫిఫీన్',       meaning: 'కొలతలో మోసం చేసేవారు',           revelation: 'Makkah',  ayahs: 36  },
+{ n: 84,  name: 'అల్-ఇన్షికాఖ్',         meaning: 'చీలినది',                      revelation: 'Makkah',  ayahs: 25  },
+{ n: 85,  name: 'అల్-బురూజ్',            meaning: 'నక్షత్ర మండలాలు',               revelation: 'Makkah',  ayahs: 22  },
+{ n: 86,  name: 'అత్-తారిఖ్',            meaning: 'రాత్రి నక్షత్రం',               revelation: 'Makkah',  ayahs: 17  },
+{ n: 87,  name: 'అల్-అఅలా',              meaning: 'మహోన్నతుడు',                    revelation: 'Makkah',  ayahs: 19  },
+{ n: 88,  name: 'అల్-గాషియా',            meaning: 'ఆవరించేది',                    revelation: 'Makkah',  ayahs: 26  },
+{ n: 89,  name: 'అల్-ఫజ్ర్',             meaning: 'ఉదయం',                         revelation: 'Makkah',  ayahs: 30  },
+{ n: 90,  name: 'అల్-బలద్',              meaning: 'నగరం',                         revelation: 'Makkah',  ayahs: 20  },
+{ n: 91,  name: 'అష్-షమ్స్',             meaning: 'సూర్యుడు',                     revelation: 'Makkah',  ayahs: 15  },
+{ n: 92,  name: 'అల్-లైల్',              meaning: 'రాత్రి',                       revelation: 'Makkah',  ayahs: 21  },
+{ n: 93,  name: 'అద్-దుహా',              meaning: 'పూర్వాహ్నం',                   revelation: 'Makkah',  ayahs: 11  },
+{ n: 94,  name: 'అల్-ఇన్షిరాహ్',         meaning: 'విశాలీకరణ',                    revelation: 'Makkah',  ayahs: 8   },
+{ n: 95,  name: 'అత్-తీన్',              meaning: 'అంజూరం',                       revelation: 'Makkah',  ayahs: 8   },
+{ n: 96,  name: 'అల్-అలఖ్',              meaning: 'రక్తపు గడ్డ',                   revelation: 'Makkah',  ayahs: 19  },
+{ n: 97,  name: 'అల్-ఖద్ర్',             meaning: 'గౌరవం',                         revelation: 'Makkah',  ayahs: 5   },
+{ n: 98,  name: 'అల్-బయ్యినా',           meaning: 'స్పష్టమైన రుజువు',               revelation: 'Madinah', ayahs: 8   },
+{ n: 99,  name: 'అజ్-జిల్జాల్',          meaning: 'భూకంపం',                      revelation: 'Madinah', ayahs: 8   },
+{ n: 100, name: 'అల్-ఆదియాత్',           meaning: 'పరుగెత్తే గుర్రాలు',            revelation: 'Makkah',  ayahs: 11  },
+{ n: 101, name: 'అల్-ఖారిఆ',             meaning: 'మహా విపత్తు',                   revelation: 'Makkah',  ayahs: 11  },
+{ n: 102, name: 'అత్-తకాసుర్',           meaning: 'పోటీ',                         revelation: 'Makkah',  ayahs: 8   },
+{ n: 103, name: 'అల్-అస్ర్',             meaning: 'కాలం',                         revelation: 'Makkah',  ayahs: 3   },
+{ n: 104, name: 'అల్-హుమజా',            meaning: 'నిందించేవాడు',                 revelation: 'Makkah',  ayahs: 9   },
+{ n: 105, name: 'అల్-ఫీల్',              meaning: 'ఏనుగు',                        revelation: 'Makkah',  ayahs: 5   },
+{ n: 106, name: 'ఖురైష్',               meaning: 'ఖురైష్',                       revelation: 'Makkah',  ayahs: 4   },
+{ n: 107, name: 'అల్-మాఊన్',            meaning: 'సహాయం',                        revelation: 'Makkah',  ayahs: 7   },
+{ n: 108, name: 'అల్-కౌసర్',             meaning: 'సమృద్ధి',                       revelation: 'Makkah',  ayahs: 3   },
+{ n: 109, name: 'అల్-కాఫిరూన్',          meaning: 'అవిశ్వాసులు',                   revelation: 'Makkah',  ayahs: 6   },
+{ n: 110, name: 'అన్-నస్ర్',             meaning: 'సహాయం',                        revelation: 'Madinah', ayahs: 3   },
+{ n: 111, name: 'అల్-లహబ్',              meaning: 'అగ్ని జ్వాల',                   revelation: 'Makkah',  ayahs: 5   },
+{ n: 112, name: 'అల్-ఇఖ్లాస్',           meaning: 'నిష్కపటమైన విశ్వాసం',           revelation: 'Makkah',  ayahs: 4   },
+{ n: 113, name: 'అల్-ఫలక్',              meaning: 'ఉదయం',                         revelation: 'Makkah',  ayahs: 5   },
+{ n: 114, name: 'అన్-నాస్',              meaning: 'మానవులు',                      revelation: 'Makkah',  ayahs: 6   }
+];
+const ARABIC_NAMES = {
+1:'الفاتحة', 2:'البقرة', 3:'آل عمران', 4:'النساء', 5:'المائدة', 6:'الأنعام',
+7:'الأعراف', 8:'الأنفال', 9:'التوبة', 10:'يونس', 11:'هود', 12:'يوسف',
+13:'الرعد', 14:'إبراهيم', 15:'الحجر', 16:'النحل', 17:'الإسراء', 18:'الكهف',
+19:'مريم', 20:'طه', 21:'الأنبياء', 22:'الحج', 23:'المؤمنون', 24:'النور',
+25:'الفرقان', 26:'الشعراء', 27:'النمل', 28:'القصص', 29:'العنكبوت', 30:'الروم',
+31:'لقمان', 32:'السجدة', 33:'الأحزاب', 34:'سبأ', 35:'فاطر', 36:'يس',
+37:'الصافات', 38:'ص', 39:'الزمر', 40:'غافر', 41:'فصلت', 42:'الشورى',
+43:'الزخرف', 44:'الدخان', 45:'الجاثية', 46:'الأحقاف', 47:'محمد', 48:'الفتح',
+49:'الحجرات', 50:'ق', 51:'الذاريات', 52:'الطور', 53:'النجم', 54:'القمر',
+55:'الرحمن', 56:'الواقعة', 57:'الحديد', 58:'المجادلة', 59:'الحشر', 60:'الممتحنة',
+61:'الصف', 62:'الجمعة', 63:'المنافقون', 64:'التغابن', 65:'الطلاق', 66:'التحريم',
+67:'الملك', 68:'القلم', 69:'الحاقة', 70:'المعارج', 71:'نوح', 72:'الجن',
+73:'المزمل', 74:'المدثر', 75:'القيامة', 76:'الإنسان', 77:'المرسلات', 78:'النبأ',
+79:'النازعات', 80:'عبس', 81:'التكوير', 82:'الانفطار', 83:'المطففين', 84:'الانشقاق',
+85:'البروج', 86:'الطارق', 87:'الأعلى', 88:'الغاشية', 89:'الفجر', 90:'البلد',
+91:'الشمس', 92:'الليل', 93:'الضحى', 94:'الشرح', 95:'التين', 96:'العلق',
+97:'القدر', 98:'البينة', 99:'الزلزلة', 100:'العاديات', 101:'القارعة', 102:'التكاثر',
+103:'العصر', 104:'الهمزة', 105:'الفيل', 106:'قريش', 107:'الماعون', 108:'الكوثر',
+109:'الكافرون', 110:'النصر', 111:'اللهب', 112:'الإخلاص', 113:'الفلق', 114:'الناس'
+};
+const surahCache = {};
+function pad3(n) {
+return String(n).padStart(3, '0');
+}
+function surahUrl(n) {
+return RAW_BASE + 'telugu_surah_' + pad3(n) + '.json';
+}
+function unwrap(val, def) {
+var v = (typeof val === 'function') ? val() : val;
+return (v !== undefined && v !== null) ? v : def;
+}
+function escapeHtml(str) {
+if (!str) return '';
+return String(str)
+.replace(/&/g, '&amp;')
+.replace(/</g, '&lt;')
+.replace(/>/g, '&gt;')
+.replace(/"/g, '&quot;')
+.replace(/'/g, '&#039;');
+}
+function getSurahMeta(n) {
+var num = Number(n);
+for (var i = 0; i < SURAH_META.length; i++) {
+if (SURAH_META[i].n === num) return SURAH_META[i];
+}
+return null;
+}
+function getArabicName(n) {
+return ARABIC_NAMES[Number(n)] || '';
+}
+async function loadSurah(n) {
+var num = Number(n);
+if (surahCache[num]) return surahCache[num];
+var fetchFn = typeof fetch === 'function' ? fetch : (_win.fetch || null);
+if (!fetchFn) {
+throw new Error('Fetch API is not available');
+}
+var res = await fetchFn(surahUrl(num));
+if (!res.ok) {
+throw new Error('HTTP ' + res.status + ' for surah ' + num);
+}
+var json = await res.json();
+var ayahs = Array.isArray(json.result) ? json.result : [];
+surahCache[num] = ayahs;
+return ayahs;
+}
+function renderFootnotes(raw, surahNum) {
+if (!raw || !raw.trim()) return '';
+var parts = raw.split(/(?=\[\d+\])/g).filter(function (p) {
+return p.trim().length > 0;
+});
+var items = parts.map(function (part) {
+var m = part.match(/^\[(\d+)\]\s*([\s\S]*)$/);
+if (!m) {
+return '<p class="mt-1">' + escapeHtml(part.trim()) + '</p>';
+}
+var num = m[1];
+var text = escapeHtml(m[2].trim()).replace(/\n/g, '<br>');
+return (
+'<p class="mt-1">' +
+'<span id="fn-' + surahNum + '-' + num + '" class="font-bold text-gray-900">[' + num + ']</span> ' +
+text +
+'</p>'
+);
+}).join('');
+return (
+'<div class="mt-5 bg-gray-50 p-4 rounded-xl border border-gray-100">' +
+'<div class="flex gap-3 items-start">' +
+'<i class="fa-solid fa-circle-info mt-1.5 text-sm shrink-0 text-gray-400" aria-hidden="true"></i>' +
+'<div lang="te" class="font-telugu text-[17px] leading-[1.7] text-gray-700">' +
+items +
+'</div>' +
+'</div>' +
+'</div>'
+);
+}
+function linkFootnoteMarkers(translation, surahNum) {
+if (!translation) return '';
+var safe = escapeHtml(translation);
+return safe.replace(/\[(\d+)\]/g, function (_, num) {
+return (
+'<a href="#fn-' + surahNum + '-' + num + '" ' +
+'class="text-darkGreen font-bold no-underline hover:underline">[' + num + ']</a>'
+);
+});
+}
+function loadBookmarks() {
+try {
+if (typeof localStorage !== 'undefined') {
+var raw = localStorage.getItem(BOOKMARKS_STORAGE_KEY);
+if (raw) {
+var parsed = JSON.parse(raw);
+if (Array.isArray(parsed)) return parsed;
+}
+}
+} catch (_) {}
+return [];
+}
+function persistBookmarks(bookmarks) {
+try {
+if (typeof localStorage !== 'undefined') {
+localStorage.setItem(BOOKMARKS_STORAGE_KEY, JSON.stringify(bookmarks || []));
+}
+} catch (_) {}
+}
+function isAyahBookmarked(surahNum, ayahNum) {
+var bms = loadBookmarks();
+var s = Number(surahNum), a = Number(ayahNum);
+return bms.some(function (b) { return b.surahNumber === s && b.ayahNumber === a; });
+}
+function toggleBookmark(surahNum, ayahNum, ayahData, surahMeta) {
+var s = Number(surahNum), a = Number(ayahNum);
+var bms = loadBookmarks();
+var idx = bms.findIndex(function (b) { return b.surahNumber === s && b.ayahNumber === a; });
+var isNowBookmarked = false;
+if (idx !== -1) {
+bms.splice(idx, 1);
+isNowBookmarked = false;
+} else {
+var meta = surahMeta || getSurahMeta(s) || {};
+var arabicName = getArabicName(s);
+var item = {
+id: s + ':' + a,
+surahNumber: s,
+ayahNumber: a,
+surahName: meta.name || ('Surah ' + s),
+arabicName: arabicName,
+revelation: meta.revelation || 'Makkah',
+arabicText: (ayahData && ayahData.arabic_text) || '',
+translation: (ayahData && ayahData.translation) || '',
+createdAt: Date.now()
+};
+bms.unshift(item);
+isNowBookmarked = true;
+}
+persistBookmarks(bms);
+return isNowBookmarked;
+}
+function removeBookmark(bookmarkId) {
+var bms = loadBookmarks();
+var filtered = bms.filter(function (b) {
+return b.id !== bookmarkId && (b.surahNumber + ':' + b.ayahNumber) !== bookmarkId;
+});
+persistBookmarks(filtered);
+return filtered;
+}
+var currentAudio = null;
+var activeAudioAyah = null;
+var audioStateListeners = [];
+function getAyahAudioUrl(surahNum, ayahNum) {
+return 'https://everyayah.com/data/Alafasy_128kbps/' + pad3(surahNum) + pad3(ayahNum) + '.mp3';
+}
+function subscribeAudioState(fn) {
+if (typeof fn === 'function') {
+audioStateListeners.push(fn);
+fn(activeAudioAyah);
+}
+}
+function notifyAudioChange(key) {
+activeAudioAyah = key;
+audioStateListeners.forEach(function (listener) {
+try { listener(key); } catch (_) {}
+});
+}
+function stopAyahAudio() {
+if (currentAudio) {
+try {
+currentAudio.pause();
+currentAudio.currentTime = 0;
+} catch (_) {}
+currentAudio = null;
+}
+notifyAudioChange(null);
+}
+function playAyahAudio(surahNum, ayahNum) {
+var key = Number(surahNum) + ':' + Number(ayahNum);
+if (activeAudioAyah === key && currentAudio && !currentAudio.paused) {
+stopAyahAudio();
+return false;
+}
+stopAyahAudio();
+if (typeof Audio === 'undefined') {
+notifyAudioChange(null);
+return false;
+}
+var url = getAyahAudioUrl(surahNum, ayahNum);
+var audio = new Audio(url);
+currentAudio = audio;
+notifyAudioChange(key);
+audio.onended = function () {
+if (activeAudioAyah === key) {
+stopAyahAudio();
+}
+};
+audio.onerror = function () {
+if (activeAudioAyah === key) {
+stopAyahAudio();
+}
+};
+var playPromise = audio.play();
+if (playPromise && typeof playPromise.catch === 'function') {
+playPromise.catch(function () {
+stopAyahAudio();
+});
+}
+return true;
+}
+function getActiveAudioAyah() {
+return activeAudioAyah;
+}
+function filterSurahs(query, list) {
+var source = list || SURAH_META;
+var q = (query || '').trim().toLowerCase();
+if (!q) return source;
+return source.filter(function (s) {
+var numStr = String(s.n);
+var nameLower = (s.name || '').toLowerCase();
+var meaningLower = (s.meaning || '').toLowerCase();
+var arabic = (ARABIC_NAMES[s.n] || '').toLowerCase();
+return numStr === q ||
+numStr.indexOf(q) !== -1 ||
+nameLower.indexOf(q) !== -1 ||
+meaningLower.indexOf(q) !== -1 ||
+arabic.indexOf(q) !== -1;
+});
+}
+const QuranService = {
+SURAH_META,
+ARABIC_NAMES,
+RAW_BASE,
+loadSurah,
+getSurahMeta,
+getArabicName,
+pad3,
+escapeHtml,
+renderFootnotes,
+linkFootnoteMarkers,
+loadBookmarks,
+persistBookmarks,
+isAyahBookmarked,
+toggleBookmark,
+removeBookmark,
+playAyahAudio,
+stopAyahAudio,
+getActiveAudioAyah,
+subscribeAudioState,
+getAyahAudioUrl,
+filterSurahs,
+unwrap
+};
+if (typeof window !== 'undefined') {
+window.QuranService = QuranService;
+}
+const QuranMainCardTemplate = {
+element: 'quran-main-card-template',
+file: 'quran/quran-main/quran-main-card/quran-main-card.html'
+};
+function QuranMainCardViewModel(params) {
+if (params instanceof QuranMainCardViewModel) return params;
+if (!(this instanceof QuranMainCardViewModel)) return new QuranMainCardViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var item = (p.item && typeof p.item === 'function') ? p.item() : (p.item || p);
+var self = this;
+self.item = item;
+self.number = unwrap(item.n, 1);
+self.name = unwrap(item.name, '');
+self.meaning = unwrap(item.meaning, '');
+self.revelation = unwrap(item.revelation, 'Makkah');
+self.ayahs = unwrap(item.ayahs, 7);
+self.revelationTelugu = self.revelation === 'Makkah' ? 'మక్కీ' : 'మదనీ';
+self.revelationIcon = self.revelation === 'Makkah' ? 'fa-solid fa-kaaba' : 'fa-solid fa-mosque';
+self.revelationMetaText = self.revelationTelugu + ' • ' + self.ayahs + ' ఆయత్ లు';
+self.arabicName = unwrap(item.arabicName, getArabicName(self.number));
+self.handleClick = function (d, e) {
+var event = e || (d && d.stopPropagation ? d : null);
+if (event && event.stopPropagation) {
+event.stopPropagation();
+}
+var cb = p.onClick || p.onCardClick;
+if (typeof cb === 'function') {
+cb(self.item, event);
+}
+};
+self.onCardClick = self.handleClick;
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+const QuranMainFeedTemplate = {
+element: 'quran-main-feed-template',
+file: 'quran/quran-main/quran-main-feed/quran-main-feed.html'
+};
+function QuranMainFeedViewModel(params) {
+if (params instanceof QuranMainFeedViewModel) return params;
+if (!(this instanceof QuranMainFeedViewModel)) return new QuranMainFeedViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = _ko;
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function comp(fn) {
+return (k && k.pureComputed) ? k.pureComputed(fn) : fn;
+}
+self.isLoading = (p.isLoading && k && k.isObservable(p.isLoading)) ? p.isLoading : obs(false);
+self.searchQuery = (p.searchQuery && k && k.isObservable(p.searchQuery)) ? p.searchQuery : obs(p.query || '');
+var rawSurahs = (p.surahs && typeof p.surahs === 'function') ? p.surahs() : (p.surahs || SURAH_META);
+self.allSurahs = Array.isArray(rawSurahs) ? rawSurahs : SURAH_META;
+self.filteredSurahs = comp(function () {
+var q = typeof self.searchQuery === 'function' ? self.searchQuery() : '';
+return filterSurahs(q, self.allSurahs);
+});
+self.hasResults = comp(function () {
+var list = typeof self.filteredSurahs === 'function' ? self.filteredSurahs() : self.filteredSurahs;
+return Array.isArray(list) && list.length > 0;
+});
+self.handleCardClick = function (item, event) {
+var cb = p.onSelectSurah || p.onCardClick;
+if (typeof cb === 'function') {
+cb(item, event);
+}
+};
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+const QuranMainPageTemplate = {
+element: 'quran-main-page-template',
+file: 'quran/quran-main/quran-main-page/quran-main-page.html'
+};
+function QuranMainPageViewModel(params) {
+if (params instanceof QuranMainPageViewModel) return params;
+if (!(this instanceof QuranMainPageViewModel)) return new QuranMainPageViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = _ko;
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+self.searchQuery = obs('');
+self.clearSearch = function () {
+self.searchQuery('');
+};
+self.handleSelectSurah = function (item, event) {
+var cb = p.onOpenSurah || p.onSelectSurah;
+if (typeof cb === 'function') {
+cb(item, event);
+}
+};
+self.goHome = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onHome === 'function') {
+p.onHome();
+} else if (typeof _win.showPage === 'function') {
+_win.showPage('dashboard');
+}
+};
+self.goToSettings = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onSettings === 'function') {
+p.onSettings();
+} else if (typeof _win.showPage === 'function') {
+_win.showPage('settings');
+}
+};
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+const QuranOpenCardTemplate = {
+element: 'quran-open-card-template',
+file: 'quran/quran-open/quran-open-card/quran-open-card.html'
+};
+function QuranOpenCardViewModel(params) {
+if (params instanceof QuranOpenCardViewModel) return params;
+if (!(this instanceof QuranOpenCardViewModel)) return new QuranOpenCardViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var ayah = (p.ayah && typeof p.ayah === 'function') ? p.ayah() : (p.ayah || p);
+var k = _ko;
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+self.ayah = ayah;
+self.surahNum = unwrap(p.surahNum, 1);
+self.ayahNum = unwrap(ayah.aya, 1);
+self.badgeText = '#' + self.surahNum + ':' + self.ayahNum;
+self.arabicText = ayah.arabic_text || '';
+self.translationHtml = linkFootnoteMarkers(ayah.translation || '', self.surahNum);
+self.hasFootnotes = Boolean(ayah.footnotes && String(ayah.footnotes).trim().length > 0);
+self.footnotesHtml = self.hasFootnotes ? renderFootnotes(ayah.footnotes, self.surahNum) : '';
+if (p.isBookmarked && k && k.isObservable(p.isBookmarked)) {
+self.isBookmarked = p.isBookmarked;
+} else {
+self.isBookmarked = obs(isAyahBookmarked(self.surahNum, self.ayahNum));
+}
+if (p.isPlaying && k && k.isObservable(p.isPlaying)) {
+self.isPlaying = p.isPlaying;
+} else {
+self.isPlaying = obs(false);
+}
+self.handleBookmarkClick = function (d, e) {
+var event = e || (d && d.stopPropagation ? d : null);
+if (event && event.stopPropagation) {
+event.stopPropagation();
+}
+var cb = p.onBookmarkToggle || p.onBookmark;
+if (typeof cb === 'function') {
+cb(self.ayah, event);
+}
+};
+self.handlePlayClick = function (d, e) {
+var event = e || (d && d.stopPropagation ? d : null);
+if (event && event.stopPropagation) {
+event.stopPropagation();
+}
+var cb = p.onPlay || p.onAudioPlay;
+if (typeof cb === 'function') {
+cb(self.ayah, event);
+}
+};
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+const QuranOpenFeedTemplate = {
+element: 'quran-open-feed-template',
+file: 'quran/quran-open/quran-open-feed/quran-open-feed.html'
+};
+function QuranOpenFeedViewModel(params) {
+if (params instanceof QuranOpenFeedViewModel) return params;
+if (!(this instanceof QuranOpenFeedViewModel)) return new QuranOpenFeedViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = _ko;
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function obsArr(arr) {
+return (k && k.observableArray) ? k.observableArray(arr) : function () { return arr; };
+}
+function comp(fn) {
+return (k && k.pureComputed) ? k.pureComputed(fn) : fn;
+}
+self.surahNum = (p.surahNum && k && k.isObservable(p.surahNum)) ? p.surahNum : obs(p.surahNum || 1);
+self.ayahs = (p.ayahs && k && k.isObservable(p.ayahs)) ? p.ayahs : obsArr(p.ayahs || []);
+self.isLoading = (p.isLoading && k && k.isObservable(p.isLoading)) ? p.isLoading : obs(false);
+self.hasError = (p.hasError && k && k.isObservable(p.hasError)) ? p.hasError : obs(false);
+self.errorMessage = (p.errorMessage && k && k.isObservable(p.errorMessage)) ? p.errorMessage : obs('');
+self.activeAudioKey = (p.activeAudioKey && k && k.isObservable(p.activeAudioKey)) ? p.activeAudioKey : obs(null);
+self.bookmarkKeys = (p.bookmarkKeys && k && k.isObservable(p.bookmarkKeys)) ? p.bookmarkKeys : obsArr([]);
+self.getAyahBookmarkObservable = function (ayah) {
+var aNum = ayah && ayah.aya;
+return comp(function () {
+var s = typeof self.surahNum === 'function' ? self.surahNum() : self.surahNum;
+var key = s + ':' + aNum;
+var bms = typeof self.bookmarkKeys === 'function' ? self.bookmarkKeys() : self.bookmarkKeys;
+return Array.isArray(bms) ? bms.indexOf(key) !== -1 : false;
+});
+};
+self.getAyahPlayingObservable = function (ayah) {
+var aNum = ayah && ayah.aya;
+return comp(function () {
+var s = typeof self.surahNum === 'function' ? self.surahNum() : self.surahNum;
+var key = s + ':' + aNum;
+var cur = typeof self.activeAudioKey === 'function' ? self.activeAudioKey() : self.activeAudioKey;
+return cur === key;
+});
+};
+self.handleBookmarkToggle = function (ayah, event) {
+var cb = p.onBookmarkToggle || p.onBookmark;
+if (typeof cb === 'function') {
+cb(ayah, event);
+}
+};
+self.handlePlay = function (ayah, event) {
+var cb = p.onPlay || p.onAudioPlay;
+if (typeof cb === 'function') {
+cb(ayah, event);
+}
+};
+self.retryLoad = function () {
+if (typeof p.onRetry === 'function') {
+p.onRetry();
+}
+};
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+const QuranOpenPageTemplate = {
+element: 'quran-open-page-template',
+file: 'quran/quran-open/quran-open-page/quran-open-page.html'
+};
+function QuranOpenPageViewModel(params) {
+if (params instanceof QuranOpenPageViewModel) return params;
+if (!(this instanceof QuranOpenPageViewModel)) return new QuranOpenPageViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = _ko;
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+function obsArr(arr) {
+return (k && k.observableArray) ? k.observableArray(arr) : function () { return arr; };
+}
+function comp(fn) {
+return (k && k.pureComputed) ? k.pureComputed(fn) : fn;
+}
+self.currentSurahNum = (p.surahNum && k && k.isObservable(p.surahNum))
+? p.surahNum
+: obs(unwrap(p.surahNum, 1));
+self.ayahs = obsArr([]);
+self.isLoading = obs(false);
+self.hasError = obs(false);
+self.errorMessage = obs('');
+self.activeAudioKey = obs(null);
+function getInitialBookmarkKeys() {
+var bms = loadBookmarks();
+return bms.map(function (b) { return b.surahNumber + ':' + b.ayahNumber; });
+}
+self.bookmarkKeys = obsArr(getInitialBookmarkKeys());
+subscribeAudioState(function (key) {
+if (typeof self.activeAudioKey === 'function') {
+self.activeAudioKey(key);
+}
+});
+self.readerTitle = comp(function () {
+var s = typeof self.currentSurahNum === 'function' ? self.currentSurahNum() : self.currentSurahNum;
+var meta = getSurahMeta(s);
+return meta ? ('Surah ' + meta.name) : ('Surah ' + s);
+});
+self.readerSubtitle = comp(function () {
+var s = typeof self.currentSurahNum === 'function' ? self.currentSurahNum() : self.currentSurahNum;
+var meta = getSurahMeta(s);
+if (!meta) return '';
+var rev = meta.revelation === 'Makkah' ? 'Makkah' : 'Madinah';
+return rev + ' • ' + meta.ayahs + ' Ayahs';
+});
+self.loadCurrentSurah = async function () {
+var s = typeof self.currentSurahNum === 'function' ? self.currentSurahNum() : self.currentSurahNum;
+self.isLoading(true);
+self.hasError(false);
+self.errorMessage('');
+try {
+var result = await loadSurah(s);
+var cur = typeof self.currentSurahNum === 'function' ? self.currentSurahNum() : self.currentSurahNum;
+if (cur === s) {
+self.ayahs(result || []);
+self.isLoading(false);
+var scrollEl = (typeof document !== 'undefined') ? document.getElementById('quranReaderScroll') : null;
+if (scrollEl) scrollEl.scrollTop = 0;
+}
+} catch (err) {
+var curErr = typeof self.currentSurahNum === 'function' ? self.currentSurahNum() : self.currentSurahNum;
+if (curErr === s) {
+self.isLoading(false);
+self.hasError(true);
+self.errorMessage(err.message || 'Network error');
+}
+}
+};
+if (k && k.isObservable(self.currentSurahNum)) {
+self.currentSurahNum.subscribe(function () {
+self.loadCurrentSurah();
+});
+}
+self.handleBookmarkToggle = function (ayah) {
+var s = typeof self.currentSurahNum === 'function' ? self.currentSurahNum() : self.currentSurahNum;
+var a = ayah && ayah.aya;
+var meta = getSurahMeta(s);
+toggleBookmark(s, a, ayah, meta);
+self.bookmarkKeys(getInitialBookmarkKeys());
+if (typeof p.onBookmarksChanged === 'function') {
+p.onBookmarksChanged();
+}
+};
+self.handlePlay = function (ayah) {
+var s = typeof self.currentSurahNum === 'function' ? self.currentSurahNum() : self.currentSurahNum;
+var a = ayah && ayah.aya;
+playAyahAudio(s, a);
+};
+self.goBack = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+stopAyahAudio();
+if (typeof p.onBack === 'function') {
+p.onBack();
+} else if (typeof _win.showQuranTab === 'function') {
+_win.showQuranTab('quran');
+}
+};
+self.goToSettings = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onSettings === 'function') {
+p.onSettings();
+} else if (typeof _win.showPage === 'function') {
+_win.showPage('settings');
+}
+};
+self.loadCurrentSurah();
+}
+const QuranBookmarkCardTemplate = {
+element: 'quran-bookmark-card-template',
+file: 'quran/quran-bookmark/quran-bookmark-card/quran-bookmark-card.html'
+};
+function QuranBookmarkCardViewModel(params) {
+if (params instanceof QuranBookmarkCardViewModel) return params;
+if (!(this instanceof QuranBookmarkCardViewModel)) return new QuranBookmarkCardViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var item = (p.item && typeof p.item === 'function') ? p.item() : (p.item || p);
+var self = this;
+self.item = item;
+self.surahNumber = unwrap(item.surahNumber, 1);
+self.ayahNumber = unwrap(item.ayahNumber, 1);
+self.badgeText = '#' + self.surahNumber + ':' + self.ayahNumber;
+self.surahName = unwrap(item.surahName, 'Surah ' + self.surahNumber);
+self.arabicName = unwrap(item.arabicName, '');
+self.arabicText = unwrap(item.arabicText, '');
+self.translation = unwrap(item.translation, '');
+self.handleClick = function (d, e) {
+var event = e || (d && d.stopPropagation ? d : null);
+if (event && event.stopPropagation) {
+event.stopPropagation();
+}
+var cb = p.onClick || p.onCardClick;
+if (typeof cb === 'function') {
+cb(self.item, event);
+}
+};
+self.onCardClick = self.handleClick;
+self.handleRemove = function (d, e) {
+var event = e || (d && d.stopPropagation ? d : null);
+if (event && event.stopPropagation) {
+event.stopPropagation();
+}
+var cb = p.onRemove || p.onDelete;
+if (typeof cb === 'function') {
+cb(self.item, event);
+}
+};
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+const QuranBookmarkFeedTemplate = {
+element: 'quran-bookmark-feed-template',
+file: 'quran/quran-bookmark/quran-bookmark-feed/quran-bookmark-feed.html'
+};
+function QuranBookmarkFeedViewModel(params) {
+if (params instanceof QuranBookmarkFeedViewModel) return params;
+if (!(this instanceof QuranBookmarkFeedViewModel)) return new QuranBookmarkFeedViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = _ko;
+var self = this;
+function obsArr(arr) {
+return (k && k.observableArray) ? k.observableArray(arr) : function () { return arr; };
+}
+self.bookmarks = (p.bookmarks && k && k.isObservable(p.bookmarks))
+? p.bookmarks
+: obsArr(p.bookmarks || []);
+self.handleCardClick = function (item, event) {
+var cb = p.onSelectBookmark || p.onCardClick;
+if (typeof cb === 'function') {
+cb(item, event);
+}
+};
+self.handleRemove = function (item, event) {
+var cb = p.onRemoveBookmark || p.onRemove;
+if (typeof cb === 'function') {
+cb(item, event);
+}
+};
+}
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+const QuranBookmarkPageTemplate = {
+element: 'quran-bookmark-page-template',
+file: 'quran/quran-bookmark/quran-bookmark-page/quran-bookmark-page.html'
+};
+function QuranBookmarkPageViewModel(params) {
+if (params instanceof QuranBookmarkPageViewModel) return params;
+if (!(this instanceof QuranBookmarkPageViewModel)) return new QuranBookmarkPageViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = _ko;
+var self = this;
+function obsArr(arr) {
+return (k && k.observableArray) ? k.observableArray(arr) : function () { return arr; };
+}
+self.bookmarks = obsArr(loadBookmarks());
+self.refreshBookmarks = function () {
+self.bookmarks(loadBookmarks());
+};
+self.handleSelectBookmark = function (item, event) {
+var cb = p.onOpenSurah || p.onSelectBookmark;
+if (typeof cb === 'function') {
+cb(item.surahNumber, item.ayahNumber, event);
+}
+};
+self.handleRemoveBookmark = function (item, event) {
+var updated = removeBookmark(item.id || (item.surahNumber + ':' + item.ayahNumber));
+self.bookmarks(updated);
+if (typeof p.onBookmarksChanged === 'function') {
+p.onBookmarksChanged();
+}
+};
+self.goBack = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onBack === 'function') {
+p.onBack();
+} else if (typeof _win.showQuranTab === 'function') {
+_win.showQuranTab('quran');
+}
+};
+self.goToSettings = function (d, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+if (typeof p.onSettings === 'function') {
+p.onSettings();
+} else if (typeof _win.showPage === 'function') {
+_win.showPage('settings');
+}
+};
+}
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+const QuranPageTemplate = { element: 'quran-page-template', file: 'quran/quran.html' };
+const QuranNavTabTemplate = { element: 'quran-nav-tab-template', file: 'quran/templates/quran-nav-tab.html' };
+var quranViewModelInstance = null;
+function getQuranViewModel() {
+if (!quranViewModelInstance && typeof QuranPageViewModel === 'function') {
+quranViewModelInstance = new QuranPageViewModel();
+}
+return quranViewModelInstance;
+}
+function QuranPageViewModel(params) {
+if (params instanceof QuranPageViewModel) return params;
+if (!(this instanceof QuranPageViewModel)) return new QuranPageViewModel(params);
+var p = (params && typeof params === 'function') ? params() : (params || {});
+var k = _ko;
+var self = this;
+function obs(val) {
+return (k && k.observable) ? k.observable(val) : function () { return val; };
+}
+var initialTab = unwrap(p.initialTab || p.subTab, 'quran');
+self.currentSubTab = (p.currentSubTab && k && k.isObservable(p.currentSubTab))
+? p.currentSubTab
+: obs(initialTab);
+self.activeSurah = obs(unwrap(p.activeSurah, 1));
+self.switchTab = function (tab, e) {
+if (e && e.stopPropagation) e.stopPropagation();
+var targetTab = tab || 'quran';
+if (typeof self.currentSubTab === 'function') {
+self.currentSubTab(targetTab);
+}
+if (_win.location && _win.location.hash) {
+var newHash = '#/quran/' + targetTab;
+if (_win.location.hash !== newHash) {
+try { _win.location.hash = newHash; } catch (_) {}
+}
+}
+};
+self.openSurah = function (surahNumber, ayahNumber) {
+var n = Number(surahNumber) || 1;
+self.activeSurah(n);
+self.switchTab('open');
+if (ayahNumber && typeof document !== 'undefined') {
+setTimeout(function () {
+var targetId = 'ayah-' + n + '-' + ayahNumber;
+var el = document.getElementById(targetId);
+if (el && typeof el.scrollIntoView === 'function') {
+el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+}, 300);
+}
+};
+self.mainPageParams = {
+onOpenSurah: function (item) {
+var n = (typeof item === 'object' && item !== null) ? item.n : item;
+self.openSurah(n);
+},
+onHome: function () {
+if (typeof _win.showPage === 'function') {
+_win.showPage('dashboard');
+}
+},
+onSettings: function () {
+if (typeof _win.showPage === 'function') {
+_win.showPage('settings');
+}
+}
+};
+self.openPageParams = {
+surahNum: self.activeSurah,
+onBack: function () {
+self.switchTab('quran');
+},
+onSettings: function () {
+if (typeof _win.showPage === 'function') {
+_win.showPage('settings');
+}
+}
+};
+self.bookmarkPageParams = {
+onOpenSurah: function (surahNum, ayahNum) {
+self.openSurah(surahNum, ayahNum);
+},
+onBack: function () {
+self.switchTab('quran');
+},
+onSettings: function () {
+if (typeof _win.showPage === 'function') {
+_win.showPage('settings');
+}
+}
+};
+}
+function initQuran() {
+registerQuranComponents();
+var el = (typeof document !== 'undefined') ? document.getElementById('quranPage') : null;
+if (el && !document.getElementById('app') && typeof ko !== 'undefined') {
+var vm = getQuranViewModel();
+if (!ko.dataFor(el)) {
+ko.applyBindings(vm, el);
+}
+}
+}
+const QuranApp = {
+init: initQuran,
+render: function () {
+var vm = getQuranViewModel();
+if (vm && typeof vm.currentSubTab === 'function') {
+}
+},
+switchTab: function (tab) {
+var vm = getQuranViewModel();
+if (vm && typeof vm.switchTab === 'function') {
+vm.switchTab(tab);
+}
+},
+openSurah: function (n, ayah) {
+var vm = getQuranViewModel();
+if (vm && typeof vm.openSurah === 'function') {
+vm.openSurah(n, ayah);
+}
+},
+getViewModel: getQuranViewModel,
+registerComponents: registerQuranComponents
+};
+if (typeof window !== 'undefined') {
+window.QuranApp = QuranApp;
+window.initQuran = initQuran;
+window.getQuranViewModel = getQuranViewModel;
+window.QuranPageViewModel = QuranPageViewModel;
+window.showQuranTab = function (tab) {
+QuranApp.switchTab(tab);
+};
+}
+'use strict';
+var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+function registerComponent(name, viewModel, template, customKo) {
+if (!customKo && typeof _win.registerFeatureComponent === 'function') {
+_win.registerFeatureComponent(name, viewModel, template);
+return;
+}
+var ko = customKo || (typeof _win.ko !== 'undefined' ? _win.ko : (typeof ko !== 'undefined' ? ko : null));
+if (!ko || !ko.components) return;
+if (!ko.components.isRegistered(name)) {
+ko.components.register(name, {
+viewModel: viewModel,
+template: template
+});
+}
+}
+function registerQuranComponents(customKo) {
+registerComponent('quran-nav-tab', function (params) {
+var p = params || {};
+return {
+activeTab: p.activeTab,
+selectTab: function (tabId) {
+if (typeof p.onTabChange === 'function') {
+p.onTabChange(tabId);
+} else if (p.activeTab && typeof p.activeTab === 'function') {
+p.activeTab(tabId);
+}
+}
+};
+}, QuranNavTabTemplate, customKo);
+registerComponent('quran-page', function (p) {
+if (p && p.viewModel) return p.viewModel;
+if (p && p.currentSubTab) return p;
+if (p && p.quran) return p.quran;
+return getQuranViewModel();
+}, QuranPageTemplate, customKo);
+registerComponent('quran-main-card', QuranMainCardViewModel, QuranMainCardTemplate, customKo);
+registerComponent('quran-main-feed', QuranMainFeedViewModel, QuranMainFeedTemplate, customKo);
+registerComponent('quran-main-page', QuranMainPageViewModel, QuranMainPageTemplate, customKo);
+registerComponent('quran-open-card', QuranOpenCardViewModel, QuranOpenCardTemplate, customKo);
+registerComponent('quran-open-feed', QuranOpenFeedViewModel, QuranOpenFeedTemplate, customKo);
+registerComponent('quran-open-page', QuranOpenPageViewModel, QuranOpenPageTemplate, customKo);
+registerComponent('quran-bookmark-card', QuranBookmarkCardViewModel, QuranBookmarkCardTemplate, customKo);
+registerComponent('quran-bookmark-feed', QuranBookmarkFeedViewModel, QuranBookmarkFeedTemplate, customKo);
+registerComponent('quran-bookmark-page', QuranBookmarkPageViewModel, QuranBookmarkPageTemplate, customKo);
+}
+if (typeof window !== 'undefined') {
+window.registerQuranComponents = registerQuranComponents;
 }
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 if (typeof window === 'undefined') {
@@ -11541,6 +12767,7 @@ if (p && p.currentDua) return p;
 if (p && p.duas) return p.duas;
 return getDuasViewModel();
 }, DuasPageTemplate);
+registerQuranComponents();
 console.info(`Successfully registered ${componentRegistry.size} global components.`);
 }
 if (typeof window !== 'undefined') {
@@ -11942,8 +13169,8 @@ updateCurrentMissedBadge();
 }
 });
 var NAV_CONSTANTS = window.NAVIGATION_CONSTANTS || (window.CONSTANTS && window.CONSTANTS.NAVIGATION) || {};
-var PAGES = NAV_CONSTANTS.PAGES || window.PAGES || ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage'];
-var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', performance: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas' };
+var PAGES = NAV_CONSTANTS.PAGES || window.PAGES || ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage', 'quranPage'];
+var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', performance: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas', quran: 'navQuran' };
 var SUB_TABS = NAV_CONSTANTS.SUB_TABS || { CURRENT: 'current', OLD: 'old', PERFORMANCE: 'performance', HISTORY: 'history' };
 var PAGE_MAP = NAV_CONSTANTS.PAGE_MAP || {
 dashboard: 'dashboardPage',
@@ -11954,7 +13181,8 @@ performance: 'trackerPage',
 history: 'trackerPage',
 settings: 'settingsPage',
 tasbeeh: 'tasbeehPage',
-duas: 'duasPage'
+duas: 'duasPage',
+quran: 'quranPage'
 };
 var TRACKER_HEADER = NAV_CONSTANTS.TRACKER_HEADER || {
 current: {
@@ -11986,6 +13214,7 @@ activePage: (_ko && _ko.observable) ? _ko.observable('dashboard') : function () 
 trackerSubTab: (_ko && _ko.observable) ? _ko.observable(SUB_TABS.CURRENT) : function () { return SUB_TABS.CURRENT; },
 tasbeehSubTab: (_ko && _ko.observable) ? _ko.observable('current') : function () { return 'current'; },
 duasSubTab: (_ko && _ko.observable) ? _ko.observable('home') : function () { return 'home'; },
+quranSubTab: (_ko && _ko.observable) ? _ko.observable('quran') : function () { return 'quran'; },
 navigateTo: function (page) {
 showPage(page);
 },
@@ -12000,6 +13229,11 @@ window.TasbeehApp.switchTab(tab);
 switchDuasTab: function (tab) {
 if (window.DuasApp && typeof window.DuasApp.switchTab === 'function') {
 window.DuasApp.switchTab(tab);
+}
+},
+switchQuranTab: function (tab) {
+if (window.QuranApp && typeof window.QuranApp.switchTab === 'function') {
+window.QuranApp.switchTab(tab);
 }
 }
 };
@@ -12211,6 +13445,15 @@ window.initDuas();
 if (window.DuasApp && typeof window.DuasApp.render === 'function') {
 window.DuasApp.render();
 }
+} else if (kind === 'quran') {
+if (typeof initQuran === 'function') {
+initQuran();
+} else if (window.initQuran) {
+window.initQuran();
+}
+if (window.QuranApp && typeof window.QuranApp.render === 'function') {
+window.QuranApp.render();
+}
 }
 } finally {
 _isShowingPage = false;
@@ -12284,16 +13527,27 @@ try { return _win.getDuasViewModel(); } catch (_) {}
 }
 return _win.duasViewModel || null;
 };
+self.getQuran = function () {
+if (typeof _win.getQuranViewModel === 'function') {
+try { return _win.getQuranViewModel(); } catch (_) {}
+}
+return _win.quranViewModel || null;
+};
 self.dashboard = self.getDashboard();
 self.tracker = self.getTracker();
 self.settings = self.getSettings();
 self.tasbeeh = self.getTasbeeh();
 self.duas = self.getDuas();
+self.quran = self.getQuran();
 self.prayerStore = (typeof PrayerStore !== 'undefined' ? PrayerStore : null) || _win.PrayerStore || null;
 self.tasbeehStore = (typeof TasbeehStore !== 'undefined' ? TasbeehStore : null) || _win.TasbeehStore || null;
 self.duasStore = (typeof DuasStore !== 'undefined' ? DuasStore : null) || _win.DuasStore || null;
 self.settingsStore = (typeof SettingsStore !== 'undefined' ? SettingsStore : null) || _win.SettingsStore || null;
-self.router = (typeof AppRouter !== 'undefined' ? AppRouter : null) || _win.AppRouter || null;
+var routerInst = null;
+try {
+if (typeof AppRouter !== 'undefined') routerInst = AppRouter;
+} catch (_) {}
+self.router = routerInst || _win.AppRouter || null;
 self.nav = _win.NavigationState || null;
 self.activePage = (self.router && isObs(self.router.activePage))
 ? self.router.activePage
@@ -12307,6 +13561,9 @@ self.tasbeehSubTab = (self.router && isObs(self.router.tasbeehSubTab))
 self.duasSubTab = (self.router && isObs(self.router.duasSubTab))
 ? self.router.duasSubTab
 : ((self.nav && isObs(self.nav.duasSubTab)) ? self.nav.duasSubTab : obs('home'));
+self.quranSubTab = (self.router && isObs(self.router.quranSubTab))
+? self.router.quranSubTab
+: ((self.nav && isObs(self.nav.quranSubTab)) ? self.nav.quranSubTab : obs('quran'));
 self.isDashboardVisible = cmp(function () {
 return self.activePage() === 'dashboard';
 });
@@ -12323,6 +13580,9 @@ return self.activePage() === 'tasbeeh';
 self.isDuasVisible = cmp(function () {
 return self.activePage() === 'duas';
 });
+self.isQuranVisible = cmp(function () {
+return self.activePage() === 'quran';
+});
 self.currentRoute = cmp(function () {
 var page = self.activePage();
 switch (page) {
@@ -12338,6 +13598,8 @@ case 'tasbeeh':
 return { name: 'tasbeeh-page', params: self.getTasbeeh() };
 case 'duas':
 return { name: 'duas-page', params: self.getDuas() };
+case 'quran':
+return { name: 'quran-page', params: self.getQuran() };
 default:
 return { name: 'dashboard-page', params: self.getDashboard() };
 }
@@ -12398,8 +13660,13 @@ var vm = getAppViewModel();
 if (appEl && !k.dataFor(appEl)) {
 k.applyBindings(vm, appEl);
 }
-if (AppRouter && typeof AppRouter.init === 'function') {
-try { AppRouter.init(); } catch (_) {}
+var routerToInit = null;
+try {
+if (typeof AppRouter !== 'undefined') routerToInit = AppRouter;
+} catch (_) {}
+routerToInit = routerToInit || _win.AppRouter || null;
+if (routerToInit && typeof routerToInit.init === 'function') {
+try { routerToInit.init(); } catch (_) {}
 }
 return vm;
 }
@@ -12453,6 +13720,13 @@ initDuas();
 window.initDuas();
 } else if (window.DuasApp && typeof window.DuasApp.init === 'function') {
 window.DuasApp.init();
+}
+if (typeof initQuran === 'function') {
+initQuran();
+} else if (window.initQuran) {
+window.initQuran();
+} else if (window.QuranApp && typeof window.QuranApp.init === 'function') {
+window.QuranApp.init();
 }
 if (window.PrayerHistoryApp && typeof window.PrayerHistoryApp.init === 'function') {
 window.PrayerHistoryApp.init();

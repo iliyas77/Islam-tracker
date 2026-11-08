@@ -1,0 +1,31 @@
+<div class="flat-card bg-white border border-[#E0E0E0] rounded-2xl p-4 flex flex-col gap-2.5 hover:bg-gray-50/50 cursor-pointer transition-colors shadow-none"
+    data-bind="click: handleClick">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-lg bg-[#E8F5E9] text-[#094E3A] font-bold text-xs border border-emerald-100"
+                data-bind="text: badgeText"></span>
+            <span class="font-bold text-gray-900 text-sm font-telugu"
+                data-bind="text: surahName"></span>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="font-arabic text-xl text-[#094E3A] leading-none" dir="rtl"
+                data-bind="text: arabicName"></span>
+            <button type="button" aria-label="Remove bookmark"
+                class="w-7 h-7 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition-colors focus-visible:outline-none"
+                data-bind="click: handleRemove">
+                <i class="fa-solid fa-trash-can text-xs" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ko if: arabicText -->
+    <p dir="rtl" lang="ar" class="font-arabic text-lg text-right text-gray-800 line-clamp-2 leading-relaxed"
+        data-bind="text: arabicText"></p>
+    <!-- /ko -->
+
+    <!-- ko if: translation -->
+    <p lang="te" class="font-telugu text-sm text-gray-600 line-clamp-2 leading-relaxed"
+        data-bind="text: translation"></p>
+    <!-- /ko -->
+</div>
+

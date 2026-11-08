@@ -34,6 +34,7 @@ import {
     getTrackerViewModel
 } from '../prayer-tracking/prayer-tracking.js';
 import { registerTasbeehComponents } from '../tasbeeh/tasbeeh-registration.js';
+import { registerQuranComponents } from '../quran/quran-registration.js';
 import {
     DuasPageTemplate,
     DuvaHeaderTemplate,
@@ -139,6 +140,9 @@ export function registerAllComponents() {
         if (p && p.duas) return p.duas;
         return getDuasViewModel();
     }, DuasPageTemplate);
+
+    // 7. Quran Feature Components (Centralized in quran-registration.js)
+    registerQuranComponents();
 
     console.info(`Successfully registered ${componentRegistry.size} global components.`);
 }

@@ -47,7 +47,24 @@ export async function runDecompositionTests() {
         'tasbeeh/tasbeeh-history/tasbeeh-history-card/tasbeeh-history-card.js',
         'tasbeeh/tasbeeh-history/tasbeeh-history-feed/tasbeeh-history-feed.js',
         'tasbeeh/tasbeeh-history/tasbeeh-history-form/tasbeeh-history-form.js',
-        'tasbeeh/tasbeeh-history/tasbeeh-history-page/tasbeeh-history-page.js'
+        'tasbeeh/tasbeeh-history/tasbeeh-history-page/tasbeeh-history-page.js',
+
+        // Quran modules
+        'quran/quran.js',
+        'quran/quran-service.js',
+        'quran/quran-registration.js',
+        'quran/quran-main/quran-main.js',
+        'quran/quran-main/quran-main-page/quran-main-page.js',
+        'quran/quran-main/quran-main-feed/quran-main-feed.js',
+        'quran/quran-main/quran-main-card/quran-main-card.js',
+        'quran/quran-open/quran-open.js',
+        'quran/quran-open/quran-open-page/quran-open-page.js',
+        'quran/quran-open/quran-open-feed/quran-open-feed.js',
+        'quran/quran-open/quran-open-card/quran-open-card.js',
+        'quran/quran-bookmark/quran-bookmark.js',
+        'quran/quran-bookmark/quran-bookmark-page/quran-bookmark-page.js',
+        'quran/quran-bookmark/quran-bookmark-feed/quran-bookmark-feed.js',
+        'quran/quran-bookmark/quran-bookmark-card/quran-bookmark-card.js'
     ];
 
     for (const file of filesToCheck) {

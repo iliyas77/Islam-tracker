@@ -1,0 +1,50 @@
+<div class="space-y-5 pb-6" data-ref="page.quran.open.feed">
+    <!-- Loading state -->
+    <!-- ko if: isLoading -->
+    <div class="flex flex-col items-center justify-center py-20 text-center">
+        <i class="fa-solid fa-spinner fa-spin text-[#094E3A] text-3xl mb-4" aria-hidden="true"></i>
+        <p class="text-sm text-gray-500">Loading surah…</p>
+    </div>
+    <!-- /ko -->
+
+    <!-- Error state -->
+    <!-- ko if: hasError -->
+    <div class="flex flex-col items-center justify-center py-20 text-center">
+        <i class="fa-solid fa-triangle-exclamation text-amber-500 text-3xl mb-4" aria-hidden="true"></i>
+        <p class="text-sm text-gray-700 font-medium">Unable to load this surah.</p>
+        <p class="text-xs text-gray-400 mt-1" data-bind="text: errorMessage"></p>
+        <button type="button"
+            class="mt-4 px-4 py-2 bg-[#E8F5E9] text-[#094E3A] font-bold text-xs rounded-xl hover:bg-[#094E3A] hover:text-white transition-colors"
+            data-bind="click: retryLoad">
+            <i class="fa-solid fa-rotate-right mr-1.5" aria-hidden="true"></i> Retry
+        </button>
+    </div>
+    <!-- /ko -->
+
+    <!-- Ayah cards list -->
+    <!-- ko if: !isLoading() && !hasError() -->
+        <!-- ko if: ayahs().length === 0 -->
+        <div class="py-16 text-center">
+            <i class="fa-solid fa-inbox text-gray-300 text-3xl mb-3" aria-hidden="true"></i>
+            <p class="text-sm text-gray-500">No ayahs found in this surah file.</p>
+        </div>
+        <!-- /ko -->
+
+        <!-- ko if: ayahs().length > 0 -->
+        <div class="space-y-5" data-bind="foreach: ayahs">
+            <!-- ko component: {
+                name: 'quran-open-card',
+                params: {
+                    ayah: $data,
+                    surahNum: $parent.surahNum,
+                    isBookmarked: $parent.getAyahBookmarkObservable($data),
+                    isPlaying: $parent.getAyahPlayingObservable($data),
+                    onBookmarkToggle: function(ayah, event) { $parent.handleBookmarkToggle(ayah, event); },
+                    onPlay: function(ayah, event) { $parent.handlePlay(ayah, event); }
+                }
+            } --><!-- /ko -->
+        </div>
+        <!-- /ko -->
+    <!-- /ko -->
+</div>
+

@@ -1,0 +1,48 @@
+<div class="flat-card bg-white border border-[#E0E0E0] rounded-2xl flex flex-col overflow-hidden p-5 shadow-none"
+    data-bind="attr: { 'id': 'ayah-' + surahNum + '-' + ayahNum, 'data-ayah': ayahNum }">
+
+    <!-- Card Header: Badge & Action Buttons -->
+    <div class="flex justify-between items-center pb-4">
+        <div class="px-3 py-1 rounded-xl bg-[#E8F5E9] text-[#094E3A] font-bold text-sm border border-emerald-100"
+            data-bind="text: badgeText">
+        </div>
+        <div class="flex items-center gap-5 text-gray-500">
+            <!-- Audio Play Button -->
+            <button type="button"
+                class="hover:text-[#094E3A] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded cursor-pointer"
+                data-bind="attr: { 'aria-label': (isPlaying() ? 'Pause' : 'Play') + ' ayah ' + badgeText }, click: handlePlayClick">
+                <i class="text-xl" data-bind="css: isPlaying() ? 'fa-solid fa-circle-pause text-[#094E3A] animate-pulse' : 'fa-solid fa-play'" aria-hidden="true"></i>
+            </button>
+            <!-- Bookmark Button -->
+            <button type="button"
+                class="hover:text-[#094E3A] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded cursor-pointer"
+                data-bind="attr: { 'aria-label': (isBookmarked() ? 'Remove bookmark for' : 'Bookmark') + ' ayah ' + badgeText }, click: handleBookmarkClick">
+                <i class="text-xl" data-bind="css: isBookmarked() ? 'fa-solid fa-bookmark text-[#094E3A]' : 'fa-regular fa-bookmark'" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Arabic Text -->
+    <div class="pt-4 pb-6">
+        <p dir="rtl" lang="ar" class="font-arabic text-3xl sm:text-4xl leading-loose text-right text-[#094E3A]"
+            data-bind="text: arabicText">
+        </p>
+    </div>
+
+    <!-- Divider -->
+    <div class="w-full h-px bg-[#E0E0E0] mb-5"></div>
+
+    <!-- Telugu Translation -->
+    <div>
+        <p lang="te" class="font-telugu text-[20px] sm:text-[22px] text-gray-900 leading-[1.8] font-medium"
+            data-bind="html: translationHtml">
+        </p>
+    </div>
+
+    <!-- Footnotes Section -->
+    <!-- ko if: hasFootnotes -->
+    <div data-bind="html: footnotesHtml"></div>
+    <!-- /ko -->
+
+</div>
+

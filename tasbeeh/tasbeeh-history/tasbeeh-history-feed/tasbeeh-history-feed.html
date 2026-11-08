@@ -25,7 +25,7 @@
     <!-- Months List -->
     <!-- ko ifnot: isEmpty -->
     <div class="flex flex-col gap-2" id="tbHistoryList" data-bind="foreach: months">
-        <!-- ko component: { name: 'tasbeeh-history-card', params: $data } --><!-- /ko -->
+        <!-- ko component: { name: 'tasbeeh-history-card', params: { item: $data, onClick: $parent.handleReopen, onReopen: $parent.handleReopen } } --><!-- /ko -->
     </div>
     <!-- /ko -->
 </div>

@@ -214,6 +214,19 @@ export function DashboardViewModel() {
             }
         },
         {
+            title: 'Quran',
+            action: 'goto-quran',
+            iconClass: 'fa-solid fa-book-quran',
+            dataRef: 'page.dashboard.card.quran',
+            iconDataRef: 'page.dashboard.card.quran-icon',
+            titleDataRef: 'page.dashboard.card.quran-label',
+            hasBadge: false,
+            onClick: function (d, e) {
+                if (e && e.stopPropagation) e.stopPropagation();
+                if (typeof showPage === 'function') showPage('quran');
+            }
+        },
+        {
             title: 'Duas',
             action: 'goto-duas',
             iconClass: 'fa-solid fa-hands-praying',

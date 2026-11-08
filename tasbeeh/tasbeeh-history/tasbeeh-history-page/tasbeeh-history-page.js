@@ -54,24 +54,32 @@ export function HistoryPageViewModel(params) {
         }
     };
 
+    // Level 1: Named business action handlers for History
+    self.handleReopenMonth = function (monthKey, e) {
+        var cb = p.onReopenMonth || p.onClick;
+        if (typeof cb === 'function') {
+            cb(monthKey, e);
+        } else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.reopenLastMonth === 'function') {
+            _win.TasbeehOldApp.reopenLastMonth();
+        }
+        self.period(loadPeriod());
+    };
+
+    self.handleResetCompleted = function (d, e) {
+        if (typeof p.onResetCompleted === 'function') {
+            p.onResetCompleted(d, e);
+        } else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.resetAllCompleted === 'function') {
+            _win.TasbeehOldApp.resetAllCompleted();
+        }
+        self.period(loadPeriod());
+    };
+
     self.feedParams = {
         period: self.period,
-        onReopenMonth: function (monthKey, e) {
-            if (typeof p.onReopenMonth === 'function') {
-                p.onReopenMonth(monthKey, e);
-            } else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.reopenLastMonth === 'function') {
-                _win.TasbeehOldApp.reopenLastMonth();
-            }
-            self.period(loadPeriod());
-        },
-        onResetCompleted: function (d, e) {
-            if (typeof p.onResetCompleted === 'function') {
-                p.onResetCompleted(d, e);
-            } else if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.resetAllCompleted === 'function') {
-                _win.TasbeehOldApp.resetAllCompleted();
-            }
-            self.period(loadPeriod());
-        }
+        onReopenMonth: self.handleReopenMonth,
+        onClick: self.handleReopenMonth,
+        onCardClick: self.handleReopenMonth,
+        onResetCompleted: self.handleResetCompleted
     };
 }
 

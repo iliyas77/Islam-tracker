@@ -60,27 +60,25 @@ export function TasbeehCounterCardViewModel(params) {
     self.isCompleted = self.isComplete;
     self.isTodayDone = unwrap(p.isTodayDone, false);
 
-    self.onCardClick = function (d, e) {
+    self.handleClick = function (d, e) {
         if (e && e.stopPropagation) e.stopPropagation();
-        if (typeof p.onCardClick === 'function') {
-            p.onCardClick(d, e);
-        } else if (_win.TasbeehApp && typeof _win.TasbeehApp.openCounter === 'function') {
-            _win.TasbeehApp.openCounter(self.id, self.month);
-        } else if (_win.openCounter) {
-            _win.openCounter(self.id, self.month);
+        var targetItem = (p.item && typeof p.item === 'function') ? p.item() : (p.item || self);
+        var cb = p.onClick || p.onCardClick;
+        if (typeof cb === 'function') {
+            cb(targetItem, e);
         }
     };
+    self.onCardClick = self.handleClick;
 
-    self.onEditClick = function (d, e) {
+    self.handleEditClick = function (d, e) {
         if (e && e.stopPropagation) e.stopPropagation();
-        if (typeof p.onEditClick === 'function') {
-            p.onEditClick(d, e);
-        } else if (_win.TasbeehApp && typeof _win.TasbeehApp.openEditModal === 'function') {
-            _win.TasbeehApp.openEditModal(self.id);
-        } else if (_win.openEditModal) {
-            _win.openEditModal(self.id);
+        var targetItem = (p.item && typeof p.item === 'function') ? p.item() : (p.item || self);
+        var cb = p.onEditClick || p.onEdit;
+        if (typeof cb === 'function') {
+            cb(targetItem, e);
         }
     };
+    self.onEditClick = self.handleEditClick;
 }
 
 /* ---------- Knockout ViewModel & Component Registration ---------- */
@@ -220,13 +218,39 @@ export function TasbeehPageViewModel(params) {
     var refreshCur = function () { if (typeof _win.renderCurrentTab === 'function') _win.renderCurrentTab(); };
     var refreshOld = function () { if (_win.TasbeehOldApp && typeof _win.TasbeehOldApp.renderOldTab === 'function') _win.TasbeehOldApp.renderOldTab(); };
 
+    // Level 1: Named business action handlers for Current, Old, and History
+    self.handleCurrentCardClick = function (item) {
+        self.openCalendar(item, typeof getCurrentTrackingMonth === 'function' ? getCurrentTrackingMonth() : null);
+    };
+
+    self.handleCurrentEditClick = function (item) {
+        self.openEditForm(item);
+    };
+
+    self.handleOldCardClick = function (item, month) {
+        self.openCalendar(item, month);
+    };
+
+    self.handleOldEditClick = function (item) {
+        self.openEditForm(item);
+    };
+
+    self.handleReopenMonth = function (m, e) {
+        self.reopenLastMonth(m, e);
+    };
+
+    self.handleResetCompleted = function (d, e) {
+        self.resetAllCompleted(d, e);
+    };
+
     self.currentFeedParams = {
         activeTab: self.currentActiveTab,
         todoItems: self.currentTodoItems,
         doneItems: self.currentDoneItems,
         onTabSwitch: function (tab, e) { self.switchCurrentTab(tab, e); },
-        onCardClick: function (item) { self.openCalendar(item, typeof getCurrentTrackingMonth === 'function' ? getCurrentTrackingMonth() : null); },
-        onEditClick: function (item) { self.openEditForm(item); }
+        onCardClick: self.handleCurrentCardClick,
+        onClick: self.handleCurrentCardClick,
+        onEditClick: self.handleCurrentEditClick
     };
 
     self.currentCalendarParams = {
@@ -248,8 +272,9 @@ export function TasbeehPageViewModel(params) {
         todoItems: self.oldTodoItems,
         doneItems: self.oldDoneItems,
         onTabSwitch: function (tab, e) { self.switchOldTab(tab, e); },
-        onCardClick: function (item, month) { self.openCalendar(item, month); },
-        onEditClick: function (item) { self.openEditForm(item); },
+        onCardClick: self.handleOldCardClick,
+        onClick: self.handleOldCardClick,
+        onEditClick: self.handleOldEditClick,
         onAdjustStartDate: function () { self.switchTab('history'); }
     };
 
@@ -268,12 +293,9 @@ export function TasbeehPageViewModel(params) {
     };
 
     self.historyPageParams = {
-        onReopenMonth: function (m, e) {
-            self.reopenLastMonth(m, e);
-        },
-        onResetCompleted: function (d, e) {
-            self.resetAllCompleted(d, e);
-        }
+        onReopenMonth: self.handleReopenMonth,
+        onClick: self.handleReopenMonth,
+        onResetCompleted: self.handleResetCompleted
     };
 
     self.reopenLastMonth = function (d, e) {

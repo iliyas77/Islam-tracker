@@ -1,0 +1,22 @@
+<button type="button"
+    class="w-full text-left flat-card bg-white border border-[#E0E0E0] rounded-2xl p-4 flex items-center gap-3.5 hover:bg-gray-50/50 cursor-pointer transition-colors group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+    data-bind="attr: { 'data-surah': number, 'aria-label': name }, click: handleClick">
+    <div class="w-12 h-12 shrink-0 rounded-xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center font-bold text-lg border border-emerald-100 group-hover:bg-[#094E3A] group-hover:text-white transition-colors"
+        data-bind="text: number">
+    </div>
+    <div class="flex-1 min-w-0 flex flex-col justify-center">
+        <h3 lang="te" class="font-bold text-gray-900 text-lg font-telugu leading-tight truncate"
+            data-bind="text: name"></h3>
+        <p lang="te" class="text-sm text-gray-500 font-telugu mt-0.5 truncate"
+            data-bind="text: meaning"></p>
+        <p class="text-xs text-gray-500 font-telugu mt-1 flex items-center gap-1.5">
+            <i class="text-[10px]" data-bind="css: revelationIcon" aria-hidden="true"></i>
+            <span data-bind="text: revelationMetaText"></span>
+        </p>
+    </div>
+    <div class="shrink-0 text-right pr-2">
+        <span lang="ar" dir="rtl" class="font-arabic text-3xl text-[#094E3A] leading-none"
+            data-bind="text: arabicName"></span>
+    </div>
+</button>
+

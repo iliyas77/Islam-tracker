@@ -8,6 +8,7 @@ import { runDuasTests } from './duas.test.js';
 import { runSettingsTests } from './settings.test.js';
 import { runRouterTests } from './router.test.js';
 import { runPwaTests } from './pwa.test.js';
+import { runQuranTests } from './quran.test.js';
 import { runDecompositionTests } from './decomposition.test.js';
 
 const startTime = Date.now();
@@ -26,6 +27,7 @@ async function runAll() {
         await runSettingsTests();
         await runRouterTests();
         await runPwaTests();
+        await runQuranTests();
         await runDecompositionTests();
 
         const duration = ((Date.now() - startTime) / 1000).toFixed(2);

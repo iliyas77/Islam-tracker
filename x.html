@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran App — Telugu</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter (UI), Noto Sans Telugu (Telugu), Amiri (Arabic) -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkGreen: '#094E3A',
+                        lightGreen: '#E8F5E9',
+                        borderGrey: '#E0E0E0',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        telugu: ['Noto Sans Telugu', 'sans-serif'],
+                        arabic: ['Amiri', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #FFFFFF; }
+        .flat-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E0E0E0;
+            box-shadow: none !important;
+        }
+        .screen { display: none; }
+        .screen.active { display: flex; }
+
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        * { scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-white flex justify-center items-start min-h-screen text-gray-800 antialiased sm:p-4">
+
+    <!-- Mobile App Container -->
+    <div class="w-full max-w-md bg-white h-[100dvh] sm:h-[850px] flex flex-col relative overflow-hidden sm:rounded-3xl sm:border border-borderGrey">
+
+        <!-- ============================================================
+             SCREEN 1 — READER  (Open tab)
+             ============================================================ -->
+        <section id="screen-open" class="screen active flex-col flex-1 min-h-0">
+
+            <!-- Top App Bar -->
+            <header class="px-4 py-3 flex items-center justify-between bg-white shrink-0 border-b border-borderGrey">
+                <button type="button" data-nav="quran" aria-label="Back to surah list"
+                        class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-darkGreen">
+                    <i class="fa-solid fa-arrow-left text-lg" aria-hidden="true"></i>
+                </button>
+
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-book-open text-darkGreen text-[15px]" aria-hidden="true"></i>
+                        <h1 id="reader-title" class="text-base font-bold text-gray-900 tracking-tight">Surah Al-Fatihah</h1>
+                    </div>
+                    <span id="reader-subtitle" class="text-[11px] text-gray-500 font-medium mt-0.5">Makkah • 7 Ayahs</span>
+                </div>
+
+                <button type="button" aria-label="Settings"
+                        class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-darkGreen">
+                    <i class="fa-solid fa-gear text-lg" aria-hidden="true"></i>
+                </button>
+            </header>
+
+            <!-- Scrollable reading area -->
+            <main id="reader-main" class="px-4 py-5 flex-1 min-h-0 space-y-5 overflow-y-auto bg-white">
+
+                <!-- Loading state -->
+                <div id="reader-loading" class="flex flex-col items-center justify-center py-20 text-center">
+                    <i class="fa-solid fa-spinner fa-spin text-darkGreen text-3xl mb-4" aria-hidden="true"></i>
+                    <p class="text-sm text-gray-500">Loading surah…</p>
+                </div>
+
+                <!-- Error state -->
+                <div id="reader-error" class="hidden flex-col items-center justify-center py-20 text-center">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-500 text-3xl mb-4" aria-hidden="true"></i>
+                    <p class="text-sm text-gray-600 font-medium">Unable to load this surah.</p>
+                    <p id="reader-error-detail" class="text-xs text-gray-400 mt-1"></p>
+                </div>
+
+                <!-- Ayah cards get injected here -->
+                <div id="ayah-container" class="space-y-5"></div>
+
+            </main>
+        </section>
+
+        <!-- ============================================================
+             SCREEN 2 — QURAN SURAH LIST  (Quran tab)
+             ============================================================ -->
+        <section id="screen-quran" class="screen flex-col flex-1 min-h-0">
+
+            <!-- Header + Search -->
+            <header class="bg-white shrink-0 border-b border-borderGrey">
+                <div class="px-4 py-3 flex items-center justify-between">
+                    <div class="w-10 h-10" aria-hidden="true"></div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-book-quran text-darkGreen text-[18px]" aria-hidden="true"></i>
+                        <h1 class="text-lg font-bold text-gray-900 tracking-tight">Quran</h1>
+                    </div>
+                    <button type="button" aria-label="Settings"
+                            class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-darkGreen">
+                        <i class="fa-solid fa-gear text-lg" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="px-4 pb-4 pt-1">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-magnifying-glass text-gray-400" aria-hidden="true"></i>
+                        </div>
+                        <input id="surah-search" type="text" aria-label="Search surah by name or number"
+                               class="w-full flat-card rounded-xl pl-10 pr-4 py-3.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-darkGreen focus:ring-1 focus:ring-darkGreen transition-colors"
+                               placeholder="Search Surah Name or Number…">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Scrollable surah list -->
+            <main class="px-4 py-4 flex-1 min-h-0 space-y-3 overflow-y-auto bg-white" id="surah-list">
+
+                <!-- Loading skeleton -->
+                <div id="list-loading" class="space-y-3">
+                    <div class="h-24 rounded-2xl bg-gray-100 animate-pulse"></div>
+                    <div class="h-24 rounded-2xl bg-gray-100 animate-pulse"></div>
+                    <div class="h-24 rounded-2xl bg-gray-100 animate-pulse"></div>
+                    <div class="h-24 rounded-2xl bg-gray-100 animate-pulse"></div>
+                </div>
+
+                <!-- Surah rows get injected here -->
+                <div id="surah-rows" class="space-y-3"></div>
+
+                <!-- Empty state for search -->
+                <div id="no-results" class="hidden py-16 text-center">
+                    <i class="fa-solid fa-magnifying-glass text-gray-300 text-3xl mb-3" aria-hidden="true"></i>
+                    <p class="text-sm text-gray-500">No surah found for that search.</p>
+                </div>
+
+            </main>
+        </section>
+
+        <!-- ============================================================
+             SCREEN 3 — BOOKMARKS  (Bookmark tab)
+             ============================================================ -->
+        <section id="screen-bookmark" class="screen flex-col flex-1 min-h-0">
+            <header class="px-4 py-3 flex items-center justify-between bg-white shrink-0 border-b border-borderGrey">
+                <div class="w-10 h-10" aria-hidden="true"></div>
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-bookmark text-darkGreen text-[16px]" aria-hidden="true"></i>
+                    <h1 class="text-lg font-bold text-gray-900 tracking-tight">Bookmarks</h1>
+                </div>
+                <div class="w-10 h-10" aria-hidden="true"></div>
+            </header>
+
+            <main class="px-4 py-4 flex-1 min-h-0 overflow-y-auto bg-white flex flex-col items-center justify-center text-center">
+                <div class="w-16 h-16 rounded-2xl bg-lightGreen flex items-center justify-center mb-4">
+                    <i class="fa-regular fa-bookmark text-darkGreen text-2xl" aria-hidden="true"></i>
+                </div>
+                <h2 class="font-bold text-gray-900 text-lg">No Bookmarks Yet</h2>
+                <p class="text-sm text-gray-500 mt-1 max-w-[240px] leading-relaxed">
+                    Tap the bookmark icon on any ayah to save it here for quick access.
+                </p>
+            </main>
+        </section>
+
+        <!-- ============================================================
+             BOTTOM NAVIGATION — 3 tabs, always visible
+             ============================================================ -->
+        <nav class="shrink-0 bg-white border-t border-borderGrey px-8 py-3 flex justify-between items-center" aria-label="Main navigation">
+            <button type="button" data-tab="open" aria-label="Open — reading view"
+                    class="flex flex-col items-center text-gray-500 w-16 hover:text-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-darkGreen rounded-lg">
+                <i class="fa-solid fa-book-open text-[22px]" aria-hidden="true"></i>
+                <span class="text-[12px] font-medium mt-1">Open</span>
+                <div class="tab-bar w-8 h-1 bg-transparent rounded-full mt-1"></div>
+            </button>
+
+            <button type="button" data-tab="quran" aria-label="Quran — surah list"
+                    class="flex flex-col items-center text-darkGreen w-16 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-darkGreen rounded-lg">
+                <i class="fa-solid fa-book-quran text-[22px]" aria-hidden="true"></i>
+                <span class="text-[12px] font-bold mt-1">Quran</span>
+                <div class="tab-bar w-8 h-1 bg-darkGreen rounded-full mt-1"></div>
+            </button>
+
+            <button type="button" data-tab="bookmark" aria-label="Bookmarks"
+                    class="flex flex-col items-center text-gray-500 w-16 hover:text-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-darkGreen rounded-lg">
+                <i class="fa-solid fa-bookmark text-[22px]" aria-hidden="true"></i>
+                <span class="text-[12px] font-medium mt-1">Bookmark</span>
+                <div class="tab-bar w-8 h-1 bg-transparent rounded-full mt-1"></div>
+            </button>
+        </nav>
+
+    </div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            /* =========================================================
+               1. SURAH METADATA (names, meanings, revelation, ayah counts)
+               ========================================================= */
+            const SURAH_META = [
+                { n: 1,   name: 'అల్-ఫాతిహా',           meaning: 'ప్రారంభం',                     revelation: 'Makkah',  ayahs: 7   },
+                { n: 2,   name: 'అల్-బఖరా',             meaning: 'గోవు',                         revelation: 'Madinah', ayahs: 286 },
+                { n: 3,   name: 'ఆల్-ఇమ్రాన్',           meaning: 'ఇమ్రాన్ కుటుంబం',               revelation: 'Madinah', ayahs: 200 },
+                { n: 4,   name: 'అన్-నిసా',              meaning: 'మహిళలు',                       revelation: 'Madinah', ayahs: 176 },
+                { n: 5,   name: 'అల్-మాయిదా',            meaning: 'విందు',                        revelation: 'Madinah', ayahs: 120 },
+                { n: 6,   name: 'అల్-అన్ఆమ్',            meaning: 'పశువులు',                       revelation: 'Makkah',  ayahs: 165 },
+                { n: 7,   name: 'అల్-అఆరాఫ్',            meaning: 'ఎత్తైన ప్రదేశాలు',              revelation: 'Makkah',  ayahs: 206 },
+                { n: 8,   name: 'అల్-అన్ఫాల్',           meaning: 'యుద్ధ విజయాలు',                 revelation: 'Madinah', ayahs: 75  },
+                { n: 9,   name: 'అత్-తౌబా',              meaning: 'పశ్చాత్తాపం',                   revelation: 'Madinah', ayahs: 129 },
+                { n: 10,  name: 'యూనుస్',                meaning: 'యూనుస్',                       revelation: 'Makkah',  ayahs: 109 },
+                { n: 11,  name: 'హూద్',                  meaning: 'హూద్',                         revelation: 'Makkah',  ayahs: 123 },
+                { n: 12,  name: 'యూసుఫ్',                meaning: 'యూసుఫ్',                       revelation: 'Makkah',  ayahs: 111 },
+                { n: 13,  name: 'అర్-రఅద్',              meaning: 'ఉరుము',                        revelation: 'Madinah', ayahs: 43  },
+                { n: 14,  name: 'ఇబ్రాహీమ్',            meaning: 'ఇబ్రాహీమ్',                    revelation: 'Makkah',  ayahs: 52  },
+                { n: 15,  name: 'అల్-హిజ్ర్',            meaning: 'రాతి భూమి',                    revelation: 'Makkah',  ayahs: 99  },
+                { n: 16,  name: 'అన్-నహల్',              meaning: 'తేనెటీగ',                       revelation: 'Makkah',  ayahs: 128 },
+                { n: 17,  name: 'అల్-ఇస్రా',             meaning: 'రాత్రి ప్రయాణం',                revelation: 'Makkah',  ayahs: 111 },
+                { n: 18,  name: 'అల్-కహ్ఫ్',             meaning: 'గుహ',                          revelation: 'Makkah',  ayahs: 110 },
+                { n: 19,  name: 'మర్యమ్',                meaning: 'మర్యమ్',                       revelation: 'Makkah',  ayahs: 98  },
+                { n: 20,  name: 'తా-హా',                 meaning: 'తా-హా',                        revelation: 'Makkah',  ayahs: 135 },
+                { n: 21,  name: 'అల్-అంబియా',            meaning: 'ప్రవక్తలు',                     revelation: 'Makkah',  ayahs: 112 },
+                { n: 22,  name: 'అల్-హజ్',               meaning: 'హజ్ యాత్ర',                     revelation: 'Madinah', ayahs: 78  },
+                { n: 23,  name: 'అల్-ముమినూన్',          meaning: 'విశ్వాసులు',                    revelation: 'Makkah',  ayahs: 118 },
+                { n: 24,  name: 'అన్-నూర్',              meaning: 'కాంతి',                        revelation: 'Madinah', ayahs: 64  },
+                { n: 25,  name: 'అల్-ఫుర్ఖాన్',          meaning: 'సత్య-అసత్య వివేచన',            revelation: 'Makkah',  ayahs: 77  },
+                { n: 26,  name: 'అష్-షుఅరా',             meaning: 'కవులు',                        revelation: 'Makkah',  ayahs: 227 },
+                { n: 27,  name: 'అన్-నమ్ల్',             meaning: 'చీమలు',                        revelation: 'Makkah',  ayahs: 93  },
+                { n: 28,  name: 'అల్-ఖసస్',              meaning: 'కథలు',                         revelation: 'Makkah',  ayahs: 88  },
+                { n: 29,  name: 'అల్-అన్కబూత్',          meaning: 'సాలెపురుగు',                   revelation: 'Makkah',  ayahs: 69  },
+                { n: 30,  name: 'అర్-రూమ్',              meaning: 'రోమ్ సామ్రాజ్యం',               revelation: 'Makkah',  ayahs: 60  },
+                { n: 31,  name: 'లుఖ్మాన్',              meaning: 'లుఖ్మాన్',                     revelation: 'Makkah',  ayahs: 34  },
+                { n: 32,  name: 'అస్-సజ్దా',             meaning: 'సాష్టాంగ ప్రణామం',             revelation: 'Makkah',  ayahs: 30  },
+                { n: 33,  name: 'అల్-అహ్జాబ్',           meaning: 'సైన్యాలు',                     revelation: 'Madinah', ayahs: 73  },
+                { n: 34,  name: 'సబా',                   meaning: 'సబా రాజ్యం',                   revelation: 'Makkah',  ayahs: 54  },
+                { n: 35,  name: 'ఫాతిర్',                meaning: 'సృష్టికర్త',                   revelation: 'Makkah',  ayahs: 45  },
+                { n: 36,  name: 'యా-సీన్',               meaning: 'యా-సీన్',                      revelation: 'Makkah',  ayahs: 83  },
+                { n: 37,  name: 'అస్-సాఫ్ఫాత్',          meaning: 'వరుసలు కట్టినవారు',             revelation: 'Makkah',  ayahs: 182 },
+                { n: 38,  name: 'సాద్',                  meaning: 'సాద్',                         revelation: 'Makkah',  ayahs: 88  },
+                { n: 39,  name: 'అజ్-జుమర్',             meaning: 'గుంపులు',                      revelation: 'Makkah',  ayahs: 75  },
+                { n: 40,  name: 'గాఫిర్',                meaning: 'క్షమించేవాడు',                 revelation: 'Makkah',  ayahs: 85  },
+                { n: 41,  name: 'ఫుస్సిలత్',             meaning: 'వివరించబడినవి',                revelation: 'Makkah',  ayahs: 54  },
+                { n: 42,  name: 'అష్-షూరా',              meaning: 'సలహా',                         revelation: 'Makkah',  ayahs: 53  },
+                { n: 43,  name: 'అజ్-జుఖ్రుఫ్',          meaning: 'బంగారు అలంకారాలు',              revelation: 'Makkah',  ayahs: 89  },
+                { n: 44,  name: 'అద్-దుఖాన్',            meaning: 'పొగ',                          revelation: 'Makkah',  ayahs: 59  },
+                { n: 45,  name: 'అల్-జాసియా',            meaning: 'మోకాళ్లపై కూర్చున్నది',         revelation: 'Makkah',  ayahs: 37  },
+                { n: 46,  name: 'అల్-అహ్కాఫ్',           meaning: 'ఇసుక దిబ్బలు',                 revelation: 'Makkah',  ayahs: 35  },
+                { n: 47,  name: 'ముహమ్మద్',              meaning: 'ముహమ్మద్',                     revelation: 'Madinah', ayahs: 38  },
+                { n: 48,  name: 'అల్-ఫత్హ్',             meaning: 'విజయం',                        revelation: 'Madinah', ayahs: 29  },
+                { n: 49,  name: 'అల్-హుజురాత్',          meaning: 'గదులు',                        revelation: 'Madinah', ayahs: 18  },
+                { n: 50,  name: 'ఖాఫ్',                  meaning: 'ఖాఫ్',                         revelation: 'Makkah',  ayahs: 45  },
+                { n: 51,  name: 'అజ్-జారియాత్',          meaning: 'చెదరగొట్టే గాలులు',             revelation: 'Makkah',  ayahs: 60  },
+                { n: 52,  name: 'అత్-తూర్',              meaning: 'పర్వతం',                       revelation: 'Makkah',  ayahs: 49  },
+                { n: 53,  name: 'అన్-నజ్మ్',             meaning: 'నక్షత్రం',                     revelation: 'Makkah',  ayahs: 62  },
+                { n: 54,  name: 'అల్-ఖమర్',              meaning: 'చంద్రుడు',                     revelation: 'Makkah',  ayahs: 55  },
+                { n: 55,  name: 'అర్-రహ్మాన్',           meaning: 'అనంత కరుణామయుడు',              revelation: 'Madinah', ayahs: 78  },
+                { n: 56,  name: 'అల్-వాఖిఆ',             meaning: 'తప్పనిసరి సంఘటన',              revelation: 'Makkah',  ayahs: 96  },
+                { n: 57,  name: 'అల్-హదీద్',             meaning: 'ఇనుము',                        revelation: 'Madinah', ayahs: 29  },
+                { n: 58,  name: 'అల్-ముజాదిలా',          meaning: 'వాదించే స్త్రీ',                revelation: 'Madinah', ayahs: 22  },
+                { n: 59,  name: 'అల్-హష్ర్',             meaning: 'బహిష్కరణ',                     revelation: 'Madinah', ayahs: 24  },
+                { n: 60,  name: 'అల్-ముంతహినా',          meaning: 'పరీక్షించబడిన స్త్రీ',          revelation: 'Madinah', ayahs: 13  },
+                { n: 61,  name: 'అస్-సఫ్',               meaning: 'వరుస',                         revelation: 'Madinah', ayahs: 14  },
+                { n: 62,  name: 'అల్-జుముఆ',             meaning: 'శుక్రవారం',                    revelation: 'Madinah', ayahs: 11  },
+                { n: 63,  name: 'అల్-మునాఫికూన్',        meaning: 'కపటులు',                       revelation: 'Madinah', ayahs: 11  },
+                { n: 64,  name: 'అత్-తగాబున్',           meaning: 'పరస్పర మోసం',                  revelation: 'Madinah', ayahs: 18  },
+                { n: 65,  name: 'అత్-తలాఖ్',             meaning: 'విడాకులు',                      revelation: 'Madinah', ayahs: 12  },
+                { n: 66,  name: 'అత్-తహ్రీమ్',           meaning: 'నిషేధం',                       revelation: 'Madinah', ayahs: 12  },
+                { n: 67,  name: 'అల్-ముల్క్',            meaning: 'సార్వభౌమత్వం',                 revelation: 'Makkah',  ayahs: 30  },
+                { n: 68,  name: 'అల్-ఖలమ్',              meaning: 'లేఖిని',                       revelation: 'Makkah',  ayahs: 52  },
+                { n: 69,  name: 'అల్-హాఖ్ఖా',            meaning: 'నిశ్చయమైనది',                   revelation: 'Makkah',  ayahs: 52  },
+                { n: 70,  name: 'అల్-మఆరిజ్',            meaning: 'ఆరోహణ మార్గాలు',               revelation: 'Makkah',  ayahs: 44  },
+                { n: 71,  name: 'నూహ్',                  meaning: 'నూహ్',                         revelation: 'Makkah',  ayahs: 28  },
+                { n: 72,  name: 'అల్-జిన్న్',            meaning: 'జిన్నులు',                      revelation: 'Makkah',  ayahs: 28  },
+                { n: 73,  name: 'అల్-ముజ్జమ్మిల్',       meaning: 'కప్పుకున్నవాడు',               revelation: 'Makkah',  ayahs: 20  },
+                { n: 74,  name: 'అల్-ముద్దస్సిర్',       meaning: 'దుస్తులు ధరించినవాడు',          revelation: 'Makkah',  ayahs: 56  },
+                { n: 75,  name: 'అల్-ఖియామా',            meaning: 'పునరుత్థానం',                  revelation: 'Makkah',  ayahs: 40  },
+                { n: 76,  name: 'అల్-ఇన్సాన్',           meaning: 'మానవుడు',                      revelation: 'Madinah', ayahs: 31  },
+                { n: 77,  name: 'అల్-ముర్సలాత్',         meaning: 'పంపబడినవారు',                  revelation: 'Makkah',  ayahs: 50  },
+                { n: 78,  name: 'అన్-నబా',               meaning: 'మహా వార్త',                    revelation: 'Makkah',  ayahs: 40  },
+                { n: 79,  name: 'అన్-నాజిఆత్',           meaning: 'ఆత్మలను తీసుకునేవారు',          revelation: 'Makkah',  ayahs: 46  },
+                { n: 80,  name: 'అబసా',                  meaning: 'ముఖం చిట్లించాడు',              revelation: 'Makkah',  ayahs: 42  },
+                { n: 81,  name: 'అత్-తక్వీర్',           meaning: 'చుట్టబడినది',                   revelation: 'Makkah',  ayahs: 29  },
+                { n: 82,  name: 'అల్-ఇన్ఫితార్',         meaning: 'పగిలినది',                     revelation: 'Makkah',  ayahs: 19  },
+                { n: 83,  name: 'అల్-ముతఫ్ఫిఫీన్',       meaning: 'కొలతలో మోసం చేసేవారు',           revelation: 'Makkah',  ayahs: 36  },
+                { n: 84,  name: 'అల్-ఇన్షికాఖ్',         meaning: 'చీలినది',                      revelation: 'Makkah',  ayahs: 25  },
+                { n: 85,  name: 'అల్-బురూజ్',            meaning: 'నక్షత్ర మండలాలు',               revelation: 'Makkah',  ayahs: 22  },
+                { n: 86,  name: 'అత్-తారిఖ్',            meaning: 'రాత్రి నక్షత్రం',               revelation: 'Makkah',  ayahs: 17  },
+                { n: 87,  name: 'అల్-అఅలా',              meaning: 'మహోన్నతుడు',                    revelation: 'Makkah',  ayahs: 19  },
+                { n: 88,  name: 'అల్-గాషియా',            meaning: 'ఆవరించేది',                    revelation: 'Makkah',  ayahs: 26  },
+                { n: 89,  name: 'అల్-ఫజ్ర్',             meaning: 'ఉదయం',                         revelation: 'Makkah',  ayahs: 30  },
+                { n: 90,  name: 'అల్-బలద్',              meaning: 'నగరం',                         revelation: 'Makkah',  ayahs: 20  },
+                { n: 91,  name: 'అష్-షమ్స్',             meaning: 'సూర్యుడు',                     revelation: 'Makkah',  ayahs: 15  },
+                { n: 92,  name: 'అల్-లైల్',              meaning: 'రాత్రి',                       revelation: 'Makkah',  ayahs: 21  },
+                { n: 93,  name: 'అద్-దుహా',              meaning: 'పూర్వాహ్నం',                   revelation: 'Makkah',  ayahs: 11  },
+                { n: 94,  name: 'అల్-ఇన్షిరాహ్',         meaning: 'విశాలీకరణ',                    revelation: 'Makkah',  ayahs: 8   },
+                { n: 95,  name: 'అత్-తీన్',              meaning: 'అంజూరం',                       revelation: 'Makkah',  ayahs: 8   },
+                { n: 96,  name: 'అల్-అలఖ్',              meaning: 'రక్తపు గడ్డ',                   revelation: 'Makkah',  ayahs: 19  },
+                { n: 97,  name: 'అల్-ఖద్ర్',             meaning: 'గౌరవం',                         revelation: 'Makkah',  ayahs: 5   },
+                { n: 98,  name: 'అల్-బయ్యినా',           meaning: 'స్పష్టమైన రుజువు',               revelation: 'Madinah', ayahs: 8   },
+                { n: 99,  name: 'అజ్-జిల్జాల్',          meaning: 'భూకంపం',                      revelation: 'Madinah', ayahs: 8   },
+                { n: 100, name: 'అల్-ఆదియాత్',           meaning: 'పరుగెత్తే గుర్రాలు',            revelation: 'Makkah',  ayahs: 11  },
+                { n: 101, name: 'అల్-ఖారిఆ',             meaning: 'మహా విపత్తు',                   revelation: 'Makkah',  ayahs: 11  },
+                { n: 102, name: 'అత్-తకాసుర్',           meaning: 'పోటీ',                         revelation: 'Makkah',  ayahs: 8   },
+                { n: 103, name: 'అల్-అస్ర్',             meaning: 'కాలం',                         revelation: 'Makkah',  ayahs: 3   },
+                { n: 104, name: 'అల్-హుమజా',            meaning: 'నిందించేవాడు',                 revelation: 'Makkah',  ayahs: 9   },
+                { n: 105, name: 'అల్-ఫీల్',              meaning: 'ఏనుగు',                        revelation: 'Makkah',  ayahs: 5   },
+                { n: 106, name: 'ఖురైష్',               meaning: 'ఖురైష్',                       revelation: 'Makkah',  ayahs: 4   },
+                { n: 107, name: 'అల్-మాఊన్',            meaning: 'సహాయం',                        revelation: 'Makkah',  ayahs: 7   },
+                { n: 108, name: 'అల్-కౌసర్',             meaning: 'సమృద్ధి',                       revelation: 'Makkah',  ayahs: 3   },
+                { n: 109, name: 'అల్-కాఫిరూన్',          meaning: 'అవిశ్వాసులు',                   revelation: 'Makkah',  ayahs: 6   },
+                { n: 110, name: 'అన్-నస్ర్',             meaning: 'సహాయం',                        revelation: 'Madinah', ayahs: 3   },
+                { n: 111, name: 'అల్-లహబ్',              meaning: 'అగ్ని జ్వాల',                   revelation: 'Makkah',  ayahs: 5   },
+                { n: 112, name: 'అల్-ఇఖ్లాస్',           meaning: 'నిష్కపటమైన విశ్వాసం',           revelation: 'Makkah',  ayahs: 4   },
+                { n: 113, name: 'అల్-ఫలక్',              meaning: 'ఉదయం',                         revelation: 'Makkah',  ayahs: 5   },
+                { n: 114, name: 'అన్-నాస్',              meaning: 'మానవులు',                      revelation: 'Makkah',  ayahs: 6   }
+            ];
+
+            /* Arabic names for the list — keyed by surah number */
+            const ARABIC_NAMES = {
+                1:'الفاتحة', 2:'البقرة', 3:'آل عمران', 4:'النساء', 5:'المائدة', 6:'الأنعام',
+                7:'الأعراف', 8:'الأنفال', 9:'التوبة', 10:'يونس', 11:'هود', 12:'يوسف',
+                13:'الرعد', 14:'إبراهيم', 15:'الحجر', 16:'النحل', 17:'الإسراء', 18:'الكهف',
+                19:'مريم', 20:'طه', 21:'الأنبياء', 22:'الحج', 23:'المؤمنون', 24:'النور',
+                25:'الفرقان', 26:'الشعراء', 27:'النمل', 28:'القصص', 29:'العنكبوت', 30:'الروم',
+                31:'لقمان', 32:'السجدة', 33:'الأحزاب', 34:'سبأ', 35:'فاطر', 36:'يس',
+                37:'الصافات', 38:'ص', 39:'الزمر', 40:'غافر', 41:'فصلت', 42:'الشورى',
+                43:'الزخرف', 44:'الدخان', 45:'الجاثية', 46:'الأحقاف', 47:'محمد', 48:'الفتح',
+                49:'الحجرات', 50:'ق', 51:'الذاريات', 52:'الطور', 53:'النجم', 54:'القمر',
+                55:'الرحمن', 56:'الواقعة', 57:'الحديد', 58:'المجادلة', 59:'الحشر', 60:'الممتحنة',
+                61:'الصف', 62:'الجمعة', 63:'المنافقون', 64:'التغابن', 65:'الطلاق', 66:'التحريم',
+                67:'الملك', 68:'القلم', 69:'الحاقة', 70:'المعارج', 71:'نوح', 72:'الجن',
+                73:'المزمل', 74:'المدثر', 75:'القيامة', 76:'الإنسان', 77:'المرسلات', 78:'النبأ',
+                79:'النازعات', 80:'عبس', 81:'التكوير', 82:'الانفطار', 83:'المطففين', 84:'الانشقاق',
+                85:'البروج', 86:'الطارق', 87:'الأعلى', 88:'الغاشية', 89:'الفجر', 90:'البلد',
+                91:'الشمس', 92:'الليل', 93:'الضحى', 94:'الشرح', 95:'التين', 96:'العلق',
+                97:'القدر', 98:'البينة', 99:'الزلزلة', 100:'العاديات', 101:'القارعة', 102:'التكاثر',
+                103:'العصر', 104:'الهمزة', 105:'الفيل', 106:'قريش', 107:'الماعون', 108:'الكوثر',
+                109:'الكافرون', 110:'النصر', 111:'اللهب', 112:'الإخلاص', 113:'الفلق', 114:'الناس'
+            };
+
+            /* =========================================================
+               2. APP STATE
+               ========================================================= */
+            const RAW_BASE = 'https://raw.githubusercontent.com/iliyas77/data.github.io/main/telugu_quran/';
+            const surahCache = {};   // { surahNumber: [ayahObjects] }
+            let activeSurah = 1;
+
+            /* =========================================================
+               3. SCREEN / TAB SWITCHING (unchanged behaviour)
+               ========================================================= */
+            const tabButtons = document.querySelectorAll('[data-tab]');
+
+            function showScreen(name) {
+                document.querySelectorAll('.screen').forEach(function (el) {
+                    el.classList.toggle('active', el.id === 'screen-' + name);
+                });
+
+                tabButtons.forEach(function (tab) {
+                    const isActive = tab.dataset.tab === name;
+                    const label = tab.querySelector('span');
+                    const bar = tab.querySelector('.tab-bar');
+
+                    tab.classList.toggle('text-darkGreen', isActive);
+                    tab.classList.toggle('text-gray-500', !isActive);
+                    tab.classList.toggle('hover:text-gray-700', !isActive);
+
+                    label.classList.toggle('font-bold', isActive);
+                    label.classList.toggle('font-medium', !isActive);
+
+                    bar.classList.toggle('bg-darkGreen', isActive);
+                    bar.classList.toggle('bg-transparent', !isActive);
+
+                    if (isActive) {
+                        tab.setAttribute('aria-current', 'page');
+                    } else {
+                        tab.removeAttribute('aria-current');
+                    }
+                });
+            }
+
+            tabButtons.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    showScreen(tab.dataset.tab);
+                });
+            });
+
+            document.querySelectorAll('[data-nav]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    showScreen(btn.dataset.nav);
+                });
+            });
+
+            /* =========================================================
+               4. FETCH HELPERS
+               ========================================================= */
+            function pad3(n) {
+                return String(n).padStart(3, '0');
+            }
+
+            function surahUrl(n) {
+                return RAW_BASE + 'telugu_surah_' + pad3(n) + '.json';
+            }
+
+            /**
+             * Fetch a single surah JSON and return its result array.
+             * Caches in memory so re-opening is instant.
+             */
+            async function loadSurah(n) {
+                if (surahCache[n]) return surahCache[n];
+
+                const res = await fetch(surahUrl(n));
+                if (!res.ok) {
+                    throw new Error('HTTP ' + res.status + ' for surah ' + n);
+                }
+
+                const json = await res.json();
+                const ayahs = Array.isArray(json.result) ? json.result : [];
+                surahCache[n] = ayahs;
+                return ayahs;
+            }
+
+            /* =========================================================
+               5. RENDER: SURAH LIST
+               ========================================================= */
+            const surahRowsContainer = document.getElementById('surah-rows');
+            const listLoading = document.getElementById('list-loading');
+            const noResults = document.getElementById('no-results');
+            const searchInput = document.getElementById('surah-search');
+
+            function renderSurahList() {
+                // Build all 114 rows
+                const html = SURAH_META.map(function (s) {
+                    const arabic = ARABIC_NAMES[s.n] || '';
+                    return (
+                        '<button type="button" data-surah-row data-surah="' + s.n + '" ' +
+                        'data-search="' + s.n + ' ' + s.name.toLowerCase() + ' ' + s.meaning.toLowerCase() + '" ' +
+                        'class="w-full text-left flat-card rounded-2xl p-4 flex items-center gap-3.5 hover:bg-gray-50/50 cursor-pointer transition-colors group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-darkGreen">' +
+
+                            '<div class="w-12 h-12 shrink-0 rounded-xl bg-lightGreen text-darkGreen flex items-center justify-center font-bold text-lg border border-emerald-100 group-hover:bg-darkGreen group-hover:text-white transition-colors">' +
+                                s.n +
+                            '</div>' +
+
+                            '<div class="flex-1 min-w-0 flex flex-col justify-center">' +
+                                '<h3 lang="te" class="font-bold text-gray-900 text-lg font-telugu leading-tight truncate">' + s.name + '</h3>' +
+                                '<p lang="te" class="text-sm text-gray-500 font-telugu mt-0.5 truncate">' + s.meaning + '</p>' +
+                                '<p class="text-xs text-gray-500 font-telugu mt-1 flex items-center gap-1.5">' +
+                                    '<i class="fa-solid ' + (s.revelation === 'Makkah' ? 'fa-kaaba' : 'fa-mosque') + ' text-[10px]" aria-hidden="true"></i> ' +
+                                    (s.revelation === 'Makkah' ? 'మక్కీ' : 'మదనీ') + ' • ' + s.ayahs + ' ఆయత్ లు' +
+                                '</p>' +
+                            '</div>' +
+
+                            '<div class="shrink-0 text-right pr-2">' +
+                                '<span lang="ar" dir="rtl" class="font-arabic text-3xl text-darkGreen leading-none">' + arabic + '</span>' +
+                            '</div>' +
+
+                        '</button>'
+                    );
+                }).join('');
+
+                surahRowsContainer.innerHTML = html;
+                listLoading.classList.add('hidden');
+
+                // Attach click handlers
+                surahRowsContainer.querySelectorAll('[data-surah-row]').forEach(function (row) {
+                    row.addEventListener('click', function () {
+                        const n = Number(row.dataset.surah);
+                        openSurah(n);
+                    });
+                });
+            }
+
+            /* =========================================================
+               6. RENDER: READER (loads ayahs from GitHub JSON)
+               ========================================================= */
+            const readerTitle = document.getElementById('reader-title');
+            const readerSubtitle = document.getElementById('reader-subtitle');
+            const ayahContainer = document.getElementById('ayah-container');
+            const readerLoading = document.getElementById('reader-loading');
+            const readerError = document.getElementById('reader-error');
+            const readerErrorDetail = document.getElementById('reader-error-detail');
+            const readerMain = document.getElementById('reader-main');
+
+            function escapeHtml(str) {
+                if (!str) return '';
+                return str
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+
+            /**
+             * Turn footnote text like "[1] explanation\n[2] more"
+             * into styled HTML with anchor targets.
+             */
+            function renderFootnotes(raw, surahNum) {
+                if (!raw || !raw.trim()) return '';
+
+                // Split on [n] markers but keep the markers
+                const parts = raw.split(/(?=\[\d+\])/g).filter(function (p) {
+                    return p.trim().length > 0;
+                });
+
+                const items = parts.map(function (part) {
+                    const m = part.match(/^\[(\d+)\]\s*([\s\S]*)$/);
+                    if (!m) {
+                        return '<p class="mt-1">' + escapeHtml(part.trim()) + '</p>';
+                    }
+                    const num = m[1];
+                    const text = escapeHtml(m[2].trim()).replace(/\n/g, '<br>');
+                    return (
+                        '<p class="mt-1">' +
+                            '<span id="fn-' + surahNum + '-' + num + '" class="font-bold text-gray-900">[' + num + ']</span> ' +
+                            text +
+                        '</p>'
+                    );
+                }).join('');
+
+                return (
+                    '<div class="mt-6 bg-gray-50 p-4 rounded-xl border border-gray-100">' +
+                        '<div class="flex gap-3 items-start">' +
+                            '<i class="fa-solid fa-circle-info mt-1.5 text-sm shrink-0 text-gray-400" aria-hidden="true"></i>' +
+                            '<div lang="te" class="font-telugu text-[18px] leading-[1.7] text-gray-700">' +
+                                items +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+                );
+            }
+
+            /**
+             * Replace inline [1] markers in the translation with anchor links
+             * that jump to the footnote blocks.
+             */
+            function linkFootnoteMarkers(translation, surahNum) {
+                if (!translation) return '';
+                const safe = escapeHtml(translation);
+                return safe.replace(/\[(\d+)\]/g, function (_, num) {
+                    return (
+                        '<a href="#fn-' + surahNum + '-' + num + '" ' +
+                        'class="text-darkGreen font-bold no-underline">[' + num + ']</a>'
+                    );
+                });
+            }
+
+            function renderAyahs(surahNum, ayahs) {
+                if (!ayahs.length) {
+                    ayahContainer.innerHTML =
+                        '<div class="py-16 text-center">' +
+                            '<i class="fa-solid fa-inbox text-gray-300 text-3xl mb-3" aria-hidden="true"></i>' +
+                            '<p class="text-sm text-gray-500">No ayahs found in this surah file.</p>' +
+                        '</div>';
+                    return;
+                }
+
+                ayahContainer.innerHTML = ayahs.map(function (ayah) {
+                    const ayahNum = ayah.aya || '';
+                    const arabic = escapeHtml(ayah.arabic_text || '');
+                    const translation = linkFootnoteMarkers(ayah.translation || '', surahNum);
+                    const footnotesHtml = renderFootnotes(ayah.footnotes || '', surahNum);
+
+                    return (
+                        '<div class="flat-card rounded-2xl flex flex-col overflow-hidden p-5">' +
+
+                            '<div class="flex justify-between items-center pb-4">' +
+                                '<div class="px-3 py-1 rounded-xl bg-lightGreen text-darkGreen font-bold text-sm border border-emerald-100">' +
+                                    '#' + surahNum + ':' + ayahNum +
+                                '</div>' +
+                                '<div class="flex items-center gap-5 text-gray-500">' +
+                                    '<button type="button" aria-label="Play ayah ' + surahNum + ':' + ayahNum + '" class="hover:text-darkGreen transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-darkGreen rounded">' +
+                                        '<i class="fa-solid fa-play text-xl" aria-hidden="true"></i>' +
+                                    '</button>' +
+                                    '<button type="button" aria-label="Bookmark ayah ' + surahNum + ':' + ayahNum + '" class="hover:text-darkGreen transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-darkGreen rounded">' +
+                                        '<i class="fa-regular fa-bookmark text-xl" aria-hidden="true"></i>' +
+                                    '</button>' +
+                                '</div>' +
+                            '</div>' +
+
+                            '<div class="pt-4 pb-6">' +
+                                '<p dir="rtl" lang="ar" class="font-arabic text-4xl leading-loose text-right text-darkGreen">' +
+                                    arabic +
+                                '</p>' +
+                            '</div>' +
+
+                            '<div class="w-full h-px bg-borderGrey mb-5"></div>' +
+
+                            '<div>' +
+                                '<p lang="te" class="font-telugu text-[22px] text-gray-900 leading-[1.8] font-medium">' +
+                                    translation +
+                                '</p>' +
+                            '</div>' +
+
+                            footnotesHtml +
+
+                        '</div>'
+                    );
+                }).join('');
+            }
+
+            /**
+             * Open a surah: update header, fetch JSON, render ayahs.
+             */
+            async function openSurah(n) {
+                activeSurah = n;
+                const meta = SURAH_META.find(function (s) { return s.n === n; });
+                if (!meta) return;
+
+                // Update header immediately
+                readerTitle.textContent = 'Surah ' + meta.name;
+                readerSubtitle.textContent =
+                    (meta.revelation === 'Makkah' ? 'Makkah' : 'Madinah') +
+                    ' • ' + meta.ayahs + ' Ayahs';
+
+                // Show reader screen
+                showScreen('open');
+                readerMain.scrollTop = 0;
+
+                // Show loading, hide error and old ayahs
+                readerLoading.classList.remove('hidden');
+                readerLoading.classList.add('flex');
+                readerError.classList.add('hidden');
+                readerError.classList.remove('flex');
+                ayahContainer.innerHTML = '';
+
+                try {
+                    const ayahs = await loadSurah(n);
+
+                    // Guard against a fast double-click: only render if still the active surah
+                    if (activeSurah !== n) return;
+
+                    readerLoading.classList.add('hidden');
+                    readerLoading.classList.remove('flex');
+                    renderAyahs(n, ayahs);
+                } catch (err) {
+                    if (activeSurah !== n) return;
+
+                    readerLoading.classList.add('hidden');
+                    readerLoading.classList.remove('flex');
+                    readerError.classList.remove('hidden');
+                    readerError.classList.add('flex');
+                    readerErrorDetail.textContent = err.message || 'Network error';
+                    console.error('Failed to load surah', n, err);
+                }
+            }
+
+            /* =========================================================
+               7. SEARCH FILTER
+               ========================================================= */
+            searchInput.addEventListener('input', function () {
+                const q = searchInput.value.trim().toLowerCase();
+                const rows = surahRowsContainer.querySelectorAll('[data-surah-row]');
+                let visible = 0;
+
+                rows.forEach(function (row) {
+                    const haystack = (row.dataset.search || '').toLowerCase();
+                    const match = !q || haystack.indexOf(q) !== -1;
+                    row.style.display = match ? '' : 'none';
+                    if (match) visible++;
+                });
+
+                noResults.classList.toggle('hidden', visible > 0);
+            });
+
+            /* =========================================================
+               8. BOOTSTRAP
+               ========================================================= */
+            renderSurahList();
+
+            // Optional: pre-load Surah 1 so the reader is ready on first visit
+            loadSurah(1).catch(function () {
+                /* silent — handled when user opens it */
+            });
+        })();
+    </script>
+</body>
+</html>

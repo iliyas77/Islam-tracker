@@ -1,5 +1,5 @@
 <div class="tb-card bg-white border border-gray-200 rounded-3xl p-4 sm:p-5 flex flex-row gap-4 items-center cursor-pointer hover:border-gray-300 select-none transition-all w-full shadow-none"
-    data-bind="attr: { 'data-id': id, 'data-month': month, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: onCardClick"
+    data-bind="attr: { 'data-id': id, 'data-month': month, 'data-ref': 'page.tasbeeh.card', 'aria-label': title }, css: { 'tb-card-done opacity-80': isComplete }, click: handleClick"
     role="button" tabindex="0">
     <!-- Left: Icon -->
     <div class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-2xl bg-[#E8F5E9] text-[#094E3A] flex items-center justify-center text-2xl shrink-0 leading-none select-none overflow-hidden">
@@ -39,7 +39,7 @@
         <button type="button"
             class="tb-btn-edit w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200/80 flex items-center justify-center text-gray-600 cursor-pointer active:scale-95 transition-all p-0"
             data-act="tb-edit" title="Edit Dhikr" aria-label="Edit Dhikr"
-            data-bind="click: onEditClick">
+            data-bind="click: handleEditClick">
             <app-icon params="name: 'pencil', size: 'xs'"></app-icon>
         </button>
         <div class="text-gray-300 flex items-center justify-center">

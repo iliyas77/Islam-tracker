@@ -1,7 +1,7 @@
 /* ---------- Navigation (Constants referenced from utilities/navigation-constants.js) ---------- */
 var NAV_CONSTANTS = window.NAVIGATION_CONSTANTS || (window.CONSTANTS && window.CONSTANTS.NAVIGATION) || {};
-var PAGES = NAV_CONSTANTS.PAGES || window.PAGES || ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage'];
-var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', performance: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas' };
+var PAGES = NAV_CONSTANTS.PAGES || window.PAGES || ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage', 'quranPage'];
+var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', performance: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas', quran: 'navQuran' };
 var SUB_TABS = NAV_CONSTANTS.SUB_TABS || { CURRENT: 'current', OLD: 'old', PERFORMANCE: 'performance', HISTORY: 'history' };
 var PAGE_MAP = NAV_CONSTANTS.PAGE_MAP || {
     dashboard: 'dashboardPage',
@@ -12,7 +12,8 @@ var PAGE_MAP = NAV_CONSTANTS.PAGE_MAP || {
     history: 'trackerPage',
     settings: 'settingsPage',
     tasbeeh: 'tasbeehPage',
-    duas: 'duasPage'
+    duas: 'duasPage',
+    quran: 'quranPage'
 };
 var TRACKER_HEADER = NAV_CONSTANTS.TRACKER_HEADER || {
     current: {
@@ -48,6 +49,7 @@ var NavigationState = {
     trackerSubTab: (_ko && _ko.observable) ? _ko.observable(SUB_TABS.CURRENT) : function () { return SUB_TABS.CURRENT; },
     tasbeehSubTab: (_ko && _ko.observable) ? _ko.observable('current') : function () { return 'current'; },
     duasSubTab: (_ko && _ko.observable) ? _ko.observable('home') : function () { return 'home'; },
+    quranSubTab: (_ko && _ko.observable) ? _ko.observable('quran') : function () { return 'quran'; },
     navigateTo: function (page) {
         showPage(page);
     },
@@ -62,6 +64,11 @@ var NavigationState = {
     switchDuasTab: function (tab) {
         if (window.DuasApp && typeof window.DuasApp.switchTab === 'function') {
             window.DuasApp.switchTab(tab);
+        }
+    },
+    switchQuranTab: function (tab) {
+        if (window.QuranApp && typeof window.QuranApp.switchTab === 'function') {
+            window.QuranApp.switchTab(tab);
         }
     }
 };
@@ -298,6 +305,15 @@ function showPage(kind) {
             }
             if (window.DuasApp && typeof window.DuasApp.render === 'function') {
                 window.DuasApp.render();
+            }
+        } else if (kind === 'quran') {
+            if (typeof initQuran === 'function') {
+                initQuran();
+            } else if (window.initQuran) {
+                window.initQuran();
+            }
+            if (window.QuranApp && typeof window.QuranApp.render === 'function') {
+                window.QuranApp.render();
             }
         }
     } finally {
