@@ -12483,18 +12483,19 @@ self.historyEntries = (p.entries && k && k.isObservable(p.entries))
 : ((store && k && k.isObservable(store.historyEntries))
 ? store.historyEntries
 : obsArr(getPrayerHistory()));
-self.subtitle = (k && k.pureComputed) ? k.pureComputed(function () {
-var list = (typeof self.historyEntries === 'function') ? self.historyEntries() : self.historyEntries;
-var count = Array.isArray(list) ? list.length : 0;
-return count + (count === 1 ? ' completed prayer' : ' completed prayers');
-}) : obs('0 completed prayers');
+self.subtitle = obs('0 completed prayers');
 self.updateSubtitle = function () {
-if (typeof self.subtitle === 'function' && !self.subtitle.__isComputed) {
 var list = (typeof self.historyEntries === 'function') ? self.historyEntries() : self.historyEntries;
 var count = Array.isArray(list) ? list.length : 0;
+if (typeof self.subtitle === 'function') {
 self.subtitle(count + (count === 1 ? ' completed prayer' : ' completed prayers'));
 }
 };
+if (k && typeof self.historyEntries === 'function' && typeof self.historyEntries.subscribe === 'function') {
+self.historyEntries.subscribe(function () {
+self.updateSubtitle();
+});
+}
 self.refresh = function () {
 var entries = getPrayerHistory();
 if (typeof self.historyEntries === 'function') {
