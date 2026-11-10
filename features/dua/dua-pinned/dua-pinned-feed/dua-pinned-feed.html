@@ -1,0 +1,36 @@
+<div class="dua-pinned-feed flex flex-col gap-2" data-ref="page.duas.pinned.feed">
+    <!-- Empty State -->
+    <!-- ko if: !hasPinned() -->
+    <div class="text-center py-8 text-gr-textMuted text-sm leading-relaxed" id="duaHomeEmptyState">
+        <span class="inline-flex items-center justify-center mb-2"><app-icon params="name: 'thumbtack'"></app-icon></span><br>
+        No pinned duas yet.<br>
+        Tap the pin icon on any dua to pin it here.<br>
+        <span class="text-xs opacity-75 mt-2 block">You can pin up to 2 duas for quick access.</span>
+    </div>
+    <!-- /ko -->
+
+    <!-- Pinned Content -->
+    <!-- ko if: hasPinned() -->
+    <div id="duaHomeContent">
+        <div class="text-sm font-bold text-brand flex items-center gap-2 mb-2">
+            <app-icon params="name: 'thumbtack'"></app-icon>
+            <span id="duaHomeTitleCount" data-bind="text: pinnedTitle">Your Pinned Duas (0/2)</span>
+        </div>
+        <div class="flex flex-col gap-2" id="duaHomeView" data-bind="foreach: { data: (typeof pinnedDuas === 'function' ? pinnedDuas : pinnedDuas), as: 'item' }">
+            <!-- ko component: {
+                name: 'dua-pinned-card',
+                params: {
+                    item: item,
+                    index: (item && item.index !== undefined) ? item.index : $index(),
+                    onSelectDua: function(d, i, e) { $parent.handleSelect(d, i, e); },
+                    onUnpin: function(d, i, e) { $parent.handleUnpin(d, i, e); }
+                }
+            } --><!-- /ko -->
+        </div>
+        <div class="text-xs text-gr-textMuted flex items-center justify-center gap-1 mt-3">
+            <span>Tap the</span> <app-icon params="name: 'thumbtack'"></app-icon> <span>icon on a dua to unpin it, or pin another (max 2).</span>
+        </div>
+    </div>
+    <!-- /ko -->
+</div>
+

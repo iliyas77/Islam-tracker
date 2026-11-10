@@ -1,0 +1,54 @@
+<div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none gap-3"
+    data-ref="page.settings.backup.card">
+    <!-- Header -->
+    <div class="flex items-center gap-3" data-ref="page.settings.backup.header">
+        <div class="icon-box icon-box-lg bg-emerald-50 text-brand w-10 h-10 rounded-xl flex items-center justify-center"
+            data-ref="page.settings.backup.icon-badge">
+            <i class="fa-solid fa-database text-xl" aria-hidden="true"></i>
+        </div>
+        <div class="flex flex-col min-w-0" data-ref="page.settings.backup.info">
+            <span class="font-bold text-sm" data-ref="page.settings.backup.title">Data Management &amp; Backup</span>
+            <span class="text-xs text-gr-textMuted">Export, restore, or reset prayer data</span>
+        </div>
+    </div>
+
+    <!-- Backup & Restore Action Buttons -->
+    <div class="grid grid-cols-2 gap-2 pt-1">
+        <button type="button"
+            class="py-2.5 px-3 rounded-xl border border-borderGrey bg-surfaceBg text-brand hover:bg-brand-light text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+            data-ref="page.settings.backup.export-btn"
+            data-bind="click: handleExportBackup">
+            <i class="fa-solid fa-download text-xs" aria-hidden="true"></i>
+            <span>Export Backup</span>
+        </button>
+        <button type="button"
+            class="py-2.5 px-3 rounded-xl border border-borderGrey bg-surfaceBg text-brand hover:bg-brand-light text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+            data-ref="page.settings.backup.import-btn"
+            data-bind="click: triggerImport">
+            <i class="fa-solid fa-upload text-xs" aria-hidden="true"></i>
+            <span>Restore Backup</span>
+        </button>
+        <input type="file" id="settingsBackupFileInput" accept=".json" class="d-none"
+            data-bind="event: { change: handleFileChosen }">
+    </div>
+
+    <!-- Feedback Message -->
+    <!-- ko if: message -->
+    <div class="text-xs p-2.5 rounded-xl border"
+        data-bind="text: message, css: isError() ? 'bg-red-50 text-red-700 border-red-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'"></div>
+    <!-- /ko -->
+
+    <!-- Danger Zone: Reset Database -->
+    <div class="border-t border-borderGrey pt-3 flex flex-col gap-2">
+        <div class="flex items-center gap-2 text-gr-danger">
+            <i class="fa-solid fa-triangle-exclamation text-sm" aria-hidden="true"></i>
+            <span class="text-xs font-bold uppercase tracking-wider text-red-600">Danger Zone</span>
+        </div>
+        <p class="text-xs text-gr-textMuted m-0">This permanently resets all logged prayer data, old periods, and cache.</p>
+        <button type="button"
+            class="w-full py-2.5 bg-gr-danger text-white font-bold rounded-xl text-xs hover:bg-red-600 transition-colors cursor-pointer"
+            data-act="reset-db" data-ref="page.settings.reset.btn"
+            data-bind="click: handleResetDatabase">Reset Database</button>
+    </div>
+</div>
+

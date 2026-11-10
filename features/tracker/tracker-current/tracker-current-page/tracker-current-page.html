@@ -1,0 +1,49 @@
+<div class="prayer-tracker-card w-full max-w-[480px] bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col gap-3 shadow-none mx-auto"
+    data-bind="attr: { id: collapsePrefix + 'TrackerCard', 'data-ref': pagePrefix + '.card' }">
+    <!-- Header: Date & Actions -->
+    <header class="tracker-header pb-2.5 border-b border-borderGrey flex items-center justify-between gap-2"
+        data-bind="attr: { 'data-ref': pagePrefix + '.card.header' }">
+        <button type="button" class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
+            data-bind="attr: { id: collapsePrefix + 'DateChip', 'data-ref': pagePrefix + '.card.header.date-chip' }, click: handleDateChipClick"
+            aria-label="Select date">
+            <app-icon params="name: 'calendar-days', prefix: 'fa-regular', size: 'sm'"></app-icon>
+            <span data-bind="text: dateChipText, attr: { id: collapsePrefix + 'DateChipText', 'data-ref': pagePrefix + '.card.header.date-text' }"></span>
+        </button>
+        <div class="header-status flex items-center gap-2"
+            data-bind="attr: { id: collapsePrefix + 'HeaderStatus', 'data-ref': pagePrefix + '.card.header.status' }">
+            <!-- ko if: badgeText -->
+            <span class="badge badge-warning inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer"
+                data-bind="attr: { 'data-ref': pagePrefix + '.card.header.badge' }, click: handleBadgeClick">
+                <app-icon params="name: 'triangle-exclamation', size: 'xs'"></app-icon>
+                <span data-bind="text: badgeText"></span>
+            </span>
+            <!-- /ko -->
+            <!-- ko if: actionBtnText -->
+            <button type="button" class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 text-sm hover:underline"
+                data-bind="text: actionBtnText, attr: { id: collapsePrefix + 'ActionBtn', 'data-ref': pagePrefix + '.card.header.action-btn' }, click: handleActionBtnClick"></button>
+            <!-- /ko -->
+        </div>
+    </header>
+
+    <!-- Modular Feed Component -->
+    <!-- ko component: {
+        name: 'tracker-current-feed',
+        params: {
+            collapsePrefix: collapsePrefix,
+            pagePrefix: pagePrefix,
+            missedRows: missedRows,
+            doneRows: doneRows,
+            onTogglePrayer: handleTogglePrayer
+        }
+    } --><!-- /ko -->
+
+    <!-- Modular Form Component (Missed Prayers Resolution Sheet) -->
+    <!-- ko component: {
+        name: 'tracker-current-form',
+        params: {
+            isOpen: isMissedFormOpen,
+            onClose: closeMissedForm
+        }
+    } --><!-- /ko -->
+</div>
+

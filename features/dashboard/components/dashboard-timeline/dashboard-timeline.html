@@ -1,0 +1,33 @@
+<div class="dash-timeline-card bg-white rounded-2xl p-4 border border-borderGrey flex flex-col gap-3 shadow-none"
+    data-ref="page.dashboard.timeline-card">
+    <div class="flex items-center justify-between gap-2"
+        data-ref="page.dashboard.timeline.header">
+        <span class="text-xs font-bold uppercase tracking-wider text-brand"
+            data-ref="page.dashboard.timeline.title" data-bind="text: title || 'Daily Prayer Timeline'">Daily Prayer Timeline</span>
+        <div class="h-[1px] bg-borderGrey flex-1" data-ref="page.dashboard.timeline.line"></div>
+        <div class="w-6 h-6 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-xs shrink-0"
+            title="Daily Prayers" aria-hidden="true"
+            data-ref="page.dashboard.timeline.alarm-icon">
+            <app-icon params="name: 'bell'"></app-icon>
+        </div>
+    </div>
+    <div class="flex justify-between items-stretch gap-1 w-full" id="dashTimelineNodes"
+        data-ref="page.dashboard.timeline.nodes">
+        <!-- ko foreach: items -->
+        <div class="flex-1 flex flex-col items-center gap-1.5 text-center min-w-0"
+            data-bind="attr: { id: 'dashTimeline' + name, 'data-ref': 'page.dashboard.timeline.item.' + name.toLowerCase() }">
+            <div class="icon-box icon-box-md"
+                data-bind="attr: { id: 'dashIconBox' + name, 'data-ref': 'page.dashboard.timeline.icon.' + name.toLowerCase() }, css: { 'icon-box-active': isActive }">
+                <app-icon params="name: iconClass"></app-icon>
+            </div>
+            <div class="text-xs font-bold text-brand mt-1 truncate"
+                data-bind="text: name, attr: { 'data-ref': 'page.dashboard.timeline.name.' + name.toLowerCase() }"></div>
+            <div class="text-[11px] text-gr-text font-medium"
+                data-bind="text: time, attr: { id: 'dashTime' + name, 'data-ref': 'page.dashboard.timeline.time.' + name.toLowerCase() }">--:--</div>
+            <span class="dash-timeline-badge text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
+                data-bind="text: statusText, attr: { id: 'dashBadge' + name, 'data-ref': 'page.dashboard.timeline.badge.' + name.toLowerCase() }, css: statusBadgeClass">Upcoming</span>
+        </div>
+        <!-- /ko -->
+    </div>
+</div>
+

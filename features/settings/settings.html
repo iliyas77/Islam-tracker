@@ -1,0 +1,48 @@
+<!-- Settings Header -->
+<header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center gap-2 min-h-[44px]"
+    data-ref="page.settings.header">
+    <button type="button"
+        class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
+        data-act="go-home" title="Back to Home" aria-label="Back to Home"
+        data-bind="click: goHome"
+        data-ref="page.settings.back-btn">
+        <app-icon params="name: 'arrow-left', size: 'base'"></app-icon>
+    </button>
+    <div class="grow min-w-0">
+        <h5 class="font-bold text-base text-brand m-0 flex items-center gap-2">
+            <app-icon params="name: 'gear', color: 'text-gr-accent'"></app-icon>
+            <span>Settings</span>
+        </h5>
+        <div class="text-xs text-gr-textMuted mt-0.5">App preferences</div>
+    </div>
+</header>
+
+<!-- Settings Content Body -->
+<div class="grow overflow-auto p-2 pb-3" id="settingsBody" data-ref="page.settings.body">
+    <!-- Modular Prayer Times Location Component -->
+    <!-- ko component: { name: 'settings-prayer-times', params: prayerTimes } --><!-- /ko -->
+
+    <!-- Modular Start Date Component -->
+    <!-- ko component: { name: 'settings-start-date', params: startDateParams } --><!-- /ko -->
+
+    <!-- Modular Font Size Component -->
+    <!-- ko component: { name: 'settings-font-size', params: fontSizeParams } --><!-- /ko -->
+
+    <!-- Modular Backup & Data Management Component -->
+    <!-- ko component: { name: 'settings-backup', params: backupParams } --><!-- /ko -->
+
+    <!-- Storage Info Card -->
+    <!-- ko component: { name: 'settings-info-card', params: storageInfo } --><!-- /ko -->
+</div>
+
+<!-- Bottom Navigation -->
+<nav class="w-full h-[60px] bg-white border-t border-borderGrey shrink-0 z-[100] flex items-center justify-around px-2"
+    id="settingsBottomNav" data-ref="page.settings.bottom-nav">
+    <button type="button"
+        class="nav-tab flex-1 h-full bg-transparent border-0 flex flex-col items-center justify-center gap-1 font-medium text-brand py-1.5 relative cursor-pointer select-none transition-colors active"
+        id="tabSettings" data-act="goto-settings" role="tab" aria-selected="true"
+        data-ref="page.settings.tab">
+        <app-icon params="name: 'gear'"></app-icon>
+        <span>Settings</span>
+    </button>
+</nav>

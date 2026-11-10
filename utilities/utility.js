@@ -842,21 +842,36 @@ function handleClick(e) {
     } else if (act === 'jump-today') {
         sd = td();
         if (typeof fetchPrayerTimings === 'function') {
-            fetchPrayerTimings(sd, function () { rn(); });
+            fetchPrayerTimings(sd, function () {
+                if (typeof rn === 'function') rn();
+                else if (typeof window.rn === 'function') window.rn();
+            });
         }
-        rn();
+        if (typeof rn === 'function') rn();
+        else if (typeof window.rn === 'function') window.rn();
     } else if (act === 'missed-open') {
-        rMS();
+        if (typeof window.rMS === 'function') {
+            window.rMS();
+        } else if (typeof rMS === 'function') {
+            rMS();
+        }
     } else if (act === 'old-open-cal') {
         if (typeof openOldCal === 'function') openOldCal();
+        else if (typeof window.openOldCal === 'function') window.openOldCal();
     } else if (act === 'open-cal') {
         if (typeof trackerSubTab !== 'undefined' && trackerSubTab === 'old') {
             if (typeof openOldCal === 'function') openOldCal();
+            else if (typeof window.openOldCal === 'function') window.openOldCal();
         } else {
-            openCal();
+            if (typeof openCal === 'function') openCal();
+            else if (typeof window.openCal === 'function') window.openCal();
         }
     } else if (act === 'old-info') {
-        rOldInfo();
+        if (typeof window.rOldInfo === 'function') {
+            window.rOldInfo();
+        } else if (typeof rOldInfo === 'function') {
+            rOldInfo();
+        }
     } else if (act === 'toggle-old') {
         var p2 = t.dataset.p, d2 = t.dataset.d;
         var c3 = grO(d2);
@@ -905,12 +920,26 @@ function handleClick(e) {
     } else if (act === 'old-change-period') {
         rPeriod();
     } else if (act === 'jump') {
-        sd = t.dataset.d;
-        sheet2BS.hide();
-        if (typeof fetchPrayerTimings === 'function') {
-            fetchPrayerTimings(sd, function () { rn(); });
+        var targetDate = t.dataset.d;
+        sd = targetDate;
+        var pStore = (typeof PrayerStore !== 'undefined') ? PrayerStore : (typeof window !== 'undefined' ? window.PrayerStore : null);
+        if (pStore && typeof pStore.selectedDate === 'function') {
+            pStore.selectedDate(targetDate);
         }
-        setTimeout(function () { showPage('current'); }, 350);
+        if (typeof sheet2BS !== 'undefined' && sheet2BS && typeof sheet2BS.hide === 'function') {
+            sheet2BS.hide();
+        } else if (typeof window !== 'undefined' && window.sheet2BS && typeof window.sheet2BS.hide === 'function') {
+            window.sheet2BS.hide();
+        }
+        if (typeof fetchPrayerTimings === 'function') {
+            fetchPrayerTimings(targetDate, function () { if (typeof rn === 'function') rn(); });
+        }
+        if (typeof rn === 'function') rn();
+        setTimeout(function () {
+            if (typeof showPage === 'function') showPage('current');
+            if (typeof switchTab === 'function') switchTab('current');
+            if (typeof switchTrackerSubTab === 'function') switchTrackerSubTab('current');
+        }, 350);
     } else if (act === 'font') {
         apFS(parseFloat(t.dataset.fs));
         rSET();

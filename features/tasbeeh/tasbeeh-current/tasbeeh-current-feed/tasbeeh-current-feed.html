@@ -1,0 +1,67 @@
+<div class="flex flex-col gap-3" id="tbList" data-ref="page.tasbeeh.list">
+    <!-- Advance Banner -->
+    <div class="border border-borderGrey p-3 text-center rounded-2xl bg-white shadow-none"
+        id="tbCurrentAdvanceBanner"
+        data-bind="visible: isMonthCompleted">
+        <app-icon params="name: 'circle-check', color: 'text-brand', size: 'xl', customClass: 'mb-2'"></app-icon>
+        <div class="font-bold text-brand" id="tbCurrentAdvanceBannerText">All Dhikrs for this month Completed!</div>
+        <div class="text-gr-textMuted text-xs mb-3">All daily targets for this month have been achieved.</div>
+        <button type="button"
+            class="font-bold rounded-full px-4 py-2 mx-auto bg-brand text-white hover:bg-brand-hover transition-colors text-xs py-1.5 px-3 rounded-lg cursor-pointer"
+            data-act="tb-current-advance"
+            data-bind="click: onAdvanceMonth">
+            <app-icon params="name: 'arrow-right', customClass: 'mr-1'"></app-icon> Finalize & Advance to Next Month
+        </button>
+    </div>
+
+    <!-- Empty State -->
+    <div id="tbEmptyState" class="border border-borderGrey p-4 text-center rounded-2xl bg-white shadow-none"
+        data-ref="page.tasbeeh.empty-state"
+        data-bind="visible: isEmpty">
+        <div class="mb-3" data-ref="page.tasbeeh.empty-state.icon-wrap">
+            <app-icon params="name: 'hand-holding-heart', color: 'text-gr-textMuted', size: '3xl', customClass: 'opacity-50', dataRef: 'page.tasbeeh.empty-state.icon'"></app-icon>
+        </div>
+        <h5 class="font-bold text-brand mb-1" data-ref="page.tasbeeh.empty-state.title">No Dhikr Yet</h5>
+        <p class="text-gr-textMuted text-xs mb-0" data-ref="page.tasbeeh.empty-state.text">Tap “+” below to add your first chant and begin counting.</p>
+    </div>
+
+    <!-- Current Tabs Navigation (When not empty) -->
+    <!-- ko ifnot: isEmpty -->
+    <!-- ko component: { name: 'app-tabs', params: statusTabsParams } --><!-- /ko -->
+
+    <!-- TO DO LIST -->
+    <div id="tbCurrentTodoList" role="tabpanel" aria-labelledby="tabTbCurrentTodo" class="mt-2 space-y-3"
+        data-bind="visible: activeTab() === 'todo'">
+        <!-- ko if: todoItems().length === 0 -->
+        <div id="tbCurrentTodoEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2">
+            <div class="mb-2">
+                <app-icon params="name: 'circle-check', color: 'text-brand', size: '2xl'"></app-icon>
+            </div>
+            <h6 class="font-bold text-brand text-sm mb-1">All Done for Today!</h6>
+            <p class="text-gr-textMuted text-xs mb-0">You have completed all daily Dhikr targets. Check the Completed tab to view them.</p>
+        </div>
+        <!-- /ko -->
+        <div class="flex flex-col gap-3" id="tbCurrentTodoGrid" data-bind="foreach: todoItems">
+            <!-- ko component: { name: 'tasbeeh-current-card', params: { item: $data, onClick: $parent.onCardClick, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
+        </div>
+    </div>
+
+    <!-- COMPLETED LIST -->
+    <div id="tbCurrentDoneList" role="tabpanel" aria-labelledby="tabTbCurrentDone" class="mt-2 space-y-3"
+        data-bind="visible: activeTab() === 'completed'">
+        <!-- ko if: doneItems().length === 0 -->
+        <div id="tbCurrentDoneEmpty" class="border border-borderGrey p-6 text-center rounded-2xl bg-white shadow-none my-2">
+            <div class="mb-2">
+                <app-icon params="name: 'circle-check', color: 'text-gr-textMuted', size: '2xl', customClass: 'opacity-40'"></app-icon>
+            </div>
+            <h6 class="font-bold text-gray-700 text-sm mb-1">No Completed Dhikrs Yet</h6>
+            <p class="text-gr-textMuted text-xs mb-0">Complete today's target for any Dhikr to see it listed here.</p>
+        </div>
+        <!-- /ko -->
+        <div class="flex flex-col gap-3" id="tbCurrentDoneGrid" data-bind="foreach: doneItems">
+            <!-- ko component: { name: 'tasbeeh-current-card', params: { item: $data, onClick: $parent.onCardClick, onCardClick: $parent.onCardClick, onEditClick: $parent.onEditClick } } --><!-- /ko -->
+        </div>
+    </div>
+    <!-- /ko -->
+</div>
+

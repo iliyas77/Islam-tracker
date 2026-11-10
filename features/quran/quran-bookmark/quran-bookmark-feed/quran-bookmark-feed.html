@@ -1,0 +1,29 @@
+<div class="h-full flex flex-col" data-ref="page.quran.bookmark.feed">
+    <!-- Empty State -->
+    <!-- ko if: bookmarks().length === 0 -->
+    <div class="flex-1 flex flex-col items-center justify-center text-center py-16 px-4">
+        <div class="w-16 h-16 rounded-2xl bg-[#E8F5E9] flex items-center justify-center mb-4">
+            <i class="fa-regular fa-bookmark text-[#094E3A] text-2xl" aria-hidden="true"></i>
+        </div>
+        <h2 class="font-bold text-gray-900 text-lg">No Bookmarks Yet</h2>
+        <p class="text-sm text-gray-500 mt-1 max-w-[240px] leading-relaxed">
+            Tap the bookmark icon on any ayah to save it here for quick access.
+        </p>
+    </div>
+    <!-- /ko -->
+
+    <!-- Bookmarks List -->
+    <!-- ko if: bookmarks().length > 0 -->
+    <div class="space-y-3 pb-6" data-bind="foreach: bookmarks">
+        <!-- ko component: {
+            name: 'quran-bookmark-card',
+            params: {
+                item: $data,
+                onClick: function(item, event) { $parent.handleCardClick(item, event); },
+                onRemove: function(item, event) { $parent.handleRemove(item, event); }
+            }
+        } --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+</div>
+

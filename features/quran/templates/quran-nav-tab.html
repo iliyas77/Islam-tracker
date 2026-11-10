@@ -1,0 +1,41 @@
+<nav class="shrink-0 bg-white border-t border-[#E0E0E0] px-8 py-3 flex justify-between items-center z-[100]" aria-label="Quran navigation" data-ref="page.quran.bottom-nav">
+    <!-- Open Tab -->
+    <button type="button" aria-label="Open — reading view"
+        class="flex flex-col items-center w-16 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded-lg cursor-pointer select-none"
+        data-bind="
+            css: activeTab() === 'open' ? 'text-[#094E3A]' : 'text-gray-500 hover:text-gray-700',
+            attr: { 'aria-current': activeTab() === 'open' ? 'page' : null },
+            click: function() { selectTab('open'); }
+        ">
+        <i class="fa-solid fa-book-open text-[22px]" aria-hidden="true"></i>
+        <span class="text-[12px] mt-1" data-bind="css: activeTab() === 'open' ? 'font-bold' : 'font-medium'">Open</span>
+        <div class="tab-bar w-8 h-1 rounded-full mt-1" data-bind="css: activeTab() === 'open' ? 'bg-[#094E3A]' : 'bg-transparent'"></div>
+    </button>
+
+    <!-- Quran Tab -->
+    <button type="button" aria-label="Quran — surah list"
+        class="flex flex-col items-center w-16 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded-lg cursor-pointer select-none"
+        data-bind="
+            css: activeTab() === 'quran' ? 'text-[#094E3A]' : 'text-gray-500 hover:text-gray-700',
+            attr: { 'aria-current': activeTab() === 'quran' ? 'page' : null },
+            click: function() { selectTab('quran'); }
+        ">
+        <i class="fa-solid fa-book-quran text-[22px]" aria-hidden="true"></i>
+        <span class="text-[12px] mt-1" data-bind="css: activeTab() === 'quran' ? 'font-bold' : 'font-medium'">Quran</span>
+        <div class="tab-bar w-8 h-1 rounded-full mt-1" data-bind="css: activeTab() === 'quran' ? 'bg-[#094E3A]' : 'bg-transparent'"></div>
+    </button>
+
+    <!-- Bookmark Tab -->
+    <button type="button" aria-label="Bookmarks"
+        class="flex flex-col items-center w-16 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A] rounded-lg cursor-pointer select-none"
+        data-bind="
+            css: activeTab() === 'bookmark' ? 'text-[#094E3A]' : 'text-gray-500 hover:text-gray-700',
+            attr: { 'aria-current': activeTab() === 'bookmark' ? 'page' : null },
+            click: function() { selectTab('bookmark'); }
+        ">
+        <i class="fa-solid fa-bookmark text-[22px]" aria-hidden="true"></i>
+        <span class="text-[12px] mt-1" data-bind="css: activeTab() === 'bookmark' ? 'font-bold' : 'font-medium'">Bookmark</span>
+        <div class="tab-bar w-8 h-1 rounded-full mt-1" data-bind="css: activeTab() === 'bookmark' ? 'bg-[#094E3A]' : 'bg-transparent'"></div>
+    </button>
+</nav>
+

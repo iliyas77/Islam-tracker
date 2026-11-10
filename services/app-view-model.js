@@ -74,12 +74,19 @@ export function AppViewModel() {
         }
         return _win.duasViewModel || null;
     };
+    self.getQuran = function () {
+        if (typeof _win.getQuranViewModel === 'function') {
+            try { return _win.getQuranViewModel(); } catch (_) {}
+        }
+        return _win.quranViewModel || null;
+    };
 
     self.dashboard = self.getDashboard();
     self.tracker = self.getTracker();
     self.settings = self.getSettings();
     self.tasbeeh = self.getTasbeeh();
     self.duas = self.getDuas();
+    self.quran = self.getQuran();
 
     // 2. Reactive Domain Stores
     self.prayerStore = (typeof PrayerStore !== 'undefined' ? PrayerStore : null) || _win.PrayerStore || null;
@@ -88,7 +95,11 @@ export function AppViewModel() {
     self.settingsStore = (typeof SettingsStore !== 'undefined' ? SettingsStore : null) || _win.SettingsStore || null;
 
     // 3. Navigation & Routing
-    self.router = (typeof AppRouter !== 'undefined' ? AppRouter : null) || _win.AppRouter || null;
+    var routerInst = null;
+    try {
+        if (typeof AppRouter !== 'undefined') routerInst = AppRouter;
+    } catch (_) {}
+    self.router = routerInst || _win.AppRouter || null;
     self.nav = _win.NavigationState || null;
     self.activePage = (self.router && isObs(self.router.activePage))
         ? self.router.activePage
@@ -106,6 +117,10 @@ export function AppViewModel() {
         ? self.router.duasSubTab
         : ((self.nav && isObs(self.nav.duasSubTab)) ? self.nav.duasSubTab : obs('home'));
 
+    self.quranSubTab = (self.router && isObs(self.router.quranSubTab))
+        ? self.router.quranSubTab
+        : ((self.nav && isObs(self.nav.quranSubTab)) ? self.nav.quranSubTab : obs('quran'));
+
     self.isDashboardVisible = cmp(function () {
         return self.activePage() === 'dashboard';
     });
@@ -121,6 +136,9 @@ export function AppViewModel() {
     });
     self.isDuasVisible = cmp(function () {
         return self.activePage() === 'duas';
+    });
+    self.isQuranVisible = cmp(function () {
+        return self.activePage() === 'quran';
     });
 
     self.currentRoute = cmp(function () {
@@ -138,6 +156,8 @@ export function AppViewModel() {
                 return { name: 'tasbeeh-page', params: self.getTasbeeh() };
             case 'duas':
                 return { name: 'duas-page', params: self.getDuas() };
+            case 'quran':
+                return { name: 'quran-page', params: self.getQuran() };
             default:
                 return { name: 'dashboard-page', params: self.getDashboard() };
         }
@@ -190,6 +210,7 @@ export function getAppViewModel() {
     if (!_appViewModel.settings) _appViewModel.settings = _appViewModel.getSettings();
     if (!_appViewModel.tasbeeh) _appViewModel.tasbeeh = _appViewModel.getTasbeeh();
     if (!_appViewModel.duas) _appViewModel.duas = _appViewModel.getDuas();
+    if (!_appViewModel.quran) _appViewModel.quran = _appViewModel.getQuran();
     return _appViewModel;
 }
 
@@ -206,8 +227,13 @@ export function initApp() {
     if (appEl && !k.dataFor(appEl)) {
         k.applyBindings(vm, appEl);
     }
-    if (AppRouter && typeof AppRouter.init === 'function') {
-        try { AppRouter.init(); } catch (_) {}
+    var routerToInit = null;
+    try {
+        if (typeof AppRouter !== 'undefined') routerToInit = AppRouter;
+    } catch (_) {}
+    routerToInit = routerToInit || _win.AppRouter || null;
+    if (routerToInit && typeof routerToInit.init === 'function') {
+        try { routerToInit.init(); } catch (_) {}
     }
     return vm;
 }

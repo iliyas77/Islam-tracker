@@ -1,0 +1,32 @@
+<div class="p-3 rounded-2xl bg-white border border-borderGrey shadow-none">
+    <div class="flex items-center justify-between mb-2">
+        <h6 class="font-bold text-brand mb-0" style="font-size: 0.95rem;">Monthly Timeline Breakdown</h6>
+        <!-- ko if: hasClearedMonths -->
+        <button type="button"
+            class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 underline text-gr-danger text-decoration-none text-xs font-bold"
+            id="tbHistResetCompletedBtn" style="font-size: 11px;" data-act="tb-reset-all-completed"
+            data-bind="click: onResetCompleted">
+            <app-icon params="name: 'rotate-left', customClass: 'mr-1'"></app-icon> Reset Cleared
+        </button>
+        <!-- /ko -->
+    </div>
+    <div class="text-gr-textMuted text-xs mb-3" style="font-size: 11.5px;">
+        Sequential monthly clearance advances backward month-by-month as dhikrs are completed.
+    </div>
+
+    <!-- Empty State -->
+    <!-- ko if: isEmpty -->
+    <div class="text-center py-4 text-gr-textMuted text-xs">
+        <app-icon params="name: 'calendar-xmark', size: '2xl', customClass: 'opacity-50 mb-2'"></app-icon>
+        <div>No past months found in this period range. Check your Start and End dates.</div>
+    </div>
+    <!-- /ko -->
+
+    <!-- Months List -->
+    <!-- ko ifnot: isEmpty -->
+    <div class="flex flex-col gap-2" id="tbHistoryList" data-bind="foreach: months">
+        <!-- ko component: { name: 'tasbeeh-history-card', params: { item: $data, onClick: $parent.handleReopen, onReopen: $parent.handleReopen } } --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+</div>
+

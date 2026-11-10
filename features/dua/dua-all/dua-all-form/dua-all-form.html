@@ -1,0 +1,71 @@
+<!-- ko if: isOpen -->
+<div class="fixed inset-0 bg-black/50 z-[120] flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity"
+    id="duaAddModal" data-ref="page.duas.add-form.overlay"
+    data-bind="click: handleClose">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-[480px] max-h-[90vh] flex flex-col overflow-hidden shadow-2xl"
+        data-ref="page.duas.add-form.modal"
+        data-bind="click: function(d, e) { e.stopPropagation(); }">
+        <!-- Header -->
+        <div class="px-5 py-4 border-b border-borderGrey flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-brand-light text-brand flex items-center justify-center">
+                    <i class="fa-solid fa-plus text-sm" aria-hidden="true"></i>
+                </div>
+                <h3 class="text-base font-bold text-gray-900 m-0">Add New Dua</h3>
+            </div>
+            <button type="button" aria-label="Close"
+                class="w-8 h-8 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 flex items-center justify-center"
+                data-bind="click: handleClose">
+                <i class="fa-solid fa-xmark text-sm" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <!-- Form Body -->
+        <div class="p-5 overflow-y-auto space-y-4 flex-1 min-h-0">
+            <!-- Error message if any -->
+            <!-- ko if: errorMessage -->
+            <div class="p-3 rounded-xl bg-red-50 text-red-600 text-xs font-semibold" data-bind="text: errorMessage"></div>
+            <!-- /ko -->
+
+            <div>
+                <label for="duaFormNumber" class="block text-xs font-bold text-gray-700 mb-1">Dua Number</label>
+                <input type="number" id="duaFormNumber"
+                    class="w-full px-3 py-2 border border-borderGrey rounded-xl text-sm focus:outline-none focus:border-brand"
+                    data-bind="value: number">
+            </div>
+
+            <div>
+                <label for="duaFormSurah" class="block text-xs font-bold text-gray-700 mb-1">Surah / Reference (తెలుగు)</label>
+                <input type="text" id="duaFormSurah" placeholder="e.g. అల్-బఖరా (201)"
+                    class="w-full px-3 py-2 border border-borderGrey rounded-xl text-sm focus:outline-none focus:border-brand font-telugu"
+                    data-bind="value: surah">
+            </div>
+
+            <div>
+                <label for="duaFormUch" class="block text-xs font-bold text-gray-700 mb-1">Telugu Pronunciation (ఉచ్ఛారణ)</label>
+                <textarea id="duaFormUch" rows="2" placeholder="రబ్బనా ఆతినా..."
+                    class="w-full px-3 py-2 border border-borderGrey rounded-xl text-sm focus:outline-none focus:border-brand font-telugu"
+                    data-bind="value: uchcharana"></textarea>
+            </div>
+
+            <div>
+                <label for="duaFormArd" class="block text-xs font-bold text-gray-700 mb-1">Telugu Meaning (అర్థం)</label>
+                <textarea id="duaFormArd" rows="3" placeholder="మా ప్రభూ..."
+                    class="w-full px-3 py-2 border border-borderGrey rounded-xl text-sm focus:outline-none focus:border-brand font-telugu"
+                    data-bind="value: ardham"></textarea>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="p-4 border-t border-borderGrey flex justify-end gap-2">
+            <button type="button"
+                class="px-4 py-2 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 text-xs font-semibold cursor-pointer"
+                data-bind="click: handleClose">Cancel</button>
+            <button type="button"
+                class="px-5 py-2 rounded-xl bg-brand text-white hover:bg-brand-hover text-xs font-semibold cursor-pointer"
+                data-bind="click: handleSave">Save Dua</button>
+        </div>
+    </div>
+</div>
+<!-- /ko -->
+

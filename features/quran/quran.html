@@ -1,0 +1,27 @@
+<!-- Quran Feature Page Template -->
+<div class="flex flex-col grow overflow-hidden relative bg-white h-full" id="quranContainer" data-ref="page.quran.container">
+    <!-- Main Surah List Screen -->
+    <div class="flex flex-col grow overflow-hidden relative" data-bind="visible: currentSubTab() === 'quran'">
+        <!-- ko component: { name: 'quran-main-page', params: mainPageParams } --><!-- /ko -->
+    </div>
+
+    <!-- Reader Screen -->
+    <div class="flex flex-col grow overflow-hidden relative" data-bind="visible: currentSubTab() === 'open'">
+        <!-- ko component: { name: 'quran-open-page', params: openPageParams } --><!-- /ko -->
+    </div>
+
+    <!-- Bookmarks Screen -->
+    <div class="flex flex-col grow overflow-hidden relative" data-bind="visible: currentSubTab() === 'bookmark'">
+        <!-- ko component: { name: 'quran-bookmark-page', params: bookmarkPageParams } --><!-- /ko -->
+    </div>
+
+    <!-- Quran Bottom Navigation -->
+    <!-- ko component: {
+        name: 'quran-nav-tab',
+        params: {
+            activeTab: currentSubTab,
+            onTabChange: switchTab
+        }
+    } --><!-- /ko -->
+</div>
+

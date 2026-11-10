@@ -432,7 +432,7 @@
                 // Navigation Constants
                 // ==========================================
                 NAVIGATION: {
-                        PAGES: ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage'],
+                        PAGES: ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage', 'quranPage'],
                         NAVS: {
                                 dashboard: 'navHome',
                                 tracker: 'navCur',
@@ -441,7 +441,8 @@
                                 performance: 'navCur',
                                 settings: 'navSet',
                                 tasbeeh: 'navTasbeeh',
-                                duas: 'navDuas'
+                                duas: 'navDuas',
+                                quran: 'navQuran'
                         },
                         SUB_TABS: {
                                 CURRENT: 'current',
@@ -458,7 +459,8 @@
                                 history: 'trackerPage',
                                 settings: 'settingsPage',
                                 tasbeeh: 'tasbeehPage',
-                                duas: 'duasPage'
+                                duas: 'duasPage',
+                                quran: 'quranPage'
                         },
                         TRACKER_HEADER: {
                                 current: {

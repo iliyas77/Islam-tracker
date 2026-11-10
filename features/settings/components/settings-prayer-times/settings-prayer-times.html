@@ -1,0 +1,78 @@
+<div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"
+    data-ref="page.settings.prayer-times.card">
+    <!-- Header -->
+    <div class="flex items-center gap-3 mb-3" data-ref="page.settings.prayer-times.header">
+        <div class="icon-box icon-box-lg bg-brand-light w-10 h-10 rounded-xl flex items-center justify-center text-brand"
+            data-ref="page.settings.prayer-times.icon-badge">
+            <i class="fa-solid fa-mosque text-xl" aria-hidden="true"></i>
+        </div>
+        <div class="flex flex-col min-w-0" data-ref="page.settings.prayer-times.info">
+            <span class="font-bold text-sm text-brand" data-ref="page.settings.prayer-times.title">Prayer Times Location</span>
+            <span class="text-xs text-gr-textMuted" id="ptLocationSubtitle"
+                data-ref="page.settings.prayer-times.subtitle" data-bind="text: locationSubtitle"></span>
+        </div>
+        <span class="ml-auto text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200"
+            id="ptStatusBadge" data-ref="page.settings.prayer-times.status-badge">
+            <span id="ptStatusText" data-bind="text: statusText">Cached</span>
+        </span>
+    </div>
+
+    <!-- Form Row -->
+    <div class="flex flex-wrap -mx-1 gap-2 mb-3" data-ref="page.settings.prayer-times.form-row">
+        <!-- City Select -->
+        <div class="w-full" data-ref="page.settings.prayer-times.city-col">
+            <label class="text-gr-textMuted text-xs font-bold block mb-1.5"
+                data-ref="page.settings.prayer-times.city-label">City (India)</label>
+            <select class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
+                id="ptCitySelect" data-ref="page.settings.prayer-times.city-select"
+                data-bind="value: selectedCity">
+                <!-- ko foreach: cityOptions -->
+                <option data-bind="value: value, text: label, attr: { 'data-ref': dataRef }"></option>
+                <!-- /ko -->
+            </select>
+        </div>
+
+        <!-- Custom City & Country Wrap -->
+        <!-- ko if: isCustomCity -->
+        <div class="w-full" id="ptCustomCityWrap" data-ref="page.settings.prayer-times.custom-city-wrap">
+            <label class="text-gr-textMuted text-xs font-bold block mb-1.5"
+                data-ref="page.settings.prayer-times.custom-city-label">Custom City Name &amp; Country</label>
+            <div class="flex gap-2" data-ref="page.settings.prayer-times.custom-city-row">
+                <input type="text"
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
+                    id="ptCustomCityInput" placeholder="e.g. Guntur"
+                    data-bind="value: customCity, valueUpdate: 'afterkeydown'"
+                    data-ref="page.settings.prayer-times.custom-city-input">
+                <input type="text"
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
+                    id="ptCountryInput" placeholder="Country"
+                    data-bind="value: country, valueUpdate: 'afterkeydown'"
+                    data-ref="page.settings.prayer-times.country-input">
+            </div>
+        </div>
+        <!-- /ko -->
+
+        <!-- Juristic School Select -->
+        <div class="w-full" data-ref="page.settings.prayer-times.school-col">
+            <label class="text-gr-textMuted text-xs font-bold block mb-1.5"
+                data-ref="page.settings.prayer-times.school-label">Juristic Method (Asr calculation)</label>
+            <select class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
+                id="ptSchoolSelect" data-ref="page.settings.prayer-times.school-select"
+                data-bind="value: school">
+                <!-- ko foreach: juristicSchools -->
+                <option data-bind="value: value, text: label"></option>
+                <!-- /ko -->
+            </select>
+        </div>
+    </div>
+
+    <!-- Save Button -->
+    <button type="button"
+        class="font-bold w-full py-3 text-sm rounded-xl bg-brand text-white hover:bg-brand-hover transition-colors flex items-center justify-center gap-2 cursor-pointer"
+        data-act="pt-save" data-ref="page.settings.prayer-times.save-btn"
+        data-bind="click: savePrayerTimes">
+        <i class="fa-solid fa-rotate-left text-sm" aria-hidden="true" data-ref="page.settings.prayer-times.save-icon"></i>
+        <span>Sync &amp; Save Prayer Times</span>
+    </button>
+</div>
+

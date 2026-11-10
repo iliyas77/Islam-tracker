@@ -1,0 +1,47 @@
+<!-- Digital Tasbeeh Page Template Content -->
+<!-- Header Component -->
+<!-- ko component: { name: 'tasbeeh-header', params: header } --><!-- /ko -->
+
+<!-- Current Month Section -->
+<div class="grow overflow-auto p-2 pb-5 relative" id="tbCurrentBody" data-ref="page.tasbeeh.body.current"
+    data-bind="visible: currentSubTab() === 'current' && !isCalendarOpen()">
+    <!-- ko component: { name: 'tasbeeh-current-feed', params: currentFeedParams } --><!-- /ko -->
+</div>
+
+<!-- Old Tracking (Previous Months) Body Container -->
+<div class="grow overflow-auto p-2 pb-5 relative" id="tbOldBody" data-ref="page.tasbeeh.body.old"
+    data-bind="visible: currentSubTab() === 'old' && !isCalendarOpen()">
+    <!-- ko component: { name: 'tasbeeh-old-feed', params: oldFeedParams } --><!-- /ko -->
+</div>
+
+<!-- History & Settings Body Container -->
+<div class="grow overflow-auto p-2 pb-5 relative" id="tbHistoryBody" data-ref="page.tasbeeh.body.history"
+    data-bind="visible: currentSubTab() === 'history' && !isCalendarOpen()">
+    <!-- ko component: { name: 'tasbeeh-history-page', params: historyPageParams } --><!-- /ko -->
+</div>
+
+<!-- Current Calendar Tracker Detail Screen -->
+<!-- ko if: currentSubTab() === 'current' && isCalendarOpen() -->
+    <!-- ko component: { name: 'tasbeeh-current-page', params: currentCalendarParams } --><!-- /ko -->
+<!-- /ko -->
+
+<!-- Old Calendar Tracker Detail Screen -->
+<!-- ko if: currentSubTab() === 'old' && isCalendarOpen() -->
+    <!-- ko component: { name: 'tasbeeh-old-page', params: oldCalendarParams } --><!-- /ko -->
+<!-- /ko -->
+
+<!-- Add / Edit Dhikr Form Component -->
+<!-- ko component: { name: 'tasbeeh-current-form', params: currentFormParams } --><!-- /ko -->
+
+<!-- Shared Floating Action Button for Add Dhikr -->
+<button type="button"
+    class="absolute right-5 bottom-[76px] w-[54px] h-[54px] rounded-2xl bg-brand text-white text-xl cursor-pointer z-[90] shadow-md flex items-center justify-center hover:bg-brand-hover hover:scale-105 active:scale-95 transition-all"
+    id="tbAddBtn" data-ref="page.tasbeeh.header.add-btn" title="Add New Dhikr" aria-label="Add New Dhikr"
+    data-bind="visible: (currentSubTab() === 'current' || currentSubTab() === 'old') && !isCalendarOpen(), click: openAddModal">
+    <app-icon params="name: 'plus', size: 'xl', dataRef: 'page.tasbeeh.header.add-icon'"></app-icon>
+</button>
+
+<!-- Bottom Navigation Component -->
+<!-- ko ifnot: isCalendarOpen -->
+<!-- ko component: { name: 'tasbeeh-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko -->
+<!-- /ko -->

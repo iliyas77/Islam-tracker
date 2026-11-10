@@ -1,7 +1,7 @@
 /* ---------- Navigation (Constants referenced from utilities/navigation-constants.js) ---------- */
 var NAV_CONSTANTS = window.NAVIGATION_CONSTANTS || (window.CONSTANTS && window.CONSTANTS.NAVIGATION) || {};
-var PAGES = NAV_CONSTANTS.PAGES || window.PAGES || ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage'];
-var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', performance: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas' };
+var PAGES = NAV_CONSTANTS.PAGES || window.PAGES || ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage', 'quranPage'];
+var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', performance: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas', quran: 'navQuran' };
 var SUB_TABS = NAV_CONSTANTS.SUB_TABS || { CURRENT: 'current', OLD: 'old', PERFORMANCE: 'performance', HISTORY: 'history' };
 var PAGE_MAP = NAV_CONSTANTS.PAGE_MAP || {
     dashboard: 'dashboardPage',
@@ -12,8 +12,12 @@ var PAGE_MAP = NAV_CONSTANTS.PAGE_MAP || {
     history: 'trackerPage',
     settings: 'settingsPage',
     tasbeeh: 'tasbeehPage',
-    duas: 'duasPage'
+    duas: 'duasPage',
+    quran: 'quranPage'
 };
+if (PAGES.indexOf('quranPage') === -1) PAGES.push('quranPage');
+if (!PAGE_MAP.quran) PAGE_MAP.quran = 'quranPage';
+if (!NAVS.quran) NAVS.quran = 'navQuran';
 var TRACKER_HEADER = NAV_CONSTANTS.TRACKER_HEADER || {
     current: {
         iconClass: 'fa-regular fa-calendar-days text-gr-accent',
@@ -48,6 +52,7 @@ var NavigationState = {
     trackerSubTab: (_ko && _ko.observable) ? _ko.observable(SUB_TABS.CURRENT) : function () { return SUB_TABS.CURRENT; },
     tasbeehSubTab: (_ko && _ko.observable) ? _ko.observable('current') : function () { return 'current'; },
     duasSubTab: (_ko && _ko.observable) ? _ko.observable('home') : function () { return 'home'; },
+    quranSubTab: (_ko && _ko.observable) ? _ko.observable('quran') : function () { return 'quran'; },
     navigateTo: function (page) {
         showPage(page);
     },
@@ -62,6 +67,11 @@ var NavigationState = {
     switchDuasTab: function (tab) {
         if (window.DuasApp && typeof window.DuasApp.switchTab === 'function') {
             window.DuasApp.switchTab(tab);
+        }
+    },
+    switchQuranTab: function (tab) {
+        if (window.QuranApp && typeof window.QuranApp.switchTab === 'function') {
+            window.QuranApp.switchTab(tab);
         }
     }
 };
@@ -208,13 +218,145 @@ function setNav(id) {
     el.appendChild(bar);
 }
 
+var _loadedFeatures = {
+    dashboard: true
+};
+
+function ensureFeatureLoaded(kind) {
+    var _w = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+    switch (kind) {
+        case 'tracker':
+        case 'current':
+        case 'old':
+        case 'performance':
+        case 'history':
+            if (_loadedFeatures.tracker) return Promise.resolve();
+            if (_w.TrackerApp || _w.registerTrackerComponents) {
+                if (typeof _w.registerTrackerComponents === 'function') _w.registerTrackerComponents();
+                if (_w.TrackerApp && typeof _w.TrackerApp.init === 'function') _w.TrackerApp.init();
+                _loadedFeatures.tracker = true;
+                _loadedFeatures.current = true;
+                _loadedFeatures.old = true;
+                _loadedFeatures.performance = true;
+                _loadedFeatures.history = true;
+                return Promise.resolve();
+            }
+            return import('./features/tracker/tracker.js').then(function () {
+                _loadedFeatures.tracker = true;
+                _loadedFeatures.current = true;
+                _loadedFeatures.old = true;
+                _loadedFeatures.performance = true;
+                _loadedFeatures.history = true;
+                if (typeof _w.registerTrackerComponents === 'function') _w.registerTrackerComponents();
+                if (_w.TrackerApp && typeof _w.TrackerApp.init === 'function') {
+                    _w.TrackerApp.init();
+                } else if (_w.PrayerTrackingApp && typeof _w.PrayerTrackingApp.init === 'function') {
+                    _w.PrayerTrackingApp.init();
+                }
+                var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
+                if (appVm && typeof appVm.getTracker === 'function') {
+                    appVm.tracker = appVm.getTracker();
+                }
+            }).catch(function (err) {
+                console.warn('Feature load failed for tracker:', err);
+            });
+        case 'tasbeeh':
+            if (_loadedFeatures.tasbeeh) return Promise.resolve();
+            if (_w.TasbeehApp || _w.initTasbeeh || _w.registerTasbeehComponents) {
+                if (typeof _w.registerTasbeehComponents === 'function') _w.registerTasbeehComponents();
+                if (typeof _w.initTasbeeh === 'function') _w.initTasbeeh();
+                _loadedFeatures.tasbeeh = true;
+                return Promise.resolve();
+            }
+            return import('./features/tasbeeh/tasbeeh.js').then(function () {
+                _loadedFeatures.tasbeeh = true;
+                if (typeof _w.registerTasbeehComponents === 'function') _w.registerTasbeehComponents();
+                if (typeof _w.initTasbeeh === 'function') _w.initTasbeeh();
+                var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
+                if (appVm && typeof appVm.getTasbeeh === 'function') {
+                    appVm.tasbeeh = appVm.getTasbeeh();
+                }
+            }).catch(function (err) {
+                console.warn('Feature load failed for tasbeeh:', err);
+            });
+        case 'duas':
+            if (_loadedFeatures.duas) return Promise.resolve();
+            if (_w.DuasApp || _w.initDuas || _w.registerDuaComponents) {
+                if (typeof _w.registerDuaComponents === 'function') _w.registerDuaComponents();
+                if (typeof _w.initDuas === 'function') _w.initDuas();
+                _loadedFeatures.duas = true;
+                return Promise.resolve();
+            }
+            return import('./features/dua/dua.js').then(function () {
+                _loadedFeatures.duas = true;
+                if (typeof _w.registerDuaComponents === 'function') _w.registerDuaComponents();
+                if (typeof _w.initDuas === 'function') _w.initDuas();
+                var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
+                if (appVm && typeof appVm.getDuas === 'function') {
+                    appVm.duas = appVm.getDuas();
+                }
+            }).catch(function (err) {
+                console.warn('Feature load failed for duas:', err);
+            });
+        case 'quran':
+            if (_loadedFeatures.quran) return Promise.resolve();
+            if (_w.QuranApp || _w.initQuran || _w.registerQuranComponents) {
+                if (typeof _w.registerQuranComponents === 'function') _w.registerQuranComponents();
+                if (typeof _w.initQuran === 'function') _w.initQuran();
+                _loadedFeatures.quran = true;
+                return Promise.resolve();
+            }
+            return import('./features/quran/quran.js').then(function () {
+                _loadedFeatures.quran = true;
+                if (typeof _w.registerQuranComponents === 'function') _w.registerQuranComponents();
+                if (typeof _w.initQuran === 'function') _w.initQuran();
+                var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
+                if (appVm && typeof appVm.getQuran === 'function') {
+                    appVm.quran = appVm.getQuran();
+                }
+            }).catch(function (err) {
+                console.warn('Feature load failed for quran:', err);
+            });
+        case 'settings':
+            if (_loadedFeatures.settings) return Promise.resolve();
+            if (_w.SettingsApp || _w.registerSettingsComponents) {
+                if (typeof _w.registerSettingsComponents === 'function') _w.registerSettingsComponents();
+                if (_w.SettingsApp && typeof _w.SettingsApp.init === 'function') _w.SettingsApp.init();
+                _loadedFeatures.settings = true;
+                return Promise.resolve();
+            }
+            return import('./features/settings/settings.js').then(function () {
+                _loadedFeatures.settings = true;
+                if (typeof _w.registerSettingsComponents === 'function') _w.registerSettingsComponents();
+                if (_w.SettingsApp && typeof _w.SettingsApp.init === 'function') _w.SettingsApp.init();
+                var appVm = (typeof _w.getAppViewModel === 'function') ? _w.getAppViewModel() : _w.appViewModel;
+                if (appVm && typeof appVm.getSettings === 'function') {
+                    appVm.settings = appVm.getSettings();
+                }
+            }).catch(function (err) {
+                console.warn('Feature load failed for settings:', err);
+            });
+        default:
+            return Promise.resolve();
+    }
+}
+
 var _isShowingPage = false;
 function showPage(kind) {
     if (_isShowingPage) return;
+
+    if (kind && kind !== 'dashboard') {
+        try { ensureFeatureLoaded(kind); } catch (_) {}
+    }
+
     _isShowingPage = true;
     try {
         if (NavigationState && typeof NavigationState.activePage === 'function') {
             NavigationState.activePage(kind);
+        }
+        var _w = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
+        if (_w.AppRouter && typeof _w.AppRouter.activePage === 'function' && _w.AppRouter.activePage() !== kind) {
+            _w.AppRouter.activePage(kind);
         }
         if (typeof window !== 'undefined') {
             window.currentActivePage = kind;
@@ -298,6 +440,15 @@ function showPage(kind) {
             }
             if (window.DuasApp && typeof window.DuasApp.render === 'function') {
                 window.DuasApp.render();
+            }
+        } else if (kind === 'quran') {
+            if (typeof initQuran === 'function') {
+                initQuran();
+            } else if (window.initQuran) {
+                window.initQuran();
+            }
+            if (window.QuranApp && typeof window.QuranApp.render === 'function') {
+                window.QuranApp.render();
             }
         }
     } finally {

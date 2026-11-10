@@ -1,0 +1,26 @@
+<div class="rounded-2xl border border-borderGrey p-4 mb-3 bg-white flex flex-col shadow-none"
+    data-ref="page.settings.start-date.card">
+    <!-- Header -->
+    <div class="flex items-center gap-3 mb-3" data-ref="page.settings.start-date.header">
+        <div class="icon-box icon-box-lg bg-brand-light text-brand w-10 h-10 rounded-xl flex items-center justify-center"
+            data-ref="page.settings.start-date.icon-badge">
+            <i class="fa-solid fa-calendar-check text-xl" aria-hidden="true"></i>
+        </div>
+        <div class="flex flex-col min-w-0" data-ref="page.settings.start-date.info">
+            <span class="font-bold text-sm" data-ref="page.settings.start-date.title">Current Start Date</span>
+            <span class="text-xs text-gr-textMuted" data-bind="text: formattedDate"></span>
+        </div>
+    </div>
+
+    <!-- Input Row -->
+    <div class="flex gap-2 items-center" data-ref="page.settings.start-date.input-row">
+        <input type="date"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
+            id="sdInput" data-bind="value: startDate" data-ref="page.settings.start-date.input">
+        <button type="button"
+            class="px-5 py-2.5 bg-brand text-white font-bold rounded-xl text-sm hover:bg-brand-hover whitespace-nowrap transition-colors cursor-pointer"
+            data-act="sd-save" data-ref="page.settings.start-date.save-btn"
+            data-bind="click: saveStartDate">Change</button>
+    </div>
+</div>
+

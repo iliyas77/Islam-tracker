@@ -1,0 +1,34 @@
+<div class="flex flex-col flex-1 min-h-0 bg-white" data-ref="page.quran.bookmark">
+    <!-- Top Header -->
+    <header class="px-4 py-3 flex items-center justify-between bg-white shrink-0 border-b border-[#E0E0E0]">
+        <button type="button" aria-label="Back to surah list"
+            class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+            data-bind="click: goBack">
+            <i class="fa-solid fa-arrow-left text-lg" aria-hidden="true"></i>
+        </button>
+
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-bookmark text-[#094E3A] text-[16px]" aria-hidden="true"></i>
+            <h1 class="text-lg font-bold text-gray-900 tracking-tight">Bookmarks</h1>
+        </div>
+
+        <button type="button" aria-label="Settings"
+            class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+            data-bind="click: goToSettings">
+            <i class="fa-solid fa-gear text-lg" aria-hidden="true"></i>
+        </button>
+    </header>
+
+    <!-- Scrollable Bookmarks Feed -->
+    <main class="px-4 py-4 flex-1 min-h-0 overflow-y-auto bg-white" data-ref="page.quran.bookmark.scroll">
+        <!-- ko component: {
+            name: 'quran-bookmark-feed',
+            params: {
+                bookmarks: bookmarks,
+                onSelectBookmark: handleSelectBookmark,
+                onRemoveBookmark: handleRemoveBookmark
+            }
+        } --><!-- /ko -->
+    </main>
+</div>
+

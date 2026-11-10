@@ -91,7 +91,7 @@ export async function runTasbeehComponentTests() {
 
         // Centralized Service
         TasbeehService
-    } = await import(path.join(ROOT, 'tasbeeh', 'tasbeeh.js'));
+    } = await import(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh.js'));
 
     // ==========================================
     // 1. Current Components Verification
@@ -99,7 +99,7 @@ export async function runTasbeehComponentTests() {
 
     // 1.1 CurrentCard
     assert(CurrentCardTemplate && CurrentCardTemplate.element === 'tasbeeh-current-card-template');
-    assert.strictEqual(CurrentCardTemplate.file, 'tasbeeh/tasbeeh-current/tasbeeh-current-card/tasbeeh-current-card.html');
+    assert.strictEqual(CurrentCardTemplate.file, 'features/tasbeeh/tasbeeh-current/tasbeeh-current-card/tasbeeh-current-card.html');
 
     let cardClicked = false;
     let editClicked = false;
@@ -128,9 +128,25 @@ export async function runTasbeehComponentTests() {
     currentCard.onEditClick();
     assert.strictEqual(editClicked, true, 'CurrentCard onEditClick must trigger onEditClick callback');
 
+    // 1.1.b Three-Level Pattern & Event Propagation on CurrentCard
+    let stoppedEvent = false;
+    let cardOnClickItem = null;
+    const testEvent = { stopPropagation: () => { stoppedEvent = true; } };
+    const decoupledCurrentCard = new CurrentCardViewModel({
+        item: testDhikr,
+        onClick: (item) => { cardOnClickItem = item; }
+    });
+    decoupledCurrentCard.handleClick(null, testEvent);
+    assert.strictEqual(stoppedEvent, true, 'CurrentCard handleClick must stop event propagation');
+    assert.strictEqual(cardOnClickItem && cardOnClickItem.id, 'cur-1', 'CurrentCard handleClick must forward item to onClick');
+
+    // Safe execution without callbacks (no window/root dependency)
+    const bareCurrentCard = new CurrentCardViewModel({ item: testDhikr });
+    assert.doesNotThrow(() => bareCurrentCard.handleClick(), 'Card must not throw when no callback is provided');
+
     // 1.2 CurrentFeed
     assert(CurrentFeedTemplate && CurrentFeedTemplate.element === 'tasbeeh-current-feed-template');
-    assert.strictEqual(CurrentFeedTemplate.file, 'tasbeeh/tasbeeh-current/tasbeeh-current-feed/tasbeeh-current-feed.html');
+    assert.strictEqual(CurrentFeedTemplate.file, 'features/tasbeeh/tasbeeh-current/tasbeeh-current-feed/tasbeeh-current-feed.html');
 
     let feedCardClicked = false;
     let feedEditClicked = false;
@@ -174,7 +190,7 @@ export async function runTasbeehComponentTests() {
 
     // 1.3 CurrentForm
     assert(CurrentFormTemplate && CurrentFormTemplate.element === 'tasbeeh-current-form-template');
-    assert.strictEqual(CurrentFormTemplate.file, 'tasbeeh/tasbeeh-current/tasbeeh-current-form/tasbeeh-current-form.html');
+    assert.strictEqual(CurrentFormTemplate.file, 'features/tasbeeh/tasbeeh-current/tasbeeh-current-form/tasbeeh-current-form.html');
 
     let formSavedData = null;
     let formDeletedId = null;
@@ -216,7 +232,7 @@ export async function runTasbeehComponentTests() {
 
     // 1.4 CurrentPage
     assert(CurrentPageTemplate && CurrentPageTemplate.element === 'tasbeeh-current-page-template');
-    assert.strictEqual(CurrentPageTemplate.file, 'tasbeeh/tasbeeh-current/tasbeeh-current-page/tasbeeh-current-page.html');
+    assert.strictEqual(CurrentPageTemplate.file, 'features/tasbeeh/tasbeeh-current/tasbeeh-current-page/tasbeeh-current-page.html');
 
     let pageBackPressed = false;
     const currentPage = new CurrentPageViewModel({
@@ -251,7 +267,7 @@ export async function runTasbeehComponentTests() {
 
     // 2.1 OldCard
     assert(OldCardTemplate && OldCardTemplate.element === 'tasbeeh-old-card-template');
-    assert.strictEqual(OldCardTemplate.file, 'tasbeeh/tasbeeh-old/tasbeeh-old-card/tasbeeh-old-card.html');
+    assert.strictEqual(OldCardTemplate.file, 'features/tasbeeh/tasbeeh-old/tasbeeh-old-card/tasbeeh-old-card.html');
 
     let oldCardClicked = false;
     let oldEditClicked = false;
@@ -270,9 +286,26 @@ export async function runTasbeehComponentTests() {
     oldCard.onEditClick();
     assert.strictEqual(oldEditClicked, true);
 
+    // 2.1.b OldCard Three-Level Pattern & Event Propagation
+    let oldStopped = false;
+    let oldOnClickItem = null;
+    let oldOnClickMonth = null;
+    const decoupledOldCard = new OldCardViewModel({
+        item: oldDhikr,
+        month: '2026-09',
+        onClick: (item, m) => { oldOnClickItem = item; oldOnClickMonth = m; }
+    });
+    decoupledOldCard.handleClick(null, { stopPropagation: () => { oldStopped = true; } });
+    assert.strictEqual(oldStopped, true, 'OldCard handleClick must stop propagation');
+    assert.strictEqual(oldOnClickItem && oldOnClickItem.id, 'old-1');
+    assert.strictEqual(oldOnClickMonth, '2026-09');
+
+    const bareOldCard = new OldCardViewModel({ item: oldDhikr });
+    assert.doesNotThrow(() => bareOldCard.handleClick(), 'OldCard must not throw without callback');
+
     // 2.2 OldFeed
     assert(OldFeedTemplate && OldFeedTemplate.element === 'tasbeeh-old-feed-template');
-    assert.strictEqual(OldFeedTemplate.file, 'tasbeeh/tasbeeh-old/tasbeeh-old-feed/tasbeeh-old-feed.html');
+    assert.strictEqual(OldFeedTemplate.file, 'features/tasbeeh/tasbeeh-old/tasbeeh-old-feed/tasbeeh-old-feed.html');
 
     let reopenLastCalled = false;
     let resetCompletedCalled = false;
@@ -288,7 +321,7 @@ export async function runTasbeehComponentTests() {
 
     // 2.3 OldForm
     assert(OldFormTemplate && OldFormTemplate.element === 'tasbeeh-old-form-template');
-    assert.strictEqual(OldFormTemplate.file, 'tasbeeh/tasbeeh-old/tasbeeh-old-form/tasbeeh-old-form.html');
+    assert.strictEqual(OldFormTemplate.file, 'features/tasbeeh/tasbeeh-old/tasbeeh-old-form/tasbeeh-old-form.html');
 
     let oldFormSaved = null;
     const oldForm = new OldFormViewModel({
@@ -304,7 +337,7 @@ export async function runTasbeehComponentTests() {
 
     // 2.4 OldPage
     assert(OldPageTemplate && OldPageTemplate.element === 'tasbeeh-old-page-template');
-    assert.strictEqual(OldPageTemplate.file, 'tasbeeh/tasbeeh-old/tasbeeh-old-page/tasbeeh-old-page.html');
+    assert.strictEqual(OldPageTemplate.file, 'features/tasbeeh/tasbeeh-old/tasbeeh-old-page/tasbeeh-old-page.html');
 
     let oldPageBackPressed = false;
     const oldPage = new OldPageViewModel({
@@ -323,7 +356,7 @@ export async function runTasbeehComponentTests() {
 
     // 3.1 HistoryCard
     assert(HistoryCardTemplate && HistoryCardTemplate.element === 'tasbeeh-history-card-template');
-    assert.strictEqual(HistoryCardTemplate.file, 'tasbeeh/tasbeeh-history/tasbeeh-history-card/tasbeeh-history-card.html');
+    assert.strictEqual(HistoryCardTemplate.file, 'features/tasbeeh/tasbeeh-history/tasbeeh-history-card/tasbeeh-history-card.html');
 
     let historyReopenedMonth = null;
     const testHistoryMonth = {
@@ -340,9 +373,30 @@ export async function runTasbeehComponentTests() {
     historyCard.onReopen();
     assert.strictEqual(historyReopenedMonth, '2026-09');
 
+    // 3.1.b HistoryCard Standard Three-Level Params ({ item, onClick }) & Propagation
+    let histStopped = false;
+    let histClickedMonth = null;
+    const standardHistoryCard = new HistoryCardViewModel({
+        item: {
+            monthKey: '2026-08',
+            monthLabel: 'August 2026',
+            status: 'completed',
+            canReopen: true
+        },
+        onClick: (mKey) => { histClickedMonth = mKey; }
+    });
+    assert.strictEqual(standardHistoryCard.monthKey, '2026-08');
+    assert.strictEqual(standardHistoryCard.monthLabel, 'August 2026');
+    standardHistoryCard.handleClick(null, { stopPropagation: () => { histStopped = true; } });
+    assert.strictEqual(histStopped, true, 'HistoryCard handleClick must stop propagation');
+    assert.strictEqual(histClickedMonth, '2026-08', 'HistoryCard handleClick must invoke onClick callback');
+
+    const bareHistCard = new HistoryCardViewModel({ item: { monthKey: '2026-07' } });
+    assert.doesNotThrow(() => bareHistCard.handleClick(), 'HistoryCard must not throw without callback');
+
     // 3.2 HistoryFeed
     assert(HistoryFeedTemplate && HistoryFeedTemplate.element === 'tasbeeh-history-feed-template');
-    assert.strictEqual(HistoryFeedTemplate.file, 'tasbeeh/tasbeeh-history/tasbeeh-history-feed/tasbeeh-history-feed.html');
+    assert.strictEqual(HistoryFeedTemplate.file, 'features/tasbeeh/tasbeeh-history/tasbeeh-history-feed/tasbeeh-history-feed.html');
 
     let feedReopenMonth = null;
     let feedResetCompleted = false;
@@ -358,7 +412,7 @@ export async function runTasbeehComponentTests() {
 
     // 3.3 HistoryForm
     assert(HistoryFormTemplate && HistoryFormTemplate.element === 'tasbeeh-history-form-template');
-    assert.strictEqual(HistoryFormTemplate.file, 'tasbeeh/tasbeeh-history/tasbeeh-history-form/tasbeeh-history-form.html');
+    assert.strictEqual(HistoryFormTemplate.file, 'features/tasbeeh/tasbeeh-history/tasbeeh-history-form/tasbeeh-history-form.html');
 
     let savedStart = null;
     let savedEnd = null;
@@ -376,20 +430,60 @@ export async function runTasbeehComponentTests() {
 
     // 3.4 HistoryPage
     assert(HistoryPageTemplate && HistoryPageTemplate.element === 'tasbeeh-history-page-template');
-    assert.strictEqual(HistoryPageTemplate.file, 'tasbeeh/tasbeeh-history/tasbeeh-history-page/tasbeeh-history-page.html');
+    assert.strictEqual(HistoryPageTemplate.file, 'features/tasbeeh/tasbeeh-history/tasbeeh-history-page/tasbeeh-history-page.html');
 
     const historyPage = new HistoryPageViewModel({});
     assert(historyPage.progressStats && typeof historyPage.progressStats.percentCleared === 'function');
     assert(historyPage.formParams && typeof historyPage.formParams.onSave === 'function');
     assert(historyPage.feedParams && typeof historyPage.feedParams.onReopenMonth === 'function');
 
+    // 3.5 Three-Level Knockout Hierarchy Verification (Main Page -> Feed -> Card)
+    const { TasbeehPageViewModel } = await import(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-view-model.js'));
+    const mainPage = new TasbeehPageViewModel();
+    assert.strictEqual(typeof mainPage.handleCurrentCardClick, 'function', 'Main Page must define handleCurrentCardClick');
+    assert.strictEqual(typeof mainPage.handleOldCardClick, 'function', 'Main Page must define handleOldCardClick');
+    assert.strictEqual(typeof mainPage.handleReopenMonth, 'function', 'Main Page must define handleReopenMonth');
+
+    // Level 1 -> Level 2: Main Page passes params to Feed
+    const level2Feed = new CurrentFeedViewModel(mainPage.currentFeedParams);
+    assert.strictEqual(typeof level2Feed.onCardClick, 'function');
+
+    // Level 2 -> Level 3: Feed forwards callback to Card
+    const level3Card = new CurrentCardViewModel({
+        item: testDhikr,
+        onClick: level2Feed.onCardClick
+    });
+
+    // Level 3 User Click -> Card.handleClick() -> Feed forwards -> Main Page executes navigation
+    assert.strictEqual(mainPage.isCalendarOpen(), false, 'Calendar initially closed');
+    level3Card.handleClick();
+    assert.strictEqual(mainPage.isCalendarOpen(), true, 'Card click must propagate up 3 levels to Main Page');
+    assert.strictEqual(mainPage.activeCalendarItem().id, 'cur-1');
+
     // ==========================================
     // 4. Knockout Registration Verification (tasbeeh-registration.js)
     // ==========================================
-    const { registerTasbeehComponents } = await import(path.join(ROOT, 'tasbeeh', 'tasbeeh-registration.js'));
+    const {
+        registerTasbeehComponents,
+        TasbeehPageViewModel: TasbeehVmFromReg,
+        getTasbeehViewModel: getTasbeehVmFromReg
+    } = await import(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-registration.js'));
+    const {
+        TasbeehPageViewModel: TasbeehVmDirect,
+        getTasbeehViewModel: getTasbeehVmDirect
+    } = await import(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-view-model.js'));
+
+    assert.strictEqual(TasbeehVmFromReg, TasbeehVmDirect, 'tasbeeh-registration.js should re-export TasbeehPageViewModel');
+    assert.strictEqual(getTasbeehVmFromReg, getTasbeehVmDirect, 'tasbeeh-registration.js should re-export getTasbeehViewModel');
+
     registerTasbeehComponents(globalThis.ko);
 
     const expectedComponents = [
+        'tasbeeh-header',
+        'tasbeeh-counter-card',
+        'tasbeeh-progress-circle',
+        'tasbeeh-nav-tab',
+        'tasbeeh-page',
         'tasbeeh-current-card',
         'tasbeeh-current-feed',
         'tasbeeh-current-form',
@@ -410,6 +504,15 @@ export async function runTasbeehComponentTests() {
         assert(reg && reg.viewModel && reg.template, `Component "${name}" must have viewModel and template defined`);
     }
 
+    // Verify subtab containers in tasbeeh.html and main.html do not have static d-none blocking Knockout visible
+    const fs = await import('fs');
+    const tasbeehHtml = fs.readFileSync(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh.html'), 'utf8');
+    const mainHtml = fs.readFileSync(path.join(ROOT, 'main.html'), 'utf8');
+    assert(!tasbeehHtml.includes('id="tbOldBody" class="grow overflow-auto p-2 pb-5 relative d-none"'), 'tbOldBody in tasbeeh.html must not have static d-none');
+    assert(!mainHtml.includes('id="tbOldBody" class="grow overflow-auto p-2 pb-5 relative d-none"'), 'tbOldBody in main.html must not have static d-none');
+    assert(!tasbeehHtml.includes('id="tbHistoryBody" class="grow overflow-auto p-2 pb-5 relative d-none"'), 'tbHistoryBody in tasbeeh.html must not have static d-none');
+    assert(!mainHtml.includes('id="tbHistoryBody" class="grow overflow-auto p-2 pb-5 relative d-none"'), 'tbHistoryBody in main.html must not have static d-none');
+
     // ==========================================
     // 5. Centralized TasbeehService Verification
     // ==========================================
@@ -429,7 +532,11 @@ export async function runTasbeehComponentTests() {
     assert.strictEqual(TasbeehService.clamp(150, 1, 100), 100);
     assert.strictEqual(TasbeehService.clamp(-5, 1, 100), 1);
     assert.strictEqual(TasbeehService.getPrevMonthKey('2026-01'), '2025-12');
+    assert.strictEqual(TasbeehService.getPrevMonthKey('2026-11'), '2026-10');
     assert.strictEqual(TasbeehService.getNextMonthKey('2026-12'), '2027-01');
+    assert.strictEqual(TasbeehService.getNextMonthKey('2026-05'), '2026-06');
+    assert.strictEqual(typeof globalThis.getPrevMonthKey, 'function');
+    assert.strictEqual(globalThis.getPrevMonthKey('2026-03'), '2026-02');
 
     // 5.2 Month list generation
     const mList = TasbeehService.getPreviousMonthsList('2026-01', '2026-03');
@@ -462,7 +569,7 @@ export async function runTasbeehComponentTests() {
     assert(preset1Yr.startDate && preset1Yr.endDate);
 
     // 5.7 History tab rendering (curOldMonth reference check)
-    const { renderHistoryTab } = await import(path.join(ROOT, 'tasbeeh', 'tasbeeh-history', 'tasbeeh-history.js'));
+    const { renderHistoryTab } = await import(path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-history', 'tasbeeh-history.js'));
     const elements = {
         'tbHistoryBody': { innerHTML: '', classList: { toggle() {}, remove() {}, add() {} } },
         'tbHistoryList': { innerHTML: '' },

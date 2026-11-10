@@ -37,6 +37,7 @@ export function Router() {
     self.trackerSubTab = createObservable('current');
     self.tasbeehSubTab = createObservable('home');
     self.duasSubTab = createObservable('home');
+    self.quranSubTab = createObservable('quran');
     self.currentPath = createObservable('#/dashboard');
 
     var isUpdatingHash = false;
@@ -73,6 +74,7 @@ export function Router() {
         if (page === 'tracker' && !subTab) subTab = 'current';
         if (page === 'tasbeeh' && !subTab) subTab = 'home';
         if (page === 'duas' && !subTab) subTab = 'home';
+        if (page === 'quran' && !subTab) subTab = 'quran';
 
         var path = '#/' + page + (subTab ? ('/' + subTab) : '');
         return { page: page, subTab: subTab, path: path };
@@ -90,6 +92,8 @@ export function Router() {
             self.tasbeehSubTab(parsed.subTab);
         } else if (parsed.page === 'duas' && parsed.subTab) {
             self.duasSubTab(parsed.subTab);
+        } else if (parsed.page === 'quran' && parsed.subTab) {
+            self.quranSubTab(parsed.subTab);
         }
         self.currentPath(parsed.path);
 
@@ -111,6 +115,9 @@ export function Router() {
             if (parsed.page === 'tracker' && parsed.subTab && typeof _win.switchTrackerSubTab === 'function') {
                 _win.switchTrackerSubTab(parsed.subTab);
             }
+            if (parsed.page === 'quran' && parsed.subTab && _win.QuranApp && typeof _win.QuranApp.switchTab === 'function') {
+                _win.QuranApp.switchTab(parsed.subTab);
+            }
         } finally {
             isUpdatingHash = false;
         }
@@ -131,6 +138,8 @@ export function Router() {
                 self.tasbeehSubTab(parsed.subTab);
             } else if (parsed.page === 'duas' && parsed.subTab) {
                 self.duasSubTab(parsed.subTab);
+            } else if (parsed.page === 'quran' && parsed.subTab) {
+                self.quranSubTab(parsed.subTab);
             }
             self.currentPath(parsed.path);
 
@@ -139,6 +148,9 @@ export function Router() {
             }
             if (parsed.page === 'tracker' && parsed.subTab && typeof _win.switchTrackerSubTab === 'function') {
                 _win.switchTrackerSubTab(parsed.subTab);
+            }
+            if (parsed.page === 'quran' && parsed.subTab && _win.QuranApp && typeof _win.QuranApp.switchTab === 'function') {
+                _win.QuranApp.switchTab(parsed.subTab);
             }
         } finally {
             isUpdatingHash = false;
@@ -167,12 +179,13 @@ export function Router() {
             if (page === 'tracker') return self.trackerSubTab() === subTab;
             if (page === 'tasbeeh') return self.tasbeehSubTab() === subTab;
             if (page === 'duas') return self.duasSubTab() === subTab;
+            if (page === 'quran') return self.quranSubTab() === subTab;
         }
         return true;
     };
 }
 
-export const AppRouter = new Router();
+export var AppRouter = new Router();
 
 if (typeof window !== 'undefined') {
     window.AppRouter = AppRouter;

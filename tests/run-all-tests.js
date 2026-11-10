@@ -1,13 +1,17 @@
 #!/usr/bin/env node
 // tests/run-all-tests.js
 import { runPrayerTests } from './prayer.test.js';
+import { runTrackerComponentTests } from './tracker-components.test.js';
 import { runTasbeehTests } from './tasbeeh.test.js';
 import { runTasbeehComponentTests } from './tasbeeh-components.test.js';
 import { runTabsTests } from './tabs.test.js';
 import { runDuasTests } from './duas.test.js';
+import { runDuaComponentTests } from './dua-components.test.js';
 import { runSettingsTests } from './settings.test.js';
 import { runRouterTests } from './router.test.js';
 import { runPwaTests } from './pwa.test.js';
+import { runQuranTests } from './quran.test.js';
+import { runDashboardTests } from './dashboard.test.js';
 import { runDecompositionTests } from './decomposition.test.js';
 
 const startTime = Date.now();
@@ -19,13 +23,17 @@ console.log('====================================================\n');
 async function runAll() {
     try {
         await runPrayerTests();
+        await runTrackerComponentTests();
         await runTasbeehTests();
         await runTasbeehComponentTests();
         await runTabsTests();
         await runDuasTests();
+        await runDuaComponentTests();
         await runSettingsTests();
         await runRouterTests();
         await runPwaTests();
+        await runQuranTests();
+        await runDashboardTests();
         await runDecompositionTests();
 
         const duration = ((Date.now() - startTime) / 1000).toFixed(2);

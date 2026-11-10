@@ -1,0 +1,53 @@
+<div class="flex flex-col flex-1 min-h-0 bg-white" data-ref="page.quran.main">
+    <!-- Header + Search -->
+    <header class="bg-white shrink-0 border-b border-[#E0E0E0]">
+        <div class="px-4 py-3 flex items-center justify-between">
+            <button type="button" aria-label="Go to Dashboard"
+                class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+                data-bind="click: goHome">
+                <i class="fa-solid fa-arrow-left text-lg" aria-hidden="true"></i>
+            </button>
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-book-quran text-[#094E3A] text-[18px]" aria-hidden="true"></i>
+                <h1 class="text-lg font-bold text-gray-900 tracking-tight">Quran</h1>
+            </div>
+            <button type="button" aria-label="Settings"
+                class="w-10 h-10 rounded-full flat-card flex items-center justify-center text-gray-700 shrink-0 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#094E3A]"
+                data-bind="click: goToSettings">
+                <i class="fa-solid fa-gear text-lg" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="px-4 pb-4 pt-1">
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-magnifying-glass text-gray-400" aria-hidden="true"></i>
+                </div>
+                <input type="text" aria-label="Search surah by name or number"
+                    class="w-full flat-card bg-white border border-[#E0E0E0] rounded-xl pl-10 pr-4 py-3.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#094E3A] focus:ring-1 focus:ring-[#094E3A] transition-colors"
+                    placeholder="Search Surah Name or Number…"
+                    data-bind="textInput: searchQuery">
+                <!-- ko if: searchQuery -->
+                <button type="button" aria-label="Clear search"
+                    class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600"
+                    data-bind="click: clearSearch">
+                    <i class="fa-solid fa-xmark text-sm" aria-hidden="true"></i>
+                </button>
+                <!-- /ko -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Scrollable Surah List Feed -->
+    <main class="px-4 py-4 flex-1 min-h-0 space-y-3 overflow-y-auto bg-white" data-ref="page.quran.main.scroll">
+        <!-- ko component: {
+            name: 'quran-main-feed',
+            params: {
+                searchQuery: searchQuery,
+                onSelectSurah: handleSelectSurah
+            }
+        } --><!-- /ko -->
+    </main>
+</div>
+

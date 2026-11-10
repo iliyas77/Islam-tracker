@@ -1,0 +1,50 @@
+<div class="tracker-history-feed flex flex-col gap-3" data-ref="page.history.feed">
+    <!-- Empty State -->
+    <!-- ko if: !hasEntries() -->
+    <div class="text-center text-gr-textMuted py-8 px-4 bg-white border border-borderGrey rounded-2xl flex flex-col items-center justify-center"
+        id="histEmptyState" data-ref="page.history.empty-state">
+        <div class="mb-3">
+            <app-icon params="name: 'list-check', color: 'text-brand', size: '4xl', customClass: 'opacity-50'"></app-icon>
+        </div>
+        <h5 class="font-bold text-brand text-base mb-1">No Activity Yet</h5>
+        <p class="text-gr-textMuted text-xs mb-0">Whenever a prayer is marked as completed in Current or Old Tracking, its history entry will appear here.</p>
+    </div>
+    <!-- /ko -->
+
+    <!-- Content Container -->
+    <!-- ko if: hasEntries() -->
+    <div id="histContent">
+        <!-- Summary Card -->
+        <div class="rounded-2xl p-3.5 bg-white border border-borderGrey mb-3"
+            data-ref="page.history.summary-card">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <div class="w-10 h-10 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">
+                        <app-icon params="name: 'list-check', color: 'text-brand', size: 'lg'"></app-icon>
+                    </div>
+                    <div class="min-w-0">
+                        <h6 class="font-bold text-brand mb-0 text-sm leading-tight">Activity Log</h6>
+                        <div class="text-gr-textMuted text-xs mt-0.5" id="histSubtitleCount" data-bind="text: subtitle">0 completed prayers</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-borderGrey bg-surfaceBg text-xs text-gr-textMuted font-medium shrink-0">
+                    <app-icon params="name: 'clock', prefix: 'fa-regular', size: 'xs', customClass: 'shrink-0'"></app-icon>
+                    <span>Latest first</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Entries List Container -->
+        <div class="flex flex-col gap-1" id="histList" data-ref="page.history.list" data-bind="foreach: entries">
+            <!-- ko component: {
+                name: 'tracker-history-card',
+                params: {
+                    item: $data,
+                    onDelete: function(entry, event) { $parent.handleDeleteEntry(entry, event); }
+                }
+            } --><!-- /ko -->
+        </div>
+    </div>
+    <!-- /ko -->
+</div>
+
