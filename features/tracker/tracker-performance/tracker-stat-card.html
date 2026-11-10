@@ -1,0 +1,30 @@
+<div class="grid grid-cols-3 gap-2" data-ref="page.performance.stats-row">
+    <!-- Completed Card -->
+    <div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center"
+        data-ref="page.performance.stat.completed-card">
+        <div class="text-gr-textMuted font-bold uppercase text-[10px] tracking-wider">COMPLETED</div>
+        <div class="font-bold text-xl text-brand mt-1.5 leading-none" id="perfCompletedStat"
+            data-ref="page.performance.stat.completed"
+            data-bind="text: completed">0</div>
+        <div class="text-gr-textMuted text-xs mt-1">prayers</div>
+    </div>
+    <!-- Missed Card -->
+    <div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center"
+        data-ref="page.performance.stat.missed-card">
+        <div class="text-gr-textMuted font-bold uppercase text-[10px] tracking-wider">MISSED</div>
+        <div class="font-bold text-xl text-gr-danger mt-1.5 leading-none" id="perfMissedStat"
+            data-ref="page.performance.stat.missed"
+            data-bind="text: missed">0</div>
+        <div class="text-gr-textMuted text-xs mt-1">prayers</div>
+    </div>
+    <!-- Success Card -->
+    <div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center rounded-2xl shadow-none"
+        data-ref="page.performance.stat.rate-card">
+        <div class="text-gr-textMuted font-bold uppercase" style="font-size: 10px; letter-spacing: 0.5px;">SUCCESS</div>
+        <div class="font-bold text-xl text-brand mt-1.5 leading-none" id="perfRateStat"
+            data-ref="page.performance.stat.rate"
+            data-bind="text: rate">0%</div>
+        <div class="text-gr-textMuted text-xs mt-1">rate</div>
+    </div>
+</div>
+

@@ -101,7 +101,6 @@ const trackerServiceJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-ser
 const trackerCurCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-card', 'tracker-current-card.js');
 const trackerCurFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-feed', 'tracker-current-feed.js');
 const trackerCurFormJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-form', 'tracker-current-form.js');
-const trackerCurPageJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-page', 'tracker-current-page.js');
 const trackerCurJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current.js');
 const trackerOldCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-card', 'tracker-old-card.js');
 const trackerOldFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-feed', 'tracker-old-feed.js');
@@ -118,6 +117,26 @@ const trackerHistPageJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-hi
 const trackerHistJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history.js');
 const trackerRegistrationJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-registration.js');
 const trackerJsPath = path.join(ROOT, 'features', 'tracker', 'tracker.js');
+
+// Tracker HTML templates (modular external files)
+const trackerMobileViewHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-mobile-view.html');
+const trackerCurrentCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-card', 'tracker-current-card.html');
+const trackerCurrentFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-feed', 'tracker-current-feed.html');
+const trackerCurrentFormHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-form', 'tracker-current-form.html');
+const trackerCurrentMobileViewHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-mobile-view.html');
+const prayerTrackerCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'prayer-tracker-card.html');
+const trackerOldCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-card', 'tracker-old-card.html');
+const trackerOldFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-feed', 'tracker-old-feed.html');
+const trackerOldFormHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-form', 'tracker-old-form.html');
+const trackerOldPageHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-page', 'tracker-old-page.html');
+const trackerPerfCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-card', 'tracker-performance-card.html');
+const trackerPerfFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-feed', 'tracker-performance-feed.html');
+const trackerPerfPageHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-page', 'tracker-performance-page.html');
+const prayerStatCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'prayer-stat-card.html');
+const prayerPerfRingHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'prayer-perf-ring.html');
+const trackerHistCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history-card', 'tracker-history-card.html');
+const trackerHistFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history-feed', 'tracker-history-feed.html');
+const trackerHistPageHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history-page', 'tracker-history-page.html');
 
 // Dua decomposed submodules
 const duaServiceJsPath = path.join(ROOT, 'features', 'dua', 'dua-service.js');
@@ -289,7 +308,6 @@ function buildProduction() {
         const trackerCurCardJs = readFile(trackerCurCardJsPath);
         const trackerCurFeedJs = readFile(trackerCurFeedJsPath);
         const trackerCurFormJs = readFile(trackerCurFormJsPath);
-        const trackerCurPageJs = readFile(trackerCurPageJsPath);
         const trackerCurJs = readFile(trackerCurJsPath);
         const trackerOldCardJs = readFile(trackerOldCardJsPath);
         const trackerOldFeedJs = readFile(trackerOldFeedJsPath);
@@ -398,7 +416,6 @@ function buildProduction() {
             trackerCurCardJs,
             trackerCurFeedJs,
             trackerCurFormJs,
-            trackerCurPageJs,
             trackerCurJs,
             trackerOldCardJs,
             trackerOldFeedJs,
@@ -469,6 +486,42 @@ function buildProduction() {
         html = html.replace(/<script[^>]*src="(?:features\/)?(?:quran\/)?quran\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="(?:features\/)?(?:quran\/)?quran-registration\.js"[^>]*><\/script>/g, '');
         html = html.replace(/<script[^>]*src="app\.js"[^>]*><\/script>/g, () => `<script>${minifiedJs}<\/script>`);
+
+        // Inject modular tracker templates into production HTML (when not present in main.html)
+        if (!html.includes('id="tracker-page-template"')) {
+            const trackerTemplateBlocks = [
+                `        <script type="text/html" id="tracker-page-template">\n${readFile(trackerMobileViewHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-mobile-view-template"><!-- ko template: 'tracker-page-template' --><!-- /ko --></script>`,
+                `        <script type="text/html" id="tracker-current-mobile-view-template">\n${readFile(trackerCurrentMobileViewHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-current-feed-template">\n${readFile(trackerCurrentFeedHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-current-card-template">\n${readFile(trackerCurrentCardHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-current-form-template">\n${readFile(trackerCurrentFormHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-old-page-template">\n${readFile(trackerOldPageHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-old-feed-template">\n${readFile(trackerOldFeedHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-old-card-template">\n${readFile(trackerOldCardHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-old-form-template">\n${readFile(trackerOldFormHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-performance-page-template">\n${readFile(trackerPerfPageHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-performance-feed-template">\n${readFile(trackerPerfFeedHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-performance-card-template">\n${readFile(trackerPerfCardHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-history-page-template">\n${readFile(trackerHistPageHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-history-feed-template">\n${readFile(trackerHistFeedHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-history-card-template">\n${readFile(trackerHistCardHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-header-template"><!-- ko template: 'prayer-header-template' --><!-- /ko --></script>`,
+                `        <script type="text/html" id="prayer-header-template"><!-- ko template: 'tracker-page-template' --><!-- /ko --></script>`,
+                `        <script type="text/html" id="prayer-tracker-card-template">\n${readFile(prayerTrackerCardHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="prayer-row-template"><!-- ko template: 'tracker-current-card-template' --><!-- /ko --></script>`,
+                `        <script type="text/html" id="prayer-stat-card-template">\n${readFile(prayerStatCardHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="prayer-perf-ring-template">\n${readFile(prayerPerfRingHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-nav-tab-template"><!-- ko template: 'tracker-page-template' --><!-- /ko --></script>`,
+                `        <script type="text/html" id="prayer-nav-tab-template"><!-- ko template: 'tracker-nav-tab-template' --><!-- /ko --></script>`,
+                `        <script type="text/html" id="prayer-history-card-template"><!-- ko template: 'tracker-history-card-template' --><!-- /ko --></script>`
+            ].join('\n');
+
+            html = html.replace(
+                /<script type="text\/html" id="tasbeeh-page-template">/,
+                `${trackerTemplateBlocks}\n        <script type="text/html" id="tasbeeh-page-template">`
+            );
+        }
 
         // ---- Strip data-ref attributes from production output ----
         (function stripDataRef() {

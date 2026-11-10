@@ -70,10 +70,6 @@ export function TrackerOldFeedViewModel(params) {
     };
 }
 
-if (typeof window !== 'undefined') {
-    window.TrackerOldFeedViewModel = TrackerOldFeedViewModel;
-}
-
 export default {
     template: TrackerOldFeedTemplate,
     viewModel: TrackerOldFeedViewModel

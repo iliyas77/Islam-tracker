@@ -70,10 +70,6 @@ export function TrackerCurrentFormViewModel(params) {
     };
 }
 
-if (typeof window !== 'undefined') {
-    window.TrackerCurrentFormViewModel = TrackerCurrentFormViewModel;
-}
-
 export default {
     template: TrackerCurrentFormTemplate,
     viewModel: TrackerCurrentFormViewModel

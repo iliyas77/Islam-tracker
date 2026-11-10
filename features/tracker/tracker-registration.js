@@ -10,15 +10,16 @@
 'use strict';
 
 /* ---------- Template Definitions ---------- */
-export var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker.html' };
-export var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/templates/prayer-header.html' };
-export var TrackerNavTabTemplate = { element: 'tracker-nav-tab-template', file: 'features/tracker/templates/tracker-nav-tab.html' };
-export var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/templates/prayer-nav-tab.html' };
-export var PrayerTrackerCardTemplate = { element: 'prayer-tracker-card-template', file: 'features/tracker/templates/prayer-tracker-card.html' };
-export var PrayerRowTemplate = { element: 'prayer-row-template', file: 'features/tracker/templates/prayer-row.html' };
-export var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/tracker/templates/prayer-stat-card.html' };
-export var PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'features/tracker/templates/prayer-perf-ring.html' };
-export var PrayerHistoryCardTemplate = { element: 'prayer-history-card-template', file: 'features/tracker/templates/prayer-history-card.html' };
+export var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker-mobile-view.html' };
+export var TrackerMobileViewTemplate = { element: 'tracker-mobile-view-template', file: 'features/tracker/tracker-mobile-view.html' };
+export var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/tracker-mobile-view.html' };
+export var TrackerNavTabTemplate = { element: 'tracker-nav-tab-template', file: 'features/tracker/tracker-mobile-view.html' };
+export var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/tracker-mobile-view.html' };
+export var PrayerTrackerCardTemplate = { element: 'prayer-tracker-card-template', file: 'features/tracker/prayer-tracker-card.html' };
+export { PrayerRowTemplate } from './tracker-current/tracker-current.js';
+export var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/tracker/tracker-performance/prayer-stat-card.html' };
+export var PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'features/tracker/tracker-performance/prayer-perf-ring.html' };
+export { PrayerHistoryCardTemplate } from './tracker-history/tracker-history.js';
 
 import {
     PrayerRowViewModel,
@@ -30,7 +31,7 @@ import {
     TrackerCurrentCardTemplate, TrackerCurrentCardViewModel,
     TrackerCurrentFeedTemplate, TrackerCurrentFeedViewModel,
     TrackerCurrentFormTemplate, TrackerCurrentFormViewModel,
-    TrackerCurrentPageTemplate, TrackerCurrentPageViewModel
+    TrackerCurrentMobileViewTemplate, TrackerCurrentViewModel
 } from './tracker-current/tracker-current.js';
 
 import {
@@ -70,12 +71,19 @@ export function registerTrackerComponents(customKo) {
         if (p && p.tracker) return p.tracker;
         return getTrackerViewModel();
     }, TrackerPageTemplate, customKo);
+    registerComponent('tracker-mobile-view', function (p) {
+        if (p && p.viewModel) return p.viewModel;
+        if (p && p.header && p.subTabs) return p;
+        if (p && p.tracker) return p.tracker;
+        return getTrackerViewModel();
+    }, TrackerMobileViewTemplate, customKo);
 
     // 2. Current Tab Modular Components
     registerComponent('tracker-current-card', TrackerCurrentCardViewModel, TrackerCurrentCardTemplate, customKo);
     registerComponent('tracker-current-feed', TrackerCurrentFeedViewModel, TrackerCurrentFeedTemplate, customKo);
     registerComponent('tracker-current-form', TrackerCurrentFormViewModel, TrackerCurrentFormTemplate, customKo);
-    registerComponent('tracker-current-page', TrackerCurrentPageViewModel, TrackerCurrentPageTemplate, customKo);
+    registerComponent('tracker-current-mobile-view', TrackerCurrentViewModel, TrackerCurrentMobileViewTemplate, customKo);
+    registerComponent('tracker-current', TrackerCurrentViewModel, TrackerCurrentMobileViewTemplate, customKo);
 
     // 3. Old Tab Modular Components
     registerComponent('tracker-old-card', TrackerOldCardViewModel, TrackerOldCardTemplate, customKo);

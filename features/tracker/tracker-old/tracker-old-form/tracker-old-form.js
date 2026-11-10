@@ -137,10 +137,6 @@ export function TrackerOldFormViewModel(params) {
     self.refresh();
 }
 
-if (typeof window !== 'undefined') {
-    window.TrackerOldFormViewModel = TrackerOldFormViewModel;
-}
-
 export default {
     template: TrackerOldFormTemplate,
     viewModel: TrackerOldFormViewModel

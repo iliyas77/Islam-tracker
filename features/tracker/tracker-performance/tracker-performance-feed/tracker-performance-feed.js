@@ -62,10 +62,6 @@ export function TrackerPerformanceFeedViewModel(params) {
     };
 }
 
-if (typeof window !== 'undefined') {
-    window.TrackerPerformanceFeedViewModel = TrackerPerformanceFeedViewModel;
-}
-
 export default {
     template: TrackerPerformanceFeedTemplate,
     viewModel: TrackerPerformanceFeedViewModel
