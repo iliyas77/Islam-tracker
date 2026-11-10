@@ -12,7 +12,8 @@
 /* ---------- Template Definitions ---------- */
 export var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker.html' };
 export var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/templates/prayer-header.html' };
-export var TrackerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/templates/prayer-nav-tab.html' };
+export var TrackerNavTabTemplate = { element: 'tracker-nav-tab-template', file: 'features/tracker/templates/tracker-nav-tab.html' };
+export var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/templates/prayer-nav-tab.html' };
 export var PrayerTrackerCardTemplate = { element: 'prayer-tracker-card-template', file: 'features/tracker/templates/prayer-tracker-card.html' };
 export var PrayerRowTemplate = { element: 'prayer-row-template', file: 'features/tracker/templates/prayer-row.html' };
 export var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/tracker/templates/prayer-stat-card.html' };
@@ -98,7 +99,7 @@ export function registerTrackerComponents(customKo) {
     registerComponent('prayer-row', PrayerRowViewModel, TrackerCurrentCardTemplate, customKo);
     registerComponent('prayer-stat-card', function (p) { return p || {}; }, PrayerStatCardTemplate, customKo);
     registerComponent('prayer-perf-ring', function (p) { return p || {}; }, PrayerPerfRingTemplate, customKo);
-    registerComponent('prayer-nav-tab', function (p) { return p || {}; }, TrackerNavTabTemplate, customKo);
+    registerComponent('prayer-nav-tab', function (p) { return p || {}; }, PrayerNavTabTemplate, customKo);
     registerComponent('prayer-history-card', TrackerHistoryCardViewModel, TrackerHistoryCardTemplate, customKo);
 }
 

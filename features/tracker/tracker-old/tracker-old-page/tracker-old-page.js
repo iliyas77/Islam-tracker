@@ -231,10 +231,19 @@ export function TrackerOldPageViewModel(params) {
 
     // Initial load
     self.refresh();
+    _win.trackerOldPageViewModel = self;
+}
+
+export function rOT() {
+    if (_win.trackerOldPageViewModel && typeof _win.trackerOldPageViewModel.refresh === 'function') {
+        _win.trackerOldPageViewModel.refresh();
+    }
 }
 
 if (typeof window !== 'undefined') {
     window.TrackerOldPageViewModel = TrackerOldPageViewModel;
+    window.TrackerOldApp = { refresh: rOT };
+    window.rOT = rOT;
 }
 
 export default {

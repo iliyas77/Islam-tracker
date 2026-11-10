@@ -278,9 +278,9 @@ data-bind="text: badgeText, attr: { id: badgeId, 'data-ref': badgeDataRef }, css
 data-bind="text: title, attr: { 'data-ref': titleDataRef }"></span><app-icon params="name: 'chevron-right'"></app-icon></div></div><!-- /ko --></div></script><script type="text/html" id="features-grid-template"><!-- ko template: 'dashboard-features-grid-template' --><!-- /ko --></script><script type="text/html" id="dashboard-divider-template"><div class="flex items-center justify-center gap-2 py-3 w-full text-brand/30"><div class="h-[1px] bg-borderGrey flex-1"></div><div class="text-xs text-brand/40 px-2"><app-icon params="name: 'star-and-crescent'"></app-icon></div><div class="h-[1px] bg-borderGrey flex-1"></div></div></script><script type="text/html" id="dashboard-page-template"><div class="grow overflow-auto p-0 relative" id="dashScroll"><div id="dashBody"><div class="p-2.5 pt-2 pb-3 relative flex flex-col gap-3.5 w-full min-h-full box-border"><div class="absolute top-0 left-0 right-0 h-[220px] pointer-events-none opacity-20 z-0 flex justify-between p-4"
 aria-hidden="true"><app-icon params="name: 'star-and-crescent', style: 'opacity: 0.15; font-size: 1.5rem;'"></app-icon><app-icon params="name: 'star-and-crescent', style: 'opacity: 0.15; font-size: 1.5rem;'"></app-icon></div><header class="flex items-center justify-between text-brand text-xs font-semibold py-1 z-10"><div class="flex items-center gap-1.5 text-xs text-brand font-medium"><app-icon params="name: 'location-dot', color: 'text-brand', size: 'sm', dataRef: 'page.dashboard.header.location-icon'"></app-icon><span id="dashLocationText"
 data-bind="html: header.locationText">Guntur &bull; Hanafi</span></div><div class="w-8 h-8 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-sm"><app-icon params="name: 'mosque'"></app-icon></div></header><!-- ko component: { name: 'dashboard-clock', params: clock } --><!-- /ko --><!-- ko component: { name: 'dashboard-timeline', params: timeline } --><!-- /ko --><!-- ko component: { name: 'dashboard-features-grid', params: featuresGrid } --><!-- /ko --><div class="flex items-center justify-center gap-2 py-3 w-full text-brand/30"><div class="h-[1px] bg-borderGrey flex-1"></div><div class="text-xs text-brand/40 px-2"><app-icon params="name: 'star-and-crescent'"></app-icon></div><div class="h-[1px] bg-borderGrey flex-1"></div></div></div></div></div></script><script type="text/html" id="dashboard-mobile-view-template"><!-- ko template: 'dashboard-page-template' --><!-- /ko --></script><script type="text/html" id="tracker-page-template"><!-- ko component: { name: 'tracker-header', params: header } --><!-- /ko --><div class="grow overflow-auto px-2 pt-2 pb-3" id="currentBody"
-data-bind="visible: currentSubTab() === 'current'"><!-- ko component: { name: 'tracker-current-page', params: currentParams } --><!-- /ko --></div><div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="oldBody"
-data-bind="visible: currentSubTab() === 'old'"><!-- ko component: { name: 'prayer-tracker-card', params: oldCard } --><!-- /ko --></div><div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="performanceBody"
-data-bind="visible: currentSubTab() === 'performance'"><!-- ko component: { name: 'tracker-performance-page', params: performanceParams } --><!-- /ko --></div><div class="grow overflow-auto px-2 pt-2 pb-3 d-none" id="historyBody"
+data-bind="visible: currentSubTab() === 'current'"><!-- ko component: { name: 'tracker-current-page', params: currentParams } --><!-- /ko --></div><div class="grow overflow-auto px-2 pt-2 pb-3" id="oldBody"
+data-bind="visible: currentSubTab() === 'old'"><!-- ko component: { name: 'tracker-old-page', params: oldParams } --><!-- /ko --></div><div class="grow overflow-auto px-2 pt-2 pb-3" id="performanceBody"
+data-bind="visible: currentSubTab() === 'performance'"><!-- ko component: { name: 'tracker-performance-page', params: performanceParams } --><!-- /ko --></div><div class="grow overflow-auto px-2 pt-2 pb-3" id="historyBody"
 data-bind="visible: currentSubTab() === 'history'"><!-- ko component: { name: 'tracker-history-page', params: historyParams } --><!-- /ko --></div><!-- ko component: { name: 'tracker-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko --></script><script type="text/html" id="tracker-current-page-template"><div class="prayer-tracker-card w-full max-w-[480px] bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col gap-3 shadow-none mx-auto"
 data-bind="attr: { id: collapsePrefix + 'TrackerCard', 'data-ref': pagePrefix + '.card' }"><header class="tracker-header pb-2.5 border-b border-borderGrey flex items-center justify-between gap-2"
 data-bind="attr: { 'data-ref': pagePrefix + '.card.header' }"><button type="button" class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
@@ -380,7 +380,91 @@ data-bind="click: handleClose"><i class="fa-solid fa-xmark text-sm" aria-hidden=
 class="p-2 rounded-xl bg-white border border-borderGrey flex items-center justify-between hover:border-brand transition-colors text-xs text-left"
 data-bind="click: function(d, e) { $parents[1].handleResolve($parent.date, $data, e); }"><span class="font-semibold text-gray-800" data-bind="text: $data"></span><span class="text-[11px] font-bold text-brand hover:underline">Mark Done</span></button><!-- /ko --></div></div><!-- /ko --></div><div class="p-4 border-t border-borderGrey flex justify-end"><button type="button"
 class="px-4 py-2 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 text-xs font-semibold"
-data-bind="click: handleClose">Done</button></div></div></div><!-- /ko --></script><script type="text/html" id="tracker-performance-page-template"><div class="tracker-performance-page flex flex-col grow overflow-auto px-2 pt-2 pb-3"
+data-bind="click: handleClose">Done</button></div></div></div><!-- /ko --></script><script type="text/html" id="tracker-old-page-template"><div class="prayer-tracker-card w-full max-w-[480px] bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col gap-3 shadow-none mx-auto"
+data-bind="attr: { id: collapsePrefix + 'TrackerCard', 'data-ref': pagePrefix + '.card' }"><header class="tracker-header pb-2.5 border-b border-borderGrey flex items-center justify-between gap-2"
+data-bind="attr: { 'data-ref': pagePrefix + '.card.header' }"><button type="button" class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
+data-bind="attr: { id: collapsePrefix + 'DateChip', 'data-ref': pagePrefix + '.card.header.date-chip' }, click: handleDateChipClick"
+aria-label="Select date"><app-icon params="name: 'calendar-days', prefix: 'fa-regular', size: 'sm'"></app-icon><span data-bind="text: dateChipText, attr: { id: collapsePrefix + 'DateChipText', 'data-ref': pagePrefix + '.card.header.date-text' }"></span></button><div class="header-status flex items-center gap-2"
+data-bind="attr: { id: collapsePrefix + 'HeaderStatus', 'data-ref': pagePrefix + '.card.header.status' }"><!-- ko if: badgeText --><span class="badge badge-warning inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer"
+data-bind="attr: { 'data-ref': pagePrefix + '.card.header.badge' }, click: handleBadgeClick"><app-icon params="name: 'circle-info', size: 'xs'"></app-icon><span data-bind="text: badgeText"></span></span><!-- /ko --><!-- ko if: actionBtnText --><button type="button" class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 text-sm hover:underline"
+data-bind="text: actionBtnText, attr: { id: collapsePrefix + 'ActionBtn', 'data-ref': pagePrefix + '.card.header.action-btn' }, click: handleActionBtnClick"></button><!-- /ko --></div></header><!-- ko component: {
+name: 'tracker-old-feed',
+params: {
+collapsePrefix: collapsePrefix,
+pagePrefix: pagePrefix,
+missedRows: missedRows,
+doneRows: doneRows,
+onTogglePrayer: handleTogglePrayer
+}
+} --><!-- /ko --><!-- ko component: {
+name: 'tracker-old-form',
+params: {
+isOpen: isPeriodFormOpen,
+onClose: closePeriodForm,
+getPeriod: getPeriod,
+getOldRecords: getOldRecords,
+onSavePeriod: handleSavePeriod
+}
+} --><!-- /ko --></div></script><script type="text/html" id="tracker-old-feed-template"><div class="tracker-feed flex flex-col gap-3" data-bind="attr: { 'data-ref': pagePrefix + '.feed' }"><section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': pagePrefix + '.card.missed-group' }"><button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
+data-toggle="collapse"
+data-bind="attr: { 'data-target': '#' + collapsePrefix + 'MissedList', 'data-ref': pagePrefix + '.card.missed-group.toggle' }"
+aria-expanded="true"><span class="section-title text-xs font-bold uppercase tracking-wider text-gr-text"
+data-bind="text: missedGroupTitle, attr: { id: collapsePrefix + 'MissedTitle', 'data-ref': pagePrefix + '.card.missed-group.title' }">MISSED</span><span class="toggle-icon text-[10px] transition-transform duration-200 inline-block"
+data-bind="attr: { 'data-ref': pagePrefix + '.card.missed-group.icon' }">▼</span></button><div class="collapse show visible" style="visibility: visible;"
+data-bind="attr: { id: collapsePrefix + 'MissedList', 'data-ref': pagePrefix + '.card.missed-group.collapse' }"><ul class="prayer-list flex flex-col gap-1.5 list-none p-0 m-0"
+data-bind="attr: { id: collapsePrefix + 'MissedUl', 'data-ref': pagePrefix + '.card.missed-group.list' }"><!-- ko if: !hasMissed() --><li class="p-3 text-center text-gr-muted small bg-white rounded-3 border"
+data-bind="attr: { 'data-ref': pagePrefix + '.missed.empty' }">All prayers completed for this day!</li><!-- /ko --><!-- ko foreach: missedRows --><!-- ko component: {
+name: 'tracker-old-card',
+params: {
+item: $data,
+prefix: $parent.pagePrefix,
+onToggle: function(card, event) { $parent.handleToggle(card, event); }
+}
+} --><!-- /ko --><!-- /ko --></ul></div></section><section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': pagePrefix + '.card.done-group' }"><button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
+data-toggle="collapse"
+data-bind="attr: { 'data-target': '#' + collapsePrefix + 'DoneList', 'data-ref': pagePrefix + '.card.done-group.toggle' }"
+aria-expanded="true"><span class="section-title text-xs font-bold uppercase tracking-wider text-gr-text"
+data-bind="text: doneGroupTitle, attr: { id: collapsePrefix + 'DoneTitle', 'data-ref': pagePrefix + '.card.done-group.title' }">DONE</span><span class="toggle-icon text-[10px] transition-transform duration-200 inline-block"
+data-bind="attr: { 'data-ref': pagePrefix + '.card.done-group.icon' }">▼</span></button><div class="collapse show visible" style="visibility: visible;"
+data-bind="attr: { id: collapsePrefix + 'DoneList', 'data-ref': pagePrefix + '.card.done-group.collapse' }"><ul class="prayer-list flex flex-col gap-1.5 list-none p-0 m-0"
+data-bind="attr: { id: collapsePrefix + 'DoneUl', 'data-ref': pagePrefix + '.card.done-group.list' }"><!-- ko if: !hasDone() --><li class="p-3 text-center text-gr-muted small bg-white rounded-3 border"
+data-bind="attr: { 'data-ref': pagePrefix + '.done.empty' }">No completed prayers yet</li><!-- /ko --><!-- ko foreach: doneRows --><!-- ko component: {
+name: 'tracker-old-card',
+params: {
+item: $data,
+prefix: $parent.pagePrefix,
+onToggle: function(card, event) { $parent.handleToggle(card, event); }
+}
+} --><!-- /ko --><!-- /ko --></ul></div></section></div></script><script type="text/html" id="tracker-old-card-template"><!-- ko if: isDone --><li class="prayer-row prayer-row-done p-2.5 px-3 bg-surfaceBg border border-transparent rounded-xl flex items-center justify-between opacity-75 transition-all gap-2.5 mb-1.5"
+data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }"><div class="prayer-meta flex items-center gap-2.5 min-w-0"
+data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }"><div class="icon-box icon-box-md icon-done w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-[#D1E5DC] text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
+data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }"><app-icon params="name: 'check', size: 'xl'"></app-icon></div><div class="prayer-details flex flex-col gap-0.5 min-w-0"
+data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }"><div class="title-wrap flex items-baseline"
+data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title-wrap' }"><span class="prayer-name text-sm font-bold text-brand truncate"
+data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span></div><time class="prayer-time text-xs text-gr-textMuted"
+data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time></div></div><button type="button"
+class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#D1E5DC] text-brand border-0 hover:bg-[#c2ded3] transition-colors cursor-pointer shrink-0 text-xs font-semibold"
+data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, click: onToggle"
+title="Tap to mark missed"><app-icon params="name: 'check', size: 'xs'"></app-icon> Done
+</button></li><!-- /ko --><!-- ko if: !isDone --><li class="prayer-row prayer-row-missed p-2.5 px-3 bg-gradient-to-r from-gr-dangerSoft to-white border border-gr-danger rounded-xl flex items-center justify-between transition-all gap-2.5 mb-1.5"
+data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }"><div class="prayer-meta flex items-center gap-2.5 min-w-0"
+data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }"><div class="icon-box icon-box-md icon-missed w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-red-500 text-white inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
+data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }"><app-icon params="name: iconClass"></app-icon></div><div class="prayer-details flex flex-col gap-0.5 min-w-0"
+data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }"><div class="title-wrap flex items-baseline"
+data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title-wrap' }"><span class="prayer-name text-sm font-bold text-brand truncate"
+data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span></div><time class="prayer-time text-xs text-gr-textMuted"
+data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time></div></div><button type="button"
+class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl bg-red-50 text-red-600 border border-red-200 hover:bg-red-500 hover:text-white transition-colors cursor-pointer shrink-0 text-xs font-semibold"
+data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, click: onToggle">Mark Done</button></li><!-- /ko --></script><script type="text/html" id="tracker-old-form-template"><!-- ko if: isOpen --><div class="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity"
+data-bind="click: handleBackdropClick"><div class="bg-white w-full max-w-lg rounded-t-2xl sm:rounded-2xl p-5 flex flex-col gap-4 max-h-[90vh] overflow-y-auto shadow-xl"
+data-bind="click: function(d, e) { e.stopPropagation(); }"><div class="flex items-center justify-between border-b pb-3"><div class="flex items-center gap-2"><i class="fa-solid fa-clock-rotate-left text-gr-warning text-lg" aria-hidden="true"></i><h3 class="text-base font-bold text-gray-900" data-bind="text: title">Period Info</h3></div><button type="button" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500 transition-colors"
+data-bind="click: handleClose" aria-label="Close"><i class="fa-solid fa-xmark text-sm" aria-hidden="true"></i></button></div><div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-center text-xs"><div class="p-2.5 bg-gray-50 rounded-xl border border-gray-100"><span class="text-gray-500 block">Total Days</span><span class="font-bold text-sm text-gray-800" data-bind="text: totalDays">0</span></div><div class="p-2.5 bg-red-50 rounded-xl border border-red-100"><span class="text-red-500 block">Total Missed</span><span class="font-bold text-sm text-red-600" data-bind="text: totalMissed">0</span></div><div class="p-2.5 bg-amber-50 rounded-xl border border-amber-100 col-span-2 sm:col-span-1"><span class="text-amber-600 block">Days Missed</span><span class="font-bold text-sm text-amber-700" data-bind="text: daysMissed">0</span></div></div><div class="flex flex-col gap-1 text-xs text-gray-600 bg-emerald-50/60 p-3 rounded-xl border border-emerald-100"><div class="flex justify-between items-center"><span>Start Date:</span><span class="font-semibold text-gray-800" data-bind="text: formattedStart">--</span></div><div class="flex justify-between items-center"><span>End Date:</span><span class="font-semibold text-gray-800" data-bind="text: formattedEnd">--</span></div></div><div class="flex flex-col gap-1.5"><span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Missed per Prayer</span><div class="flex flex-col gap-1" data-bind="foreach: perPrayerBreakdown"><div class="flex justify-between items-center py-1.5 px-3 rounded-lg bg-gray-50 border border-gray-100 text-xs"><span class="font-semibold text-gray-700" data-bind="text: prayer"></span><span class="font-bold px-2 py-0.5 rounded-full"
+data-bind="text: count + ' missed', css: count > 0 ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'"></span></div></div></div><div class="border-t pt-3 flex flex-col gap-2.5"><button type="button" class="text-xs font-semibold text-brand text-left hover:underline flex items-center justify-between"
+data-bind="click: toggleEditMode"><span data-bind="text: isEditMode() ? 'Hide Period Settings' : 'Configure Tracking Period'">Configure Tracking Period</span><span data-bind="text: isEditMode() ? '▲' : '▼'">▼</span></button><!-- ko if: isEditMode --><div class="flex flex-col gap-2.5 pt-1"><div class="flex flex-col gap-1 text-xs"><label for="oldStartInput" class="font-medium text-gray-700">Tracking Start Date</label><input type="date" id="oldStartInput" class="p-2 border rounded-lg text-xs"
+data-bind="value: startDateInput"></div><div class="flex flex-col gap-1 text-xs"><label for="oldEndInput" class="font-medium text-gray-700">Tracking End Date</label><input type="date" id="oldEndInput" class="p-2 border rounded-lg text-xs"
+data-bind="value: endDateInput"></div><button type="button" class="w-full py-2 bg-brand text-white rounded-xl text-xs font-bold hover:bg-brand/90 transition-colors"
+data-bind="click: handleSavePeriod">Save Period</button></div><!-- /ko --></div><div class="flex justify-end pt-2 border-t"><button type="button" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition-colors"
+data-bind="click: handleClose">Close</button></div></div></div><!-- /ko --></script><script type="text/html" id="tracker-performance-page-template"><div class="tracker-performance-page flex flex-col grow overflow-auto px-2 pt-2 pb-3"
 id="performanceBody"><!-- ko component: {
 name: 'tracker-performance-feed',
 params: {
@@ -408,8 +492,7 @@ data-bind="click: handleSettingsClick"><app-icon params="name: 'gear', customCla
 </button></div></div></div></script><script type="text/html" id="tracker-performance-card-template"><div class="rounded-2xl p-3.5 bg-white border border-borderGrey flex flex-col gap-2.5 shadow-none transition-all hover:border-brand"
 data-bind="attr: { 'data-ref': 'page.performance.prayer.' + pLower }, click: handleClick"><div class="flex items-center justify-between gap-2"><div class="flex items-center gap-2.5 min-w-0"><div class="w-10 h-10 rounded-xl bg-dash-mintBg text-brand flex items-center justify-center shrink-0"><app-icon params="name: iconClass, size: '20px'"></app-icon></div><div class="min-w-0"><h6 class="font-bold text-brand text-sm mb-0 leading-tight" data-bind="text: name"></h6><div class="text-gr-textMuted text-xs mt-0.5" data-bind="text: time"></div></div></div><div><!-- ko if: isPerfect --><span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand"
 data-bind="text: percentage + '%', attr: { 'data-ref': 'page.performance.prayer.' + pLower + '.pct' }"></span><!-- /ko --><!-- ko ifnot: isPerfect --><span class="text-xs font-bold px-2 py-0.5 rounded-full bg-gr-dangerSoft text-gr-danger"
-data-bind="text: percentage + '%', attr: { 'data-ref': 'page.performance.prayer.' + pLower + '.pct' }"></span><!-- /ko --></div></div><div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden flex"><!-- ko if: isPerfect --><div class="h-full bg-brand rounded-full" data-bind="style: { width: percentage + '%' }"></div><!-- /ko --><!-- ko ifnot: isPerfect --><div class="perf-bar-fill h-full bg-brand" data-bind="style: { width: percentage + '%' }"></div><div class="perf-bar-missed h-full bg-gr-danger" data-bind="style: { width: (100 - percentage) + '%' }"></div><!-- /ko --></div><div class="flex items-center justify-between text-xs pt-1 border-t border-borderGrey/50"><span class="flex items-center gap-1.5 text-brand font-semibold"><app-icon params="name: 'circle-check', size: '14px'"></app-icon><span data-bind="text: completed + ' Completed'"></span></span><span class="flex items-center gap-1.5" data-bind="css: isPerfect ? 'text-gray-400 font-medium' : 'text-gr-danger font-semibold'"><app-icon params="name: isPerfect ? 'circle-xmark' : 'circle-exclamation', size: '14px'"></app-icon><span data-bind="text: missed + ' Missed'"></span></span></div></div></script><script type="text/html" id="tracker-history-page-template"><div class="tracker-history-page flex flex-col grow overflow-auto px-2 pt-2 pb-3"
-id="historyBody"><!-- ko component: {
+data-bind="text: percentage + '%', attr: { 'data-ref': 'page.performance.prayer.' + pLower + '.pct' }"></span><!-- /ko --></div></div><div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden flex"><!-- ko if: isPerfect --><div class="h-full bg-brand rounded-full" data-bind="style: { width: percentage + '%' }"></div><!-- /ko --><!-- ko ifnot: isPerfect --><div class="perf-bar-fill h-full bg-brand" data-bind="style: { width: percentage + '%' }"></div><div class="perf-bar-missed h-full bg-gr-danger" data-bind="style: { width: (100 - percentage) + '%' }"></div><!-- /ko --></div><div class="flex items-center justify-between text-xs pt-1 border-t border-borderGrey/50"><span class="flex items-center gap-1.5 text-brand font-semibold"><app-icon params="name: 'circle-check', size: '14px'"></app-icon><span data-bind="text: completed + ' Completed'"></span></span><span class="flex items-center gap-1.5" data-bind="css: isPerfect ? 'text-gray-400 font-medium' : 'text-gr-danger font-semibold'"><app-icon params="name: isPerfect ? 'circle-xmark' : 'circle-exclamation', size: '14px'"></app-icon><span data-bind="text: missed + ' Missed'"></span></span></div></div></script><script type="text/html" id="tracker-history-page-template"><div class="tracker-history-page flex flex-col grow overflow-auto"><!-- ko component: {
 name: 'tracker-history-feed',
 params: {
 entries: historyEntries,
@@ -524,7 +607,7 @@ data-bind="text: totalCompleted || 0">0</span><span class="text-gr-textMuted fon
 data-bind="text: ' / ' + (totalPossible || 0)"> / 0</span></div></div></div><div class="w-full text-center py-2 px-3 rounded-full bg-brand-light text-brand text-xs font-medium border border-borderGrey"
 id="perfDatePill" data-bind="text: datePillText || '0 days'">
 0 days
-</div></div></script><script type="text/html" id="prayer-nav-tab-template"><!-- ko component: {
+</div></div></script><script type="text/html" id="tracker-nav-tab-template"><!-- ko component: {
 name: 'app-tabs',
 params: {
 variant: 'bottom-nav',
@@ -540,7 +623,7 @@ tabs: [
 { id: 'history', label: 'History', icon: 'list-check', elementId: 'tabTrackHistory', dataAct: 'switch-track-history', dataRef: 'page.tracker.tab-history' }
 ]
 }
-} --><!-- /ko --></script><script type="text/html" id="prayer-history-card-template"><div class="rounded-2xl p-4 bg-white border border-borderGrey mb-3 flex flex-col gap-3 shadow-none"
+} --><!-- /ko --></script><script type="text/html" id="prayer-nav-tab-template"><!-- ko template: 'tracker-nav-tab-template' --><!-- /ko --></script><script type="text/html" id="prayer-history-card-template"><div class="rounded-2xl p-4 bg-white border border-borderGrey mb-3 flex flex-col gap-3 shadow-none"
 data-bind="attr: { 'data-ref': 'page.history.card.' + (id || '') }"><div class="flex items-center justify-between"><div class="flex items-center gap-2.5 min-w-0"><div class="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 44px; height: 44px;"
 data-bind="attr: { 'data-ref': 'page.history.item.avatar.' + (id || '') }"><app-icon params="name: iconName, size: '22px', color: 'text-brand'"></app-icon></div><div class="flex items-center gap-2 min-w-0"><h6 class="font-bold text-brand text-base mb-0 leading-none"
 data-bind="text: prayer, attr: { 'data-ref': 'page.history.item.prayer.' + (id || '') }"></h6><span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
@@ -3152,12 +3235,26 @@ renderPrayerHistoryTab();
 } else if (act === 'old-change-period') {
 rPeriod();
 } else if (act === 'jump') {
-sd = t.dataset.d;
-sheet2BS.hide();
-if (typeof fetchPrayerTimings === 'function') {
-fetchPrayerTimings(sd, function () { rn(); });
+var targetDate = t.dataset.d;
+sd = targetDate;
+var pStore = (typeof PrayerStore !== 'undefined') ? PrayerStore : (typeof window !== 'undefined' ? window.PrayerStore : null);
+if (pStore && typeof pStore.selectedDate === 'function') {
+pStore.selectedDate(targetDate);
 }
-setTimeout(function () { showPage('current'); }, 350);
+if (typeof sheet2BS !== 'undefined' && sheet2BS && typeof sheet2BS.hide === 'function') {
+sheet2BS.hide();
+} else if (typeof window !== 'undefined' && window.sheet2BS && typeof window.sheet2BS.hide === 'function') {
+window.sheet2BS.hide();
+}
+if (typeof fetchPrayerTimings === 'function') {
+fetchPrayerTimings(targetDate, function () { if (typeof rn === 'function') rn(); });
+}
+if (typeof rn === 'function') rn();
+setTimeout(function () {
+if (typeof showPage === 'function') showPage('current');
+if (typeof switchTab === 'function') switchTab('current');
+if (typeof switchTrackerSubTab === 'function') switchTrackerSubTab('current');
+}, 350);
 } else if (act === 'font') {
 apFS(parseFloat(t.dataset.fs));
 rSET();
@@ -3962,7 +4059,17 @@ self.setPrayerStatus = function (prayerName, dateStr, isDone) {
 var d = dateStr || self.selectedDate();
 var recs = Object.assign({}, self.trackerRecords() || {});
 var dayRec = Object.assign({}, recs[d] || {});
-var wasDone = dayRec[prayerName] === false;
+var rec = recs[d];
+var wasDone;
+if (rec && rec[prayerName] !== undefined) {
+wasDone = (rec[prayerName] === false || rec[prayerName] === 'done' || rec[prayerName] === 1);
+} else {
+var histList = (typeof self.historyEntries === 'function') ? self.historyEntries() : [];
+var inHistory = Array.isArray(histList) && histList.some(function (e) {
+return e.prayer === prayerName && e.date === d;
+});
+wasDone = inHistory || (typeof _win.isDonePrayer === 'function' ? _win.isDonePrayer(prayerName, d, recs) : false);
+}
 dayRec[prayerName] = isDone ? false : true;
 var hasMissed = self.prayers.some(function (p) {
 return dayRec[p] === true || dayRec[p] === 'missed';
@@ -3973,13 +4080,15 @@ delete recs[d];
 recs[d] = dayRec;
 }
 self.trackerRecords(recs);
+var addFn = (typeof _win.addPrayerHistoryEntry === 'function') ? _win.addPrayerHistoryEntry : null;
+var removeFn = (typeof _win.removePrayerHistoryEntry === 'function') ? _win.removePrayerHistoryEntry : null;
 if (isDone && !wasDone) {
-if (typeof _win.addPrayerHistoryEntry === 'function') {
-_win.addPrayerHistoryEntry(prayerName, 'Current', d);
+if (addFn) {
+addFn(prayerName, 'Current', d);
 }
 } else if (!isDone && wasDone) {
-if (typeof _win.removePrayerHistoryEntry === 'function') {
-_win.removePrayerHistoryEntry(prayerName, 'Current', d);
+if (removeFn) {
+removeFn(prayerName, 'Current', d);
 }
 }
 };
@@ -3988,7 +4097,7 @@ var d = dateStr || self.selectedDate();
 var rec = self.getRecord(d);
 var wasDone = typeof _win.isDonePrayer === 'function'
 ? _win.isDonePrayer(prayerName, d, rec)
-: (rec[prayerName] === false);
+: (rec[prayerName] === false || rec[prayerName] === 'done' || rec[prayerName] === 1);
 var isDone = !wasDone;
 self.setPrayerStatus(prayerName, d, isDone);
 };
@@ -3997,13 +4106,15 @@ var d = dateStr || self.selectedDate();
 var recs = Object.assign({}, self.trackerRecords() || {});
 var dayRec = Object.assign({}, recs[d] || {});
 var prayers = self.prayers;
+var addFn = (typeof _win.addPrayerHistoryEntry === 'function') ? _win.addPrayerHistoryEntry : null;
+var removeFn = (typeof _win.removePrayerHistoryEntry === 'function') ? _win.removePrayerHistoryEntry : null;
 prayers.forEach(function (p) {
-var wasDone = dayRec[p] === false;
+var wasDone = (dayRec[p] === false || dayRec[p] === 'done' || dayRec[p] === 1);
 dayRec[p] = markDone ? false : true;
 if (markDone && !wasDone) {
-if (typeof _win.addPrayerHistoryEntry === 'function') _win.addPrayerHistoryEntry(p, 'Current', d);
+if (addFn) addFn(p, 'Current', d);
 } else if (!markDone && wasDone) {
-if (typeof _win.removePrayerHistoryEntry === 'function') _win.removePrayerHistoryEntry(p, 'Current', d);
+if (removeFn) removeFn(p, 'Current', d);
 }
 });
 var hasMissed = prayers.some(function (p) {
@@ -6374,1477 +6485,6 @@ SettingsApp: SettingsApp
 module.exports.default = SettingsApp;
 }
 try { registerSettingsComponents(); } catch (_) {}
-'use strict';
-var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-var PRAYER_CONSTANTS = _win.PRAYER_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER) || {};
-var COMMON_CONSTANTS = _win.COMMON_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.COMMON) || {};
-var P = PRAYER_CONSTANTS.NAMES || _win.P || ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-var T = _win.T || Object.assign({}, PRAYER_CONSTANTS.DEFAULT_TIMINGS || {});
-var PRAYER_CARD_ICONS = {
-Fajr: 'fa-solid fa-cloud-sun',
-Dhuhr: 'fa-solid fa-sun',
-Asr: 'fa-solid fa-sun',
-Maghrib: 'fa-solid fa-cloud-sun',
-Isha: 'fa-solid fa-moon'
-};
-var MONTH_NAMES = COMMON_CONSTANTS.MONTH_NAMES || (_win.CONSTANTS && ((_win.CONSTANTS.COMMON && _win.CONSTANTS.COMMON.MONTH_NAMES) || (_win.CONSTANTS.DATE && _win.CONSTANTS.DATE.MONTH_NAMES))) || _win.MONTH_NAMES || [
-'January', 'February', 'March', 'April', 'May', 'June',
-'July', 'August', 'September', 'October', 'November', 'December'
-];
-var oldSd = null;
-function formatChipDate(dateStr) {
-if (!dateStr) return '';
-var d = new Date(dateStr + 'T00:00:00');
-var day = d.getDate();
-var currentYear = new Date().getFullYear();
-var yearStr = d.getFullYear() !== currentYear ? (' ' + d.getFullYear()) : '';
-return day + ' ' + MONTH_NAMES[d.getMonth()] + yearStr;
-}
-function rOldInfo() {
-var o = typeof _win.rdOK === 'function' ? _win.rdOK() : null;
-if (!o) { rPeriod(); return; }
-var isAllCompleted = o.end < o.start;
-var dates = isAllCompleted ? [] : (typeof _win.datesInRange === 'function' ? _win.datesInRange(o.start, o.end) : []);
-var a = typeof _win.rdOC === 'function' ? _win.rdOC() : {};
-var totalDays = dates.length;
-var totalMissed = 0, daysMissed = 0;
-var perPrayer = {};
-P.forEach(function (p) { perPrayer[p] = 0; });
-dates.forEach(function (d) {
-var r = a[d] || {};
-var m = P.filter(function (p) { return r[p] === true || r[p] === 'missed'; });
-if (m.length > 0) {
-totalMissed += m.length;
-daysMissed++;
-m.forEach(function (p) { perPrayer[p]++; });
-}
-});
-var frFn = typeof _win.fr === 'function' ? _win.fr : function (d) { return d; };
-var perPrayerHtml = P.map(function (p) {
-var c = perPrayer[p];
-var pIcon = typeof _win.renderIcon === 'function' ? _win.renderIcon(p.toLowerCase()) : (PRAYER_CARD_ICONS[p] || '');
-return '<div class="flex justify-between items-center py-2 px-3 rounded-3 mb-2 bg-surface">' +
-'<div class="flex items-center gap-2"><span class="fs-4">' + pIcon + '</span>' +
-'<span class="fw-bold fs-6">' + p + '</span></div>' +
-'<span class="badge rounded-pill ' + (c > 0 ? 'bg-danger text-white' : 'bg-brand text-white') +
-' px-3 py-2 small">' + c + ' missed</span></div>';
-}).join('');
-var sheetCfg = (_win.CONSTANTS && _win.CONSTANTS.PRAYER && _win.CONSTANTS.PRAYER.SHEETS && _win.CONSTANTS.PRAYER.SHEETS.PERIOD_INFO) || {
-iconClass: 'circle-info text-brand',
-title: 'Period Info'
-};
-sheetCfg.sub = isAllCompleted ? (frFn(o.start) + ' → Complete') : (frFn(o.start) + ' → ' + frFn(o.end));
-if (_win.sheet2BS && typeof _win.sheet2BS.show === 'function') {
-_win.sheet2BS.show(sheetCfg);
-}
-if (_win.Icon && typeof _win.Icon.update === 'function' && _win.$ && _win.$('sheet2Icon')) {
-_win.Icon.update(_win.$('sheet2Icon'), sheetCfg.iconClass);
-} else if (_win.$ && _win.$('sheet2Icon')) {
-_win.$('sheet2Icon').className = sheetCfg.iconClass;
-}
-if (_win.$ && _win.$('sheet2Title')) _win.$('sheet2Title').textContent = sheetCfg.title;
-if (_win.$ && _win.$('sheet2Sub')) _win.$('sheet2Sub').textContent = sheetCfg.sub;
-if (_win.$) {
-var missedContent = _win.$('sheetMissedContent');
-var periodInfoContent = _win.$('sheetPeriodInfoContent');
-var setOldContent = _win.$('sheetSetOldPeriodContent');
-if (missedContent) missedContent.classList.add('d-none');
-if (setOldContent) setOldContent.classList.add('d-none');
-if (periodInfoContent) periodInfoContent.classList.remove('d-none');
-var startValEl = _win.$('sheetPeriodStartVal');
-if (startValEl) startValEl.textContent = frFn(o.start);
-var endValEl = _win.$('sheetPeriodEndVal');
-if (endValEl) endValEl.textContent = isAllCompleted ? 'Complete' : frFn(o.end);
-var totalDaysEl = _win.$('sheetPeriodTotalDaysVal');
-if (totalDaysEl) totalDaysEl.textContent = totalDays;
-var totalMissedEl = _win.$('sheetPeriodTotalMissedVal');
-if (totalMissedEl) totalMissedEl.textContent = totalMissed;
-var daysMissedEl = _win.$('sheetPeriodDaysMissedVal');
-if (daysMissedEl) daysMissedEl.textContent = daysMissed;
-var perPrayerEl = _win.$('sheetPeriodPerPrayer');
-if (perPrayerEl) perPrayerEl.innerHTML = perPrayerHtml;
-}
-}
-function rPeriod() {
-var sheetCfg = (_win.CONSTANTS && _win.CONSTANTS.PRAYER && _win.CONSTANTS.PRAYER.SHEETS && _win.CONSTANTS.PRAYER.SHEETS.SET_OLD_PERIOD) || {
-iconClass: 'clock-rotate-left text-warning',
-title: 'Set Old Period',
-sub: ''
-};
-if (_win.sheet2BS && typeof _win.sheet2BS.show === 'function') {
-_win.sheet2BS.show(sheetCfg);
-}
-if (_win.Icon && typeof _win.Icon.update === 'function' && _win.$ && _win.$('sheet2Icon')) {
-_win.Icon.update(_win.$('sheet2Icon'), sheetCfg.iconClass);
-} else if (_win.$ && _win.$('sheet2Icon')) {
-_win.$('sheet2Icon').className = sheetCfg.iconClass;
-}
-if (_win.$ && _win.$('sheet2Title')) _win.$('sheet2Title').textContent = sheetCfg.title;
-if (_win.$ && _win.$('sheet2Sub')) _win.$('sheet2Sub').textContent = sheetCfg.sub;
-var o = typeof _win.rdOK === 'function' ? _win.rdOK() : null;
-var hasValidPeriod = o && o.end >= o.start;
-if (_win.$) {
-var missedContent = _win.$('sheetMissedContent');
-var periodInfoContent = _win.$('sheetPeriodInfoContent');
-var setOldContent = _win.$('sheetSetOldPeriodContent');
-if (missedContent) missedContent.classList.add('d-none');
-if (periodInfoContent) periodInfoContent.classList.add('d-none');
-if (setOldContent) setOldContent.classList.remove('d-none');
-var startInp = _win.$('oldStart');
-if (startInp) {
-startInp.value = o ? o.start : '';
-startInp.max = typeof _win.td === 'function' ? _win.td() : '';
-}
-var endInp = _win.$('oldEnd');
-if (endInp) {
-endInp.value = hasValidPeriod ? (o.initialEnd || o.end) : (o ? o.end : '');
-endInp.max = typeof _win.td === 'function' ? _win.td() : '';
-}
-var resetBtn = _win.$('sheetResetPeriodBtn');
-if (resetBtn) {
-if (o) resetBtn.classList.remove('d-none');
-else resetBtn.classList.add('d-none');
-}
-}
-}
-function openOldCal() {
-var oldDp = _win.$ ? _win.$('oldDp') : null;
-if (!oldDp) return;
-var o = typeof _win.rdOK === 'function' ? _win.rdOK() : null;
-if (o && o.end >= o.start) {
-oldDp.min = o.start;
-oldDp.max = o.end;
-if (oldSd) oldDp.value = oldSd;
-}
-if (oldDp.showPicker) {
-try { oldDp.showPicker(); return; } catch (e) { }
-}
-oldDp.focus();
-oldDp.click();
-}
-function goOld(d) {
-var o = typeof _win.rdOK === 'function' ? _win.rdOK() : null;
-if (!o || !d) return;
-if (o.end < o.start) return;
-if (d < o.start) d = o.start;
-if (d > o.end) d = o.end;
-oldSd = d;
-rOT();
-}
-function setOldSd(d) {
-oldSd = d;
-}
-function getDefaultOldPeriod() {
-var today = typeof _win.td === 'function' ? _win.td() : new Date().toISOString().slice(0, 10);
-var yesterday = typeof _win.prevDate === 'function' ? _win.prevDate(today) : today;
-var start = (typeof _win.rdSD === 'function' ? _win.rdSD() : null) || null;
-if (!start || start >= today) {
-var d = new Date();
-d.setDate(d.getDate() - 30);
-var pad2 = typeof _win.pad2 === 'function' ? _win.pad2 : function (n) { return n < 10 ? '0' + n : n; };
-start = d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
-}
-if (start > yesterday) start = yesterday;
-return {
-start: start,
-end: yesterday,
-initialEnd: yesterday,
-created: Date.now()
-};
-}
-function rOT() {
-if (typeof _win.ensureAllOldMissed === 'function') {
-_win.ensureAllOldMissed();
-}
-var o = typeof _win.rdOK === 'function' ? _win.rdOK() : null;
-var lst = _win.$ ? _win.$('oldBody') : (_win.document ? _win.document.getElementById('oldBody') : null);
-var sub = _win.$ ? _win.$('oldSub') : (_win.document ? _win.document.getElementById('oldSub') : null);
-if (!lst) return;
-if (!o) {
-var defaultPeriod = getDefaultOldPeriod();
-if (typeof _win.wrOK === 'function') _win.wrOK(defaultPeriod);
-if (typeof _win.ensureAllOldMissed === 'function') _win.ensureAllOldMissed();
-o = defaultPeriod;
-}
-if (o.end < o.start) {
-if (sub) sub.textContent = 'All days completed';
-return;
-}
-var frFn = typeof _win.fr === 'function' ? _win.fr : function (d) { return d; };
-if (sub) sub.textContent = frFn(o.start) + ' → ' + frFn(o.end);
-if (!oldSd || oldSd < o.start || oldSd > o.end) {
-oldSd = (typeof _win.currentOldDate === 'function' ? _win.currentOldDate() : null) || o.end;
-}
-var curDate = oldSd;
-var oldDp = _win.$ ? _win.$('oldDp') : null;
-if (oldDp) {
-oldDp.min = o.start;
-oldDp.max = o.end;
-oldDp.value = curDate;
-}
-var r = typeof _win.grO === 'function' ? _win.grO(curDate) : {};
-var missed = P.filter(function (p) { return r[p] === true || r[p] === 'missed'; });
-var done = P.filter(function (p) { return r[p] !== true && r[p] !== 'missed'; });
-var dateChipText = formatChipDate(curDate);
-var vm = _win.trackerViewModel || (typeof _win.getTrackerViewModel === 'function' ? _win.getTrackerViewModel() : null);
-if (vm && vm.oldCard) {
-var card = typeof vm.oldCard === 'function' ? vm.oldCard() : vm.oldCard;
-if (card) {
-var oldMissedRowVms = missed.map(function (p) {
-return new PrayerRowViewModel({
-prayer: p,
-time: T[p] || '--:--',
-isDone: false,
-isUpcoming: false,
-isMissed: true,
-isCurrent: false,
-isStandard: false,
-prefix: 'page.old',
-actionAct: 'toggle-old',
-date: curDate,
-iconClass: PRAYER_CARD_ICONS[p] || 'fa-solid fa-mosque'
-});
-});
-var oldDoneRowVms = done.map(function (p) {
-return new PrayerRowViewModel({
-prayer: p,
-time: T[p] || '--:--',
-isDone: true,
-isUpcoming: false,
-isMissed: false,
-isCurrent: false,
-isStandard: false,
-prefix: 'page.old',
-actionAct: 'toggle-old',
-date: curDate,
-iconClass: PRAYER_CARD_ICONS[p] || 'fa-solid fa-mosque'
-});
-});
-if (typeof card.dateChipText === 'function') card.dateChipText(dateChipText);
-if (typeof card.badgeText === 'function') card.badgeText('');
-if (typeof card.actionBtnText === 'function') card.actionBtnText('');
-if (typeof card.missedGroupTitle === 'function') card.missedGroupTitle('MISSED (' + missed.length + ')');
-if (typeof card.missedRows === 'function') card.missedRows(oldMissedRowVms);
-if (typeof card.doneGroupTitle === 'function') card.doneGroupTitle('DONE (' + done.length + ')');
-if (typeof card.doneRows === 'function') card.doneRows(oldDoneRowVms);
-}
-}
-if (typeof updatePerformanceTab === 'function') {
-updatePerformanceTab();
-}
-}
-if (typeof window !== 'undefined') {
-window.rOT = rOT;
-window.rOldInfo = rOldInfo;
-window.rPeriod = rPeriod;
-window.openOldCal = openOldCal;
-window.goOld = goOld;
-window.setOldSd = setOldSd;
-window.oldSd = oldSd;
-window.getDefaultOldPeriod = getDefaultOldPeriod;
-}
-'use strict';
-var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-var PRAYER_NAMES = (_win.CONSTANTS && _win.CONSTANTS.PRAYER && _win.CONSTANTS.PRAYER.NAMES) ||
-_win.P || ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-function calculatePrayerPerformance() {
-var sdate = (typeof _win.rdSD === 'function' ? _win.rdSD() : null);
-var today = (typeof _win.td === 'function' ? _win.td() : new Date().toISOString().slice(0, 10));
-if (!sdate) sdate = today;
-if (sdate > today) sdate = today;
-var dates = typeof _win.datesInRange === 'function' ? _win.datesInRange(sdate, today) : [today];
-var totalDays = dates.length;
-var totalPossible = totalDays * PRAYER_NAMES.length;
-var curDb = typeof _win.rd === 'function' ? _win.rd() : {};
-var oldDb = typeof _win.rdOC === 'function' ? _win.rdOC() : {};
-var perPrayer = {};
-PRAYER_NAMES.forEach(function (p) {
-perPrayer[p] = {
-name: p,
-completed: 0,
-missed: 0,
-total: totalDays,
-percentage: 0
-};
-});
-var totalCompleted = 0;
-var totalMissed = 0;
-dates.forEach(function (d) {
-var isCurToday = (d === today);
-var curEntry = curDb[d];
-var oldEntry = oldDb[d];
-PRAYER_NAMES.forEach(function (p) {
-var isCompleted = false;
-if (curEntry) {
-isCompleted = (curEntry[p] === false || curEntry[p] === 'done');
-} else if (oldEntry) {
-isCompleted = (oldEntry[p] === false);
-} else if (isCurToday) {
-var rt = typeof _win.gr === 'function' ? _win.gr(d) : {};
-isCompleted = (rt[p] === false || rt[p] === 'done');
-} else {
-isCompleted = true;
-}
-if (isCompleted) {
-perPrayer[p].completed++;
-totalCompleted++;
-} else {
-perPrayer[p].missed++;
-totalMissed++;
-}
-});
-});
-PRAYER_NAMES.forEach(function (p) {
-perPrayer[p].percentage = totalDays > 0
-? Math.round((perPrayer[p].completed / totalDays) * 100)
-: 0;
-});
-var totalPercentage = totalPossible > 0
-? Math.round((totalCompleted / totalPossible) * 100)
-: 0;
-return {
-startDate: sdate,
-endDate: today,
-totalDays: totalDays,
-totalPossible: totalPossible,
-totalCompleted: totalCompleted,
-totalMissed: totalMissed,
-totalPercentage: totalPercentage,
-perPrayer: perPrayer
-};
-}
-function renderPerformanceTab() {
-var body = typeof _win.$ === 'function' ? _win.$('performanceBody') : (_win.document ? _win.document.getElementById('performanceBody') : null);
-if (!body) return;
-var stats = calculatePrayerPerformance();
-var frFn = typeof _win.fr === 'function' ? _win.fr : function (d) { return d; };
-var renderIconFn = typeof _win.renderIcon === 'function' ? _win.renderIcon : function (opts) {
-var n = typeof opts === 'object' ? opts.name : opts;
-return '<app-icon params="name: \'' + n + '\'"></app-icon>';
-};
-var timings = _win.T || (_win.CONSTANTS && _win.CONSTANTS.PRAYER && _win.CONSTANTS.PRAYER.DEFAULT_TIMINGS) || {};
-var oldSub = typeof _win.$ === 'function' ? _win.$('oldSub') : (_win.document ? _win.document.getElementById('oldSub') : null);
-if (oldSub && typeof _win.trackerSubTab !== 'undefined' && _win.trackerSubTab === 'performance') {
-oldSub.classList.remove('d-none');
-oldSub.textContent = frFn(stats.startDate) + ' → ' + frFn(stats.endDate) + ' (' + stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days') + ')';
-}
-var vm = _win.trackerViewModel || (typeof _win.getTrackerViewModel === 'function' ? _win.getTrackerViewModel() : null);
-if (vm && vm.performance) {
-var perf = vm.performance;
-if (perf.hero) {
-if (typeof perf.hero.dashArray === 'function') perf.hero.dashArray(stats.totalPercentage + ', 100');
-if (typeof perf.hero.percentageText === 'function') perf.hero.percentageText(stats.totalPercentage + '%');
-if (typeof perf.hero.totalCompleted === 'function') perf.hero.totalCompleted(stats.totalCompleted);
-if (typeof perf.hero.totalPossible === 'function') perf.hero.totalPossible(stats.totalPossible);
-if (typeof perf.hero.datePillText === 'function') {
-perf.hero.datePillText(stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days') + ' · ' + frFn(stats.startDate) + ' → ' + frFn(stats.endDate));
-}
-}
-if (perf.stats) {
-if (typeof perf.stats.completed === 'function') perf.stats.completed(stats.totalCompleted);
-if (typeof perf.stats.missed === 'function') perf.stats.missed(stats.totalMissed);
-if (typeof perf.stats.rate === 'function') perf.stats.rate(stats.totalPercentage + '%');
-}
-if (typeof perf.trackedDays === 'function') {
-perf.trackedDays(stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days'));
-}
-if (typeof perf.footerLabel === 'function') {
-perf.footerLabel('Tracking Start Date: ' + frFn(stats.startDate));
-}
-}
-if (_win.document) {
-var ringVal = _win.document.getElementById('perfRingVal');
-if (ringVal) ringVal.setAttribute('stroke-dasharray', stats.totalPercentage + ', 100');
-var heroPercentage = _win.document.getElementById('perfHeroPercentage');
-if (heroPercentage) heroPercentage.textContent = stats.totalPercentage + '%';
-var totalCompleted = _win.document.getElementById('perfTotalCompleted');
-if (totalCompleted) totalCompleted.textContent = stats.totalCompleted;
-var totalPossible = _win.document.getElementById('perfTotalPossible');
-if (totalPossible) totalPossible.textContent = ' / ' + stats.totalPossible;
-var datePill = _win.document.getElementById('perfDatePill');
-if (datePill) datePill.innerHTML = '<span class="font-bold mr-1">' + stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days') + '</span> · ' + frFn(stats.startDate) + ' → ' + frFn(stats.endDate);
-var completedStat = _win.document.getElementById('perfCompletedStat');
-if (completedStat) completedStat.textContent = stats.totalCompleted;
-var missedStat = _win.document.getElementById('perfMissedStat');
-if (missedStat) {
-missedStat.textContent = stats.totalMissed;
-missedStat.className = 'font-bold text-xl mt-1.5 leading-none ' + (stats.totalMissed > 0 ? 'text-gr-danger' : 'text-brand');
-}
-var rateStat = _win.document.getElementById('perfRateStat');
-if (rateStat) rateStat.textContent = stats.totalPercentage + '%';
-var trackedDays = _win.document.getElementById('perfTrackedDays');
-if (trackedDays) trackedDays.textContent = stats.totalDays + (stats.totalDays === 1 ? ' day' : ' days');
-var filledCircleCheckSvg = '<app-icon params="name: \'circle-check\', customClass: \'shrink-0\', size: \'14px\'"></app-icon>';
-var prayerRowsHtml = PRAYER_NAMES.map(function (p) {
-var pLower = p.toLowerCase();
-var pStats = stats.perPrayer[p] || { completed: 0, missed: 0, total: stats.totalDays, percentage: 0 };
-var pIcon = renderIconFn({ name: pLower, size: 22, color: 'text-brand' });
-var pTime = timings[p] || (_win.CONSTANTS && _win.CONSTANTS.PRAYER && _win.CONSTANTS.PRAYER.DEFAULT_TIMINGS && _win.CONSTANTS.PRAYER.DEFAULT_TIMINGS[p]) || '--:--';
-var isPerfect = (pStats.missed === 0);
-var pctBadge = isPerfect
-? '<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand">' + pStats.percentage + '%</span>'
-: '<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-gr-dangerSoft text-gr-danger">' + pStats.percentage + '%</span>';
-var progressBarHtml;
-if (isPerfect) {
-progressBarHtml =
-'<div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden flex">' +
-'<div class="h-full bg-brand rounded-full" style="width: ' + pStats.percentage + '%;"></div>' +
-'</div>';
-} else {
-var compW = pStats.percentage;
-var missW = Math.max(0, 100 - compW);
-progressBarHtml =
-'<div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden flex">' +
-(compW > 0 ? '<div class="perf-bar-fill" style="width: ' + compW + '%; border-top-left-radius: 9999px; border-bottom-left-radius: 9999px;"></div>' : '') +
-(missW > 0 ? '<div class="perf-bar-missed" style="width: ' + missW + '%; border-top-right-radius: 9999px; border-bottom-right-radius: 9999px;"></div>' : '') +
-'</div>';
-}
-var completedStatusHtml =
-'<span class="flex items-center gap-1.5 text-brand fw-semibold text-nowrap lh-1">' +
-filledCircleCheckSvg +
-'<span>' + pStats.completed + ' Completed</span>' +
-'</span>';
-var missedStatusHtml = isPerfect
-? '<span class="flex items-center gap-1.5 text-muted fw-medium text-nowrap lh-1">' +
-renderIconFn({ name: 'circle-xmark', size: 14, className: 'shrink-0' }) +
-'<span>0 Missed</span>' +
-'</span>'
-: '<span class="flex items-center gap-1.5 text-danger fw-semibold text-nowrap lh-1">' +
-renderIconFn({ name: 'circle-exclamation', size: 14, className: 'shrink-0' }) +
-'<span>' + pStats.missed + ' Missed</span>' +
-'</span>';
-return '<div class="rounded-2xl p-4 bg-white border border-borderGrey flex flex-col gap-3">' +
-'<div class="flex items-center justify-between">' +
-'<div class="flex items-center gap-2.5 min-w-0">' +
-'<div class="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 44px; height: 44px;">' +
-pIcon +
-'</div>' +
-'<div class="min-w-0">' +
-'<h6 class="fw-bold text-gr1 fs-base mb-0 lh-sm">' + p + '</h6>' +
-'<div class="flex items-center gap-1 text-muted fs-xs mt-0.5">' +
-renderIconFn({ name: 'clock', size: 11, className: 'shrink-0' }) +
-'<span style="font-size: 11px;">' + pTime + '</span>' +
-'</div>' +
-'</div>' +
-'</div>' +
-'<div class="flex items-center gap-2 shrink-0">' +
-'<span class="fs-sm fw-bold text-gr1 lh-1">' +
-pStats.completed + ' <span class="text-muted fw-normal">/ ' + stats.totalDays + '</span>' +
-'</span>' +
-pctBadge +
-'</div>' +
-'</div>' +
-progressBarHtml +
-'<div class="flex items-center justify-between fs-xs">' +
-completedStatusHtml +
-missedStatusHtml +
-'</div>' +
-'</div>';
-}).join('');
-var breakdownList = _win.document.getElementById('perfBreakdownList');
-if (breakdownList) breakdownList.innerHTML = prayerRowsHtml;
-var footerLabel = _win.document.getElementById('perfFooterLabel');
-if (footerLabel) footerLabel.textContent = 'Tracking Start Date: ' + frFn(stats.startDate);
-var footerDesc = _win.document.getElementById('perfFooterDesc');
-if (footerDesc) footerDesc.textContent = 'Calculated from your start date configured in Settings up to today (' + frFn(stats.endDate) + ').';
-}
-}
-function updatePerformanceTab() {
-var body = typeof _win.$ === 'function' ? _win.$('performanceBody') : (_win.document ? _win.document.getElementById('performanceBody') : null);
-if (body && (!body.classList.contains('d-none') || (typeof _win.trackerSubTab !== 'undefined' && _win.trackerSubTab === 'performance'))) {
-renderPerformanceTab();
-}
-}
-if (typeof window !== 'undefined') {
-window.calculatePrayerPerformance = calculatePrayerPerformance;
-window.renderPerformanceTab = renderPerformanceTab;
-window.updatePerformanceTab = updatePerformanceTab;
-}
-'use strict';
-var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-var PRAYER_CONSTANTS = _win.PRAYER_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER) || {};
-var PRAYER_STORAGE_KEYS = PRAYER_CONSTANTS.STORAGE_KEYS || {};
-var HISTORY_STORAGE_KEY = PRAYER_STORAGE_KEYS.HISTORY || _win.PHK || 'namazPrayerHistory';
-function getStorageKey() {
-return (_win.CONSTANTS && _win.CONSTANTS.PRAYER && _win.CONSTANTS.PRAYER.STORAGE_KEYS && _win.CONSTANTS.PRAYER.STORAGE_KEYS.HISTORY) ||
-_win.PHK ||
-HISTORY_STORAGE_KEY;
-}
-function isHistoryTabActive() {
-if (typeof _win.trackerSubTab !== 'undefined' && _win.trackerSubTab === 'history') return true;
-var historyBody = typeof _win.$ === 'function' ? _win.$('historyBody') : (_win.document ? _win.document.getElementById('historyBody') : null);
-if (historyBody && !historyBody.classList.contains('d-none')) return true;
-return false;
-}
-function isDoneInOldTracking(prayer, dateStr) {
-if (typeof _win.rdOK !== 'function') return true;
-var o = _win.rdOK();
-if (!o || o.end < o.start) return false;
-var maxEnd = o.initialEnd || o.end;
-if (dateStr < o.start || dateStr > maxEnd) return false;
-var a = typeof _win.rdOC === 'function' ? _win.rdOC() : {};
-var r = a[dateStr];
-if (r) {
-return (r[prayer] === false);
-}
-return true;
-}
-function getPrayerHistory(options) {
-options = options || {};
-var shouldPrune = options.prune !== false;
-var raw = null;
-try {
-raw = _win.localStorage ? _win.localStorage.getItem(getStorageKey()) : null;
-} catch (_) {
-raw = null;
-}
-var entries = [];
-if (raw) {
-try {
-var parsed = JSON.parse(raw);
-if (Array.isArray(parsed)) {
-entries = parsed;
-}
-} catch (_) {
-entries = [];
-}
-}
-if (shouldPrune && entries.length > 0) {
-var originalLen = entries.length;
-entries = entries.filter(function (entry) {
-if (!entry || !entry.prayer || !entry.type || !entry.date) {
-return false;
-}
-if (entry.type === 'Current') {
-if (typeof _win.isDonePrayer === 'function') {
-return _win.isDonePrayer(entry.prayer, entry.date);
-}
-return true;
-}
-if (entry.type === 'Old') {
-return isDoneInOldTracking(entry.prayer, entry.date);
-}
-return false;
-});
-if (entries.length !== originalLen) {
-savePrayerHistory(entries);
-}
-}
-entries.sort(function (a, b) {
-return (b.timestamp || 0) - (a.timestamp || 0);
-});
-return entries;
-}
-function savePrayerHistory(entries) {
-try {
-if (_win.localStorage) {
-_win.localStorage.setItem(getStorageKey(), JSON.stringify(entries || []));
-}
-} catch (e) {
-console.error('Failed to save prayer history:', e);
-}
-}
-function addPrayerHistoryEntry(prayerName, trackingType, prayerDate, customTimestamp) {
-if (!prayerName || !prayerDate) return null;
-var type = (trackingType === 'Old') ? 'Old' : 'Current';
-var pName = prayerName.charAt(0).toUpperCase() + prayerName.slice(1);
-var ts = typeof customTimestamp === 'number' ? customTimestamp : Date.now();
-var entries = getPrayerHistory({ prune: false });
-entries = entries.filter(function (e) {
-return !(e.prayer === pName && e.type === type && e.date === prayerDate);
-});
-var idGen = typeof _win.uid === 'function'
-? _win.uid('hist_')
-: ('hist_' + ts.toString(36) + Math.random().toString(36).slice(2, 6));
-var newEntry = {
-id: idGen,
-prayer: pName,
-type: type,
-date: prayerDate,
-timestamp: ts,
-createdAt: new Date(ts).toISOString()
-};
-entries.unshift(newEntry);
-savePrayerHistory(entries);
-if (isHistoryTabActive()) {
-renderPrayerHistoryTab();
-}
-return newEntry;
-}
-function removePrayerHistoryEntry(prayerName, trackingType, prayerDate) {
-if (!prayerName || !prayerDate) return;
-var type = (trackingType === 'Old') ? 'Old' : 'Current';
-var pName = prayerName.charAt(0).toUpperCase() + prayerName.slice(1);
-var entries = getPrayerHistory({ prune: false });
-var beforeLen = entries.length;
-entries = entries.filter(function (e) {
-return !(e.prayer === pName && e.type === type && e.date === prayerDate);
-});
-if (entries.length !== beforeLen) {
-savePrayerHistory(entries);
-if (isHistoryTabActive()) {
-renderPrayerHistoryTab();
-}
-}
-}
-function clearPrayerHistory() {
-savePrayerHistory([]);
-if (isHistoryTabActive()) {
-renderPrayerHistoryTab();
-}
-}
-function clearPrayerHistoryByType(trackingType) {
-var type = (trackingType === 'Old') ? 'Old' : 'Current';
-var entries = getPrayerHistory({ prune: false });
-entries = entries.filter(function (e) {
-return e.type !== type;
-});
-savePrayerHistory(entries);
-if (isHistoryTabActive()) {
-renderPrayerHistoryTab();
-}
-}
-function emptyPrayerHistory() {
-var entries = getPrayerHistory({ prune: false });
-if (!entries || entries.length === 0) {
-if (typeof _win.showToast === 'function') {
-_win.showToast('Activity history is already empty.');
-} else {
-alert('Activity history is already empty.');
-}
-return;
-}
-var confirmed = confirm('Are you sure you want to delete all activity-log entries? This action cannot be undone.');
-if (!confirmed) return;
-clearPrayerHistory();
-if (typeof _win.showToast === 'function') {
-_win.showToast('Activity history emptied.');
-}
-}
-function formatHistoryTimestamp(ts) {
-if (!ts) return '';
-var d = new Date(ts);
-if (isNaN(d.getTime())) return '';
-var day = String(d.getDate()).padStart(2, '0');
-var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-var month = months[d.getMonth()];
-var year = d.getFullYear();
-var hours = d.getHours();
-var minutes = String(d.getMinutes()).padStart(2, '0');
-var seconds = String(d.getSeconds()).padStart(2, '0');
-var ampm = hours >= 12 ? 'PM' : 'AM';
-var h12 = hours % 12;
-if (h12 === 0) h12 = 12;
-return day + ' ' + month + ' ' + year + ', ' + String(h12).padStart(2, '0') + ':' + minutes + ':' + seconds + ' ' + ampm;
-}
-function formatTimeAgo(ts) {
-if (!ts) return '';
-var diffMs = Date.now() - new Date(ts).getTime();
-if (diffMs < 0) diffMs = 0;
-var diffSec = Math.floor(diffMs / 1000);
-if (diffSec < 60) return 'Just now';
-var diffMin = Math.floor(diffSec / 60);
-if (diffMin < 60) return diffMin + 'm ago';
-var diffHr = Math.floor(diffMin / 60);
-if (diffHr < 24) return diffHr + 'h ago';
-var diffDays = Math.floor(diffHr / 24);
-if (diffDays === 1) return 'Yesterday';
-if (diffDays < 7) return diffDays + 'd ago';
-return Math.floor(diffDays / 7) + 'w ago';
-}
-function formatPrayerDate(dateStr) {
-if (!dateStr) return '';
-try {
-var d = new Date(dateStr + 'T00:00:00');
-if (isNaN(d.getTime())) return dateStr;
-var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-var dayName = days[d.getDay()];
-var dayNum = String(d.getDate()).padStart(2, '0');
-var monthName = months[d.getMonth()];
-var year = d.getFullYear();
-return dayName + ', ' + dayNum + ' ' + monthName + ' ' + year;
-} catch (e) {
-return dateStr;
-}
-}
-function renderHistoryEntryCard(entry) {
-var renderIconFn = typeof _win.renderIcon === 'function' ? _win.renderIcon : function (opts) {
-var n = typeof opts === 'object' ? opts.name : opts;
-return '<span class="icon-' + n + '"></span>';
-};
-var isCurrent = entry.type === 'Current';
-var typeBadgeClass = isCurrent
-? 'badge-history-type-current'
-: 'badge-history-type-old';
-var pLower = (entry.prayer || '').toLowerCase();
-var pIcon = renderIconFn({ name: pLower, size: 22, color: 'text-brand' });
-var formattedDate = formatPrayerDate(entry.date);
-var exactTime = formatHistoryTimestamp(entry.timestamp);
-var ago = formatTimeAgo(entry.timestamp);
-return '<div class="rounded-2xl p-4 bg-white border border-borderGrey mb-3 flex flex-col gap-3 shadow-none">' +
-'  ' +
-'  <div class="flex items-center justify-between">' +
-'    <div class="flex items-center gap-2.5 min-w-0">' +
-'      <div class="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 44px; height: 44px;">' +
-'        ' + pIcon +
-'      </div>' +
-'      <div class="flex items-center gap-2 min-w-0">' +
-'        <h6 class="fw-bold text-gr1 fs-5 mb-0 lh-1">' + entry.prayer + '</h6>' +
-'        <span class="badge-history-type ' + typeBadgeClass + '">' + entry.type + '</span>' +
-'      </div>' +
-'    </div>' +
-'    <span class="flex items-center gap-1.5 text-brand fs-sm fw-bold shrink-0">' +
-'      ' + renderIconFn({ name: 'check', size: 14, className: 'shrink-0' }) +
-'      <span>Completed</span>' +
-'    </span>' +
-'  </div>' +
-'  ' +
-'  <div class="text-muted fs-xs">' +
-'    Prayer Date: <strong class="text-gr1 fw-bold">' + formattedDate + '</strong>' +
-'  </div>' +
-'  ' +
-'  <div class="flex items-center justify-between text-muted fs-xs">' +
-'    <div class="flex items-center gap-1.5">' +
-'      ' + renderIconFn({ name: 'clock', size: 12, className: 'shrink-0' }) +
-'      <span>Completed: <span class="text-gr1">' + exactTime + '</span></span>' +
-'    </div>' +
-'    <span class="text-muted">' + ago + '</span>' +
-'  </div>' +
-'</div>';
-}
-function renderPrayerHistoryTab() {
-var body = typeof _win.$ === 'function' ? _win.$('historyBody') : (_win.document ? _win.document.getElementById('historyBody') : null);
-if (!body) return;
-var entries = getPrayerHistory({ prune: true });
-var totalCount = entries.length;
-var oldSub = typeof _win.$ === 'function' ? _win.$('oldSub') : (_win.document ? _win.document.getElementById('oldSub') : null);
-if (oldSub && typeof _win.trackerSubTab !== 'undefined' && _win.trackerSubTab === 'history') {
-oldSub.classList.remove('d-none');
-oldSub.textContent = 'Activity Log · ' + totalCount + (totalCount === 1 ? ' entry' : ' entries');
-}
-var emptyBtn = typeof _win.$ === 'function' ? _win.$('historyEmptyBtn') : (_win.document ? _win.document.getElementById('historyEmptyBtn') : null);
-if (emptyBtn) {
-if (totalCount === 0) {
-emptyBtn.classList.add('opacity-50');
-} else {
-emptyBtn.classList.remove('opacity-50');
-}
-}
-var emptyState = typeof _win.$ === 'function' ? _win.$('histEmptyState') : (_win.document ? _win.document.getElementById('histEmptyState') : null);
-var content = typeof _win.$ === 'function' ? _win.$('histContent') : (_win.document ? _win.document.getElementById('histContent') : null);
-var subtitleCount = typeof _win.$ === 'function' ? _win.$('histSubtitleCount') : (_win.document ? _win.document.getElementById('histSubtitleCount') : null);
-var vm = (typeof _win.getTrackerViewModel === 'function') ? _win.getTrackerViewModel() : null;
-if (totalCount === 0) {
-if (emptyState) emptyState.classList.remove('d-none');
-if (content) content.classList.add('d-none');
-if (vm && typeof vm.historyEntries === 'function') {
-vm.historyEntries([]);
-}
-return;
-}
-if (emptyState) emptyState.classList.add('d-none');
-if (content) content.classList.remove('d-none');
-var currentCount = entries.filter(function (e) { return e.type === 'Current'; }).length;
-var oldCount = entries.filter(function (e) { return e.type === 'Old'; }).length;
-var subText = totalCount + ' completed ' + (totalCount === 1 ? 'prayer' : 'prayers') + ' (' + currentCount + ' Current, ' + oldCount + ' Old)';
-if (subtitleCount) {
-subtitleCount.textContent = subText;
-}
-if (vm && typeof vm.historySubtitle === 'function') {
-vm.historySubtitle(subText);
-}
-var mapped = entries.map(function (entry) {
-return {
-id: entry.id,
-prayer: entry.prayer,
-iconName: (entry.prayer || '').toLowerCase(),
-type: entry.type,
-isCurrent: entry.type === 'Current',
-formattedDate: formatPrayerDate(entry.date),
-exactTime: formatHistoryTimestamp(entry.timestamp),
-ago: formatTimeAgo(entry.timestamp)
-};
-});
-if (vm && typeof vm.historyEntries === 'function') {
-vm.historyEntries(mapped);
-}
-}
-function initPrayerHistory() {
-if (typeof _win.trackerSubTab !== 'undefined' && _win.trackerSubTab === 'history') {
-renderPrayerHistoryTab();
-}
-}
-var PrayerHistoryApp = {
-init: initPrayerHistory,
-getPrayerHistory: getPrayerHistory,
-savePrayerHistory: savePrayerHistory,
-addPrayerHistoryEntry: addPrayerHistoryEntry,
-removePrayerHistoryEntry: removePrayerHistoryEntry,
-clearPrayerHistory: clearPrayerHistory,
-clearPrayerHistoryByType: clearPrayerHistoryByType,
-emptyPrayerHistory: emptyPrayerHistory,
-renderPrayerHistoryTab: renderPrayerHistoryTab,
-formatHistoryTimestamp: formatHistoryTimestamp,
-formatTimeAgo: formatTimeAgo
-};
-if (typeof window !== 'undefined') {
-window.PrayerHistoryApp = PrayerHistoryApp;
-window.getPrayerHistory = getPrayerHistory;
-window.addPrayerHistoryEntry = addPrayerHistoryEntry;
-window.removePrayerHistoryEntry = removePrayerHistoryEntry;
-window.clearPrayerHistory = clearPrayerHistory;
-window.clearPrayerHistoryByType = clearPrayerHistoryByType;
-window.emptyPrayerHistory = emptyPrayerHistory;
-window.renderPrayerHistoryTab = renderPrayerHistoryTab;
-}
-'use strict';
-var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-var PRAYER_CONSTANTS = _win.PRAYER_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER) || {};
-var COMMON_CONSTANTS = _win.COMMON_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.COMMON) || {};
-var P = PRAYER_CONSTANTS.NAMES || _win.P || ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-var T = _win.T || Object.assign({}, PRAYER_CONSTANTS.DEFAULT_TIMINGS || {});
-var sd = _win.sd || (typeof _win.td === 'function' ? _win.td() : new Date().toISOString().slice(0, 10));
-var PRAYER_CARD_ICONS = {
-Fajr: 'fa-solid fa-cloud-sun',
-Dhuhr: 'fa-solid fa-sun',
-Asr: 'fa-solid fa-sun',
-Maghrib: 'fa-solid fa-cloud-sun',
-Isha: 'fa-solid fa-moon'
-};
-var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/prayer-tracking/prayer-tracking.html' };
-var PrayerHeaderTemplate = { element: 'prayer-header-template', file: 'features/prayer-tracking/templates/prayer-header.html' };
-var PrayerTrackerCardTemplate = { element: 'prayer-tracker-card-template', file: 'features/prayer-tracking/templates/prayer-tracker-card.html' };
-var PrayerRowTemplate = { element: 'prayer-row-template', file: 'features/prayer-tracking/templates/prayer-row.html' };
-var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/prayer-tracking/templates/prayer-stat-card.html' };
-var PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'features/prayer-tracking/templates/prayer-perf-ring.html' };
-var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/prayer-tracking/templates/prayer-nav-tab.html' };
-var PrayerHistoryCardTemplate = { element: 'prayer-history-card-template', file: 'features/prayer-tracking/templates/prayer-history-card.html' };
-var trackerViewModel = null;
-function PrayerTrackerCardViewModel(params) {
-if (params instanceof PrayerTrackerCardViewModel) {
-return params;
-}
-if (!(this instanceof PrayerTrackerCardViewModel)) {
-return new PrayerTrackerCardViewModel(params);
-}
-var p = (params && typeof params === 'function') ? params() : (params || {});
-var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
-var self = this;
-function unwrap(v, def) {
-var res = (typeof v === 'function') ? v() : v;
-return (res !== undefined && res !== null) ? res : def;
-}
-self.collapsePrefix = unwrap(p.collapsePrefix, 'cur');
-self.pagePrefix = unwrap(p.pagePrefix, 'page.current');
-self.dateChipAct = unwrap(p.dateChipAct, '');
-self.dateChipText = (k && k.isObservable(p.dateChipText)) ? p.dateChipText : ((k && k.observable) ? k.observable(unwrap(p.dateChipText, '')) : unwrap(p.dateChipText, ''));
-self.badgeText = (k && k.isObservable(p.badgeText)) ? p.badgeText : ((k && k.observable) ? k.observable(unwrap(p.badgeText, '')) : unwrap(p.badgeText, ''));
-self.badgeAct = unwrap(p.badgeAct, '');
-self.actionBtnText = (k && k.isObservable(p.actionBtnText)) ? p.actionBtnText : ((k && k.observable) ? k.observable(unwrap(p.actionBtnText, '')) : unwrap(p.actionBtnText, ''));
-self.actionBtnAct = unwrap(p.actionBtnAct, '');
-self.missedGroupTitle = (k && k.isObservable(p.missedGroupTitle)) ? p.missedGroupTitle : ((k && k.observable) ? k.observable(unwrap(p.missedGroupTitle, 'MISSED')) : unwrap(p.missedGroupTitle, 'MISSED'));
-self.missedRows = (k && k.isObservable(p.missedRows)) ? p.missedRows : ((k && k.observableArray) ? k.observableArray(unwrap(p.missedRows, [])) : function () { return unwrap(p.missedRows, []); });
-self.doneGroupTitle = (k && k.isObservable(p.doneGroupTitle)) ? p.doneGroupTitle : ((k && k.observable) ? k.observable(unwrap(p.doneGroupTitle, 'DONE')) : unwrap(p.doneGroupTitle, 'DONE'));
-self.doneRows = (k && k.isObservable(p.doneRows)) ? p.doneRows : ((k && k.observableArray) ? k.observableArray(unwrap(p.doneRows, [])) : function () { return unwrap(p.doneRows, []); });
-self.onDateChipClick = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (self.dateChipAct === 'old-open-cal') {
-if (typeof _win.openOldCal === 'function') _win.openOldCal();
-} else {
-if (typeof _win.openCal === 'function') _win.openCal();
-}
-};
-self.onBadgeClick = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (self.badgeAct === 'jump-today') {
-if (_win.PrayerStore && typeof _win.PrayerStore.jumpToToday === 'function') {
-_win.PrayerStore.jumpToToday();
-} else {
-if (typeof _win !== 'undefined') _win.sd = typeof _win.td === 'function' ? _win.td() : '';
-if (typeof _win.rn === 'function') _win.rn();
-}
-}
-};
-self.onActionBtnClick = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (self.actionBtnAct === 'select-all') {
-var currSd = typeof _win !== 'undefined' ? _win.sd : (typeof _win.td === 'function' ? _win.td() : '');
-var c2 = typeof _win.gr === 'function' ? _win.gr(currSd) : {};
-var isToday = currSd === (typeof _win.td === 'function' ? _win.td() : '');
-var actionable = P.filter(function (x) {
-return !isToday || (typeof _win.isPrayerUpcoming === 'function' && !_win.isPrayerUpcoming(x, currSd));
-});
-var doneCount = actionable.filter(function (x) {
-return typeof _win.isDonePrayer === 'function' ? _win.isDonePrayer(x, currSd, c2) : (c2[x] === false);
-}).length;
-var willMarkDone = doneCount < actionable.length;
-var action = willMarkDone ? 'Done' : 'Missed';
-if (typeof confirm === 'function' && !confirm('Mark available prayers as ' + action + ' for ' + (typeof _win.fr === 'function' ? _win.fr(currSd) : currSd) + '?')) return;
-if (_win.PrayerStore && typeof _win.PrayerStore.selectAll === 'function') {
-_win.PrayerStore.selectAll(currSd, willMarkDone);
-} else {
-actionable.forEach(function (x) {
-var wasXDone = typeof _win.isDonePrayer === 'function' ? _win.isDonePrayer(x, currSd, c2) : (c2[x] === false);
-if (willMarkDone) {
-if (!wasXDone && typeof addPrayerHistoryEntry === 'function') {
-addPrayerHistoryEntry(x, 'Current', currSd);
-}
-} else {
-if (wasXDone && typeof removePrayerHistoryEntry === 'function') {
-removePrayerHistoryEntry(x, 'Current', currSd);
-}
-}
-c2[x] = willMarkDone ? false : true;
-});
-if (typeof _win.sr === 'function') _win.sr(currSd, c2);
-if (typeof _win.rn === 'function') _win.rn();
-if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
-}
-if (typeof renderPrayerHistoryTab === 'function' && typeof _win.trackerSubTab !== 'undefined' && _win.trackerSubTab === 'history') {
-renderPrayerHistoryTab();
-}
-} else if (self.actionBtnAct === 'old-change-period') {
-if (typeof _win.rPeriod === 'function') _win.rPeriod();
-}
-};
-}
-function PrayerRowViewModel(params) {
-if (params instanceof PrayerRowViewModel) return params;
-if (!(this instanceof PrayerRowViewModel)) return new PrayerRowViewModel(params);
-var p = (params && typeof params === 'function') ? params() : (params || {});
-var self = this;
-self.prayer = p.prayer || '';
-self.time = p.time || '--:--';
-self.isDone = !!p.isDone;
-self.isUpcoming = !self.isDone && !!p.isUpcoming;
-self.isMissed = !self.isDone && !self.isUpcoming && !!p.isMissed;
-self.isCurrent = !self.isDone && !self.isUpcoming && !self.isMissed && !!p.isCurrent;
-self.isStandard = !self.isDone && !self.isUpcoming && !self.isMissed;
-self.prefix = p.prefix || p.pagePrefix || 'page.tracker';
-self.actionAct = p.actionAct || '';
-self.date = p.date || '';
-var rawIcon = p.iconClass || (PRAYER_CARD_ICONS && PRAYER_CARD_ICONS[self.prayer]) || 'fa-solid fa-mosque';
-if (typeof rawIcon === 'string' && rawIcon.indexOf('<') !== -1) {
-var m = rawIcon.match(/name:\s*['"]([^'"]+)['"]/);
-if (m) {
-rawIcon = m[1];
-} else {
-var m2 = rawIcon.match(/class=['"][^'"]*fa-([a-z0-9-]+)[^'"]*['"]/);
-if (m2) rawIcon = m2[1];
-}
-}
-self.iconClass = rawIcon;
-self.onToggle = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (self.actionAct === 'toggle-cur') {
-var currSd = self.date || (typeof _win !== 'undefined' ? _win.sd : (typeof _win.td === 'function' ? _win.td() : ''));
-if (currSd === (typeof _win.td === 'function' ? _win.td() : '') && typeof _win.isPrayerUpcoming === 'function' && _win.isPrayerUpcoming(self.prayer, currSd)) {
-return;
-}
-var c1 = typeof _win.gr === 'function' ? _win.gr(currSd) : {};
-var wasDone = typeof _win.isDonePrayer === 'function' ? _win.isDonePrayer(self.prayer, currSd, c1) : (c1[self.prayer] === false);
-if (typeof confirm === 'function' && !confirm(wasDone
-? 'Mark ' + self.prayer + ' as Missed for ' + (typeof _win.fr === 'function' ? _win.fr(currSd) : currSd) + '?'
-: 'Mark ' + self.prayer + ' as Done for ' + (typeof _win.fr === 'function' ? _win.fr(currSd) : currSd) + '?')) return;
-if (_win.PrayerStore && typeof _win.PrayerStore.setPrayerStatus === 'function') {
-_win.PrayerStore.setPrayerStatus(self.prayer, currSd, !wasDone);
-} else {
-c1[self.prayer] = wasDone ? true : false;
-if (wasDone) {
-if (typeof removePrayerHistoryEntry === 'function') {
-removePrayerHistoryEntry(self.prayer, 'Current', currSd);
-}
-} else {
-if (typeof addPrayerHistoryEntry === 'function') {
-addPrayerHistoryEntry(self.prayer, 'Current', currSd);
-}
-}
-if (typeof _win.sr === 'function') _win.sr(currSd, c1);
-if (typeof _win.rn === 'function') _win.rn();
-if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
-}
-if (typeof renderPrayerHistoryTab === 'function' && typeof _win.trackerSubTab !== 'undefined' && _win.trackerSubTab === 'history') {
-renderPrayerHistoryTab();
-}
-} else if (self.actionAct === 'toggle-old') {
-var d2 = self.date;
-var p2 = self.prayer;
-var c3 = typeof _win.grO === 'function' ? _win.grO(d2) : {};
-var was2 = c3[p2] === true || c3[p2] === 'missed';
-if (typeof confirm === 'function' && !confirm(was2
-? 'Mark ' + p2 + ' as Done for ' + (typeof _win.fr === 'function' ? _win.fr(d2) : d2) + '?'
-: 'Mark ' + p2 + ' as Missed for ' + (typeof _win.fr === 'function' ? _win.fr(d2) : d2) + '?')) return;
-c3[p2] = !was2;
-if (!was2) {
-if (typeof addPrayerHistoryEntry === 'function') {
-addPrayerHistoryEntry(p2, 'Old', d2);
-}
-} else {
-if (typeof removePrayerHistoryEntry === 'function') {
-removePrayerHistoryEntry(p2, 'Old', d2);
-}
-}
-if (typeof _win.srO === 'function') _win.srO(d2, c3);
-if (typeof _win.rOT === 'function') _win.rOT();
-if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
-if (typeof renderPrayerHistoryTab === 'function' && typeof _win.trackerSubTab !== 'undefined' && _win.trackerSubTab === 'history') {
-renderPrayerHistoryTab();
-}
-}
-};
-}
-function TrackerPageViewModel(params) {
-params = params || {};
-var self = this;
-var k = typeof ko !== 'undefined' ? ko : (_win.ko || null);
-self.currentSubTab = (k && k.observable) ? k.observable(_win.trackerSubTab || 'current') : function () { return 'current'; };
-var store = _win.PrayerStore || null;
-var initialMissed = (store && k && typeof store.missedCount === 'function')
-? store.missedCount()
-: (typeof _win.tMT === 'function' ? _win.tMT() : 0);
-self.missedCount = (store && k && typeof store.missedCount === 'function')
-? store.missedCount
-: ((k && k.observable) ? k.observable(initialMissed) : function () { return 0; });
-self.hasMissed = (store && k && typeof store.hasMissed === 'function')
-? store.hasMissed
-: ((k && k.pureComputed) ? k.pureComputed(function () {
-return (typeof self.missedCount === 'function' ? self.missedCount() : self.missedCount) > 0;
-}) : function () { return false; });
-self.header = {
-iconClass: (k && k.observable) ? k.observable('fa-regular fa-calendar-days text-gr-accent') : 'fa-regular fa-calendar-days text-gr-accent',
-label: (k && k.observable) ? k.observable('Current Prayer') : 'Current Prayer',
-subtitle: (k && k.observable) ? k.observable('Select a period to begin') : '',
-showSubtitle: (k && k.observable) ? k.observable(false) : false,
-missedCount: self.missedCount,
-hasMissed: self.hasMissed,
-currentSubTab: self.currentSubTab,
-goHome: function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof _win.showPage === 'function') _win.showPage('dashboard');
-},
-openMissed: function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof _win.rMS === 'function') _win.rMS();
-},
-openPeriodInfo: function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof _win.rOldInfo === 'function') _win.rOldInfo();
-},
-emptyHistory: function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof emptyPrayerHistory === 'function') emptyPrayerHistory();
-}
-};
-self.goToSettings = function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof _win.showPage === 'function') _win.showPage('settings');
-};
-self.switchTab = function (tab, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof _win.switchTrackerSubTab === 'function') _win.switchTrackerSubTab(tab);
-};
-self.currentCard = (k && k.observable) ? k.observable(new PrayerTrackerCardViewModel({
-collapsePrefix: 'cur',
-pagePrefix: 'page.current',
-dateChipAct: 'open-cal'
-})) : new PrayerTrackerCardViewModel({
-collapsePrefix: 'cur',
-pagePrefix: 'page.current',
-dateChipAct: 'open-cal'
-});
-self.oldCard = (k && k.observable) ? k.observable(new PrayerTrackerCardViewModel({
-collapsePrefix: 'old',
-pagePrefix: 'page.old',
-dateChipAct: 'old-open-cal'
-})) : new PrayerTrackerCardViewModel({
-collapsePrefix: 'old',
-pagePrefix: 'page.old',
-dateChipAct: 'old-open-cal'
-});
-self.performance = {
-hero: {
-dashArray: (k && k.observable) ? k.observable('0, 100') : '0, 100',
-percentageText: (k && k.observable) ? k.observable('0%') : '0%',
-totalCompleted: (k && k.observable) ? k.observable(0) : 0,
-totalPossible: (k && k.observable) ? k.observable(0) : 0,
-datePillText: (k && k.observable) ? k.observable('0 days') : '0 days'
-},
-stats: {
-completed: (k && k.observable) ? k.observable(0) : 0,
-missed: (k && k.observable) ? k.observable(0) : 0,
-rate: (k && k.observable) ? k.observable('0%') : '0%'
-},
-trackedDays: (k && k.observable) ? k.observable('0 days') : '0 days',
-footerLabel: (k && k.observable) ? k.observable('Tracking Start Date: --') : ''
-};
-self.historySubtitle = (k && k.observable) ? k.observable('0 completed prayers') : '0 completed prayers';
-self.historyEntries = (k && k.observableArray) ? k.observableArray([]) : function () { return []; };
-self.subTabs = {
-activeTab: self.currentSubTab,
-switchTab: function (tab, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof _win.switchTrackerSubTab === 'function') _win.switchTrackerSubTab(tab);
-}
-};
-}
-function getTrackerViewModel() {
-if (!trackerViewModel && typeof TrackerPageViewModel === 'function') {
-trackerViewModel = new TrackerPageViewModel();
-}
-return trackerViewModel;
-}
-function registerPrayerTrackingComponents(customKo) {
-var k = customKo || (typeof ko !== 'undefined' ? ko : (_win.ko || null));
-if (!k || !k.components) return;
-if (!k.components.isRegistered('prayer-header')) {
-k.components.register('prayer-header', {
-viewModel: function (params) { return params || {}; },
-template: PrayerHeaderTemplate
-});
-}
-if (!k.components.isRegistered('prayer-history-card')) {
-k.components.register('prayer-history-card', {
-viewModel: function (params) { return params || {}; },
-template: PrayerHistoryCardTemplate
-});
-}
-if (!k.components.isRegistered('prayer-tracker-card')) {
-k.components.register('prayer-tracker-card', {
-viewModel: PrayerTrackerCardViewModel,
-template: PrayerTrackerCardTemplate
-});
-}
-if (!k.components.isRegistered('prayer-row')) {
-k.components.register('prayer-row', {
-viewModel: PrayerRowViewModel,
-template: PrayerRowTemplate
-});
-}
-if (!k.components.isRegistered('prayer-stat-card')) {
-k.components.register('prayer-stat-card', {
-viewModel: function (params) { return params || {}; },
-template: PrayerStatCardTemplate
-});
-}
-if (!k.components.isRegistered('prayer-perf-ring')) {
-k.components.register('prayer-perf-ring', {
-viewModel: function (params) { return params || {}; },
-template: PrayerPerfRingTemplate
-});
-}
-if (!k.components.isRegistered('prayer-nav-tab')) {
-k.components.register('prayer-nav-tab', {
-viewModel: function (params) { return params || {}; },
-template: PrayerNavTabTemplate
-});
-}
-if (!k.components.isRegistered('tracker-page')) {
-k.components.register('tracker-page', {
-viewModel: function (params) {
-if (params && params.viewModel) return params.viewModel;
-if (params && params.header && params.subTabs) return params;
-if (params && params.tracker) return params.tracker;
-return getTrackerViewModel();
-},
-template: TrackerPageTemplate
-});
-}
-}
-function initTracker() {
-registerPrayerTrackingComponents();
-var el = _win.document ? _win.document.getElementById('trackerPage') : null;
-if (_win.document && !_win.document.getElementById('app') && el && typeof ko !== 'undefined') {
-var vm = getTrackerViewModel();
-if (!ko.dataFor(el)) {
-ko.applyBindings(vm, el);
-}
-}
-if (typeof _win.rn === 'function') {
-_win.rn();
-}
-}
-if (typeof window !== 'undefined') {
-window.TrackerPageViewModel = TrackerPageViewModel;
-window.PrayerTrackerCardViewModel = PrayerTrackerCardViewModel;
-window.PrayerRowViewModel = PrayerRowViewModel;
-window.getTrackerViewModel = getTrackerViewModel;
-window.trackerViewModel = trackerViewModel;
-window.initTracker = initTracker;
-}
-'use strict';
-var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-var PRAYER_CONSTANTS = _win.PRAYER_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.PRAYER) || {};
-var COMMON_CONSTANTS = _win.COMMON_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.COMMON) || {};
-var P = PRAYER_CONSTANTS.NAMES || _win.P || ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-var T = _win.T || Object.assign({}, PRAYER_CONSTANTS.DEFAULT_TIMINGS || {});
-var sd = _win.sd || (typeof _win.td === 'function' ? _win.td() : new Date().toISOString().slice(0, 10));
-var I = PRAYER_CONSTANTS.ICONS || _win.I || {};
-var PRAYER_CARD_ICONS = {
-Fajr: 'fa-solid fa-cloud-sun',
-Dhuhr: 'fa-solid fa-sun',
-Asr: 'fa-solid fa-sun',
-Maghrib: 'fa-solid fa-cloud-sun',
-Isha: 'fa-solid fa-moon'
-};
-var MONTH_NAMES = COMMON_CONSTANTS.MONTH_NAMES || (_win.CONSTANTS && ((_win.CONSTANTS.COMMON && _win.CONSTANTS.COMMON.MONTH_NAMES) || (_win.CONSTANTS.DATE && _win.CONSTANTS.DATE.MONTH_NAMES))) || _win.MONTH_NAMES || [
-'January', 'February', 'March', 'April', 'May', 'June',
-'July', 'August', 'September', 'October', 'November', 'December'
-];
-function $(id) {
-if (typeof _win.$ === 'function' && _win.$ !== $) return _win.$(id);
-return (_win.document && typeof _win.document.getElementById === 'function')
-? _win.document.getElementById(id)
-: null;
-}
-function parseTimeToMin(timeStr) {
-if (!timeStr) return -1;
-var clean = timeStr.trim().split(' ');
-if (!clean[0]) return -1;
-var parts = clean[0].split(':');
-var h = parseInt(parts[0], 10);
-var m = parseInt(parts[1], 10);
-if (isNaN(h) || isNaN(m)) return -1;
-var ap = clean[1] || 'AM';
-if (ap === 'PM' && h < 12) h += 12;
-if (ap === 'AM' && h === 12) h = 0;
-return h * 60 + m;
-}
-function isPrayerUpcoming(prayerName, dateStr) {
-var today = typeof _win.td === 'function' ? _win.td() : '';
-if (dateStr && dateStr !== today) return false;
-var now = new Date();
-var nowMin = now.getHours() * 60 + now.getMinutes();
-var pTime = (_win.T && _win.T[prayerName]) || T[prayerName];
-if (!pTime) return false;
-var pMin = parseTimeToMin(pTime);
-if (pMin === -1) return false;
-return nowMin < pMin;
-}
-function isDonePrayer(p, dateStr, r) {
-if (!r) {
-var d = dateStr || (typeof _win.sd !== 'undefined' ? _win.sd : (typeof _win.td === 'function' ? _win.td() : ''));
-r = typeof _win.gr === 'function' ? _win.gr(d) : {};
-}
-if (!r) return false;
-if (r[p] === false || r[p] === 'done') return true;
-if (r[p] === true || r[p] === 'missed') return false;
-if (dateStr && typeof _win.rd === 'function' && !_win.rd()[dateStr]) {
-return true;
-}
-return false;
-}
-function formatChipDate(dateStr) {
-if (!dateStr) return '';
-var d = new Date(dateStr + 'T00:00:00');
-var day = d.getDate();
-var currentYear = new Date().getFullYear();
-var yearStr = d.getFullYear() !== currentYear ? (' ' + d.getFullYear()) : '';
-return day + ' ' + MONTH_NAMES[d.getMonth()] + yearStr;
-}
-function rn() {
-var dp = $('dp');
-var todayStr = typeof _win.td === 'function' ? _win.td() : '';
-var currSd = _win.sd || (typeof _win.PrayerStore !== 'undefined' && _win.PrayerStore ? _win.PrayerStore.selectedDate() : sd);
-if (dp) {
-dp.value = currSd;
-dp.max = todayStr;
-}
-var r = typeof _win.en === 'function' ? _win.en(currSd) : (typeof _win.gr === 'function' ? _win.gr(currSd) : {});
-var isToday = currSd === todayStr;
-var missTotal = (_win.PrayerStore && typeof _win.PrayerStore.missedCount === 'function')
-? _win.PrayerStore.missedCount()
-: (typeof _win.tMT === 'function' ? _win.tMT() : 0);
-var done = [];
-var missed = [];
-var upcoming = [];
-P.forEach(function (p) {
-if (isDonePrayer(p, currSd, r)) {
-done.push(p);
-} else {
-if (isToday && isPrayerUpcoming(p, currSd)) {
-upcoming.push(p);
-}
-missed.push(p);
-}
-});
-var curActive = isToday && typeof _win.getActivePrayerInfo === 'function' ? _win.getActivePrayerInfo() : null;
-var curPrayerName = curActive ? curActive.name : null;
-var actualMissedCount = missed.filter(function (p) {
-return upcoming.indexOf(p) === -1 && p !== curPrayerName;
-}).length;
-var badgeText = actualMissedCount > 0 ? ('Missed (' + actualMissedCount + ')') : 'Missed';
-var actionBtnText = isToday ? 'Select All' : 'Today';
-var actionBtnAct = isToday ? 'select-all' : 'jump-today';
-var dateChipText = formatChipDate(currSd);
-var vm = _win.trackerViewModel || (typeof getTrackerViewModel === 'function' ? getTrackerViewModel() : null);
-if (vm && vm.currentCard) {
-var card = typeof vm.currentCard === 'function' ? vm.currentCard() : vm.currentCard;
-if (card) {
-var timings = _win.T || T;
-var missedRowVms = missed.map(function (p) {
-var isUp = upcoming.indexOf(p) !== -1;
-var isCur = (p === curPrayerName && !isUp);
-var isMsd = !isUp && !isCur;
-return new PrayerRowViewModel({
-prayer: p,
-time: timings[p] || '--:--',
-isDone: false,
-isUpcoming: isUp,
-isMissed: isMsd,
-isCurrent: isCur,
-isStandard: isCur,
-prefix: 'page.current',
-actionAct: 'toggle-cur',
-date: currSd,
-iconClass: PRAYER_CARD_ICONS[p] || 'fa-solid fa-mosque'
-});
-});
-var doneRowVms = done.map(function (p) {
-return new PrayerRowViewModel({
-prayer: p,
-time: timings[p] || '--:--',
-isDone: true,
-isUpcoming: false,
-isMissed: false,
-isCurrent: false,
-isStandard: false,
-prefix: 'page.current',
-actionAct: 'toggle-cur',
-date: currSd,
-iconClass: PRAYER_CARD_ICONS[p] || 'fa-solid fa-mosque'
-});
-});
-if (typeof card.dateChipText === 'function') card.dateChipText(dateChipText);
-if (typeof card.badgeText === 'function') card.badgeText(actualMissedCount > 0 ? ('Missed (' + actualMissedCount + ')') : '');
-if (typeof card.badgeAct === 'function') card.badgeAct(missTotal > 0 ? 'missed-open' : '');
-if (typeof card.actionBtnText === 'function') card.actionBtnText(actionBtnText);
-if (typeof card.actionBtnAct === 'function') card.actionBtnAct(actionBtnAct);
-if (typeof card.missedGroupTitle === 'function') card.missedGroupTitle('MISSED (' + missed.length + ')');
-if (typeof card.missedRows === 'function') card.missedRows(missedRowVms);
-if (typeof card.doneGroupTitle === 'function') card.doneGroupTitle('DONE (' + done.length + ')');
-if (typeof card.doneRows === 'function') card.doneRows(doneRowVms);
-}
-}
-updateCurrentMissedBadge();
-if (typeof updatePerformanceTab === 'function') {
-updatePerformanceTab();
-}
-}
-function updateCurrentMissedBadge() {
-var totalMissed = typeof _win.getConsolidatedMissedCount === 'function'
-? _win.getConsolidatedMissedCount()
-: 0;
-var vm = _win.trackerViewModel || (typeof getTrackerViewModel === 'function' ? getTrackerViewModel() : null);
-if (vm && typeof vm.missedCount === 'function' && vm.missedCount !== (_win.PrayerStore && _win.PrayerStore.missedCount)) {
-vm.missedCount(totalMissed);
-}
-var missedBtn = $('currentMissedBtn');
-var missedBadge = $('currentMissedBadge');
-if (missedBadge) {
-if (totalMissed > 0) {
-missedBadge.textContent = totalMissed;
-missedBadge.classList.remove('d-none');
-} else {
-missedBadge.textContent = '';
-missedBadge.classList.add('d-none');
-}
-}
-if (missedBtn) {
-missedBtn.title = totalMissed > 0 ? ('Missed Prayers (' + totalMissed + ')') : 'Missed Prayers';
-}
-}
-function go(d) {
-var todayStr = typeof _win.td === 'function' ? _win.td() : '';
-if (d > todayStr) d = todayStr;
-if (_win.PrayerStore && typeof _win.PrayerStore.selectDate === 'function') {
-_win.PrayerStore.selectDate(d);
-} else {
-_win.sd = d;
-}
-if (typeof _win.fetchPrayerTimings === 'function') {
-_win.fetchPrayerTimings(d, function () { rn(); });
-}
-rn();
-}
-function missTile(date, p) {
-var iconHtml = typeof _win.renderIcon === 'function' ? _win.renderIcon(p.toLowerCase()) : (I[p] || '');
-return '<div class="rounded-3 p-2 flex flex-col items-center justify-center gap-1.5 bg-danger-subtle min-w-0" ' +
-'data-ref="page.current.missed-sheet.tile.' + p.toLowerCase() + '">' +
-'<span class="fs-4 flex items-center justify-center">' + iconHtml + '</span>' +
-'<span class="fw-bold text-truncate w-100 text-center fs-xs text-dark">' + p + '</span>' +
-'<span class="badge-pill-custom badge-missed inline-flex items-center fs-xs py-1 px-1.5">' +
-(typeof _win.renderIcon === 'function' ? _win.renderIcon('circle-exclamation') : '') + 'Missed</span>' +
-'</div>';
-}
-function missCard(x) {
-var tiles = x.prayers.map(function (p) { return missTile(x.date, p); }).join('');
-var missedCount = x.prayers.length;
-var friendlyFn = typeof _win.friendly === 'function' ? _win.friendly : function (d) { return d; };
-var frFn = typeof _win.fr === 'function' ? _win.fr : function (d) { return d; };
-var countBadge = '<span class="badge-pill-custom badge-missed fs-xs py-1 px-2 inline-flex items-center gap-1 shrink-0">' +
-missedCount + ' Missed' +
-(typeof _win.renderIcon === 'function' ? _win.renderIcon({ name: 'chevron-right', size: 'fs-xs', className: 'opacity-75' }) : '') + '</span>';
-return '<div class="card border border-borderGrey rounded-4 p-2 bg-gr cursor-pointer" role="button" data-act="jump" data-d="' + x.date + '">' +
-'<div class="flex items-center justify-between gap-2 mb-2 px-1">' +
-'<div class="flex items-center gap-2 min-w-0">' +
-'<div class="w-9 h-9 min-w-[36px] min-h-[36px] rounded-[10px] bg-dash-mintBg text-gr-accent inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden">' + (typeof _win.renderIcon === 'function' ? _win.renderIcon({ name: 'calendar-days', color: 'text-gr-accent' }) : '') + '</div>' +
-'<div class="min-w-0">' +
-'<div class="fw-bold text-gr1 fs-5 lh-1 text-truncate">' + friendlyFn(x.date) + '</div>' +
-'<div class="text-gr-accent fw-semibold small mt-0.5 text-truncate">' + frFn(x.date) + '</div>' +
-'</div>' +
-'</div>' +
-countBadge +
-'</div>' +
-'<div class="grid grid-cols-3 gap-2 w-100 missed-tiles-grid">' + tiles + '</div>' +
-'</div>';
-}
-function rMS() {
-var sheetCfg = (_win.CONSTANTS && _win.CONSTANTS.PRAYER && _win.CONSTANTS.PRAYER.SHEETS && _win.CONSTANTS.PRAYER.SHEETS.MISSED_PRAYERS) || {
-iconClass: 'clipboard-list text-gr-accent',
-title: 'Missed Prayers',
-sub: 'From previous days (today excluded)'
-};
-if (_win.sheet2BS && typeof _win.sheet2BS.show === 'function') {
-_win.sheet2BS.show(sheetCfg);
-}
-if (_win.Icon && typeof _win.Icon.update === 'function' && $('sheet2Icon')) {
-_win.Icon.update($('sheet2Icon'), sheetCfg.iconClass);
-} else if ($('sheet2Icon')) {
-$('sheet2Icon').className = sheetCfg.iconClass;
-}
-if ($('sheet2Title')) $('sheet2Title').textContent = sheetCfg.title;
-if ($('sheet2Sub')) $('sheet2Sub').textContent = sheetCfg.sub;
-var list = (typeof _win.mBD === 'function' ? _win.mBD() : []).reverse();
-var missedContent = $('sheetMissedContent');
-var periodInfoContent = $('sheetPeriodInfoContent');
-var setOldContent = $('sheetSetOldPeriodContent');
-if (periodInfoContent) periodInfoContent.classList.add('d-none');
-if (setOldContent) setOldContent.classList.add('d-none');
-if (missedContent) missedContent.classList.remove('d-none');
-var emptyEl = $('sheetMissedEmpty');
-var listEl = $('sheetMissedList');
-if (!list.length) {
-if (emptyEl) emptyEl.classList.remove('d-none');
-if (listEl) listEl.innerHTML = '';
-} else {
-if (emptyEl) emptyEl.classList.add('d-none');
-if (listEl) listEl.innerHTML = list.map(missCard).join('');
-}
-}
-var PrayerTrackingApp = {
-init: initTracker,
-render: rn,
-getViewModel: getTrackerViewModel,
-registerComponents: registerPrayerTrackingComponents
-};
-if (typeof window !== 'undefined') {
-window.rn = rn;
-window.go = go;
-window.rMS = rMS;
-window.updateCurrentMissedBadge = updateCurrentMissedBadge;
-window.PrayerTrackingApp = PrayerTrackingApp;
-}
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var TASBEEH_CONSTANTS = _win.TASBEEH_CONSTANTS || (_win.CONSTANTS && _win.CONSTANTS.TASBEEH) || {};
 var ELEMENT_IDS = TASBEEH_CONSTANTS.ELEMENT_IDS || {};
@@ -12661,16 +11301,27 @@ _win.localStorage.setItem(PRAYER_STORAGE_KEYS.HISTORY, JSON.stringify(arr));
 if (_win.PrayerStore && typeof _win.PrayerStore.historyEntries === 'function') {
 _win.PrayerStore.historyEntries(arr);
 }
+if (_win.trackerHistoryPageViewModel && typeof _win.trackerHistoryPageViewModel.refresh === 'function') {
+_win.trackerHistoryPageViewModel.refresh();
+}
 } catch (_) {}
 }
 function addPrayerHistoryEntry(prayer, type, date) {
+if (!prayer) return null;
+var d = date || td();
+var pType = (type === 'Old') ? 'Old' : 'Current';
+var pName = prayer.charAt(0).toUpperCase() + prayer.slice(1);
 var entries = getPrayerHistory();
+entries = entries.filter(function (e) {
+return !(e.prayer === pName && e.type === pType && e.date === d);
+});
 var newEntry = {
-id: Date.now() + '-' + Math.random().toString(36).substr(2, 5),
-prayer: prayer,
-type: type || 'Current',
-date: date || td(),
-timestamp: Date.now()
+id: 'hist_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+prayer: pName,
+type: pType,
+date: d,
+timestamp: Date.now(),
+createdAt: new Date().toISOString()
 };
 entries.unshift(newEntry);
 if (entries.length > 500) entries = entries.slice(0, 500);
@@ -12681,13 +11332,9 @@ function removePrayerHistoryEntry(prayerOrId, type, date) {
 var entries = getPrayerHistory();
 var filtered;
 if (type !== undefined && date !== undefined) {
-var found = false;
+var pName = (typeof prayerOrId === 'string') ? (prayerOrId.charAt(0).toUpperCase() + prayerOrId.slice(1)) : prayerOrId;
 filtered = entries.filter(function (e) {
-if (!found && e.prayer === prayerOrId && e.type === type && e.date === date) {
-found = true;
-return false;
-}
-return true;
+return !(e.prayer === pName && e.type === type && e.date === date);
 });
 } else {
 filtered = entries.filter(function (e) { return e.id !== prayerOrId; });
@@ -12818,6 +11465,18 @@ getTotalMissedCount
 };
 if (typeof window !== 'undefined') {
 window.TrackerService = TrackerService;
+window.addPrayerHistoryEntry = addPrayerHistoryEntry;
+window.removePrayerHistoryEntry = removePrayerHistoryEntry;
+window.getPrayerHistory = getPrayerHistory;
+window.savePrayerHistory = savePrayerHistory;
+window.clearPrayerHistory = clearPrayerHistory;
+window.PrayerHistoryApp = {
+addPrayerHistoryEntry: addPrayerHistoryEntry,
+removePrayerHistoryEntry: removePrayerHistoryEntry,
+getPrayerHistory: getPrayerHistory,
+savePrayerHistory: savePrayerHistory,
+clearPrayerHistory: clearPrayerHistory
+};
 }
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
@@ -13137,9 +11796,11 @@ if (typeof self.isMissedFormOpen === 'function') self.isMissedFormOpen(false);
 self.refresh();
 };
 self.refresh();
+_win.trackerCurrentPageViewModel = self;
 }
 if (typeof window !== 'undefined') {
 window.TrackerCurrentPageViewModel = TrackerCurrentPageViewModel;
+window.trackerCurrentPageViewModel = _win.trackerCurrentPageViewModel;
 }
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
@@ -13519,9 +12180,17 @@ self.isPeriodFormOpen(false);
 self.refresh();
 };
 self.refresh();
+_win.trackerOldPageViewModel = self;
+}
+function rOT() {
+if (_win.trackerOldPageViewModel && typeof _win.trackerOldPageViewModel.refresh === 'function') {
+_win.trackerOldPageViewModel.refresh();
+}
 }
 if (typeof window !== 'undefined') {
 window.TrackerOldPageViewModel = TrackerOldPageViewModel;
+window.TrackerOldApp = { refresh: rOT };
+window.rOT = rOT;
 }
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
@@ -13772,7 +12441,10 @@ self.entries = (p.entries && k && k.isObservable(p.entries))
 self.subtitle = (p.subtitle && k && k.isObservable(p.subtitle))
 ? p.subtitle
 : obs(unwrap(p.subtitle, '0 completed prayers'));
-self.hasEntries = function () {
+self.hasEntries = (k && k.pureComputed) ? k.pureComputed(function () {
+var list = (typeof self.entries === 'function') ? self.entries() : self.entries;
+return Array.isArray(list) && list.length > 0;
+}) : function () {
 var list = (typeof self.entries === 'function') ? self.entries() : self.entries;
 return Array.isArray(list) && list.length > 0;
 };
@@ -13805,14 +12477,23 @@ return (k && k.observable) ? k.observable(val) : function () { return val; };
 function obsArr(arr) {
 return (k && k.observableArray) ? k.observableArray(arr || []) : function () { return arr || []; };
 }
+var store = _win.PrayerStore || null;
 self.historyEntries = (p.entries && k && k.isObservable(p.entries))
 ? p.entries
-: obsArr(getPrayerHistory());
-self.subtitle = obs('0 completed prayers');
+: ((store && k && k.isObservable(store.historyEntries))
+? store.historyEntries
+: obsArr(getPrayerHistory()));
+self.subtitle = (k && k.pureComputed) ? k.pureComputed(function () {
+var list = (typeof self.historyEntries === 'function') ? self.historyEntries() : self.historyEntries;
+var count = Array.isArray(list) ? list.length : 0;
+return count + (count === 1 ? ' completed prayer' : ' completed prayers');
+}) : obs('0 completed prayers');
 self.updateSubtitle = function () {
+if (typeof self.subtitle === 'function' && !self.subtitle.__isComputed) {
 var list = (typeof self.historyEntries === 'function') ? self.historyEntries() : self.historyEntries;
 var count = Array.isArray(list) ? list.length : 0;
 self.subtitle(count + (count === 1 ? ' completed prayer' : ' completed prayers'));
+}
 };
 self.refresh = function () {
 var entries = getPrayerHistory();
@@ -13839,14 +12520,22 @@ clearPrayerHistory();
 self.refresh();
 };
 self.refresh();
+_win.trackerHistoryPageViewModel = self;
+}
+function renderPrayerHistoryTab() {
+if (_win.trackerHistoryPageViewModel && typeof _win.trackerHistoryPageViewModel.refresh === 'function') {
+_win.trackerHistoryPageViewModel.refresh();
+}
 }
 if (typeof window !== 'undefined') {
 window.TrackerHistoryPageViewModel = TrackerHistoryPageViewModel;
+window.renderPrayerHistoryTab = renderPrayerHistoryTab;
 }
 'use strict';
 var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker.html' };
 var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/templates/prayer-header.html' };
-var TrackerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/templates/prayer-nav-tab.html' };
+var TrackerNavTabTemplate = { element: 'tracker-nav-tab-template', file: 'features/tracker/templates/tracker-nav-tab.html' };
+var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/templates/prayer-nav-tab.html' };
 var PrayerTrackerCardTemplate = { element: 'prayer-tracker-card-template', file: 'features/tracker/templates/prayer-tracker-card.html' };
 var PrayerRowTemplate = { element: 'prayer-row-template', file: 'features/tracker/templates/prayer-row.html' };
 var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/tracker/templates/prayer-stat-card.html' };
@@ -13881,7 +12570,7 @@ registerComponent('prayer-tracker-card', PrayerTrackerCardViewModel, PrayerTrack
 registerComponent('prayer-row', PrayerRowViewModel, TrackerCurrentCardTemplate, customKo);
 registerComponent('prayer-stat-card', function (p) { return p || {}; }, PrayerStatCardTemplate, customKo);
 registerComponent('prayer-perf-ring', function (p) { return p || {}; }, PrayerPerfRingTemplate, customKo);
-registerComponent('prayer-nav-tab', function (p) { return p || {}; }, TrackerNavTabTemplate, customKo);
+registerComponent('prayer-nav-tab', function (p) { return p || {}; }, PrayerNavTabTemplate, customKo);
 registerComponent('prayer-history-card', TrackerHistoryCardViewModel, TrackerHistoryCardTemplate, customKo);
 }
 if (typeof window !== 'undefined') {
@@ -13890,6 +12579,7 @@ window.registerTrackerComponents = registerTrackerComponents;
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
+var PRAYER_CARD_ICONS = { Fajr: 'fa-solid fa-cloud-sun', Dhuhr: 'fa-solid fa-sun', Asr: 'fa-solid fa-sun', Maghrib: 'fa-solid fa-cloud-sun', Isha: 'fa-solid fa-moon' };
 function PrayerRowViewModel(params) {
 if (params instanceof PrayerRowViewModel) return params;
 if (!(this instanceof PrayerRowViewModel)) return new PrayerRowViewModel(params);
@@ -13905,7 +12595,17 @@ self.isStandard = !self.isDone && !self.isUpcoming && !self.isMissed;
 self.prefix = p.prefix || 'page.current';
 self.actionAct = p.actionAct || 'toggle-cur';
 self.date = p.date || '';
-self.iconClass = p.iconClass || 'fa-solid fa-mosque';
+var rawIcon = p.iconClass || (PRAYER_CARD_ICONS && PRAYER_CARD_ICONS[self.prayer]) || 'fa-solid fa-mosque';
+if (typeof rawIcon === 'string' && rawIcon.indexOf('<') !== -1) {
+var m = rawIcon.match(/name:\s*['"]([^'"]+)['"]/);
+if (m) {
+rawIcon = m[1];
+} else {
+var m2 = rawIcon.match(/class=['"][^'"]*fa-([a-z0-9-]+)[^'"]*['"]/);
+if (m2) rawIcon = m2[1];
+}
+}
+self.iconClass = rawIcon;
 self.onToggle = function (d, e) {
 if (typeof p.onToggle === 'function') p.onToggle(self, e);
 };
@@ -14065,16 +12765,89 @@ initialEnd: yesterday,
 created: Date.now()
 };
 }
-function rMS() {
-var vm = getTrackerViewModel();
-if (vm && typeof vm.switchTab === 'function') {
-vm.switchTab('current');
+function $(id) {
+if (typeof _win.$ === 'function' && _win.$ !== $) return _win.$(id);
+return (_win.document && typeof _win.document.getElementById === 'function')
+? _win.document.getElementById(id)
+: null;
 }
+function missTile(date, p) {
+var iconHtml = typeof _win.renderIcon === 'function'
+? _win.renderIcon(p.toLowerCase())
+: ((PRAYER_CARD_ICONS && PRAYER_CARD_ICONS[p]) ? ('<i class="' + PRAYER_CARD_ICONS[p] + '"></i>') : '<i class="fa-solid fa-mosque"></i>');
+return '<div class="rounded-3 p-2 flex flex-col items-center justify-center gap-1.5 bg-danger-subtle min-w-0">' +
+'<span class="fs-4 flex items-center justify-center">' + iconHtml + '</span>' +
+'<span class="fw-bold text-truncate w-100 text-center fs-xs text-dark">' + p + '</span>' +
+'<span class="badge-pill-custom badge-missed inline-flex items-center fs-xs py-1 px-1.5">' +
+(typeof _win.renderIcon === 'function' ? _win.renderIcon('circle-exclamation') : '<i class="fa-solid fa-circle-exclamation"></i>') + ' Missed</span></div>';
+}
+function missCard(x) {
+var tiles = x.prayers.map(function (p) { return missTile(x.date, p); }).join('');
+var missedCount = x.prayers.length;
+var friendlyFn = typeof _win.friendly === 'function' ? _win.friendly : function (d) { return d; };
+var frFn = typeof _win.fr === 'function' ? _win.fr : function (d) { return d; };
+var countBadge = '<span class="badge-pill-custom badge-missed fs-xs py-1 px-2 inline-flex items-center gap-1 shrink-0">' +
+missedCount + ' Missed' +
+(typeof _win.renderIcon === 'function' ? _win.renderIcon({ name: 'chevron-right', size: 'fs-xs', className: 'opacity-75' }) : '<i class="fa-solid fa-chevron-right fs-xs opacity-75"></i>') + '</span>';
+return '<div class="card border border-borderGrey rounded-4 p-2 bg-gr cursor-pointer" role="button" data-act="jump" data-d="' + x.date + '">' +
+'<div class="flex items-center justify-between gap-2 mb-2 px-1">' +
+'<div class="flex items-center gap-2 min-w-0">' +
+'<div class="w-9 h-9 min-w-[36px] min-h-[36px] rounded-[10px] bg-dash-mintBg text-gr-accent inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden">' +
+(typeof _win.renderIcon === 'function' ? _win.renderIcon({ name: 'calendar-days', color: 'text-gr-accent' }) : '<i class="fa-solid fa-calendar-days text-gr-accent"></i>') + '</div>' +
+'<div class="min-w-0">' +
+'<div class="fw-bold text-gr1 fs-5 lh-1 text-truncate">' + friendlyFn(x.date) + '</div>' +
+'<div class="text-gr-accent fw-semibold small mt-0.5 text-truncate">' + frFn(x.date) + '</div>' +
+'</div></div>' + countBadge + '</div>' +
+'<div class="grid grid-cols-3 gap-2 w-100 missed-tiles-grid">' + tiles + '</div></div>';
+}
+function rMS() {
+var sheetCfg = (_win.CONSTANTS && _win.CONSTANTS.PRAYER && _win.CONSTANTS.PRAYER.SHEETS && _win.CONSTANTS.PRAYER.SHEETS.MISSED_PRAYERS) || {
+iconClass: 'clipboard-list text-gr-accent',
+title: 'Missed Prayers',
+sub: 'From previous days (today excluded)'
+};
+if (_win.sheet2BS && typeof _win.sheet2BS.show === 'function') {
+_win.sheet2BS.show(sheetCfg);
+}
+var appVm = (typeof _win.getAppViewModel === 'function') ? _win.getAppViewModel() : _win.appViewModel;
+if (appVm && typeof appVm.sheet2IsOpen === 'function') {
+appVm.sheet2IsOpen(true);
+if (typeof appVm.sheet2Title === 'function') appVm.sheet2Title(sheetCfg.title);
+if (typeof appVm.sheet2Sub === 'function') appVm.sheet2Sub(sheetCfg.sub);
+if (typeof appVm.sheet2Icon === 'function') {
+var ic = sheetCfg.iconClass;
+if (ic && ic.indexOf('fa-') === -1) ic = 'fa-solid fa-' + ic;
+appVm.sheet2Icon(ic);
+}
+}
+var iconEl = $('sheet2Icon');
+if (_win.Icon && typeof _win.Icon.update === 'function' && iconEl) {
+_win.Icon.update(iconEl, sheetCfg.iconClass);
+} else if (iconEl) {
+iconEl.className = sheetCfg.iconClass;
+}
+var titleEl = $('sheet2Title');
+if (titleEl) titleEl.textContent = sheetCfg.title;
+var subEl = $('sheet2Sub');
+if (subEl) subEl.textContent = sheetCfg.sub;
+var list = (typeof _win.mBD === 'function' ? _win.mBD() : (typeof getMissedPrayersByDate === 'function' ? getMissedPrayersByDate() : [])).slice().reverse();
+var missedContent = $('sheetMissedContent');
+var periodInfoContent = $('sheetPeriodInfoContent');
+var setOldContent = $('sheetSetOldPeriodContent');
+if (periodInfoContent) periodInfoContent.classList.add('d-none');
+if (setOldContent) setOldContent.classList.add('d-none');
+if (missedContent) missedContent.classList.remove('d-none');
+var emptyEl = $('sheetMissedEmpty');
+var listEl = $('sheetMissedList');
+if (emptyEl) emptyEl.classList.toggle('d-none', list.length > 0);
+if (listEl) listEl.innerHTML = list.length ? list.map(missCard).join('') : '';
 }
 function rn() {
-var vm = getTrackerViewModel();
-if (vm && typeof vm.switchTab === 'function') {
+if (_win.trackerCurrentPageViewModel && typeof _win.trackerCurrentPageViewModel.refresh === 'function') {
+_win.trackerCurrentPageViewModel.refresh();
 }
+updateCurrentMissedBadge();
+if (typeof _win.updatePerformanceTab === 'function') _win.updatePerformanceTab();
 }
 function go(date) {
 if (_win.PrayerStore && typeof _win.PrayerStore.selectedDate === 'function') {
@@ -14083,9 +12856,19 @@ _win.PrayerStore.selectedDate(date);
 rn();
 }
 function updateCurrentMissedBadge() {
+var totalMissed = typeof _win.getConsolidatedMissedCount === 'function' ? _win.getConsolidatedMissedCount() : getTotalMissedCount();
 var vm = getTrackerViewModel();
-if (vm && typeof vm.missedCount === 'function') {
-vm.missedCount(getTotalMissedCount());
+if (vm && typeof vm.missedCount === 'function' && vm.missedCount !== (_win.PrayerStore && _win.PrayerStore.missedCount)) {
+vm.missedCount(totalMissed);
+}
+var missedBadge = $('currentMissedBadge');
+if (missedBadge) {
+missedBadge.textContent = totalMissed > 0 ? totalMissed : '';
+missedBadge.classList.toggle('d-none', totalMissed <= 0);
+}
+var missedBtn = $('currentMissedBtn');
+if (missedBtn) {
+missedBtn.title = totalMissed > 0 ? ('Missed Prayers (' + totalMissed + ')') : 'Missed Prayers';
 }
 }
 function rOldInfo() {
@@ -14109,8 +12892,8 @@ setOldSd(date);
 rOT();
 }
 function rOT() {
-var vm = getTrackerViewModel();
-if (vm && typeof vm.switchTab === 'function') {
+if (_win.trackerOldPageViewModel && typeof _win.trackerOldPageViewModel.refresh === 'function') {
+_win.trackerOldPageViewModel.refresh();
 }
 }
 function emptyPrayerHistory() {
@@ -14162,6 +12945,21 @@ window.getDefaultOldPeriod = getDefaultOldPeriod;
 window.rOT = rOT;
 window.oldSd = oldSd;
 window.emptyPrayerHistory = emptyPrayerHistory;
+window.addPrayerHistoryEntry = addPrayerHistoryEntry;
+window.removePrayerHistoryEntry = removePrayerHistoryEntry;
+window.getPrayerHistory = getPrayerHistory;
+window.savePrayerHistory = savePrayerHistory;
+window.clearPrayerHistory = clearPrayerHistory;
+window.renderPrayerHistoryTab = renderPrayerHistoryTab;
+window.PrayerHistoryApp = {
+addPrayerHistoryEntry: addPrayerHistoryEntry,
+removePrayerHistoryEntry: removePrayerHistoryEntry,
+getPrayerHistory: getPrayerHistory,
+savePrayerHistory: savePrayerHistory,
+clearPrayerHistory: clearPrayerHistory,
+emptyPrayerHistory: emptyPrayerHistory,
+renderPrayerHistoryTab: renderPrayerHistoryTab
+};
 }
 try { registerTrackerComponents(); } catch (_) {}
 'use strict';

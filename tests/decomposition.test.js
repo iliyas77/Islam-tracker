@@ -16,13 +16,6 @@ export async function runDecompositionTests() {
         'components/tabs/tabs.js',
         'components/component-helper.js',
 
-        // Prayer Tracking modules
-        'features/prayer-tracking/old-tracking.js',
-        'features/prayer-tracking/performance-view-model.js',
-        'features/prayer-tracking/history-view-model.js',
-        'features/prayer-tracking/tracker-view-model.js',
-        'features/prayer-tracking/prayer-tracking.js',
-
         // Tasbeeh modules
         'features/tasbeeh/tasbeeh-registration.js',
         'features/tasbeeh/tasbeeh-service.js',

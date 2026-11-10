@@ -217,17 +217,28 @@ export function savePrayerHistory(entries) {
         if (_win.PrayerStore && typeof _win.PrayerStore.historyEntries === 'function') {
             _win.PrayerStore.historyEntries(arr);
         }
+        if (_win.trackerHistoryPageViewModel && typeof _win.trackerHistoryPageViewModel.refresh === 'function') {
+            _win.trackerHistoryPageViewModel.refresh();
+        }
     } catch (_) {}
 }
 
 export function addPrayerHistoryEntry(prayer, type, date) {
+    if (!prayer) return null;
+    var d = date || td();
+    var pType = (type === 'Old') ? 'Old' : 'Current';
+    var pName = prayer.charAt(0).toUpperCase() + prayer.slice(1);
     var entries = getPrayerHistory();
+    entries = entries.filter(function (e) {
+        return !(e.prayer === pName && e.type === pType && e.date === d);
+    });
     var newEntry = {
-        id: Date.now() + '-' + Math.random().toString(36).substr(2, 5),
-        prayer: prayer,
-        type: type || 'Current',
-        date: date || td(),
-        timestamp: Date.now()
+        id: 'hist_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+        prayer: pName,
+        type: pType,
+        date: d,
+        timestamp: Date.now(),
+        createdAt: new Date().toISOString()
     };
     entries.unshift(newEntry);
     if (entries.length > 500) entries = entries.slice(0, 500);
@@ -239,13 +250,9 @@ export function removePrayerHistoryEntry(prayerOrId, type, date) {
     var entries = getPrayerHistory();
     var filtered;
     if (type !== undefined && date !== undefined) {
-        var found = false;
+        var pName = (typeof prayerOrId === 'string') ? (prayerOrId.charAt(0).toUpperCase() + prayerOrId.slice(1)) : prayerOrId;
         filtered = entries.filter(function (e) {
-            if (!found && e.prayer === prayerOrId && e.type === type && e.date === date) {
-                found = true;
-                return false;
-            }
-            return true;
+            return !(e.prayer === pName && e.type === type && e.date === date);
         });
     } else {
         filtered = entries.filter(function (e) { return e.id !== prayerOrId; });
@@ -394,6 +401,18 @@ export var TrackerService = {
 
 if (typeof window !== 'undefined') {
     window.TrackerService = TrackerService;
+    window.addPrayerHistoryEntry = addPrayerHistoryEntry;
+    window.removePrayerHistoryEntry = removePrayerHistoryEntry;
+    window.getPrayerHistory = getPrayerHistory;
+    window.savePrayerHistory = savePrayerHistory;
+    window.clearPrayerHistory = clearPrayerHistory;
+    window.PrayerHistoryApp = {
+        addPrayerHistoryEntry: addPrayerHistoryEntry,
+        removePrayerHistoryEntry: removePrayerHistoryEntry,
+        getPrayerHistory: getPrayerHistory,
+        savePrayerHistory: savePrayerHistory,
+        clearPrayerHistory: clearPrayerHistory
+    };
 }
 
 export default TrackerService;

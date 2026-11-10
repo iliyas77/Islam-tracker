@@ -121,7 +121,7 @@ export async function runPrayerTests() {
     assert.strictEqual(trackerCard.badgeText(), '2 missed');
 
     // 7. PrayerRowViewModel state exclusivity & icon resolution
-    const { PrayerRowViewModel } = await import(path.join(ROOT, 'features', 'prayer-tracking', 'tracker-view-model.js'));
+    const { PrayerRowViewModel } = await import(path.join(ROOT, 'features', 'tracker', 'tracker.js'));
     const missedRow = new PrayerRowViewModel({
         prayer: 'Fajr',
         isMissed: true,

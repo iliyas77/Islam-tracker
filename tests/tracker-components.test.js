@@ -428,4 +428,37 @@ export async function runTrackerComponentTests() {
     assert.strictEqual(trackerRootVm.currentSubTab(), 'current');
 
     console.log('  ✔ Tracker Root: Subtab navigation and ViewModel bridge verified');
+
+    // ==========================================
+    // 7. Regression Tests: rMS() & History Logging Flow
+    // ==========================================
+    let sheet2Shown = false;
+    let sheet2Config = null;
+    globalThis.sheet2BS = {
+        show(cfg) { sheet2Shown = true; sheet2Config = cfg; },
+        hide() { sheet2Shown = false; }
+    };
+    const { rMS } = await import(path.join(ROOT, 'features', 'tracker', 'tracker.js'));
+    assert(typeof rMS === 'function', 'rMS must be a function');
+    rMS();
+    assert.strictEqual(sheet2Shown, true, 'rMS() must invoke sheet2BS.show');
+    assert.strictEqual(sheet2Config.title, 'Missed Prayers');
+
+    // Verify PrayerStore -> History Logging Flow
+    const { PrayerStore } = await import(path.join(ROOT, 'services', 'prayer-store.js'));
+    globalThis.PrayerStore = PrayerStore;
+    clearPrayerHistory();
+    PrayerStore.selectedDate('2026-11-08');
+    PrayerStore.setPrayerStatus('Fajr', '2026-11-08', true); // mark Fajr as Done
+    const updatedHistory = getPrayerHistory();
+    assert.strictEqual(updatedHistory.length, 1, 'Marking Fajr as Done must record 1 history entry');
+    assert.strictEqual(updatedHistory[0].prayer, 'Fajr');
+    assert.strictEqual(updatedHistory[0].type, 'Current');
+
+    // Unmarking Fajr (marking as Missed)
+    PrayerStore.setPrayerStatus('Fajr', '2026-11-08', false);
+    assert.strictEqual(getPrayerHistory().length, 0, 'Marking Fajr as Missed must remove the history entry');
+    delete globalThis.sheet2BS;
+    delete globalThis.PrayerStore;
+    console.log('  ✔ Regression: Current Kal Missing sheet and History Logging flow verified');
 }

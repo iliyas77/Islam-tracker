@@ -35,16 +35,25 @@ export function TrackerHistoryPageViewModel(params) {
         return (k && k.observableArray) ? k.observableArray(arr || []) : function () { return arr || []; };
     }
 
+    var store = _win.PrayerStore || null;
     self.historyEntries = (p.entries && k && k.isObservable(p.entries))
         ? p.entries
-        : obsArr(getPrayerHistory());
+        : ((store && k && k.isObservable(store.historyEntries))
+            ? store.historyEntries
+            : obsArr(getPrayerHistory()));
 
-    self.subtitle = obs('0 completed prayers');
-
-    self.updateSubtitle = function () {
+    self.subtitle = (k && k.pureComputed) ? k.pureComputed(function () {
         var list = (typeof self.historyEntries === 'function') ? self.historyEntries() : self.historyEntries;
         var count = Array.isArray(list) ? list.length : 0;
-        self.subtitle(count + (count === 1 ? ' completed prayer' : ' completed prayers'));
+        return count + (count === 1 ? ' completed prayer' : ' completed prayers');
+    }) : obs('0 completed prayers');
+
+    self.updateSubtitle = function () {
+        if (typeof self.subtitle === 'function' && !self.subtitle.__isComputed) {
+            var list = (typeof self.historyEntries === 'function') ? self.historyEntries() : self.historyEntries;
+            var count = Array.isArray(list) ? list.length : 0;
+            self.subtitle(count + (count === 1 ? ' completed prayer' : ' completed prayers'));
+        }
     };
 
     self.refresh = function () {
@@ -76,10 +85,18 @@ export function TrackerHistoryPageViewModel(params) {
 
     // Initial load
     self.refresh();
+    _win.trackerHistoryPageViewModel = self;
+}
+
+export function renderPrayerHistoryTab() {
+    if (_win.trackerHistoryPageViewModel && typeof _win.trackerHistoryPageViewModel.refresh === 'function') {
+        _win.trackerHistoryPageViewModel.refresh();
+    }
 }
 
 if (typeof window !== 'undefined') {
     window.TrackerHistoryPageViewModel = TrackerHistoryPageViewModel;
+    window.renderPrayerHistoryTab = renderPrayerHistoryTab;
 }
 
 export default {

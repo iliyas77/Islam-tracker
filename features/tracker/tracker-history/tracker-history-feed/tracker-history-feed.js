@@ -41,7 +41,10 @@ export function TrackerHistoryFeedViewModel(params) {
         ? p.subtitle
         : obs(unwrap(p.subtitle, '0 completed prayers'));
 
-    self.hasEntries = function () {
+    self.hasEntries = (k && k.pureComputed) ? k.pureComputed(function () {
+        var list = (typeof self.entries === 'function') ? self.entries() : self.entries;
+        return Array.isArray(list) && list.length > 0;
+    }) : function () {
         var list = (typeof self.entries === 'function') ? self.entries() : self.entries;
         return Array.isArray(list) && list.length > 0;
     };

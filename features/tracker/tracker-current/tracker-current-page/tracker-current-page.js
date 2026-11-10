@@ -221,10 +221,12 @@ export function TrackerCurrentPageViewModel(params) {
 
     // Initial load
     self.refresh();
+    _win.trackerCurrentPageViewModel = self;
 }
 
 if (typeof window !== 'undefined') {
     window.TrackerCurrentPageViewModel = TrackerCurrentPageViewModel;
+    window.trackerCurrentPageViewModel = _win.trackerCurrentPageViewModel;
 }
 
 export default {

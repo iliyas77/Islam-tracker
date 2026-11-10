@@ -48,13 +48,6 @@ const settingsStoreJsPath = path.join(ROOT, 'services', 'settings-store.js');
 const routerJsPath = path.join(ROOT, 'services', 'router.js');
 const appViewModelJsPath = path.join(ROOT, 'services', 'app-view-model.js');
 
-// Prayer Tracking decomposed submodules
-const prayerOldJsPath = path.join(ROOT, 'features', 'prayer-tracking', 'old-tracking.js');
-const prayerPerfJsPath = path.join(ROOT, 'features', 'prayer-tracking', 'performance-view-model.js');
-const prayerHistJsPath = path.join(ROOT, 'features', 'prayer-tracking', 'history-view-model.js');
-const prayerTrackerVmJsPath = path.join(ROOT, 'features', 'prayer-tracking', 'tracker-view-model.js');
-const prayerTrackingJsPath = path.join(ROOT, 'features', 'prayer-tracking', 'prayer-tracking.js');
-
 // Tasbeeh decomposed submodules
 const tasbeehServiceJsPath = path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-service.js');
 const tasbeehVmJsPath = path.join(ROOT, 'features', 'tasbeeh', 'tasbeeh-view-model.js');
@@ -242,13 +235,6 @@ function buildProduction() {
         const settingsRegJs = readFile(settingsRegJsPath);
         const settingsJs = readFile(settingsJsPath);
 
-        // Prayer submodules
-        const prayerOldJs = readFile(prayerOldJsPath);
-        const prayerPerfJs = readFile(prayerPerfJsPath);
-        const prayerHistJs = readFile(prayerHistJsPath);
-        const prayerTrackerVmJs = readFile(prayerTrackerVmJsPath);
-        const prayerTrackingJs = readFile(prayerTrackingJsPath);
-
         // Tasbeeh submodules
         const tasbeehServiceJs = readFile(tasbeehServiceJsPath);
         const tasbeehModelJs = readFile(tasbeehModelJsPath);
@@ -370,11 +356,6 @@ function buildProduction() {
             settingsBackupJs,
             settingsRegJs,
             settingsJs,
-            prayerOldJs,
-            prayerPerfJs,
-            prayerHistJs,
-            prayerTrackerVmJs,
-            prayerTrackingJs,
             tasbeehModelJs,
             tasbeehServiceJs,
             tasbeehCalJs,

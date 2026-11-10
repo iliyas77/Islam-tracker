@@ -405,7 +405,17 @@ function PrayerStoreModel() {
         var recs = Object.assign({}, self.trackerRecords() || {});
         var dayRec = Object.assign({}, recs[d] || {});
 
-        var wasDone = dayRec[prayerName] === false;
+        var rec = recs[d];
+        var wasDone;
+        if (rec && rec[prayerName] !== undefined) {
+            wasDone = (rec[prayerName] === false || rec[prayerName] === 'done' || rec[prayerName] === 1);
+        } else {
+            var histList = (typeof self.historyEntries === 'function') ? self.historyEntries() : [];
+            var inHistory = Array.isArray(histList) && histList.some(function (e) {
+                return e.prayer === prayerName && e.date === d;
+            });
+            wasDone = inHistory || (typeof _win.isDonePrayer === 'function' ? _win.isDonePrayer(prayerName, d, recs) : false);
+        }
         // In Islam Tracker, false means completed/done, true means missed
         dayRec[prayerName] = isDone ? false : true;
 
@@ -423,13 +433,16 @@ function PrayerStoreModel() {
         self.trackerRecords(recs);
 
         // History entries
+        var addFn = (typeof _win.addPrayerHistoryEntry === 'function') ? _win.addPrayerHistoryEntry : null;
+        var removeFn = (typeof _win.removePrayerHistoryEntry === 'function') ? _win.removePrayerHistoryEntry : null;
+
         if (isDone && !wasDone) {
-            if (typeof _win.addPrayerHistoryEntry === 'function') {
-                _win.addPrayerHistoryEntry(prayerName, 'Current', d);
+            if (addFn) {
+                addFn(prayerName, 'Current', d);
             }
         } else if (!isDone && wasDone) {
-            if (typeof _win.removePrayerHistoryEntry === 'function') {
-                _win.removePrayerHistoryEntry(prayerName, 'Current', d);
+            if (removeFn) {
+                removeFn(prayerName, 'Current', d);
             }
         }
     };
@@ -439,7 +452,7 @@ function PrayerStoreModel() {
         var rec = self.getRecord(d);
         var wasDone = typeof _win.isDonePrayer === 'function'
             ? _win.isDonePrayer(prayerName, d, rec)
-            : (rec[prayerName] === false);
+            : (rec[prayerName] === false || rec[prayerName] === 'done' || rec[prayerName] === 1);
         var isDone = !wasDone;
         self.setPrayerStatus(prayerName, d, isDone);
     };
@@ -450,13 +463,16 @@ function PrayerStoreModel() {
         var dayRec = Object.assign({}, recs[d] || {});
         var prayers = self.prayers;
 
+        var addFn = (typeof _win.addPrayerHistoryEntry === 'function') ? _win.addPrayerHistoryEntry : null;
+        var removeFn = (typeof _win.removePrayerHistoryEntry === 'function') ? _win.removePrayerHistoryEntry : null;
+
         prayers.forEach(function (p) {
-            var wasDone = dayRec[p] === false;
+            var wasDone = (dayRec[p] === false || dayRec[p] === 'done' || dayRec[p] === 1);
             dayRec[p] = markDone ? false : true;
             if (markDone && !wasDone) {
-                if (typeof _win.addPrayerHistoryEntry === 'function') _win.addPrayerHistoryEntry(p, 'Current', d);
+                if (addFn) addFn(p, 'Current', d);
             } else if (!markDone && wasDone) {
-                if (typeof _win.removePrayerHistoryEntry === 'function') _win.removePrayerHistoryEntry(p, 'Current', d);
+                if (removeFn) removeFn(p, 'Current', d);
             }
         });
 
