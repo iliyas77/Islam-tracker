@@ -10,8 +10,6 @@
 
 import { unwrap, fr, formatTimeAgo, PRAYER_CARD_ICONS } from '../../tracker-service.js';
 
-var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-
 export const TrackerHistoryCardTemplate = {
     element: 'tracker-history-card-template',
     file: 'features/tracker/tracker-history/tracker-history-card/tracker-history-card.html'
@@ -60,10 +58,6 @@ export function TrackerHistoryCardViewModel(params) {
             cb(self.item, event);
         }
     };
-}
-
-if (typeof window !== 'undefined') {
-    window.TrackerHistoryCardViewModel = TrackerHistoryCardViewModel;
 }
 
 export default {

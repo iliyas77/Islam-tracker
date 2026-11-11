@@ -10,8 +10,6 @@
 
 import { unwrap, PRAYER_CARD_ICONS } from '../../tracker-service.js';
 
-var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
-
 export const TrackerCurrentCardTemplate = {
     element: 'tracker-current-card-template',
     file: 'features/tracker/tracker-current/tracker-current-card/tracker-current-card.html'
@@ -58,10 +56,6 @@ export function TrackerCurrentCardViewModel(params) {
             cb(self, event);
         }
     };
-}
-
-if (typeof window !== 'undefined') {
-    window.TrackerCurrentCardViewModel = TrackerCurrentCardViewModel;
 }
 
 export default {

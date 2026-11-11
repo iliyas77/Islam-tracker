@@ -10,15 +10,11 @@
 'use strict';
 
 import {
-    TrackerService, unwrap, getTotalMissedCount, td, fr,
-    clearPrayerHistory, formatPrayerDate, datesInRange
+    unwrap, getTotalMissedCount, td, clearPrayerHistory
 } from './tracker-service.js';
 
 import { registerTrackerComponents } from './tracker-registration.js';
-import { TrackerCurrentPageViewModel } from './tracker-current/tracker-current.js';
-import { TrackerOldPageViewModel } from './tracker-old/tracker-old.js';
-import { TrackerPerformancePageViewModel } from './tracker-performance/tracker-performance.js';
-import { TrackerHistoryPageViewModel } from './tracker-history/tracker-history.js';
+import { TrackerCurrentViewModel } from './tracker-current/tracker-current.js';
 
 // Re-export modular components and layers
 export * from './tracker-service.js';
@@ -33,7 +29,7 @@ var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
 
 /* ---------- Template Definitions (re-exported from tracker-registration.js) ---------- */
 export {
-    TrackerPageTemplate, TrackerHeaderTemplate, TrackerNavTabTemplate,
+    TrackerPageTemplate, TrackerMobileViewTemplate, TrackerHeaderTemplate, TrackerNavTabTemplate,
     PrayerNavTabTemplate, PrayerTrackerCardTemplate, PrayerRowTemplate,
     PrayerStatCardTemplate, PrayerPerfRingTemplate, PrayerHistoryCardTemplate
 } from './tracker-registration.js';
@@ -185,12 +181,14 @@ export function TrackerPageViewModel(params) {
     };
 
     // Sub-page parameters bundles
-    self.currentParams = {
+    var currentInitParams = {
         selectedDate: (store && k && typeof store.selectedDate === 'function') ? store.selectedDate : null,
         onSelectDate: function () {
             if (typeof _win.openCal === 'function') _win.openCal();
         }
     };
+    self.current = new TrackerCurrentViewModel(currentInitParams);
+    self.currentParams = self.current;
 
     self.oldParams = {
         onSelectDate: function () {
@@ -439,9 +437,6 @@ if (typeof window !== 'undefined') {
     window.PrayerTrackingApp = PrayerTrackingApp;
     window.initTracker = initTracker;
     window.getTrackerViewModel = getTrackerViewModel;
-    window.TrackerPageViewModel = TrackerPageViewModel;
-    window.PrayerTrackerCardViewModel = PrayerTrackerCardViewModel;
-    window.PrayerRowViewModel = PrayerRowViewModel;
     window.trackerViewModel = getTrackerViewModel();
     window.rMS = rMS;
     window.rn = rn;

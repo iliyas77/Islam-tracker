@@ -57,10 +57,6 @@ export function TrackerHistoryFeedViewModel(params) {
     };
 }
 
-if (typeof window !== 'undefined') {
-    window.TrackerHistoryFeedViewModel = TrackerHistoryFeedViewModel;
-}
-
 export default {
     template: TrackerHistoryFeedTemplate,
     viewModel: TrackerHistoryFeedViewModel

@@ -176,7 +176,7 @@ export async function runTrackerComponentTests() {
         path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-form', 'tracker-current-form.js')
     );
     const { TrackerCurrentPageViewModel } = await import(
-        path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-page', 'tracker-current-page.js')
+        path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current.js')
     );
 
     // Test Current Card
@@ -382,7 +382,8 @@ export async function runTrackerComponentTests() {
         'tracker-header',
         'tracker-nav-tab',
         'tracker-page',
-        'tracker-current-page',
+        'tracker-current',
+        'tracker-current-mobile-view',
         'tracker-current-feed',
         'tracker-current-card',
         'tracker-current-form',

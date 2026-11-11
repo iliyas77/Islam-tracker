@@ -277,17 +277,36 @@ data-bind="attr: { 'data-act': action, 'data-ref': dataRef }, click: onClick"><!
 data-bind="text: badgeText, attr: { id: badgeId, 'data-ref': badgeDataRef }, css: { 'd-none': !badgeVisible() }"></span><!-- /ko --><div class="icon-box icon-box-lg" data-bind="attr: { 'data-ref': iconDataRef }"><app-icon params="name: iconClass"></app-icon></div><div class="flex items-center justify-center gap-1 text-xs font-bold text-brand mt-2"><span class="text-xs font-bold text-brand"
 data-bind="text: title, attr: { 'data-ref': titleDataRef }"></span><app-icon params="name: 'chevron-right'"></app-icon></div></div><!-- /ko --></div></script><script type="text/html" id="features-grid-template"><!-- ko template: 'dashboard-features-grid-template' --><!-- /ko --></script><script type="text/html" id="dashboard-divider-template"><div class="flex items-center justify-center gap-2 py-3 w-full text-brand/30"><div class="h-[1px] bg-borderGrey flex-1"></div><div class="text-xs text-brand/40 px-2"><app-icon params="name: 'star-and-crescent'"></app-icon></div><div class="h-[1px] bg-borderGrey flex-1"></div></div></script><script type="text/html" id="dashboard-page-template"><div class="grow overflow-auto p-0 relative" id="dashScroll"><div id="dashBody"><div class="p-2.5 pt-2 pb-3 relative flex flex-col gap-3.5 w-full min-h-full box-border"><div class="absolute top-0 left-0 right-0 h-[220px] pointer-events-none opacity-20 z-0 flex justify-between p-4"
 aria-hidden="true"><app-icon params="name: 'star-and-crescent', style: 'opacity: 0.15; font-size: 1.5rem;'"></app-icon><app-icon params="name: 'star-and-crescent', style: 'opacity: 0.15; font-size: 1.5rem;'"></app-icon></div><header class="flex items-center justify-between text-brand text-xs font-semibold py-1 z-10"><div class="flex items-center gap-1.5 text-xs text-brand font-medium"><app-icon params="name: 'location-dot', color: 'text-brand', size: 'sm', dataRef: 'page.dashboard.header.location-icon'"></app-icon><span id="dashLocationText"
-data-bind="html: header.locationText">Guntur &bull; Hanafi</span></div><div class="w-8 h-8 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-sm"><app-icon params="name: 'mosque'"></app-icon></div></header><!-- ko component: { name: 'dashboard-clock', params: clock } --><!-- /ko --><!-- ko component: { name: 'dashboard-timeline', params: timeline } --><!-- /ko --><!-- ko component: { name: 'dashboard-features-grid', params: featuresGrid } --><!-- /ko --><div class="flex items-center justify-center gap-2 py-3 w-full text-brand/30"><div class="h-[1px] bg-borderGrey flex-1"></div><div class="text-xs text-brand/40 px-2"><app-icon params="name: 'star-and-crescent'"></app-icon></div><div class="h-[1px] bg-borderGrey flex-1"></div></div></div></div></div></script><script type="text/html" id="dashboard-mobile-view-template"><!-- ko template: 'dashboard-page-template' --><!-- /ko --></script><script type="text/html" id="tracker-page-template"><!-- ko component: { name: 'tracker-header', params: header } --><!-- /ko --><div class="grow overflow-auto px-2 pt-2 pb-3" id="currentBody"
-data-bind="visible: currentSubTab() === 'current'"><!-- ko component: { name: 'tracker-current-page', params: currentParams } --><!-- /ko --></div><div class="grow overflow-auto px-2 pt-2 pb-3" id="oldBody"
-data-bind="visible: currentSubTab() === 'old'"><!-- ko component: { name: 'tracker-old-page', params: oldParams } --><!-- /ko --></div><div class="grow overflow-auto px-2 pt-2 pb-3" id="performanceBody"
-data-bind="visible: currentSubTab() === 'performance'"><!-- ko component: { name: 'tracker-performance-page', params: performanceParams } --><!-- /ko --></div><div class="grow overflow-auto px-2 pt-2 pb-3" id="historyBody"
-data-bind="visible: currentSubTab() === 'history'"><!-- ko component: { name: 'tracker-history-page', params: historyParams } --><!-- /ko --></div><!-- ko component: { name: 'tracker-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko --></script><script type="text/html" id="tracker-current-page-template"><div class="prayer-tracker-card w-full max-w-[480px] bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col gap-3 shadow-none mx-auto"
+data-bind="html: header.locationText">Guntur &bull; Hanafi</span></div><div class="w-8 h-8 rounded-full bg-dash-mintBg text-brand flex items-center justify-center text-sm"><app-icon params="name: 'mosque'"></app-icon></div></header><!-- ko component: { name: 'dashboard-clock', params: clock } --><!-- /ko --><!-- ko component: { name: 'dashboard-timeline', params: timeline } --><!-- /ko --><!-- ko component: { name: 'dashboard-features-grid', params: featuresGrid } --><!-- /ko --><div class="flex items-center justify-center gap-2 py-3 w-full text-brand/30"><div class="h-[1px] bg-borderGrey flex-1"></div><div class="text-xs text-brand/40 px-2"><app-icon params="name: 'star-and-crescent'"></app-icon></div><div class="h-[1px] bg-borderGrey flex-1"></div></div></div></div></div></script><script type="text/html" id="dashboard-mobile-view-template"><!-- ko template: 'dashboard-page-template' --><!-- /ko --></script><script type="text/html" id="tracker-page-template"><!-- ko with: header --><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"><div class="w-full flex items-center justify-between min-w-0 min-h-[44px]"><div class="flex items-center gap-2 min-w-0 grow"><button type="button"
+class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
+data-act="go-home" title="Back to Home" aria-label="Back to Home"
+data-bind="click: goHome"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="min-w-0 grow"><h5 class="font-bold m-0 text-base text-brand flex items-center gap-2"
+id="trackerHeaderTitle"><app-icon params="id: 'trackerHeaderIcon', name: iconClass || 'fa-regular fa-calendar-days text-gr-accent'"></app-icon><span id="trackerHeaderLabel" data-bind="text: label || 'Current Prayer'">Current Prayer</span></h5><div id="oldSub" class="text-xs text-gr-textMuted mt-0.5"
+data-bind="text: subtitle || 'Select a period to begin', css: { 'd-none': !showSubtitle }">Select a period to begin</div></div></div><div class="flex items-center gap-2"><button type="button"
+class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative"
+id="currentMissedBtn" data-act="missed-open" title="Missed Prayers"
+aria-label="Missed Prayers"
+data-bind="visible: !currentSubTab || ko.unwrap(currentSubTab) === 'current', click: openMissed"><app-icon params="name: 'triangle-exclamation', size: 'base', dataRef: 'page.current.card.header.badge-icon'"></app-icon><span class="inline-flex items-center justify-center absolute -top-1 -right-1 bg-gr-danger text-white text-[11px] font-bold min-w-[18px] h-[18px] px-1 rounded-full border-2 border-white leading-none z-[2] pointer-events-none"
+id="currentMissedBadge"
+data-bind="text: missedCount, css: { 'd-none': !hasMissed() }"></span></button><button type="button"
+class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
+id="oldActionBtn" data-act="old-info" title="Period Summary" aria-label="Period Summary"
+data-bind="visible: ko.unwrap(currentSubTab) === 'old', click: openPeriodInfo"><app-icon params="name: 'chart-simple', size: 'base'"></app-icon></button><button type="button"
+class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
+id="historyEmptyBtn" data-act="history-empty" title="Empty History"
+aria-label="Empty History"
+data-bind="visible: ko.unwrap(currentSubTab) === 'history', click: emptyHistory"><app-icon params="name: 'trash-can', size: 'base'"></app-icon></button></div></div></header><!-- /ko --><div class="grow overflow-auto px-2 pt-2 pb-3" id="currentBody"
+data-bind="visible: currentSubTab() === 'current'"><!-- ko with: currentParams --><div class="prayer-tracker-card w-full max-w-[480px] bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col gap-3 shadow-none mx-auto"
 data-bind="attr: { id: collapsePrefix + 'TrackerCard', 'data-ref': pagePrefix + '.card' }"><header class="tracker-header pb-2.5 border-b border-borderGrey flex items-center justify-between gap-2"
-data-bind="attr: { 'data-ref': pagePrefix + '.card.header' }"><button type="button" class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
+data-bind="attr: { 'data-ref': pagePrefix + '.card.header' }"><button type="button"
+class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
 data-bind="attr: { id: collapsePrefix + 'DateChip', 'data-ref': pagePrefix + '.card.header.date-chip' }, click: handleDateChipClick"
-aria-label="Select date"><app-icon params="name: 'calendar-days', prefix: 'fa-regular', size: 'sm'"></app-icon><span data-bind="text: dateChipText, attr: { id: collapsePrefix + 'DateChipText', 'data-ref': pagePrefix + '.card.header.date-text' }"></span></button><div class="header-status flex items-center gap-2"
-data-bind="attr: { id: collapsePrefix + 'HeaderStatus', 'data-ref': pagePrefix + '.card.header.status' }"><!-- ko if: badgeText --><span class="badge badge-warning inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer"
-data-bind="attr: { 'data-ref': pagePrefix + '.card.header.badge' }, click: handleBadgeClick"><app-icon params="name: 'triangle-exclamation', size: 'xs'"></app-icon><span data-bind="text: badgeText"></span></span><!-- /ko --><!-- ko if: actionBtnText --><button type="button" class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 text-sm hover:underline"
+aria-label="Select date"><app-icon params="name: 'calendar-days', prefix: 'fa-regular', size: 'sm'"></app-icon><span
+data-bind="text: dateChipText, attr: { id: collapsePrefix + 'DateChipText', 'data-ref': pagePrefix + '.card.header.date-text' }"></span></button><div class="header-status flex items-center gap-2"
+data-bind="attr: { id: collapsePrefix + 'HeaderStatus', 'data-ref': pagePrefix + '.card.header.status' }"><!-- ko if: badgeText --><span
+class="badge badge-warning inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer"
+data-bind="attr: { 'data-ref': pagePrefix + '.card.header.badge' }, click: handleBadgeClick"><app-icon params="name: 'triangle-exclamation', size: 'xs'"></app-icon><span data-bind="text: badgeText"></span></span><!-- /ko --><!-- ko if: actionBtnText --><button type="button"
+class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 text-sm hover:underline"
 data-bind="text: actionBtnText, attr: { id: collapsePrefix + 'ActionBtn', 'data-ref': pagePrefix + '.card.header.action-btn' }, click: handleActionBtnClick"></button><!-- /ko --></div></header><!-- ko component: {
 name: 'tracker-current-feed',
 params: {
@@ -303,7 +322,26 @@ params: {
 isOpen: isMissedFormOpen,
 onClose: closeMissedForm
 }
-} --><!-- /ko --></div></script><script type="text/html" id="tracker-current-feed-template"><div class="tracker-feed flex flex-col gap-3" data-bind="attr: { 'data-ref': pagePrefix + '.feed' }"><section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': pagePrefix + '.card.missed-group' }"><button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
+} --><!-- /ko --></div><!-- /ko --></div><div class="grow overflow-auto px-2 pt-2 pb-3" id="oldBody"
+data-bind="visible: currentSubTab() === 'old'"><!-- ko component: { name: 'tracker-old-page', params: oldParams } --><!-- /ko --></div><div class="grow overflow-auto px-2 pt-2 pb-3" id="performanceBody"
+data-bind="visible: currentSubTab() === 'performance'"><!-- ko component: { name: 'tracker-performance-page', params: performanceParams } --><!-- /ko --></div><div class="grow overflow-auto px-2 pt-2 pb-3" id="historyBody"
+data-bind="visible: currentSubTab() === 'history'"><!-- ko component: { name: 'tracker-history-page', params: historyParams } --><!-- /ko --></div><!-- ko component: {
+name: 'app-tabs',
+params: {
+variant: 'bottom-nav',
+containerId: 'trackerBottomNav',
+dataRef: 'page.tracker.bottom-nav',
+ariaLabel: 'Prayer Tracker Navigation Tabs',
+activeTab: currentSubTab,
+onTabChange: function(tabId) { if (typeof switchTrackerSubTab === 'function') switchTrackerSubTab(tabId); },
+tabs: [
+{ id: 'current', label: 'Current', icon: 'calendar-days', iconPrefix: 'fa-regular', elementId: 'tabTrackCurrent', dataAct: 'switch-track-current', dataRef: 'page.tracker.tab-current' },
+{ id: 'old', label: 'Old', icon: 'clock-rotate-left', elementId: 'tabTrackOld', dataAct: 'switch-track-old', dataRef: 'page.tracker.tab-old' },
+{ id: 'performance', label: 'Performance', icon: 'chart-simple', elementId: 'tabTrackPerformance', dataAct: 'switch-track-performance', dataRef: 'page.tracker.tab-performance' },
+{ id: 'history', label: 'History', icon: 'list-check', elementId: 'tabTrackHistory', dataAct: 'switch-track-history', dataRef: 'page.tracker.tab-history' }
+]
+}
+} --><!-- /ko --></script><script type="text/html" id="tracker-mobile-view-template"><!-- ko template: 'tracker-page-template' --><!-- /ko --></script><script type="text/html" id="tracker-current-mobile-view-template"><!-- ko template: 'tracker-page-template' --><!-- /ko --></script><script type="text/html" id="tracker-current-feed-template"><div class="tracker-feed flex flex-col gap-3" data-bind="attr: { 'data-ref': pagePrefix + '.feed' }"><section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': pagePrefix + '.card.missed-group' }"><button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
 data-toggle="collapse"
 data-bind="attr: { 'data-target': '#' + collapsePrefix + 'MissedList', 'data-ref': pagePrefix + '.card.missed-group.toggle' }"
 aria-expanded="true"><span class="section-title text-xs font-bold uppercase tracking-wider text-gr-text"
@@ -428,7 +466,7 @@ data-bind="text: doneGroupTitle, attr: { id: collapsePrefix + 'DoneTitle', 'data
 data-bind="attr: { 'data-ref': pagePrefix + '.card.done-group.icon' }">▼</span></button><div class="collapse show visible" style="visibility: visible;"
 data-bind="attr: { id: collapsePrefix + 'DoneList', 'data-ref': pagePrefix + '.card.done-group.collapse' }"><ul class="prayer-list flex flex-col gap-1.5 list-none p-0 m-0"
 data-bind="attr: { id: collapsePrefix + 'DoneUl', 'data-ref': pagePrefix + '.card.done-group.list' }"><!-- ko if: !hasDone() --><li class="p-3 text-center text-gr-muted small bg-white rounded-3 border"
-data-bind="attr: { 'data-ref': pagePrefix + '.done.empty' }">No completed prayers yet</li><!-- /ko --><!-- ko foreach: doneRows --><!-- ko component: {
+data-bind="attr: { 'data-ref': pagePrefix + '.done.empty' }">No prayers marked done yet.</li><!-- /ko --><!-- ko foreach: doneRows --><!-- ko component: {
 name: 'tracker-old-card',
 params: {
 item: $data,
@@ -492,7 +530,20 @@ data-bind="click: handleSettingsClick"><app-icon params="name: 'gear', customCla
 </button></div></div></div></script><script type="text/html" id="tracker-performance-card-template"><div class="rounded-2xl p-3.5 bg-white border border-borderGrey flex flex-col gap-2.5 shadow-none transition-all hover:border-brand"
 data-bind="attr: { 'data-ref': 'page.performance.prayer.' + pLower }, click: handleClick"><div class="flex items-center justify-between gap-2"><div class="flex items-center gap-2.5 min-w-0"><div class="w-10 h-10 rounded-xl bg-dash-mintBg text-brand flex items-center justify-center shrink-0"><app-icon params="name: iconClass, size: '20px'"></app-icon></div><div class="min-w-0"><h6 class="font-bold text-brand text-sm mb-0 leading-tight" data-bind="text: name"></h6><div class="text-gr-textMuted text-xs mt-0.5" data-bind="text: time"></div></div></div><div><!-- ko if: isPerfect --><span class="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-light text-brand"
 data-bind="text: percentage + '%', attr: { 'data-ref': 'page.performance.prayer.' + pLower + '.pct' }"></span><!-- /ko --><!-- ko ifnot: isPerfect --><span class="text-xs font-bold px-2 py-0.5 rounded-full bg-gr-dangerSoft text-gr-danger"
-data-bind="text: percentage + '%', attr: { 'data-ref': 'page.performance.prayer.' + pLower + '.pct' }"></span><!-- /ko --></div></div><div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden flex"><!-- ko if: isPerfect --><div class="h-full bg-brand rounded-full" data-bind="style: { width: percentage + '%' }"></div><!-- /ko --><!-- ko ifnot: isPerfect --><div class="perf-bar-fill h-full bg-brand" data-bind="style: { width: percentage + '%' }"></div><div class="perf-bar-missed h-full bg-gr-danger" data-bind="style: { width: (100 - percentage) + '%' }"></div><!-- /ko --></div><div class="flex items-center justify-between text-xs pt-1 border-t border-borderGrey/50"><span class="flex items-center gap-1.5 text-brand font-semibold"><app-icon params="name: 'circle-check', size: '14px'"></app-icon><span data-bind="text: completed + ' Completed'"></span></span><span class="flex items-center gap-1.5" data-bind="css: isPerfect ? 'text-gray-400 font-medium' : 'text-gr-danger font-semibold'"><app-icon params="name: isPerfect ? 'circle-xmark' : 'circle-exclamation', size: '14px'"></app-icon><span data-bind="text: missed + ' Missed'"></span></span></div></div></script><script type="text/html" id="tracker-history-page-template"><div class="tracker-history-page flex flex-col grow overflow-auto"><!-- ko component: {
+data-bind="text: percentage + '%', attr: { 'data-ref': 'page.performance.prayer.' + pLower + '.pct' }"></span><!-- /ko --></div></div><div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden flex"><!-- ko if: isPerfect --><div class="h-full bg-brand rounded-full" data-bind="style: { width: percentage + '%' }"></div><!-- /ko --><!-- ko ifnot: isPerfect --><div class="perf-bar-fill h-full bg-brand" data-bind="style: { width: percentage + '%' }"></div><div class="perf-bar-missed h-full bg-gr-danger" data-bind="style: { width: (100 - percentage) + '%' }"></div><!-- /ko --></div><div class="flex items-center justify-between text-xs pt-1 border-t border-borderGrey/50"><span class="flex items-center gap-1.5 text-brand font-semibold"><app-icon params="name: 'circle-check', size: '14px'"></app-icon><span data-bind="text: completed + ' Completed'"></span></span><span class="flex items-center gap-1.5" data-bind="css: isPerfect ? 'text-gray-400 font-medium' : 'text-gr-danger font-semibold'"><app-icon params="name: isPerfect ? 'circle-xmark' : 'circle-exclamation', size: '14px'"></app-icon><span data-bind="text: missed + ' Missed'"></span></span></div></div></script><script type="text/html" id="prayer-stat-card-template"><div class="grid grid-cols-3 gap-2"><div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center"><div class="text-gr-textMuted font-bold uppercase text-[10px] tracking-wider">COMPLETED</div><div class="font-bold text-xl text-brand mt-1.5 leading-none" id="perfCompletedStat"
+data-bind="text: completed">0</div><div class="text-gr-textMuted text-xs mt-1">prayers</div></div><div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center"><div class="text-gr-textMuted font-bold uppercase text-[10px] tracking-wider">MISSED</div><div class="font-bold text-xl text-gr-danger mt-1.5 leading-none" id="perfMissedStat"
+data-bind="text: missed">0</div><div class="text-gr-textMuted text-xs mt-1">prayers</div></div><div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center rounded-2xl shadow-none"><div class="text-gr-textMuted font-bold uppercase" style="font-size: 10px; letter-spacing: 0.5px;">SUCCESS</div><div class="font-bold text-xl text-brand mt-1.5 leading-none" id="perfRateStat"
+data-bind="text: rate">0%</div><div class="text-gr-textMuted text-xs mt-1">rate</div></div></div></script><script type="text/html" id="prayer-perf-ring-template"><div class="rounded-2xl p-4 bg-white border border-borderGrey flex flex-col gap-3"><div class="flex items-center justify-between"><div class="w-[88px] h-[88px] relative flex items-center justify-center shrink-0"><svg class="w-full h-full -rotate-90" viewBox="0 0 36 36"><path class="stroke-gray-200" stroke-width="3.5" fill="none"
+d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" /><path class="stroke-brand transition-all duration-500" id="perfRingVal"
+data-bind="attr: { 'stroke-dasharray': dashArray || '0, 100' }"
+stroke-dasharray="0, 100" stroke-width="3.5" stroke-linecap="round" fill="none"
+d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" /></svg><div class="absolute flex flex-col items-center justify-center text-center"><span class="text-base font-bold text-brand leading-none" id="perfHeroPercentage"
+data-bind="text: percentageText || '0%'">0%</span><span class="text-gr-textMuted font-medium mt-0.5 text-[10px]">completed</span></div></div><div class="text-right"><div class="text-gr-textMuted text-xs font-medium">Total completed prayers</div><div class="font-bold text-2xl text-brand tracking-tight leading-none mt-1"><span id="perfTotalCompleted"
+data-bind="text: totalCompleted || 0">0</span><span class="text-gr-textMuted font-normal text-lg" id="perfTotalPossible"
+data-bind="text: ' / ' + (totalPossible || 0)"> / 0</span></div></div></div><div class="w-full text-center py-2 px-3 rounded-full bg-brand-light text-brand text-xs font-medium border border-borderGrey"
+id="perfDatePill" data-bind="text: datePillText || '0 days'">
+0 days
+</div></div></script><script type="text/html" id="tracker-history-page-template"><div class="tracker-history-page flex flex-col grow overflow-auto"><!-- ko component: {
 name: 'tracker-history-feed',
 params: {
 entries: historyEntries,
@@ -514,121 +565,7 @@ data-bind="text: prayer, attr: { 'data-ref': 'page.history.item.prayer.' + (id |
 data-bind="text: type, attr: { 'data-ref': 'page.history.item.type.' + (id || '') }, css: isCurrent ? 'bg-brand-light text-brand border border-brand/20' : 'bg-amber-50 text-amber-700 border border-amber-200'"></span></div></div><div class="flex items-center gap-2"><span class="flex items-center gap-1.5 text-brand text-xs font-bold shrink-0"><app-icon params="name: 'circle-check', size: '14px', color: 'text-brand'"></app-icon><span>Completed</span></span><button type="button" aria-label="Delete entry" title="Delete entry"
 class="w-7 h-7 rounded-full text-gray-300 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition-colors cursor-pointer"
 data-bind="click: handleDelete"><app-icon params="name: 'trash', size: 'xs'"></app-icon></button></div></div><div class="text-gr-textMuted text-xs" data-bind="attr: { 'data-ref': 'page.history.item.date.' + (id || '') }">
-Prayer Date: <strong class="text-brand font-bold" data-bind="text: formattedDate"></strong></div><div class="flex items-center justify-between text-gr-textMuted text-xs"><div class="flex items-center gap-1.5" data-bind="attr: { 'data-ref': 'page.history.item.time.' + (id || '') }"><app-icon params="name: 'clock', prefix: 'fa-regular', size: '12px'"></app-icon><span>Completed: <span class="text-brand font-medium" data-bind="text: exactTime"></span></span></div><span class="text-gr-textMuted" data-bind="text: ago"></span></div></div></script><script type="text/html" id="tracker-header-template"><!-- ko template: { name: 'prayer-header-template' } --><!-- /ko --></script><script type="text/html" id="prayer-header-template"><header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"><div class="w-full flex items-center justify-between min-w-0 min-h-[44px]"><div class="flex items-center gap-2 min-w-0 grow"><button type="button"
-class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
-data-act="go-home" title="Back to Home" aria-label="Back to Home"
-data-bind="click: goHome"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="min-w-0 grow"><h5 class="font-bold m-0 text-base text-brand flex items-center gap-2"
-id="trackerHeaderTitle"><app-icon params="id: 'trackerHeaderIcon', name: iconClass || 'fa-regular fa-calendar-days text-gr-accent'"></app-icon><span id="trackerHeaderLabel" data-bind="text: label || 'Current Prayer'">Current Prayer</span></h5><div id="oldSub" class="text-xs text-gr-textMuted mt-0.5"
-data-bind="text: subtitle || 'Select a period to begin', css: { 'd-none': !showSubtitle }">Select a period to begin</div></div></div><div class="flex items-center gap-2"><button type="button"
-class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative"
-id="currentMissedBtn" data-act="missed-open" title="Missed Prayers"
-aria-label="Missed Prayers"
-data-bind="visible: !currentSubTab || ko.unwrap(currentSubTab) === 'current', click: openMissed"><app-icon params="name: 'triangle-exclamation', size: 'base', dataRef: 'page.current.card.header.badge-icon'"></app-icon><span class="inline-flex items-center justify-center absolute -top-1 -right-1 bg-gr-danger text-white text-[11px] font-bold min-w-[18px] h-[18px] px-1 rounded-full border-2 border-white leading-none z-[2] pointer-events-none"
-id="currentMissedBadge"
-data-bind="text: missedCount, css: { 'd-none': !hasMissed() }"></span></button><button type="button"
-class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
-id="oldActionBtn" data-act="old-info" title="Period Summary" aria-label="Period Summary"
-data-bind="visible: ko.unwrap(currentSubTab) === 'old', click: openPeriodInfo"><app-icon params="name: 'chart-simple', size: 'base'"></app-icon></button><button type="button"
-class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
-id="historyEmptyBtn" data-act="history-empty" title="Empty History"
-aria-label="Empty History"
-data-bind="visible: ko.unwrap(currentSubTab) === 'history', click: emptyHistory"><app-icon params="name: 'trash-can', size: 'base'"></app-icon></button></div></div></header></script><script type="text/html" id="prayer-tracker-card-template"><div class="prayer-tracker-card w-full max-w-[480px] bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col gap-3 shadow-none mx-auto"
-data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'TrackerCard', 'data-ref': ($data.pagePrefix || 'page.current') + '.card' }"><header class="tracker-header pb-2.5 border-b border-borderGrey flex items-center justify-between gap-2"
-data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header' }"><button type="button" class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
-data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DateChip', 'data-act': $data.dateChipAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-chip' }, click: onDateChipClick"
-aria-label="Select date"><app-icon params="name: 'calendar-days', prefix: 'fa-regular', size: 'sm'"></app-icon><span data-bind="text: $data.dateChipText, attr: { id: ($data.collapsePrefix || 'cur') + 'DateChipText', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-text' }"></span></button><div class="header-status flex items-center gap-2"
-data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'HeaderStatus', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.status' }"><!-- ko if: $data.badgeText --><span class="badge badge-warning inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer"
-data-bind="attr: { 'data-act': $data.badgeAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.badge' }, click: onBadgeClick"><app-icon params="name: 'triangle-exclamation', size: 'xs'"></app-icon><span data-bind="text: $data.badgeText"></span></span><!-- /ko --><!-- ko if: $data.actionBtnText --><button type="button" class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 text-sm hover:underline"
-data-bind="text: $data.actionBtnText, attr: { id: ($data.collapsePrefix || 'cur') + 'ActionBtn', 'data-act': $data.actionBtnAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.action-btn' }, click: onActionBtnClick"></button><!-- /ko --></div></header><section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group' }"><button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
-data-toggle="collapse"
-data-bind="attr: { 'data-target': '#' + ($data.collapsePrefix || 'cur') + 'MissedList', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.toggle' }"
-aria-expanded="true"><span class="section-title text-xs font-bold uppercase tracking-wider text-gr-text"
-data-bind="text: $data.missedGroupTitle, attr: { id: ($data.collapsePrefix || 'cur') + 'MissedTitle', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.title' }">MISSED</span><span class="toggle-icon text-[10px] transition-transform duration-200 inline-block"
-data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.icon' }">▼</span></button><div class="collapse show visible" style="visibility: visible;"
-data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'MissedList', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.collapse' }"><ul class="prayer-list flex flex-col gap-1.5 list-none p-0 m-0"
-data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'MissedUl', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.list' }"><!-- ko if: (typeof missedRows === 'function' ? missedRows() : ($data.missedRows || [])).length === 0 --><li class="p-3 text-center text-gr-muted small bg-white rounded-3 border"
-data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.missed.empty' }">No missed or pending prayers. All caught up!</li><!-- /ko --><!-- ko foreach: (typeof missedRows === 'function' ? missedRows : ($data.missedRows || [])) --><!-- ko component: { name: 'prayer-row', params: $data } --><!-- /ko --><!-- /ko --></ul></div></section><section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group' }"><button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
-data-toggle="collapse"
-data-bind="attr: { 'data-target': '#' + ($data.collapsePrefix || 'cur') + 'DoneList', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.toggle' }"
-aria-expanded="true"><span class="section-title text-xs font-bold uppercase tracking-wider text-gr-text"
-data-bind="text: $data.doneGroupTitle, attr: { id: ($data.collapsePrefix || 'cur') + 'DoneTitle', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.title' }">DONE</span><span class="toggle-icon text-[10px] transition-transform duration-200 inline-block"
-data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.icon' }">▼</span></button><div class="collapse show visible" style="visibility: visible;"
-data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DoneList', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.collapse' }"><ul class="prayer-list flex flex-col gap-1.5 list-none p-0 m-0"
-data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DoneUl', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.list' }"><!-- ko if: (typeof doneRows === 'function' ? doneRows() : ($data.doneRows || [])).length === 0 --><li class="p-3 text-center text-gr-muted small bg-white rounded-3 border"
-data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.done.empty' }">No completed prayers yet.</li><!-- /ko --><!-- ko foreach: (typeof doneRows === 'function' ? doneRows : ($data.doneRows || [])) --><!-- ko component: { name: 'prayer-row', params: $data } --><!-- /ko --><!-- /ko --></ul></div></section></div></script><script type="text/html" id="prayer-row-template"><!-- ko if: isDone --><li class="prayer-row prayer-row-done p-2.5 px-3 bg-surfaceBg border border-transparent rounded-xl flex items-center justify-between opacity-75 transition-all gap-2.5 mb-1.5"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }"><div class="prayer-meta flex items-center gap-2.5 min-w-0"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }"><div class="icon-box icon-box-md icon-done w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-[#D1E5DC] text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }"><app-icon params="name: 'check', size: 'xl'"></app-icon></div><div class="prayer-details flex flex-col gap-0.5 min-w-0"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }"><div class="title-wrap flex items-baseline"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title-wrap' }"><span class="prayer-name text-sm font-bold text-brand truncate"
-data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span></div><time class="prayer-time text-xs text-gr-textMuted"
-data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time></div></div><button type="button"
-class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#D1E5DC] text-brand border-0 hover:bg-[#c2ded3] transition-colors cursor-pointer shrink-0 text-xs font-semibold"
-data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, click: onToggle"
-title="Tap to mark missed"><app-icon params="name: 'check', size: 'xs'"></app-icon> Done
-</button></li><!-- /ko --><!-- ko if: isUpcoming --><li class="prayer-row prayer-row-upcoming p-2.5 px-3 bg-surfaceBg border border-borderGrey rounded-xl flex items-center justify-between cursor-default transition-all gap-2.5 mb-1.5"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }"><div class="prayer-meta flex items-center gap-2.5 min-w-0"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }"><div class="icon-box icon-box-md w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }"><app-icon params="name: iconClass"></app-icon></div><div class="prayer-details flex flex-col gap-0.5 min-w-0"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }"><div class="title-wrap flex items-baseline"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title-wrap' }"><span class="prayer-name text-sm font-bold text-brand truncate"
-data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span></div><time class="prayer-time text-xs text-gr-textMuted"
-data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time></div></div><button type="button"
-class="inline-flex items-center justify-center px-3 py-1.5 rounded-xl bg-gray-100 text-gray-400 border border-dashed border-borderGrey cursor-default shrink-0 text-xs font-semibold"
-disabled aria-disabled="true"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }">Upcoming</button></li><!-- /ko --><!-- ko if: isMissed --><li class="prayer-row prayer-row-missed p-2.5 px-3 bg-gradient-to-r from-gr-dangerSoft to-white border border-gr-danger rounded-xl flex items-center justify-between transition-all gap-2.5 mb-1.5"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }"><div class="prayer-meta flex items-center gap-2.5 min-w-0"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }"><div class="icon-box icon-box-md icon-missed w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-red-500 text-white inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }"><app-icon params="name: iconClass"></app-icon></div><div class="prayer-details flex flex-col gap-0.5 min-w-0"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }"><div class="title-wrap flex items-baseline"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title-wrap' }"><span class="prayer-name text-sm font-bold text-brand truncate"
-data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span></div><time class="prayer-time text-xs text-gr-textMuted"
-data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time></div></div><button type="button"
-class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl bg-red-50 text-red-600 border border-red-200 hover:bg-red-500 hover:text-white transition-colors cursor-pointer shrink-0 text-xs font-semibold"
-data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, click: onToggle">Mark Done</button></li><!-- /ko --><!-- ko if: isStandard --><li class="prayer-row p-2.5 px-3 bg-white border rounded-xl flex items-center justify-between transition-all gap-2.5 mb-1.5"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }, css: isCurrent ? 'prayer-row-current bg-gradient-to-r from-activeLight to-white border-brand' : 'border-borderGrey hover:border-brand'"><div class="prayer-meta flex items-center gap-2.5 min-w-0"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }"><div class="icon-box icon-box-md w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }, css: isCurrent ? 'icon-current bg-brand text-white' : 'bg-dash-mintBg text-brand'"><app-icon params="name: iconClass"></app-icon></div><div class="prayer-details flex flex-col gap-0.5 min-w-0"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }"><div class="title-wrap flex items-baseline"
-data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title-wrap' }"><span class="prayer-name text-sm font-bold text-brand truncate"
-data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span></div><time class="prayer-time text-xs text-gr-textMuted"
-data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time></div></div><button type="button"
-class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl transition-colors cursor-pointer shrink-0 text-xs font-semibold"
-data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, css: isCurrent ? 'bg-brand text-white hover:bg-brand-hover' : 'bg-transparent border border-borderGrey text-brand hover:bg-brand-light', click: onToggle">Mark Done</button></li><!-- /ko --></script><script type="text/html" id="prayer-stat-card-template"><div class="grid grid-cols-3 gap-2"><div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center"><div class="text-gr-textMuted font-bold uppercase text-[10px] tracking-wider">COMPLETED</div><div class="font-bold text-xl text-brand mt-1.5 leading-none" id="perfCompletedStat"
-data-bind="text: completed">0</div><div class="text-gr-textMuted text-xs mt-1">prayers</div></div><div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center"><div class="text-gr-textMuted font-bold uppercase text-[10px] tracking-wider">MISSED</div><div class="font-bold text-xl text-gr-danger mt-1.5 leading-none" id="perfMissedStat"
-data-bind="text: missed">0</div><div class="text-gr-textMuted text-xs mt-1">prayers</div></div><div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center rounded-2xl shadow-none"><div class="text-gr-textMuted font-bold uppercase" style="font-size: 10px; letter-spacing: 0.5px;">SUCCESS</div><div class="font-bold text-xl text-brand mt-1.5 leading-none" id="perfRateStat"
-data-bind="text: rate">0%</div><div class="text-gr-textMuted text-xs mt-1">rate</div></div></div></script><script type="text/html" id="prayer-perf-ring-template"><div class="rounded-2xl p-4 bg-white border border-borderGrey flex flex-col gap-3"><div class="flex items-center justify-between"><div class="w-[88px] h-[88px] relative flex items-center justify-center shrink-0"><svg class="w-full h-full -rotate-90" viewBox="0 0 36 36"><path class="stroke-gray-200" stroke-width="3.5" fill="none"
-d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" /><path class="stroke-brand transition-all duration-500" id="perfRingVal"
-data-bind="attr: { 'stroke-dasharray': dashArray || '0, 100' }"
-stroke-dasharray="0, 100" stroke-width="3.5" stroke-linecap="round" fill="none"
-d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" /></svg><div class="absolute flex flex-col items-center justify-center text-center"><span class="text-base font-bold text-brand leading-none" id="perfHeroPercentage"
-data-bind="text: percentageText || '0%'">0%</span><span class="text-gr-textMuted font-medium mt-0.5 text-[10px]">completed</span></div></div><div class="text-right"><div class="text-gr-textMuted text-xs font-medium">Total completed prayers</div><div class="font-bold text-2xl text-brand tracking-tight leading-none mt-1"><span id="perfTotalCompleted"
-data-bind="text: totalCompleted || 0">0</span><span class="text-gr-textMuted font-normal text-lg" id="perfTotalPossible"
-data-bind="text: ' / ' + (totalPossible || 0)"> / 0</span></div></div></div><div class="w-full text-center py-2 px-3 rounded-full bg-brand-light text-brand text-xs font-medium border border-borderGrey"
-id="perfDatePill" data-bind="text: datePillText || '0 days'">
-0 days
-</div></div></script><script type="text/html" id="tracker-nav-tab-template"><!-- ko component: {
-name: 'app-tabs',
-params: {
-variant: 'bottom-nav',
-containerId: 'trackerBottomNav',
-dataRef: 'page.tracker.bottom-nav',
-ariaLabel: 'Prayer Tracker Navigation Tabs',
-activeTab: activeTab,
-onTabChange: function(tabId) { if (typeof switchTrackerSubTab === 'function') switchTrackerSubTab(tabId); },
-tabs: [
-{ id: 'current', label: 'Current', icon: 'calendar-days', iconPrefix: 'fa-regular', elementId: 'tabTrackCurrent', dataAct: 'switch-track-current', dataRef: 'page.tracker.tab-current' },
-{ id: 'old', label: 'Old', icon: 'clock-rotate-left', elementId: 'tabTrackOld', dataAct: 'switch-track-old', dataRef: 'page.tracker.tab-old' },
-{ id: 'performance', label: 'Performance', icon: 'chart-simple', elementId: 'tabTrackPerformance', dataAct: 'switch-track-performance', dataRef: 'page.tracker.tab-performance' },
-{ id: 'history', label: 'History', icon: 'list-check', elementId: 'tabTrackHistory', dataAct: 'switch-track-history', dataRef: 'page.tracker.tab-history' }
-]
-}
-} --><!-- /ko --></script><script type="text/html" id="prayer-nav-tab-template"><!-- ko template: 'tracker-nav-tab-template' --><!-- /ko --></script><script type="text/html" id="prayer-history-card-template"><div class="rounded-2xl p-4 bg-white border border-borderGrey mb-3 flex flex-col gap-3 shadow-none"
-data-bind="attr: { 'data-ref': 'page.history.card.' + (id || '') }"><div class="flex items-center justify-between"><div class="flex items-center gap-2.5 min-w-0"><div class="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 44px; height: 44px;"
-data-bind="attr: { 'data-ref': 'page.history.item.avatar.' + (id || '') }"><app-icon params="name: iconName, size: '22px', color: 'text-brand'"></app-icon></div><div class="flex items-center gap-2 min-w-0"><h6 class="font-bold text-brand text-base mb-0 leading-none"
-data-bind="text: prayer, attr: { 'data-ref': 'page.history.item.prayer.' + (id || '') }"></h6><span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
-data-bind="text: type, attr: { 'data-ref': 'page.history.item.type.' + (id || '') }, css: isCurrent ? 'bg-brand-light text-brand border border-brand/20' : 'bg-amber-50 text-amber-700 border border-amber-200'"></span></div></div><span class="flex items-center gap-1.5 text-brand text-xs font-bold shrink-0"><app-icon params="name: 'circle-check', size: '14px', color: 'text-brand'"></app-icon><span>Completed</span></span></div><div class="text-gr-textMuted text-xs" data-bind="attr: { 'data-ref': 'page.history.item.date.' + (id || '') }">
-Prayer Date: <strong class="text-brand font-bold" data-bind="text: formattedDate"></strong></div><div class="flex items-center justify-between text-gr-textMuted text-xs"><div class="flex items-center gap-1.5" data-bind="attr: { 'data-ref': 'page.history.item.time.' + (id || '') }"><app-icon params="name: 'clock', prefix: 'fa-regular', size: '12px'"></app-icon><span>Completed: <span class="text-brand font-medium" data-bind="text: exactTime"></span></span></div><span class="text-gr-textMuted" data-bind="text: ago"></span></div></div></script><script type="text/html" id="tasbeeh-page-template"><!-- ko component: { name: 'tasbeeh-header', params: header } --><!-- /ko --><div class="grow overflow-auto p-2 pb-5 relative" id="tbCurrentBody"
+Prayer Date: <strong class="text-brand font-bold" data-bind="text: formattedDate"></strong></div><div class="flex items-center justify-between text-gr-textMuted text-xs"><div class="flex items-center gap-1.5" data-bind="attr: { 'data-ref': 'page.history.item.time.' + (id || '') }"><app-icon params="name: 'clock', prefix: 'fa-regular', size: '12px'"></app-icon><span>Completed: <span class="text-brand font-medium" data-bind="text: exactTime"></span></span></div><span class="text-gr-textMuted" data-bind="text: ago"></span></div></div></script><script type="text/html" id="tracker-header-template"><!-- ko template: 'tracker-page-template' --><!-- /ko --></script><script type="text/html" id="prayer-header-template"><!-- ko template: 'tracker-page-template' --><!-- /ko --></script><script type="text/html" id="prayer-tracker-card-template"><!-- ko template: 'tracker-page-template' --><!-- /ko --></script><script type="text/html" id="prayer-row-template"><!-- ko template: 'tracker-current-card-template' --><!-- /ko --></script><script type="text/html" id="tracker-nav-tab-template"><!-- ko template: 'tracker-page-template' --><!-- /ko --></script><script type="text/html" id="prayer-nav-tab-template"><!-- ko template: 'tracker-nav-tab-template' --><!-- /ko --></script><script type="text/html" id="prayer-history-card-template"><!-- ko template: 'tracker-history-card-template' --><!-- /ko --></script><script type="text/html" id="tasbeeh-page-template"><!-- ko component: { name: 'tasbeeh-header', params: header } --><!-- /ko --><div class="grow overflow-auto p-2 pb-5 relative" id="tbCurrentBody"
 data-bind="visible: currentSubTab() === 'current' && !isCalendarOpen()"><!-- ko component: { name: 'tasbeeh-current-feed', params: currentFeedParams } --><!-- /ko --></div><div class="grow overflow-auto p-2 pb-5 relative" id="tbOldBody"
 data-bind="visible: currentSubTab() === 'old' && !isCalendarOpen()"><!-- ko component: { name: 'tasbeeh-old-feed', params: oldFeedParams } --><!-- /ko --></div><div class="grow overflow-auto p-2 pb-5 relative" id="tbHistoryBody"
 data-bind="visible: currentSubTab() === 'history' && !isCalendarOpen()"><!-- ko component: { name: 'tasbeeh-history-page', params: historyPageParams } --><!-- /ko --></div><!-- ko if: currentSubTab() === 'current' && isCalendarOpen() --><!-- ko component: { name: 'tasbeeh-current-page', params: currentCalendarParams } --><!-- /ko --><!-- /ko --><!-- ko if: currentSubTab() === 'old' && isCalendarOpen() --><!-- ko component: { name: 'tasbeeh-old-page', params: oldCalendarParams } --><!-- /ko --><!-- /ko --><!-- ko component: { name: 'tasbeeh-current-form', params: currentFormParams } --><!-- /ko --><button type="button"
@@ -11479,7 +11416,6 @@ clearPrayerHistory: clearPrayerHistory
 };
 }
 'use strict';
-var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var TrackerCurrentCardTemplate = {
 element: 'tracker-current-card-template',
 file: 'features/tracker/tracker-current/tracker-current-card/tracker-current-card.html'
@@ -11521,9 +11457,6 @@ if (typeof cb === 'function') {
 cb(self, event);
 }
 };
-}
-if (typeof window !== 'undefined') {
-window.TrackerCurrentCardViewModel = TrackerCurrentCardViewModel;
 }
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
@@ -11572,9 +11505,6 @@ if (typeof cb === 'function') {
 cb(prayerCardVm, event);
 }
 };
-}
-if (typeof window !== 'undefined') {
-window.TrackerCurrentFeedViewModel = TrackerCurrentFeedViewModel;
 }
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
@@ -11626,19 +11556,19 @@ cb();
 }
 };
 }
-if (typeof window !== 'undefined') {
-window.TrackerCurrentFormViewModel = TrackerCurrentFormViewModel;
-}
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
-var TrackerCurrentPageTemplate = {
-element: 'tracker-current-page-template',
-file: 'features/tracker/tracker-current/tracker-current-page/tracker-current-page.html'
+var TrackerCurrentMobileViewTemplate = {
+element: 'tracker-current-mobile-view-template',
+file: 'features/tracker/tracker-mobile-view.html'
 };
-function TrackerCurrentPageViewModel(params) {
-if (params instanceof TrackerCurrentPageViewModel) return params;
-if (!(this instanceof TrackerCurrentPageViewModel)) return new TrackerCurrentPageViewModel(params);
+var TrackerCurrentTemplate = TrackerCurrentMobileViewTemplate;
+var PrayerRowTemplate = TrackerCurrentCardTemplate;
+function TrackerCurrentViewModel(params) {
+if (params instanceof TrackerCurrentViewModel) return params;
+if (typeof TrackerCurrentPageViewModel === 'function' && params instanceof TrackerCurrentPageViewModel) return params;
+if (!(this instanceof TrackerCurrentViewModel)) return new TrackerCurrentViewModel(params);
 var p = (params && typeof params === 'function') ? params() : (params || {});
 var k = _ko;
 var self = this;
@@ -11649,12 +11579,12 @@ function obsArr(arr) {
 return (k && k.observableArray) ? k.observableArray(arr || []) : function () { return arr || []; };
 }
 var store = _win.PrayerStore || null;
-self.selectedDate = (store && k && isObservable(store.selectedDate))
-? store.selectedDate
-: ((p.selectedDate && k && isObservable(p.selectedDate)) ? p.selectedDate : obs(td()));
 function isObservable(fn) {
 return (k && typeof k.isObservable === 'function') ? k.isObservable(fn) : (typeof fn === 'function');
 }
+self.selectedDate = (store && k && isObservable(store.selectedDate))
+? store.selectedDate
+: ((p.selectedDate && k && isObservable(p.selectedDate)) ? p.selectedDate : obs(td()));
 self.collapsePrefix = unwrap(p.collapsePrefix, 'cur');
 self.pagePrefix = unwrap(p.pagePrefix, 'page.current');
 self.missedRows = (p.missedRows && k && k.isObservable(p.missedRows)) ? p.missedRows : obsArr([]);
@@ -11797,13 +11727,14 @@ self.refresh();
 };
 self.refresh();
 _win.trackerCurrentPageViewModel = self;
+_win.trackerCurrentViewModel = self;
 }
+var TrackerCurrentPageViewModel = TrackerCurrentViewModel;
 if (typeof window !== 'undefined') {
-window.TrackerCurrentPageViewModel = TrackerCurrentPageViewModel;
 window.trackerCurrentPageViewModel = _win.trackerCurrentPageViewModel;
+window.trackerCurrentViewModel = _win.trackerCurrentViewModel;
 }
 'use strict';
-var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var TrackerOldCardTemplate = {
 element: 'tracker-old-card-template',
 file: 'features/tracker/tracker-old/tracker-old-card/tracker-old-card.html'
@@ -11845,9 +11776,6 @@ if (typeof cb === 'function') {
 cb(self, event);
 }
 };
-}
-if (typeof window !== 'undefined') {
-window.TrackerOldCardViewModel = TrackerOldCardViewModel;
 }
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
@@ -11896,9 +11824,6 @@ if (typeof cb === 'function') {
 cb(prayerCardVm, event);
 }
 };
-}
-if (typeof window !== 'undefined') {
-window.TrackerOldFeedViewModel = TrackerOldFeedViewModel;
 }
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
@@ -12004,9 +11929,6 @@ if (open) self.refresh();
 });
 }
 self.refresh();
-}
-if (typeof window !== 'undefined') {
-window.TrackerOldFormViewModel = TrackerOldFormViewModel;
 }
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
@@ -12188,12 +12110,10 @@ _win.trackerOldPageViewModel.refresh();
 }
 }
 if (typeof window !== 'undefined') {
-window.TrackerOldPageViewModel = TrackerOldPageViewModel;
 window.TrackerOldApp = { refresh: rOT };
 window.rOT = rOT;
 }
 'use strict';
-var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var TrackerPerformanceCardTemplate = {
 element: 'tracker-performance-card-template',
 file: 'features/tracker/tracker-performance/tracker-performance-card/tracker-performance-card.html'
@@ -12233,9 +12153,6 @@ if (typeof cb === 'function') {
 cb(self, event);
 }
 };
-}
-if (typeof window !== 'undefined') {
-window.TrackerPerformanceCardViewModel = TrackerPerformanceCardViewModel;
 }
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
@@ -12282,9 +12199,6 @@ if (typeof cb === 'function') {
 cb(cardVm, event);
 }
 };
-}
-if (typeof window !== 'undefined') {
-window.TrackerPerformanceFeedViewModel = TrackerPerformanceFeedViewModel;
 }
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
@@ -12365,11 +12279,17 @@ _win.showPage('settings');
 };
 self.refresh();
 }
-if (typeof window !== 'undefined') {
-window.TrackerPerformancePageViewModel = TrackerPerformancePageViewModel;
-}
+var TrackerPerfRingTemplate = {
+element: 'prayer-perf-ring-template',
+file: 'features/tracker/tracker-performance/prayer-perf-ring.html'
+};
+var TrackerStatCardTemplate = {
+element: 'prayer-stat-card-template',
+file: 'features/tracker/tracker-performance/prayer-stat-card.html'
+};
+var PrayerPerfRingTemplate = TrackerPerfRingTemplate;
+var PrayerStatCardTemplate = TrackerStatCardTemplate;
 'use strict';
-var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var TrackerHistoryCardTemplate = {
 element: 'tracker-history-card-template',
 file: 'features/tracker/tracker-history/tracker-history-card/tracker-history-card.html'
@@ -12413,9 +12333,6 @@ cb(self.item, event);
 }
 };
 }
-if (typeof window !== 'undefined') {
-window.TrackerHistoryCardViewModel = TrackerHistoryCardViewModel;
-}
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
@@ -12454,9 +12371,6 @@ if (typeof cb === 'function') {
 cb(entry, event);
 }
 };
-}
-if (typeof window !== 'undefined') {
-window.TrackerHistoryFeedViewModel = TrackerHistoryFeedViewModel;
 }
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
@@ -12529,19 +12443,18 @@ _win.trackerHistoryPageViewModel.refresh();
 }
 }
 if (typeof window !== 'undefined') {
-window.TrackerHistoryPageViewModel = TrackerHistoryPageViewModel;
 window.renderPrayerHistoryTab = renderPrayerHistoryTab;
 }
+var PrayerHistoryCardTemplate = TrackerHistoryCardTemplate;
 'use strict';
-var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker.html' };
-var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/templates/prayer-header.html' };
-var TrackerNavTabTemplate = { element: 'tracker-nav-tab-template', file: 'features/tracker/templates/tracker-nav-tab.html' };
-var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/templates/prayer-nav-tab.html' };
-var PrayerTrackerCardTemplate = { element: 'prayer-tracker-card-template', file: 'features/tracker/templates/prayer-tracker-card.html' };
-var PrayerRowTemplate = { element: 'prayer-row-template', file: 'features/tracker/templates/prayer-row.html' };
-var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/tracker/templates/prayer-stat-card.html' };
-var PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'features/tracker/templates/prayer-perf-ring.html' };
-var PrayerHistoryCardTemplate = { element: 'prayer-history-card-template', file: 'features/tracker/templates/prayer-history-card.html' };
+var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker-mobile-view.html' };
+var TrackerMobileViewTemplate = { element: 'tracker-mobile-view-template', file: 'features/tracker/tracker-mobile-view.html' };
+var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/tracker-mobile-view.html' };
+var TrackerNavTabTemplate = { element: 'tracker-nav-tab-template', file: 'features/tracker/tracker-mobile-view.html' };
+var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/tracker-mobile-view.html' };
+var PrayerTrackerCardTemplate = { element: 'prayer-tracker-card-template', file: 'features/tracker/prayer-tracker-card.html' };
+var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/tracker/tracker-performance/prayer-stat-card.html' };
+var PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'features/tracker/tracker-performance/prayer-perf-ring.html' };
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 function registerTrackerComponents(customKo) {
 registerComponent('tracker-header', function (p) { return p || {}; }, TrackerHeaderTemplate, customKo);
@@ -12552,10 +12465,17 @@ if (p && p.header && p.subTabs) return p;
 if (p && p.tracker) return p.tracker;
 return getTrackerViewModel();
 }, TrackerPageTemplate, customKo);
+registerComponent('tracker-mobile-view', function (p) {
+if (p && p.viewModel) return p.viewModel;
+if (p && p.header && p.subTabs) return p;
+if (p && p.tracker) return p.tracker;
+return getTrackerViewModel();
+}, TrackerMobileViewTemplate, customKo);
 registerComponent('tracker-current-card', TrackerCurrentCardViewModel, TrackerCurrentCardTemplate, customKo);
 registerComponent('tracker-current-feed', TrackerCurrentFeedViewModel, TrackerCurrentFeedTemplate, customKo);
 registerComponent('tracker-current-form', TrackerCurrentFormViewModel, TrackerCurrentFormTemplate, customKo);
-registerComponent('tracker-current-page', TrackerCurrentPageViewModel, TrackerCurrentPageTemplate, customKo);
+registerComponent('tracker-current-mobile-view', TrackerCurrentViewModel, TrackerCurrentMobileViewTemplate, customKo);
+registerComponent('tracker-current', TrackerCurrentViewModel, TrackerCurrentMobileViewTemplate, customKo);
 registerComponent('tracker-old-card', TrackerOldCardViewModel, TrackerOldCardTemplate, customKo);
 registerComponent('tracker-old-feed', TrackerOldFeedViewModel, TrackerOldFeedTemplate, customKo);
 registerComponent('tracker-old-form', TrackerOldFormViewModel, TrackerOldFormTemplate, customKo);
@@ -12707,12 +12627,14 @@ self.goToSettings = function (d, e) {
 if (e && e.stopPropagation) e.stopPropagation();
 if (typeof _win.showPage === 'function') _win.showPage('settings');
 };
-self.currentParams = {
+var currentInitParams = {
 selectedDate: (store && k && typeof store.selectedDate === 'function') ? store.selectedDate : null,
 onSelectDate: function () {
 if (typeof _win.openCal === 'function') _win.openCal();
 }
 };
+self.current = new TrackerCurrentViewModel(currentInitParams);
+self.currentParams = self.current;
 self.oldParams = {
 onSelectDate: function () {
 if (typeof _win.openOldCal === 'function') _win.openOldCal();
@@ -12929,9 +12851,6 @@ window.TrackerApp = TrackerApp;
 window.PrayerTrackingApp = PrayerTrackingApp;
 window.initTracker = initTracker;
 window.getTrackerViewModel = getTrackerViewModel;
-window.TrackerPageViewModel = TrackerPageViewModel;
-window.PrayerTrackerCardViewModel = PrayerTrackerCardViewModel;
-window.PrayerRowViewModel = PrayerRowViewModel;
 window.trackerViewModel = getTrackerViewModel();
 window.rMS = rMS;
 window.rn = rn;

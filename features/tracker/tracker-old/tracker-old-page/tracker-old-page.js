@@ -241,7 +241,6 @@ export function rOT() {
 }
 
 if (typeof window !== 'undefined') {
-    window.TrackerOldPageViewModel = TrackerOldPageViewModel;
     window.TrackerOldApp = { refresh: rOT };
     window.rOT = rOT;
 }

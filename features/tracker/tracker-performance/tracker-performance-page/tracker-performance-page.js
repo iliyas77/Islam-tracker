@@ -109,10 +109,6 @@ export function TrackerPerformancePageViewModel(params) {
     self.refresh();
 }
 
-if (typeof window !== 'undefined') {
-    window.TrackerPerformancePageViewModel = TrackerPerformancePageViewModel;
-}
-
 export default {
     template: TrackerPerformancePageTemplate,
     viewModel: TrackerPerformancePageViewModel

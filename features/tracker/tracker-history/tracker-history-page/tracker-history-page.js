@@ -97,7 +97,6 @@ export function renderPrayerHistoryTab() {
 }
 
 if (typeof window !== 'undefined') {
-    window.TrackerHistoryPageViewModel = TrackerHistoryPageViewModel;
     window.renderPrayerHistoryTab = renderPrayerHistoryTab;
 }
 

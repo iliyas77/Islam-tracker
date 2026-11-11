@@ -2029,14 +2029,125 @@
         <script type="text/html" id="dashboard-mobile-view-template">
             <!-- ko template: 'dashboard-page-template' --><!-- /ko -->
         </script>
-        <script type="text/html" id="tracker-page-template">
+                <script type="text/html" id="tracker-page-template">
+<!-- ============================================================
+   Nur Prayer — Tracker Mobile View Component Template
+   Path: features/tracker/tracker-mobile-view.html
+   Responsibilities:
+     - Root mobile view container for Prayer Tracker feature
+     - Coordinates subtabs: Current, Old, Performance, and History
+     - Encapsulates header bar, subtab bodies, and bottom navigation
+   ============================================================ -->
 <!-- Header Component -->
-<!-- ko component: { name: 'tracker-header', params: header } --><!-- /ko -->
+<!-- ko with: header -->
+<header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"
+    data-ref="page.tracker.header">
+    <div class="w-full flex items-center justify-between min-w-0 min-h-[44px]">
+        <div class="flex items-center gap-2 min-w-0 grow">
+            <button type="button"
+                class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
+                data-act="go-home" title="Back to Home" aria-label="Back to Home"
+                data-bind="click: goHome"
+                data-ref="page.tracker.back-btn">
+                <app-icon params="name: 'arrow-left', size: 'base'"></app-icon>
+            </button>
+            <div class="min-w-0 grow">
+                <h5 class="font-bold m-0 text-base text-brand flex items-center gap-2"
+                    id="trackerHeaderTitle">
+                    <app-icon params="id: 'trackerHeaderIcon', name: iconClass || 'fa-regular fa-calendar-days text-gr-accent'"></app-icon>
+                    <span id="trackerHeaderLabel" data-bind="text: label || 'Current Prayer'">Current Prayer</span>
+                </h5>
+                <div id="oldSub" class="text-xs text-gr-textMuted mt-0.5"
+                    data-bind="text: subtitle || 'Select a period to begin', css: { 'd-none': !showSubtitle }">Select a period to begin</div>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button type="button"
+                class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative"
+                id="currentMissedBtn" data-act="missed-open" title="Missed Prayers"
+                aria-label="Missed Prayers" data-ref="page.current.card.header.badge"
+                data-bind="visible: !currentSubTab || ko.unwrap(currentSubTab) === 'current', click: openMissed">
+                <app-icon params="name: 'triangle-exclamation', size: 'base', dataRef: 'page.current.card.header.badge-icon'"></app-icon>
+                <span class="inline-flex items-center justify-center absolute -top-1 -right-1 bg-gr-danger text-white text-[11px] font-bold min-w-[18px] h-[18px] px-1 rounded-full border-2 border-white leading-none z-[2] pointer-events-none"
+                    id="currentMissedBadge" data-ref="page.current.card.header.badge-count"
+                    data-bind="text: missedCount, css: { 'd-none': !hasMissed() }"></span>
+            </button>
+            <button type="button"
+                class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
+                id="oldActionBtn" data-act="old-info" title="Period Summary" aria-label="Period Summary"
+                data-ref="page.old.header.summary-btn page.old.card.header.summary-btn"
+                data-bind="visible: ko.unwrap(currentSubTab) === 'old', click: openPeriodInfo">
+                <app-icon params="name: 'chart-simple', size: 'base'"></app-icon>
+            </button>
+            <button type="button"
+                class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
+                id="historyEmptyBtn" data-act="history-empty" title="Empty History"
+                aria-label="Empty History" data-ref="page.history.header.empty-btn"
+                data-bind="visible: ko.unwrap(currentSubTab) === 'history', click: emptyHistory">
+                <app-icon params="name: 'trash-can', size: 'base'"></app-icon>
+            </button>
+        </div>
+    </div>
+</header>
+<!-- /ko -->
 
 <!-- Current Prayer Page -->
 <div class="grow overflow-auto px-2 pt-2 pb-3" id="currentBody" data-ref="page.current.body"
     data-bind="visible: currentSubTab() === 'current'">
-    <!-- ko component: { name: 'tracker-current-page', params: currentParams } --><!-- /ko -->
+    <!-- ko with: currentParams -->
+    <div class="prayer-tracker-card w-full max-w-[480px] bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col gap-3 shadow-none mx-auto"
+        data-bind="attr: { id: collapsePrefix + 'TrackerCard', 'data-ref': pagePrefix + '.card' }">
+        <!-- Header: Date & Actions -->
+        <header class="tracker-header pb-2.5 border-b border-borderGrey flex items-center justify-between gap-2"
+            data-bind="attr: { 'data-ref': pagePrefix + '.card.header' }">
+            <button type="button"
+                class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
+                data-bind="attr: { id: collapsePrefix + 'DateChip', 'data-ref': pagePrefix + '.card.header.date-chip' }, click: handleDateChipClick"
+                aria-label="Select date">
+                <app-icon params="name: 'calendar-days', prefix: 'fa-regular', size: 'sm'"></app-icon>
+                <span
+                    data-bind="text: dateChipText, attr: { id: collapsePrefix + 'DateChipText', 'data-ref': pagePrefix + '.card.header.date-text' }"></span>
+            </button>
+            <div class="header-status flex items-center gap-2"
+                data-bind="attr: { id: collapsePrefix + 'HeaderStatus', 'data-ref': pagePrefix + '.card.header.status' }">
+                <!-- ko if: badgeText -->
+                <span
+                    class="badge badge-warning inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer"
+                    data-bind="attr: { 'data-ref': pagePrefix + '.card.header.badge' }, click: handleBadgeClick">
+                    <app-icon params="name: 'triangle-exclamation', size: 'xs'"></app-icon>
+                    <span data-bind="text: badgeText"></span>
+                </span>
+                <!-- /ko -->
+                <!-- ko if: actionBtnText -->
+                <button type="button"
+                    class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 text-sm hover:underline"
+                    data-bind="text: actionBtnText, attr: { id: collapsePrefix + 'ActionBtn', 'data-ref': pagePrefix + '.card.header.action-btn' }, click: handleActionBtnClick"></button>
+                <!-- /ko -->
+            </div>
+        </header>
+
+        <!-- Modular Feed Component -->
+        <!-- ko component: {
+            name: 'tracker-current-feed',
+            params: {
+                collapsePrefix: collapsePrefix,
+                pagePrefix: pagePrefix,
+                missedRows: missedRows,
+                doneRows: doneRows,
+                onTogglePrayer: handleTogglePrayer
+            }
+        } --><!-- /ko -->
+
+        <!-- Modular Form Component (Missed Prayers Resolution Sheet) -->
+        <!-- ko component: {
+            name: 'tracker-current-form',
+            params: {
+                isOpen: isMissedFormOpen,
+                onClose: closeMissedForm
+            }
+        } --><!-- /ko -->
+    </div>
+    <!-- /ko -->
 </div>
 
 <!-- Old Tracking Body -->
@@ -2058,61 +2169,33 @@
 </div>
 
 <!-- Bottom Navigation Component -->
-<!-- ko component: { name: 'tracker-nav-tab', params: { activeTab: currentSubTab } } --><!-- /ko -->
+<!-- ko component: {
+    name: 'app-tabs',
+    params: {
+        variant: 'bottom-nav',
+        containerId: 'trackerBottomNav',
+        dataRef: 'page.tracker.bottom-nav',
+        ariaLabel: 'Prayer Tracker Navigation Tabs',
+        activeTab: currentSubTab,
+        onTabChange: function(tabId) { if (typeof switchTrackerSubTab === 'function') switchTrackerSubTab(tabId); },
+        tabs: [
+            { id: 'current', label: 'Current', icon: 'calendar-days', iconPrefix: 'fa-regular', elementId: 'tabTrackCurrent', dataAct: 'switch-track-current', dataRef: 'page.tracker.tab-current' },
+            { id: 'old', label: 'Old', icon: 'clock-rotate-left', elementId: 'tabTrackOld', dataAct: 'switch-track-old', dataRef: 'page.tracker.tab-old' },
+            { id: 'performance', label: 'Performance', icon: 'chart-simple', elementId: 'tabTrackPerformance', dataAct: 'switch-track-performance', dataRef: 'page.tracker.tab-performance' },
+            { id: 'history', label: 'History', icon: 'list-check', elementId: 'tabTrackHistory', dataAct: 'switch-track-history', dataRef: 'page.tracker.tab-history' }
+        ]
+    }
+} --><!-- /ko -->
         </script>
-
-        <!-- Tracker Current Page Template -->
-        <script type="text/html" id="tracker-current-page-template">
-<div class="prayer-tracker-card w-full max-w-[480px] bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col gap-3 shadow-none mx-auto"
-    data-bind="attr: { id: collapsePrefix + 'TrackerCard', 'data-ref': pagePrefix + '.card' }">
-    <header class="tracker-header pb-2.5 border-b border-borderGrey flex items-center justify-between gap-2"
-        data-bind="attr: { 'data-ref': pagePrefix + '.card.header' }">
-        <button type="button" class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
-            data-bind="attr: { id: collapsePrefix + 'DateChip', 'data-ref': pagePrefix + '.card.header.date-chip' }, click: handleDateChipClick"
-            aria-label="Select date">
-            <app-icon params="name: 'calendar-days', prefix: 'fa-regular', size: 'sm'"></app-icon>
-            <span data-bind="text: dateChipText, attr: { id: collapsePrefix + 'DateChipText', 'data-ref': pagePrefix + '.card.header.date-text' }"></span>
-        </button>
-        <div class="header-status flex items-center gap-2"
-            data-bind="attr: { id: collapsePrefix + 'HeaderStatus', 'data-ref': pagePrefix + '.card.header.status' }">
-            <!-- ko if: badgeText -->
-            <span class="badge badge-warning inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer"
-                data-bind="attr: { 'data-ref': pagePrefix + '.card.header.badge' }, click: handleBadgeClick">
-                <app-icon params="name: 'triangle-exclamation', size: 'xs'"></app-icon>
-                <span data-bind="text: badgeText"></span>
-            </span>
-            <!-- /ko -->
-            <!-- ko if: actionBtnText -->
-            <button type="button" class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 text-sm hover:underline"
-                data-bind="text: actionBtnText, attr: { id: collapsePrefix + 'ActionBtn', 'data-ref': pagePrefix + '.card.header.action-btn' }, click: handleActionBtnClick"></button>
-            <!-- /ko -->
-        </div>
-    </header>
-
-    <!-- ko component: {
-        name: 'tracker-current-feed',
-        params: {
-            collapsePrefix: collapsePrefix,
-            pagePrefix: pagePrefix,
-            missedRows: missedRows,
-            doneRows: doneRows,
-            onTogglePrayer: handleTogglePrayer
-        }
-    } --><!-- /ko -->
-
-    <!-- ko component: {
-        name: 'tracker-current-form',
-        params: {
-            isOpen: isMissedFormOpen,
-            onClose: closeMissedForm
-        }
-    } --><!-- /ko -->
-</div>
+        <script type="text/html" id="tracker-mobile-view-template">
+<!-- ko template: 'tracker-page-template' --><!-- /ko -->
         </script>
-
-        <!-- Tracker Current Feed Template -->
+        <script type="text/html" id="tracker-current-mobile-view-template">
+<!-- ko template: 'tracker-page-template' --><!-- /ko -->
+        </script>
         <script type="text/html" id="tracker-current-feed-template">
 <div class="tracker-feed flex flex-col gap-3" data-bind="attr: { 'data-ref': pagePrefix + '.feed' }">
+    <!-- Section 1: Missed / Pending Prayers -->
     <section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': pagePrefix + '.card.missed-group' }">
         <button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
             data-toggle="collapse"
@@ -2145,6 +2228,7 @@
         </div>
     </section>
 
+    <!-- Section 2: Completed Prayers -->
     <section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': pagePrefix + '.card.done-group' }">
         <button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
             data-toggle="collapse"
@@ -2178,8 +2262,6 @@
     </section>
 </div>
         </script>
-
-        <!-- Tracker Current Card Template -->
         <script type="text/html" id="tracker-current-card-template">
 <!-- ko if: isDone -->
 <li class="prayer-row prayer-row-done p-2.5 px-3 bg-surfaceBg border border-transparent rounded-xl flex items-center justify-between opacity-75 transition-all gap-2.5 mb-1.5"
@@ -2289,8 +2371,6 @@
 </li>
 <!-- /ko -->
         </script>
-
-        <!-- Tracker Current Form Template -->
         <script type="text/html" id="tracker-current-form-template">
 <!-- ko if: isOpen -->
 <div class="fixed inset-0 bg-black/50 z-[120] flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity"
@@ -2299,6 +2379,7 @@
     <div class="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-[480px] max-h-[85vh] flex flex-col overflow-hidden shadow-2xl"
         data-ref="page.current.missed-form.modal"
         data-bind="click: function(d, e) { e.stopPropagation(); }">
+        <!-- Header -->
         <div class="px-5 py-4 border-b border-borderGrey flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center">
@@ -2312,6 +2393,8 @@
                 <i class="fa-solid fa-xmark text-sm" aria-hidden="true"></i>
             </button>
         </div>
+
+        <!-- Body -->
         <div class="p-5 overflow-y-auto space-y-3 flex-1 min-h-0">
             <!-- ko if: (typeof missedItems === 'function' ? missedItems() : missedItems).length === 0 -->
             <div class="py-12 text-center text-gray-500">
@@ -2320,6 +2403,7 @@
                 <p class="text-xs text-gray-400 mt-1">All caught up!</p>
             </div>
             <!-- /ko -->
+
             <!-- ko foreach: (typeof missedItems === 'function' ? missedItems : missedItems) -->
             <div class="rounded-2xl border border-borderGrey p-3.5 bg-surfaceBg flex flex-col gap-2.5">
                 <div class="flex items-center justify-between">
@@ -2339,6 +2423,8 @@
             </div>
             <!-- /ko -->
         </div>
+
+        <!-- Footer -->
         <div class="p-4 border-t border-borderGrey flex justify-end">
             <button type="button"
                 class="px-4 py-2 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 text-xs font-semibold"
@@ -2348,8 +2434,6 @@
 </div>
 <!-- /ko -->
         </script>
-
-        <!-- Tracker Old Page Template -->
         <script type="text/html" id="tracker-old-page-template">
 <div class="prayer-tracker-card w-full max-w-[480px] bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col gap-3 shadow-none mx-auto"
     data-bind="attr: { id: collapsePrefix + 'TrackerCard', 'data-ref': pagePrefix + '.card' }">
@@ -2403,8 +2487,6 @@
     } --><!-- /ko -->
 </div>
         </script>
-
-        <!-- Tracker Old Feed Template -->
         <script type="text/html" id="tracker-old-feed-template">
 <div class="tracker-feed flex flex-col gap-3" data-bind="attr: { 'data-ref': pagePrefix + '.feed' }">
     <!-- Section 1: Missed Prayers -->
@@ -2457,7 +2539,7 @@
                 data-bind="attr: { id: collapsePrefix + 'DoneUl', 'data-ref': pagePrefix + '.card.done-group.list' }">
                 <!-- ko if: !hasDone() -->
                 <li class="p-3 text-center text-gr-muted small bg-white rounded-3 border"
-                    data-bind="attr: { 'data-ref': pagePrefix + '.done.empty' }">No completed prayers yet</li>
+                    data-bind="attr: { 'data-ref': pagePrefix + '.done.empty' }">No prayers marked done yet.</li>
                 <!-- /ko -->
                 <!-- ko foreach: doneRows -->
                 <!-- ko component: {
@@ -2474,8 +2556,6 @@
     </section>
 </div>
         </script>
-
-        <!-- Tracker Old Card Template -->
         <script type="text/html" id="tracker-old-card-template">
 <!-- ko if: isDone -->
 <li class="prayer-row prayer-row-done p-2.5 px-3 bg-surfaceBg border border-transparent rounded-xl flex items-center justify-between opacity-75 transition-all gap-2.5 mb-1.5"
@@ -2532,8 +2612,6 @@
 </li>
 <!-- /ko -->
         </script>
-
-        <!-- Tracker Old Form Template -->
         <script type="text/html" id="tracker-old-form-template">
 <!-- ko if: isOpen -->
 <div class="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity"
@@ -2629,8 +2707,6 @@
 </div>
 <!-- /ko -->
         </script>
-
-        <!-- Tracker Performance Page Template -->
         <script type="text/html" id="tracker-performance-page-template">
 <div class="tracker-performance-page flex flex-col grow overflow-auto px-2 pt-2 pb-3"
     id="performanceBody" data-ref="page.performance.body">
@@ -2647,12 +2723,15 @@
     } --><!-- /ko -->
 </div>
         </script>
-
-        <!-- Tracker Performance Feed Template -->
         <script type="text/html" id="tracker-performance-feed-template">
 <div class="flex flex-col gap-3 pb-2" data-ref="page.performance.container">
+    <!-- Main Circular Stat Card -->
     <!-- ko component: { name: 'prayer-perf-ring', params: hero } --><!-- /ko -->
+
+    <!-- Three Summary Stats Cards -->
     <!-- ko component: { name: 'prayer-stat-card', params: stats } --><!-- /ko -->
+
+    <!-- Section Header Card -->
     <div class="rounded-2xl p-3 bg-white border border-borderGrey flex flex-row items-center justify-between shadow-none"
         data-ref="page.performance.breakdown-header">
         <div class="flex items-center gap-2.5">
@@ -2670,6 +2749,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Breakdown List (Fajr, Dhuhr, Asr, Maghrib, Isha) -->
     <div class="flex flex-col gap-2.5" id="perfBreakdownList" data-ref="page.performance.breakdown-list"
         data-bind="foreach: breakdownItems">
         <!-- ko component: {
@@ -2680,6 +2761,8 @@
             }
         } --><!-- /ko -->
     </div>
+
+    <!-- Settings Start Date Footer Card -->
     <div class="rounded-2xl p-3 bg-brand-light border border-borderGrey text-center flex flex-col items-center mt-1 bg-white shadow-none"
         data-ref="page.performance.footer-card">
         <div class="flex items-center justify-center gap-1.5 mb-1">
@@ -2700,8 +2783,6 @@
     </div>
 </div>
         </script>
-
-        <!-- Tracker Performance Card Template -->
         <script type="text/html" id="tracker-performance-card-template">
 <div class="rounded-2xl p-3.5 bg-white border border-borderGrey flex flex-col gap-2.5 shadow-none transition-all hover:border-brand"
     data-bind="attr: { 'data-ref': 'page.performance.prayer.' + pLower }, click: handleClick">
@@ -2726,6 +2807,8 @@
             <!-- /ko -->
         </div>
     </div>
+
+    <!-- Progress Bar -->
     <div class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden flex">
         <!-- ko if: isPerfect -->
         <div class="h-full bg-brand rounded-full" data-bind="style: { width: percentage + '%' }"></div>
@@ -2735,6 +2818,8 @@
         <div class="perf-bar-missed h-full bg-gr-danger" data-bind="style: { width: (100 - percentage) + '%' }"></div>
         <!-- /ko -->
     </div>
+
+    <!-- Summary Details -->
     <div class="flex items-center justify-between text-xs pt-1 border-t border-borderGrey/50">
         <span class="flex items-center gap-1.5 text-brand font-semibold">
             <app-icon params="name: 'circle-check', size: '14px'"></app-icon>
@@ -2747,8 +2832,77 @@
     </div>
 </div>
         </script>
-
-        <!-- Tracker History Page Template -->
+        <script type="text/html" id="prayer-stat-card-template">
+<div class="grid grid-cols-3 gap-2" data-ref="page.performance.stats-row">
+    <!-- Completed Card -->
+    <div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center"
+        data-ref="page.performance.stat.completed-card">
+        <div class="text-gr-textMuted font-bold uppercase text-[10px] tracking-wider">COMPLETED</div>
+        <div class="font-bold text-xl text-brand mt-1.5 leading-none" id="perfCompletedStat"
+            data-ref="page.performance.stat.completed"
+            data-bind="text: completed">0</div>
+        <div class="text-gr-textMuted text-xs mt-1">prayers</div>
+    </div>
+    <!-- Missed Card -->
+    <div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center"
+        data-ref="page.performance.stat.missed-card">
+        <div class="text-gr-textMuted font-bold uppercase text-[10px] tracking-wider">MISSED</div>
+        <div class="font-bold text-xl text-gr-danger mt-1.5 leading-none" id="perfMissedStat"
+            data-ref="page.performance.stat.missed"
+            data-bind="text: missed">0</div>
+        <div class="text-gr-textMuted text-xs mt-1">prayers</div>
+    </div>
+    <!-- Success Card -->
+    <div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center rounded-2xl shadow-none"
+        data-ref="page.performance.stat.rate-card">
+        <div class="text-gr-textMuted font-bold uppercase" style="font-size: 10px; letter-spacing: 0.5px;">SUCCESS</div>
+        <div class="font-bold text-xl text-brand mt-1.5 leading-none" id="perfRateStat"
+            data-ref="page.performance.stat.rate"
+            data-bind="text: rate">0%</div>
+        <div class="text-gr-textMuted text-xs mt-1">rate</div>
+    </div>
+</div>
+        </script>
+        <script type="text/html" id="prayer-perf-ring-template">
+<div class="rounded-2xl p-4 bg-white border border-borderGrey flex flex-col gap-3"
+    data-ref="page.performance.hero-card">
+    <div class="flex items-center justify-between">
+        <!-- Circular Progress Ring -->
+        <div class="w-[88px] h-[88px] relative flex items-center justify-center shrink-0">
+            <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                <path class="stroke-gray-200" stroke-width="3.5" fill="none"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="stroke-brand transition-all duration-500" id="perfRingVal"
+                    data-bind="attr: { 'stroke-dasharray': dashArray || '0, 100' }"
+                    stroke-dasharray="0, 100" stroke-width="3.5" stroke-linecap="round" fill="none"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            </svg>
+            <div class="absolute flex flex-col items-center justify-center text-center">
+                <span class="text-base font-bold text-brand leading-none" id="perfHeroPercentage"
+                    data-ref="page.performance.hero-percentage"
+                    data-bind="text: percentageText || '0%'">0%</span>
+                <span class="text-gr-textMuted font-medium mt-0.5 text-[10px]">completed</span>
+            </div>
+        </div>
+        <!-- Total Stats Info -->
+        <div class="text-right">
+            <div class="text-gr-textMuted text-xs font-medium">Total completed prayers</div>
+            <div class="font-bold text-2xl text-brand tracking-tight leading-none mt-1">
+                <span id="perfTotalCompleted" data-ref="page.performance.total-completed"
+                    data-bind="text: totalCompleted || 0">0</span>
+                <span class="text-gr-textMuted font-normal text-lg" id="perfTotalPossible"
+                    data-ref="page.performance.total-possible"
+                    data-bind="text: ' / ' + (totalPossible || 0)"> / 0</span>
+            </div>
+        </div>
+    </div>
+    <!-- Full-width Date Pill -->
+    <div class="w-full text-center py-2 px-3 rounded-full bg-brand-light text-brand text-xs font-medium border border-borderGrey"
+        id="perfDatePill" data-bind="text: datePillText || '0 days'">
+        0 days
+    </div>
+</div>
+        </script>
         <script type="text/html" id="tracker-history-page-template">
 <div class="tracker-history-page flex flex-col grow overflow-auto" data-ref="page.history.page">
     <!-- ko component: {
@@ -2762,10 +2916,9 @@
     } --><!-- /ko -->
 </div>
         </script>
-
-        <!-- Tracker History Feed Template -->
         <script type="text/html" id="tracker-history-feed-template">
 <div class="tracker-history-feed flex flex-col gap-3" data-ref="page.history.feed">
+    <!-- Empty State -->
     <!-- ko if: !hasEntries() -->
     <div class="text-center text-gr-textMuted py-8 px-4 bg-white border border-borderGrey rounded-2xl flex flex-col items-center justify-center"
         id="histEmptyState" data-ref="page.history.empty-state">
@@ -2777,8 +2930,10 @@
     </div>
     <!-- /ko -->
 
+    <!-- Content Container -->
     <!-- ko if: hasEntries() -->
     <div id="histContent">
+        <!-- Summary Card -->
         <div class="rounded-2xl p-3.5 bg-white border border-borderGrey mb-3"
             data-ref="page.history.summary-card">
             <div class="flex items-center justify-between">
@@ -2798,6 +2953,7 @@
             </div>
         </div>
 
+        <!-- Entries List Container -->
         <div class="flex flex-col gap-1" id="histList" data-ref="page.history.list" data-bind="foreach: entries">
             <!-- ko component: {
                 name: 'tracker-history-card',
@@ -2811,11 +2967,10 @@
     <!-- /ko -->
 </div>
         </script>
-
-        <!-- Tracker History Card Template -->
         <script type="text/html" id="tracker-history-card-template">
 <div class="rounded-2xl p-4 bg-white border border-borderGrey mb-3 flex flex-col gap-3 shadow-none hover:border-brand transition-all"
     data-bind="attr: { 'data-ref': 'page.history.card.' + (id || '') }">
+    <!-- Row 1: Prayer Icon + Name + Badge (Left) and Completed + Delete (Right) -->
     <div class="flex items-center justify-between">
         <div class="flex items-center gap-2.5 min-w-0">
             <div class="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 44px; height: 44px;"
@@ -2841,9 +2996,11 @@
             </button>
         </div>
     </div>
+    <!-- Row 2: Prayer Date -->
     <div class="text-gr-textMuted text-xs" data-bind="attr: { 'data-ref': 'page.history.item.date.' + (id || '') }">
         Prayer Date: <strong class="text-brand font-bold" data-bind="text: formattedDate"></strong>
     </div>
+    <!-- Row 3: Completed exact time (Left) & Relative time (Right) -->
     <div class="flex items-center justify-between text-gr-textMuted text-xs">
         <div class="flex items-center gap-1.5" data-bind="attr: { 'data-ref': 'page.history.item.time.' + (id || '') }">
             <app-icon params="name: 'clock', prefix: 'fa-regular', size: '12px'"></app-icon>
@@ -2854,374 +3011,25 @@
 </div>
         </script>
         <script type="text/html" id="tracker-header-template">
-            <!-- ko template: { name: 'prayer-header-template' } --><!-- /ko -->
+<!-- ko template: 'tracker-page-template' --><!-- /ko -->
         </script>
         <script type="text/html" id="prayer-header-template">
-            <header class="w-full p-4 shrink-0 bg-white border-b border-borderGrey flex items-center justify-between min-h-[44px]"
-                data-ref="page.tracker.header">
-                <div class="w-full flex items-center justify-between min-w-0 min-h-[44px]">
-                    <div class="flex items-center gap-2 min-w-0 grow">
-                        <button type="button"
-                            class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
-                            data-act="go-home" title="Back to Home" aria-label="Back to Home"
-                            data-bind="click: goHome"
-                            data-ref="page.tracker.back-btn">
-                            <app-icon params="name: 'arrow-left', size: 'base'"></app-icon>
-                        </button>
-                        <div class="min-w-0 grow">
-                            <h5 class="font-bold m-0 text-base text-brand flex items-center gap-2"
-                                id="trackerHeaderTitle">
-                                <app-icon params="id: 'trackerHeaderIcon', name: iconClass || 'fa-regular fa-calendar-days text-gr-accent'"></app-icon>
-                                <span id="trackerHeaderLabel" data-bind="text: label || 'Current Prayer'">Current Prayer</span>
-                            </h5>
-                            <div id="oldSub" class="text-xs text-gr-textMuted mt-0.5"
-                                data-bind="text: subtitle || 'Select a period to begin', css: { 'd-none': !showSubtitle }">Select a period to begin</div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button type="button"
-                            class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative"
-                            id="currentMissedBtn" data-act="missed-open" title="Missed Prayers"
-                            aria-label="Missed Prayers" data-ref="page.current.card.header.badge"
-                            data-bind="visible: !currentSubTab || ko.unwrap(currentSubTab) === 'current', click: openMissed">
-                            <app-icon params="name: 'triangle-exclamation', size: 'base', dataRef: 'page.current.card.header.badge-icon'"></app-icon>
-                            <span class="inline-flex items-center justify-center absolute -top-1 -right-1 bg-gr-danger text-white text-[11px] font-bold min-w-[18px] h-[18px] px-1 rounded-full border-2 border-white leading-none z-[2] pointer-events-none"
-                                id="currentMissedBadge" data-ref="page.current.card.header.badge-count"
-                                data-bind="text: missedCount, css: { 'd-none': !hasMissed() }"></span>
-                        </button>
-                        <button type="button"
-                            class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
-                            id="oldActionBtn" data-act="old-info" title="Period Summary" aria-label="Period Summary"
-                            data-ref="page.old.header.summary-btn page.old.card.header.summary-btn"
-                            data-bind="visible: ko.unwrap(currentSubTab) === 'old', click: openPeriodInfo">
-                            <app-icon params="name: 'chart-simple', size: 'base'"></app-icon>
-                        </button>
-                        <button type="button"
-                            class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
-                            id="historyEmptyBtn" data-act="history-empty" title="Empty History"
-                            aria-label="Empty History" data-ref="page.history.header.empty-btn"
-                            data-bind="visible: ko.unwrap(currentSubTab) === 'history', click: emptyHistory">
-                            <app-icon params="name: 'trash-can', size: 'base'"></app-icon>
-                        </button>
-                    </div>
-                </div>
-            </header>
+<!-- ko template: 'tracker-page-template' --><!-- /ko -->
         </script>
         <script type="text/html" id="prayer-tracker-card-template">
-            <div class="prayer-tracker-card w-full max-w-[480px] bg-white border border-borderGrey rounded-2xl p-3.5 flex flex-col gap-3 shadow-none mx-auto"
-                data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'TrackerCard', 'data-ref': ($data.pagePrefix || 'page.current') + '.card' }">
-                <!-- Header: Date & Global Actions -->
-                <header class="tracker-header pb-2.5 border-b border-borderGrey flex items-center justify-between gap-2"
-                    data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header' }">
-                    <button type="button" class="date-chip flex items-center gap-1.5 bg-surfaceBg border border-borderGrey text-brand px-3 py-1.5 rounded-full text-sm font-semibold cursor-pointer hover:border-brand transition-colors"
-                        data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DateChip', 'data-act': $data.dateChipAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-chip' }, click: onDateChipClick"
-                        aria-label="Select date">
-                        <app-icon params="name: 'calendar-days', prefix: 'fa-regular', size: 'sm'"></app-icon>
-                        <span data-bind="text: $data.dateChipText, attr: { id: ($data.collapsePrefix || 'cur') + 'DateChipText', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.date-text' }"></span>
-                    </button>
-                    <div class="header-status flex items-center gap-2"
-                        data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'HeaderStatus', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.status' }">
-                        <!-- ko if: $data.badgeText -->
-                        <span class="badge badge-warning inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer"
-                            data-bind="attr: { 'data-act': $data.badgeAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.badge' }, click: onBadgeClick">
-                            <app-icon params="name: 'triangle-exclamation', size: 'xs'"></app-icon>
-                            <span data-bind="text: $data.badgeText"></span>
-                        </span>
-                        <!-- /ko -->
-                        <!-- ko if: $data.actionBtnText -->
-                        <button type="button" class="bg-transparent border-0 text-brand font-semibold cursor-pointer p-0 text-sm hover:underline"
-                            data-bind="text: $data.actionBtnText, attr: { id: ($data.collapsePrefix || 'cur') + 'ActionBtn', 'data-act': $data.actionBtnAct || '', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.header.action-btn' }, click: onActionBtnClick"></button>
-                        <!-- /ko -->
-                    </div>
-                </header>
-
-                <!-- Section 1: Missed / Pending Prayers -->
-                <section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group' }">
-                    <button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
-                        data-toggle="collapse"
-                        data-bind="attr: { 'data-target': '#' + ($data.collapsePrefix || 'cur') + 'MissedList', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.toggle' }"
-                        aria-expanded="true">
-                        <span class="section-title text-xs font-bold uppercase tracking-wider text-gr-text"
-                            data-bind="text: $data.missedGroupTitle, attr: { id: ($data.collapsePrefix || 'cur') + 'MissedTitle', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.title' }">MISSED</span>
-                        <span class="toggle-icon text-[10px] transition-transform duration-200 inline-block"
-                            data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.icon' }">▼</span>
-                    </button>
-                    <div class="collapse show visible" style="visibility: visible;"
-                        data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'MissedList', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.collapse' }">
-                        <ul class="prayer-list flex flex-col gap-1.5 list-none p-0 m-0"
-                            data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'MissedUl', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.missed-group.list' }">
-                            <!-- ko if: (typeof missedRows === 'function' ? missedRows() : ($data.missedRows || [])).length === 0 -->
-                            <li class="p-3 text-center text-gr-muted small bg-white rounded-3 border"
-                                data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.missed.empty' }">No missed or pending prayers. All caught up!</li>
-                            <!-- /ko -->
-                            <!-- ko foreach: (typeof missedRows === 'function' ? missedRows : ($data.missedRows || [])) -->
-                            <!-- ko component: { name: 'prayer-row', params: $data } --><!-- /ko -->
-                            <!-- /ko -->
-                        </ul>
-                    </div>
-                </section>
-
-                <!-- Section 2: Completed Prayers -->
-                <section class="prayer-group flex flex-col gap-2" data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group' }">
-                    <button type="button" class="group-toggle flex items-center justify-between w-full bg-transparent border-0 p-0 cursor-pointer text-gr-text select-none"
-                        data-toggle="collapse"
-                        data-bind="attr: { 'data-target': '#' + ($data.collapsePrefix || 'cur') + 'DoneList', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.toggle' }"
-                        aria-expanded="true">
-                        <span class="section-title text-xs font-bold uppercase tracking-wider text-gr-text"
-                            data-bind="text: $data.doneGroupTitle, attr: { id: ($data.collapsePrefix || 'cur') + 'DoneTitle', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.title' }">DONE</span>
-                        <span class="toggle-icon text-[10px] transition-transform duration-200 inline-block"
-                            data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.icon' }">▼</span>
-                    </button>
-                    <div class="collapse show visible" style="visibility: visible;"
-                        data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DoneList', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.collapse' }">
-                        <ul class="prayer-list flex flex-col gap-1.5 list-none p-0 m-0"
-                            data-bind="attr: { id: ($data.collapsePrefix || 'cur') + 'DoneUl', 'data-ref': ($data.pagePrefix || 'page.current') + '.card.done-group.list' }">
-                            <!-- ko if: (typeof doneRows === 'function' ? doneRows() : ($data.doneRows || [])).length === 0 -->
-                            <li class="p-3 text-center text-gr-muted small bg-white rounded-3 border"
-                                data-bind="attr: { 'data-ref': ($data.pagePrefix || 'page.current') + '.done.empty' }">No completed prayers yet.</li>
-                            <!-- /ko -->
-                            <!-- ko foreach: (typeof doneRows === 'function' ? doneRows : ($data.doneRows || [])) -->
-                            <!-- ko component: { name: 'prayer-row', params: $data } --><!-- /ko -->
-                            <!-- /ko -->
-                        </ul>
-                    </div>
-                </section>
-            </div>
+<!-- ko template: 'tracker-page-template' --><!-- /ko -->
         </script>
         <script type="text/html" id="prayer-row-template">
-            <!-- ko if: isDone -->
-            <li class="prayer-row prayer-row-done p-2.5 px-3 bg-surfaceBg border border-transparent rounded-xl flex items-center justify-between opacity-75 transition-all gap-2.5 mb-1.5"
-                data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }">
-                <div class="prayer-meta flex items-center gap-2.5 min-w-0"
-                    data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }">
-                    <div class="icon-box icon-box-md icon-done w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-[#D1E5DC] text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
-                        data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }">
-                        <app-icon params="name: 'check', size: 'xl'"></app-icon>
-                    </div>
-                    <div class="prayer-details flex flex-col gap-0.5 min-w-0"
-                        data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }">
-                        <div class="title-wrap flex items-baseline"
-                            data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title-wrap' }">
-                            <span class="prayer-name text-sm font-bold text-brand truncate"
-                                data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span>
-                        </div>
-                        <time class="prayer-time text-xs text-gr-textMuted"
-                            data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time>
-                    </div>
-                </div>
-                <button type="button"
-                    class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#D1E5DC] text-brand border-0 hover:bg-[#c2ded3] transition-colors cursor-pointer shrink-0 text-xs font-semibold"
-                    data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, click: onToggle"
-                    title="Tap to mark missed">
-                    <app-icon params="name: 'check', size: 'xs'"></app-icon> Done
-                </button>
-            </li>
-            <!-- /ko -->
-            
-            <!-- ko if: isUpcoming -->
-            <li class="prayer-row prayer-row-upcoming p-2.5 px-3 bg-surfaceBg border border-borderGrey rounded-xl flex items-center justify-between cursor-default transition-all gap-2.5 mb-1.5"
-                data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }">
-                <div class="prayer-meta flex items-center gap-2.5 min-w-0"
-                    data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }">
-                    <div class="icon-box icon-box-md w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-dash-mintBg text-brand inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
-                        data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }">
-                        <app-icon params="name: iconClass"></app-icon>
-                    </div>
-                    <div class="prayer-details flex flex-col gap-0.5 min-w-0"
-                        data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }">
-                        <div class="title-wrap flex items-baseline"
-                            data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title-wrap' }">
-                            <span class="prayer-name text-sm font-bold text-brand truncate"
-                                data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span>
-                        </div>
-                        <time class="prayer-time text-xs text-gr-textMuted"
-                            data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time>
-                    </div>
-                </div>
-                <button type="button"
-                    class="inline-flex items-center justify-center px-3 py-1.5 rounded-xl bg-gray-100 text-gray-400 border border-dashed border-borderGrey cursor-default shrink-0 text-xs font-semibold"
-                    disabled aria-disabled="true"
-                    data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }">Upcoming</button>
-            </li>
-            <!-- /ko -->
-            
-            <!-- ko if: isMissed -->
-            <li class="prayer-row prayer-row-missed p-2.5 px-3 bg-gradient-to-r from-gr-dangerSoft to-white border border-gr-danger rounded-xl flex items-center justify-between transition-all gap-2.5 mb-1.5"
-                data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }">
-                <div class="prayer-meta flex items-center gap-2.5 min-w-0"
-                    data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }">
-                    <div class="icon-box icon-box-md icon-missed w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl bg-red-500 text-white inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
-                        data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }">
-                        <app-icon params="name: iconClass"></app-icon>
-                    </div>
-                    <div class="prayer-details flex flex-col gap-0.5 min-w-0"
-                        data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }">
-                        <div class="title-wrap flex items-baseline"
-                            data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title-wrap' }">
-                            <span class="prayer-name text-sm font-bold text-brand truncate"
-                                data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span>
-                        </div>
-                        <time class="prayer-time text-xs text-gr-textMuted"
-                            data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time>
-                    </div>
-                </div>
-                <button type="button"
-                    class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl bg-red-50 text-red-600 border border-red-200 hover:bg-red-500 hover:text-white transition-colors cursor-pointer shrink-0 text-xs font-semibold"
-                    data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, click: onToggle">Mark Done</button>
-            </li>
-            <!-- /ko -->
-            
-            <!-- ko if: isStandard -->
-            <li class="prayer-row p-2.5 px-3 bg-white border rounded-xl flex items-center justify-between transition-all gap-2.5 mb-1.5"
-                data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() }, css: isCurrent ? 'prayer-row-current bg-gradient-to-r from-activeLight to-white border-brand' : 'border-borderGrey hover:border-brand'">
-                <div class="prayer-meta flex items-center gap-2.5 min-w-0"
-                    data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.meta' }">
-                    <div class="icon-box icon-box-md w-[46px] h-[46px] min-w-[46px] min-h-[46px] rounded-2xl inline-flex items-center justify-center shrink-0 leading-none select-none overflow-hidden"
-                        data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.avatar' }, css: isCurrent ? 'icon-current bg-brand text-white' : 'bg-dash-mintBg text-brand'">
-                        <app-icon params="name: iconClass"></app-icon>
-                    </div>
-                    <div class="prayer-details flex flex-col gap-0.5 min-w-0"
-                        data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.details' }">
-                        <div class="title-wrap flex items-baseline"
-                            data-bind="attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.title-wrap' }">
-                            <span class="prayer-name text-sm font-bold text-brand truncate"
-                                data-bind="text: prayer, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.name' }"></span>
-                        </div>
-                        <time class="prayer-time text-xs text-gr-textMuted"
-                            data-bind="text: time, attr: { 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.time' }"></time>
-                    </div>
-                </div>
-                <button type="button"
-                    class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl transition-colors cursor-pointer shrink-0 text-xs font-semibold"
-                    data-bind="attr: { 'data-act': actionAct, 'data-p': prayer, 'data-d': date, 'data-ref': prefix + '.row.' + prayer.toLowerCase() + '.action-btn' }, css: isCurrent ? 'bg-brand text-white hover:bg-brand-hover' : 'bg-transparent border border-borderGrey text-brand hover:bg-brand-light', click: onToggle">Mark Done</button>
-            </li>
-            <!-- /ko -->
-        </script>
-        <script type="text/html" id="prayer-stat-card-template">
-            <div class="grid grid-cols-3 gap-2" data-ref="page.performance.stats-row">
-                <!-- Completed Card -->
-                <div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center"
-                    data-ref="page.performance.stat.completed-card">
-                    <div class="text-gr-textMuted font-bold uppercase text-[10px] tracking-wider">COMPLETED</div>
-                    <div class="font-bold text-xl text-brand mt-1.5 leading-none" id="perfCompletedStat"
-                        data-ref="page.performance.stat.completed"
-                        data-bind="text: completed">0</div>
-                    <div class="text-gr-textMuted text-xs mt-1">prayers</div>
-                </div>
-                <!-- Missed Card -->
-                <div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center"
-                    data-ref="page.performance.stat.missed-card">
-                    <div class="text-gr-textMuted font-bold uppercase text-[10px] tracking-wider">MISSED</div>
-                    <div class="font-bold text-xl text-gr-danger mt-1.5 leading-none" id="perfMissedStat"
-                        data-ref="page.performance.stat.missed"
-                        data-bind="text: missed">0</div>
-                    <div class="text-gr-textMuted text-xs mt-1">prayers</div>
-                </div>
-                <!-- Success Card -->
-                <div class="rounded-xl p-3 text-center bg-white border border-borderGrey flex flex-col items-center justify-center rounded-2xl shadow-none"
-                    data-ref="page.performance.stat.rate-card">
-                    <div class="text-gr-textMuted font-bold uppercase" style="font-size: 10px; letter-spacing: 0.5px;">SUCCESS</div>
-                    <div class="font-bold text-xl text-brand mt-1.5 leading-none" id="perfRateStat"
-                        data-ref="page.performance.stat.rate"
-                        data-bind="text: rate">0%</div>
-                    <div class="text-gr-textMuted text-xs mt-1">rate</div>
-                </div>
-            </div>
-        </script>
-        <script type="text/html" id="prayer-perf-ring-template">
-            <div class="rounded-2xl p-4 bg-white border border-borderGrey flex flex-col gap-3"
-                data-ref="page.performance.hero-card">
-                <div class="flex items-center justify-between">
-                    <!-- Circular Progress Ring -->
-                    <div class="w-[88px] h-[88px] relative flex items-center justify-center shrink-0">
-                        <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                            <path class="stroke-gray-200" stroke-width="3.5" fill="none"
-                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                            <path class="stroke-brand transition-all duration-500" id="perfRingVal"
-                                data-bind="attr: { 'stroke-dasharray': dashArray || '0, 100' }"
-                                stroke-dasharray="0, 100" stroke-width="3.5" stroke-linecap="round" fill="none"
-                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                        </svg>
-                        <div class="absolute flex flex-col items-center justify-center text-center">
-                            <span class="text-base font-bold text-brand leading-none" id="perfHeroPercentage"
-                                data-ref="page.performance.hero-percentage"
-                                data-bind="text: percentageText || '0%'">0%</span>
-                            <span class="text-gr-textMuted font-medium mt-0.5 text-[10px]">completed</span>
-                        </div>
-                    </div>
-                    <!-- Total Stats Info -->
-                    <div class="text-right">
-                        <div class="text-gr-textMuted text-xs font-medium">Total completed prayers</div>
-                        <div class="font-bold text-2xl text-brand tracking-tight leading-none mt-1">
-                            <span id="perfTotalCompleted" data-ref="page.performance.total-completed"
-                                data-bind="text: totalCompleted || 0">0</span>
-                            <span class="text-gr-textMuted font-normal text-lg" id="perfTotalPossible"
-                                data-ref="page.performance.total-possible"
-                                data-bind="text: ' / ' + (totalPossible || 0)"> / 0</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Full-width Date Pill -->
-                <div class="w-full text-center py-2 px-3 rounded-full bg-brand-light text-brand text-xs font-medium border border-borderGrey"
-                    id="perfDatePill" data-bind="text: datePillText || '0 days'">
-                    0 days
-                </div>
-            </div>
+<!-- ko template: 'tracker-current-card-template' --><!-- /ko -->
         </script>
         <script type="text/html" id="tracker-nav-tab-template">
-<!-- ko component: {
-    name: 'app-tabs',
-    params: {
-        variant: 'bottom-nav',
-        containerId: 'trackerBottomNav',
-        dataRef: 'page.tracker.bottom-nav',
-        ariaLabel: 'Prayer Tracker Navigation Tabs',
-        activeTab: activeTab,
-        onTabChange: function(tabId) { if (typeof switchTrackerSubTab === 'function') switchTrackerSubTab(tabId); },
-        tabs: [
-            { id: 'current', label: 'Current', icon: 'calendar-days', iconPrefix: 'fa-regular', elementId: 'tabTrackCurrent', dataAct: 'switch-track-current', dataRef: 'page.tracker.tab-current' },
-            { id: 'old', label: 'Old', icon: 'clock-rotate-left', elementId: 'tabTrackOld', dataAct: 'switch-track-old', dataRef: 'page.tracker.tab-old' },
-            { id: 'performance', label: 'Performance', icon: 'chart-simple', elementId: 'tabTrackPerformance', dataAct: 'switch-track-performance', dataRef: 'page.tracker.tab-performance' },
-            { id: 'history', label: 'History', icon: 'list-check', elementId: 'tabTrackHistory', dataAct: 'switch-track-history', dataRef: 'page.tracker.tab-history' }
-        ]
-    }
-} --><!-- /ko -->
+<!-- ko template: 'tracker-page-template' --><!-- /ko -->
         </script>
         <script type="text/html" id="prayer-nav-tab-template">
 <!-- ko template: 'tracker-nav-tab-template' --><!-- /ko -->
         </script>
         <script type="text/html" id="prayer-history-card-template">
-<div class="rounded-2xl p-4 bg-white border border-borderGrey mb-3 flex flex-col gap-3 shadow-none"
-    data-bind="attr: { 'data-ref': 'page.history.card.' + (id || '') }">
-  <div class="flex items-center justify-between">
-    <div class="flex items-center gap-2.5 min-w-0">
-      <div class="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0" style="width: 44px; height: 44px;"
-          data-bind="attr: { 'data-ref': 'page.history.item.avatar.' + (id || '') }">
-        <app-icon params="name: iconName, size: '22px', color: 'text-brand'"></app-icon>
-      </div>
-      <div class="flex items-center gap-2 min-w-0">
-        <h6 class="font-bold text-brand text-base mb-0 leading-none"
-            data-bind="text: prayer, attr: { 'data-ref': 'page.history.item.prayer.' + (id || '') }"></h6>
-        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
-            data-bind="text: type, attr: { 'data-ref': 'page.history.item.type.' + (id || '') }, css: isCurrent ? 'bg-brand-light text-brand border border-brand/20' : 'bg-amber-50 text-amber-700 border border-amber-200'"></span>
-      </div>
-    </div>
-    <span class="flex items-center gap-1.5 text-brand text-xs font-bold shrink-0">
-      <app-icon params="name: 'circle-check', size: '14px', color: 'text-brand'"></app-icon>
-      <span>Completed</span>
-    </span>
-  </div>
-  <div class="text-gr-textMuted text-xs" data-bind="attr: { 'data-ref': 'page.history.item.date.' + (id || '') }">
-    Prayer Date: <strong class="text-brand font-bold" data-bind="text: formattedDate"></strong>
-  </div>
-  <div class="flex items-center justify-between text-gr-textMuted text-xs">
-    <div class="flex items-center gap-1.5" data-bind="attr: { 'data-ref': 'page.history.item.time.' + (id || '') }">
-      <app-icon params="name: 'clock', prefix: 'fa-regular', size: '12px'"></app-icon>
-      <span>Completed: <span class="text-brand font-medium" data-bind="text: exactTime"></span></span>
-    </div>
-    <span class="text-gr-textMuted" data-bind="text: ago"></span>
-  </div>
-</div>
+<!-- ko template: 'tracker-history-card-template' --><!-- /ko -->
         </script>
         <script type="text/html" id="tasbeeh-page-template">
 <!-- Digital Tasbeeh Page Template Content -->
