@@ -11420,6 +11420,7 @@ var TrackerCurrentCardTemplate = {
 element: 'tracker-current-card-template',
 file: 'features/tracker/tracker-current/tracker-current-card/tracker-current-card.html'
 };
+var PrayerRowTemplate = TrackerCurrentCardTemplate;
 function TrackerCurrentCardViewModel(params) {
 if (params instanceof TrackerCurrentCardViewModel) return params;
 if (!(this instanceof TrackerCurrentCardViewModel)) return new TrackerCurrentCardViewModel(params);
@@ -12295,6 +12296,7 @@ var TrackerHistoryCardTemplate = {
 element: 'tracker-history-card-template',
 file: 'features/tracker/tracker-history/tracker-history-card/tracker-history-card.html'
 };
+var PrayerHistoryCardTemplate = TrackerHistoryCardTemplate;
 function TrackerHistoryCardViewModel(params) {
 if (params instanceof TrackerHistoryCardViewModel) return params;
 if (!(this instanceof TrackerHistoryCardViewModel)) return new TrackerHistoryCardViewModel(params);
@@ -12446,7 +12448,6 @@ _win.trackerHistoryPageViewModel.refresh();
 if (typeof window !== 'undefined') {
 window.renderPrayerHistoryTab = renderPrayerHistoryTab;
 }
-var PrayerHistoryCardTemplate = TrackerHistoryCardTemplate;
 'use strict';
 var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker-main/tracker-main.html' };
 var TrackerMainTemplate = TrackerPageTemplate;
@@ -12865,23 +12866,12 @@ window.getDefaultOldPeriod = getDefaultOldPeriod;
 window.rOT = rOT;
 window.oldSd = oldSd;
 window.emptyPrayerHistory = emptyPrayerHistory;
-window.addPrayerHistoryEntry = addPrayerHistoryEntry;
-window.removePrayerHistoryEntry = removePrayerHistoryEntry;
-window.getPrayerHistory = getPrayerHistory;
-window.savePrayerHistory = savePrayerHistory;
-window.clearPrayerHistory = clearPrayerHistory;
-window.renderPrayerHistoryTab = renderPrayerHistoryTab;
-window.PrayerHistoryApp = {
-addPrayerHistoryEntry: addPrayerHistoryEntry,
-removePrayerHistoryEntry: removePrayerHistoryEntry,
-getPrayerHistory: getPrayerHistory,
-savePrayerHistory: savePrayerHistory,
-clearPrayerHistory: clearPrayerHistory,
-emptyPrayerHistory: emptyPrayerHistory,
-renderPrayerHistoryTab: renderPrayerHistoryTab
-};
+if (window.PrayerHistoryApp) {
+window.PrayerHistoryApp.emptyPrayerHistory = emptyPrayerHistory;
+}
 }
 try { registerTrackerComponents(); } catch (_) {}
+'use strict';
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
@@ -14848,7 +14838,7 @@ _loadedFeatures.performance = true;
 _loadedFeatures.history = true;
 return Promise.resolve();
 }
-return import('./features/tracker/tracker.js').then(function () {
+return import('./features/tracker/index.js').then(function () {
 _loadedFeatures.tracker = true;
 _loadedFeatures.current = true;
 _loadedFeatures.old = true;

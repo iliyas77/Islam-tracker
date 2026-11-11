@@ -8,7 +8,7 @@
    ============================================================ */
 'use strict';
 
-import { unwrap, fr, datesInRange, PRAYER_NAMES } from '../../tracker-service.js';
+import { unwrap, fr, datesInRange, PRAYER_NAMES } from '../../tracker-shared/tracker-service.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);

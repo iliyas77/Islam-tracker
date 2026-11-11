@@ -10,7 +10,7 @@
 
 import {
     getPrayerHistory, removePrayerHistoryEntry, clearPrayerHistory, unwrap
-} from '../../tracker-service.js';
+} from '../../tracker-shared/tracker-service.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);

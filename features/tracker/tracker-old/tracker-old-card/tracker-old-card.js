@@ -8,7 +8,7 @@
    ============================================================ */
 'use strict';
 
-import { unwrap, PRAYER_CARD_ICONS } from '../../tracker-service.js';
+import { unwrap, PRAYER_CARD_ICONS } from '../../tracker-shared/tracker-service.js';
 
 export const TrackerOldCardTemplate = {
     element: 'tracker-old-card-template',

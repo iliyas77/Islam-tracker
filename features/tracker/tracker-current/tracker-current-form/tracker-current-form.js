@@ -7,7 +7,7 @@
    ============================================================ */
 'use strict';
 
-import { unwrap, getMissedPrayersByDate, fr, PRAYER_CARD_ICONS } from '../../tracker-service.js';
+import { unwrap, getMissedPrayersByDate, fr, PRAYER_CARD_ICONS } from '../../tracker-shared/tracker-service.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);

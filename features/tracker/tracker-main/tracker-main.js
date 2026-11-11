@@ -11,28 +11,13 @@
 
 import {
     unwrap, getTotalMissedCount, td, clearPrayerHistory
-} from '../tracker-service.js';
+} from '../tracker-shared/tracker-service.js';
 
-import { registerTrackerComponents } from '../tracker-registration.js';
-import { TrackerCurrentViewModel } from '../tracker-current/tracker-current.js';
-
-// Re-export modular components and layers
-export * from '../tracker-service.js';
-export * from '../tracker-registration.js';
-export * from '../tracker-current/tracker-current.js';
-export * from '../tracker-old/tracker-old.js';
-export * from '../tracker-performance/tracker-performance.js';
-export * from '../tracker-history/tracker-history.js';
+import { registerTrackerComponents } from '../tracker-shared/tracker-registration.js';
+import { TrackerCurrentViewModel } from '../tracker-current/tracker-current-home/tracker-current-home.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
-
-/* ---------- Template Definitions (re-exported from tracker-registration.js) ---------- */
-export {
-    TrackerPageTemplate, TrackerMobileViewTemplate, TrackerHeaderTemplate, TrackerNavTabTemplate,
-    PrayerNavTabTemplate, PrayerRowTemplate,
-    PrayerStatCardTemplate, PrayerPerfRingTemplate, PrayerHistoryCardTemplate
-} from '../tracker-registration.js';
 
 /* ---------- Backward-Compatible ViewModel Bridges ---------- */
 var PRAYER_CARD_ICONS = { Fajr: 'fa-solid fa-cloud-sun', Dhuhr: 'fa-solid fa-sun', Asr: 'fa-solid fa-sun', Maghrib: 'fa-solid fa-cloud-sun', Isha: 'fa-solid fa-moon' };
@@ -451,21 +436,9 @@ if (typeof window !== 'undefined') {
     window.rOT = rOT;
     window.oldSd = oldSd;
     window.emptyPrayerHistory = emptyPrayerHistory;
-    window.addPrayerHistoryEntry = addPrayerHistoryEntry;
-    window.removePrayerHistoryEntry = removePrayerHistoryEntry;
-    window.getPrayerHistory = getPrayerHistory;
-    window.savePrayerHistory = savePrayerHistory;
-    window.clearPrayerHistory = clearPrayerHistory;
-    window.renderPrayerHistoryTab = renderPrayerHistoryTab;
-    window.PrayerHistoryApp = {
-        addPrayerHistoryEntry: addPrayerHistoryEntry,
-        removePrayerHistoryEntry: removePrayerHistoryEntry,
-        getPrayerHistory: getPrayerHistory,
-        savePrayerHistory: savePrayerHistory,
-        clearPrayerHistory: clearPrayerHistory,
-        emptyPrayerHistory: emptyPrayerHistory,
-        renderPrayerHistoryTab: renderPrayerHistoryTab
-    };
+    if (window.PrayerHistoryApp) {
+        window.PrayerHistoryApp.emptyPrayerHistory = emptyPrayerHistory;
+    }
 }
 
 try { registerTrackerComponents(); } catch (_) {}

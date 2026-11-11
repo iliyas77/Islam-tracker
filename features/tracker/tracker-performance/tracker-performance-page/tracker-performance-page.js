@@ -11,7 +11,7 @@
 import {
     calculatePrayerPerformance,
     fr, PRAYER_NAMES, DEFAULT_TIMINGS, PRAYER_CARD_ICONS
-} from '../../tracker-service.js';
+} from '../../tracker-shared/tracker-service.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);

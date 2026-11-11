@@ -16,10 +16,10 @@ export var TrackerMobileViewTemplate = { element: 'tracker-mobile-view-template'
 export var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/tracker-main/tracker-main.html' };
 export var TrackerNavTabTemplate = { element: 'tracker-nav-tab-template', file: 'features/tracker/tracker-main/tracker-main.html' };
 export var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/tracker-main/tracker-main.html' };
-export { PrayerRowTemplate } from '../tracker-current/tracker-current.js';
+export { PrayerRowTemplate } from '../tracker-current/tracker-current-card/tracker-current-card.js';
 export var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/tracker/tracker-performance/prayer-stat-card.html' };
 export var PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'features/tracker/tracker-performance/prayer-perf-ring.html' };
-export { PrayerHistoryCardTemplate } from '../tracker-history/tracker-history.js';
+export { PrayerHistoryCardTemplate } from '../tracker-history/tracker-history-card/tracker-history-card.js';
 
 import {
     PrayerRowViewModel,
@@ -27,18 +27,30 @@ import {
 } from './tracker.js';
 
 import {
-    TrackerCurrentCardTemplate, TrackerCurrentCardViewModel,
-    TrackerCurrentFeedTemplate, TrackerCurrentFeedViewModel,
-    TrackerCurrentFormTemplate, TrackerCurrentFormViewModel,
+    TrackerCurrentCardTemplate, TrackerCurrentCardViewModel
+} from '../tracker-current/tracker-current-card/tracker-current-card.js';
+import {
+    TrackerCurrentFeedTemplate, TrackerCurrentFeedViewModel
+} from '../tracker-current/tracker-current-feed/tracker-current-feed.js';
+import {
+    TrackerCurrentFormTemplate, TrackerCurrentFormViewModel
+} from '../tracker-current/tracker-current-form/tracker-current-form.js';
+import {
     TrackerCurrentMobileViewTemplate, TrackerCurrentViewModel
-} from '../tracker-current/tracker-current.js';
+} from '../tracker-current/tracker-current-home/tracker-current-home.js';
 
 import {
-    TrackerOldCardTemplate, TrackerOldCardViewModel,
-    TrackerOldFeedTemplate, TrackerOldFeedViewModel,
-    TrackerOldFormTemplate, TrackerOldFormViewModel,
+    TrackerOldCardTemplate, TrackerOldCardViewModel
+} from '../tracker-old/tracker-old-card/tracker-old-card.js';
+import {
+    TrackerOldFeedTemplate, TrackerOldFeedViewModel
+} from '../tracker-old/tracker-old-feed/tracker-old-feed.js';
+import {
+    TrackerOldFormTemplate, TrackerOldFormViewModel
+} from '../tracker-old/tracker-old-form/tracker-old-form.js';
+import {
     TrackerOldPageTemplate, TrackerOldPageViewModel
-} from '../tracker-old/tracker-old.js';
+} from '../tracker-old/tracker-old-page/tracker-old-page.js';
 
 import {
     TrackerPerformanceCardTemplate, TrackerPerformanceCardViewModel,
@@ -47,10 +59,14 @@ import {
 } from '../tracker-performance/tracker-performance.js';
 
 import {
-    TrackerHistoryCardTemplate, TrackerHistoryCardViewModel,
-    TrackerHistoryFeedTemplate, TrackerHistoryFeedViewModel,
+    TrackerHistoryCardTemplate, TrackerHistoryCardViewModel
+} from '../tracker-history/tracker-history-card/tracker-history-card.js';
+import {
+    TrackerHistoryFeedTemplate, TrackerHistoryFeedViewModel
+} from '../tracker-history/tracker-history-feed/tracker-history-feed.js';
+import {
     TrackerHistoryPageTemplate, TrackerHistoryPageViewModel
-} from '../tracker-history/tracker-history.js';
+} from '../tracker-history/tracker-history-page/tracker-history-page.js';
 
 import { registerComponent } from '../../../components/component-helper.js';
 

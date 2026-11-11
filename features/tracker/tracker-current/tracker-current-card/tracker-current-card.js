@@ -8,12 +8,13 @@
    ============================================================ */
 'use strict';
 
-import { unwrap, PRAYER_CARD_ICONS } from '../../tracker-service.js';
+import { unwrap, PRAYER_CARD_ICONS } from '../../tracker-shared/tracker-service.js';
 
 export const TrackerCurrentCardTemplate = {
     element: 'tracker-current-card-template',
     file: 'features/tracker/tracker-current/tracker-current-card/tracker-current-card.html'
 };
+export const PrayerRowTemplate = TrackerCurrentCardTemplate;
 
 export function TrackerCurrentCardViewModel(params) {
     if (params instanceof TrackerCurrentCardViewModel) return params;

@@ -116,7 +116,7 @@ export async function runTrackerComponentTests() {
         clearPrayerHistory,
         calculatePrayerPerformance,
         getMissedPrayersByDate
-    } = await import(path.join(ROOT, 'features', 'tracker', 'tracker-service.js'));
+    } = await import(path.join(ROOT, 'features', 'tracker', 'index.js'));
 
     assert(TrackerService, 'TrackerService must be exported');
     assert.strictEqual(PRAYER_NAMES.length, 5);
@@ -176,7 +176,7 @@ export async function runTrackerComponentTests() {
         path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-form', 'tracker-current-form.js')
     );
     const { TrackerCurrentPageViewModel } = await import(
-        path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current.js')
+        path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-home', 'tracker-current-home.js')
     );
 
     // Test Current Card
@@ -375,7 +375,7 @@ export async function runTrackerComponentTests() {
     // ==========================================
     // 5. Registration Verification
     // ==========================================
-    const { registerTrackerComponents } = await import(path.join(ROOT, 'features', 'tracker', 'tracker-registration.js'));
+    const { registerTrackerComponents } = await import(path.join(ROOT, 'features', 'tracker', 'index.js'));
     registerTrackerComponents(mockKo);
 
     const expectedComponents = [
@@ -415,7 +415,7 @@ export async function runTrackerComponentTests() {
     // ==========================================
     // 6. Root Tracker ViewModel & Subtab Switching
     // ==========================================
-    const { TrackerApp, TrackerPageViewModel } = await import(path.join(ROOT, 'features', 'tracker', 'tracker.js'));
+    const { TrackerApp, TrackerPageViewModel } = await import(path.join(ROOT, 'features', 'tracker', 'index.js'));
     assert(TrackerApp, 'TrackerApp export must be defined');
 
     const trackerRootVm = new TrackerPageViewModel({ prayerStore: mockStore });
@@ -438,7 +438,7 @@ export async function runTrackerComponentTests() {
         show(cfg) { sheet2Shown = true; sheet2Config = cfg; },
         hide() { sheet2Shown = false; }
     };
-    const { rMS } = await import(path.join(ROOT, 'features', 'tracker', 'tracker.js'));
+    const { rMS } = await import(path.join(ROOT, 'features', 'tracker', 'index.js'));
     assert(typeof rMS === 'function', 'rMS must be a function');
     rMS();
     assert.strictEqual(sheet2Shown, true, 'rMS() must invoke sheet2BS.show');

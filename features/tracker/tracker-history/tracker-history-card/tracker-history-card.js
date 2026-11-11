@@ -8,12 +8,13 @@
    ============================================================ */
 'use strict';
 
-import { unwrap, fr, formatTimeAgo, PRAYER_CARD_ICONS } from '../../tracker-service.js';
+import { unwrap, fr, formatTimeAgo, PRAYER_CARD_ICONS } from '../../tracker-shared/tracker-service.js';
 
 export const TrackerHistoryCardTemplate = {
     element: 'tracker-history-card-template',
     file: 'features/tracker/tracker-history/tracker-history-card/tracker-history-card.html'
 };
+export const PrayerHistoryCardTemplate = TrackerHistoryCardTemplate;
 
 export function TrackerHistoryCardViewModel(params) {
     if (params instanceof TrackerHistoryCardViewModel) return params;

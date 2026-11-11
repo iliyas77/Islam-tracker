@@ -241,7 +241,7 @@ function ensureFeatureLoaded(kind) {
                 _loadedFeatures.history = true;
                 return Promise.resolve();
             }
-            return import('./features/tracker/tracker.js').then(function () {
+            return import('./features/tracker/index.js').then(function () {
                 _loadedFeatures.tracker = true;
                 _loadedFeatures.current = true;
                 _loadedFeatures.old = true;

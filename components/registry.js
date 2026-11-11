@@ -4,7 +4,7 @@ import { IconViewModel, IconTemplate } from './icon/icon.js';
 import { BottomSheetViewModel, BottomSheetTemplate } from './bottom-sheet/bottom-sheet.js';
 import { TabsViewModel, TabsTemplate } from './tabs/tabs.js';
 import { registerDashboardComponents } from '../features/dashboard/dashboard-registration.js';
-import { registerTrackerComponents } from '../features/tracker/tracker-registration.js';
+import { registerTrackerComponents } from '../features/tracker/index.js';
 import { registerTasbeehComponents } from '../features/tasbeeh/tasbeeh-registration.js';
 import { registerDuaComponents } from '../features/dua/dua-registration.js';
 import { registerQuranComponents } from '../features/quran/quran-registration.js';
