@@ -29,7 +29,7 @@ export * from './tracker-current/tracker-current-home/tracker-current-home.js';
 export * from './tracker-old/tracker-old-card/tracker-old-card.js';
 export * from './tracker-old/tracker-old-feed/tracker-old-feed.js';
 export * from './tracker-old/tracker-old-form/tracker-old-form.js';
-export * from './tracker-old/tracker-old-page/tracker-old-page.js';
+export * from './tracker-old/tracker-old-home/tracker-old-home.js';
 
 // 6. Performance Tab Submodules
 export * from './tracker-performance/tracker-performance.js';
@@ -40,7 +40,7 @@ export * from './tracker-history/tracker-history-feed/tracker-history-feed.js';
 export * from './tracker-history/tracker-history-page/tracker-history-page.js';
 
 // Disambiguate explicit exports
-export { rOT } from './tracker-old/tracker-old-page/tracker-old-page.js';
+export { rOT } from './tracker-old/tracker-old-home/tracker-old-home.js';
 
 // Default export: root TrackerApp
 export { default } from './tracker-main/tracker-main.js';

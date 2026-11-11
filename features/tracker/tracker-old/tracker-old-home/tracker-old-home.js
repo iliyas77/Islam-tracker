@@ -1,6 +1,6 @@
 /* ============================================================
-   Nur Prayer — Tracker Old Page Component
-   Path: features/tracker/tracker-old/tracker-old-page/tracker-old-page.js
+   Nur Prayer — Tracker Old Home Component
+   Path: features/tracker/tracker-old/tracker-old-home/tracker-old-home.js
    Responsibilities:
      - Owns Old tracking page state (date, period, badge, action button)
      - Manages prayer status updates, sequential completion, period settings
@@ -16,14 +16,15 @@ import {
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
 
-export const TrackerOldPageTemplate = {
-    element: 'tracker-old-page-template',
-    file: 'features/tracker/tracker-old/tracker-old-page/tracker-old-page.html'
+export const TrackerOldHomeTemplate = {
+    element: 'tracker-old-home-template',
+    file: 'features/tracker/tracker-old/tracker-old-home/tracker-old-home.html'
 };
+export const TrackerOldPageTemplate = TrackerOldHomeTemplate;
 
-export function TrackerOldPageViewModel(params) {
-    if (params instanceof TrackerOldPageViewModel) return params;
-    if (!(this instanceof TrackerOldPageViewModel)) return new TrackerOldPageViewModel(params);
+export function TrackerOldHomeViewModel(params) {
+    if (params instanceof TrackerOldHomeViewModel) return params;
+    if (!(this instanceof TrackerOldHomeViewModel)) return new TrackerOldHomeViewModel(params);
 
     var p = (params && typeof params === 'function') ? params() : (params || {});
     var k = _ko;
@@ -231,22 +232,29 @@ export function TrackerOldPageViewModel(params) {
 
     // Initial load
     self.refresh();
+    _win.trackerOldHomeViewModel = self;
     _win.trackerOldPageViewModel = self;
 }
 
+export const TrackerOldPageViewModel = TrackerOldHomeViewModel;
+export const TrackerOldViewModel = TrackerOldHomeViewModel;
+
 export function rOT() {
-    if (_win.trackerOldPageViewModel && typeof _win.trackerOldPageViewModel.refresh === 'function') {
-        _win.trackerOldPageViewModel.refresh();
+    var vm = _win.trackerOldHomeViewModel || _win.trackerOldPageViewModel;
+    if (vm && typeof vm.refresh === 'function') {
+        vm.refresh();
     }
 }
 
 if (typeof window !== 'undefined') {
+    window.trackerOldHomeViewModel = _win.trackerOldHomeViewModel;
+    window.trackerOldPageViewModel = _win.trackerOldPageViewModel;
     window.TrackerOldApp = { refresh: rOT };
     window.rOT = rOT;
 }
 
 export default {
-    template: TrackerOldPageTemplate,
-    viewModel: TrackerOldPageViewModel
+    template: TrackerOldHomeTemplate,
+    viewModel: TrackerOldHomeViewModel
 };
 

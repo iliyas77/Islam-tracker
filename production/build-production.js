@@ -105,7 +105,7 @@ const trackerCurHomeJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-cur
 const trackerOldCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-card', 'tracker-old-card.js');
 const trackerOldFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-feed', 'tracker-old-feed.js');
 const trackerOldFormJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-form', 'tracker-old-form.js');
-const trackerOldPageJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-page', 'tracker-old-page.js');
+const trackerOldHomeJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-home', 'tracker-old-home.js');
 const trackerPerfCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-card', 'tracker-performance-card.js');
 const trackerPerfFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-feed', 'tracker-performance-feed.js');
 const trackerPerfPageJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-page', 'tracker-performance-page.js');
@@ -127,7 +127,7 @@ const trackerCurrentMobileViewHtmlPath = path.join(ROOT, 'features', 'tracker', 
 const trackerOldCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-card', 'tracker-old-card.html');
 const trackerOldFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-feed', 'tracker-old-feed.html');
 const trackerOldFormHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-form', 'tracker-old-form.html');
-const trackerOldPageHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-page', 'tracker-old-page.html');
+const trackerOldHomeHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-home', 'tracker-old-home.html');
 const trackerPerfCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-card', 'tracker-performance-card.html');
 const trackerPerfFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-feed', 'tracker-performance-feed.html');
 const trackerPerfPageHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-page', 'tracker-performance-page.html');
@@ -311,7 +311,7 @@ function buildProduction() {
         const trackerOldCardJs = readFile(trackerOldCardJsPath);
         const trackerOldFeedJs = readFile(trackerOldFeedJsPath);
         const trackerOldFormJs = readFile(trackerOldFormJsPath);
-        const trackerOldPageJs = readFile(trackerOldPageJsPath);
+        const trackerOldHomeJs = readFile(trackerOldHomeJsPath);
         const trackerPerfCardJs = readFile(trackerPerfCardJsPath);
         const trackerPerfFeedJs = readFile(trackerPerfFeedJsPath);
         const trackerPerfPageJs = readFile(trackerPerfPageJsPath);
@@ -419,7 +419,7 @@ function buildProduction() {
             trackerOldCardJs,
             trackerOldFeedJs,
             trackerOldFormJs,
-            trackerOldPageJs,
+            trackerOldHomeJs,
             trackerPerfCardJs,
             trackerPerfFeedJs,
             trackerPerfPageJs,
@@ -495,7 +495,8 @@ function buildProduction() {
                 `        <script type="text/html" id="tracker-current-feed-template">\n${readFile(trackerCurrentFeedHtmlPath)}\n        </script>`,
                 `        <script type="text/html" id="tracker-current-card-template">\n${readFile(trackerCurrentCardHtmlPath)}\n        </script>`,
                 `        <script type="text/html" id="tracker-current-form-template">\n${readFile(trackerCurrentFormHtmlPath)}\n        </script>`,
-                `        <script type="text/html" id="tracker-old-page-template">\n${readFile(trackerOldPageHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-old-home-template">\n${readFile(trackerOldHomeHtmlPath)}\n        </script>`,
+                `        <script type="text/html" id="tracker-old-page-template"><!-- ko template: 'tracker-old-home-template' --><!-- /ko --></script>`,
                 `        <script type="text/html" id="tracker-old-feed-template">\n${readFile(trackerOldFeedHtmlPath)}\n        </script>`,
                 `        <script type="text/html" id="tracker-old-card-template">\n${readFile(trackerOldCardHtmlPath)}\n        </script>`,
                 `        <script type="text/html" id="tracker-old-form-template">\n${readFile(trackerOldFormHtmlPath)}\n        </script>`,

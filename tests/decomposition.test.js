@@ -70,7 +70,7 @@ export async function runDecompositionTests() {
         'features/tracker/tracker-current/tracker-current-feed/tracker-current-feed.js',
         'features/tracker/tracker-current/tracker-current-card/tracker-current-card.js',
         'features/tracker/tracker-current/tracker-current-form/tracker-current-form.js',
-        'features/tracker/tracker-old/tracker-old-page/tracker-old-page.js',
+        'features/tracker/tracker-old/tracker-old-home/tracker-old-home.js',
         'features/tracker/tracker-old/tracker-old-feed/tracker-old-feed.js',
         'features/tracker/tracker-old/tracker-old-card/tracker-old-card.js',
         'features/tracker/tracker-old/tracker-old-form/tracker-old-form.js',

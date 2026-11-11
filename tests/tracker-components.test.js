@@ -251,9 +251,10 @@ export async function runTrackerComponentTests() {
     const { TrackerOldFormViewModel } = await import(
         path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-form', 'tracker-old-form.js')
     );
-    const { TrackerOldPageViewModel } = await import(
-        path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-page', 'tracker-old-page.js')
+    const { TrackerOldPageViewModel, TrackerOldHomeViewModel } = await import(
+        path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-home', 'tracker-old-home.js')
     );
+    assert.strictEqual(TrackerOldPageViewModel, TrackerOldHomeViewModel, 'TrackerOldPageViewModel must alias TrackerOldHomeViewModel');
 
     let oldCardToggled = null;
     const oldCardVm = new TrackerOldCardViewModel({
@@ -387,6 +388,7 @@ export async function runTrackerComponentTests() {
         'tracker-current-feed',
         'tracker-current-card',
         'tracker-current-form',
+        'tracker-old-home',
         'tracker-old-page',
         'tracker-old-feed',
         'tracker-old-card',

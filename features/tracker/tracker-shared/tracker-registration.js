@@ -49,8 +49,10 @@ import {
     TrackerOldFormTemplate, TrackerOldFormViewModel
 } from '../tracker-old/tracker-old-form/tracker-old-form.js';
 import {
-    TrackerOldPageTemplate, TrackerOldPageViewModel
-} from '../tracker-old/tracker-old-page/tracker-old-page.js';
+    TrackerOldHomeTemplate, TrackerOldHomeViewModel,
+    TrackerOldPageTemplate, TrackerOldPageViewModel,
+    TrackerOldViewModel
+} from '../tracker-old/tracker-old-home/tracker-old-home.js';
 
 import {
     TrackerPerformanceCardTemplate, TrackerPerformanceCardViewModel,
@@ -104,7 +106,9 @@ export function registerTrackerComponents(customKo) {
     registerComponent('tracker-old-card', TrackerOldCardViewModel, TrackerOldCardTemplate, customKo);
     registerComponent('tracker-old-feed', TrackerOldFeedViewModel, TrackerOldFeedTemplate, customKo);
     registerComponent('tracker-old-form', TrackerOldFormViewModel, TrackerOldFormTemplate, customKo);
+    registerComponent('tracker-old-home', TrackerOldHomeViewModel, TrackerOldHomeTemplate, customKo);
     registerComponent('tracker-old-page', TrackerOldPageViewModel, TrackerOldPageTemplate, customKo);
+    registerComponent('tracker-old', TrackerOldViewModel, TrackerOldHomeTemplate, customKo);
 
     // 4. Performance Tab Modular Components
     registerComponent('tracker-performance-card', TrackerPerformanceCardViewModel, TrackerPerformanceCardTemplate, customKo);
