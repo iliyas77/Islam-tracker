@@ -3,7 +3,7 @@
    Path: features/tracker/tracker-main/tracker-main.html
    Responsibilities:
      - Root mobile view container for Prayer Tracker feature
-     - Coordinates subtabs: Current, Old, Performance, and History
+     - Coordinates subtabs: Current and History
      - Encapsulates header bar, subtab bodies, and bottom navigation
    ============================================================ -->
 <!-- Header Component -->
@@ -65,12 +65,6 @@
     <!-- ko component: { name: 'tracker-current-mobile-view', params: currentParams } --><!-- /ko -->
 </div>
 
-<!-- Performance Page -->
-<div class="grow overflow-auto px-2 pt-2 pb-3" id="performanceBody" data-ref="page.performance.body"
-    data-bind="visible: currentSubTab() === 'performance'">
-    <!-- ko component: { name: 'tracker-performance-page', params: performanceParams } --><!-- /ko -->
-</div>
-
 <!-- History Page -->
 <div class="grow overflow-auto px-2 pt-2 pb-3" id="historyBody" data-ref="page.history.body"
     data-bind="visible: currentSubTab() === 'history'">
@@ -89,8 +83,6 @@
         onTabChange: function(tabId) { if (typeof switchTrackerSubTab === 'function') switchTrackerSubTab(tabId); },
         tabs: [
             { id: 'current', label: 'Current', icon: 'calendar-days', iconPrefix: 'fa-regular', elementId: 'tabTrackCurrent', dataAct: 'switch-track-current', dataRef: 'page.tracker.tab-current' },
-            { id: 'old', label: 'Old', icon: 'clock-rotate-left', elementId: 'tabTrackOld', dataAct: 'switch-track-old', dataRef: 'page.tracker.tab-old' },
-            { id: 'performance', label: 'Performance', icon: 'chart-simple', elementId: 'tabTrackPerformance', dataAct: 'switch-track-performance', dataRef: 'page.tracker.tab-performance' },
             { id: 'history', label: 'History', icon: 'list-check', elementId: 'tabTrackHistory', dataAct: 'switch-track-history', dataRef: 'page.tracker.tab-history' }
         ]
     }

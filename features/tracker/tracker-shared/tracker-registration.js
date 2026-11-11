@@ -4,7 +4,7 @@
    Responsibilities:
      - Centralizes ALL Knockout component registrations for Tracker feature
      - Registers feature-level components (tracker-page, tracker-header, tracker-nav-tab)
-     - Registers modular components for Current, Performance, and History
+     - Registers modular components for Current and History
      - Provides backward-compatibility alias registrations for legacy templates
    ============================================================ */
 'use strict';
@@ -17,8 +17,6 @@ export var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'f
 export var TrackerNavTabTemplate = { element: 'tracker-nav-tab-template', file: 'features/tracker/tracker-main/tracker-main.html' };
 export var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/tracker-main/tracker-main.html' };
 export { PrayerRowTemplate } from '../tracker-current/tracker-current-card/tracker-current-card.js';
-export var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/tracker/tracker-performance/prayer-stat-card.html' };
-export var PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'features/tracker/tracker-performance/prayer-perf-ring.html' };
 export { PrayerHistoryCardTemplate } from '../tracker-history/tracker-history-card/tracker-history-card.js';
 
 import {
@@ -38,12 +36,6 @@ import {
 import {
     TrackerCurrentMobileViewTemplate, TrackerCurrentViewModel
 } from '../tracker-current/tracker-current-home/tracker-current-home.js';
-
-import {
-    TrackerPerformanceCardTemplate, TrackerPerformanceCardViewModel,
-    TrackerPerformanceFeedTemplate, TrackerPerformanceFeedViewModel,
-    TrackerPerformancePageTemplate, TrackerPerformancePageViewModel
-} from '../tracker-performance/tracker-performance.js';
 
 import {
     TrackerHistoryCardTemplate, TrackerHistoryCardViewModel
@@ -87,21 +79,14 @@ export function registerTrackerComponents(customKo) {
     registerComponent('tracker-current-mobile-view', TrackerCurrentViewModel, TrackerCurrentMobileViewTemplate, customKo);
     registerComponent('tracker-current', TrackerCurrentViewModel, TrackerCurrentMobileViewTemplate, customKo);
 
-    // 3. Performance Tab Modular Components
-    registerComponent('tracker-performance-card', TrackerPerformanceCardViewModel, TrackerPerformanceCardTemplate, customKo);
-    registerComponent('tracker-performance-feed', TrackerPerformanceFeedViewModel, TrackerPerformanceFeedTemplate, customKo);
-    registerComponent('tracker-performance-page', TrackerPerformancePageViewModel, TrackerPerformancePageTemplate, customKo);
-
-    // 4. History Tab Modular Components
+    // 3. History Tab Modular Components
     registerComponent('tracker-history-card', TrackerHistoryCardViewModel, TrackerHistoryCardTemplate, customKo);
     registerComponent('tracker-history-feed', TrackerHistoryFeedViewModel, TrackerHistoryFeedTemplate, customKo);
     registerComponent('tracker-history-page', TrackerHistoryPageViewModel, TrackerHistoryPageTemplate, customKo);
 
-    // 5. Backward Compatibility Aliases for Legacy Template Bindings
+    // 4. Backward Compatibility Aliases for Legacy Template Bindings
     registerComponent('prayer-header', function (p) { return p || {}; }, TrackerHeaderTemplate, customKo);
     registerComponent('prayer-row', PrayerRowViewModel, TrackerCurrentCardTemplate, customKo);
-    registerComponent('prayer-stat-card', function (p) { return p || {}; }, PrayerStatCardTemplate, customKo);
-    registerComponent('prayer-perf-ring', function (p) { return p || {}; }, PrayerPerfRingTemplate, customKo);
     registerComponent('prayer-nav-tab', function (p) { return p || {}; }, PrayerNavTabTemplate, customKo);
     registerComponent('prayer-history-card', TrackerHistoryCardViewModel, TrackerHistoryCardTemplate, customKo);
 }

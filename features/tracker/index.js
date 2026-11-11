@@ -6,7 +6,7 @@
      - Re-exports all shared services, storage, constants, and utilities
      - Re-exports component registrations and template configurations
      - Re-exports feature root ViewModel, lifecycle interfaces, and helpers
-     - Re-exports all submodules: Current, Performance, and History
+     - Re-exports all submodules: Current and History
    ============================================================ */
 'use strict';
 
@@ -25,10 +25,7 @@ export * from './tracker-current/tracker-current-feed/tracker-current-feed.js';
 export * from './tracker-current/tracker-current-form/tracker-current-form.js';
 export * from './tracker-current/tracker-current-home/tracker-current-home.js';
 
-// 5. Performance Tab Submodules
-export * from './tracker-performance/tracker-performance.js';
-
-// 6. History Tab Submodules (direct component exports)
+// 5. History Tab Submodules (direct component exports)
 export * from './tracker-history/tracker-history-card/tracker-history-card.js';
 export * from './tracker-history/tracker-history-feed/tracker-history-feed.js';
 export * from './tracker-history/tracker-history-page/tracker-history-page.js';

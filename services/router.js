@@ -62,9 +62,6 @@ export function Router() {
         } else if (page === 'old') {
             page = 'tracker';
             subTab = 'old';
-        } else if (page === 'performance') {
-            page = 'tracker';
-            subTab = 'performance';
         } else if (page === 'history') {
             page = 'tracker';
             subTab = 'history';

@@ -102,10 +102,6 @@ const trackerCurCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-cur
 const trackerCurFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-feed', 'tracker-current-feed.js');
 const trackerCurFormJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-form', 'tracker-current-form.js');
 const trackerCurHomeJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-home', 'tracker-current-home.js');
-const trackerPerfCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-card', 'tracker-performance-card.js');
-const trackerPerfFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-feed', 'tracker-performance-feed.js');
-const trackerPerfPageJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-page', 'tracker-performance-page.js');
-const trackerPerfJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance.js');
 const trackerHistCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history-card', 'tracker-history-card.js');
 const trackerHistFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history-feed', 'tracker-history-feed.js');
 const trackerHistPageJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history-page', 'tracker-history-page.js');
@@ -120,11 +116,6 @@ const trackerCurrentCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'track
 const trackerCurrentFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-feed', 'tracker-current-feed.html');
 const trackerCurrentFormHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-form', 'tracker-current-form.html');
 const trackerCurrentMobileViewHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-home', 'tracker-current-home.html');
-const trackerPerfCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-card', 'tracker-performance-card.html');
-const trackerPerfFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-feed', 'tracker-performance-feed.html');
-const trackerPerfPageHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-page', 'tracker-performance-page.html');
-const prayerStatCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'prayer-stat-card.html');
-const prayerPerfRingHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'prayer-perf-ring.html');
 const trackerHistCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history-card', 'tracker-history-card.html');
 const trackerHistFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history-feed', 'tracker-history-feed.html');
 const trackerHistPageHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history-page', 'tracker-history-page.html');
@@ -300,14 +291,6 @@ function buildProduction() {
         const trackerCurFeedJs = readFile(trackerCurFeedJsPath);
         const trackerCurFormJs = readFile(trackerCurFormJsPath);
         const trackerCurHomeJs = readFile(trackerCurHomeJsPath);
-        const trackerOldCardJs = readFile(trackerOldCardJsPath);
-        const trackerOldFeedJs = readFile(trackerOldFeedJsPath);
-        const trackerOldFormJs = readFile(trackerOldFormJsPath);
-        const trackerOldHomeJs = readFile(trackerOldHomeJsPath);
-        const trackerPerfCardJs = readFile(trackerPerfCardJsPath);
-        const trackerPerfFeedJs = readFile(trackerPerfFeedJsPath);
-        const trackerPerfPageJs = readFile(trackerPerfPageJsPath);
-        const trackerPerfJs = readFile(trackerPerfJsPath);
         const trackerHistCardJs = readFile(trackerHistCardJsPath);
         const trackerHistFeedJs = readFile(trackerHistFeedJsPath);
         const trackerHistPageJs = readFile(trackerHistPageJsPath);
@@ -408,14 +391,6 @@ function buildProduction() {
             trackerCurFeedJs,
             trackerCurFormJs,
             trackerCurHomeJs,
-            trackerOldCardJs,
-            trackerOldFeedJs,
-            trackerOldFormJs,
-            trackerOldHomeJs,
-            trackerPerfCardJs,
-            trackerPerfFeedJs,
-            trackerPerfPageJs,
-            trackerPerfJs,
             trackerHistCardJs,
             trackerHistFeedJs,
             trackerHistPageJs,
@@ -487,17 +462,12 @@ function buildProduction() {
                 `        <script type="text/html" id="tracker-current-feed-template">\n${readFile(trackerCurrentFeedHtmlPath)}\n        </script>`,
                 `        <script type="text/html" id="tracker-current-card-template">\n${readFile(trackerCurrentCardHtmlPath)}\n        </script>`,
                 `        <script type="text/html" id="tracker-current-form-template">\n${readFile(trackerCurrentFormHtmlPath)}\n        </script>`,
-                `        <script type="text/html" id="tracker-performance-page-template">\n${readFile(trackerPerfPageHtmlPath)}\n        </script>`,
-                `        <script type="text/html" id="tracker-performance-feed-template">\n${readFile(trackerPerfFeedHtmlPath)}\n        </script>`,
-                `        <script type="text/html" id="tracker-performance-card-template">\n${readFile(trackerPerfCardHtmlPath)}\n        </script>`,
                 `        <script type="text/html" id="tracker-history-page-template">\n${readFile(trackerHistPageHtmlPath)}\n        </script>`,
                 `        <script type="text/html" id="tracker-history-feed-template">\n${readFile(trackerHistFeedHtmlPath)}\n        </script>`,
                 `        <script type="text/html" id="tracker-history-card-template">\n${readFile(trackerHistCardHtmlPath)}\n        </script>`,
                 `        <script type="text/html" id="tracker-header-template"><!-- ko template: 'prayer-header-template' --><!-- /ko --></script>`,
                 `        <script type="text/html" id="prayer-header-template"><!-- ko template: 'tracker-page-template' --><!-- /ko --></script>`,
                 `        <script type="text/html" id="prayer-row-template"><!-- ko template: 'tracker-current-card-template' --><!-- /ko --></script>`,
-                `        <script type="text/html" id="prayer-stat-card-template">\n${readFile(prayerStatCardHtmlPath)}\n        </script>`,
-                `        <script type="text/html" id="prayer-perf-ring-template">\n${readFile(prayerPerfRingHtmlPath)}\n        </script>`,
                 `        <script type="text/html" id="tracker-nav-tab-template"><!-- ko template: 'tracker-page-template' --><!-- /ko --></script>`,
                 `        <script type="text/html" id="prayer-nav-tab-template"><!-- ko template: 'tracker-nav-tab-template' --><!-- /ko --></script>`,
                 `        <script type="text/html" id="prayer-history-card-template"><!-- ko template: 'tracker-history-card-template' --><!-- /ko --></script>`

@@ -1,14 +1,13 @@
 /* ---------- Navigation (Constants referenced from utilities/navigation-constants.js) ---------- */
 var NAV_CONSTANTS = window.NAVIGATION_CONSTANTS || (window.CONSTANTS && window.CONSTANTS.NAVIGATION) || {};
 var PAGES = NAV_CONSTANTS.PAGES || window.PAGES || ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage', 'quranPage'];
-var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', performance: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas', quran: 'navQuran' };
-var SUB_TABS = NAV_CONSTANTS.SUB_TABS || { CURRENT: 'current', OLD: 'old', PERFORMANCE: 'performance', HISTORY: 'history' };
+var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas', quran: 'navQuran' };
+var SUB_TABS = NAV_CONSTANTS.SUB_TABS || { CURRENT: 'current', OLD: 'old', HISTORY: 'history' };
 var PAGE_MAP = NAV_CONSTANTS.PAGE_MAP || {
     dashboard: 'dashboardPage',
     tracker: 'trackerPage',
     current: 'trackerPage',
     old: 'trackerPage',
-    performance: 'trackerPage',
     history: 'trackerPage',
     settings: 'settingsPage',
     tasbeeh: 'tasbeehPage',
@@ -26,10 +25,6 @@ var TRACKER_HEADER = NAV_CONSTANTS.TRACKER_HEADER || {
     old: {
         iconClass: 'fa-solid fa-clock-rotate-left text-gr-warning',
         label: 'Old Tracking'
-    },
-    performance: {
-        iconClass: 'fa-solid fa-chart-simple text-brand',
-        label: 'Performance'
     },
     history: {
         iconClass: 'fa-solid fa-list-check text-brand',
@@ -83,7 +78,6 @@ function syncTrackerDom(activeTab, subText) {
     var tabs = [
         { id: 'tabTrackCurrent', bodyId: 'currentBody', tab: SUB_TABS.CURRENT },
         { id: 'tabTrackOld', bodyId: 'oldBody', tab: SUB_TABS.OLD },
-        { id: 'tabTrackPerformance', bodyId: 'performanceBody', tab: SUB_TABS.PERFORMANCE },
         { id: 'tabTrackHistory', bodyId: 'historyBody', tab: SUB_TABS.HISTORY }
     ];
     tabs.forEach(function (item) {
@@ -228,7 +222,6 @@ function ensureFeatureLoaded(kind) {
         case 'tracker':
         case 'current':
         case 'old':
-        case 'performance':
         case 'history':
             if (_loadedFeatures.tracker) return Promise.resolve();
             if (_w.TrackerApp || _w.registerTrackerComponents) {
@@ -237,7 +230,6 @@ function ensureFeatureLoaded(kind) {
                 _loadedFeatures.tracker = true;
                 _loadedFeatures.current = true;
                 _loadedFeatures.old = true;
-                _loadedFeatures.performance = true;
                 _loadedFeatures.history = true;
                 return Promise.resolve();
             }
@@ -245,7 +237,6 @@ function ensureFeatureLoaded(kind) {
                 _loadedFeatures.tracker = true;
                 _loadedFeatures.current = true;
                 _loadedFeatures.old = true;
-                _loadedFeatures.performance = true;
                 _loadedFeatures.history = true;
                 if (typeof _w.registerTrackerComponents === 'function') _w.registerTrackerComponents();
                 if (_w.TrackerApp && typeof _w.TrackerApp.init === 'function') {
@@ -362,7 +353,7 @@ function showPage(kind) {
             window.currentActivePage = kind;
             if (window.location) {
                 var targetHash;
-                if (kind === 'current' || kind === 'old' || kind === 'performance' || kind === 'history') {
+                if (kind === 'current' || kind === 'old' || kind === 'history') {
                     targetHash = '#/tracker/' + kind;
                 } else if (kind === 'tracker') {
                     targetHash = '#/tracker/' + (trackerSubTab || 'current');
@@ -415,8 +406,6 @@ function showPage(kind) {
             switchTrackerSubTab('current');
         } else if (kind === 'old') {
             switchTrackerSubTab('old');
-        } else if (kind === 'performance') {
-            switchTrackerSubTab('performance');
         } else if (kind === 'history') {
             switchTrackerSubTab('history');
         } else if (kind === 'tracker') {

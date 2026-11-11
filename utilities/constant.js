@@ -105,29 +105,15 @@
                                 HISTORY_EMPTY_BTN: 'historyEmptyBtn',
                                 CURRENT_BODY: 'currentBody',
                                 OLD_BODY: 'oldBody',
-                                PERFORMANCE_BODY: 'performanceBody',
                                 HISTORY_BODY: 'historyBody',
                                 TAB_CURRENT: 'tabTrackCurrent',
                                 TAB_OLD: 'tabTrackOld',
-                                TAB_PERFORMANCE: 'tabTrackPerformance',
                                 TAB_HISTORY: 'tabTrackHistory',
                                 SHEET2: 'sheet2',
                                 SHEET2_ICON: 'sheet2Icon',
                                 SHEET2_TITLE: 'sheet2Title',
                                 SHEET2_SUB: 'sheet2Sub',
                                 SHEET2_BODY: 'sheet2Body',
-                                PERF_RING_VAL: 'perfRingVal',
-                                PERF_HERO_PERCENTAGE: 'perfHeroPercentage',
-                                PERF_TOTAL_COMPLETED: 'perfTotalCompleted',
-                                PERF_TOTAL_POSSIBLE: 'perfTotalPossible',
-                                PERF_DATE_PILL: 'perfDatePill',
-                                PERF_COMPLETED_STAT: 'perfCompletedStat',
-                                PERF_MISSED_STAT: 'perfMissedStat',
-                                PERF_RATE_STAT: 'perfRateStat',
-                                PERF_TRACKED_DAYS: 'perfTrackedDays',
-                                PERF_BREAKDOWN_LIST: 'perfBreakdownList',
-                                PERF_FOOTER_LABEL: 'perfFooterLabel',
-                                PERF_FOOTER_DESC: 'perfFooterDesc',
                                 HIST_EMPTY_STATE: 'histEmptyState',
                                 HIST_CONTENT: 'histContent',
                                 HIST_SUBTITLE_COUNT: 'histSubtitleCount',
@@ -438,7 +424,6 @@
                                 tracker: 'navCur',
                                 current: 'navCur',
                                 old: 'navCur',
-                                performance: 'navCur',
                                 settings: 'navSet',
                                 tasbeeh: 'navTasbeeh',
                                 duas: 'navDuas',
@@ -447,7 +432,6 @@
                         SUB_TABS: {
                                 CURRENT: 'current',
                                 OLD: 'old',
-                                PERFORMANCE: 'performance',
                                 HISTORY: 'history'
                         },
                         PAGE_MAP: {
@@ -455,7 +439,6 @@
                                 tracker: 'trackerPage',
                                 current: 'trackerPage',
                                 old: 'trackerPage',
-                                performance: 'trackerPage',
                                 history: 'trackerPage',
                                 settings: 'settingsPage',
                                 tasbeeh: 'tasbeehPage',
@@ -470,10 +453,6 @@
                                 old: {
                                         iconClass: 'fa-solid fa-clock-rotate-left text-gr-warning',
                                         label: 'Old Tracking'
-                                },
-                                performance: {
-                                        iconClass: 'fa-solid fa-chart-simple text-brand',
-                                        label: 'Performance'
                                 },
                                 history: {
                                         iconClass: 'fa-solid fa-list-check text-brand',

@@ -2,7 +2,7 @@
    Nur Prayer — Tracker Feature Module & Root ViewModel
    Path: features/tracker/tracker-main/tracker-main.js
    Responsibilities:
-     - Coordinates Tracker feature subtabs (current, old, performance, history)
+     - Coordinates Tracker feature subtabs (current, history)
      - Manages active prayer state, header parameters, and subtab switching
      - Provides TrackerApp and PrayerTrackingApp global interfaces
      - Re-exports all submodules, templates, services, and registration
@@ -192,12 +192,6 @@ export function TrackerPageViewModel(params) {
         dateChipAct: 'old-open-cal'
     });
 
-    self.performanceParams = {
-        onNavigateToSettings: function () {
-            self.goToSettings();
-        }
-    };
-
     self.historyParams = {
         onDeleteEntry: function () {
             // Handled within tracker-history-page
@@ -328,7 +322,6 @@ export function rn() {
         _win.trackerCurrentPageViewModel.refresh();
     }
     updateCurrentMissedBadge();
-    if (typeof _win.updatePerformanceTab === 'function') _win.updatePerformanceTab();
 }
 
 export function go(date) {

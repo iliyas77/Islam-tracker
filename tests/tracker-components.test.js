@@ -114,7 +114,6 @@ export async function runTrackerComponentTests() {
         addPrayerHistoryEntry,
         removePrayerHistoryEntry,
         clearPrayerHistory,
-        calculatePrayerPerformance,
         getMissedPrayersByDate
     } = await import(path.join(ROOT, 'features', 'tracker', 'index.js'));
 
@@ -154,12 +153,6 @@ export async function runTrackerComponentTests() {
 
     removePrayerHistoryEntry('Fajr', 'Current', '2026-11-08');
     assert.strictEqual(getPrayerHistory().length, 0);
-
-    // Performance Calculations
-    const perf = calculatePrayerPerformance();
-    assert(typeof perf.totalDays === 'number');
-    assert(typeof perf.totalPercentage === 'number');
-    assert(perf.perPrayer.Fajr !== undefined);
 
     console.log('  ✔ TrackerService: Constants, dates, calculations, history, and missed prayers verified');
 
@@ -240,46 +233,7 @@ export async function runTrackerComponentTests() {
     console.log('  ✔ Tracker Current: Card, Feed, Form, Page, and 3-level communication verified');
 
     // ==========================================
-    // 3. Tracker Performance Components Verification
-    // ==========================================
-    const { TrackerPerformanceCardViewModel } = await import(
-        path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-card', 'tracker-performance-card.js')
-    );
-    const { TrackerPerformanceFeedViewModel } = await import(
-        path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-feed', 'tracker-performance-feed.js')
-    );
-    const { TrackerPerformancePageViewModel } = await import(
-        path.join(ROOT, 'features', 'tracker', 'tracker-performance', 'tracker-performance-page', 'tracker-performance-page.js')
-    );
-
-    let perfClicked = null;
-    const perfCardVm = new TrackerPerformanceCardViewModel({
-        item: { name: 'Fajr', completed: 25, missed: 5, total: 30, percentage: 83 },
-        onClick: c => { perfClicked = c; }
-    });
-    assert.strictEqual(perfCardVm.name, 'Fajr');
-    assert.strictEqual(perfCardVm.percentage, 83);
-    perfCardVm.handleClick();
-    assert.strictEqual(perfClicked.name, 'Fajr');
-
-    let settingsOpened = false;
-    const perfFeedVm = new TrackerPerformanceFeedViewModel({
-        hero: { percentageText: mockKo.observable('85%') },
-        stats: { completed: mockKo.observable(120), missed: mockKo.observable(20) },
-        breakdownItems: mockKo.observableArray([perfCardVm]),
-        onSettingsClick: () => { settingsOpened = true; }
-    });
-    perfFeedVm.handleSettingsClick({}, { stopPropagation() {} });
-    assert.strictEqual(settingsOpened, true);
-
-    const perfPageVm = new TrackerPerformancePageViewModel();
-    perfPageVm.refresh();
-    assert(perfPageVm.breakdownItems().length === 5, 'All 5 prayers in breakdown');
-
-    console.log('  ✔ Tracker Performance: Card, Feed, and Page ViewModels verified');
-
-    // ==========================================
-    // 4. Tracker History Components Verification
+    // 3. Tracker History Components Verification
     // ==========================================
     const { TrackerHistoryCardViewModel } = await import(
         path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history-card', 'tracker-history-card.js')
@@ -316,7 +270,7 @@ export async function runTrackerComponentTests() {
     console.log('  ✔ Tracker History: Card, Feed, and Page ViewModels verified');
 
     // ==========================================
-    // 5. Registration Verification
+    // 4. Registration Verification
     // ==========================================
     const { registerTrackerComponents } = await import(path.join(ROOT, 'features', 'tracker', 'index.js'));
     registerTrackerComponents(mockKo);
@@ -330,17 +284,12 @@ export async function runTrackerComponentTests() {
         'tracker-current-feed',
         'tracker-current-card',
         'tracker-current-form',
-        'tracker-performance-page',
-        'tracker-performance-feed',
-        'tracker-performance-card',
         'tracker-history-page',
         'tracker-history-feed',
         'tracker-history-card',
         // Backward-compatibility aliases
         'prayer-header',
         'prayer-row',
-        'prayer-stat-card',
-        'prayer-perf-ring',
         'prayer-nav-tab',
         'prayer-history-card'
     ];
@@ -352,15 +301,13 @@ export async function runTrackerComponentTests() {
     console.log(`  ✔ Tracker Registration: All ${expectedComponents.length} components & aliases registered in ko`);
 
     // ==========================================
-    // 6. Root Tracker ViewModel & Subtab Switching
+    // 5. Root Tracker ViewModel & Subtab Switching
     // ==========================================
     const { TrackerApp, TrackerPageViewModel } = await import(path.join(ROOT, 'features', 'tracker', 'index.js'));
     assert(TrackerApp, 'TrackerApp export must be defined');
 
     const trackerRootVm = new TrackerPageViewModel({ prayerStore: mockStore });
     assert.strictEqual(trackerRootVm.currentSubTab(), 'current');
-    trackerRootVm.switchTab('performance');
-    assert.strictEqual(trackerRootVm.currentSubTab(), 'performance');
     trackerRootVm.switchTab('history');
     assert.strictEqual(trackerRootVm.currentSubTab(), 'history');
     trackerRootVm.switchTab('current');
@@ -369,7 +316,7 @@ export async function runTrackerComponentTests() {
     console.log('  ✔ Tracker Root: Subtab navigation and ViewModel bridge verified');
 
     // ==========================================
-    // 7. Regression Tests: rMS() & History Logging Flow
+    // 6. Regression Tests: rMS() & History Logging Flow
     // ==========================================
     let sheet2Shown = false;
     let sheet2Config = null;

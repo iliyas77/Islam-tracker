@@ -62,11 +62,11 @@ export async function runRouterTests() {
     assert.strictEqual(router.currentPath(), '#/dashboard');
 
     // 2. Navigation Actions
-    router.navigate('#/tracker/performance');
+    router.navigate('#/tracker/current');
     assert.strictEqual(router.activePage(), 'tracker');
-    assert.strictEqual(router.trackerSubTab(), 'performance');
-    assert.strictEqual(router.currentPath(), '#/tracker/performance');
-    assert.strictEqual(globalThis.location.hash, '#/tracker/performance');
+    assert.strictEqual(router.trackerSubTab(), 'current');
+    assert.strictEqual(router.currentPath(), '#/tracker/current');
+    assert.strictEqual(globalThis.location.hash, '#/tracker/current');
 
     router.navigate('#/tasbeeh/history');
     assert.strictEqual(router.activePage(), 'tasbeeh');
@@ -90,7 +90,7 @@ export async function runRouterTests() {
 
     // 4. isRoute helper
     assert.strictEqual(router.isRoute('tracker', 'history'), true);
-    assert.strictEqual(router.isRoute('tracker', 'performance'), false);
+    assert.strictEqual(router.isRoute('tracker', 'current'), false);
 
     // 5. AppViewModel Integration & Lifecycle
     const { AppViewModel, getAppViewModel } = await import(path.join(ROOT, 'services', 'app-view-model.js'));
@@ -117,11 +117,11 @@ export async function runRouterTests() {
     globalThis.showPage('tracker');
     assert.strictEqual(globalThis.trackerSubTab, 'current');
 
-    globalThis.switchTrackerSubTab('performance');
-    assert.strictEqual(globalThis.trackerSubTab, 'performance');
+    globalThis.switchTrackerSubTab('history');
+    assert.strictEqual(globalThis.trackerSubTab, 'history');
 
     globalThis.showPage('tracker');
-    assert.strictEqual(globalThis.trackerSubTab, 'performance');
+    assert.strictEqual(globalThis.trackerSubTab, 'history');
 
     // Simulate direct hash changes triggering handleHashChange
     globalThis.location.hash = '#/tracker/old';

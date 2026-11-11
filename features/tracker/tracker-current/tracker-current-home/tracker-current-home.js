@@ -12,8 +12,7 @@
 import {
     unwrap, td, fr, PRAYER_NAMES, DEFAULT_TIMINGS,
     isDonePrayer, isPrayerUpcoming, isPrayerCurrent,
-    addPrayerHistoryEntry, removePrayerHistoryEntry,
-    calculatePrayerPerformance
+    addPrayerHistoryEntry, removePrayerHistoryEntry
 } from '../../tracker-shared/tracker-service.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});

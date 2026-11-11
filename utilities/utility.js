@@ -804,7 +804,6 @@ function handleClick(e) {
         }
         sr(sd, c1);
         rn();
-        if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
         if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
             renderPrayerHistoryTab();
         }
@@ -835,7 +834,6 @@ function handleClick(e) {
         });
         sr(sd, c2);
         rn();
-        if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
         if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
             renderPrayerHistoryTab();
         }
@@ -913,7 +911,6 @@ function handleClick(e) {
         if ($('sheet2') && $('sheet2').classList.contains('show') && typeof rOldInfo === 'function') {
             rOldInfo();
         }
-        if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
         if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
             renderPrayerHistoryTab();
         }
@@ -987,7 +984,6 @@ function handleClick(e) {
         if (!confirm('Save Current Start Date as ' + fr(v) + '?')) return;
         wrSD(v);
         rSET();
-        if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
     } else if (act === 'old-save') {
         var s = $('oldStart').value, en2 = $('oldEnd').value;
         if (!s || !en2) { alert('Please pick both start and end dates.'); return; }
@@ -1002,7 +998,6 @@ function handleClick(e) {
         if ($('sheet2') && $('sheet2').classList.contains('show') && typeof rOldInfo === 'function') {
             rOldInfo();
         }
-        if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
     } else if (act === 'old-clear') {
         if (confirm('Clear the saved Old Tracking period and all its data?')) {
             localStorage.removeItem(OK);
@@ -1014,7 +1009,6 @@ function handleClick(e) {
             if (typeof setOldSd === 'function') setOldSd(null);
             sheet2BS.hide();
             rOT();
-            if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
             if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
                 renderPrayerHistoryTab();
             }
@@ -1033,7 +1027,6 @@ function handleClick(e) {
             ensureCurrentDateInitialized();
             if (typeof fetchPrayerTimings === 'function') fetchPrayerTimings(td());
             rSET();
-            if (typeof updatePerformanceTab === 'function') updatePerformanceTab();
             if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
                 renderPrayerHistoryTab();
             }
@@ -1050,8 +1043,6 @@ function handleClick(e) {
         switchTrackerSubTab('current');
     } else if (act === 'switch-track-old') {
         switchTrackerSubTab('old');
-    } else if (act === 'switch-track-performance') {
-        switchTrackerSubTab('performance');
     } else if (act === 'switch-track-history') {
         switchTrackerSubTab('history');
     } else if (act === 'history-empty') {

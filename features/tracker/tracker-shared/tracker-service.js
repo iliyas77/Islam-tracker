@@ -5,7 +5,6 @@
      - Centralizes prayer constants (names, default timings, icons)
      - Centralizes date utilities (today, formatted string, date ranges)
      - Centralizes prayer status helpers (isDone, isUpcoming, isCurrent)
-     - Centralizes prayer performance calculation & breakdown
      - Centralizes prayer history logging, formatting & persistence
      - Centralizes missed prayer counting & categorization
      - Single source of truth for all Tracker components
@@ -265,78 +264,6 @@ export function clearPrayerHistory() {
     savePrayerHistory([]);
 }
 
-/* ---------- Performance Calculation ---------- */
-export function calculatePrayerPerformance() {
-    var sdate = getPrayerStartDate();
-    var today = td();
-    if (!sdate || sdate > today) sdate = today;
-
-    var dates = datesInRange(sdate, today);
-    var totalDays = dates.length;
-    var totalPossible = totalDays * PRAYER_NAMES.length;
-
-    var curDb = getStoredRecords(PRAYER_STORAGE_KEYS.TRACKER_DATA);
-    var oldDb = getStoredRecords(PRAYER_STORAGE_KEYS.OLD_DATA);
-
-    var perPrayer = {};
-    PRAYER_NAMES.forEach(function (p) {
-        perPrayer[p] = {
-            name: p,
-            completed: 0,
-            missed: 0,
-            total: totalDays,
-            percentage: 0
-        };
-    });
-
-    var totalCompleted = 0;
-    var totalMissed = 0;
-
-    dates.forEach(function (d) {
-        var curEntry = curDb[d];
-        var oldEntry = oldDb[d];
-        PRAYER_NAMES.forEach(function (p) {
-            var isCompleted = false;
-            if (curEntry) {
-                isCompleted = (curEntry[p] === false || curEntry[p] === 'done' || curEntry[p] === 1);
-            } else if (oldEntry) {
-                isCompleted = (oldEntry[p] === false);
-            } else {
-                isCompleted = true; // pruned
-            }
-
-            if (isCompleted) {
-                perPrayer[p].completed++;
-                totalCompleted++;
-            } else {
-                perPrayer[p].missed++;
-                totalMissed++;
-            }
-        });
-    });
-
-    PRAYER_NAMES.forEach(function (p) {
-        perPrayer[p].percentage = totalDays > 0
-            ? Math.round((perPrayer[p].completed / totalDays) * 100)
-            : 0;
-    });
-
-    var totalPercentage = totalPossible > 0
-        ? Math.round((totalCompleted / totalPossible) * 100)
-        : 0;
-
-    return {
-        startDate: sdate,
-        endDate: today,
-        totalDays: totalDays,
-        totalPossible: totalPossible,
-        totalCompleted: totalCompleted,
-        totalMissed: totalMissed,
-        totalPercentage: totalPercentage,
-        perPrayer: perPrayer
-    };
-}
-
 /* ---------- Missed Prayers Helpers ---------- */
 export function getMissedPrayersByDate() {
     var curDb = getStoredRecords(PRAYER_STORAGE_KEYS.TRACKER_DATA);
@@ -394,7 +321,6 @@ export var TrackerService = {
     addPrayerHistoryEntry,
     removePrayerHistoryEntry,
     clearPrayerHistory,
-    calculatePrayerPerformance,
     getMissedPrayersByDate,
     getTotalMissedCount
 };
