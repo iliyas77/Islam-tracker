@@ -15,7 +15,6 @@ export var TrackerMobileViewTemplate = { element: 'tracker-mobile-view-template'
 export var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/tracker-mobile-view.html' };
 export var TrackerNavTabTemplate = { element: 'tracker-nav-tab-template', file: 'features/tracker/tracker-mobile-view.html' };
 export var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/tracker-mobile-view.html' };
-export var PrayerTrackerCardTemplate = { element: 'prayer-tracker-card-template', file: 'features/tracker/prayer-tracker-card.html' };
 export { PrayerRowTemplate } from './tracker-current/tracker-current.js';
 export var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/tracker/tracker-performance/prayer-stat-card.html' };
 export var PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'features/tracker/tracker-performance/prayer-perf-ring.html' };
@@ -23,7 +22,6 @@ export { PrayerHistoryCardTemplate } from './tracker-history/tracker-history.js'
 
 import {
     PrayerRowViewModel,
-    PrayerTrackerCardViewModel,
     getTrackerViewModel
 } from './tracker.js';
 
@@ -103,7 +101,6 @@ export function registerTrackerComponents(customKo) {
 
     // 6. Backward Compatibility Aliases for Legacy Template Bindings
     registerComponent('prayer-header', function (p) { return p || {}; }, TrackerHeaderTemplate, customKo);
-    registerComponent('prayer-tracker-card', PrayerTrackerCardViewModel, PrayerTrackerCardTemplate, customKo);
     registerComponent('prayer-row', PrayerRowViewModel, TrackerCurrentCardTemplate, customKo);
     registerComponent('prayer-stat-card', function (p) { return p || {}; }, PrayerStatCardTemplate, customKo);
     registerComponent('prayer-perf-ring', function (p) { return p || {}; }, PrayerPerfRingTemplate, customKo);

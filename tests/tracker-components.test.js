@@ -399,7 +399,6 @@ export async function runTrackerComponentTests() {
         'tracker-history-card',
         // Backward-compatibility aliases
         'prayer-header',
-        'prayer-tracker-card',
         'prayer-row',
         'prayer-stat-card',
         'prayer-perf-ring',

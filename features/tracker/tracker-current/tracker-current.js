@@ -29,7 +29,7 @@ import { TrackerCurrentCardTemplate } from './tracker-current-card/tracker-curre
 /* ---------- Template Definitions ---------- */
 export const TrackerCurrentMobileViewTemplate = {
     element: 'tracker-current-mobile-view-template',
-    file: 'features/tracker/tracker-mobile-view.html'
+    file: 'features/tracker/tracker-current/tracker-current-mobile-view.html'
 };
 
 export const TrackerCurrentTemplate = TrackerCurrentMobileViewTemplate;

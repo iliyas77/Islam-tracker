@@ -30,7 +30,7 @@ var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
 /* ---------- Template Definitions (re-exported from tracker-registration.js) ---------- */
 export {
     TrackerPageTemplate, TrackerMobileViewTemplate, TrackerHeaderTemplate, TrackerNavTabTemplate,
-    PrayerNavTabTemplate, PrayerTrackerCardTemplate, PrayerRowTemplate,
+    PrayerNavTabTemplate, PrayerRowTemplate,
     PrayerStatCardTemplate, PrayerPerfRingTemplate, PrayerHistoryCardTemplate
 } from './tracker-registration.js';
 

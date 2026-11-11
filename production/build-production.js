@@ -124,7 +124,6 @@ const trackerCurrentCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'track
 const trackerCurrentFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-feed', 'tracker-current-feed.html');
 const trackerCurrentFormHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-form', 'tracker-current-form.html');
 const trackerCurrentMobileViewHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-mobile-view.html');
-const prayerTrackerCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'prayer-tracker-card.html');
 const trackerOldCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-card', 'tracker-old-card.html');
 const trackerOldFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-feed', 'tracker-old-feed.html');
 const trackerOldFormHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-form', 'tracker-old-form.html');
@@ -508,7 +507,6 @@ function buildProduction() {
                 `        <script type="text/html" id="tracker-history-card-template">\n${readFile(trackerHistCardHtmlPath)}\n        </script>`,
                 `        <script type="text/html" id="tracker-header-template"><!-- ko template: 'prayer-header-template' --><!-- /ko --></script>`,
                 `        <script type="text/html" id="prayer-header-template"><!-- ko template: 'tracker-page-template' --><!-- /ko --></script>`,
-                `        <script type="text/html" id="prayer-tracker-card-template">\n${readFile(prayerTrackerCardHtmlPath)}\n        </script>`,
                 `        <script type="text/html" id="prayer-row-template"><!-- ko template: 'tracker-current-card-template' --><!-- /ko --></script>`,
                 `        <script type="text/html" id="prayer-stat-card-template">\n${readFile(prayerStatCardHtmlPath)}\n        </script>`,
                 `        <script type="text/html" id="prayer-perf-ring-template">\n${readFile(prayerPerfRingHtmlPath)}\n        </script>`,
