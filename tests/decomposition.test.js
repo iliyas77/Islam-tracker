@@ -65,6 +65,7 @@ export async function runDecompositionTests() {
         'features/tracker/tracker-registration.js',
         'features/tracker/tracker.js',
         'features/tracker/tracker-current/tracker-current.js',
+        'features/tracker/tracker-current/tracker-current-home/tracker-current.js',
         'features/tracker/tracker-current/tracker-current-feed/tracker-current-feed.js',
         'features/tracker/tracker-current/tracker-current-card/tracker-current-card.js',
         'features/tracker/tracker-current/tracker-current-form/tracker-current-form.js',

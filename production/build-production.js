@@ -101,6 +101,7 @@ const trackerServiceJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-ser
 const trackerCurCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-card', 'tracker-current-card.js');
 const trackerCurFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-feed', 'tracker-current-feed.js');
 const trackerCurFormJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-form', 'tracker-current-form.js');
+const trackerCurHomeJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-home', 'tracker-current.js');
 const trackerCurJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current.js');
 const trackerOldCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-card', 'tracker-old-card.js');
 const trackerOldFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-feed', 'tracker-old-feed.js');
@@ -123,7 +124,7 @@ const trackerMobileViewHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracke
 const trackerCurrentCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-card', 'tracker-current-card.html');
 const trackerCurrentFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-feed', 'tracker-current-feed.html');
 const trackerCurrentFormHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-form', 'tracker-current-form.html');
-const trackerCurrentMobileViewHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-mobile-view.html');
+const trackerCurrentMobileViewHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-home', 'tracker-current-mobile-view.html');
 const trackerOldCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-card', 'tracker-old-card.html');
 const trackerOldFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-feed', 'tracker-old-feed.html');
 const trackerOldFormHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-form', 'tracker-old-form.html');
@@ -307,6 +308,7 @@ function buildProduction() {
         const trackerCurCardJs = readFile(trackerCurCardJsPath);
         const trackerCurFeedJs = readFile(trackerCurFeedJsPath);
         const trackerCurFormJs = readFile(trackerCurFormJsPath);
+        const trackerCurHomeJs = readFile(trackerCurHomeJsPath);
         const trackerCurJs = readFile(trackerCurJsPath);
         const trackerOldCardJs = readFile(trackerOldCardJsPath);
         const trackerOldFeedJs = readFile(trackerOldFeedJsPath);
@@ -415,6 +417,7 @@ function buildProduction() {
             trackerCurCardJs,
             trackerCurFeedJs,
             trackerCurFormJs,
+            trackerCurHomeJs,
             trackerCurJs,
             trackerOldCardJs,
             trackerOldFeedJs,
