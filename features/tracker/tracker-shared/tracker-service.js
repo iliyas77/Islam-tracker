@@ -1,6 +1,6 @@
 /* ============================================================
    Nur Prayer — Centralized Tracker Service & Utility Layer
-   Path: features/tracker/tracker-service.js
+   Path: features/tracker/tracker-shared/tracker-service.js
    Responsibilities:
      - Centralizes prayer constants (names, default timings, icons)
      - Centralizes date utilities (today, formatted string, date ranges)

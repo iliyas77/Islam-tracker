@@ -1,6 +1,6 @@
 /* ============================================================
    Nur Prayer — Tracker Component Registration
-   Path: features/tracker/tracker-registration.js
+   Path: features/tracker/tracker-shared/tracker-registration.js
    Responsibilities:
      - Centralizes ALL Knockout component registrations for Tracker feature
      - Registers feature-level components (tracker-page, tracker-header, tracker-nav-tab)
@@ -16,10 +16,10 @@ export var TrackerMobileViewTemplate = { element: 'tracker-mobile-view-template'
 export var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/tracker-main/tracker-main.html' };
 export var TrackerNavTabTemplate = { element: 'tracker-nav-tab-template', file: 'features/tracker/tracker-main/tracker-main.html' };
 export var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/tracker-main/tracker-main.html' };
-export { PrayerRowTemplate } from './tracker-current/tracker-current.js';
+export { PrayerRowTemplate } from '../tracker-current/tracker-current.js';
 export var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/tracker/tracker-performance/prayer-stat-card.html' };
 export var PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'features/tracker/tracker-performance/prayer-perf-ring.html' };
-export { PrayerHistoryCardTemplate } from './tracker-history/tracker-history.js';
+export { PrayerHistoryCardTemplate } from '../tracker-history/tracker-history.js';
 
 import {
     PrayerRowViewModel,
@@ -31,28 +31,28 @@ import {
     TrackerCurrentFeedTemplate, TrackerCurrentFeedViewModel,
     TrackerCurrentFormTemplate, TrackerCurrentFormViewModel,
     TrackerCurrentMobileViewTemplate, TrackerCurrentViewModel
-} from './tracker-current/tracker-current.js';
+} from '../tracker-current/tracker-current.js';
 
 import {
     TrackerOldCardTemplate, TrackerOldCardViewModel,
     TrackerOldFeedTemplate, TrackerOldFeedViewModel,
     TrackerOldFormTemplate, TrackerOldFormViewModel,
     TrackerOldPageTemplate, TrackerOldPageViewModel
-} from './tracker-old/tracker-old.js';
+} from '../tracker-old/tracker-old.js';
 
 import {
     TrackerPerformanceCardTemplate, TrackerPerformanceCardViewModel,
     TrackerPerformanceFeedTemplate, TrackerPerformanceFeedViewModel,
     TrackerPerformancePageTemplate, TrackerPerformancePageViewModel
-} from './tracker-performance/tracker-performance.js';
+} from '../tracker-performance/tracker-performance.js';
 
 import {
     TrackerHistoryCardTemplate, TrackerHistoryCardViewModel,
     TrackerHistoryFeedTemplate, TrackerHistoryFeedViewModel,
     TrackerHistoryPageTemplate, TrackerHistoryPageViewModel
-} from './tracker-history/tracker-history.js';
+} from '../tracker-history/tracker-history.js';
 
-import { registerComponent } from '../../components/component-helper.js';
+import { registerComponent } from '../../../components/component-helper.js';
 
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 

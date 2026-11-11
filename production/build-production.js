@@ -97,7 +97,7 @@ const quranRegistrationJsPath = path.join(ROOT, 'features', 'quran', 'quran-regi
 const quranJsPath = path.join(ROOT, 'features', 'quran', 'quran.js');
 
 // Tracker decomposed submodules
-const trackerServiceJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-service.js');
+const trackerServiceJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-shared', 'tracker-service.js');
 const trackerCurCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-card', 'tracker-current-card.js');
 const trackerCurFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-feed', 'tracker-current-feed.js');
 const trackerCurFormJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-form', 'tracker-current-form.js');
@@ -116,8 +116,9 @@ const trackerHistCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-hi
 const trackerHistFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history-feed', 'tracker-history-feed.js');
 const trackerHistPageJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history-page', 'tracker-history-page.js');
 const trackerHistJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history.js');
-const trackerRegistrationJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-registration.js');
+const trackerRegistrationJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-shared', 'tracker-registration.js');
 const trackerMainJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-main', 'tracker-main.js');
+const trackerSharedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-shared', 'tracker.js');
 const trackerJsPath = path.join(ROOT, 'features', 'tracker', 'tracker.js');
 
 // Tracker HTML templates (modular external files)
@@ -326,6 +327,7 @@ function buildProduction() {
         const trackerHistJs = readFile(trackerHistJsPath);
         const trackerRegistrationJs = readFile(trackerRegistrationJsPath);
         const trackerMainJs = readFile(trackerMainJsPath);
+        const trackerSharedJs = readFile(trackerSharedJsPath);
         const trackerJs = readFile(trackerJsPath);
 
         // Dua submodules
@@ -436,6 +438,7 @@ function buildProduction() {
             trackerHistJs,
             trackerRegistrationJs,
             trackerMainJs,
+            trackerSharedJs,
             trackerJs,
             duaServiceJs,
             duaAllCardJs,
