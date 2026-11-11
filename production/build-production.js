@@ -101,7 +101,7 @@ const trackerServiceJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-ser
 const trackerCurCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-card', 'tracker-current-card.js');
 const trackerCurFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-feed', 'tracker-current-feed.js');
 const trackerCurFormJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-form', 'tracker-current-form.js');
-const trackerCurHomeJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-home', 'tracker-current.js');
+const trackerCurHomeJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-home', 'tracker-current-home.js');
 const trackerCurJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current.js');
 const trackerOldCardJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-card', 'tracker-old-card.js');
 const trackerOldFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-feed', 'tracker-old-feed.js');
@@ -117,14 +117,15 @@ const trackerHistFeedJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-hi
 const trackerHistPageJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history-page', 'tracker-history-page.js');
 const trackerHistJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-history', 'tracker-history.js');
 const trackerRegistrationJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-registration.js');
+const trackerMainJsPath = path.join(ROOT, 'features', 'tracker', 'tracker-main', 'tracker-main.js');
 const trackerJsPath = path.join(ROOT, 'features', 'tracker', 'tracker.js');
 
 // Tracker HTML templates (modular external files)
-const trackerMobileViewHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-mobile-view.html');
+const trackerMobileViewHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-main', 'tracker-main.html');
 const trackerCurrentCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-card', 'tracker-current-card.html');
 const trackerCurrentFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-feed', 'tracker-current-feed.html');
 const trackerCurrentFormHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-form', 'tracker-current-form.html');
-const trackerCurrentMobileViewHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-home', 'tracker-current-mobile-view.html');
+const trackerCurrentMobileViewHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-current', 'tracker-current-home', 'tracker-current-home.html');
 const trackerOldCardHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-card', 'tracker-old-card.html');
 const trackerOldFeedHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-feed', 'tracker-old-feed.html');
 const trackerOldFormHtmlPath = path.join(ROOT, 'features', 'tracker', 'tracker-old', 'tracker-old-form', 'tracker-old-form.html');
@@ -324,6 +325,7 @@ function buildProduction() {
         const trackerHistPageJs = readFile(trackerHistPageJsPath);
         const trackerHistJs = readFile(trackerHistJsPath);
         const trackerRegistrationJs = readFile(trackerRegistrationJsPath);
+        const trackerMainJs = readFile(trackerMainJsPath);
         const trackerJs = readFile(trackerJsPath);
 
         // Dua submodules
@@ -433,6 +435,7 @@ function buildProduction() {
             trackerHistPageJs,
             trackerHistJs,
             trackerRegistrationJs,
+            trackerMainJs,
             trackerJs,
             duaServiceJs,
             duaAllCardJs,

@@ -10,11 +10,12 @@
 'use strict';
 
 /* ---------- Template Definitions ---------- */
-export var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker-mobile-view.html' };
-export var TrackerMobileViewTemplate = { element: 'tracker-mobile-view-template', file: 'features/tracker/tracker-mobile-view.html' };
-export var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/tracker-mobile-view.html' };
-export var TrackerNavTabTemplate = { element: 'tracker-nav-tab-template', file: 'features/tracker/tracker-mobile-view.html' };
-export var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/tracker-mobile-view.html' };
+export var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker-main/tracker-main.html' };
+export var TrackerMainTemplate = TrackerPageTemplate;
+export var TrackerMobileViewTemplate = { element: 'tracker-mobile-view-template', file: 'features/tracker/tracker-main/tracker-main.html' };
+export var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/tracker-main/tracker-main.html' };
+export var TrackerNavTabTemplate = { element: 'tracker-nav-tab-template', file: 'features/tracker/tracker-main/tracker-main.html' };
+export var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/tracker-main/tracker-main.html' };
 export { PrayerRowTemplate } from './tracker-current/tracker-current.js';
 export var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/tracker/tracker-performance/prayer-stat-card.html' };
 export var PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'features/tracker/tracker-performance/prayer-perf-ring.html' };

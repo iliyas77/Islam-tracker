@@ -11559,10 +11559,11 @@ cb();
 'use strict';
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});
 var _ko = typeof ko !== 'undefined' ? ko : (_win.ko || null);
-var TrackerCurrentMobileViewTemplate = {
+var TrackerCurrentHomeTemplate = {
 element: 'tracker-current-mobile-view-template',
-file: 'features/tracker/tracker-current/tracker-current-home/tracker-current-mobile-view.html'
+file: 'features/tracker/tracker-current/tracker-current-home/tracker-current-home.html'
 };
+var TrackerCurrentMobileViewTemplate = TrackerCurrentHomeTemplate;
 var TrackerCurrentTemplate = TrackerCurrentMobileViewTemplate;
 var PrayerRowTemplate = TrackerCurrentCardTemplate;
 function TrackerCurrentViewModel(params) {
@@ -12447,11 +12448,12 @@ window.renderPrayerHistoryTab = renderPrayerHistoryTab;
 }
 var PrayerHistoryCardTemplate = TrackerHistoryCardTemplate;
 'use strict';
-var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker-mobile-view.html' };
-var TrackerMobileViewTemplate = { element: 'tracker-mobile-view-template', file: 'features/tracker/tracker-mobile-view.html' };
-var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/tracker-mobile-view.html' };
-var TrackerNavTabTemplate = { element: 'tracker-nav-tab-template', file: 'features/tracker/tracker-mobile-view.html' };
-var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/tracker-mobile-view.html' };
+var TrackerPageTemplate = { element: 'tracker-page-template', file: 'features/tracker/tracker-main/tracker-main.html' };
+var TrackerMainTemplate = TrackerPageTemplate;
+var TrackerMobileViewTemplate = { element: 'tracker-mobile-view-template', file: 'features/tracker/tracker-main/tracker-main.html' };
+var TrackerHeaderTemplate = { element: 'prayer-header-template', file: 'features/tracker/tracker-main/tracker-main.html' };
+var TrackerNavTabTemplate = { element: 'tracker-nav-tab-template', file: 'features/tracker/tracker-main/tracker-main.html' };
+var PrayerNavTabTemplate = { element: 'prayer-nav-tab-template', file: 'features/tracker/tracker-main/tracker-main.html' };
 var PrayerStatCardTemplate = { element: 'prayer-stat-card-template', file: 'features/tracker/tracker-performance/prayer-stat-card.html' };
 var PrayerPerfRingTemplate = { element: 'prayer-perf-ring-template', file: 'features/tracker/tracker-performance/prayer-perf-ring.html' };
 var _win = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : {});

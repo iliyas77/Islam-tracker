@@ -1,6 +1,6 @@
 /* ============================================================
    Nur Prayer — Tracker Current Submodules & ViewModel
-   Path: features/tracker/tracker-current/tracker-current-home/tracker-current.js
+   Path: features/tracker/tracker-current/tracker-current-home/tracker-current-home.js
    Responsibilities:
      - Owns Current tracking page state (date, badge, action button)
      - Manages prayer status updates, Select All, and Jump to Today
@@ -27,10 +27,12 @@ export * from '../tracker-current-form/tracker-current-form.js';
 import { TrackerCurrentCardTemplate } from '../tracker-current-card/tracker-current-card.js';
 
 /* ---------- Template Definitions ---------- */
-export const TrackerCurrentMobileViewTemplate = {
+export const TrackerCurrentHomeTemplate = {
     element: 'tracker-current-mobile-view-template',
-    file: 'features/tracker/tracker-current/tracker-current-home/tracker-current-mobile-view.html'
+    file: 'features/tracker/tracker-current/tracker-current-home/tracker-current-home.html'
 };
+
+export const TrackerCurrentMobileViewTemplate = TrackerCurrentHomeTemplate;
 
 export const TrackerCurrentTemplate = TrackerCurrentMobileViewTemplate;
 
