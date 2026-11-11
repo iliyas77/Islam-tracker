@@ -4,7 +4,7 @@
    Responsibilities:
      - Centralizes ALL Knockout component registrations for Tracker feature
      - Registers feature-level components (tracker-page, tracker-header, tracker-nav-tab)
-     - Registers modular components for Current, Old, Performance, and History
+     - Registers modular components for Current, Performance, and History
      - Provides backward-compatibility alias registrations for legacy templates
    ============================================================ */
 'use strict';
@@ -38,21 +38,6 @@ import {
 import {
     TrackerCurrentMobileViewTemplate, TrackerCurrentViewModel
 } from '../tracker-current/tracker-current-home/tracker-current-home.js';
-
-import {
-    TrackerOldCardTemplate, TrackerOldCardViewModel
-} from '../tracker-old/tracker-old-card/tracker-old-card.js';
-import {
-    TrackerOldFeedTemplate, TrackerOldFeedViewModel
-} from '../tracker-old/tracker-old-feed/tracker-old-feed.js';
-import {
-    TrackerOldFormTemplate, TrackerOldFormViewModel
-} from '../tracker-old/tracker-old-form/tracker-old-form.js';
-import {
-    TrackerOldHomeTemplate, TrackerOldHomeViewModel,
-    TrackerOldPageTemplate, TrackerOldPageViewModel,
-    TrackerOldViewModel
-} from '../tracker-old/tracker-old-home/tracker-old-home.js';
 
 import {
     TrackerPerformanceCardTemplate, TrackerPerformanceCardViewModel,
@@ -102,25 +87,17 @@ export function registerTrackerComponents(customKo) {
     registerComponent('tracker-current-mobile-view', TrackerCurrentViewModel, TrackerCurrentMobileViewTemplate, customKo);
     registerComponent('tracker-current', TrackerCurrentViewModel, TrackerCurrentMobileViewTemplate, customKo);
 
-    // 3. Old Tab Modular Components
-    registerComponent('tracker-old-card', TrackerOldCardViewModel, TrackerOldCardTemplate, customKo);
-    registerComponent('tracker-old-feed', TrackerOldFeedViewModel, TrackerOldFeedTemplate, customKo);
-    registerComponent('tracker-old-form', TrackerOldFormViewModel, TrackerOldFormTemplate, customKo);
-    registerComponent('tracker-old-home', TrackerOldHomeViewModel, TrackerOldHomeTemplate, customKo);
-    registerComponent('tracker-old-page', TrackerOldPageViewModel, TrackerOldPageTemplate, customKo);
-    registerComponent('tracker-old', TrackerOldViewModel, TrackerOldHomeTemplate, customKo);
-
-    // 4. Performance Tab Modular Components
+    // 3. Performance Tab Modular Components
     registerComponent('tracker-performance-card', TrackerPerformanceCardViewModel, TrackerPerformanceCardTemplate, customKo);
     registerComponent('tracker-performance-feed', TrackerPerformanceFeedViewModel, TrackerPerformanceFeedTemplate, customKo);
     registerComponent('tracker-performance-page', TrackerPerformancePageViewModel, TrackerPerformancePageTemplate, customKo);
 
-    // 5. History Tab Modular Components
+    // 4. History Tab Modular Components
     registerComponent('tracker-history-card', TrackerHistoryCardViewModel, TrackerHistoryCardTemplate, customKo);
     registerComponent('tracker-history-feed', TrackerHistoryFeedViewModel, TrackerHistoryFeedTemplate, customKo);
     registerComponent('tracker-history-page', TrackerHistoryPageViewModel, TrackerHistoryPageTemplate, customKo);
 
-    // 6. Backward Compatibility Aliases for Legacy Template Bindings
+    // 5. Backward Compatibility Aliases for Legacy Template Bindings
     registerComponent('prayer-header', function (p) { return p || {}; }, TrackerHeaderTemplate, customKo);
     registerComponent('prayer-row', PrayerRowViewModel, TrackerCurrentCardTemplate, customKo);
     registerComponent('prayer-stat-card', function (p) { return p || {}; }, PrayerStatCardTemplate, customKo);
