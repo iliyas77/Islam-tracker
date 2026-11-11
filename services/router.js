@@ -59,9 +59,6 @@ export function Router() {
         if (page === 'current') {
             page = 'tracker';
             subTab = 'current';
-        } else if (page === 'old') {
-            page = 'tracker';
-            subTab = 'old';
         } else if (page === 'history') {
             page = 'tracker';
             subTab = 'history';

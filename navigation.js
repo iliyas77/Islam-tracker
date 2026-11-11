@@ -1,13 +1,12 @@
 /* ---------- Navigation (Constants referenced from utilities/navigation-constants.js) ---------- */
 var NAV_CONSTANTS = window.NAVIGATION_CONSTANTS || (window.CONSTANTS && window.CONSTANTS.NAVIGATION) || {};
 var PAGES = NAV_CONSTANTS.PAGES || window.PAGES || ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage', 'quranPage'];
-var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas', quran: 'navQuran' };
-var SUB_TABS = NAV_CONSTANTS.SUB_TABS || { CURRENT: 'current', OLD: 'old', HISTORY: 'history' };
+var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas', quran: 'navQuran' };
+var SUB_TABS = NAV_CONSTANTS.SUB_TABS || { CURRENT: 'current', HISTORY: 'history' };
 var PAGE_MAP = NAV_CONSTANTS.PAGE_MAP || {
     dashboard: 'dashboardPage',
     tracker: 'trackerPage',
     current: 'trackerPage',
-    old: 'trackerPage',
     history: 'trackerPage',
     settings: 'settingsPage',
     tasbeeh: 'tasbeehPage',
@@ -21,10 +20,6 @@ var TRACKER_HEADER = NAV_CONSTANTS.TRACKER_HEADER || {
     current: {
         iconClass: 'fa-regular fa-calendar-days text-gr-accent',
         label: 'Current Prayer'
-    },
-    old: {
-        iconClass: 'fa-solid fa-clock-rotate-left text-gr-warning',
-        label: 'Old Tracking'
     },
     history: {
         iconClass: 'fa-solid fa-list-check text-brand',
@@ -77,7 +72,6 @@ var NavigationState = {
 function syncTrackerDom(activeTab, subText) {
     var tabs = [
         { id: 'tabTrackCurrent', bodyId: 'currentBody', tab: SUB_TABS.CURRENT },
-        { id: 'tabTrackOld', bodyId: 'oldBody', tab: SUB_TABS.OLD },
         { id: 'tabTrackHistory', bodyId: 'historyBody', tab: SUB_TABS.HISTORY }
     ];
     tabs.forEach(function (item) {
@@ -93,8 +87,6 @@ function syncTrackerDom(activeTab, subText) {
         }
     });
 
-    var oldSub = $('oldSub');
-    var oldActionBtn = $('oldActionBtn');
     var currentMissedBtn = $('currentMissedBtn');
     var historyEmptyBtn = $('historyEmptyBtn');
     var headerIcon = $('trackerHeaderIcon');
@@ -102,15 +94,7 @@ function syncTrackerDom(activeTab, subText) {
     var trackerHeaderTitle = $('trackerHeaderTitle');
 
     if (trackerHeaderTitle) trackerHeaderTitle.classList.toggle('justify-center', activeTab === SUB_TABS.HISTORY);
-    if (oldSub) {
-        oldSub.classList.toggle('text-center', activeTab === SUB_TABS.HISTORY);
-        oldSub.classList.toggle('d-none', activeTab === SUB_TABS.CURRENT);
-        if (subText && activeTab !== SUB_TABS.CURRENT) {
-            oldSub.textContent = subText;
-        }
-    }
     if (currentMissedBtn) currentMissedBtn.classList.toggle('d-none', activeTab !== SUB_TABS.CURRENT);
-    if (oldActionBtn) oldActionBtn.classList.toggle('d-none', activeTab !== SUB_TABS.OLD);
     if (historyEmptyBtn) historyEmptyBtn.classList.toggle('d-none', activeTab !== SUB_TABS.HISTORY);
 
     var hConfig = TRACKER_HEADER[activeTab] || TRACKER_HEADER.current;
@@ -150,13 +134,7 @@ function switchTrackerSubTab(subTab) {
 
         // Determine subtitle text for tracker header
         var subText = '';
-        if (trackerSubTab === SUB_TABS.OLD) {
-            subText = 'Select a period to begin';
-        } else if (trackerSubTab === SUB_TABS.PERFORMANCE) {
-            var sdate = typeof rdSD === 'function' ? rdSD() : (typeof td === 'function' ? td() : '');
-            var totalDays = (typeof window.datesInRange === 'function' && typeof td === 'function') ? window.datesInRange(sdate, td()).length : 1;
-            subText = (typeof fr === 'function' && typeof td === 'function') ? (fr(sdate) + ' → ' + fr(td()) + ' (' + totalDays + (totalDays === 1 ? ' day' : ' days') + ')') : '';
-        } else if (trackerSubTab === SUB_TABS.HISTORY) {
+        if (trackerSubTab === SUB_TABS.HISTORY) {
             var histEntries = typeof getPrayerHistory === 'function' ? getPrayerHistory() : [];
             subText = 'Activity Log · ' + histEntries.length + (histEntries.length === 1 ? ' entry' : ' entries');
         }
@@ -180,11 +158,7 @@ function switchTrackerSubTab(subTab) {
         syncTrackerDom(trackerSubTab, subText);
 
         // Trigger tab-specific renders
-        if (trackerSubTab === SUB_TABS.OLD) {
-            if (typeof rOT === 'function') rOT();
-        } else if (trackerSubTab === SUB_TABS.PERFORMANCE) {
-            if (typeof renderPerformanceTab === 'function') renderPerformanceTab();
-        } else if (trackerSubTab === SUB_TABS.HISTORY) {
+        if (trackerSubTab === SUB_TABS.HISTORY) {
             if (typeof renderPrayerHistoryTab === 'function') renderPrayerHistoryTab();
         } else {
             if (typeof rn === 'function') rn();
@@ -221,7 +195,6 @@ function ensureFeatureLoaded(kind) {
     switch (kind) {
         case 'tracker':
         case 'current':
-        case 'old':
         case 'history':
             if (_loadedFeatures.tracker) return Promise.resolve();
             if (_w.TrackerApp || _w.registerTrackerComponents) {
@@ -229,14 +202,12 @@ function ensureFeatureLoaded(kind) {
                 if (_w.TrackerApp && typeof _w.TrackerApp.init === 'function') _w.TrackerApp.init();
                 _loadedFeatures.tracker = true;
                 _loadedFeatures.current = true;
-                _loadedFeatures.old = true;
                 _loadedFeatures.history = true;
                 return Promise.resolve();
             }
             return import('./features/tracker/index.js').then(function () {
                 _loadedFeatures.tracker = true;
                 _loadedFeatures.current = true;
-                _loadedFeatures.old = true;
                 _loadedFeatures.history = true;
                 if (typeof _w.registerTrackerComponents === 'function') _w.registerTrackerComponents();
                 if (_w.TrackerApp && typeof _w.TrackerApp.init === 'function') {
@@ -353,7 +324,7 @@ function showPage(kind) {
             window.currentActivePage = kind;
             if (window.location) {
                 var targetHash;
-                if (kind === 'current' || kind === 'old' || kind === 'history') {
+                if (kind === 'current' || kind === 'history') {
                     targetHash = '#/tracker/' + kind;
                 } else if (kind === 'tracker') {
                     targetHash = '#/tracker/' + (trackerSubTab || 'current');
@@ -404,8 +375,6 @@ function showPage(kind) {
             }
         } else if (kind === 'current') {
             switchTrackerSubTab('current');
-        } else if (kind === 'old') {
-            switchTrackerSubTab('old');
         } else if (kind === 'history') {
             switchTrackerSubTab('history');
         } else if (kind === 'tracker') {

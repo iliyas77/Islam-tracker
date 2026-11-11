@@ -344,18 +344,10 @@ if (typeof window !== 'undefined') {
     window.gr = gr;
     window.sr = sr;
     window.en = en;
-    window.rdOC = rdOC;
-    window.grO = grO;
-    window.srO = srO;
     window.isDonePrayer = isDonePrayer;
     window.isPrayerUpcoming = isPrayerUpcoming;
     window.ensureCurrentDateInitialized = ensureCurrentDateInitialized;
     window.migratePrayerData = migratePrayerData;
-    window.rdOK = rdOK;
-    window.wrOK = wrOK;
-    window.ensureAllOldMissed = ensureAllOldMissed;
-    window.shrinkOldPeriod = shrinkOldPeriod;
-    window.currentOldDate = currentOldDate;
     window.datesInRange = datesInRange;
     window.prevDate = prevDate;
 }
@@ -549,44 +541,6 @@ function en(d) {
     return gr(d);
 }
 
-/* ---------- Old tracking data ---------- */
-function rdOC() { return LS.get(OCK) || {}; }
-
-function grO(d) {
-    var a = rdOC();
-    var r = a[d];
-    var out = {};
-    if (r) {
-        P.forEach(function (p) {
-            out[p] = (r[p] === true || r[p] === 'missed');
-        });
-    } else {
-        // Completed entries are removed from database; revisiting defaults all prayers to false (completed)
-        P.forEach(function (p) {
-            out[p] = false;
-        });
-    }
-    return out;
-}
-
-function srO(d, r) {
-    var a = rdOC();
-    var cleaned = {};
-    var hasMissed = false;
-    P.forEach(function (p) {
-        var val = (r && (r[p] === true || r[p] === 'missed'));
-        cleaned[p] = val;
-        if (val) hasMissed = true;
-    });
-
-    if (!hasMissed) {
-        delete a[d];
-    } else {
-        a[d] = cleaned;
-    }
-    LS.set(OCK, a);
-}
-
 /* ---------- Misc data queries ---------- */
 function mBD() {
     var a = rd();
@@ -655,99 +609,6 @@ function prevDate(ds) {
     var d = new Date(ds + 'T00:00:00');
     d.setDate(d.getDate() - 1);
     return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
-}
-
-/* ---------- Old tracking helpers ---------- */
-function rdOK() { return LS.get(OK) || null; }
-function wrOK(o) { LS.set(OK, o); }
-
-function ensureAllOldMissed() {
-    var o = rdOK();
-    if (!o || o.end < o.start) return;
-    if (!o.created) {
-        o.created = Date.now();
-        o.initialEnd = o.end;
-        wrOK(o);
-    }
-    var initKey = localStorage.getItem(OIK);
-    var expectedKey = String(o.created);
-    var a = rdOC();
-    var isDbEmpty = Object.keys(a).length === 0;
-    if (initKey !== expectedKey || isDbEmpty) {
-        var rangeEnd = o.initialEnd || o.end;
-        var dates = datesInRange(o.start, rangeEnd);
-        var changed = false;
-        dates.forEach(function (d) {
-            if (!a[d]) {
-                a[d] = {};
-                P.forEach(function (p) {
-                    a[d][p] = true;
-                });
-                changed = true;
-            } else {
-                P.forEach(function (p) {
-                    if (!(p in a[d])) {
-                        a[d][p] = true;
-                        changed = true;
-                    }
-                });
-            }
-        });
-        localStorage.setItem(OIK, expectedKey);
-        if (changed) LS.set(OCK, a);
-    }
-}
-
-function currentOldDate() {
-    var o = rdOK();
-    if (!o || o.end < o.start) return null;
-    var dates = datesInRange(o.start, o.end).slice().reverse();
-    var a = rdOC();
-    for (var i = 0; i < dates.length; i++) {
-        var d = dates[i];
-        var r = a[d] || {};
-        if (P.filter(function (p) { return r[p] === true || r[p] === 'missed'; }).length > 0) return d;
-    }
-    return null;
-}
-
-function shrinkOldPeriod(completedDate) {
-    var o = rdOK();
-    if (!o) return;
-    var curEnd = o.end;
-    var changed = false;
-
-    // Keep start date unchanged and automatically set end date to the previous day
-    // Continue moving backward one day at a time as previous dates are completed
-    while (curEnd >= o.start) {
-        var rEnd = grO(curEnd);
-        var anyMissed = P.some(function (p) {
-            return rEnd[p] === true || rEnd[p] === 'missed';
-        });
-        if (!anyMissed) {
-            curEnd = prevDate(curEnd);
-            changed = true;
-        } else {
-            break;
-        }
-    }
-
-    if (changed) {
-        o.end = curEnd;
-        wrOK(o);
-    }
-
-    // After completing the current date, automatically navigate to the previous date in Old Tracking
-    var nextTarget = completedDate ? prevDate(completedDate) : curEnd;
-    if (curEnd >= o.start && nextTarget > curEnd) {
-        nextTarget = curEnd;
-    }
-
-    if (typeof setOldSd === 'function') {
-        setOldSd(nextTarget);
-    } else if (typeof oldSd !== 'undefined') {
-        oldSd = nextTarget;
-    }
 }
 
 /* ---------- Font size ---------- */
@@ -853,69 +714,9 @@ function handleClick(e) {
         } else if (typeof rMS === 'function') {
             rMS();
         }
-    } else if (act === 'old-open-cal') {
-        if (typeof openOldCal === 'function') openOldCal();
-        else if (typeof window.openOldCal === 'function') window.openOldCal();
     } else if (act === 'open-cal') {
-        if (typeof trackerSubTab !== 'undefined' && trackerSubTab === 'old') {
-            if (typeof openOldCal === 'function') openOldCal();
-            else if (typeof window.openOldCal === 'function') window.openOldCal();
-        } else {
-            if (typeof openCal === 'function') openCal();
-            else if (typeof window.openCal === 'function') window.openCal();
-        }
-    } else if (act === 'old-info') {
-        if (typeof window.rOldInfo === 'function') {
-            window.rOldInfo();
-        } else if (typeof rOldInfo === 'function') {
-            rOldInfo();
-        }
-    } else if (act === 'toggle-old') {
-        var p2 = t.dataset.p, d2 = t.dataset.d;
-        var c3 = grO(d2);
-        var was2 = c3[p2] === true || c3[p2] === 'missed';
-        if (!confirm(was2
-            ? 'Mark ' + p2 + ' as Done for ' + fr(d2) + '?'
-            : 'Mark ' + p2 + ' as Missed for ' + fr(d2) + '?')) return;
-        c3[p2] = !was2;
-        if (was2) {
-            if (typeof addPrayerHistoryEntry === 'function') {
-                addPrayerHistoryEntry(p2, 'Old', d2);
-            }
-        } else {
-            if (typeof removePrayerHistoryEntry === 'function') {
-                removePrayerHistoryEntry(p2, 'Old', d2);
-            }
-        }
-        srO(d2, c3);
-
-        var o = rdOK();
-        var isDateComplete = !P.some(function (p) {
-            return c3[p] === true || c3[p] === 'missed';
-        });
-
-        if (isDateComplete) {
-            shrinkOldPeriod(d2);
-        } else {
-            if (o && d2 > o.end) {
-                o.end = d2;
-                wrOK(o);
-            }
-            if (typeof setOldSd === 'function') {
-                setOldSd(d2);
-            } else if (typeof oldSd !== 'undefined') {
-                oldSd = d2;
-            }
-        }
-        rOT();
-        if ($('sheet2') && $('sheet2').classList.contains('show') && typeof rOldInfo === 'function') {
-            rOldInfo();
-        }
-        if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
-            renderPrayerHistoryTab();
-        }
-    } else if (act === 'old-change-period') {
-        rPeriod();
+        if (typeof openCal === 'function') openCal();
+        else if (typeof window.openCal === 'function') window.openCal();
     } else if (act === 'jump') {
         var targetDate = t.dataset.d;
         sd = targetDate;
@@ -984,35 +785,6 @@ function handleClick(e) {
         if (!confirm('Save Current Start Date as ' + fr(v) + '?')) return;
         wrSD(v);
         rSET();
-    } else if (act === 'old-save') {
-        var s = $('oldStart').value, en2 = $('oldEnd').value;
-        if (!s || !en2) { alert('Please pick both start and end dates.'); return; }
-        if (en2 < s) { alert('End date must be after start date.'); return; }
-        if (!confirm('Save Old Tracking Period from ' + fr(s) + ' to ' + fr(en2) + '?')) return;
-        wrOK({ start: s, end: en2, initialEnd: en2, created: Date.now() });
-        localStorage.removeItem(OIK);
-        ensureAllOldMissed();
-        if (typeof setOldSd === 'function') setOldSd(en2);
-        sheet2BS.hide();
-        rOT();
-        if ($('sheet2') && $('sheet2').classList.contains('show') && typeof rOldInfo === 'function') {
-            rOldInfo();
-        }
-    } else if (act === 'old-clear') {
-        if (confirm('Clear the saved Old Tracking period and all its data?')) {
-            localStorage.removeItem(OK);
-            localStorage.removeItem(OCK);
-            localStorage.removeItem(OIK);
-            if (typeof clearPrayerHistoryByType === 'function') {
-                clearPrayerHistoryByType('Old');
-            }
-            if (typeof setOldSd === 'function') setOldSd(null);
-            sheet2BS.hide();
-            rOT();
-            if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
-                renderPrayerHistoryTab();
-            }
-        }
     } else if (act === 'reset-db') {
         if (confirm('Delete ALL prayer records and cached prayer times?')) {
             localStorage.removeItem(K);
@@ -1037,12 +809,8 @@ function handleClick(e) {
         showPage('current');
     } else if (act === 'goto-tracker') {
         showPage('tracker');
-    } else if (act === 'goto-old') {
-        showPage('old');
     } else if (act === 'switch-track-current') {
         switchTrackerSubTab('current');
-    } else if (act === 'switch-track-old') {
-        switchTrackerSubTab('old');
     } else if (act === 'switch-track-history') {
         switchTrackerSubTab('history');
     } else if (act === 'history-empty') {

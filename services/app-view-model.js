@@ -126,7 +126,7 @@ export function AppViewModel() {
     });
     self.isTrackerVisible = cmp(function () {
         var page = self.activePage();
-        return page === 'tracker' || page === 'current' || page === 'old' || page === 'history';
+        return page === 'tracker' || page === 'current' || page === 'history';
     });
     self.isSettingsVisible = cmp(function () {
         return self.activePage() === 'settings';
@@ -146,7 +146,6 @@ export function AppViewModel() {
         switch (page) {
             case 'tracker':
             case 'current':
-            case 'old':
             case 'history':
                 return { name: 'tracker-page', params: self.getTracker() };
             case 'settings':

@@ -162,15 +162,15 @@ export async function runTabsTests() {
     navVm.activeTab('settings');
     assert.strictEqual(navVm.isActive(navTabs[2]), true, 'Alias "settings" should match history tab');
 
-    // 5. Four Tabs support (Prayer Tracker Nav: 4 tabs)
+    // 5. Four Tabs support
     const fourTabsVm = new TabsViewModel({
         variant: 'bottom-nav',
-        activeTab: globalThis.ko.observable('performance'),
+        activeTab: globalThis.ko.observable('tab3'),
         tabs: [
-            { id: 'current', label: 'Current', icon: 'calendar-days' },
-            { id: 'old', label: 'Old', icon: 'clock-rotate-left' },
-            { id: 'performance', label: 'Performance', icon: 'chart-simple' },
-            { id: 'history', label: 'History', icon: 'list-check' }
+            { id: 'tab1', label: 'Tab 1', icon: 'calendar-days' },
+            { id: 'tab2', label: 'Tab 2', icon: 'clock' },
+            { id: 'tab3', label: 'Tab 3', icon: 'chart-simple' },
+            { id: 'tab4', label: 'Tab 4', icon: 'list-check' }
         ]
     });
     assert.strictEqual(fourTabsVm.tabs().length, 4);

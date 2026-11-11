@@ -139,10 +139,6 @@ export function TrackerPageViewModel(params) {
             if (e && e.stopPropagation) e.stopPropagation();
             if (typeof _win.rMS === 'function') _win.rMS();
         },
-        openPeriodInfo: function (d, e) {
-            if (e && e.stopPropagation) e.stopPropagation();
-            if (typeof _win.rOldInfo === 'function') _win.rOldInfo();
-        },
         emptyHistory: function (d, e) {
             if (e && e.stopPropagation) e.stopPropagation();
             if (typeof emptyPrayerHistory === 'function') emptyPrayerHistory();
@@ -175,23 +171,6 @@ export function TrackerPageViewModel(params) {
     self.current = new TrackerCurrentViewModel(currentInitParams);
     self.currentParams = self.current;
 
-    self.oldParams = {
-        onSelectDate: function () {
-            if (typeof _win.openOldCal === 'function') _win.openOldCal();
-        }
-    };
-
-    // Preserved oldCard observable for legacy compatibility
-    self.oldCard = (k && k.observable) ? k.observable(new PrayerTrackerCardViewModel({
-        collapsePrefix: 'old',
-        pagePrefix: 'page.old',
-        dateChipAct: 'old-open-cal'
-    })) : new PrayerTrackerCardViewModel({
-        collapsePrefix: 'old',
-        pagePrefix: 'page.old',
-        dateChipAct: 'old-open-cal'
-    });
-
     self.historyParams = {
         onDeleteEntry: function () {
             // Handled within tracker-history-page
@@ -207,32 +186,6 @@ export function TrackerPageViewModel(params) {
 }
 
 /* ---------- Operational Functions & Facades ---------- */
-export var oldSd = null;
-
-export function setOldSd(date) {
-    oldSd = date;
-    if (typeof _win !== 'undefined') _win.oldSd = date;
-}
-
-export function getDefaultOldPeriod() {
-    var today = td();
-    var yesterday = typeof _win.prevDate === 'function' ? _win.prevDate(today) : today;
-    var start = (typeof _win.rdSD === 'function' ? _win.rdSD() : null) || null;
-    if (!start || start >= today) {
-        var d = new Date();
-        d.setDate(d.getDate() - 30);
-        var pad2 = function (n) { return n < 10 ? '0' + n : n; };
-        start = d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
-    }
-    if (start > yesterday) start = yesterday;
-    return {
-        start: start,
-        end: yesterday,
-        initialEnd: yesterday,
-        created: Date.now()
-    };
-}
-
 function $(id) {
     if (typeof _win.$ === 'function' && _win.$ !== $) return _win.$(id);
     return (_win.document && typeof _win.document.getElementById === 'function')
@@ -305,10 +258,6 @@ export function rMS() {
 
     var list = (typeof _win.mBD === 'function' ? _win.mBD() : (typeof getMissedPrayersByDate === 'function' ? getMissedPrayersByDate() : [])).slice().reverse();
     var missedContent = $('sheetMissedContent');
-    var periodInfoContent = $('sheetPeriodInfoContent');
-    var setOldContent = $('sheetSetOldPeriodContent');
-    if (periodInfoContent) periodInfoContent.classList.add('d-none');
-    if (setOldContent) setOldContent.classList.add('d-none');
     if (missedContent) missedContent.classList.remove('d-none');
 
     var emptyEl = $('sheetMissedEmpty');
@@ -345,36 +294,6 @@ export function updateCurrentMissedBadge() {
     var missedBtn = $('currentMissedBtn');
     if (missedBtn) {
         missedBtn.title = totalMissed > 0 ? ('Missed Prayers (' + totalMissed + ')') : 'Missed Prayers';
-    }
-}
-
-export function rOldInfo() {
-    var vm = getTrackerViewModel();
-    if (vm && typeof vm.switchTab === 'function') {
-        vm.switchTab('old');
-    }
-}
-
-export function rPeriod() {
-    rOldInfo();
-}
-
-export function openOldCal() {
-    var dp = typeof _win.$ === 'function' ? _win.$('oldDp') : null;
-    if (dp && typeof dp.showPicker === 'function') {
-        try { dp.showPicker(); return; } catch (_) {}
-    }
-    if (dp) dp.click();
-}
-
-export function goOld(date) {
-    setOldSd(date);
-    rOT();
-}
-
-export function rOT() {
-    if (_win.trackerOldPageViewModel && typeof _win.trackerOldPageViewModel.refresh === 'function') {
-        _win.trackerOldPageViewModel.refresh();
     }
 }
 
@@ -420,14 +339,6 @@ if (typeof window !== 'undefined') {
     window.rn = rn;
     window.go = go;
     window.updateCurrentMissedBadge = updateCurrentMissedBadge;
-    window.rOldInfo = rOldInfo;
-    window.rPeriod = rPeriod;
-    window.openOldCal = openOldCal;
-    window.goOld = goOld;
-    window.setOldSd = setOldSd;
-    window.getDefaultOldPeriod = getDefaultOldPeriod;
-    window.rOT = rOT;
-    window.oldSd = oldSd;
     window.emptyPrayerHistory = emptyPrayerHistory;
     if (window.PrayerHistoryApp) {
         window.PrayerHistoryApp.emptyPrayerHistory = emptyPrayerHistory;

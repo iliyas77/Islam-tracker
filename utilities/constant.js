@@ -74,40 +74,28 @@
                                 PERIOD_INFO: {
                                         iconClass: 'circle-info text-brand',
                                         title: 'Period Info'
-                                },
-                                SET_OLD_PERIOD: {
-                                        iconClass: 'clock-rotate-left text-warning',
-                                        title: 'Set Old Period',
-                                        sub: ''
                                 }
                         },
                         STORAGE_KEYS: {
                                 TRACKER_DATA: 'namazTrackerData',
-                                OLD_DATA: 'namazOldData',
                                 HISTORY: 'namazPrayerHistory',
                                 FONT_SIZE: 'namazFontSize',
                                 START_DATE: 'namazStartDate',
-                                OLD_PERIOD: 'namazOldPeriod',
                                 TIMINGS_CACHE: 'namazPrayerTimingsCache',
                                 CONFIG: 'namazPrayerConfig',
-                                LAST_INIT_DATE: 'namazLastInitDate',
-                                OLD_INIT: 'namazOldPeriodInitialized'
+                                LAST_INIT_DATE: 'namazLastInitDate'
                         },
                         ELEMENT_IDS: {
                                 PAGE: 'trackerPage',
                                 HEADER_TITLE: 'trackerHeaderTitle',
                                 HEADER_ICON: 'trackerHeaderIcon',
                                 HEADER_LABEL: 'trackerHeaderLabel',
-                                OLD_SUB: 'oldSub',
                                 CURRENT_MISSED_BTN: 'currentMissedBtn',
                                 CURRENT_MISSED_BADGE: 'currentMissedBadge',
-                                OLD_ACTION_BTN: 'oldActionBtn',
                                 HISTORY_EMPTY_BTN: 'historyEmptyBtn',
                                 CURRENT_BODY: 'currentBody',
-                                OLD_BODY: 'oldBody',
                                 HISTORY_BODY: 'historyBody',
                                 TAB_CURRENT: 'tabTrackCurrent',
-                                TAB_OLD: 'tabTrackOld',
                                 TAB_HISTORY: 'tabTrackHistory',
                                 SHEET2: 'sheet2',
                                 SHEET2_ICON: 'sheet2Icon',
@@ -423,7 +411,6 @@
                                 dashboard: 'navHome',
                                 tracker: 'navCur',
                                 current: 'navCur',
-                                old: 'navCur',
                                 settings: 'navSet',
                                 tasbeeh: 'navTasbeeh',
                                 duas: 'navDuas',
@@ -431,14 +418,12 @@
                         },
                         SUB_TABS: {
                                 CURRENT: 'current',
-                                OLD: 'old',
                                 HISTORY: 'history'
                         },
                         PAGE_MAP: {
                                 dashboard: 'dashboardPage',
                                 tracker: 'trackerPage',
                                 current: 'trackerPage',
-                                old: 'trackerPage',
                                 history: 'trackerPage',
                                 settings: 'settingsPage',
                                 tasbeeh: 'tasbeehPage',
@@ -449,10 +434,6 @@
                                 current: {
                                         iconClass: 'fa-regular fa-calendar-days text-gr-accent',
                                         label: 'Current Prayer'
-                                },
-                                old: {
-                                        iconClass: 'fa-solid fa-clock-rotate-left text-gr-warning',
-                                        label: 'Old Tracking'
                                 },
                                 history: {
                                         iconClass: 'fa-solid fa-list-check text-brand',

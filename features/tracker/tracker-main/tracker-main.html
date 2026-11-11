@@ -25,8 +25,6 @@
                     <app-icon params="id: 'trackerHeaderIcon', name: iconClass || 'fa-regular fa-calendar-days text-gr-accent'"></app-icon>
                     <span id="trackerHeaderLabel" data-bind="text: label || 'Current Prayer'">Current Prayer</span>
                 </h5>
-                <div id="oldSub" class="text-xs text-gr-textMuted mt-0.5"
-                    data-bind="text: subtitle || 'Select a period to begin', css: { 'd-none': !showSubtitle }">Select a period to begin</div>
             </div>
         </div>
         <div class="flex items-center gap-2">
@@ -39,13 +37,6 @@
                 <span class="inline-flex items-center justify-center absolute -top-1 -right-1 bg-gr-danger text-white text-[11px] font-bold min-w-[18px] h-[18px] px-1 rounded-full border-2 border-white leading-none z-[2] pointer-events-none"
                     id="currentMissedBadge" data-ref="page.current.card.header.badge-count"
                     data-bind="text: missedCount, css: { 'd-none': !hasMissed() }"></span>
-            </button>
-            <button type="button"
-                class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
-                id="oldActionBtn" data-act="old-info" title="Period Summary" aria-label="Period Summary"
-                data-ref="page.old.header.summary-btn page.old.card.header.summary-btn"
-                data-bind="visible: ko.unwrap(currentSubTab) === 'old', click: openPeriodInfo">
-                <app-icon params="name: 'chart-simple', size: 'base'"></app-icon>
             </button>
             <button type="button"
                 class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"

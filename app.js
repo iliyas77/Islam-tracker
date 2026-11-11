@@ -438,17 +438,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
     }
-    if ($('oldDp')) {
-        $('oldDp').onchange = function (e) {
-            if (e.target.value) {
-                if (typeof window.goOld === 'function') {
-                    window.goOld(e.target.value);
-                } else if (typeof goOld === 'function') {
-                    goOld(e.target.value);
-                }
-            }
-        };
-    }
 
     /* Action buttons */
     if ($('currentActionBtn')) {
@@ -466,15 +455,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.rMS(e);
             } else if (typeof rMS === 'function') {
                 rMS(e);
-            }
-        };
-    }
-    if ($('oldActionBtn')) {
-        $('oldActionBtn').onclick = function (e) {
-            if (typeof window.rOldInfo === 'function') {
-                window.rOldInfo(e);
-            } else if (typeof rOldInfo === 'function') {
-                rOldInfo(e);
             }
         };
     }

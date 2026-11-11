@@ -12,26 +12,7 @@ data-bind="css: { 'd-none': !isTrackerVisible(), 'flex': isTrackerVisible() }"><
 data-bind="css: { 'd-none': !isSettingsVisible(), 'flex': isSettingsVisible() }"><!-- ko if: isSettingsVisible --><!-- ko component: { name: 'settings-page', params: settings } --><!-- /ko --><!-- /ko --></div><div id="tasbeehPage" class="d-none flex-col grow page"
 data-bind="css: { 'd-none': !isTasbeehVisible(), 'flex': isTasbeehVisible() }"><!-- ko if: isTasbeehVisible --><!-- ko component: { name: 'tasbeeh-page', params: tasbeeh } --><!-- /ko --><!-- /ko --></div><div id="duasPage" class="d-none flex-col grow page"
 data-bind="css: { 'd-none': !isDuasVisible(), 'flex': isDuasVisible() }"><!-- ko if: isDuasVisible --><!-- ko component: { name: 'duas-page', params: duas } --><!-- /ko --><!-- /ko --></div><div id="quranPage" class="d-none flex-col grow page"
-data-bind="css: { 'd-none': !isQuranVisible(), 'flex': isQuranVisible() }"><!-- ko if: isQuranVisible --><!-- ko component: { name: 'quran-page', params: quran } --><!-- /ko --><!-- /ko --></div></main><div id="sheet2Wrapper"><app-bottom-sheet params="isOpen: sheet2IsOpen, title: sheet2Title, subtitle: sheet2Sub, icon: sheet2Icon, cardId: 'sheet2', bodyId: 'sheet2Body', showBackBtn: true, onClose: onSheet2Close"><div id="sheetMissedContent" class="d-none"><div class="text-center text-gr-textMuted py-5 d-none" id="sheetMissedEmpty"><i class="fa-solid fa-star text-brand opacity-50 text-4xl"></i><p class="mt-3">No missed prayers from previous days.<br>All caught up!</p></div><div class="flex flex-col gap-2" id="sheetMissedList"></div></div><div id="sheetPeriodInfoContent" class="d-none"><div class="flex flex-col gap-2"><div class="rounded-2xl border border-borderGrey p-4 bg-brand-light flex flex-col shadow-none"><div class="flex items-center gap-2 mb-3"><i class="fa-solid fa-calendar-check text-brand text-lg"></i><strong class="text-base text-brand">Current Period</strong></div><div class="flex flex-wrap -mx-1 gap-2"><div class="w-1/2"><div class="p-3 rounded-xl text-center bg-white border border-borderGrey"><div class="text-gr-textMuted text-xs font-bold uppercase">Start</div><div class="font-bold text-xs text-brand" id="sheetPeriodStartVal">--</div></div></div><div class="w-1/2"><div class="p-3 rounded-xl text-center bg-white border border-borderGrey"><div class="text-gr-textMuted text-xs font-bold uppercase">End</div><div class="font-bold text-xs text-brand" id="sheetPeriodEndVal">--</div></div></div></div></div><div class="border border-borderGrey rounded-2xl p-3 bg-white shadow-none"><div class="flex items-center gap-2 mb-3"><i class="fa-solid fa-chart-simple text-brand text-base"></i><strong class="text-brand">Summary</strong></div><div class="flex flex-wrap -mx-1 gap-2 mb-3"><div class="w-1/2"><div class="p-3 rounded-xl text-center bg-surface border border-borderGrey"><div class="text-gr-textMuted text-xs font-bold uppercase">Total Days</div><div class="font-bold text-lg text-gr-warning" id="sheetPeriodTotalDaysVal">0
-</div></div></div><div class="w-1/2"><div class="p-3 rounded-xl text-center bg-surface border border-borderGrey"><div class="text-gr-textMuted text-xs font-bold uppercase">Total Missed</div><div class="font-bold text-lg text-gr-danger" id="sheetPeriodTotalMissedVal">0
-</div></div></div></div><div class="flex flex-wrap -mx-1 gap-2"><div class="w-full"><div class="p-3 rounded-xl text-center bg-surface border border-borderGrey"><div class="text-gr-textMuted text-xs font-bold uppercase">Days Missed</div><div class="font-bold text-lg text-gr-danger" id="sheetPeriodDaysMissedVal">0
-</div></div></div></div></div><div class="border border-borderGrey rounded-2xl p-3 bg-white shadow-none"><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-list-check text-gr-warning text-base"></i><strong class="text-brand">Per Prayer Breakdown</strong></div><div class="mt-2" id="sheetPeriodPerPrayer"></div></div><button type="button"
-class="font-bold py-3 rounded-xl text-sm bg-brand text-white hover:bg-brand-hover transition-colors"
-data-act="old-change-period"><i class="fa-solid fa-calendar-plus mr-1"></i> Change Period
-</button></div></div><div id="sheetSetOldPeriodContent" class="d-none"><div class="flex flex-col gap-2"><div class="border border-borderGrey rounded-2xl p-3 bg-warning-subtle bg-white shadow-none"><div class="mb-3"><label class="font-bold block text-xs font-semibold text-brand mb-1.5" for="oldStart"><i class="fa-regular fa-calendar-days text-brand mr-1"></i> Start date
-</label><input type="date"
-class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-id="oldStart"></div><div class="mb-3"><label class="font-bold block text-xs font-semibold text-brand mb-1.5" for="oldEnd"><i class="fa-solid fa-calendar-check text-brand mr-1"></i> End date
-</label><input type="date"
-class="w-full px-3.5 py-2.5 rounded-xl border border-borderGrey bg-white text-brand text-sm focus:outline-none focus:border-brand transition-colors"
-id="oldEnd"></div><div class="flex gap-2"><button type="button"
-class="flex-1 font-bold py-2 text-base bg-brand text-white hover:bg-brand-hover transition-colors"
-data-act="old-save"><i class="fa-solid fa-check mr-1"></i> Save Period
-</button><button type="button"
-class="font-bold py-2 px-3 text-base d-none border border-red-500 bg-white text-red-500 hover:bg-red-50 transition-colors"
-id="sheetResetPeriodBtn" data-act="old-reset-period"><i class="fa-solid fa-rotate-left mr-1"></i> Reset
-</button></div></div></div></div></app-bottom-sheet></div><input type="date" id="dp" tabindex="-1" aria-hidden="true"
-class="hidden-date-input fixed -left-[9999px] -bottom-[9999px] w-0 h-0 opacity-0 pointer-events-none -z-50 border-0 p-0 m-0"><input type="date" id="oldDp" tabindex="-1" aria-hidden="true"
+data-bind="css: { 'd-none': !isQuranVisible(), 'flex': isQuranVisible() }"><!-- ko if: isQuranVisible --><!-- ko component: { name: 'quran-page', params: quran } --><!-- /ko --><!-- /ko --></div></main><div id="sheet2Wrapper"><app-bottom-sheet params="isOpen: sheet2IsOpen, title: sheet2Title, subtitle: sheet2Sub, icon: sheet2Icon, cardId: 'sheet2', bodyId: 'sheet2Body', showBackBtn: true, onClose: onSheet2Close"><div id="sheetMissedContent" class="d-none"><div class="text-center text-gr-textMuted py-5 d-none" id="sheetMissedEmpty"><i class="fa-solid fa-star text-brand opacity-50 text-4xl"></i><p class="mt-3">No missed prayers from previous days.<br>All caught up!</p></div><div class="flex flex-col gap-2" id="sheetMissedList"></div></div></app-bottom-sheet></div><input type="date" id="dp" tabindex="-1" aria-hidden="true"
 class="hidden-date-input fixed -left-[9999px] -bottom-[9999px] w-0 h-0 opacity-0 pointer-events-none -z-50 border-0 p-0 m-0"><div id="tbToast"
 class="fixed top-[72px] left-1/2 -translate-x-1/2 z-[1099] bg-brand text-white font-bold text-sm px-5 py-2.5 rounded-full shadow-lg pointer-events-none transition-opacity duration-200 whitespace-nowrap d-none"
 role="status" aria-live="polite"></div><div class="fixed inset-0 z-[1095] hidden overflow-y-auto bg-black/45 items-center justify-center p-4 backdrop-blur-[2px]"
@@ -281,17 +262,13 @@ data-bind="html: header.locationText">Guntur &bull; Hanafi</span></div><div clas
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-soft text-brand hover:bg-brand-light active:scale-95 transition-all shrink-0 cursor-pointer"
 data-act="go-home" title="Back to Home" aria-label="Back to Home"
 data-bind="click: goHome"><app-icon params="name: 'arrow-left', size: 'base'"></app-icon></button><div class="min-w-0 grow"><h5 class="font-bold m-0 text-base text-brand flex items-center gap-2"
-id="trackerHeaderTitle"><app-icon params="id: 'trackerHeaderIcon', name: iconClass || 'fa-regular fa-calendar-days text-gr-accent'"></app-icon><span id="trackerHeaderLabel" data-bind="text: label || 'Current Prayer'">Current Prayer</span></h5><div id="oldSub" class="text-xs text-gr-textMuted mt-0.5"
-data-bind="text: subtitle || 'Select a period to begin', css: { 'd-none': !showSubtitle }">Select a period to begin</div></div></div><div class="flex items-center gap-2"><button type="button"
+id="trackerHeaderTitle"><app-icon params="id: 'trackerHeaderIcon', name: iconClass || 'fa-regular fa-calendar-days text-gr-accent'"></app-icon><span id="trackerHeaderLabel" data-bind="text: label || 'Current Prayer'">Current Prayer</span></h5></div></div><div class="flex items-center gap-2"><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative"
 id="currentMissedBtn" data-act="missed-open" title="Missed Prayers"
 aria-label="Missed Prayers"
 data-bind="visible: !currentSubTab || ko.unwrap(currentSubTab) === 'current', click: openMissed"><app-icon params="name: 'triangle-exclamation', size: 'base', dataRef: 'page.current.card.header.badge-icon'"></app-icon><span class="inline-flex items-center justify-center absolute -top-1 -right-1 bg-gr-danger text-white text-[11px] font-bold min-w-[18px] h-[18px] px-1 rounded-full border-2 border-white leading-none z-[2] pointer-events-none"
 id="currentMissedBadge"
 data-bind="text: missedCount, css: { 'd-none': !hasMissed() }"></span></button><button type="button"
-class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
-id="oldActionBtn" data-act="old-info" title="Period Summary" aria-label="Period Summary"
-data-bind="visible: ko.unwrap(currentSubTab) === 'old', click: openPeriodInfo"><app-icon params="name: 'chart-simple', size: 'base'"></app-icon></button><button type="button"
 class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-borderGrey text-brand hover:bg-surfaceBg active:scale-95 transition-all shrink-0 cursor-pointer relative d-none"
 id="historyEmptyBtn" data-act="history-empty" title="Empty History"
 aria-label="Empty History"
@@ -423,7 +400,7 @@ onDeleteEntry: handleDeleteEntry,
 onClearAll: clearAll
 }
 } --><!-- /ko --></div></script><script type="text/html" id="tracker-history-feed-template"><div class="tracker-history-feed flex flex-col gap-3"><!-- ko if: !hasEntries() --><div class="text-center text-gr-textMuted py-8 px-4 bg-white border border-borderGrey rounded-2xl flex flex-col items-center justify-center"
-id="histEmptyState"><div class="mb-3"><app-icon params="name: 'list-check', color: 'text-brand', size: '4xl', customClass: 'opacity-50'"></app-icon></div><h5 class="font-bold text-brand text-base mb-1">No Activity Yet</h5><p class="text-gr-textMuted text-xs mb-0">Whenever a prayer is marked as completed in Current or Old Tracking, its history entry will appear here.</p></div><!-- /ko --><!-- ko if: hasEntries() --><div id="histContent"><div class="rounded-2xl p-3.5 bg-white border border-borderGrey mb-3"><div class="flex items-center justify-between"><div class="flex items-center gap-2.5 min-w-0"><div class="w-10 h-10 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0"><app-icon params="name: 'list-check', color: 'text-brand', size: 'lg'"></app-icon></div><div class="min-w-0"><h6 class="font-bold text-brand mb-0 text-sm leading-tight">Activity Log</h6><div class="text-gr-textMuted text-xs mt-0.5" id="histSubtitleCount" data-bind="text: subtitle">0 completed prayers</div></div></div><div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-borderGrey bg-surfaceBg text-xs text-gr-textMuted font-medium shrink-0"><app-icon params="name: 'clock', prefix: 'fa-regular', size: 'xs', customClass: 'shrink-0'"></app-icon><span>Latest first</span></div></div></div><div class="flex flex-col gap-1" id="histList" data-bind="foreach: entries"><!-- ko component: {
+id="histEmptyState"><div class="mb-3"><app-icon params="name: 'list-check', color: 'text-brand', size: '4xl', customClass: 'opacity-50'"></app-icon></div><h5 class="font-bold text-brand text-base mb-1">No Activity Yet</h5><p class="text-gr-textMuted text-xs mb-0">Whenever a prayer is marked as completed, its history entry will appear here.</p></div><!-- /ko --><!-- ko if: hasEntries() --><div id="histContent"><div class="rounded-2xl p-3.5 bg-white border border-borderGrey mb-3"><div class="flex items-center justify-between"><div class="flex items-center gap-2.5 min-w-0"><div class="w-10 h-10 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0"><app-icon params="name: 'list-check', color: 'text-brand', size: 'lg'"></app-icon></div><div class="min-w-0"><h6 class="font-bold text-brand mb-0 text-sm leading-tight">Activity Log</h6><div class="text-gr-textMuted text-xs mt-0.5" id="histSubtitleCount" data-bind="text: subtitle">0 completed prayers</div></div></div><div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-borderGrey bg-surfaceBg text-xs text-gr-textMuted font-medium shrink-0"><app-icon params="name: 'clock', prefix: 'fa-regular', size: 'xs', customClass: 'shrink-0'"></app-icon><span>Latest first</span></div></div></div><div class="flex flex-col gap-1" id="histList" data-bind="foreach: entries"><!-- ko component: {
 name: 'tracker-history-card',
 params: {
 item: $data,
@@ -1772,40 +1749,28 @@ sub: 'From previous days (today excluded)'
 PERIOD_INFO: {
 iconClass: 'circle-info text-brand',
 title: 'Period Info'
-},
-SET_OLD_PERIOD: {
-iconClass: 'clock-rotate-left text-warning',
-title: 'Set Old Period',
-sub: ''
 }
 },
 STORAGE_KEYS: {
 TRACKER_DATA: 'namazTrackerData',
-OLD_DATA: 'namazOldData',
 HISTORY: 'namazPrayerHistory',
 FONT_SIZE: 'namazFontSize',
 START_DATE: 'namazStartDate',
-OLD_PERIOD: 'namazOldPeriod',
 TIMINGS_CACHE: 'namazPrayerTimingsCache',
 CONFIG: 'namazPrayerConfig',
-LAST_INIT_DATE: 'namazLastInitDate',
-OLD_INIT: 'namazOldPeriodInitialized'
+LAST_INIT_DATE: 'namazLastInitDate'
 },
 ELEMENT_IDS: {
 PAGE: 'trackerPage',
 HEADER_TITLE: 'trackerHeaderTitle',
 HEADER_ICON: 'trackerHeaderIcon',
 HEADER_LABEL: 'trackerHeaderLabel',
-OLD_SUB: 'oldSub',
 CURRENT_MISSED_BTN: 'currentMissedBtn',
 CURRENT_MISSED_BADGE: 'currentMissedBadge',
-OLD_ACTION_BTN: 'oldActionBtn',
 HISTORY_EMPTY_BTN: 'historyEmptyBtn',
 CURRENT_BODY: 'currentBody',
-OLD_BODY: 'oldBody',
 HISTORY_BODY: 'historyBody',
 TAB_CURRENT: 'tabTrackCurrent',
-TAB_OLD: 'tabTrackOld',
 TAB_HISTORY: 'tabTrackHistory',
 SHEET2: 'sheet2',
 SHEET2_ICON: 'sheet2Icon',
@@ -2098,7 +2063,6 @@ NAVS: {
 dashboard: 'navHome',
 tracker: 'navCur',
 current: 'navCur',
-old: 'navCur',
 settings: 'navSet',
 tasbeeh: 'navTasbeeh',
 duas: 'navDuas',
@@ -2106,14 +2070,12 @@ quran: 'navQuran'
 },
 SUB_TABS: {
 CURRENT: 'current',
-OLD: 'old',
 HISTORY: 'history'
 },
 PAGE_MAP: {
 dashboard: 'dashboardPage',
 tracker: 'trackerPage',
 current: 'trackerPage',
-old: 'trackerPage',
 history: 'trackerPage',
 settings: 'settingsPage',
 tasbeeh: 'tasbeehPage',
@@ -2124,10 +2086,6 @@ TRACKER_HEADER: {
 current: {
 iconClass: 'fa-regular fa-calendar-days text-gr-accent',
 label: 'Current Prayer'
-},
-old: {
-iconClass: 'fa-solid fa-clock-rotate-left text-gr-warning',
-label: 'Old Tracking'
 },
 history: {
 iconClass: 'fa-solid fa-list-check text-brand',
@@ -2505,18 +2463,10 @@ window.rd = rd;
 window.gr = gr;
 window.sr = sr;
 window.en = en;
-window.rdOC = rdOC;
-window.grO = grO;
-window.srO = srO;
 window.isDonePrayer = isDonePrayer;
 window.isPrayerUpcoming = isPrayerUpcoming;
 window.ensureCurrentDateInitialized = ensureCurrentDateInitialized;
 window.migratePrayerData = migratePrayerData;
-window.rdOK = rdOK;
-window.wrOK = wrOK;
-window.ensureAllOldMissed = ensureAllOldMissed;
-window.shrinkOldPeriod = shrinkOldPeriod;
-window.currentOldDate = currentOldDate;
 window.datesInRange = datesInRange;
 window.prevDate = prevDate;
 }
@@ -2687,38 +2637,6 @@ window.PrayerStore.sync();
 function en(d) {
 return gr(d);
 }
-function rdOC() { return LS.get(OCK) || {}; }
-function grO(d) {
-var a = rdOC();
-var r = a[d];
-var out = {};
-if (r) {
-P.forEach(function (p) {
-out[p] = (r[p] === true || r[p] === 'missed');
-});
-} else {
-P.forEach(function (p) {
-out[p] = false;
-});
-}
-return out;
-}
-function srO(d, r) {
-var a = rdOC();
-var cleaned = {};
-var hasMissed = false;
-P.forEach(function (p) {
-var val = (r && (r[p] === true || r[p] === 'missed'));
-cleaned[p] = val;
-if (val) hasMissed = true;
-});
-if (!hasMissed) {
-delete a[d];
-} else {
-a[d] = cleaned;
-}
-LS.set(OCK, a);
-}
 function mBD() {
 var a = rd();
 var today = td();
@@ -2781,87 +2699,6 @@ function prevDate(ds) {
 var d = new Date(ds + 'T00:00:00');
 d.setDate(d.getDate() - 1);
 return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
-}
-function rdOK() { return LS.get(OK) || null; }
-function wrOK(o) { LS.set(OK, o); }
-function ensureAllOldMissed() {
-var o = rdOK();
-if (!o || o.end < o.start) return;
-if (!o.created) {
-o.created = Date.now();
-o.initialEnd = o.end;
-wrOK(o);
-}
-var initKey = localStorage.getItem(OIK);
-var expectedKey = String(o.created);
-var a = rdOC();
-var isDbEmpty = Object.keys(a).length === 0;
-if (initKey !== expectedKey || isDbEmpty) {
-var rangeEnd = o.initialEnd || o.end;
-var dates = datesInRange(o.start, rangeEnd);
-var changed = false;
-dates.forEach(function (d) {
-if (!a[d]) {
-a[d] = {};
-P.forEach(function (p) {
-a[d][p] = true;
-});
-changed = true;
-} else {
-P.forEach(function (p) {
-if (!(p in a[d])) {
-a[d][p] = true;
-changed = true;
-}
-});
-}
-});
-localStorage.setItem(OIK, expectedKey);
-if (changed) LS.set(OCK, a);
-}
-}
-function currentOldDate() {
-var o = rdOK();
-if (!o || o.end < o.start) return null;
-var dates = datesInRange(o.start, o.end).slice().reverse();
-var a = rdOC();
-for (var i = 0; i < dates.length; i++) {
-var d = dates[i];
-var r = a[d] || {};
-if (P.filter(function (p) { return r[p] === true || r[p] === 'missed'; }).length > 0) return d;
-}
-return null;
-}
-function shrinkOldPeriod(completedDate) {
-var o = rdOK();
-if (!o) return;
-var curEnd = o.end;
-var changed = false;
-while (curEnd >= o.start) {
-var rEnd = grO(curEnd);
-var anyMissed = P.some(function (p) {
-return rEnd[p] === true || rEnd[p] === 'missed';
-});
-if (!anyMissed) {
-curEnd = prevDate(curEnd);
-changed = true;
-} else {
-break;
-}
-}
-if (changed) {
-o.end = curEnd;
-wrOK(o);
-}
-var nextTarget = completedDate ? prevDate(completedDate) : curEnd;
-if (curEnd >= o.start && nextTarget > curEnd) {
-nextTarget = curEnd;
-}
-if (typeof setOldSd === 'function') {
-setOldSd(nextTarget);
-} else if (typeof oldSd !== 'undefined') {
-oldSd = nextTarget;
-}
 }
 function rdFS() {
 var v = parseFloat(localStorage.getItem(FK));
@@ -2957,67 +2794,9 @@ window.rMS();
 } else if (typeof rMS === 'function') {
 rMS();
 }
-} else if (act === 'old-open-cal') {
-if (typeof openOldCal === 'function') openOldCal();
-else if (typeof window.openOldCal === 'function') window.openOldCal();
 } else if (act === 'open-cal') {
-if (typeof trackerSubTab !== 'undefined' && trackerSubTab === 'old') {
-if (typeof openOldCal === 'function') openOldCal();
-else if (typeof window.openOldCal === 'function') window.openOldCal();
-} else {
 if (typeof openCal === 'function') openCal();
 else if (typeof window.openCal === 'function') window.openCal();
-}
-} else if (act === 'old-info') {
-if (typeof window.rOldInfo === 'function') {
-window.rOldInfo();
-} else if (typeof rOldInfo === 'function') {
-rOldInfo();
-}
-} else if (act === 'toggle-old') {
-var p2 = t.dataset.p, d2 = t.dataset.d;
-var c3 = grO(d2);
-var was2 = c3[p2] === true || c3[p2] === 'missed';
-if (!confirm(was2
-? 'Mark ' + p2 + ' as Done for ' + fr(d2) + '?'
-: 'Mark ' + p2 + ' as Missed for ' + fr(d2) + '?')) return;
-c3[p2] = !was2;
-if (was2) {
-if (typeof addPrayerHistoryEntry === 'function') {
-addPrayerHistoryEntry(p2, 'Old', d2);
-}
-} else {
-if (typeof removePrayerHistoryEntry === 'function') {
-removePrayerHistoryEntry(p2, 'Old', d2);
-}
-}
-srO(d2, c3);
-var o = rdOK();
-var isDateComplete = !P.some(function (p) {
-return c3[p] === true || c3[p] === 'missed';
-});
-if (isDateComplete) {
-shrinkOldPeriod(d2);
-} else {
-if (o && d2 > o.end) {
-o.end = d2;
-wrOK(o);
-}
-if (typeof setOldSd === 'function') {
-setOldSd(d2);
-} else if (typeof oldSd !== 'undefined') {
-oldSd = d2;
-}
-}
-rOT();
-if ($('sheet2') && $('sheet2').classList.contains('show') && typeof rOldInfo === 'function') {
-rOldInfo();
-}
-if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
-renderPrayerHistoryTab();
-}
-} else if (act === 'old-change-period') {
-rPeriod();
 } else if (act === 'jump') {
 var targetDate = t.dataset.d;
 sd = targetDate;
@@ -3086,35 +2865,6 @@ if (!v) { alert('Please pick a date.'); return; }
 if (!confirm('Save Current Start Date as ' + fr(v) + '?')) return;
 wrSD(v);
 rSET();
-} else if (act === 'old-save') {
-var s = $('oldStart').value, en2 = $('oldEnd').value;
-if (!s || !en2) { alert('Please pick both start and end dates.'); return; }
-if (en2 < s) { alert('End date must be after start date.'); return; }
-if (!confirm('Save Old Tracking Period from ' + fr(s) + ' to ' + fr(en2) + '?')) return;
-wrOK({ start: s, end: en2, initialEnd: en2, created: Date.now() });
-localStorage.removeItem(OIK);
-ensureAllOldMissed();
-if (typeof setOldSd === 'function') setOldSd(en2);
-sheet2BS.hide();
-rOT();
-if ($('sheet2') && $('sheet2').classList.contains('show') && typeof rOldInfo === 'function') {
-rOldInfo();
-}
-} else if (act === 'old-clear') {
-if (confirm('Clear the saved Old Tracking period and all its data?')) {
-localStorage.removeItem(OK);
-localStorage.removeItem(OCK);
-localStorage.removeItem(OIK);
-if (typeof clearPrayerHistoryByType === 'function') {
-clearPrayerHistoryByType('Old');
-}
-if (typeof setOldSd === 'function') setOldSd(null);
-sheet2BS.hide();
-rOT();
-if (typeof renderPrayerHistoryTab === 'function' && typeof trackerSubTab !== 'undefined' && trackerSubTab === 'history') {
-renderPrayerHistoryTab();
-}
-}
 } else if (act === 'reset-db') {
 if (confirm('Delete ALL prayer records and cached prayer times?')) {
 localStorage.removeItem(K);
@@ -3139,12 +2889,8 @@ showPage('dashboard');
 showPage('current');
 } else if (act === 'goto-tracker') {
 showPage('tracker');
-} else if (act === 'goto-old') {
-showPage('old');
 } else if (act === 'switch-track-current') {
 switchTrackerSubTab('current');
-} else if (act === 'switch-track-old') {
-switchTrackerSubTab('old');
 } else if (act === 'switch-track-history') {
 switchTrackerSubTab('history');
 } else if (act === 'history-empty') {
@@ -4780,9 +4526,6 @@ var subTab = parts[1] || null;
 if (page === 'current') {
 page = 'tracker';
 subTab = 'current';
-} else if (page === 'old') {
-page = 'tracker';
-subTab = 'old';
 } else if (page === 'history') {
 page = 'tracker';
 subTab = 'history';
@@ -11815,10 +11558,6 @@ openMissed: function (d, e) {
 if (e && e.stopPropagation) e.stopPropagation();
 if (typeof _win.rMS === 'function') _win.rMS();
 },
-openPeriodInfo: function (d, e) {
-if (e && e.stopPropagation) e.stopPropagation();
-if (typeof _win.rOldInfo === 'function') _win.rOldInfo();
-},
 emptyHistory: function (d, e) {
 if (e && e.stopPropagation) e.stopPropagation();
 if (typeof emptyPrayerHistory === 'function') emptyPrayerHistory();
@@ -11846,20 +11585,6 @@ if (typeof _win.openCal === 'function') _win.openCal();
 };
 self.current = new TrackerCurrentViewModel(currentInitParams);
 self.currentParams = self.current;
-self.oldParams = {
-onSelectDate: function () {
-if (typeof _win.openOldCal === 'function') _win.openOldCal();
-}
-};
-self.oldCard = (k && k.observable) ? k.observable(new PrayerTrackerCardViewModel({
-collapsePrefix: 'old',
-pagePrefix: 'page.old',
-dateChipAct: 'old-open-cal'
-})) : new PrayerTrackerCardViewModel({
-collapsePrefix: 'old',
-pagePrefix: 'page.old',
-dateChipAct: 'old-open-cal'
-});
 self.historyParams = {
 onDeleteEntry: function () {
 }
@@ -11869,29 +11594,6 @@ activeTab: self.currentSubTab,
 switchTab: function (tab, e) {
 self.switchTab(tab, e);
 }
-};
-}
-var oldSd = null;
-function setOldSd(date) {
-oldSd = date;
-if (typeof _win !== 'undefined') _win.oldSd = date;
-}
-function getDefaultOldPeriod() {
-var today = td();
-var yesterday = typeof _win.prevDate === 'function' ? _win.prevDate(today) : today;
-var start = (typeof _win.rdSD === 'function' ? _win.rdSD() : null) || null;
-if (!start || start >= today) {
-var d = new Date();
-d.setDate(d.getDate() - 30);
-var pad2 = function (n) { return n < 10 ? '0' + n : n; };
-start = d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
-}
-if (start > yesterday) start = yesterday;
-return {
-start: start,
-end: yesterday,
-initialEnd: yesterday,
-created: Date.now()
 };
 }
 function $(id) {
@@ -11961,10 +11663,6 @@ var subEl = $('sheet2Sub');
 if (subEl) subEl.textContent = sheetCfg.sub;
 var list = (typeof _win.mBD === 'function' ? _win.mBD() : (typeof getMissedPrayersByDate === 'function' ? getMissedPrayersByDate() : [])).slice().reverse();
 var missedContent = $('sheetMissedContent');
-var periodInfoContent = $('sheetPeriodInfoContent');
-var setOldContent = $('sheetSetOldPeriodContent');
-if (periodInfoContent) periodInfoContent.classList.add('d-none');
-if (setOldContent) setOldContent.classList.add('d-none');
 if (missedContent) missedContent.classList.remove('d-none');
 var emptyEl = $('sheetMissedEmpty');
 var listEl = $('sheetMissedList');
@@ -11997,31 +11695,6 @@ missedBadge.classList.toggle('d-none', totalMissed <= 0);
 var missedBtn = $('currentMissedBtn');
 if (missedBtn) {
 missedBtn.title = totalMissed > 0 ? ('Missed Prayers (' + totalMissed + ')') : 'Missed Prayers';
-}
-}
-function rOldInfo() {
-var vm = getTrackerViewModel();
-if (vm && typeof vm.switchTab === 'function') {
-vm.switchTab('old');
-}
-}
-function rPeriod() {
-rOldInfo();
-}
-function openOldCal() {
-var dp = typeof _win.$ === 'function' ? _win.$('oldDp') : null;
-if (dp && typeof dp.showPicker === 'function') {
-try { dp.showPicker(); return; } catch (_) {}
-}
-if (dp) dp.click();
-}
-function goOld(date) {
-setOldSd(date);
-rOT();
-}
-function rOT() {
-if (_win.trackerOldPageViewModel && typeof _win.trackerOldPageViewModel.refresh === 'function') {
-_win.trackerOldPageViewModel.refresh();
 }
 }
 function emptyPrayerHistory() {
@@ -12061,14 +11734,6 @@ window.rMS = rMS;
 window.rn = rn;
 window.go = go;
 window.updateCurrentMissedBadge = updateCurrentMissedBadge;
-window.rOldInfo = rOldInfo;
-window.rPeriod = rPeriod;
-window.openOldCal = openOldCal;
-window.goOld = goOld;
-window.setOldSd = setOldSd;
-window.getDefaultOldPeriod = getDefaultOldPeriod;
-window.rOT = rOT;
-window.oldSd = oldSd;
 window.emptyPrayerHistory = emptyPrayerHistory;
 if (window.PrayerHistoryApp) {
 window.PrayerHistoryApp.emptyPrayerHistory = emptyPrayerHistory;
@@ -13772,17 +13437,6 @@ go(e.target.value);
 }
 };
 }
-if ($('oldDp')) {
-$('oldDp').onchange = function (e) {
-if (e.target.value) {
-if (typeof window.goOld === 'function') {
-window.goOld(e.target.value);
-} else if (typeof goOld === 'function') {
-goOld(e.target.value);
-}
-}
-};
-}
 if ($('currentActionBtn')) {
 $('currentActionBtn').onclick = function (e) {
 if (typeof openCal === 'function') {
@@ -13801,15 +13455,6 @@ rMS(e);
 }
 };
 }
-if ($('oldActionBtn')) {
-$('oldActionBtn').onclick = function (e) {
-if (typeof window.rOldInfo === 'function') {
-window.rOldInfo(e);
-} else if (typeof rOldInfo === 'function') {
-rOldInfo(e);
-}
-};
-}
 if ($('historyEmptyBtn')) {
 $('historyEmptyBtn').onclick = function (e) {
 if (typeof emptyPrayerHistory === 'function') {
@@ -13825,13 +13470,12 @@ updateCurrentMissedBadge();
 });
 var NAV_CONSTANTS = window.NAVIGATION_CONSTANTS || (window.CONSTANTS && window.CONSTANTS.NAVIGATION) || {};
 var PAGES = NAV_CONSTANTS.PAGES || window.PAGES || ['dashboardPage', 'trackerPage', 'settingsPage', 'tasbeehPage', 'duasPage', 'quranPage'];
-var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', old: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas', quran: 'navQuran' };
-var SUB_TABS = NAV_CONSTANTS.SUB_TABS || { CURRENT: 'current', OLD: 'old', HISTORY: 'history' };
+var NAVS = NAV_CONSTANTS.NAVS || window.NAVS || { dashboard: 'navHome', tracker: 'navCur', current: 'navCur', settings: 'navSet', tasbeeh: 'navTasbeeh', duas: 'navDuas', quran: 'navQuran' };
+var SUB_TABS = NAV_CONSTANTS.SUB_TABS || { CURRENT: 'current', HISTORY: 'history' };
 var PAGE_MAP = NAV_CONSTANTS.PAGE_MAP || {
 dashboard: 'dashboardPage',
 tracker: 'trackerPage',
 current: 'trackerPage',
-old: 'trackerPage',
 history: 'trackerPage',
 settings: 'settingsPage',
 tasbeeh: 'tasbeehPage',
@@ -13845,10 +13489,6 @@ var TRACKER_HEADER = NAV_CONSTANTS.TRACKER_HEADER || {
 current: {
 iconClass: 'fa-regular fa-calendar-days text-gr-accent',
 label: 'Current Prayer'
-},
-old: {
-iconClass: 'fa-solid fa-clock-rotate-left text-gr-warning',
-label: 'Old Tracking'
 },
 history: {
 iconClass: 'fa-solid fa-list-check text-brand',
@@ -13893,7 +13533,6 @@ window.QuranApp.switchTab(tab);
 function syncTrackerDom(activeTab, subText) {
 var tabs = [
 { id: 'tabTrackCurrent', bodyId: 'currentBody', tab: SUB_TABS.CURRENT },
-{ id: 'tabTrackOld', bodyId: 'oldBody', tab: SUB_TABS.OLD },
 { id: 'tabTrackHistory', bodyId: 'historyBody', tab: SUB_TABS.HISTORY }
 ];
 tabs.forEach(function (item) {
@@ -13908,23 +13547,13 @@ if (body) {
 body.classList.toggle('d-none', !isActive);
 }
 });
-var oldSub = $('oldSub');
-var oldActionBtn = $('oldActionBtn');
 var currentMissedBtn = $('currentMissedBtn');
 var historyEmptyBtn = $('historyEmptyBtn');
 var headerIcon = $('trackerHeaderIcon');
 var headerLabel = $('trackerHeaderLabel');
 var trackerHeaderTitle = $('trackerHeaderTitle');
 if (trackerHeaderTitle) trackerHeaderTitle.classList.toggle('justify-center', activeTab === SUB_TABS.HISTORY);
-if (oldSub) {
-oldSub.classList.toggle('text-center', activeTab === SUB_TABS.HISTORY);
-oldSub.classList.toggle('d-none', activeTab === SUB_TABS.CURRENT);
-if (subText && activeTab !== SUB_TABS.CURRENT) {
-oldSub.textContent = subText;
-}
-}
 if (currentMissedBtn) currentMissedBtn.classList.toggle('d-none', activeTab !== SUB_TABS.CURRENT);
-if (oldActionBtn) oldActionBtn.classList.toggle('d-none', activeTab !== SUB_TABS.OLD);
 if (historyEmptyBtn) historyEmptyBtn.classList.toggle('d-none', activeTab !== SUB_TABS.HISTORY);
 var hConfig = TRACKER_HEADER[activeTab] || TRACKER_HEADER.current;
 if (headerLabel) headerLabel.textContent = hConfig.label;
@@ -13960,13 +13589,7 @@ try { window.location.hash = trackerHash; } catch (_) {}
 }
 }
 var subText = '';
-if (trackerSubTab === SUB_TABS.OLD) {
-subText = 'Select a period to begin';
-} else if (trackerSubTab === SUB_TABS.PERFORMANCE) {
-var sdate = typeof rdSD === 'function' ? rdSD() : (typeof td === 'function' ? td() : '');
-var totalDays = (typeof window.datesInRange === 'function' && typeof td === 'function') ? window.datesInRange(sdate, td()).length : 1;
-subText = (typeof fr === 'function' && typeof td === 'function') ? (fr(sdate) + ' → ' + fr(td()) + ' (' + totalDays + (totalDays === 1 ? ' day' : ' days') + ')') : '';
-} else if (trackerSubTab === SUB_TABS.HISTORY) {
+if (trackerSubTab === SUB_TABS.HISTORY) {
 var histEntries = typeof getPrayerHistory === 'function' ? getPrayerHistory() : [];
 subText = 'Activity Log · ' + histEntries.length + (histEntries.length === 1 ? ' entry' : ' entries');
 }
@@ -13984,11 +13607,7 @@ if (typeof vm.header.subtitle === 'function') vm.header.subtitle(subText);
 }
 }
 syncTrackerDom(trackerSubTab, subText);
-if (trackerSubTab === SUB_TABS.OLD) {
-if (typeof rOT === 'function') rOT();
-} else if (trackerSubTab === SUB_TABS.PERFORMANCE) {
-if (typeof renderPerformanceTab === 'function') renderPerformanceTab();
-} else if (trackerSubTab === SUB_TABS.HISTORY) {
+if (trackerSubTab === SUB_TABS.HISTORY) {
 if (typeof renderPrayerHistoryTab === 'function') renderPrayerHistoryTab();
 } else {
 if (typeof rn === 'function') rn();
@@ -14022,7 +13641,6 @@ var _w = typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefi
 switch (kind) {
 case 'tracker':
 case 'current':
-case 'old':
 case 'history':
 if (_loadedFeatures.tracker) return Promise.resolve();
 if (_w.TrackerApp || _w.registerTrackerComponents) {
@@ -14030,14 +13648,12 @@ if (typeof _w.registerTrackerComponents === 'function') _w.registerTrackerCompon
 if (_w.TrackerApp && typeof _w.TrackerApp.init === 'function') _w.TrackerApp.init();
 _loadedFeatures.tracker = true;
 _loadedFeatures.current = true;
-_loadedFeatures.old = true;
 _loadedFeatures.history = true;
 return Promise.resolve();
 }
 return import('./features/tracker/index.js').then(function () {
 _loadedFeatures.tracker = true;
 _loadedFeatures.current = true;
-_loadedFeatures.old = true;
 _loadedFeatures.history = true;
 if (typeof _w.registerTrackerComponents === 'function') _w.registerTrackerComponents();
 if (_w.TrackerApp && typeof _w.TrackerApp.init === 'function') {
@@ -14151,7 +13767,7 @@ if (typeof window !== 'undefined') {
 window.currentActivePage = kind;
 if (window.location) {
 var targetHash;
-if (kind === 'current' || kind === 'old' || kind === 'history') {
+if (kind === 'current' || kind === 'history') {
 targetHash = '#/tracker/' + kind;
 } else if (kind === 'tracker') {
 targetHash = '#/tracker/' + (trackerSubTab || 'current');
@@ -14194,8 +13810,6 @@ window.DashboardApp.render();
 }
 } else if (kind === 'current') {
 switchTrackerSubTab('current');
-} else if (kind === 'old') {
-switchTrackerSubTab('old');
 } else if (kind === 'history') {
 switchTrackerSubTab('history');
 } else if (kind === 'tracker') {
@@ -14344,7 +13958,7 @@ return self.activePage() === 'dashboard';
 });
 self.isTrackerVisible = cmp(function () {
 var page = self.activePage();
-return page === 'tracker' || page === 'current' || page === 'old' || page === 'history';
+return page === 'tracker' || page === 'current' || page === 'history';
 });
 self.isSettingsVisible = cmp(function () {
 return self.activePage() === 'settings';
@@ -14363,7 +13977,6 @@ var page = self.activePage();
 switch (page) {
 case 'tracker':
 case 'current':
-case 'old':
 case 'history':
 return { name: 'tracker-page', params: self.getTracker() };
 case 'settings':

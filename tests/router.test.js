@@ -80,10 +80,6 @@ export async function runRouterTests() {
     assert.strictEqual(router.activePage(), 'settings');
 
     // 3. Legacy normalizations
-    router.navigate('#/old');
-    assert.strictEqual(router.activePage(), 'tracker');
-    assert.strictEqual(router.trackerSubTab(), 'old');
-
     router.navigate('#/history');
     assert.strictEqual(router.activePage(), 'tracker');
     assert.strictEqual(router.trackerSubTab(), 'history');
@@ -124,10 +120,10 @@ export async function runRouterTests() {
     assert.strictEqual(globalThis.trackerSubTab, 'history');
 
     // Simulate direct hash changes triggering handleHashChange
-    globalThis.location.hash = '#/tracker/old';
+    globalThis.location.hash = '#/tracker/current';
     router.handleHashChange();
     assert.strictEqual(router.activePage(), 'tracker');
-    assert.strictEqual(router.trackerSubTab(), 'old');
+    assert.strictEqual(router.trackerSubTab(), 'current');
 
     console.log('  ✔ Router & AppViewModel: Hash routing, lifecycle getters, and currentRoute passed');
 }

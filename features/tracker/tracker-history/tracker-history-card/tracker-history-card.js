@@ -3,7 +3,7 @@
    Path: features/tracker/tracker-history/tracker-history-card/tracker-history-card.js
    Responsibilities:
      - Represents an individual prayer history log card
-     - Displays prayer icon, name, type (Current/Old), date, timestamp, time ago
+     - Displays prayer icon, name, date, timestamp, time ago
      - Dispatches delete callback to parent feed
    ============================================================ */
 'use strict';
